@@ -1,3 +1,11 @@
+# 補給ポッド10演出・新ガチャを実装、公開準備（2026-11-11）
+
+本人が元動画10案の継承と本体接続/公開、無料補給ガチャ新設の対象/券/確率/10連SR以上保証を採用。専用worktree `task-gacha-kakutei-10-20261111`、branch `codex/gacha-kakutei-10-20261111`、base `48eb270`。改善5案は保留、元root/別worktreeの差分を保持。
+
+元描画/FX式・素材・音波形を継承し、10案を実タップ/長押し・1/10連へ接続。57比較画面の48完全一致、残り最大平均差0.00907/255。本体の基地→補給を追加し、サーバーで無料券・結果を一括確定し、端末受領保存後に表示する。初回10枚/JST1日1枚、10連10枚・SR以上1個保証。
+
+関連59件・両型・本体build・Worker dry-run成功。本体Chrome844×390/640×360で実10連/途中再読込み/回復/スキップ/ACK成功、pageerror0。実スマホ/実聴/全ゲーム全件は未実施。main反映/公開はまだ。仕様 [SUPPLY-KAKUTEI-20261111.md](SUPPLY-KAKUTEI-20261111.md)、証拠 [VALIDATION](evidence/supply-kakutei-20261111/VALIDATION.md)。主担当gpt-6.1-sol（推論未確認）、子指定gpt-6-sol medium/high。
+
 # CATENAレポート・会敵ムービー公開済み（2026-11-11）
 
 公開記録: [PR303](https://github.com/futsalife24-bot/swarm-front/pull/303)、初回記録HEAD 0919e10d07d094d2ed2cd0a6b314ce57636fbe80。

@@ -58,6 +58,7 @@ import {
   cloudReply,
   validCloudSave,
 } from "./player-vault";
+import { supplyVault } from "./supply-vault";
 import { DurableObject } from "cloudflare:workers";
 import { RoomClock } from "./room-clock";
 import { RoomNetworkTrace, RoomTraceEvent } from "./room-network-trace";
@@ -241,8 +242,9 @@ export default {
           "Access-Control-Allow-Origin":
             origin ?? allowedOrigins[0] ?? u.origin,
           "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-          "Access-Control-Allow-Headers":
-            "Content-Type,X-Room-Creation-Key,X-Turnstile-Token",
+          "Access-Control-Allow-Headers": u.pathname.startsWith("/api/supply/")
+            ? "Content-Type,Authorization"
+            : "Content-Type,X-Room-Creation-Key,X-Turnstile-Token",
           Vary: "Origin",
         },
       });
@@ -250,6 +252,56 @@ export default {
     const path = u.pathname.startsWith("/api/")
       ? u.pathname.slice(4)
       : u.pathname;
+    if (u.pathname.startsWith("/api/supply/")) {
+      if (!/^Bearer [a-f0-9]{64}$/.test(req.headers.get("Authorization") ?? ""))
+        return cloudReply({ error: "補給認証を確認してください" }, 401);
+      if (
+        req.method !== "GET" &&
+        (req.method !== "POST" ||
+          !origin ||
+          (origin !== u.origin && !allowedOrigins.includes(origin)))
+      )
+        return cloudReply({ error: "接続元と操作を確認してください" }, 403);
+      try {
+        const match =
+          /^\/supply\/([a-f0-9]{32})\/(initialize|status|daily|draw|ack)$/.exec(
+            path,
+          );
+        if (!match || (req.method === "GET") !== (match[2] === "status"))
+          return cloudReply({ error: "見つかりません" }, 404);
+        const rate = await env.GATE.get(
+          env.GATE.idFromName("supply-admission"),
+        ).fetch(
+          new Request("https://internal/cloud-rate", {
+            headers: {
+              "CF-Connecting-IP":
+                req.headers.get("CF-Connecting-IP") ?? "local",
+            },
+          }),
+        );
+        if (!rate.ok) return rate;
+        const payload =
+          req.method === "POST"
+            ? JSON.stringify(await cloudBody(req))
+            : undefined;
+        return await env.GATE.get(
+          env.GATE.idFromName("supply/" + match[1]),
+        ).fetch(
+          new Request("https://internal/supply/" + match[2], {
+            method: req.method,
+            headers: {
+              Authorization: req.headers.get("Authorization") ?? "",
+              "Content-Type": "application/json",
+              "CF-Connecting-IP":
+                req.headers.get("CF-Connecting-IP") ?? "local",
+            },
+            ...(payload === undefined ? {} : { body: payload }),
+          }),
+        );
+      } catch {
+        return cloudReply({ error: "補給を処理できませんでした" }, 400);
+      }
+    }
     if (u.pathname.startsWith("/api/cloud/")) {
       if (
         req.method !== "GET" &&
@@ -607,6 +659,27 @@ export class Gate extends DurableObject<Env> {
       return this.ctx.blockConcurrencyWhile(() =>
         cloudRateLimit(req, this.ctx.storage),
       );
+    if (internal.startsWith("/supply/"))
+      return this.ctx.blockConcurrencyWhile(async () => {
+        const storage = sqlVaultStorage(this.ctx.storage);
+        if (
+          internal === "/supply/initialize" &&
+          !(await storage.get("supply"))
+        ) {
+          const admission = await this.env.GATE.get(
+            this.env.GATE.idFromName("supply-admission"),
+          ).fetch(
+            new Request("https://internal/cloud-admission", {
+              headers: {
+                "CF-Connecting-IP":
+                  req.headers.get("CF-Connecting-IP") ?? "local",
+              },
+            }),
+          );
+          if (!admission.ok) return admission;
+        }
+        return supplyVault(req, storage);
+      });
     if (internal === "/cloud-initialize" || internal.startsWith("/cloud/"))
       return this.ctx.blockConcurrencyWhile(() =>
         playerVault(

@@ -70,7 +70,9 @@ export function preservesGrowthSave(
     return false;
   if (
     oldReceipts?.some(
-      (id) => id.startsWith("front-survival:") && !newReceipts?.includes(id),
+      (id) =>
+        (id.startsWith("front-survival:") || id.startsWith("supply:")) &&
+        !newReceipts?.includes(id),
     )
   )
     return false;

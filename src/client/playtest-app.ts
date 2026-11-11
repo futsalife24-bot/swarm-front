@@ -11,6 +11,7 @@ import {
 } from "./advance-pause-ui";
 import "./advance-pause-ui.css";
 import { mountGameBuddyMenu, attachBuddySkill } from "./buddy-bindings";
+import { mountSupplyMenu } from "./supply-menu";
 import {
   battleLoadingMarkup,
   updateBattleLoadingStatus,
@@ -1197,6 +1198,7 @@ const buddySkill = attachBuddySkill(controls, sound, () =>
   placeControls(layout),
 );
 let activeBuddyMenu: ReturnType<typeof mountGameBuddyMenu> | undefined;
+let activeSupplyMenu: ReturnType<typeof mountSupplyMenu> | undefined;
 document.body.classList.add("playtest");
 void document.fonts.load('700 32px "Rajdhani"').catch(() => {});
 let mode: SaveMode = "normal",
@@ -1434,6 +1436,8 @@ function setScreen(next: string) {
   releaseRewardDetails = undefined;
   activeBuddyMenu?.destroy();
   activeBuddyMenu = undefined;
+  activeSupplyMenu?.destroy();
+  activeSupplyMenu = undefined;
   if (next !== screen) {
     cancelOperationCue();
     if (next === "battle")
@@ -2036,6 +2040,7 @@ function base() {
       <button id="pt-base-accessories"><strong>アクセサリ</strong><span>作成・装備・合成</span><small>${save.accessories.length}個を所持</small></button>
       <button id="pt-base-growth"><strong>育成</strong><span>兵士の能力を強化</span><small>兵士ごとの成長を管理</small></button>
       <button id="pt-base-buddy"><strong>バディ</strong><span>編成・育成・招集</span><small>進撃に同行する相棒</small></button>
+      <button id="pt-base-supply" ${mode === "normal" ? "" : "disabled"}><strong>補給ポッド</strong><span>補給券で1回・10連</span><small>${mode === "normal" ? "武器・バディ・武装片を補給" : "通常プレイで利用できます"}</small></button>
       <button id="pt-base-survival"><strong>生存カード</strong><span>強化候補・デッキ設定</span><small>カードの効果・融合条件を確認</small></button>
       <button id="pt-base-workshop" disabled aria-describedby="pt-workshop-note"><strong>工房</strong><span>工事中</span><small id="pt-workshop-note">武器のグレードアップ施設を準備中</small></button>
     </div>`,
@@ -2044,8 +2049,22 @@ function base() {
   bind("pt-base-accessories", accessories);
   bind("pt-base-growth", growth);
   bind("pt-base-buddy", buddy);
+  bind("pt-base-supply", supply);
   bind("pt-base-survival", () =>
     navigateMenu(import.meta.env.BASE_URL + "front?cards=1"),
+  );
+}
+function supply() {
+  setScreen("supply");
+  header("補給ポッド", '<div class="pt-supply"></div>');
+  activeSupplyMenu = mountSupplyMenu(
+    ui.querySelector(".pt-supply")!,
+    () => save,
+    (next) => {
+      save = next;
+    },
+    buddy,
+    () => sound.effectsVolume,
   );
 }
 function buddy() {
