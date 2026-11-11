@@ -1,29 +1,10 @@
 import { createDropReveal, STOP_HOLD_MS } from './core.js';
 import { install, reset as resetFx, set as setFx } from './kakutei-fx.js';
 import { CLIPS } from './reference-scenes.js';
+import { chooseEffect } from './effect-selection.js';
 
 const clamp = (x) => Math.max(0, Math.min(1, x));
-let selection = 0;
 const tier = (r) => r.type === 'buddy' ? 5 : r.type === 'shard' ? 0 : ({ N: 1, R: 2, SR: 3, SSR: 4 })[r.rarity] ?? -1;
-const eligible = (n, m) => {
-  const high = m.tiers.some((v) => v >= 4), ssr = m.tiers.some((v) => v === 4), sr = m.tiers.some((v) => v >= 3);
-  return n === 10 ? m.tiers.some((v) => v === 5)
-    : n === 2 ? m.multi && sr
-    : n === 4 ? m.multi && sr
-    : n === 3 ? m.multi && ssr
-    : n === 1 ? high
-    : ssr;
-};
-const choose = (m, requested) => {
-  if (requested === false || requested === 0) return 0;
-  if (Number.isInteger(requested)) {
-    if (requested < 1 || requested > 10 || !eligible(requested, m)) throw Error('確定演出と結果の下限が一致しません');
-    return requested;
-  }
-  if (eligible(10, m)) return 10;
-  const pool = CLIPS.map((c) => c.n).filter((n) => eligible(n, m));
-  return pool.length ? pool[selection++ % pool.length] : 0;
-};
 const sceneModel = (m) => ({ B: m.tLaunch, stops: m.stops, cues: m.cues, pods: m.pods });
 const cueIn = (cue, a, b) => cue.t > a + 1e-5 && cue.t <= b + 1e-5;
 
@@ -163,7 +144,7 @@ export function createSupplyReveal(host, options = {}) {
       muted = !!cfg.silent;
       await core.play(results, { manual: true, silent: muted });
       model = core.model(); result = results;
-      fxNumber = choose(model, cfg.effects);
+      fxNumber = chooseEffect(model, cfg.effects);
       caption = fxNumber ? CLIPS[fxNumber - 1] : null;
       parts = makeParts(model, fxNumber); pos = 0; elapsed = 0; presentationClock = 0; waiting = null; queued = false; active = true;
       if (parts.length) enter(parts[0]);

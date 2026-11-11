@@ -3,6 +3,42 @@
   grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.9fr);
   gap: 16px;
 }
+.supply-preview {
+  padding: 14px;
+  border: 1px solid var(--menu-line);
+  background: rgba(8, 24, 31, 0.72);
+  line-height: 1.5;
+}
+.supply-preview p {
+  margin: 6px 0 12px;
+}
+.supply-preview-controls {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.supply-preview-controls label {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.supply-preview-controls select {
+  max-width: 100%;
+  min-height: 44px;
+  font-size: 14px;
+}
+.supply-preview-controls button {
+  min-height: 44px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+.supply-preview small {
+  color: var(--menu-muted, #b8ccce);
+}
+.supply-preview-result {
+  color: #ffe0a2;
+}
 .supply-menu section {
   min-width: 0;
   padding: 14px;
