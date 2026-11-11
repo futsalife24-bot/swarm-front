@@ -1,0 +1,42 @@
+{
+  "expected": "new",
+  "oldSounds": [],
+  "newSounds": [
+    {
+      "frames": 18964,
+      "rate": 1
+    },
+    {
+      "frames": 18082,
+      "rate": 1
+    },
+    {
+      "frames": 18964,
+      "rate": 1
+    },
+    {
+      "frames": 18082,
+      "rate": 1
+    },
+    {
+      "frames": 18964,
+      "rate": 1
+    },
+    {
+      "frames": 18082,
+      "rate": 1
+    },
+    {
+      "frames": 18964,
+      "rate": 1
+    },
+    {
+      "frames": 18964,
+      "rate": 1
+    }
+  ],
+  "errors": [],
+  "saveUnchanged": true,
+  "serviceWorkerControlled": true,
+  "passed": true
+}
