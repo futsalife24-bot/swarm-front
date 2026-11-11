@@ -1,6 +1,6 @@
-# 開発者モードの旧開封音キャッシュを修正（2026-11-11、公開準備）
+# 開発者モードの旧開封音キャッシュを修正・公開済み（2026-11-11）
 
-本人の「音が変わらない」を旧キャッシュで再現。共通の固定URL演出JSがService Workerのcache-firstへ残り、ピアノ音を再生していた。前回の新規/Service Worker無効の検査では見落とした。Viteで依存音源とWorkerまでハッシュ付きbundleへ変更。旧キャッシュ入りの実開発者10連で修正前は旧音8件、修正後は新音8件/旧音0件/全rate1/例外0/保存不変。型/build成功。base de715ac、branch codex/supply-audio-cache-fix-20261111。[記録](evidence/supply-audio-cache-20261111/RELEASE.md)。
+本人の「音が変わらない」を旧キャッシュで再現。共通の固定URL演出JSがService Workerのcache-firstへ残り、ピアノ音を再生していた。前回の新規/Service Worker無効の検査では見落とした。Viteで依存音源とWorkerまでハッシュ付きbundleへ変更。旧キャッシュ入りの実開発者10連で修正前は旧音8件、修正後は新音8件/旧音0件/全rate1/例外0/保存不変。型/build成功。base de715ac、branch codex/supply-audio-cache-fix-20261111。PR313を通常merge、source 66aad08からWorker Version 73733ca9-4ed9-45f1-96ab-08ceb5e837aaを100%公開。ハッシュ付きruntime/Workerを含む38ファイルSHA一致・health200。[記録](evidence/supply-audio-cache-20261111/RELEASE.md)。
 
 # 鍵の解除SEを本人が正式採用（2026-11-11）
 
