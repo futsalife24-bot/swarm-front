@@ -234,6 +234,16 @@
       "name": "[読み直し] 材質名が生成時と一致",
       "ok": true,
       "detail": "['Textured polymer', 'Paint hazard yellow', 'Metal steel', 'Recess black', 'Metal gunmetal', 'Rarity identification']"
+    },
+    {
+      "name": "[読み直し] 左の識別インレイが見える",
+      "ok": true,
+      "detail": "9/9 点"
+    },
+    {
+      "name": "[読み直し] 右の識別インレイが見える",
+      "ok": true,
+      "detail": "9/9 点"
     }
   ]
 }

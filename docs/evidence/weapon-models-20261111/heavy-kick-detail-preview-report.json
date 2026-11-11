@@ -1,0 +1,139 @@
+{
+  "scope": "Product previewWeapon and weaponImage with local GLBs; separate review page, not actual detail dialog or a share action",
+  "viewport": [
+    844,
+    390
+  ],
+  "missing": [
+    "sticky"
+  ],
+  "rows": [
+    {
+      "kind": "rifle",
+      "rarity": 0,
+      "previewPixels": 5423,
+      "sharePixels": 32411,
+      "bytes": 83036,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "smg",
+      "rarity": 1,
+      "previewPixels": 4896,
+      "sharePixels": 29264,
+      "bytes": 97905,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "shotgun",
+      "rarity": 2,
+      "previewPixels": 4663,
+      "sharePixels": 27826,
+      "bytes": 87986,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "slug",
+      "rarity": 3,
+      "previewPixels": 5802,
+      "sharePixels": 34458,
+      "bytes": 100366,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "rocket",
+      "rarity": 4,
+      "previewPixels": 6912,
+      "sharePixels": 41974,
+      "bytes": 105448,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "heavy",
+      "rarity": 0,
+      "previewPixels": 5352,
+      "sharePixels": 32062,
+      "bytes": 112998,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "sniper",
+      "rarity": 1,
+      "previewPixels": 4797,
+      "sharePixels": 27949,
+      "bytes": 101869,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "laser",
+      "rarity": 2,
+      "previewPixels": 7646,
+      "sharePixels": 45840,
+      "bytes": 100619,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "grenade",
+      "rarity": 3,
+      "previewPixels": 5714,
+      "sharePixels": 34090,
+      "bytes": 85730,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "sticky",
+      "missing": true
+    },
+    {
+      "kind": "kick",
+      "rarity": 0,
+      "previewPixels": 4592,
+      "sharePixels": 27111,
+      "bytes": 109463,
+      "shareSize": [
+        1200,
+        720
+      ]
+    },
+    {
+      "kind": "medic",
+      "rarity": 1,
+      "previewPixels": 5434,
+      "sharePixels": 32100,
+      "bytes": 99806,
+      "shareSize": [
+        1200,
+        720
+      ]
+    }
+  ],
+  "errors": [],
+  "failedRequests": []
+}

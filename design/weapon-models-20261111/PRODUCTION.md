@@ -89,8 +89,9 @@ node "$d/render/render_weapon.mjs" <kind>
 | 銃口の自動算出 | 最長軸が前後、前端が選ばれる、左右のずれ 2mm 以内、高さが `bore_z` から 4mm 以内 |
 | 握り・支え | 決まった範囲に頂点があり、半幅が握れる太さ |
 | ネオン外形 | 全点が本体の範囲内 |
-| レア度5本 | 形が同一、インレイの色が `GRADE_COLORS` と一致 |
+| レア度5本 | 頂点と三角形の接続が同一、インレイの色が `GRADE_COLORS` と一致 |
 | 読み直し | Blender へ読み込んで、三角形数・寸法・材質名が `report.json` と一致 |
+| インレイの遮蔽 | 読み直したGLBを左右から直交方向に各9点検査し、全点で識別材質が最初に見える |
 
 目で見る（`out/<kind>/views.png`）:
 
@@ -123,7 +124,7 @@ node "$d/render/render_weapon.mjs" <kind>
 - `loadStandardTrooper`、`progression-weapons.ts`、`weapon-sharing.ts` の読み込み先。
 - 配信ファイル一覧・キャッシュ、既存の `scripts/check-weapon-*`、実画面での手持ち・背負い・装填・銃口エフェクトの位置確認。
 
-## 今回確かめたこと・確かめていないこと
+## 設計・初回試作段階で確かめたこと・確かめていないこと
 
 確かめた:
 

@@ -13,6 +13,10 @@
 - `laser-detail-trooper.png` / `laser-detail-trooper-report.json` と `sniper-detail-trooper.png` / `sniper-detail-trooper-report.json`: 追加造形したLZ-2とSR-1の実兵士表示。赤い点・線は銃口計測の補助表示で、実射撃エフェクトではない。各武器の手持ち・背負い・装填3時点を確認。
 - `detail-round-2guns.png`: 同じ2種類の生成画像から多面表示を切り出して1枚にまとめた途中確認画像。最終評価や実機確認の代わりではない。
 - `detail-round-preview.png` / `detail-round-preview-report.json` と `detail-round-shot.png` / `detail-round-shot-report.json`: LZ-2・SR-1の追加造形後に、生成済み11種類の製品プレビュー・共有画像と射撃エフェクトをそれぞれ再確認した結果。ST-3、実際の詳細ダイアログ、実通信、実機は未確認。
+- `heavy-kick-detail-2guns.png`: RL-9・KB-6の追加造形後の多面表示を1枚にまとめた画像。最終評価や実機確認の代わりではない。
+- `heavy-kick-detail-trooper.png` / `heavy-kick-detail-trooper-report.json`: 追加造形した2種類について実兵士の手持ち・背負い・装填各10場面と銃口計算を確認。赤い点・線は計測補助で、実射撃エフェクトではない。
+- `heavy-kick-detail-preview.png` / `heavy-kick-detail-preview-report.json` と `heavy-kick-detail-shot.png` / `heavy-kick-detail-shot-report.json`: 追加造形後の生成済み11種類のプレビュー・共有画像生成と局所射撃エフェクト。ページ例外0。ST-3、実際の詳細ダイアログ、実通信、実機は未確認。
+- `kick-old-inlay-negative.json` / `kick-topology-negative.json`: 強化した検査が旧KB-6の隠れた識別色と、寸法・頂点数を変えない面接続の変更を不合格にした負例。`python scripts/check-weapon-inspection-regression.py` でも現行データから隔離負例を作って再現できる。生成済み8種は新しい40項目をすべて合格。識別色の視認検査は左右それぞれ正面9点であり、斜めや実ゲーム画面での視認を保証しない。
 - `grenade-projectile-60fps.png` / `grenade-projectile-report.json`: 実Rendererだが `fire()` の後 `step()` の前を人工的に描いた中間状態。通常のゲームプレイで表示されるとは限らない。
 - `grenade-projectile-stepped.png` / `grenade-projectile-stepped-report.json`: 通常 `step()` 後の弾体を実Rendererで描いた隔離fixture。実UIや通信の検証ではない。2種類の画像は `node scripts/check-grenade-renderer-shot.mjs` と同コマンドの `--stepped` 付きでそれぞれ再現する。
 - `grenade-ui-first-render.png` / `grenade-ui-after.png` / `grenade-ui-report.json`: 隔離ブラウザーの仮保存でGL-6を装備し、実際の出撃画面とPCのマウス入力で発射。描画の計測だけを追加したローカル単独プレイであり、協力通信や実スマホの検証ではない。`node scripts/check-grenade-ui-shot.mjs` で再現する。

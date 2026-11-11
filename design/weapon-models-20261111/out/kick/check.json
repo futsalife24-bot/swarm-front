@@ -48,12 +48,12 @@
     {
       "name": "[kick_0.glb] 三角形数（上限）",
       "ok": true,
-      "detail": "6264 / 12060"
+      "detail": "7888 / 12060"
     },
     {
       "name": "[kick_0.glb] 三角形数（目標）",
       "ok": true,
-      "detail": "6264 / 9000"
+      "detail": "7888 / 9000"
     },
     {
       "name": "[kick_0.glb] 材質数=描画回数",
@@ -123,12 +123,12 @@
     {
       "name": "[kick_0.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "351632 / 800000"
+      "detail": "434720 / 800000"
     },
     {
       "name": "[kick_0.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "351632 / 500000"
+      "detail": "434720 / 500000"
     },
     {
       "name": "[kick_0.glb] 識別インレイの色",
@@ -138,17 +138,17 @@
     {
       "name": "[kick_1.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 9620 三角形 6264"
+      "detail": "頂点 11912 三角形 7888"
     },
     {
       "name": "[kick_1.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "351632 / 800000"
+      "detail": "434720 / 800000"
     },
     {
       "name": "[kick_1.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "351632 / 500000"
+      "detail": "434720 / 500000"
     },
     {
       "name": "[kick_1.glb] 識別インレイの色",
@@ -158,17 +158,17 @@
     {
       "name": "[kick_2.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 9620 三角形 6264"
+      "detail": "頂点 11912 三角形 7888"
     },
     {
       "name": "[kick_2.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "351632 / 800000"
+      "detail": "434720 / 800000"
     },
     {
       "name": "[kick_2.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "351632 / 500000"
+      "detail": "434720 / 500000"
     },
     {
       "name": "[kick_2.glb] 識別インレイの色",
@@ -178,17 +178,17 @@
     {
       "name": "[kick_3.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 9620 三角形 6264"
+      "detail": "頂点 11912 三角形 7888"
     },
     {
       "name": "[kick_3.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "351632 / 800000"
+      "detail": "434720 / 800000"
     },
     {
       "name": "[kick_3.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "351632 / 500000"
+      "detail": "434720 / 500000"
     },
     {
       "name": "[kick_3.glb] 識別インレイの色",
@@ -198,17 +198,17 @@
     {
       "name": "[kick_4.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 9620 三角形 6264"
+      "detail": "頂点 11912 三角形 7888"
     },
     {
       "name": "[kick_4.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "351628 / 800000"
+      "detail": "434716 / 800000"
     },
     {
       "name": "[kick_4.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "351628 / 500000"
+      "detail": "434716 / 500000"
     },
     {
       "name": "[kick_4.glb] 識別インレイの色",
@@ -223,7 +223,7 @@
     {
       "name": "[読み直し] 三角形数が生成時と一致",
       "ok": true,
-      "detail": "6264 / 6264"
+      "detail": "7888 / 7888"
     },
     {
       "name": "[読み直し] 寸法が生成時と一致",
@@ -234,6 +234,16 @@
       "name": "[読み直し] 材質名が生成時と一致",
       "ok": true,
       "detail": "['Paint slate blue', 'Recess black', 'Metal steel', 'Paint russet', 'Glow heat', 'Rarity identification']"
+    },
+    {
+      "name": "[読み直し] 左の識別インレイが見える",
+      "ok": true,
+      "detail": "9/9 点"
+    },
+    {
+      "name": "[読み直し] 右の識別インレイが見える",
+      "ok": true,
+      "detail": "9/9 点"
     }
   ]
 }

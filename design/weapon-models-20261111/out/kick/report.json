@@ -4,8 +4,8 @@
   "name": "KB-6 ケストレル",
   "family": "special",
   "blender": "5.2.1 LTS",
-  "triangles": 6264,
-  "vertices": 3294,
+  "triangles": 7888,
+  "vertices": 4214,
   "bounds": [
     [
       -0.0775463879108429,
@@ -143,32 +143,32 @@
     {
       "file": "kick_0.glb",
       "grade": 0,
-      "bytes": 351632,
-      "sha256": "798ac1cab23024572be38ba87ec24f320989258fe97b49a1a3a7eeb3154024ff"
+      "bytes": 434720,
+      "sha256": "3f54486b735b413149975b5525eb9408da09a84187298c49e855b8b5fb4b2fcb"
     },
     {
       "file": "kick_1.glb",
       "grade": 1,
-      "bytes": 351632,
-      "sha256": "bb4261ad509539b7932a7e57e0dced2b2c123f9a9f6e081a16adac395fd9b143"
+      "bytes": 434720,
+      "sha256": "b2176caef4ee24d0b92b406bfb8d5af321e0ea7aed389ee3907ae167c2f5f609"
     },
     {
       "file": "kick_2.glb",
       "grade": 2,
-      "bytes": 351632,
-      "sha256": "40d4be8c73f2eb9d686140dfe4c4633b9633642308a251699fc60a25d5e66008"
+      "bytes": 434720,
+      "sha256": "85455516cc4260f57bb98c418b4b2ef3906558e18491ef82dd817eee3bb3fd73"
     },
     {
       "file": "kick_3.glb",
       "grade": 3,
-      "bytes": 351632,
-      "sha256": "2c037d5501e5e466f064d89d825bfd2e5227cbea81367139e96ac174c2220f40"
+      "bytes": 434720,
+      "sha256": "0f691b2e8e7e3edbe69a364307ed0525c9b7ecac268e799fe7d77de5e0c664b9"
     },
     {
       "file": "kick_4.glb",
       "grade": 4,
-      "bytes": 351628,
-      "sha256": "e6f2ff258bb268a23d8301d89f6921ef87d9b9ba3b09615ac36f27de6342d0e3"
+      "bytes": 434716,
+      "sha256": "44cd2b1dc7d0a05df429ba29116defa4d8f38cf64e1a29ce48a501a12bf86ec8"
     }
   ]
 }

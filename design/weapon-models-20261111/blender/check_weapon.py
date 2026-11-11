@@ -7,8 +7,9 @@ blender --background --python-exit-code 1 --python check_weapon.py -- <kind>
 2) Blender へ読み込み直す: 1メッシュ、三角形数と寸法が生成時の report.json と一致。
 結果は out/<kind>/check.json。不合格が1つでもあれば終了コード1。
 """
-import bpy, sys, json, struct
+import bpy, sys, json, struct, importlib
 from pathlib import Path
+from mathutils import Vector
 
 sys.dont_write_bytecode = True  # __pycache__ を作らない
 HERE = Path(__file__).resolve().parent
@@ -44,7 +45,7 @@ def read_glb(path):
     jlen = struct.unpack_from('<I', data, 12)[0]
     gltf = json.loads(data[20:20 + jlen])
     blob = data[20 + jlen + 8:]
-    points, tris = [], 0
+    points, tris, topology = [], 0, []
     for mesh in gltf['meshes']:
         for prim in mesh['primitives']:
             acc = gltf['accessors'][prim['attributes']['POSITION']]
@@ -54,8 +55,15 @@ def read_glb(path):
             stride = view.get('byteStride', 12)
             for i in range(acc['count']):
                 points.append(struct.unpack_from('<3f', blob, start + i * stride))
-            tris += gltf['accessors'][prim['indices']]['count'] // 3
-    return gltf, points, tris, len(data)
+            idx = gltf['accessors'][prim['indices']]
+            iview = gltf['bufferViews'][idx['bufferView']]
+            code = {5121: 'B', 5123: 'H', 5125: 'I'}[idx['componentType']]
+            step = iview.get('byteStride', struct.calcsize('<' + code))
+            begin = iview.get('byteOffset', 0) + idx.get('byteOffset', 0)
+            topology.append(tuple(struct.unpack_from('<' + code, blob, begin + i * step)[0]
+                                  for i in range(idx['count'])))
+            tris += idx['count'] // 3
+    return gltf, points, tris, len(data), topology
 
 
 def bore(points):
@@ -75,7 +83,7 @@ def bore(points):
 base = None
 for grade in range(5):
     path = out / f'{kind}_{grade}.glb'
-    gltf, pts, tris, size = read_glb(path)
+    gltf, pts, tris, size, topology = read_glb(path)
     # glTF(X, Y上, -Z前) → 設計の座標（横, 前, 上）
     design = [(x, -z, y) for x, y, z in pts]
     prims = sum(len(m['primitives']) for m in gltf['meshes'])
@@ -112,10 +120,12 @@ for grade in range(5):
                 break
         else:
             check(tag + 'ネオン外形が本体の範囲内', True, f"{len(report['neon_profile'])} 点")
-        base = dict(count=len(pts), tris=tris, lo=[min(c) for c in zip(*pts)], hi=[max(c) for c in zip(*pts)])
+        base = dict(count=len(pts), tris=tris, lo=[min(c) for c in zip(*pts)], hi=[max(c) for c in zip(*pts)],
+                    points=pts, topology=topology)
     else:
         same = len(pts) == base['count'] and tris == base['tris'] and \
-            all(abs(a - b) < 1e-6 for a, b in zip([min(c) for c in zip(*pts)] + [max(c) for c in zip(*pts)], base['lo'] + base['hi']))
+            all(abs(a - b) < 1e-6 for a, b in zip([min(c) for c in zip(*pts)] + [max(c) for c in zip(*pts)], base['lo'] + base['hi'])) and \
+            all(abs(a - b) < 1e-6 for p, q in zip(pts, base['points']) for a, b in zip(p, q)) and topology == base['topology']
         check(tag + '形はグレード0と同一', same, f'頂点 {len(pts)} 三角形 {tris}')
     check(tag + 'ファイルサイズ（上限）', size <= LIMITS['bytes_max'], f"{size} / {LIMITS['bytes_max']}")
     check(tag + 'ファイルサイズ（目標）', size <= LIMITS['bytes_target'], f"{size} / {LIMITS['bytes_target']}", warn=True)
@@ -141,6 +151,19 @@ if meshes:
           f'{[round(v, 4) for v in lo]} .. {[round(v, 4) for v in hi]}')
     check('[読み直し] 材質名が生成時と一致', sorted(m.name.split('.')[0] for m in me.materials if m) == sorted(report['materials']),
           str([m.name for m in me.materials if m]))
+    # 中央と周囲の計9点を左右から見て、色付き部品が装甲などに隠れていないか調べる。
+    _, iy, iz = importlib.import_module(f'weapons.{kind}').SPEC['inlay']
+    bpy.context.view_layer.update()
+    dg = bpy.context.evaluated_depsgraph_get()
+    for side, label in [(-1, '左'), (1, '右')]:
+        visible = 0
+        for dy in [-.004, 0, .004]:
+            for dz in [-.004, 0, .004]:
+                hit, _, _, face, obj, _ = bpy.context.scene.ray_cast(
+                    dg, Vector((side, iy + dy, iz + dz)), Vector((-side, 0, 0)))
+                if hit and obj.data.materials[obj.data.polygons[face].material_index].name.split('.')[0] == 'Rarity identification':
+                    visible += 1
+        check(f'[読み直し] {label}の識別インレイが見える', visible == 9, f'{visible}/9 点')
 
 result = dict(kind=kind, passed=not fails, failures=fails, warnings=warns, limits=LIMITS, checks=checks)
 (out / 'check.json').write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding='utf8')

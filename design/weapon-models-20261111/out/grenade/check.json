@@ -234,6 +234,16 @@
       "name": "[読み直し] 材質名が生成時と一致",
       "ok": true,
       "detail": "['Olive composite', 'Textured polymer', 'Metal steel', 'Metal brass', 'Recess black', 'Rarity identification']"
+    },
+    {
+      "name": "[読み直し] 左の識別インレイが見える",
+      "ok": true,
+      "detail": "9/9 点"
+    },
+    {
+      "name": "[読み直し] 右の識別インレイが見える",
+      "ok": true,
+      "detail": "9/9 点"
     }
   ]
 }

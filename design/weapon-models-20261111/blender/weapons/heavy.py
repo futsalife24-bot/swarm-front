@@ -21,6 +21,13 @@ def build(k):
     k.ring('Exhaust rim', -.365, BORE, .069, .052, 'rust', .01, n=24)
     k.rod('Exhaust dark recess', (0,-.371,BORE), (0,-.369,BORE), .050, 'black', 24)
     k.ring('Exhaust inner glow', -.372, BORE, .035, .025, 'glow_heat', .002, n=20)
+    # 後部噴射口の継ぎ目と固定ボルトを独立形状にする。
+    for y, radius in [(-.35, .0635), (-.32, .058)]:
+        k.ring('Exhaust segmented collar', y, BORE, radius + .002, radius - .002, 'gunmetal', .006, n=20)
+    for i in range(6):
+        a = 2 * math.pi * i / 6
+        x, z = .058 * math.cos(a), BORE + .058 * math.sin(a)
+        k.rod('Exhaust perimeter bolt', (x,-.370,z), (x,-.373,z), .003, 'steel', 8)
     for y in [-.265,-.15,.04,.18,.32]:
         k.ring('Tube clamp', y, BORE, .059, .054, 'steel', .014, n=24)
     # 正面ドラムは y=.40 より前。先端帯は左右・上下対称に保つ。
@@ -46,11 +53,18 @@ def build(k):
         for i in range(4):
             k.rod('Grip rib', (side*.021,-.059+i*.007,-.085+i*.014),
                   (side*.021,-.028+i*.007,-.085+i*.014), .002, 'steel', 6)
+        for i in range(4):
+            z = -.032 - i*.014
+            k.rod('Forward grip groove', (side*.019,.216,z), (side*.019,.24,z), .0015, 'steel', 6)
         k.profile('Receiver armor panel', [(-.20,.063),(-.18,.04),(.14,.04),(.17,.065),(.17,.11),(-.20,.11)], .004, 'steel', .002, x=side*.052)
         for y in [-.18,-.12,-.03,.05,.13]:
             k.rod('Armor bolt', (side*.055,y,.075), (side*.057,y,.075), .004, 'rust', 8)
         for y in [.045,.075,.105]:
             k.box('Armor vent', (side*.056,y,.095), (.003,.014,.009), 'black', .001)
+        # 中央の圧力計を暗い計器面と外枠に分ける。
+        k.rod('Pressure gauge rim', (side*.053,.20,.09), (side*.060,.20,.09), .012, 'rust', 12)
+        k.rod('Pressure gauge face', (side*.060,.20,.09), (side*.062,.20,.09), .008, 'black', 12)
+        k.rod('Pressure gauge needle', (side*.063,.197,.086), (side*.063,.204,.094), .0012, 'steel', 6)
         # 複数の装甲区画と燃料配管を重ね、大きな筒の単調さを抑える。
         for y in [-.26, -.01, .24]:
             k.profile('Thermal shield', [(y,.075),(y+.035,.055),(y+.10,.055),
@@ -71,3 +85,5 @@ def build(k):
     for a,b in [((0,-.10,.14),(0,-.08,.185)),((0,-.08,.185),(0,.12,.185)),((0,.12,.185),(0,.14,.14))]:
         k.rod('Carry handle', a,b,.006,'steel',10)
     k.box('Handle grip', (0,.02,.185), (.022,.09,.016), 'black', .003)
+    for y in [-.012,.004,.020,.036,.052]:
+        k.box('Handle grip rib', (0,y,.193), (.022,.003,.002), 'steel', .0005)

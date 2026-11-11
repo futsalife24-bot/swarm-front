@@ -4,8 +4,8 @@
   "name": "RL-9 メテオ",
   "family": "rocket",
   "blender": "5.2.1 LTS",
-  "triangles": 7372,
-  "vertices": 3948,
+  "triangles": 8456,
+  "vertices": 4540,
   "bounds": [
     [
       -0.09600000083446503,
@@ -15,7 +15,7 @@
     [
       0.0989999994635582,
       0.6200000047683716,
-      0.19300001859664917
+      0.1940000057220459
     ]
   ],
   "materials": [
@@ -153,32 +153,32 @@
     {
       "file": "heavy_0.glb",
       "grade": 0,
-      "bytes": 411152,
-      "sha256": "567a09e5c157f57aada741e5dd9e9df45b8a4de1a805b89a60a8a22e48fffdcc"
+      "bytes": 469624,
+      "sha256": "49ccb11f765125cc98919e2ed62dc6256c0b225e1d0b92184c95ab5110134aef"
     },
     {
       "file": "heavy_1.glb",
       "grade": 1,
-      "bytes": 411152,
-      "sha256": "2108a9f0809c37a05c3654e176fb470c50c951ab5cab20ffdf5499806f0ef950"
+      "bytes": 469624,
+      "sha256": "847e6b3760d8c510b4d0305421e239cb8f1b71d39545cdffee522df3e27d1d5f"
     },
     {
       "file": "heavy_2.glb",
       "grade": 2,
-      "bytes": 411152,
-      "sha256": "5e8dec2c6c6f24c1a2ea817f364fd89d01bba97c10b39af857a1d872ec2576b1"
+      "bytes": 469624,
+      "sha256": "396686d57e09a60f02a84420b09a4bd1a23e7a9904997d58a48f50acb739d43c"
     },
     {
       "file": "heavy_3.glb",
       "grade": 3,
-      "bytes": 411152,
-      "sha256": "40d2ff108b2be722e1752bd1dbc69631fd77e6b7f91ec1e1629112acf82a960e"
+      "bytes": 469624,
+      "sha256": "f361dd6e414108bc3f4aa2d9d004f58b8381a61ac48577b5d998b1711608721c"
     },
     {
       "file": "heavy_4.glb",
       "grade": 4,
-      "bytes": 411148,
-      "sha256": "747fddf8cd105219edbf01dde981b2b2f65f6377412c705785f2b964569a329f"
+      "bytes": 469624,
+      "sha256": "4981af3790cc97961de90d19f96e268699a3cf00bac97d341796f41050cb6de9"
     }
   ]
 }
