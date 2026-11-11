@@ -1,6 +1,7 @@
 import * as T from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { weaponTier } from "../shared/progression";
+import { NEW_WEAPON_NEON_PROFILES } from "./weapon-neon-profiles";
 import {
   modelOf,
   type Weapon,
@@ -12,8 +13,9 @@ const COLORS = [0x92aaa6, 0x83d8b0, 0x7cbdf4, 0xd5a4f4, 0xffd472];
 // Authored in the Blender source basis: forward, height, half-width (metres).
 // Trace the major silhouette, not screws, rail teeth or overlapping mesh edges.
 type Point = [number, number, number];
-// One trace per shipped model: every kind is drawn with one of these three.
-const PROFILES: Record<ModelKind, Point[]> = {
+// Traces for original models; new traces come from their production reports.
+const PROFILES: Partial<Record<ModelKind, Point[]>> = {
+  ...NEW_WEAPON_NEON_PROFILES,
   rifle: [
     [-0.34, 0.076, 0.034],
     [-0.25, 0.096, 0.034],
@@ -93,8 +95,10 @@ const PROFILES: Record<ModelKind, Point[]> = {
 /** Rounded, closed neon trim on both sides of the unchanged weapon model. */
 export function neonGeometry(kind: Kind, radius: number) {
   const tubes: T.BufferGeometry[] = [];
+  const profile = PROFILES[modelOf(kind)];
+  if (!profile) throw new Error(`Weapon neon profile missing: ${kind}`);
   for (const side of [-1, 1]) {
-    const points = PROFILES[modelOf(kind)].map(
+    const points = profile.map(
       ([forward, up, width]) => new T.Vector3(side * width, up, -forward),
     );
     const path = new T.CurvePath<T.Vector3>();

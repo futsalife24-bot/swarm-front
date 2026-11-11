@@ -28,6 +28,7 @@ try {
     const { loadProgressionWeapons } =
       await import("/src/client/progression-weapons.ts");
     const { makeWeapon } = await import("/src/shared/progression.ts");
+    const { KINDS } = await import("/src/shared/defs.ts");
     const { createWorld, addPlayer } = await import("/src/shared/game.ts");
     const v = new StandardTrooper(await loadStandardTrooper()),
       p = addPlayer(createWorld("glow"), "glow");
@@ -46,7 +47,7 @@ try {
       '<main style="display:flex;flex-wrap:wrap;gap:10px;color:white;background:#12232d" id="evidence"></main>';
     const records = [];
     const colors = ["92aaa6", "83d8b0", "7cbdf4", "d5a4f4", "ffd472"];
-    for (const kind of ["rifle", "shotgun", "rocket"])
+    for (const kind of KINDS)
       for (let grade = 0; grade < 5; grade++) {
         p.weapons = [
           makeWeapon(
@@ -122,6 +123,7 @@ try {
     renderer.dispose();
     return { records, swapped, disposed, colors };
   });
+  assert.equal(result.records.length, 60);
   for (const r of result.records) {
     assert.ok(r.counts.every((n) => n > 0));
     assert.equal(r.colors[0], result.colors[r.grade]);
@@ -145,7 +147,7 @@ try {
     JSON.stringify({ ...result, errors }, null, 2),
   );
   console.log(
-    "PASS 15 kind/grade combinations, both independent slots, pulse pixels, swap, disposal; max calls",
+    "PASS 60 kind/grade combinations, both independent slots, pulse pixels, swap, disposal; max calls",
     Math.max(...result.records.map((r) => r.calls)),
   );
 } finally {

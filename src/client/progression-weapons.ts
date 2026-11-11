@@ -1,14 +1,14 @@
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { modelOf, type Weapon } from "../shared/defs";
-import type { NewWeapon } from "../shared/progression";
+import { weaponTier } from "../shared/progression";
+import { weaponModelUrl } from "./weapon-model-url";
 const models = new Map<string, T.Group>(),
   pending = new Map<string, Promise<void>>();
-// Keyed by the model a weapon is drawn with, not by the weapon: a kind without
-// its own GLB borrows the silhouette closest to how it is actually held.
-const key = (w: Weapon) => `${modelOf(w.kind)}_${w.rarity}`;
+// Match the neon tier for both the legacy R–LR and newer N–LR grades.
+const key = (w: Weapon) => `${modelOf(w.kind)}_${weaponTier(w)}`;
 export function progressionWeaponModel(w: Weapon) {
-  return (w as NewWeapon).format === 2 ? models.get(key(w)) : undefined;
+  return models.get(key(w));
 }
 export function loadProgressionWeapons(weapons: Weapon[]) {
   return Promise.all(
@@ -18,9 +18,7 @@ export function loadProgressionWeapons(weapons: Weapon[]) {
       let p = pending.get(id);
       if (!p) {
         p = new GLTFLoader()
-          .loadAsync(
-            `${import.meta.env.BASE_URL}assets/weapons/realism-v2/${id}.glb`,
-          )
+          .loadAsync(weaponModelUrl(w.kind, weaponTier(w)))
           .then((gltf) => {
             models.set(id, gltf.scene);
           })

@@ -1,0 +1,239 @@
+{
+  "kind": "medic",
+  "passed": true,
+  "failures": [],
+  "warnings": [],
+  "limits": {
+    "triangles_target": 9000,
+    "triangles_max": 12060,
+    "primitives_max": 6,
+    "bytes_target": 500000,
+    "bytes_max": 800000,
+    "forward": [
+      -0.4,
+      0.7
+    ],
+    "up": [
+      -0.25,
+      0.21
+    ],
+    "half_width": 0.115,
+    "front_margin": 0.1,
+    "muzzle_side": 0.002,
+    "muzzle_up": 0.004,
+    "grip": {
+      "forward": [
+        -0.08,
+        0.03
+      ],
+      "up": [
+        -0.15,
+        -0.03
+      ],
+      "half_width": 0.026
+    },
+    "support": {
+      "forward": [
+        0.18,
+        0.4
+      ],
+      "up": [
+        -0.05,
+        0.03
+      ],
+      "half_width": 0.04
+    }
+  },
+  "checks": [
+    {
+      "name": "[medic_0.glb] 三角形数（上限）",
+      "ok": true,
+      "detail": "7944 / 12060"
+    },
+    {
+      "name": "[medic_0.glb] 三角形数（目標）",
+      "ok": true,
+      "detail": "7944 / 9000"
+    },
+    {
+      "name": "[medic_0.glb] 材質数=描画回数",
+      "ok": true,
+      "detail": "6 / 6"
+    },
+    {
+      "name": "[medic_0.glb] メッシュ1つ・ノード変換なし",
+      "ok": true,
+      "detail": "meshes=1"
+    },
+    {
+      "name": "[medic_0.glb] 画像・アニメーション・透過なし",
+      "ok": true,
+      "detail": "images/animations/alphaMode"
+    },
+    {
+      "name": "[medic_0.glb] 寸法の枠（前後）",
+      "ok": true,
+      "detail": "-0.336 .. 0.499"
+    },
+    {
+      "name": "[medic_0.glb] 寸法の枠（上下）",
+      "ok": true,
+      "detail": "-0.144 .. 0.158"
+    },
+    {
+      "name": "[medic_0.glb] 寸法の枠（半幅）",
+      "ok": true,
+      "detail": "0.099"
+    },
+    {
+      "name": "[medic_0.glb] 前端が後端より十分に遠い",
+      "ok": true,
+      "detail": "前 0.499 / 後 -0.336"
+    },
+    {
+      "name": "[medic_0.glb] 銃口算出: 最長軸が前後で、前端が選ばれる",
+      "ok": true,
+      "detail": "axis=z end=-0.499"
+    },
+    {
+      "name": "[medic_0.glb] 銃口算出: 左右のずれ",
+      "ok": true,
+      "detail": "0.00 mm（先端の頂点 152 個）"
+    },
+    {
+      "name": "[medic_0.glb] 銃口算出: 高さが設計の銃身軸と一致",
+      "ok": true,
+      "detail": "算出 0.0450 / 設計 0.0450"
+    },
+    {
+      "name": "[medic_0.glb] 握りの位置に形があり、握れる幅",
+      "ok": true,
+      "detail": "頂点 307 個、半幅 0.022 / 0.026"
+    },
+    {
+      "name": "[medic_0.glb] 左手の支えの位置に形があり、握れる幅",
+      "ok": true,
+      "detail": "頂点 814 個、半幅 0.028 / 0.04"
+    },
+    {
+      "name": "[medic_0.glb] ネオン外形が本体の範囲内",
+      "ok": true,
+      "detail": "23 点"
+    },
+    {
+      "name": "[medic_0.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "464100 / 800000"
+    },
+    {
+      "name": "[medic_0.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "464100 / 500000"
+    },
+    {
+      "name": "[medic_0.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.20000000298023224, 0.25999999046325684, 0.27000001072883606]"
+    },
+    {
+      "name": "[medic_1.glb] 形はグレード0と同一",
+      "ok": true,
+      "detail": "頂点 12826 三角形 7944"
+    },
+    {
+      "name": "[medic_1.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "464100 / 800000"
+    },
+    {
+      "name": "[medic_1.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "464100 / 500000"
+    },
+    {
+      "name": "[medic_1.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.07999999821186066, 0.30000001192092896, 0.15000000596046448]"
+    },
+    {
+      "name": "[medic_2.glb] 形はグレード0と同一",
+      "ok": true,
+      "detail": "頂点 12826 三角形 7944"
+    },
+    {
+      "name": "[medic_2.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "464100 / 800000"
+    },
+    {
+      "name": "[medic_2.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "464100 / 500000"
+    },
+    {
+      "name": "[medic_2.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.07999999821186066, 0.20000000298023224, 0.44999998807907104]"
+    },
+    {
+      "name": "[medic_3.glb] 形はグレード0と同一",
+      "ok": true,
+      "detail": "頂点 12826 三角形 7944"
+    },
+    {
+      "name": "[medic_3.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "464100 / 800000"
+    },
+    {
+      "name": "[medic_3.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "464100 / 500000"
+    },
+    {
+      "name": "[medic_3.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.30000001192092896, 0.09000000357627869, 0.38999998569488525]"
+    },
+    {
+      "name": "[medic_4.glb] 形はグレード0と同一",
+      "ok": true,
+      "detail": "頂点 12826 三角形 7944"
+    },
+    {
+      "name": "[medic_4.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "464096 / 800000"
+    },
+    {
+      "name": "[medic_4.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "464096 / 500000"
+    },
+    {
+      "name": "[medic_4.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.550000011920929, 0.3499999940395355, 0.06499999761581421]"
+    },
+    {
+      "name": "[読み直し] メッシュオブジェクト1つ",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "[読み直し] 三角形数が生成時と一致",
+      "ok": true,
+      "detail": "7944 / 7944"
+    },
+    {
+      "name": "[読み直し] 寸法が生成時と一致",
+      "ok": true,
+      "detail": "[-0.0991, -0.336, -0.1442] .. [0.0991, 0.4991, 0.158]"
+    },
+    {
+      "name": "[読み直し] 材質名が生成時と一致",
+      "ok": true,
+      "detail": "['Ceramic white', 'Paint teal', 'Textured polymer', 'Resin vial green', 'Glow heal', 'Rarity identification']"
+    }
+  ]
+}

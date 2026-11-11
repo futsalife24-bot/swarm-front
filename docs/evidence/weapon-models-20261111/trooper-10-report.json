@@ -1,0 +1,2612 @@
+{
+  "records": [
+    {
+      "kind": "rifle",
+      "pose": "rifle",
+      "url": "/assets/weapons/realism-v2/rifle_0.glb",
+      "duration": 1.65,
+      "bore": {
+        "source": {
+          "muzzle": [
+            0,
+            0.04300000115430781,
+            -0.6600000262260437
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            1.0127480864512218e-17,
+            0.04300000115430782,
+            -0.6600000262260437
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.31764371083590637,
+            0.9025624018767066,
+            -0.8067416598112438
+          ],
+          "worldDirection": [
+            0.21665900886096634,
+            -0.3408722655310225,
+            -0.9148032424904996
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933273,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933273,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "smg",
+      "pose": "rifle",
+      "url": "/assets/weapons/unique-v1/smg_0.glb",
+      "duration": 1.5,
+      "bore": {
+        "source": {
+          "muzzle": [
+            9.479579771756363e-12,
+            0.0451084341719208,
+            -0.42000001668930054
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            9.479605740357796e-12,
+            0.04510843417192081,
+            -0.42000001668930054
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.26581118411732946,
+            0.9863539002595166,
+            -0.5878882498986951
+          ],
+          "worldDirection": [
+            0.21665900886096634,
+            -0.3408722655310225,
+            -0.9148032424904996
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933275,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933275,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "shotgun",
+      "pose": "shotgun",
+      "url": "/assets/weapons/realism-v2/shotgun_0.glb",
+      "duration": 2.1,
+      "bore": {
+        "source": {
+          "muzzle": [
+            4.74104519383358e-12,
+            0.05314123400301629,
+            -0.6570000052452087
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            4.7410272299346046e-12,
+            0.053141234003016305,
+            -0.6570000052452086
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.31779036310600867,
+            0.9131188670899905,
+            -0.8073610438538403
+          ],
+          "worldDirection": [
+            0.2166589596704761,
+            -0.3408723060048596,
+            -0.914803239059327
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Shotgun_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.23705787585141966,
+              1.0116070868645646,
+              -0.1948435872255424
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Shotgun_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.23705787585141966,
+              1.0116070868645646,
+              -0.1948435872255424
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.26940149405599834,
+              1.0105526652146044,
+              -0.18363563723899892
+            ],
+            "right": [
+              0.200975592176516,
+              1.108853122124335,
+              -0.12758422461626073
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.26940149405599834,
+              1.0105526652146044,
+              -0.18363563723899892
+            ],
+            "right": [
+              0.200975592176516,
+              1.108853122124335,
+              -0.12758422461626073
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.266344298062962,
+              0.9873715210216848,
+              -0.1589168655418633
+            ],
+            "right": [
+              0.20097556445963144,
+              1.1088531270214086,
+              -0.12758423571795682
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.266344298062962,
+              0.9873715210216848,
+              -0.1589168655418633
+            ],
+            "right": [
+              0.20097556445963144,
+              1.1088531270214086,
+              -0.12758423571795682
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24652168700975305,
+              1.0932608780097868,
+              -0.23773255732654114
+            ],
+            "right": [
+              0.20097553674274649,
+              1.1088531319184822,
+              -0.1275842468196552
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24652168700975305,
+              1.0932608780097868,
+              -0.23773255732654114
+            ],
+            "right": [
+              0.20097553674274649,
+              1.1088531319184822,
+              -0.1275842468196552
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "slug",
+      "pose": "shotgun",
+      "url": "/assets/weapons/unique-v1/slug_0.glb",
+      "duration": 2.2,
+      "bore": {
+        "source": {
+          "muzzle": [
+            1.3666091502373666e-11,
+            0.054156318401125655,
+            -0.6600000858306885
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            1.3666079155927962e-11,
+            0.054156318401125676,
+            -0.6600000858306884
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.3185200998953133,
+            0.9130505131906145,
+            -0.810442227104691
+          ],
+          "worldDirection": [
+            0.2166589596704761,
+            -0.3408723060048596,
+            -0.914803239059327
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Shotgun_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.23705787585141966,
+              1.0116070868645646,
+              -0.1948435872255424
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Shotgun_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.23705787585141966,
+              1.0116070868645646,
+              -0.1948435872255424
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.26940149405599834,
+              1.0105526652146044,
+              -0.18363563723899892
+            ],
+            "right": [
+              0.200975592176516,
+              1.108853122124335,
+              -0.12758422461626073
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.26940149405599834,
+              1.0105526652146044,
+              -0.18363563723899892
+            ],
+            "right": [
+              0.200975592176516,
+              1.108853122124335,
+              -0.12758422461626073
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.266344298062962,
+              0.9873715210216848,
+              -0.1589168655418633
+            ],
+            "right": [
+              0.20097556445963144,
+              1.1088531270214086,
+              -0.12758423571795682
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.266344298062962,
+              0.9873715210216848,
+              -0.1589168655418633
+            ],
+            "right": [
+              0.20097556445963144,
+              1.1088531270214086,
+              -0.12758423571795682
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24652168700975305,
+              1.0932608780097868,
+              -0.23773255732654114
+            ],
+            "right": [
+              0.20097553674274649,
+              1.1088531319184822,
+              -0.1275842468196552
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24652168700975305,
+              1.0932608780097868,
+              -0.23773255732654114
+            ],
+            "right": [
+              0.20097553674274649,
+              1.1088531319184822,
+              -0.1275842468196552
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "rocket",
+      "pose": "rocket",
+      "url": "/assets/weapons/realism-v2/rocket_0.glb",
+      "duration": 2.7,
+      "bore": {
+        "source": {
+          "muzzle": [
+            -5.6311492233464935e-11,
+            0.09003758697816415,
+            -0.6029999852180481
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            -5.631149321315641e-11,
+            0.09003758697816416,
+            -0.6029999852180481
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.1509567898011945,
+            1.4289738441879756,
+            -0.8349672073736559
+          ],
+          "worldDirection": [
+            -0.0000012353416084796066,
+            -8.033644490003292e-7,
+            -0.9999999999989143
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Rocket_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.19295262550064024,
+              1.316378003950108,
+              -0.3208876365481559
+            ],
+            "right": [
+              0.19842210453973233,
+              1.2522333579445772,
+              -0.11121312358099136
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Rocket_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.19295262550064024,
+              1.316378003950108,
+              -0.3208876365481559
+            ],
+            "right": [
+              0.19842210453973233,
+              1.2522333579445772,
+              -0.11121312358099136
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              -0.16973349968356247,
+              1.0459084514594217,
+              -0.2283533796093392
+            ],
+            "right": [
+              0.19801544202282909,
+              1.2521613703460763,
+              -0.11146986432781887
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              -0.16973349968356247,
+              1.0459084514594217,
+              -0.2283533796093392
+            ],
+            "right": [
+              0.19801544202282909,
+              1.2521613703460763,
+              -0.11146986432781887
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.03432850288568032,
+              1.3078162637373532,
+              -0.24976778421872814
+            ],
+            "right": [
+              0.19801544748146344,
+              1.2521613921042998,
+              -0.1114698557722262
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.03432850288568032,
+              1.3078162637373532,
+              -0.24976778421872814
+            ],
+            "right": [
+              0.19801544748146344,
+              1.2521613921042998,
+              -0.1114698557722262
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.062008113981707,
+              1.2958899009142844,
+              -0.27129762361527937
+            ],
+            "right": [
+              0.19801545294009953,
+              1.252161413862523,
+              -0.11146984721663566
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.062008113981707,
+              1.2958899009142844,
+              -0.27129762361527937
+            ],
+            "right": [
+              0.19801545294009953,
+              1.252161413862523,
+              -0.11146984721663566
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "heavy",
+      "pose": "rocket",
+      "url": "/assets/weapons/unique-v1/heavy_0.glb",
+      "duration": 4,
+      "bore": {
+        "source": {
+          "muzzle": [
+            -2.886642755911637e-10,
+            0.09014953864759621,
+            -0.6200000047683716
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            -2.886642756037733e-10,
+            0.09014953864759623,
+            -0.6200000047683716
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.15095676846306283,
+            1.429085782177423,
+            -0.851967222011499
+          ],
+          "worldDirection": [
+            -0.0000012353416084796066,
+            -8.033644490003292e-7,
+            -0.9999999999989143
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Rocket_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.19295262550064024,
+              1.316378003950108,
+              -0.3208876365481559
+            ],
+            "right": [
+              0.19842210453973233,
+              1.2522333579445772,
+              -0.11121312358099136
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Rocket_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.19295262550064024,
+              1.316378003950108,
+              -0.3208876365481559
+            ],
+            "right": [
+              0.19842210453973233,
+              1.2522333579445772,
+              -0.11121312358099136
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              -0.16973349968356233,
+              1.0459084514594221,
+              -0.2283533796093393
+            ],
+            "right": [
+              0.19801544202282909,
+              1.2521613703460763,
+              -0.11146986432781887
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              -0.16973349968356233,
+              1.0459084514594221,
+              -0.2283533796093393
+            ],
+            "right": [
+              0.19801544202282909,
+              1.2521613703460763,
+              -0.11146986432781887
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.03432850288568032,
+              1.3078162637373532,
+              -0.24976778421872814
+            ],
+            "right": [
+              0.19801544748146344,
+              1.2521613921042998,
+              -0.1114698557722262
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.03432850288568032,
+              1.3078162637373532,
+              -0.24976778421872814
+            ],
+            "right": [
+              0.19801544748146344,
+              1.2521613921042998,
+              -0.1114698557722262
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.062008113981707,
+              1.2958899009142844,
+              -0.27129762361527937
+            ],
+            "right": [
+              0.19801545294009953,
+              1.252161413862523,
+              -0.11146984721663566
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Rocket_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.062008113981707,
+              1.2958899009142844,
+              -0.27129762361527937
+            ],
+            "right": [
+              0.19801545294009953,
+              1.252161413862523,
+              -0.11146984721663566
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "sniper",
+      "pose": "rifle",
+      "url": "/assets/weapons/unique-v1/sniper_0.glb",
+      "duration": 2.4,
+      "bore": {
+        "source": {
+          "muzzle": [
+            6.743356103080045e-12,
+            0.046077132481599316,
+            -0.6999999284744263
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            6.7433861907357054e-12,
+            0.04607713248159932,
+            -0.6999999284744263
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.3265517813589058,
+            0.8918203858420677,
+            -0.8443543709991378
+          ],
+          "worldDirection": [
+            0.21665900886096634,
+            -0.3408722655310225,
+            -0.9148032424904996
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933275,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933275,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "laser",
+      "pose": "rifle",
+      "url": "/assets/weapons/unique-v1/laser_0.glb",
+      "duration": 3,
+      "bore": {
+        "source": {
+          "muzzle": [
+            0,
+            0.05000000132713467,
+            -0.6600000262260437
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            3.066485144513168e-17,
+            0.050000001327134676,
+            -0.6600000262260437
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.31819361396791135,
+            0.9091431681063832,
+            -0.8090635355357367
+          ],
+          "worldDirection": [
+            0.21665900886096634,
+            -0.3408722655310225,
+            -0.9148032424904996
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933275,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933275,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "kick",
+      "pose": "shotgun",
+      "url": "/assets/weapons/unique-v1/kick_0.glb",
+      "duration": 2.4,
+      "bore": {
+        "source": {
+          "muzzle": [
+            1.8016591138913122e-11,
+            0.04770608505113038,
+            -0.5200000405311584
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            1.801658616747876e-11,
+            0.047706085051130394,
+            -0.5200000405311583
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.2876811238878384,
+            0.9547087225977849,
+            -0.6802302217918448
+          ],
+          "worldDirection": [
+            0.2166589596704761,
+            -0.3408723060048596,
+            -0.914803239059327
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Shotgun_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.23705787585141966,
+              1.0116070868645646,
+              -0.1948435872255424
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Shotgun_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.23705787585141966,
+              1.0116070868645646,
+              -0.1948435872255424
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.26940149405599834,
+              1.0105526652146044,
+              -0.18363563723899892
+            ],
+            "right": [
+              0.200975592176516,
+              1.108853122124335,
+              -0.12758422461626073
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.26940149405599834,
+              1.0105526652146044,
+              -0.18363563723899892
+            ],
+            "right": [
+              0.200975592176516,
+              1.108853122124335,
+              -0.12758422461626073
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.266344298062962,
+              0.9873715210216848,
+              -0.1589168655418633
+            ],
+            "right": [
+              0.20097556445963144,
+              1.1088531270214086,
+              -0.12758423571795682
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.266344298062962,
+              0.9873715210216848,
+              -0.1589168655418633
+            ],
+            "right": [
+              0.20097556445963144,
+              1.1088531270214086,
+              -0.12758423571795682
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24652168700975305,
+              1.0932608780097868,
+              -0.23773255732654114
+            ],
+            "right": [
+              0.20097553674274649,
+              1.1088531319184822,
+              -0.1275842468196552
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Shotgun_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24652168700975305,
+              1.0932608780097868,
+              -0.23773255732654114
+            ],
+            "right": [
+              0.20097553674274649,
+              1.1088531319184822,
+              -0.1275842468196552
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "medic",
+      "pose": "rifle",
+      "url": "/assets/weapons/unique-v1/medic_0.glb",
+      "duration": 2.6,
+      "bore": {
+        "source": {
+          "muzzle": [
+            1.1028819962551718e-9,
+            0.045000002033224226,
+            -0.4991056025028229
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "actual": {
+          "muzzle": [
+            1.1028820052939942e-9,
+            0.045000002033224226,
+            -0.4991056025028229
+          ],
+          "forward": [
+            0,
+            0,
+            -1
+          ],
+          "worldMuzzle": [
+            0.2829416034961425,
+            0.9592870640313735,
+            -0.6602183238453662
+          ],
+          "worldDirection": [
+            0.21665900886096634,
+            -0.3408722655310225,
+            -0.9148032424904996
+          ]
+        }
+      },
+      "captures": [
+        {
+          "state": "手持ち",
+          "view": "front",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "手持ち",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "back",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "背負い",
+          "view": "side",
+          "mode": "normal_Rifle_idle_ready",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.20273390828742485,
+              1.0165257478339151,
+              -0.3274451725616521
+            ],
+            "right": [
+              0.18448370534651723,
+              1.046764752204639,
+              -0.038544392788643994
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933275,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 25%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.24754606326381945,
+              1.0269242491933275,
+              -0.2686328707801209
+            ],
+            "right": [
+              0.2009755787429754,
+              1.1088531753251574,
+              -0.12758420845246357
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 50%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.246131713810483,
+              0.9532613788426709,
+              -0.1408342098377527
+            ],
+            "right": [
+              0.20097555536869774,
+              1.1088532354851206,
+              -0.1275841871636964
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "front",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        },
+        {
+          "state": "装填 75%",
+          "view": "side",
+          "mode": "normal_Rifle_reload_idle",
+          "parents": [
+            "RightHandWeaponSocket",
+            "BackWeaponSocket_2"
+          ],
+          "hands": {
+            "left": [
+              0.2574382542094905,
+              1.048487132323597,
+              -0.27187795726981256
+            ],
+            "right": [
+              0.20097553199441662,
+              1.1088532956450812,
+              -0.12758416587493188
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "kind": "rifle",
+      "file": "public\\assets\\weapons\\realism-v2\\rifle_0.glb",
+      "bytes": 792224,
+      "sha256": "5a5539736338946c43f070e20203c08ce3ffa27cf23f999c701e922c9321a537"
+    },
+    {
+      "kind": "smg",
+      "file": "public\\assets\\weapons\\unique-v1\\smg_0.glb",
+      "bytes": 446420,
+      "sha256": "4397636d163e7128a5308621989da0378d8a46ad1688b75ae81c5957f5648ee6"
+    },
+    {
+      "kind": "shotgun",
+      "file": "public\\assets\\weapons\\realism-v2\\shotgun_0.glb",
+      "bytes": 444960,
+      "sha256": "37ffc6c7a90abe35e1d4c4a1b7b1581bfa4274d14788c7ed21c66428d6e63061"
+    },
+    {
+      "kind": "slug",
+      "file": "public\\assets\\weapons\\unique-v1\\slug_0.glb",
+      "bytes": 496528,
+      "sha256": "d0cf1897b70e0d6aa3fa1e3dae1713a98f4acc2f4c5c150dd075a4b2725ec1c5"
+    },
+    {
+      "kind": "rocket",
+      "file": "public\\assets\\weapons\\realism-v2\\rocket_0.glb",
+      "bytes": 483424,
+      "sha256": "af11c626d8e82dbc277d0a04e54df0ce4c2645cc9be728a1f9450669dd004a40"
+    },
+    {
+      "kind": "heavy",
+      "file": "public\\assets\\weapons\\unique-v1\\heavy_0.glb",
+      "bytes": 411152,
+      "sha256": "567a09e5c157f57aada741e5dd9e9df45b8a4de1a805b89a60a8a22e48fffdcc"
+    },
+    {
+      "kind": "sniper",
+      "file": "public\\assets\\weapons\\unique-v1\\sniper_0.glb",
+      "bytes": 278580,
+      "sha256": "5c8b54a98ac5f3cb52e3057e64bffa6555df9de48582ad53c37891696e4bd950"
+    },
+    {
+      "kind": "laser",
+      "file": "public\\assets\\weapons\\unique-v1\\laser_0.glb",
+      "bytes": 361276,
+      "sha256": "c069f203700b9dc3997ff7c43fbbfbfdcd70b7d3edec2161c1cbd6fa62713cf5"
+    },
+    {
+      "kind": "kick",
+      "file": "public\\assets\\weapons\\unique-v1\\kick_0.glb",
+      "bytes": 351632,
+      "sha256": "798ac1cab23024572be38ba87ec24f320989258fe97b49a1a3a7eeb3154024ff"
+    },
+    {
+      "kind": "medic",
+      "file": "public\\assets\\weapons\\unique-v1\\medic_0.glb",
+      "bytes": 464100,
+      "sha256": "8450aaf811664caa0051506f52cb2c0def38880279c9ffd4e8942616808f9436"
+    }
+  ],
+  "errors": [],
+  "limitations": [
+    "実際の射撃線・銃口エフェクト・ゲーム画面・詳細プレビュー・共有画像は本ツールでは未検証",
+    "背負いのめり込みと装填中の手は画像の目視判断が必要",
+    "実スマートフォン・音・負荷は未検証"
+  ]
+}

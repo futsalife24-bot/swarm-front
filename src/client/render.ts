@@ -38,7 +38,7 @@ import { enemyGeometry, mechanizeMaterial } from "./enemy-model";
 import {
   ENEMIES,
   EVADE_DURATION,
-  modelOf,
+  poseOf,
   zoomOf,
   type Block,
 } from "../shared/defs";
@@ -1168,7 +1168,7 @@ export class Renderer {
         if (!m.userData.trooper)
           gun.scale.setScalar(
             { rocket: 1.7, shotgun: 1.2, rifle: 1 }[
-              modelOf(p.weapons[p.slot].kind)
+              poseOf(p.weapons[p.slot].kind)
             ],
           );
       }

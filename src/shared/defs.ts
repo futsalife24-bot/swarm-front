@@ -286,13 +286,25 @@ export const WEAPONS = {
   },
 } as const;
 export const familyOf = (kind: Kind): Family => WEAPONS[kind].family;
-// Which shipped model a weapon is drawn with. Only the three original kinds
-// have GLBs (`<name>_<grade>.glb`), so every kind must resolve to one of them
-// or its model request 404s and the battle never finishes loading. This is the
-// silhouette a weapon is held with, which is not always its family: the
-// kickback blast is a special-family weapon shaped like a shotgun.
-export type ModelKind = "rifle" | "shotgun" | "rocket";
+// Each weapon has its own silhouette; holding animations remain independent.
+export type ModelKind = Kind;
 export const MODEL_OF: Record<Kind, ModelKind> = {
+  rifle: "rifle",
+  smg: "smg",
+  shotgun: "shotgun",
+  slug: "slug",
+  rocket: "rocket",
+  heavy: "heavy",
+  sniper: "sniper",
+  grenade: "grenade",
+  sticky: "sticky",
+  laser: "laser",
+  kick: "kick",
+  medic: "medic",
+};
+export const modelOf = (kind: Kind): ModelKind => MODEL_OF[kind];
+export type WeaponPose = "rifle" | "shotgun" | "rocket";
+export const POSE_OF: Record<Kind, WeaponPose> = {
   rifle: "rifle",
   smg: "rifle",
   shotgun: "shotgun",
@@ -306,7 +318,7 @@ export const MODEL_OF: Record<Kind, ModelKind> = {
   kick: "shotgun",
   medic: "rifle",
 };
-export const modelOf = (kind: Kind): ModelKind => MODEL_OF[kind];
+export const poseOf = (kind: Kind): WeaponPose => POSE_OF[kind];
 // Support fire is checked against a deliberately generous cylinder. A teammate
 // is a moving, friendly target that the player is trying to help, so the cost
 // of being slightly off should be a smaller heal, never a wasted round.

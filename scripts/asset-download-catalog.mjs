@@ -22,8 +22,9 @@ export function collectCurrentAssetPacks(root) {
   const source = (file) => fs.readFileSync(path.join(root, file), "utf8");
   const motion = source("src/client/enemy-motion-assets.ts");
   const trooper = source("src/client/standard-trooper.ts");
-  const weapon = source("src/client/progression-weapons.ts");
-  if (!weapon.includes("assets/weapons/realism-v2/${id}.glb"))
+  const weapon = source("src/client/weapon-model-url.ts");
+  if (!weapon.includes('"realism-v2"') || !weapon.includes('"unique-v1"') ||
+      !weapon.includes("assets/weapons/${directory}/${model}_${rarity}.glb"))
     throw new Error("Weapon loader layout changed");
   const actors = [
     `assets/characters/${one(trooper, /(swarm-soldier\.glb\?v=[a-f0-9]+)/g, "soldier")}`,
@@ -46,10 +47,12 @@ export function collectCurrentAssetPacks(root) {
   ).map((file) => `assets/buddy/portraits/${file}`);
   if (buddies.length !== 4 || unique(buddies).length !== 4)
     throw new Error("Buddy asset catalog changed; review adopted models");
-  const weapons = ["rifle", "shotgun", "rocket"].flatMap((kind) =>
+  const originalWeapons = ["rifle", "shotgun", "rocket"];
+  const uniqueWeapons = ["smg", "slug", "heavy", "sniper", "laser", "grenade", "sticky", "kick", "medic"];
+  const weapons = [...originalWeapons, ...uniqueWeapons].flatMap((kind) =>
     Array.from(
       { length: 5 },
-      (_, rarity) => `assets/weapons/realism-v2/${kind}_${rarity}.glb`,
+      (_, rarity) => `assets/weapons/${originalWeapons.includes(kind) ? "realism-v2" : "unique-v1"}/${kind}_${rarity}.glb`,
     ),
   );
   const audio = source("src/client/audio.ts");

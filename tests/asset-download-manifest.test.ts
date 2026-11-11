@@ -211,17 +211,43 @@ describe("事前保存manifestの生成", () => {
       "movies",
     ]);
     const common = packs.find((p: any) => p.id === "common")!.urls;
+    const weaponFiles = common.filter((url: string) =>
+      url.startsWith("assets/weapons/"),
+    );
+    expect(weaponFiles).toHaveLength(60);
+    for (const kind of [
+      "rifle",
+      "shotgun",
+      "rocket",
+      "smg",
+      "slug",
+      "heavy",
+      "sniper",
+      "laser",
+      "grenade",
+      "sticky",
+      "kick",
+      "medic",
+    ]) {
+      const directory = ["rifle", "shotgun", "rocket"].includes(kind)
+        ? "realism-v2"
+        : "unique-v1";
+      for (let rarity = 0; rarity < 5; rarity++)
+        expect(weaponFiles).toContain(
+          `assets/weapons/${directory}/${kind}_${rarity}.glb`,
+        );
+    }
     expect(
       common.filter((url: string) => url.startsWith("assets/buddy/")),
     ).toEqual([
-      "assets/buddy/oriha-v3.glb",
+      "assets/buddy/oriha-textured-20261107.glb",
       "assets/buddy/portraits/oriha.webp",
       "assets/buddy/portraits/tatara.webp",
       "assets/buddy/portraits/tobari.webp",
       "assets/buddy/portraits/yosuga.webp",
-      "assets/buddy/tatara-v3.glb",
-      "assets/buddy/tobari-v7.glb",
-      "assets/buddy/yosuga-v5.glb",
+      "assets/buddy/tatara-textured-20261107.glb",
+      "assets/buddy/tobari-textured-20261107.glb",
+      "assets/buddy/yosuga-textured-20261107.glb",
     ]);
     for (const id of [
       "fire-rounds",
