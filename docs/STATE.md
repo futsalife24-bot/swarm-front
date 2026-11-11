@@ -1,3 +1,7 @@
+# 鍵の解除SEを本人が正式採用（2026-11-11）
+
+本人が「いいね！採用。これで更新かけて公開して」と確定。既に配信済みの同一音を再照合し、Version 4c7843fb-ce67-47a3-900d-d0f974dc184dの100%配信、音源/再生JS/試聴MP3のSHA一致、health200を確認。製品差分なしのため再デプロイ不要。採用は本人の試聴判断であり、過去の開発側実聴未確認と区別する。証拠 docs/evidence/supply-lock-se-20261111/release/adoption-check.json。
+
 # 補給箱SEを鍵のロック解除音へ再修正・公開済み（2026-11-11）
 
 本人が前回の開蓋音を見送り、「ガチャって鍵を開けた感じ」を指定。CC0の鍵とボルトの実録#0191の二段の打撃へ差替え、約0.4秒・音階なし。実Chromeの表示fixtureで10箱分の新波形再生・全rate1・例外0を確認。描画/時刻/券/報酬は変更なし。base ce6c775、branch codex/supply-lock-se-20261111。PR310を通常mergeし、source fd9e4ddから既存Worker Version 4c7843fb-ce67-47a3-900d-d0f974dc184dを100%公開。本体36＋演出23ファイルSHA一致・health200・公開MP3再生成功。[詳細](evidence/supply-lock-se-20261111/RELEASE.md)。

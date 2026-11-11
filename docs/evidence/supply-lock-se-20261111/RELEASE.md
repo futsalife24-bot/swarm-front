@@ -12,3 +12,7 @@
 - merge済みmainから本体build/dry-run/deploy成功（既存大chunk警告は維持）。本体36＋演出23ファイルSHA一致、health200/ok。release/build-manifest.json、delivery.json、supply-delivery.json。
 - 公開MP3を実Chromeで読込み・クリック再生し、duration5.2秒/再生進行/例外0を確認。release/public-audio.json。試聴URL https://swarm-front.melosalife-24.workers.dev/supply-reveal/assets/crate-open-preview.mp3?v=lock-20261111 。公開側のゲーム本体10連操作/実スマホ/耳での試聴は未実施。
 - 検証は既存check-supply-crate-public-audio.mjsの出力先と試聴クエリだけを差替えたコピーを使用。公開後branch codex/supply-lock-se-record-20261111は記録のみで製品再公開不要。元root/別worktreeの差分を保持、専用HEADをorigin/mainと一致・cleanへ同期する。
+
+## 本人の正式採用（2026-11-11）
+
+本人が「いいね！採用。これで更新かけて公開して」と指示。既に同じ音を公開済みのため、現在の100%配信とsfx.js/PCM/MP3のSHA一致・health200を再確認した。adoption-check.json。製品差分なしで再公開は行わず、採用決定のみ記録する。本人の試聴による採用と開発側の確認範囲を区別する。
