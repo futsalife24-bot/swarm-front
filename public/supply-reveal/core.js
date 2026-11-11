@@ -70,7 +70,7 @@ export function build(results, reduced = false) {
   cue(B, 'call'); cue(B, 'bed', { vol: 0.45 }); cue(B, 'slam', { vol: 0.75, buzz: 45 }); shake(B, 6, 0.3);
   // 開封（ポッドの溜めが終わった時刻 t から）
   const open = (p, t, j) => {
-    if (multi && p.tier <= 2) { p.wave = true; p.hold = [t, t]; p.tOpen = t; cue(t, p.tier === 2 ? 'pop_r' : 'pop', { rate: 2 ** (PENTA[j] / 12), pan: p.pan, vol: 0.95, buzz: 15 }); shake(t, 2.5, 0.2); return t; }
+    if (multi && p.tier <= 2) { p.wave = true; p.hold = [t, t]; p.tOpen = t; cue(t, p.tier === 2 ? 'pop_r' : 'pop', { rate: 1, pan: p.pan, vol: 0.95, buzz: 15 }); shake(t, 2.5, 0.2); return t; }
     const hd = p.tier >= 4 ? 0.6 * q : 0; p.hold = [t, t + hd]; if (hd) cue(t, 'hold'); t += hd;
     p.tOpen = t; cue(t, 'open' + p.tier, { pan: p.pan * 0.6, buzz: p.tier >= 4 ? [60, 40, 120] : p.tier === 3 ? 60 : 20 });
     shake(t, [2, 2, 3, 7, 15, 15][p.tier], p.tier >= 4 ? 0.6 : 0.3);
