@@ -3,6 +3,8 @@
 担当: Claude（設計と1丁目の試作まで）。量産・本体への組み込み・main反映は Codex。
 量産の手順は [PRODUCTION.md](PRODUCTION.md)、12丁の目標形は [silhouettes/silhouettes.png](silhouettes/silhouettes.png)、試作の画像は [out/laser/views.png](out/laser/views.png)。
 
+2026-11-12追記: 本人提供の[9点の非武装小道具画像](concepts/user-reference-9.png)は素材・装甲・機構密度の参考とする。武器の輪郭、目印、握り位置、構えは本書の条件を維持し、参考画像をそのまま武器の図面と見なさない。[画像との対応と方針](concepts/DIRECTION.md)。
+
 ## 1. 目的と前提
 
 今は12丁が3つの形（ライフル・ショットガン・ロケット）を使い回している。12丁それぞれに別の形を与える。
