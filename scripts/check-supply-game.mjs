@@ -1,7 +1,7 @@
 import { chromium, expect } from '@playwright/test';
 import fs from 'node:fs';
 const origin=process.env.SUPPLY_SITE||'http://127.0.0.1:8796';
-const out='docs/evidence/supply-kakutei-20261111/game';
+const out=process.env.SUPPLY_OUTPUT||'docs/evidence/supply-kakutei-20261111/game';
 fs.mkdirSync(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome',args:['--use-angle=d3d11','--mute-audio']});
 const report=[],errors=[];
