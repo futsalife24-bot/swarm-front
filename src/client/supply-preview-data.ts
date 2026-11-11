@@ -28,10 +28,7 @@ export function selectedSupplyPreview(effect: number) {
   const variance = Object.fromEntries(
     VARIANCE_KEYS.map((key) => [key, 0]),
   ) as Variances;
-  const rarities =
-    effect === 4
-      ? [2, 0, 1, 3, 0, 1, 0, 1, 0, 0]
-      : [3, 0, 1, 2, 0, 1, 0, 1, 0, 0];
+  const rarities = [3, 0, 1, 2, 0, 1, 0, 1, 0, 0];
   const rewards: SupplyReward[] = rarities.map((rarity, i) => ({
     type: "weapon",
     weapon: {
