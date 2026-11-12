@@ -1,6 +1,6 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
-公開前の代表URL確認（2026-11-12）: 既存Workerの `/assets/weapons/unique-v1/medic_0.glb` にHEADとGETを送るとHTTP 200・`text/html`、GET先頭4バイトは `<!do`。現時点でこのURLはGLBを返していない。代表1件のみで、45件全体や旧ブラウザーの保存状況は未確認。公開後にはGLBの実体・manifest・キャッシュを別途確認する。
+公開前のURL確認（2026-11-12）: 既存Workerの新武器45 URLにHEADを送り、すべてHTTP 200・`text/html` の応答を確認。代表の `medic_0.glb` はGETでも `text/html`、先頭4バイト `<!do` を返し、GLBではない。残り44件はGET本文未確認。旧ブラウザーの保存状況は未確認で、公開後にはGLBの実体・manifest・キャッシュを別途確認する。
 
 RL-9の既存環境反射隔離試作（2026-11-12、不採用）: 兵士生成時の環境をRL-9の金属2材質へ隔離適用し、参照を確認。ゲーム画面と詳細の画素に差は出たが、目視で明確な品質向上は判定できなかった。固定画面のGPU測定中央値は各12回で4.91→5.76ms、小標本で差は断定できない。起動時THREEシェーダー警告と既存の分析通信CORS失敗あり、試作後のGLエラー・ページ例外0。既存AR-9とLZ-2の材質情報は変化なし。[比較](evidence/weapon-models-20261111/weapon-env-rejected.png)、[測定](evidence/weapon-models-20261111/weapon-env-rejected-report.json)、[試作](evidence/weapon-models-20261111/weapon-env-rejected.js)。別武器・共有画像・混戦・実機は未確認、製品は変更しない。
 
