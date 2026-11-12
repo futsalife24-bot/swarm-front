@@ -1,5 +1,9 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+射撃線修正後のビルド（2026-11-12）: ソース `1bb61fe` の本番ビルドとWorker dry-runが成功。武器60件はmanifestのサイズ・ハッシュとpublic実体に一致し、既存15ファイルは基点から未変更。[測定](evidence/weapon-models-20261111/grenade-final-build-report.json)。公開環境と実端末は未確認。
+
+LZ-2の頂点AO隔離試作（2026-11-12、不採用）: 形状由来の陰影を頂点色へ焼き、100%と30%で比較。100%は銅色が黒くつぶれ、30%は詳細でも違いが小さく、容量増に見合う改善を確認できなかった。両案とも8,788三角形・材質6・約625KB、画像0、40項目合格・500KB目標超過の警告5件、5等級の識別色以外一致。上限や検査条件は変更せず、製品にも反映しない。[比較](evidence/weapon-models-20261111/laser-ao-rejected.png)、[検査](evidence/weapon-models-20261111/laser-ao-rejected-check.json)。通常対戦・共有画面・実機は未確認。
+
 GL-6・ST-3の短い射撃線修正（2026-11-12、制作途中）: 2m方向目印からの射撃線が初回描画前に寿命切れになる問題に対し、対象の線だけ実描画を待つようにした。描画されない場合は100msのタイマーで回収し、描画後・回収時・clear時・再利用時に状態を解除。既存の効果数上限は維持。正式コードでGL-6・ST-3の初回描画、対象外のRL-2・AR-9、180件満杯・残り1枠・最大90本待機・clearと再利用を検証。ゲーム・Worker型確認と関連11テストも成功。[条件と再現](evidence/weapon-models-20261111/grenade-first-draw.md)、[回収検証](evidence/weapon-models-20261111/grenade-first-draw-lifecycle.json)、[実ローカル射撃](evidence/weapon-models-20261111/grenade-first-draw-live.json)、[先行画素比較](evidence/weapon-models-20261111/grenade-first-draw-pixel.png)。100msはタイマー設定で厳密な経過時間上限ではない。描画コールバックは遮蔽なく見える証明ではなく、通常サイズの視認性・実戦負荷・通信・スマホ実機は未確認。
 
 12丁の初回射撃の画面投影（2026-11-12）: 844×390の実ローカル単独プレイで初回描画を測り、全12丁の銃口発光中心は同じカメラで投影した銃口と0px差。射撃線を持つ8丁では描画対象と移動方向を確認し、ロケット2丁は別の飛翔体を描画。GL-6・ST-3は射撃線を生成するが、測定した初回は寿命切れで描画前に消えていたため修正を隔離検証中。[比較](evidence/weapon-models-20261111/shot-screen.png)、[条件と結果](evidence/weapon-models-20261111/shot-screen.md)、[測定](evidence/weapon-models-20261111/shot-screen-report.json)。円は診断用の印で、遮蔽による実画素の可視・全飛行・他時点・通信・実機は未確認。飛翔体の生成は身体基準であり、描画時の位置は生成後の移動を含む。
