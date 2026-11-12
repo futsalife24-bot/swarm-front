@@ -1,0 +1,129 @@
+{
+  "triangles": 8020,
+  "materials": 6,
+  "bytes": 618856,
+  "originals": {
+    "Recess black": {
+      "color": [
+        0.008999999612569809,
+        0.014000000432133675,
+        0.01600000075995922,
+        1.0
+      ],
+      "roughness": 0.699999988079071,
+      "metallic": 0.10000000149011612,
+      "emission": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emission_strength": 0.0
+    },
+    "Metal steel": {
+      "color": [
+        0.06499999761581421,
+        0.07800000160932541,
+        0.08399999886751175,
+        1.0
+      ],
+      "roughness": 0.41999998688697815,
+      "metallic": 0.75,
+      "emission": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emission_strength": 0.0
+    },
+    "Metal gunmetal": {
+      "color": [
+        0.11999999731779099,
+        0.11500000208616257,
+        0.1599999964237213,
+        1.0
+      ],
+      "roughness": 0.44999998807907104,
+      "metallic": 0.699999988079071,
+      "emission": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emission_strength": 0.0
+    },
+    "Paint rust orange": {
+      "color": [
+        0.550000011920929,
+        0.20000000298023224,
+        0.05000000074505806,
+        1.0
+      ],
+      "roughness": 0.6000000238418579,
+      "metallic": 0.20000000298023224,
+      "emission": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emission_strength": 0.0
+    },
+    "Glow heat": {
+      "color": [
+        0.4000000059604645,
+        0.15000000596046448,
+        0.019999999552965164,
+        1.0
+      ],
+      "roughness": 0.4000000059604645,
+      "metallic": 0.0,
+      "emission": [
+        1.0,
+        0.44999998807907104,
+        0.07999999821186066,
+        1.0
+      ],
+      "emission_strength": 1.0
+    },
+    "Rarity identification": {
+      "color": [
+        0.20000000298023224,
+        0.25999999046325684,
+        0.27000001072883606,
+        1.0
+      ],
+      "roughness": 0.44999998807907104,
+      "metallic": 0.44999998807907104,
+      "emission": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "emission_strength": 0.0
+    }
+  },
+  "original_sha256": "3186fbedaf04fcb8b42632ad73ebd6936f29847a2e49af14eb76573c8418e3d9",
+  "production_unchanged": true,
+  "current_checker": "Expected FAIL: images prohibited; no criteria changed.",
+  "maps": [
+    "UV-packed geometry-aware color and wear",
+    "AO/roughness/metallic packed map"
+  ],
+  "limitations": "PBR proof only. Visual quality, game load, phone and checker validation pending.",
+  "atlas_dimensions": {
+    "base": [
+      512,
+      512
+    ],
+    "orm": [
+      256,
+      256
+    ]
+  },
+  "downsample": "Existing color atlas filtered in linear light; ORM filtered as non-color linear data; JPEG 88 4:4:4. No rebake.",
+  "gpu_texture_rgba8_with_mips_estimate_bytes": 1747626
+}
