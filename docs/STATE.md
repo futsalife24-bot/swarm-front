@@ -1,6 +1,6 @@
-# 補給演出・結果画面と単発演出確認を改修中（2026-11-12、公開前）
+# 補給演出・結果画面と単発演出確認を公開済み（2026-11-12）
 
-金射出の視認性、昇格文字の整理、結果の武器・バディ詳細、X共有と「次へ」、地割れの描画順、3種の確定演出の発動順、結果以下の初期箱色、タップ位置に累積する画面割れを改修し、[PR #323](https://github.com/futsalife24-bot/swarm-front/pull/323) をmainへ反映済み。追加依頼の開発者向け単発演出確認を作業中。通常抽選・報酬・保存は変更しない。先行8点は補給関連75件・型検査・ローカルbuild成功、隔離Workerと本体の試しガチャ2画面・通常10連で詳細復帰、保存不変、受領、SW旧CSS回避を検証し、画面例外0。[検証](evidence/supply-reveal-improvements-20261112/README.md)。実スマホ・聴感・公開環境の認証済み操作は未確認。追加分の検証・main反映・公開と配信照合は未完了。
+金射出の視認性、昇格文字の整理、結果の武器・バディ詳細、X共有と「次へ」、地割れの描画順、3種の確定演出の発動順、結果以下の初期箱色、タップ位置に累積する画面割れと開発者向け単発演出確認を改修。[PR #323](https://github.com/futsalife24-bot/swarm-front/pull/323)・[PR #324](https://github.com/futsalife24-bot/swarm-front/pull/324) を通常mergeし、公開ソース `9c587395e98d932cb870df34d285bbe045291f4e` を既存Worker Version `73ec3f1e-3bd0-4b4a-8a0f-c5f67507722a` に公開。通常抽選・報酬・保存は変更しない。補給関連76件・型検査・マージ後本番build・Worker dry-run成功。隔離Workerと本体の試しガチャ1連・10連を2画面、通常10連で詳細復帰、保存不変、受領、SW旧CSS回避を確認し画面例外0。[検証](evidence/supply-reveal-improvements-20261112/README.md)。公開36ファイルがbuildと一致しhealth正常。[配信照合](evidence/supply-reveal-improvements-20261112/published.json)。実スマホ・聴感・公開環境の認証済み操作・実X接続は未確認。
 
 # 補給ポッドの武器画像を修正・公開済み（2026-11-12）
 
