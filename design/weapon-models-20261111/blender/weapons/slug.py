@@ -1,13 +1,13 @@
 """SG-7 スパイク: 真鍮帯7本、銃身下の大棘、レバーを持つスラッグ銃。"""
 
-BORE = .054
+BORE = .080
 SPEC = dict(
     kind='slug', code='SG-7', name='SG-7 スパイク', family='shotgun', bore_z=BORE,
     inlay=(.031, -.03, .047),
     neon_profile=[[-.38, -.02, .023], [-.13, .02, .023], [-.07, .05, .03],
-                  [-.02, .08, .03], [.13, .08, .03], [.17, .092, .038],
-                  [.57, .092, .038], [.61, .082, .028], [.66, .082, .028],
-                  [.66, .026, .028], [.615, .026, .028], [.615, -.006, .018],
+                  [-.02, .08, .03], [.005, .112, .03], [.012, .155, .01], [.02, .192, .01], [.07, .192, .01], [.079, .155, .01], [.095, .112, .03], [.13, .112, .03], [.17, .138, .055],
+                  [.57, .138, .055], [.61, .128, .047], [.66, .128, .047],
+                  [.66, .032, .047], [.615, .032, .047], [.615, -.006, .018],
                   [.445, -.105, .018], [.42, -.04, .026], [.15, -.03, .024],
                   [.10, -.03, .01], [.085, -.137, .01], [-.045, -.137, .01],
                   [-.08, -.04, .023], [-.19, -.065, .023], [-.375, -.13, .023]],
@@ -20,6 +20,18 @@ def build(k):
     k.profile('Stock butt plate', [(-.38, -.02), (-.365, -.018), (-.36, -.125), (-.375, -.13)], .05, 'steel', .002)
     k.profile('Receiver', [(-.07, 0), (.13, 0), (.13, .08), (-.02, .08), (-.07, .05)], .06, 'steel', .003)
 
+    # Raised red-brown receiver crown links the existing grip to the thicker core.
+    k.profile('Leather receiver crown',[(-.035,.075),(.13,.075),(.13,.112),(-.018,.112)],.058,'leather',.002)
+    k.ring('Receiver forward collar',.13,BORE,.050,.043,'steel',.010,n=12)
+
+    # Raised brass carry loop echoes the reference's industrial handle.
+    import math
+    for i in range(10):
+        a=2*math.pi*i/10; b=2*math.pi*(i+1)/10
+        p=(0,.045+.031*math.cos(a),.151+.037*math.sin(a))
+        q=(0,.045+.031*math.cos(b),.151+.037*math.sin(b))
+        k.rod('Upper brass carry ring',p,q,.0038,'brass',6)
+
     # 大きなレバーの輪。金具の継ぎ目と支点も見せる。
     loop = [(-.055, -.03), (.07, -.03), (.093, -.11), (.075, -.136), (-.045, -.136), (-.075, -.095)]
     for (y1, z1), (y2, z2) in zip(loop, loop[1:] + loop[:1]):
@@ -30,26 +42,48 @@ def build(k):
         k.rod('Hinge screw', (s * .033, .072, .013), (s * .034, .072, .013), .004, 'black', 10)
 
     # 単銃身と七本の厚い真鍮帯。最後の3%は軸対称。
-    k.rod('Single barrel', (0, .13, BORE), (0, .66, BORE), .028, 'steel', 24)
+    k.rod('Single barrel', (0, .13, BORE), (0, .66, BORE), .044, 'steel', 24)
     for i in range(7):
-        k.ring('Wide brass barrel band', .19 + i * .06, BORE, .038, .027, 'brass', .024, n=20)
+        k.ring('Wide brass barrel band', .19 + i * .06, BORE, .055, .043, 'brass', .026, n=16)
         # 各帯を留める金具と芯の小ねじ。7本の帯自体は一続きの輪として保つ。
         y = .19 + i * .06
         for side in [-1, 1]:
-            k.box('Band clasp', (side * .038, y, BORE), (.004, .016, .017), 'black', 0)
-            k.rod('Band clasp screw', (side * .040, y, BORE), (side * .042, y, BORE), .0032, 'brass', 8)
+            k.box('Band clasp', (side * .055, y, BORE), (.004, .018, .020), 'black', 0)
+            k.rod('Band clasp screw', (side * .057, y, BORE), (side * .059, y, BORE), .0032, 'brass', 6)
     # 帯の間の冷却スリットと上部レールが、滑らかな銃身に機械的な層を作る。
     for i in range(6):
         y = .22 + i * .06
         # 七つの真鍮帯の間に、赤茶の革包みを細く見せる。
-        k.ring('Leather sleeve between bands', y, BORE, .0295, .028, 'leather', .014, n=16)
+        k.ring('Leather sleeve between bands', y, BORE, .048, .043, 'leather', .028, n=12)
         for side in [-1, 1]:
-            k.box('Barrel recessed panel', (side * .028, y, BORE), (.003, .022, .016), 'black', 0)
-            k.box('Barrel vent highlight', (side * .030, y, BORE), (.002, .013, .004), 'polymer', 0)
-        k.box('Upper barrel bridge', (0, y, .081), (.018, .024, .007), 'polymer', 0)
-        k.box('Bridge central seam', (0, y, .085), (.006, .014, .002), 'steel', 0)
-    k.ring('Muzzle lip', .654, BORE, .032, .021, 'black', .012, n=24)
-    k.rod('Muzzle recess', (0, .659, BORE), (0, .66, BORE), .020, 'black', 24)
+            k.box('Barrel recessed panel', (side * .0475, y, BORE), (.003, .022, .016), 'black', 0)
+            k.box('Barrel vent highlight', (side * .0495, y, BORE), (.002, .013, .004), 'polymer', 0)
+        k.box('Upper barrel bridge', (0, y, .128), (.018, .024, .007), 'polymer', 0)
+        # central seam omitted: the raised bridge and brass conduit remain
+    # Six layered leather panels sit between the seven fully continuous brass bands.
+    for i in range(6):
+        y=.22+i*.06
+        for side in [-1,1]:
+            k.profile('Leather armor patch',[(y-.014,.093),(y+.014,.093),
+                      (y+.014,.110),(y-.014,.110)],.002,'leather',0,x=side*.048)
+            k.box('Armor seam',(side*.0495,y,.101),(.0015,.017,.003),'polymer',0)
+            for dy in [0]:
+                k.rod('Leather patch stud',(side*.049,y+dy,.107),
+                      (side*.051,y+dy,.107),.002,'brass',6)
+    # Long pipes and clamps layer over the housing without hiding the seven bands.
+    for side in [-1,1]:
+        x=side*.025
+        pts=[(x,.145,.125),(x,.17,.145),(x,.28,.145),(x,.32,.142),
+             (x,.44,.142),(x,.48,.138),(x,.57,.128)]
+        for a,b in zip(pts,pts[1:]):k.rod('Upper brass conduit',a,b,.0028,'brass',6)
+        for y in [.17,.32,.48,.57]:
+            k.box('Conduit clamp',(x,y,.14),(.010,.008,.008),'steel',0)
+    # Each brace bridges the barrel and the existing narrow hand support.
+    for y in [.165,.34]:
+        k.box('Barrel underside brace',(0,y,.028),(.032,.014,.038),'steel',.001)
+    k.box('Spike attachment bracket',(0,.45,.023),(.030,.060,.034),'steel',.001)
+    k.ring('Muzzle lip', .654, BORE, .048, .034, 'black', .012, n=16)
+    k.rod('Muzzle recess', (0, .659, BORE), (0, .66, BORE), .033, 'black', 24)
     k.rod('Underbarrel magazine', (0, .14, -.002), (0, .44, -.002), .023, 'black', 20)
     k.ring('Magazine collar', .43, -.002, .026, .022, 'brass', .018, n=20)
     k.profile('Large underslung spike', [(.435, -.016), (.445, -.095), (.615, -.006), (.445, .018)], .036, 'steel', .002)
