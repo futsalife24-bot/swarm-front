@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+SMG-3の立体構造隔離試作（2026-11-12、不採用）: 前部を6枚の分割装甲と内側コア、中央を接続輪、後部を点検区画に変更。6,088三角形・材質6・341,296 bytes、40項目合格・警告0。多面図を見比べた結果、黄色い平面が目立ち、参考画像の厚みと複雑な機械感に届かないため採用しない。[比較](evidence/weapon-models-20261111/smg-structural-rejected.png)、[検査](evidence/weapon-models-20261111/smg-structural-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/smg-structural-rejected.py)。実ゲーム・動作・実機は未確認。
+
 装填中の手と武器の表面測定（2026-11-12）: 12丁の装填25・50・75%で、手の骨に重みのある面を抽出して武器との辺面交差を測定。左の抽出面は36条件すべて交差0、右は9丁で15〜48組だった。握りの接触とめり込みの深さは区別できず、抽出外の手表面や完全内包も判定できない。弾倉・指先の接触、連続動作、実ゲーム入力と実機も未確認。[条件と結果](evidence/weapon-models-20261111/reload-hand-skin.md)、[比較画像](evidence/weapon-models-20261111/reload-hand-skin.png)、[測定](evidence/weapon-models-20261111/reload-hand-skin-report.json)。
 
 LZ-2の箱形機関部隔離試作（2026-11-12、不採用）: 紫の本体、銅の枠、冷却窓を太くした案を比較。8,460三角形・材質6・483,616 bytes、40項目合格・警告0、発光材質と5等級の識別色以外は一致したが、詳細の実寸では差が小さく参考画像の重厚な印象に届かないため不採用。[比較](evidence/weapon-models-20261111/laser-box-rejected.png)、[検査](evidence/weapon-models-20261111/laser-box-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/laser-box-rejected.py)。候補ネオン・完全内包・動作中・実ゲーム・スマホは未確認。製品は変更していない。
