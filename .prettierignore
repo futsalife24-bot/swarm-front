@@ -1,0 +1,5 @@
+# 固定した旧保存の入力。tests/fixtures/save-regression/index.mjs が manifest.json の
+# SHA-256 とbyte単位で照合するため、整形で内容を変えない。
+tests/fixtures/save-regression/inventory-v1.json
+tests/fixtures/save-regression/progress-v2.json
+tests/fixtures/save-regression/shared-v2.json

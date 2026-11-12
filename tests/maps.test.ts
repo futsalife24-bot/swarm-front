@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { MAPS, STAGES } from "../src/shared/stages";
+import { HARROW_BRANCH, MAPS, STAGES } from "../src/shared/stages";
 import { blocked, createWorld, spawn } from "../src/shared/game";
 import { ENEMIES } from "../src/shared/defs";
 import { ARENA_X, ARENA_Z } from "../src/shared/arena";
@@ -95,9 +95,23 @@ it.each(MAPS.slice(3))(
     }
     expect(seen.size).toBe(open.size);
     const stage = STAGES.find((s) => MAPS[s.map] === map)!;
+    // HARROWは地上34.5mの空中から現れる（2026-10の空中遭遇仕様）。天井のある洞窟では
+    // 成立しないため、洞窟にHARROWを出す作戦が無いことを確かめたうえで対象から外す。
+    // 洞窟の作戦へHARROWを加える場合は、ここが失敗するので出現位置の扱いを先に決める。
+    const harrowStages = [...STAGES, HARROW_BRANCH].filter((s) =>
+      s.waves.some((wave) => wave.bosses.includes("harrow")),
+    );
+    expect(harrowStages.length).toBeGreaterThan(0);
+    const cave = map.blocks === CAVE_BLOCKS;
+    if (cave)
+      expect(harrowStages.filter((s) => MAPS[s.map] === map)).toEqual([]);
+    const kinds = (Object.keys(ENEMIES) as (keyof typeof ENEMIES)[]).filter(
+      (kind) => !(cave && kind === "harrow"),
+    );
+    expect(kinds).toHaveLength(Object.keys(ENEMIES).length - (cave ? 1 : 0));
     for (let seed = 1; seed <= 30; seed++) {
       const w = createWorld("entries", seed, stage.id);
-      for (const kind of Object.keys(ENEMIES) as (keyof typeof ENEMIES)[]) {
+      for (const kind of kinds) {
         spawn(w, kind);
         const e = w.enemies.at(-1)!;
         expect(blocked(e.x, e.z, ENEMIES[kind].radius, e.y, map.blocks)).toBe(

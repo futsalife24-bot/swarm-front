@@ -8,7 +8,12 @@ import {
   neutral,
   fire,
 } from "../src/shared/game";
-import { HEAVY_HIT_DURATION, WEAPON_SWITCH_DURATION } from "../src/shared/defs";
+import {
+  ENEMIES,
+  HEAVY_HIT_DURATION,
+  WEAPON_SWITCH_DURATION,
+} from "../src/shared/defs";
+import { enemyStatSize } from "../src/shared/enemy-size";
 function fixture() {
   const w = createWorld("trooper", 42),
     p = addPlayer(w, "p");
@@ -84,8 +89,17 @@ it("evaded boss damage and ordinary contact do not trigger the heavy clip", () =
   w.enemies = [];
   p.evade = 0;
   spawn(w, "crawler", 0, -1);
-  Object.assign(w.enemies[0], { wind: 0.01, tx: 0, tz: 0, active: true });
+  const pleat = w.enemies[0];
+  Object.assign(pleat, { wind: 0.01, tx: 0, tz: 0, active: true });
   step(w, {});
-  expect(p.hp).toBeLessThan(hp);
+  // 2026-11-06（PR288）以降のPLEATは予告後に踏み込み、その経路上で1回だけ当てる。
+  expect(pleat.pleat?.strike).toBeDefined();
+  expect(p.hp).toBe(hp);
+  for (let i = 0; pleat.pleat?.strike; i++) {
+    expect(i).toBeLessThan(8);
+    step(w, {});
+    expect(p.heavyHit ?? 0).toBe(0);
+  }
+  expect(p.hp).toBeCloseTo(hp - ENEMIES.crawler.damage * enemyStatSize(pleat));
   expect(p.heavyHit ?? 0).toBe(0);
 });

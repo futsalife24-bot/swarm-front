@@ -50,8 +50,12 @@ it("宝箱カードは選択操作を持たず、取得前後の段階を表示�
   v.treasure.reward = { kind: "coins", amount: 10 };
   expect(frontTreasureMarkup(v, "/", true)).toContain("帰還時に受け取り");
   v.treasure.reward = { kind: "heal", amount: 28.835476666666807 };
-  expect(frontTreasureMarkup(v, "/", true)).toContain("<strong>HP +29</strong>");
+  expect(frontTreasureMarkup(v, "/", true)).toContain(
+    "<strong>HP +29</strong>",
+  );
   expect(v.treasure.reward.amount).toBe(28.835476666666807);
   v.treasure.reward.amount = 20;
-  expect(frontTreasureMarkup(v, "/", true)).toContain("<strong>HP +20</strong>");
+  expect(frontTreasureMarkup(v, "/", true)).toContain(
+    "<strong>HP +20</strong>",
+  );
 });

@@ -32,9 +32,15 @@ describe("solo layout return screen routing", () => {
         },
       };
       let returnFromLayout: () => void;
+      let cueCancels = 0;
       const context = createContext({
         screen: original,
         paused: false,
+        // pause() は作戦表示を止め、進撃ソロ以外では共通の一時停止ボタンを出す。
+        world: undefined,
+        cancelOperationCue() {
+          cueCancels++;
+        },
         ui,
         hud: element,
         controls: { enabled: false, reset() {} },
@@ -76,6 +82,8 @@ describe("solo layout return screen routing", () => {
       expect(routed).toEqual([original]);
       expect(context.screen).toBe(original);
       expect(context.paused).toBe(true);
+      // 最初の停止と、配置画面から戻った後の再停止の2回。
+      expect(cueCancels).toBe(2);
       if (original === "collection") {
         expect(ui.childNodes).toEqual(nodes);
         expect(ui.hidden).toBe(false);
