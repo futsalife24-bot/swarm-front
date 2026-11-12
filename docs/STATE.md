@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+必須修正の検証完了・再監査送信待ち（2026-11-12）: 修正HEAD `8d44d6f3` の本番build・Worker dry-run成功。全60 GLBのmanifest/public/build一致と、ローカル本番90配信ファイルの一致、844×390・1280×720の開始/射撃/一時停止、画面例外0を確認。[build資産](evidence/weapon-models-20261111/audit-fix-build-assets.json)、[実HTTP/UI](evidence/weapon-models-20261111/audit-fix-built-release.json)。再監査差分ZIP約1.7MBを確定したが、自動承認審査が「初回ZIPの許可は修正版を含まない」として添付を拒否。本人へ今回と同じ監査の修正版送信を明示確認中。修正の独立再判定・main反映・既存Worker公開は未完了。
+
 独立監査の必須指摘へ対応（2026-11-12）: 初回判定は[要修正](evidence/weapon-models-20261111/audit-5b4a1aab.md)。P1のHTML誤キャッシュは新武器GLBのヘッダー確認と正常品による対象キーの回復を追加し、実SWの修正前再現・修正後の拒否/復旧/オフライン/Rangeを確認。P2の旧Worker相当投影による旧3形状への退行は、同kindの読込済みモデルを使う最小修正で、新9kind×3条件の手持ち/背負いを維持。exact等級を読込後の切替も確認。型確認と関連10テスト成功。造形・通信・性能値は変更せず、旧Workerでの等級色の制限は残る。次は修正ソースの本番ビルド・dry-runと同じChatでの再監査。main・公開はまだ行っていない。[詳細](evidence/weapon-models-20261111/release-audit.md)。
 
 独立監査へ送信済み・判定待ち（2026-11-12）: 本人の「許可する」を受け、確定ZIPを通常Chatへ送信。画面の添付名は `weapon-audit-5b4a1aab(1).zip`、内容SHA-256は `70c5029bcca0feb8b9e1a0732589045b8999b9d4debbcacdd23e9d6e4d9f0096`、監査対象は `5b4a1aab`。主担当が[監査Chat](https://chatgpt.com/c/6af56982-8070-83e8-928b-6d91dee8a9be)でZIPのSHA・収容物・実コード・GLB検査へ着手した旨を確認したが、独立判定はまだ出ていない。送信時PR HEAD `c4fce32f` は監査対象からSTATEと監査公開記録の2文書だけの差分であることをGit照合し、依頼本文にも明示済み。goalはactiveへの復帰を実取得で確認。main反映・Worker公開・公開後確認は未実施。[監査・公開記録](evidence/weapon-models-20261111/release-audit.md)。
