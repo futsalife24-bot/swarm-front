@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+再造形後のビルド・配信準備（2026-11-12）: ソース `37fa7cc` のゲーム・Worker型確認、本番ビルドとWorker dry-runが成功。本番ビルドの武器60ファイルはmanifestのサイズ・ハッシュとpublic実体に一致し、既存15ファイルは基点から未変更。[測定](evidence/weapon-models-20261111/reframe-build-report.json)。実Service Workerと保存処理を用いた隔離ブラウザーでは、60ファイルを明示保存後、オフラインで全件一致。[測定](evidence/weapon-models-20261111/cache-reframe-report.json)。公開環境・実端末・更新前にオフラインの端末は未確認。
+
 現行12丁の背負い静止検査（2026-11-12）: 最新のモデルで左右24条件を再測定し、変形後の体表と背負い武器の辺面交差は0組。武器を体側へ10cm移す正例では246組を検出。[測定](evidence/weapon-models-20261111/back-reframe-static-report.json)。完全内包・共面・連続動作・実地形・通信・実機は未確認で、ダウン時の床めり込みは別途残る。
 
 横向きダウンの隔離試作（2026-11-12、不採用）: 胴を90度回す案を3武器・左右で60Hz測定。静止時も身体が床下182mm、片側の背負い武器が床下199〜248mmとなり、復帰時の動きも不自然だったため採用しない。[記録](evidence/weapon-models-20261111/ground-side-probe.md)、[画像](evidence/weapon-models-20261111/ground-side-probe.png)、[測定](evidence/weapon-models-20261111/ground-side-probe-report.json)。横向き姿勢の全方式が不可能と分かったわけではない。
