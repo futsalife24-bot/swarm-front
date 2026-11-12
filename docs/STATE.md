@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+制作環境の確認（2026-11-12）: dxdiagの表示アダプタは Intel Iris Xe、専用メモリー128MB・共有16097MB。非表示の計算用GPUの有無は未確認。Blender 5.2.1は利用できる。調べたPython環境にはtorch等がなく、調べた標準キャッシュに画像から立体を作るモデルの重みはなかった。CPU対応をうたう候補も見つかったが、依存・重みの取得が必要で、当PCでの速度・品質・40項目への適合は未実証。インストール・ダウンロード・画像送信はしていない。
+
 SR-1の照準器・機関部隔離再設計（2026-11-12、不採用）: 奥まった照準器レンズ、独立した白装甲、赤茶の固定具と真鍮管を作り直した。7,332三角形・材質6・最大425,744 bytes、40項目合格・警告0。現行との差は小さく、一部の白い面はより平板に見え、参考画像の密度や材質感の明確な改善を確認できず不採用。[比較](evidence/weapon-models-20261111/sniper-redraw-rejected.png)、[検査](evidence/weapon-models-20261111/sniper-redraw-rejected-check.json)、[試作](evidence/weapon-models-20261111/sniper-redraw-rejected.py)。実ゲーム・干渉・共有・実機は未確認、製品は変更しない。
 
 ダウン時背負い武器の複数軸隔離試作（2026-11-12、不採用）: SG-4とSR-1の左右4条件で、静止時に床上2mm・体表と手持ちの辺面交差0となる配置を有限探索。静止候補を倒れる途中と復帰を含む211フレームに適用すると、4条件すべてで床上2mmを下回り、最深は床下15〜97mm、2条件で体表と手持ちの交差も出た。補正を0へ戻した後の位置・回転残留は0。復帰の1フレーム350〜369mm程度の大きな変化は現行にもあり、試作だけの原因とは断定できない。[比較](evidence/weapon-models-20261111/weapon-composite-rejected.png)、[静止](evidence/weapon-models-20261111/weapon-composite-static-report.json)、[連続](evidence/weapon-models-20261111/weapon-composite-timeline-report.json)、[現行比較](evidence/weapon-models-20261111/weapon-composite-motion-report.json)。全組合せ・完全内包・実ゲーム・実機は未確認、製品は変更しない。
