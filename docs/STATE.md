@@ -1,5 +1,11 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+短筒RL-9を含む背負い静止位置（2026-11-12）: 現在の12種×背負い2位置で、変形後の体表と武器の辺・面交差は24条件すべて0組。武器を体側へ10cm移した正例は246組を検出。[測定](evidence/weapon-models-20261111/heavy-short-back-surface-report.json)。完全内包、共平面、深さ、連続動作、実ゲーム・実機は対象外。ダウン時の床下は別途未解決。
+
+SMG-3の立体傷隔離試作（2026-11-12）: 既存材質を使い塗装欠け50か所を立体で追加。8,016三角形・材質6・最大489,480 bytes、正規40項目合格・警告0、5等級の識別色以外のデータ一致も確認。しかし製品詳細プレビュー・局所兵士表示では傷の差が小さく、参考画像の細密さには届かないため不採用。[比較](evidence/weapon-models-20261111/smg-surface-geometry-comparison.png)。製品・原設計は変更していない。実ゲームループ・共有画像・実機は未確認。
+
+融合表示修正のコミット後build（2026-11-12）: 実装commit `0e7bde8` から本番クライアントbuildと既存Worker向けdry-runが成功。build内の武器60件についてmanifestのサイズ・SHAおよびpublic実体との一致を確認。[記録](evidence/weapon-models-20261111/fusion-committed-build-report.json)。これは公開・配信・実機の確認ではない。
+
 融合表示の実画面（2026-11-12）: 844×390・隔離仮保存の実ローカル防衛戦で、新形式SG-7のN・LRを各1回装備し、融合成長モードの最初の通常強化を選択。強化前後で選択スロット0・右手ソケット、モデルノード・識別インレイ・ネオンの色を実Rendererから確認し一致。`slug_0.glb`／`slug_4.glb` を要求し、`slug_5.glb` 要求・ページ例外・武器要求失敗は0。[測定](evidence/weapon-models-20261111/fusion-tier-ui-report.json)、[比較](evidence/weapon-models-20261111/fusion-tier-ui-comparison.png)。画像は選択UIに隠れた兵士を見るため、製品Rendererを追加描画して取得している。画像内の兵士は小さく、細部の目視判定ではない。融合カード自体、実通信を伴う画面、スマホ実機は対象外。再現は `node scripts/check-front-fusion-appearance-ui.mjs`。
 
 旧サーバー由来の表示上限（2026-11-12）: 基点の融合コードが出力する表示項目なしの新LRを現行コードで処理すると、存在しない等級5のGLBを要求して404、ネオンは白になった。表示専用 `weaponVisualTier` の欠落時フォールバックを0〜4へ収め、隔離ローカルHTTPの実GLB読込でLRの `_4.glb` とLR色を確認。正規の新旧9等級、保存値と戦闘値は維持。表示項目が存在しない旧サーバーの新N〜SSRは、新旧元装備を識別できず色ずれが残る。[測定](evidence/weapon-models-20261111/fusion-old-server-fallback-report.json)。旧コード実行と隔離HTTPによる試験であり、旧サーバープロセス・旧実ブラウザー・公開環境・実機は未確認。変更後の関連6ファイル72テスト・ゲーム／Worker型確認、新旧2人の実ローカルWorker通信テストは成功。
