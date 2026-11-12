@@ -4,16 +4,16 @@
   "name": "LZ-2 グリム",
   "family": "sniper",
   "blender": "5.2.1 LTS",
-  "triangles": 8380,
-  "vertices": 4576,
+  "triangles": 8788,
+  "vertices": 4752,
   "bounds": [
     [
-      -0.04200000315904617,
+      -0.05300000309944153,
       -0.3400000035762787,
       -0.1447126418352127
     ],
     [
-      0.04499974846839905,
+      0.05300000309944153,
       0.6600000262260437,
       0.14800000190734863
     ]
@@ -168,32 +168,32 @@
     {
       "file": "laser_0.glb",
       "grade": 0,
-      "bytes": 497720,
-      "sha256": "2401e94c756c071fbd7413ec822a4d170fd6e94747d7d3ba203f29d30c523bab"
+      "bytes": 498120,
+      "sha256": "3858ca9c66889f1c2b905596cdf86b2e0428a7d0e0c842c0f8cee16950524d10"
     },
     {
       "file": "laser_1.glb",
       "grade": 1,
-      "bytes": 497720,
-      "sha256": "4bc7123b9f39ba805d5fc3b87cc315ead0a85b13ab1df52ac82dec661684baa6"
+      "bytes": 498120,
+      "sha256": "abc1f925fda86b2e4bbb657914482a3386d2a75bfe40f4100936557fb3d08aec"
     },
     {
       "file": "laser_2.glb",
       "grade": 2,
-      "bytes": 497720,
-      "sha256": "fabb60e46d623b71f379c58bc63dc8edbeff1b8c7526c6dda86693b47acaa231"
+      "bytes": 498120,
+      "sha256": "097d125413b21fea8caf758fd1b5fe1b4470270fc261ce522aba865f8483ccbf"
     },
     {
       "file": "laser_3.glb",
       "grade": 3,
-      "bytes": 497720,
-      "sha256": "d631e506bbc5c049164063045a57583451a3936c4e07fa85b97ee0cafabd43c5"
+      "bytes": 498120,
+      "sha256": "f74de0263c581472c446c2b4d72a37050b09be612b19943de3670014c3535496"
     },
     {
       "file": "laser_4.glb",
       "grade": 4,
-      "bytes": 497716,
-      "sha256": "367d948e2bfee5516fd75fc02ecc62804a241a9d6cbd8a46574e7cd3a472eae8"
+      "bytes": 498116,
+      "sha256": "bd5ac57481b7feac6700170ee405f47b7b4e42e1d1709e5a76a7ef0e6b9006ed"
     }
   ]
 }

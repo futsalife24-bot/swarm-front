@@ -37,8 +37,17 @@ def build(k):
         for y in [-.054, .028]:
             for z in [.028, .074]:
                 k.rod('Receiver bolt', (s * .036, y, z), (s * .038, y, z), .0035, 'copper', 8)
-        for y in [.067, .082, .097, .112, .127]:
-            k.box('Cooling gill', (s * .033, y, .05), (.004, .006, .021), 'copper', .001)
+        # 蓄電機構と前部の間に、開口を縁取る点検装甲と冷却管を重ねる。
+        k.profile('Coolant inspection frame',[(.05,.016),(.17,.016),(.18,.028),(.18,.078),
+                  (.17,.087),(.05,.087),(.042,.074),(.042,.026)],.006,'copper',.001,x=s*.0325)
+        k.profile('Coolant inspection recess',[(.057,.025),(.16,.025),(.169,.033),
+                  (.169,.069),(.16,.078),(.057,.078)],.002,'polymer',.001,x=s*.036)
+        k.rod('Pale cyan cooling tube',(s*.039,.066,.052),(s*.039,.158,.052),.007,'glow_laser',12)
+        for y in [.073,.104,.135,.155]:
+            k.ring('Coolant pipe copper coupling',y,.052,.009,.006,'copper',.006,x=s*.039,n=12)
+        for y in [.055,.171]:
+            for z in [.025,.077]:
+                k.rod('Inspection frame bolt',(s*.037,y,z),(s*.040,y,z),.0025,'gunmetal',8)
     k.profile('Pistol grip', [(-.035, 0), (.02, 0), (.019, -.039), (-.025, -.145), (-.076, -.131)],
               .042, 'polymer', .004)
     # 握りの凹凸と底板を独立した部品にし、手に持った時も単一の平面に見せない。
@@ -65,24 +74,23 @@ def build(k):
     k.rod('Capacitor drum', (-.035, -.235, .03), (.035, -.235, .03), .085, 'gunmetal', 24)
     k.rod('Capacitor band', (-.012, -.235, .03), (.012, -.235, .03), .089, 'copper', 24)
     for s in [-1, 1]:
-        k.rod('Capacitor hub', (s * .035, -.235, .03), (s * .039, -.235, .03), .024, 'glow_laser', 16)
-        k.rod('Capacitor hub rim', (s * .035, -.235, .03), (s * .0375, -.235, .03), .034, 'copper', 16)
+        # 内側の光る環は外周のレア度ネオンではなく、銅枠に囲まれた装置内部。
+        k.rod('Capacitor outer copper casing',(s*.035,-.235,.03),(s*.045,-.235,.03),.082,'copper',24)
+        k.rod('Capacitor recessed well',(s*.045,-.235,.03),(s*.046,-.235,.03),.068,'polymer',20)
+        k.rod('Capacitor pale cyan annulus',(s*.046,-.235,.03),(s*.048,-.235,.03),.057,'glow_laser',20)
+        k.rod('Capacitor inner rotor',(s*.048,-.235,.03),(s*.050,-.235,.03),.044,'gunmetal',20)
+        k.rod('Capacitor inner bearing',(s*.050,-.235,.03),(s*.052,-.235,.03),.016,'copper',16)
+        k.rod('Capacitor center glow',(s*.052,-.235,.03),(s*.053,-.235,.03),.009,'glow_laser',12)
         for i in range(8):
-            a = i * math.pi / 4
-            y, z = -.235 + .062 * math.cos(a), .03 + .062 * math.sin(a)
-            k.rod('Drum bolt', (s * .035, y, z), (s * .038, y, z), .006, 'copper', 6)
-        for i in range(8):
-            a = (i + .5) * math.pi / 4
-            y, z = -.235 + .048 * math.cos(a), .03 + .048 * math.sin(a)
-            k.rod('Drum radial slot', (s * .037, y, z), (s * .038, y, z), .006, 'polymer', 6)
-            # 蓄電ドラムに角度の付いた分割装甲と内側の銅製リテーナーを重ねる。
-            y0, z0 = -.235, .03
-            wedge = [(y0 + r * math.cos(a + t), z0 + r * math.sin(a + t))
-                     for r, t in [(.036, -.22), (.055, -.22), (.055, .22), (.036, .22)]]
-            k.profile('Drum radial armor', wedge, .002, 'gunmetal', .0005, x=s * .039)
-            q = a + .31
-            y1, z1 = y0 + .045 * math.cos(q), z0 + .045 * math.sin(q)
-            k.rod('Drum retainer screw', (s * .040, y1, z1), (s * .042, y1, z1), .0025, 'copper', 8)
+            a=i*math.pi/4
+            y0,z0=-.235,.03
+            wedge=[(y0+r*math.cos(a+t),z0+r*math.sin(a+t))
+                   for r,t in [(.068,-.14),(.081,-.14),(.081,.14),(.068,.14)]]
+            k.profile('Capacitor radial gear plate',wedge,.005,'gunmetal',0,x=s*.047)
+            y,z=y0+.074*math.cos(a),z0+.074*math.sin(a)
+            k.rod('Gear plate retaining bolt',(s*.050,y,z),(s*.052,y,z),.003,'copper',6)
+        for z in [.018,.030,.042]:
+            k.rod('Rotor cooling vane',(s*.051,-.256,z),(s*.051,-.214,z),.0015,'copper',6)
         # 参考画像の独立した銅管と支持金具を、既存の蓄電ドラムへ接続する。
         for a,b in [((s*.037,-.180,.080),(s*.037,-.155,.105)),
                     ((s*.037,-.155,.105),(s*.034,-.110,.105)),
