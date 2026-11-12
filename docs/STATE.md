@@ -1,8 +1,10 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
-再監査の共有承認待ちでgoal停止（2026-11-12）: 修正版ZIP送信の自動承認審査拒否後、本人への具体的な共有確認が未回答のまま同じ条件で3回のgoalターンが続いた。独立した準備は完了し、goalを `blocked` へ切り替える。再開条件は「今回と同じ監査の修正版送信を許可する」への回答とゴール再開。製品修正は `8d44d6f3`、検証記録は `e80bc361`、PR #319の説明も更新済み。再監査前のmain反映・公開は行わない。
+独立再監査に合格（2026-11-12）: 対象 `8d44d6f3` のP1/P2は両方閉鎖、追加必須修正0。通常main反映と、merge後build/dry-run→既存Worker公開→即時配信/health/2画面検査→不合格時切戻しの順序が認められた。[最終回答](evidence/weapon-models-20261111/audit-8d44d6f3.md)、[合格画面](evidence/weapon-models-20261111/audit-8d44d6f3.jpg)。本人は同じ監査の修正版共有も許可済み。次は通常PRでmain反映と公開。現時点ではmain・公開とも未実施。監査後の変更は記録文書と合格証拠だけで、製品は監査対象と同一。
 
-必須修正の検証完了・再監査送信待ち（2026-11-12）: 修正HEAD `8d44d6f3` の本番build・Worker dry-run成功。全60 GLBのmanifest/public/build一致と、ローカル本番90配信ファイルの一致、844×390・1280×720の開始/射撃/一時停止、画面例外0を確認。[build資産](evidence/weapon-models-20261111/audit-fix-build-assets.json)、[実HTTP/UI](evidence/weapon-models-20261111/audit-fix-built-release.json)。再監査差分ZIP約1.7MBを確定したが、自動承認審査が「初回ZIPの許可は修正版を含まない」として添付を拒否。本人へ今回と同じ監査の修正版送信を明示確認中。修正の独立再判定・main反映・既存Worker公開は未完了。
+過去の再監査共有承認待ち（2026-11-12、解消済み）: 自動承認審査が「初回ZIPの許可は修正版を含まない」として添付を拒否し、同じ未回答条件で3回のgoalターンが続いたため `blocked` へ切り替えた。その後の本人の明示許可・同じ正式経路での送信・goal復帰により解消済み。別経路で拒否を回避しておらず、現在の停止理由にはしない。
+
+必須修正の検証完了・再監査資料確定（2026-11-12）: 修正HEAD `8d44d6f3` の本番build・Worker dry-run成功。全60 GLBのmanifest/public/build一致と、ローカル本番90配信ファイルの一致、844×390・1280×720の開始/射撃/一時停止、画面例外0を確認。[build資産](evidence/weapon-models-20261111/audit-fix-build-assets.json)、[実HTTP/UI](evidence/weapon-models-20261111/audit-fix-built-release.json)。約1.7MBの再監査差分ZIPを確定し、現在は上記のとおり送信済み。修正の独立再判定・main反映・既存Worker公開は未完了。
 
 独立監査の必須指摘へ対応（2026-11-12）: 初回判定は[要修正](evidence/weapon-models-20261111/audit-5b4a1aab.md)。P1のHTML誤キャッシュは新武器GLBのヘッダー確認と正常品による対象キーの回復を追加し、実SWの修正前再現・修正後の拒否/復旧/オフライン/Rangeを確認。P2の旧Worker相当投影による旧3形状への退行は、同kindの読込済みモデルを使う最小修正で、新9kind×3条件の手持ち/背負いを維持。exact等級を読込後の切替も確認。型確認と関連10テスト成功。造形・通信・性能値は変更せず、旧Workerでの等級色の制限は残る。次は修正ソースの本番ビルド・dry-runと同じChatでの再監査。main・公開はまだ行っていない。[詳細](evidence/weapon-models-20261111/release-audit.md)。
 
