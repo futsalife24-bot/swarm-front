@@ -68,3 +68,27 @@ it("通常側と共有する演出選択は順番送りでなく乱数に従い�
   expect(chooseEffect(buddy, undefined, () => 0.999)).toBe(10);
   expect(chooseEffect({ multi: false, tiers: [1] }, undefined)).toBe(0);
 });
+
+it("単発の選択10演出と通常確率のランダム確認は、取得・保存しない", () => {
+  const forbidden = vi.fn(() => {
+    throw Error("取得・保存は禁止");
+  });
+  vi.stubGlobal("localStorage", { getItem: forbidden, setItem: forbidden });
+  vi.stubGlobal("fetch", forbidden);
+  for (let n = 1; n <= 10; n++) {
+    const results = selectedSupplyPreview(n, 1),
+      m = model(results);
+    expect(results).toHaveLength(1);
+    expect(m.tiers[0]).toBe(n === 10 ? 5 : 4);
+    expect(chooseEffect(m, n, Math.random, true)).toBe(n);
+    if ([2, 3, 4].includes(n)) expect(() => chooseEffect(m, n)).toThrow();
+  }
+  for (const value of [0, 0.5, 0.91, 0.945, 0.995]) {
+    const results = randomSupplyPreview(() => value, 1);
+    expect(results).toHaveLength(1);
+    const m = model(results),
+      chosen = chooseEffect(m, undefined, () => 0);
+    expect([2, 3, 4]).not.toContain(chosen);
+  }
+  expect(forbidden).not.toHaveBeenCalled();
+});

@@ -428,7 +428,7 @@ export function createDropReveal(host, opts = {}) {
     minis = [...el.world.querySelectorAll('.gx-mini')];
     el.list.innerHTML = model.multi ? model.pods.map((p) => `<div class="gx-tile" data-index="${p.i}" data-tier="${TIER_KEY[p.tier]}" data-type="${p.r.type}"${p.r.type !== 'shard' ? ' role="button" tabindex="0" aria-label="' + esc(nameOf(p.r)) + 'の詳細"' : ''}><img alt="" src="${esc(artOf(p.r, o.assetBase))}"><b>${esc(rarText(p.tier) || '素材')}</b><span${nameOf(p.r).length > 16 ? ' class="gx-long"' : ''}>${esc(nameOf(p.r))}</span>${p.r.new ? '<i>NEW</i>' : ''}</div>`).join('') : '';
     tiles = [...el.list.children];
-    if (!model.multi) fillInfo(el.card, results[0], model.tiers[0]);
+    if (!model.multi) { fillInfo(el.card, results[0], model.tiers[0]); if (results[0].type !== 'shard') { el.card.setAttribute('role', 'button'); el.card.tabIndex = -1; el.card.dataset.index = '0'; el.card.setAttribute('aria-label', nameOf(results[0]) + 'の詳細'); } else { el.card.removeAttribute('role'); el.card.removeAttribute('tabindex'); } }
     // カード・カットインの絵は、出す前に画像の展開を済ませておく（初めて見せる瞬間に描画が止まらないように）
     predecoded = [...new Set(model.pods.map((p) => artOf(p.r, o.assetBase)))].map((src) => { const im = new Image(); im.src = src; if (im.decode) im.decode().catch(() => {}); return im; });
     el.actions.innerHTML = o.finalActions.map((a) => `<button type="button" data-id="${esc(a.id)}"${a.primary ? ' class="gx-primary"' : ''}>${esc(a.label)}</button>`).join('');
@@ -454,6 +454,7 @@ export function createDropReveal(host, opts = {}) {
     if (lk > 0) tf(el.launch, `translate(-50%,-50%) scale(${(t < B ? 0.85 + 0.15 * lk + (reduced ? 0 : 0.035 * Math.sin(A * 4.5)) : 1 + 0.6 * seg(t, B, B + 0.18, E.out3)).toFixed(3)})`);
     root.classList.toggle('gx-launching', t <= B + 1e-6);
     if (!m.multi) { // 1連の受領カード
+      if (el.card.hasAttribute('role')) el.card.tabIndex = t >= m.tEnd ? 0 : -1;
       const p = m.pods[0], k = seg(t, p.tCard, p.tCard + 0.45, reduced ? E.out3 : E.back); op(el.card, seg(t, p.tCard, p.tCard + 0.12));
       tf(el.card, `translate(-50%,-50%) translateY(${((1 - k) * 120 + (t >= m.tEnd ? Math.sin(A * 1.5) * 2 : 0)).toFixed(2)}px) scale(${(0.5 + 0.5 * k).toFixed(3)})`);
       op($('.gx-sil', el.card), 1 - seg(t, p.tCard + 0.28, p.tCard + 0.5)); const rk = seg(t, p.tCard + 0.3, p.tCard + 0.46, E.out3); tf($('.gx-rar', el.card), `scale(${(2.4 - 1.4 * rk).toFixed(3)})`); op($('.gx-rar', el.card), rk);

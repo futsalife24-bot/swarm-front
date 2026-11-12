@@ -114,6 +114,17 @@ export function createSupplyReveal(host, options = {}) {
       M.pods = [proxy, ...m.pods.filter((p) => p !== target)];
       if (n === 4) M.pods = m.pods.map((p) => p === target ? proxy : p);
     }
+    // 10連専用の目印を単発で選択したときは、着地後の操作待ちを追加して見せる。
+    if (n === 4 && !m.multi && target) {
+      const start = target.beats[0].t0, xy = { x: 844 / 2 + target.x, gy: target.gy, h: target.h };
+      let at = 0;
+      for (const s of stops) if (s.t < start - 1e-5) { append(out, motion(at, s.t), [s]); at = s.t; }
+      if (start > at + 1e-5) append(out, motion(at, start), []);
+      out.push({ ...waitPart({ t: start, kind: 'pod' }), fx: (s) => ({ id: 'presage', p: { ...xy, k: clamp(s / 0.15), a: s } }) });
+      at = start;
+      for (const s of stops) if (s.t > at + 1e-5) { append(out, motion(at, s.t), [s]); at = s.t; }
+      return out;
+    }
     // 対象箱の最初の操作直後に割り込み、以降は元の停止点へ戻す。
     if (target && [5, 8, 10].includes(n)) {
       const start = target.beats[0].t0, xy = { x: 844 / 2 + target.x, cy: target.gy - target.h / 2 };
@@ -190,7 +201,7 @@ export function createSupplyReveal(host, options = {}) {
       await core.play(results, { manual: true, silent: muted });
       model = core.model(); result = results;
       skipping = false; cracks = []; lastCrackAt = 0; confirmedCuts.clear();
-      fxNumber = chooseEffect(model, cfg.effects);
+      fxNumber = chooseEffect(model, cfg.effects, Math.random, !!cfg.previewSingleEffects && !model.multi);
       setBuddyArt(fxNumber === 10 ? model.pods.find((p) => p.tier === 5)?.r.art : null);
       caption = fxNumber ? CLIPS[fxNumber - 1] : null;
       parts = makeParts(model, fxNumber); pos = 0; elapsed = 0; presentationClock = 0; waiting = null; queued = false; active = true;
@@ -249,10 +260,10 @@ export function createSupplyReveal(host, options = {}) {
     core,
   };
   const root = core.root;
-  const onPointer = (e) => { if (e.target.closest('button,[role="button"]')) return; heldPointer = true; const r = root.getBoundingClientRect(); api.tap({ x: clamp((e.clientX - r.left) / r.width), y: clamp((e.clientY - r.top) / r.height) }); };
+  const onPointer = (e) => { if (e.target.closest('button') || (waiting === 'final' && e.target.closest('[role="button"]'))) return; heldPointer = true; const r = root.getBoundingClientRect(); api.tap({ x: clamp((e.clientX - r.left) / r.width), y: clamp((e.clientY - r.top) / r.height) }); };
   const onRelease = () => { heldPointer = false; if (active && fxNumber === 7 && current()?.holdReady && elapsed >= 0.05) { advance(); render(); } };
   const onClick = (e) => {
-    const tile = e.target.closest('.gx-tile[role="button"]');
+    const tile = e.target.closest('.gx-tile[role="button"],.gx-card[role="button"]');
     if (tile && waiting === 'final') { e.stopPropagation(); o.onResult?.(result[Number(tile.dataset.index)]); return; }
     const finalId = e.target.closest('.gx-actions [data-id]')?.dataset.id;
     if (finalId === 'close') { e.stopPropagation(); api.close(); o.onAction?.('close'); return; }
@@ -265,7 +276,7 @@ export function createSupplyReveal(host, options = {}) {
     else if (action === 'reduced') api.setReduced(!reduced);
     else if (action === 'sound') api.setSound(root.querySelector('[data-act="sound"]').getAttribute('aria-pressed') !== 'true');
   };
-  const onKey = (e) => { if (!active || e.target.closest?.('dialog')) return; if ((e.key === ' ' || e.key === 'Enter') && e.target.matches?.('.gx-tile[role="button"]')) { e.preventDefault(); e.target.click(); } else if (e.key === 'Escape') api.skip(); else if ((e.key === ' ' || e.key === 'Enter') && !e.target.closest?.('button')) api.tap(); };
+  const onKey = (e) => { if (!active || e.target.closest?.('dialog')) return; if (waiting === 'final' && (e.key === ' ' || e.key === 'Enter') && e.target.matches?.('.gx-tile[role="button"],.gx-card[role="button"]')) { e.preventDefault(); e.target.click(); } else if (e.key === 'Escape') api.skip(); else if ((e.key === ' ' || e.key === 'Enter') && !e.target.closest?.('button')) api.tap(); };
   root.addEventListener('pointerdown', onPointer);
   root.addEventListener('click', onClick, true);
   window.addEventListener('pointerup', onRelease);

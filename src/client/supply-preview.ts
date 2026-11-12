@@ -14,11 +14,11 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
     busy = false,
     reveal: Reveal | null = null;
   host.innerHTML = `<section class="supply-preview">
-    <p>10連の演出確認です。補給券の消費・報酬の取得・進行の保存はありません。</p>
-    <div class="supply-preview-controls"><label>演出を選ぶ<select id="supply-preview-effect" data-supply-preview-select aria-label="確認する確定演出">${SUPPLY_EFFECT_NAMES.map((name, i) => `<option value="${i + 1}">${i + 1}. ${name}</option>`).join("")}</select></label>
-    <button type="button" data-supply-preview-play>選択した演出で10連</button>
-    <button type="button" data-supply-preview-random>ランダムで10連</button></div>
-    <p data-supply-preview-note role="status" aria-live="polite">選択時は演出に必要な結果を用意します。ランダム時は通常と同じ排出確率・SR以上保証・演出選択です。</p>
+    <p>1連・10連の演出確認です。補給券の消費・報酬の取得・進行の保存はありません。</p>
+    <div class="supply-preview-controls"><label>回数<select data-supply-preview-count aria-label="確認する回数"><option value="10">10連</option><option value="1">1連</option></select></label><label>演出を選ぶ<select id="supply-preview-effect" data-supply-preview-select aria-label="確認する確定演出">${SUPPLY_EFFECT_NAMES.map((name, i) => `<option value="${i + 1}">${i + 1}. ${name}</option>`).join("")}</select></label>
+    <button type="button" data-supply-preview-play>選択した演出で再生</button>
+    <button type="button" data-supply-preview-random>ランダムで再生</button></div>
+    <p data-supply-preview-note role="status" aria-live="polite">選択時は演出に必要な結果を用意します。ランダム時は選んだ回数の通常の確率・保証・演出選択です。</p>
     <small>タップ・長押し・スキップ・2倍速・動き減を確認できます。結果一覧の「次へ」で繰り返し再生できます。</small>
     <p data-supply-preview-effect="" class="supply-preview-result"></p>
   </section>`;
@@ -37,10 +37,14 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
     buttons.forEach((b) => (b.disabled = true));
     note.textContent = "演出を読み込んでいます…";
     try {
+      const count = Number(
+        host.querySelector<HTMLSelectElement>("[data-supply-preview-count]")!
+          .value,
+      ) as 1 | 10;
       const results =
         effect === undefined
-          ? randomSupplyPreview()
-          : selectedSupplyPreview(effect);
+          ? randomSupplyPreview(Math.random, count)
+          : selectedSupplyPreview(effect, count);
       const module = await loadSupplyReveal();
       if (closed) return;
       reveal?.destroy();
@@ -66,7 +70,7 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
           reveal = null;
           if (!closed) {
             unlock();
-            note.textContent = "確認が終わりました。次の10連を再生できます。";
+            note.textContent = "確認が終わりました。次の演出を再生できます。";
           }
         },
       });
@@ -77,7 +81,9 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
       }
       await reveal.play(
         results,
-        effect === undefined ? {} : { effects: effect },
+        effect === undefined
+          ? {}
+          : { effects: effect, previewSingleEffects: count === 1 },
       );
       if (closed) return;
       const actual = reveal.state().effect;
@@ -95,7 +101,12 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
   };
   host.querySelector<HTMLButtonElement>("[data-supply-preview-play]")!.onclick =
     () => {
-      void play(Number(host.querySelector<HTMLSelectElement>("select")!.value));
+      void play(
+        Number(
+          host.querySelector<HTMLSelectElement>("[data-supply-preview-select]")!
+            .value,
+        ),
+      );
     };
   host.querySelector<HTMLButtonElement>(
     "[data-supply-preview-random]",

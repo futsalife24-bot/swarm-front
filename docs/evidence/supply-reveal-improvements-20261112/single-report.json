@@ -1,0 +1,180 @@
+{
+  "selected": [
+    {
+      "n": 1,
+      "count": 1,
+      "tier": 4,
+      "actual": 1,
+      "initial": 2,
+      "fx": true,
+      "stops": [
+        "launch",
+        "promo",
+        "promo",
+        "cut",
+        "final"
+      ]
+    },
+    {
+      "n": 2,
+      "count": 1,
+      "tier": 4,
+      "actual": 2,
+      "initial": 2,
+      "fx": true,
+      "stops": [
+        "launch",
+        "promo",
+        "promo",
+        "cut",
+        "final"
+      ]
+    },
+    {
+      "n": 3,
+      "count": 1,
+      "tier": 4,
+      "actual": 3,
+      "initial": 1,
+      "fx": true,
+      "stops": [
+        "launch",
+        "promo",
+        "promo",
+        "cut",
+        "final"
+      ]
+    },
+    {
+      "n": 4,
+      "count": 1,
+      "tier": 4,
+      "actual": 4,
+      "initial": 4,
+      "fx": true,
+      "stops": [
+        "launch",
+        "pod",
+        "promo",
+        "promo",
+        "cut",
+        "final"
+      ]
+    },
+    {
+      "n": 5,
+      "count": 1,
+      "tier": 4,
+      "actual": 5,
+      "initial": 1,
+      "fx": true,
+      "stops": [
+        "launch",
+        "promo",
+        "cut",
+        "final"
+      ]
+    },
+    {
+      "n": 6,
+      "count": 1,
+      "tier": 4,
+      "actual": 6,
+      "initial": 3,
+      "fx": true,
+      "stops": [
+        "launch",
+        "promo",
+        "cut",
+        "final"
+      ]
+    },
+    {
+      "n": 7,
+      "count": 1,
+      "tier": 4,
+      "actual": 7,
+      "initial": 3,
+      "fx": true,
+      "stops": [
+        "launch",
+        "promo",
+        "promo",
+        "cut",
+        "final"
+      ]
+    },
+    {
+      "n": 8,
+      "count": 1,
+      "tier": 4,
+      "actual": 8,
+      "initial": 4,
+      "fx": true,
+      "stops": [
+        "launch",
+        "promo",
+        "promo",
+        "cut",
+        "final"
+      ]
+    },
+    {
+      "n": 9,
+      "count": 1,
+      "tier": 4,
+      "actual": 9,
+      "initial": 3,
+      "fx": true,
+      "stops": [
+        "launch",
+        "fracture",
+        "cut",
+        "final"
+      ]
+    },
+    {
+      "n": 10,
+      "count": 1,
+      "tier": 5,
+      "actual": 10,
+      "initial": 3,
+      "fx": true,
+      "stops": [
+        "launch",
+        "promo",
+        "promo",
+        "promo",
+        "cut",
+        "final"
+      ]
+    }
+  ],
+  "complete": [
+    {
+      "n": 2,
+      "final": true,
+      "steps": 9
+    },
+    {
+      "n": 3,
+      "final": true,
+      "steps": 9
+    },
+    {
+      "n": 4,
+      "final": true,
+      "steps": 10
+    }
+  ],
+  "ui": {
+    "selected": 4,
+    "random": true,
+    "detail": true,
+    "share": true,
+    "saveUnchanged": true,
+    "cutTap": true,
+    "cutEnter": true
+  },
+  "errors": []
+}

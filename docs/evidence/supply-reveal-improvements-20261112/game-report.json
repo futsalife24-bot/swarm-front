@@ -17,6 +17,7 @@
         "buddy"
       ],
       "rows": 10,
+      "single": true,
       "saveUnchanged": true,
       "errors": []
     },
@@ -32,6 +33,7 @@
         "buddy"
       ],
       "rows": 10,
+      "single": true,
       "saveUnchanged": true,
       "errors": []
     },
