@@ -1,0 +1,134 @@
+{
+  "scope": "Actual local solo UI and game loop, disposable saves, mouse firing and R input, renderer observation; no physical device, real network, hidden hand-surface contact or continuous image video.",
+  "viewport": [
+    844,
+    390
+  ],
+  "requested": [
+    "sticky"
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "sticky",
+      "family": "grenade",
+      "shot": {
+        "time": 0.25,
+        "ammo": 3,
+        "capacity": 4
+      },
+      "started": {
+        "time": 0.39999999999999997,
+        "reload": 2.9,
+        "duration": 2.9,
+        "ammo": 3,
+        "mode": "normal_Rocket_reload_idle"
+      },
+      "completed": {
+        "time": 3.349999999999996,
+        "ammo": 4,
+        "capacity": 4,
+        "mode": "normal_Rocket_idle"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.39999999999999997,
+          "reload": 2.9,
+          "ammo": 3,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.8067910383550523,
+            1.2931202570651532,
+            33.673113841533464
+          ],
+          "right": [
+            -0.8035148049779404,
+            1.2548462964643379,
+            33.88100095592686
+          ],
+          "imageFile": "sticky-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2586206896551715,
+          "time": 1.1500000000000004,
+          "reload": 2.1500000000000026,
+          "ammo": 3,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -1.1560184165989509,
+            1.0678763699494211,
+            33.769542439856856
+          ],
+          "right": [
+            -0.8030121248455317,
+            1.254578656466278,
+            33.88202474374487
+          ],
+          "imageFile": "sticky-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5172413793103439,
+          "time": 1.900000000000001,
+          "reload": 1.4000000000000026,
+          "ammo": 3,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9649541340689756,
+            1.3060677996365542,
+            33.74368134376336
+          ],
+          "right": [
+            -0.8030121193419808,
+            1.2513954058476915,
+            33.882024752619195
+          ],
+          "imageFile": "sticky-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7586206896551717,
+          "time": 2.5999999999999988,
+          "reload": 0.700000000000002,
+          "ammo": 3,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9399596469492123,
+            1.2926126125959894,
+            33.722766998140955
+          ],
+          "right": [
+            -0.8030121140021749,
+            1.251395427373136,
+            33.88202476050527
+          ],
+          "imageFile": "sticky-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9655172413793097,
+          "time": 3.1999999999999966,
+          "reload": 0.10000000000000185,
+          "ammo": 3,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.8078758192600756,
+            1.2937449534837504,
+            33.74161253983186
+          ],
+          "right": [
+            -0.8030121092049748,
+            1.2539917140035384,
+            33.882024771783954
+          ],
+          "imageFile": "sticky-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    }
+  ]
+}

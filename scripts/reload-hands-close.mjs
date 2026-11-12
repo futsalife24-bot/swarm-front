@@ -6,6 +6,7 @@ import crypto from 'node:crypto';
 import http from 'node:http';
 import path from 'node:path';
 const out='dist-validation/reload-hands-close';
+await fs.mkdir(out,{recursive:true});
 const kinds=['rifle','smg','shotgun','slug','rocket','heavy','sniper','laser','grenade','sticky','kick','medic'];
 const files=[];
 for(const kind of kinds){const dir=['rifle','shotgun','rocket'].includes(kind)?'realism-v2':'unique-v1';const file=`public/assets/weapons/${dir}/${kind}_0.glb`;const bytes=await fs.readFile(file);files.push({kind,file,bytes:bytes.length,sha256:crypto.createHash('sha256').update(bytes).digest('hex')});}
