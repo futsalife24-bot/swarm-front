@@ -119,4 +119,3 @@ def build(k):
         k.rod('Wing conduit',(side*.040,-.10,.08),(side*.068,-.18,.065),.003,'russet',8)
     for y in [.23,.28,.33,.38]:
         k.ring('Forward pressure collar',y,BORE,.030,.026,'russet',.007,n=20)
-
