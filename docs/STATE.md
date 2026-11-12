@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+SMG-3の装填手首位置・向き隔離試作（2026-11-12、不採用）: 位置と向きを滑らかに補正したが、中盤で腕が大きく伸び、弾倉を握って交換する動きには見えない。装填50%の手首中心から弾倉候補面までの距離は206.57→24.50mm、位置目標の誤差は約0.000016mmだったが接触の証明ではない。静止5時点を目視、比較動画の連続再生は未確認。位置計算の正例は当初2回到達範囲外で失敗し、到達可能な点へ修正。[比較](evidence/weapon-models-20261111/reload-smg-gesture-rejected.png)、[測定](evidence/weapon-models-20261111/reload-smg-gesture-rejected-report.json)、[再現用](../scripts/reload-smg-gesture-probe.mjs)。指先と弾倉の接触・連続動作・実ゲーム・実機は未確認。
+
 SMG-3の立体構造隔離試作（2026-11-12、不採用）: 前部を6枚の分割装甲と内側コア、中央を接続輪、後部を点検区画に変更。6,088三角形・材質6・341,296 bytes、40項目合格・警告0。多面図を見比べた結果、黄色い平面が目立ち、参考画像の厚みと複雑な機械感に届かないため採用しない。[比較](evidence/weapon-models-20261111/smg-structural-rejected.png)、[検査](evidence/weapon-models-20261111/smg-structural-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/smg-structural-rejected.py)。実ゲーム・動作・実機は未確認。
 
 装填中の手と武器の表面測定（2026-11-12）: 12丁の装填25・50・75%で、手の骨に重みのある面を抽出して武器との辺面交差を測定。左の抽出面は36条件すべて交差0、右は9丁で15〜48組だった。握りの接触とめり込みの深さは区別できず、抽出外の手表面や完全内包も判定できない。弾倉・指先の接触、連続動作、実ゲーム入力と実機も未確認。[条件と結果](evidence/weapon-models-20261111/reload-hand-skin.md)、[比較画像](evidence/weapon-models-20261111/reload-hand-skin.png)、[測定](evidence/weapon-models-20261111/reload-hand-skin-report.json)。
