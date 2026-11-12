@@ -13,14 +13,22 @@ import {
   weaponGrade,
   weaponTier,
 } from "../shared/progression";
-async function sceneFor(w: StoredWeapon, width: number, height: number) {
+async function sceneFor(
+  w: StoredWeapon,
+  width: number,
+  height: number,
+  transparent = false,
+) {
   const renderer = new T.WebGLRenderer({
     antialias: true,
-    alpha: false,
+    alpha: transparent,
     preserveDrawingBuffer: true,
   });
   renderer.setSize(width, height);
-  renderer.setClearColor(0x11232f);
+  renderer.setClearColor(
+    transparent ? 0x000000 : 0x11232f,
+    transparent ? 0 : 1,
+  );
   const scene = new T.Scene(),
     camera = new T.PerspectiveCamera(35, width / height, 0.001, 100);
   scene.add(new T.HemisphereLight(0xe7f4ff, 0x39494e, 3));
@@ -81,6 +89,15 @@ async function sceneFor(w: StoredWeapon, width: number, height: number) {
     renderer.dispose();
     renderer.forceContextLoss();
     throw e;
+  }
+}
+/** 既存の詳細プレビューと同じ構図で、補給演出用の透過画像を生成する。 */
+export async function weaponCutout(w: StoredWeapon) {
+  const v = await sceneFor(w, 1024, 512, true);
+  try {
+    return v.renderer.domElement.toDataURL("image/png");
+  } finally {
+    v.dispose();
   }
 }
 export async function previewWeapon(host: HTMLElement, w: StoredWeapon) {
