@@ -1,5 +1,5 @@
-import { WEAPONS, familyOf } from "../shared/defs";
-import { GRADES } from "../shared/progression";
+import { WEAPONS } from "../shared/defs";
+import { GRADES, weaponVisualTier } from "../shared/progression";
 import type { SupplyReward } from "../shared/supply-contract";
 import { orderSupplyRewards } from "../shared/supply-policy";
 import { BUDDY_ASSETS } from "./buddy-assets";
@@ -57,17 +57,11 @@ export function supplyResults(
       acquired.add(reward.buddyId);
       return result;
     }
-    const family = familyOf(reward.weapon.kind);
     return {
       type: "weapon",
       rarity: GRADES[reward.weapon.rarity],
       name: WEAPONS[reward.weapon.kind].name,
-      art:
-        family === "shotgun"
-          ? "w-shotgun"
-          : family === "rocket" || family === "grenade"
-            ? "w-rocket"
-            : "w-rifle",
+      art: `w-v2-${reward.weapon.kind}-${weaponVisualTier(reward.weapon)}`,
       new: true,
     };
   });

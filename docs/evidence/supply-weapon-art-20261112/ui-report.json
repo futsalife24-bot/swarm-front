@@ -1,0 +1,369 @@
+{
+  "scope": "Actual local isolated Worker and game UI; developer RNG fixed to cover three named kinds, normal draws use server RNG. No real phone or production player data.",
+  "all": [
+    {
+      "mode": "developer-preview",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "rows": [
+        {
+          "type": "weapon",
+          "name": "ST-3 リンバー",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sticky-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "GL-6 ホロウ",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-grenade-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "RL-2 コメット",
+          "grade": "SSR",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-rocket-3.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "MD-4 ブルーム",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-medic-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "RL-9 メテオ",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-heavy-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SR-1 ソーン",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sniper-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SG-7 スパイク",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-slug-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SMG-3 ワスプ",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-smg-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SMG-3 ワスプ",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-smg-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "RL-9 メテオ",
+          "grade": "SR",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-heavy-2.webp",
+          "width": 1024,
+          "height": 512
+        }
+      ],
+      "errors": [],
+      "saveUnchanged": true,
+      "seed": 5
+    },
+    {
+      "mode": "developer-preview",
+      "viewport": {
+        "width": 640,
+        "height": 360
+      },
+      "rows": [
+        {
+          "type": "weapon",
+          "name": "ST-3 リンバー",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sticky-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "GL-6 ホロウ",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-grenade-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "RL-2 コメット",
+          "grade": "SSR",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-rocket-3.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "MD-4 ブルーム",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-medic-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "RL-9 メテオ",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-heavy-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SR-1 ソーン",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sniper-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SG-7 スパイク",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-slug-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SMG-3 ワスプ",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-smg-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SMG-3 ワスプ",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-smg-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "RL-9 メテオ",
+          "grade": "SR",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-heavy-2.webp",
+          "width": 1024,
+          "height": 512
+        }
+      ],
+      "errors": [],
+      "saveUnchanged": true,
+      "seed": 5
+    },
+    {
+      "mode": "normal-local-worker",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "rows": [
+        {
+          "type": "weapon",
+          "name": "SMG-3 ワスプ",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-smg-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "AR-9 リーフ",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-rifle-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SR-1 ソーン",
+          "grade": "SR",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sniper-2.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SMG-3 ワスプ",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-smg-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SR-1 ソーン",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sniper-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "KB-6 ケストレル",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-kick-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "LZ-2 グリム",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-laser-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "GL-6 ホロウ",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-grenade-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "AR-9 リーフ",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-rifle-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SR-1 ソーン",
+          "grade": "SSR",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sniper-3.webp",
+          "width": 1024,
+          "height": 512
+        }
+      ],
+      "errors": []
+    },
+    {
+      "mode": "normal-local-worker",
+      "viewport": {
+        "width": 640,
+        "height": 360
+      },
+      "rows": [
+        {
+          "type": "weapon",
+          "name": "RL-9 メテオ",
+          "grade": "SR",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-heavy-2.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "AR-9 リーフ",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-rifle-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SR-1 ソーン",
+          "grade": "SSR",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sniper-3.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SG-7 スパイク",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-slug-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SR-1 ソーン",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sniper-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "ST-3 リンバー",
+          "grade": "N",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-sticky-0.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SG-4 ブレイカー",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-shotgun-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "SG-7 スパイク",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-slug-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "MD-4 ブルーム",
+          "grade": "R",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-medic-1.webp",
+          "width": 1024,
+          "height": 512
+        },
+        {
+          "type": "weapon",
+          "name": "GL-6 ホロウ",
+          "grade": "SSR",
+          "src": "http://127.0.0.1:8796/supply-reveal/assets/w-v2-grenade-3.webp",
+          "width": 1024,
+          "height": 512
+        }
+      ],
+      "errors": []
+    }
+  ]
+}
