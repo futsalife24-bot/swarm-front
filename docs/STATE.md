@@ -1,5 +1,11 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+現行12丁の背負い静止検査（2026-11-12）: 最新のモデルで左右24条件を再測定し、変形後の体表と背負い武器の辺面交差は0組。武器を体側へ10cm移す正例では246組を検出。[測定](evidence/weapon-models-20261111/back-reframe-static-report.json)。完全内包・共面・連続動作・実地形・通信・実機は未確認で、ダウン時の床めり込みは別途残る。
+
+横向きダウンの隔離試作（2026-11-12、不採用）: 胴を90度回す案を3武器・左右で60Hz測定。静止時も身体が床下182mm、片側の背負い武器が床下199〜248mmとなり、復帰時の動きも不自然だったため採用しない。[記録](evidence/weapon-models-20261111/ground-side-probe.md)、[画像](evidence/weapon-models-20261111/ground-side-probe.png)、[測定](evidence/weapon-models-20261111/ground-side-probe-report.json)。横向き姿勢の全方式が不可能と分かったわけではない。
+
+MD-4の陶器の仕上げ隔離試作（2026-11-12、不採用）: 4枚の花弁の立体的な欠けと陶器の色・粗さを2案で比較。各8,800三角形・材質6・最大492,364 bytes、40項目合格・警告0、5等級の識別色以外も一致したが、兵士表示では差がほぼ見えず参考画像の質感に届かないため製品へ反映しない。[比較](evidence/weapon-models-20261111/medic-patina-comparison.png)、[測定](evidence/weapon-models-20261111/medic-patina-report.json)。実ゲームループ・共有画面・実機は未確認。
+
 MD-4の丸胴・花弁再設計（2026-11-12、制作途中）: 参考画像を基に幅広い4枚の花弁、白い丸胴、緑の薬液窓、真鍮の帯と取っ手を加え、DESIGNとPRODUCTIONを更新。握り・前後端・銃口軸は維持。正式生成は8,512三角形・材質6・最大472,200 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/medic-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/medic-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/medic-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/medic-reframe-reload-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた手・体の接触、連続動作・実通信・スマホ実機は未確認。
 
 GL-6の6機構再設計（2026-11-12、制作途中）: 参考画像を基に中央を箱形にし、大きな円形機構を2×3に並べた。肩担ぎの後部、握り、前後端、銃口軸は維持し、DESIGNとPRODUCTIONも更新。正式生成は8,860三角形・材質6・最大499,400 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/grenade-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/grenade-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/grenade-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/grenade-reframe-reload-report.json)。別生成の隔離候補では静止時のヘルメットとの辺面交差は左右0組、制服との交差は各729組だが、正常接触とめり込みの内訳は未判定。[測定](evidence/weapon-models-20261111/grenade-held-crossing-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた接触、連続動作・実通信・スマホ実機は未確認。
