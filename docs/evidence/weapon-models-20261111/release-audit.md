@@ -1,0 +1,18 @@
+# 武器12種の独立監査・公開記録
+
+## 監査資料と現在地（2026-11-12）
+
+- 本人が現行造形を受け入れ、追加の磨き込みとPBR量産を停止。製品は画像なし `unique-v1` 45 GLBで凍結。
+- PR: https://github.com/futsalife24-bot/swarm-front/pull/319
+- 監査対象: `5b4a1aab204220bc088868cebffa133dfa4f566e`
+- 基点: `d7d1399c5ba452b96b432819b69d3076ca668352`
+- ZIP: `dist-validation/weapon-final-audit/weapon-audit-5b4a1aab.zip`（34,380,468 bytes）
+- SHA-256: `70c5029bcca0feb8b9e1a0732589045b8999b9d4debbcacdd23e9d6e4d9f0096`
+- 589元ファイルのハッシュ照合・ZIP CRCを確認。秘密情報・利用者絶対パス・メール・画像メタデータの簡易点検は検出0件。網羅的な機密検査ではない。
+- `AUDIT/REQUEST.md` と `AUDIT/manifest.json`、対象ソース差分、全変更パス一覧を収容。Git履歴と全ゲーム素材は含まず、ZIP単体で完全再現できるとは保証しない。
+
+通常Chat（Workではない）・画面のHigh選択を確認して添付を試みたが、確定ZIPの添付は自動承認審査に拒否された。理由は、非公開ソース・モデル・検証資料をChatGPT通常Chatへ共有する具体的な許可の不足。独立監査依頼の送信・監査判定は未完了。本人へこのZIPと送信先を明示して確認中。別経路での送信は行わない。
+
+独立監査の判定後に通常main反映、merge後ソースの本番ビルド・Worker dry-run、既存Worker公開、配信ハッシュ・health・844×390と1280×720の実UI確認を行う。新規サービス・課金・移行の追加はない。製品コードと公開モデルは最終検証ソース `fc1fea1` から変更なし。
+
+主担当モデル: `gpt-6-astra`。推論設定は未確認。
