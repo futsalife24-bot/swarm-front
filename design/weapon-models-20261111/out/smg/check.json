@@ -48,12 +48,12 @@
     {
       "name": "[smg_0.glb] 三角形数（上限）",
       "ok": true,
-      "detail": "7416 / 12060"
+      "detail": "8096 / 12060"
     },
     {
       "name": "[smg_0.glb] 三角形数（目標）",
       "ok": true,
-      "detail": "7416 / 9000"
+      "detail": "8096 / 9000"
     },
     {
       "name": "[smg_0.glb] 材質数=描画回数",
@@ -73,27 +73,27 @@
     {
       "name": "[smg_0.glb] 寸法の枠（前後）",
       "ok": true,
-      "detail": "-0.204 .. 0.420"
+      "detail": "-0.259 .. 0.440"
     },
     {
       "name": "[smg_0.glb] 寸法の枠（上下）",
       "ok": true,
-      "detail": "-0.170 .. 0.100"
+      "detail": "-0.170 .. 0.193"
     },
     {
       "name": "[smg_0.glb] 寸法の枠（半幅）",
       "ok": true,
-      "detail": "0.042"
+      "detail": "0.081"
     },
     {
       "name": "[smg_0.glb] 前端が後端より十分に遠い",
       "ok": true,
-      "detail": "前 0.420 / 後 -0.204"
+      "detail": "前 0.440 / 後 -0.259"
     },
     {
       "name": "[smg_0.glb] 銃口算出: 最長軸が前後で、前端が選ばれる",
       "ok": true,
-      "detail": "axis=z end=-0.420"
+      "detail": "axis=z end=-0.440"
     },
     {
       "name": "[smg_0.glb] 銃口算出: 左右のずれ",
@@ -103,32 +103,32 @@
     {
       "name": "[smg_0.glb] 銃口算出: 高さが設計の銃身軸と一致",
       "ok": true,
-      "detail": "算出 0.0451 / 設計 0.0450"
+      "detail": "算出 0.0951 / 設計 0.0950"
     },
     {
       "name": "[smg_0.glb] 握りの位置に形があり、握れる幅",
       "ok": true,
-      "detail": "頂点 355 個、半幅 0.023 / 0.026"
+      "detail": "頂点 307 個、半幅 0.022 / 0.026"
     },
     {
       "name": "[smg_0.glb] 左手の支えの位置に形があり、握れる幅",
       "ok": true,
-      "detail": "頂点 1092 個、半幅 0.031 / 0.04"
+      "detail": "頂点 312 個、半幅 0.022 / 0.04"
     },
     {
       "name": "[smg_0.glb] ネオン外形が本体の範囲内",
       "ok": true,
-      "detail": "24 点"
+      "detail": "32 点"
     },
     {
       "name": "[smg_0.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "447476 / 800000"
+      "detail": "448980 / 800000"
     },
     {
       "name": "[smg_0.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "447476 / 500000"
+      "detail": "448980 / 500000"
     },
     {
       "name": "[smg_0.glb] 識別インレイの色",
@@ -138,17 +138,17 @@
     {
       "name": "[smg_1.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 12402 三角形 7416"
+      "detail": "頂点 12322 三角形 8096"
     },
     {
       "name": "[smg_1.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "447476 / 800000"
+      "detail": "448980 / 800000"
     },
     {
       "name": "[smg_1.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "447476 / 500000"
+      "detail": "448980 / 500000"
     },
     {
       "name": "[smg_1.glb] 識別インレイの色",
@@ -158,17 +158,17 @@
     {
       "name": "[smg_2.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 12402 三角形 7416"
+      "detail": "頂点 12322 三角形 8096"
     },
     {
       "name": "[smg_2.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "447476 / 800000"
+      "detail": "448980 / 800000"
     },
     {
       "name": "[smg_2.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "447476 / 500000"
+      "detail": "448980 / 500000"
     },
     {
       "name": "[smg_2.glb] 識別インレイの色",
@@ -178,17 +178,17 @@
     {
       "name": "[smg_3.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 12402 三角形 7416"
+      "detail": "頂点 12322 三角形 8096"
     },
     {
       "name": "[smg_3.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "447476 / 800000"
+      "detail": "448980 / 800000"
     },
     {
       "name": "[smg_3.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "447476 / 500000"
+      "detail": "448980 / 500000"
     },
     {
       "name": "[smg_3.glb] 識別インレイの色",
@@ -198,17 +198,17 @@
     {
       "name": "[smg_4.glb] 形はグレード0と同一",
       "ok": true,
-      "detail": "頂点 12402 三角形 7416"
+      "detail": "頂点 12322 三角形 8096"
     },
     {
       "name": "[smg_4.glb] ファイルサイズ（上限）",
       "ok": true,
-      "detail": "447476 / 800000"
+      "detail": "448976 / 800000"
     },
     {
       "name": "[smg_4.glb] ファイルサイズ（目標）",
       "ok": true,
-      "detail": "447476 / 500000"
+      "detail": "448976 / 500000"
     },
     {
       "name": "[smg_4.glb] 識別インレイの色",
@@ -223,17 +223,17 @@
     {
       "name": "[読み直し] 三角形数が生成時と一致",
       "ok": true,
-      "detail": "7416 / 7416"
+      "detail": "8096 / 8096"
     },
     {
       "name": "[読み直し] 寸法が生成時と一致",
       "ok": true,
-      "detail": "[-0.042, -0.204, -0.17] .. [0.042, 0.42, 0.0995]"
+      "detail": "[-0.081, -0.259, -0.17] .. [0.081, 0.44, 0.193]"
     },
     {
       "name": "[読み直し] 材質名が生成時と一致",
       "ok": true,
-      "detail": "['Textured polymer', 'Paint hazard yellow', 'Metal steel', 'Recess black', 'Metal gunmetal', 'Rarity identification']"
+      "detail": "['Metal gunmetal', 'Textured polymer', 'Metal steel', 'Recess black', 'Paint hazard yellow', 'Rarity identification']"
     },
     {
       "name": "[読み直し] 左の識別インレイが見える",
