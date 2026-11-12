@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+RL-9の手続きシェーダー隔離試作（2026-11-12、不採用）: 画像テクスチャや材質を増やさず、金属・橙装甲の色と粗さに位置由来のむらを加えた。実ローカル画面と詳細プレビューの同倍率比較では、写実的な質感の明確な向上を確認できず不採用。[比較](evidence/weapon-models-20261111/procedural-wear-rejected.png)、[測定](evidence/weapon-models-20261111/procedural-wear-rejected-report.json)、[試作コード](evidence/weapon-models-20261111/procedural-wear-rejected.js)。固定画面各12回のGPUクエリ中央値は現行5.02ms・候補5.34msだが、小標本で確定的な差ではない。画面内のプログラム数は47→48、共有複製後も48。実ゲーム中に既存の分析通信のCORS失敗が記録されており、描画のエラーとは区別する。製品は変更せず、別武器・共有画面・長期キャッシュ・スマホ実機は未確認。
+
 KB-6の多層通風口隔離試作（2026-11-12、不採用）: 6つの通風口に縁・奥・二段の羽根、胴に赤茶と青灰の分割装甲を追加。8,432三角形・材質6・475,428 bytes、40項目合格・警告0、5等級の識別色以外一致だったが、詳細の実寸では差が小さく、兵士サイズではほぼ分からないため不採用。[比較](evidence/weapon-models-20261111/kick-layered-rejected.png)、[検査](evidence/weapon-models-20261111/kick-layered-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/kick-layered-rejected.py)。頭部との静止辺面交差は0組だが、完全内包・動作中・実ゲーム・スマホは未確認。製品は変更していない。
 
 射撃線修正後のビルド（2026-11-12）: ソース `1bb61fe` の本番ビルドとWorker dry-runが成功。武器60件はmanifestのサイズ・ハッシュとpublic実体に一致し、既存15ファイルは基点から未変更。[測定](evidence/weapon-models-20261111/grenade-final-build-report.json)。公開環境と実端末は未確認。
