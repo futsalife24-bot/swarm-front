@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+新規9丁の現在の横面は[一覧画像](evidence/weapon-models-20261111/reframe-nine-latest.png)にまとめた。形の違いを確認できる一方、参考画像の写実的な材質・摩耗には届いておらず、AAA級の完成とは判定していない。
+
 12丁×5等級のネオン再検査（2026-11-12）: 現在のモデル60組について、2層の輪郭、有限の形状、元モデルを変更しないこと、破棄、左右2枠、発光の強弱・持ち替えを既存検査で確認。36方向の画像を目視した。[輪郭・発光画像](evidence/weapon-models-20261111/neon-glow-final.png)、[輪郭測定](evidence/weapon-models-20261111/neon-final-report.json)、[発光測定](evidence/weapon-models-20261111/glow-final-report.json)。検査用スクリプトの依存モジュール読込を作業フォルダでも動くよう更新。実戦の全動作・実スマホは未確認。
 
 RL-9の手続き表面２尺度試作（2026-11-12、不採用）: 橙装甲に大小のむら、金属に細い擦れを付け、実ゲーム・詳細・共有画像を同倍率で比較。自然な質感の明確な向上は確認できず不採用。[比較](evidence/weapon-models-20261111/procedural-wear-v2-rejected.png)、[測定](evidence/weapon-models-20261111/procedural-wear-v2-rejected-report.json)、[試作コード](evidence/weapon-models-20261111/procedural-wear-v2-rejected.js)。共有画像の文字・数値は不変。GPU計測は各12回の小標本で変動が大きく、負荷の増減を断定できない。外部HTTPSを遮断した隔離ブラウザーの外部取得失敗3件は描画エラーと区別する。製品は変更せず、別武器・全等級・共有UIの操作・実スマホは未確認。
