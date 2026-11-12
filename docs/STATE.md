@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+KB-6の多層通風口隔離試作（2026-11-12、不採用）: 6つの通風口に縁・奥・二段の羽根、胴に赤茶と青灰の分割装甲を追加。8,432三角形・材質6・475,428 bytes、40項目合格・警告0、5等級の識別色以外一致だったが、詳細の実寸では差が小さく、兵士サイズではほぼ分からないため不採用。[比較](evidence/weapon-models-20261111/kick-layered-rejected.png)、[検査](evidence/weapon-models-20261111/kick-layered-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/kick-layered-rejected.py)。頭部との静止辺面交差は0組だが、完全内包・動作中・実ゲーム・スマホは未確認。製品は変更していない。
+
 射撃線修正後のビルド（2026-11-12）: ソース `1bb61fe` の本番ビルドとWorker dry-runが成功。武器60件はmanifestのサイズ・ハッシュとpublic実体に一致し、既存15ファイルは基点から未変更。[測定](evidence/weapon-models-20261111/grenade-final-build-report.json)。公開環境と実端末は未確認。
 
 LZ-2の頂点AO隔離試作（2026-11-12、不採用）: 形状由来の陰影を頂点色へ焼き、100%と30%で比較。100%は銅色が黒くつぶれ、30%は詳細でも違いが小さく、容量増に見合う改善を確認できなかった。両案とも8,788三角形・材質6・約625KB、画像0、40項目合格・500KB目標超過の警告5件、5等級の識別色以外一致。上限や検査条件は変更せず、製品にも反映しない。[比較](evidence/weapon-models-20261111/laser-ao-rejected.png)、[検査](evidence/weapon-models-20261111/laser-ao-rejected-check.json)。通常対戦・共有画面・実機は未確認。
