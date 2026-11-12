@@ -1,0 +1,430 @@
+{
+  "scope": "Actual service worker and download store at isolated local origin, manually selected weapon files; no product manifest, real device or deployed Worker.",
+  "missing": [],
+  "staleAsset": "assets/weapons/unique-v1/laser_0.glb",
+  "staleWasServed": true,
+  "controlled": true,
+  "offlineRows": [
+    {
+      "url": "assets/weapons/realism-v2/rifle_0.glb",
+      "ok": true,
+      "bytes": 792224,
+      "expectedBytes": 792224,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/rifle_1.glb",
+      "ok": true,
+      "bytes": 792224,
+      "expectedBytes": 792224,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/rifle_2.glb",
+      "ok": true,
+      "bytes": 792224,
+      "expectedBytes": 792224,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/rifle_3.glb",
+      "ok": true,
+      "bytes": 792224,
+      "expectedBytes": 792224,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/rifle_4.glb",
+      "ok": true,
+      "bytes": 792220,
+      "expectedBytes": 792220,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_0.glb",
+      "ok": true,
+      "bytes": 447476,
+      "expectedBytes": 447476,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_1.glb",
+      "ok": true,
+      "bytes": 447476,
+      "expectedBytes": 447476,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_2.glb",
+      "ok": true,
+      "bytes": 447476,
+      "expectedBytes": 447476,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_3.glb",
+      "ok": true,
+      "bytes": 447476,
+      "expectedBytes": 447476,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_4.glb",
+      "ok": true,
+      "bytes": 447476,
+      "expectedBytes": 447476,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_0.glb",
+      "ok": true,
+      "bytes": 444960,
+      "expectedBytes": 444960,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_1.glb",
+      "ok": true,
+      "bytes": 444960,
+      "expectedBytes": 444960,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_2.glb",
+      "ok": true,
+      "bytes": 444960,
+      "expectedBytes": 444960,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_3.glb",
+      "ok": true,
+      "bytes": 444960,
+      "expectedBytes": 444960,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_4.glb",
+      "ok": true,
+      "bytes": 444956,
+      "expectedBytes": 444956,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_0.glb",
+      "ok": true,
+      "bytes": 452184,
+      "expectedBytes": 452184,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_1.glb",
+      "ok": true,
+      "bytes": 452184,
+      "expectedBytes": 452184,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_2.glb",
+      "ok": true,
+      "bytes": 452184,
+      "expectedBytes": 452184,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_3.glb",
+      "ok": true,
+      "bytes": 452184,
+      "expectedBytes": 452184,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_4.glb",
+      "ok": true,
+      "bytes": 452184,
+      "expectedBytes": 452184,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_0.glb",
+      "ok": true,
+      "bytes": 483424,
+      "expectedBytes": 483424,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_1.glb",
+      "ok": true,
+      "bytes": 483424,
+      "expectedBytes": 483424,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_2.glb",
+      "ok": true,
+      "bytes": 483424,
+      "expectedBytes": 483424,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_3.glb",
+      "ok": true,
+      "bytes": 483424,
+      "expectedBytes": 483424,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_4.glb",
+      "ok": true,
+      "bytes": 483420,
+      "expectedBytes": 483420,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_0.glb",
+      "ok": true,
+      "bytes": 398720,
+      "expectedBytes": 398720,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_1.glb",
+      "ok": true,
+      "bytes": 398720,
+      "expectedBytes": 398720,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_2.glb",
+      "ok": true,
+      "bytes": 398720,
+      "expectedBytes": 398720,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_3.glb",
+      "ok": true,
+      "bytes": 398720,
+      "expectedBytes": 398720,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_4.glb",
+      "ok": true,
+      "bytes": 398720,
+      "expectedBytes": 398720,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_0.glb",
+      "ok": true,
+      "bytes": 431408,
+      "expectedBytes": 431408,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_1.glb",
+      "ok": true,
+      "bytes": 431408,
+      "expectedBytes": 431408,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_2.glb",
+      "ok": true,
+      "bytes": 431408,
+      "expectedBytes": 431408,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_3.glb",
+      "ok": true,
+      "bytes": 431408,
+      "expectedBytes": 431408,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_4.glb",
+      "ok": true,
+      "bytes": 431404,
+      "expectedBytes": 431404,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_0.glb",
+      "ok": true,
+      "bytes": 497720,
+      "expectedBytes": 497720,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_1.glb",
+      "ok": true,
+      "bytes": 497720,
+      "expectedBytes": 497720,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_2.glb",
+      "ok": true,
+      "bytes": 497720,
+      "expectedBytes": 497720,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_3.glb",
+      "ok": true,
+      "bytes": 497720,
+      "expectedBytes": 497720,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_4.glb",
+      "ok": true,
+      "bytes": 497716,
+      "expectedBytes": 497716,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_0.glb",
+      "ok": true,
+      "bytes": 470296,
+      "expectedBytes": 470296,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_1.glb",
+      "ok": true,
+      "bytes": 470296,
+      "expectedBytes": 470296,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_2.glb",
+      "ok": true,
+      "bytes": 470296,
+      "expectedBytes": 470296,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_3.glb",
+      "ok": true,
+      "bytes": 470296,
+      "expectedBytes": 470296,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_4.glb",
+      "ok": true,
+      "bytes": 470292,
+      "expectedBytes": 470292,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_0.glb",
+      "ok": true,
+      "bytes": 484856,
+      "expectedBytes": 484856,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_1.glb",
+      "ok": true,
+      "bytes": 484856,
+      "expectedBytes": 484856,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_2.glb",
+      "ok": true,
+      "bytes": 484856,
+      "expectedBytes": 484856,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_3.glb",
+      "ok": true,
+      "bytes": 484856,
+      "expectedBytes": 484856,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_4.glb",
+      "ok": true,
+      "bytes": 484852,
+      "expectedBytes": 484852,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_0.glb",
+      "ok": true,
+      "bytes": 398044,
+      "expectedBytes": 398044,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_1.glb",
+      "ok": true,
+      "bytes": 398044,
+      "expectedBytes": 398044,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_2.glb",
+      "ok": true,
+      "bytes": 398044,
+      "expectedBytes": 398044,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_3.glb",
+      "ok": true,
+      "bytes": 398044,
+      "expectedBytes": 398044,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_4.glb",
+      "ok": true,
+      "bytes": 398040,
+      "expectedBytes": 398040,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_0.glb",
+      "ok": true,
+      "bytes": 424704,
+      "expectedBytes": 424704,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_1.glb",
+      "ok": true,
+      "bytes": 424704,
+      "expectedBytes": 424704,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_2.glb",
+      "ok": true,
+      "bytes": 424704,
+      "expectedBytes": 424704,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_3.glb",
+      "ok": true,
+      "bytes": 424704,
+      "expectedBytes": 424704,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_4.glb",
+      "ok": true,
+      "bytes": 424700,
+      "expectedBytes": 424700,
+      "hashMatch": true
+    }
+  ],
+  "errors": []
+}
