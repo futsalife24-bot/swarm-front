@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+ダウン時背負い武器の複数軸隔離試作（2026-11-12、不採用）: SG-4とSR-1の左右4条件で、静止時に床上2mm・体表と手持ちの辺面交差0となる配置を有限探索。静止候補を倒れる途中と復帰を含む211フレームに適用すると、4条件すべてで床上2mmを下回り、最深は床下15〜97mm、2条件で体表と手持ちの交差も出た。補正を0へ戻した後の位置・回転残留は0。復帰の1フレーム350〜369mm程度の大きな変化は現行にもあり、試作だけの原因とは断定できない。[比較](evidence/weapon-models-20261111/weapon-composite-rejected.png)、[静止](evidence/weapon-models-20261111/weapon-composite-static-report.json)、[連続](evidence/weapon-models-20261111/weapon-composite-timeline-report.json)、[現行比較](evidence/weapon-models-20261111/weapon-composite-motion-report.json)。全組合せ・完全内包・実ゲーム・実機は未確認、製品は変更しない。
+
 MD-4の薬液槽隔離試作（2026-11-12、不採用）: 白い胴を開いた殻に変更し、内側の不透明な緑槽と外側の真鍮枠を別の立体にした。8,784三角形・材質6・最大471,176 bytes、40項目合格・警告0。現行より枠と槽の前後関係は見えるが、透明容器や液体らしさは明確に改善せず、参考画像の質感に届かないため不採用。[比較](evidence/weapon-models-20261111/medic-reservoir-rejected.png)、[検査](evidence/weapon-models-20261111/medic-reservoir-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/medic-reservoir-rejected.py)、[試作材質](evidence/weapon-models-20261111/medic-reservoir-kit-rejected.py)。実ゲーム・共有・干渉・実機は未確認、製品は変更しない。
 
 公開前のURL確認（2026-11-12）: 既存Workerの新武器45 URLにHEADを送り、すべてHTTP 200・`text/html` の応答を確認。代表の `medic_0.glb` はGETでも `text/html`、先頭4バイト `<!do` を返し、GLBではない。残り44件はGET本文未確認。旧ブラウザーの保存状況は未確認で、公開後にはGLBの実体・manifest・キャッシュを別途確認する。
