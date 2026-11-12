@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+RL-9の塗装欠け隔離試作（2026-11-12、不採用）: 橙装甲の端を不規則に欠かせ、既存の暗い金属を見せる案を比較。8,180三角形・材質6・445,516 bytes、40項目合格・警告0、5等級の識別色以外一致だったが、詳細の実寸と兵士サイズでは違いがほぼ読めず不採用。[比較](evidence/weapon-models-20261111/heavy-chipped-rejected.png)、[検査](evidence/weapon-models-20261111/heavy-chipped-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/heavy-chipped-rejected.py)。製品は変更せず、通常対戦・共有画像・スマホ実機は未確認。
+
 新規9丁の現在の横面は[一覧画像](evidence/weapon-models-20261111/reframe-nine-latest.png)にまとめた。形の違いを確認できる一方、参考画像の写実的な材質・摩耗には届いておらず、AAA級の完成とは判定していない。
 
 12丁×5等級のネオン再検査（2026-11-12）: 現在のモデル60組について、2層の輪郭、有限の形状、元モデルを変更しないこと、破棄、左右2枠、発光の強弱・持ち替えを既存検査で確認。36方向の画像を目視した。[輪郭・発光画像](evidence/weapon-models-20261111/neon-glow-final.png)、[輪郭測定](evidence/weapon-models-20261111/neon-final-report.json)、[発光測定](evidence/weapon-models-20261111/glow-final-report.json)。検査用スクリプトの依存モジュール読込を作業フォルダでも動くよう更新。実戦の全動作・実スマホは未確認。
