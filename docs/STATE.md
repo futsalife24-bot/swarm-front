@@ -1,4 +1,8 @@
-# 武器12丁の個別モデル制作中（2026-11-11、未公開）
+# 武器12丁の個別モデルを公開済み（2026-11-12）
+
+今回の状態: 本人が受け入れた新9種・既存3種の構成で制作と統合を完了し、独立再監査合格後に [PR #319](https://github.com/futsalife24-bot/swarm-front/pull/319) を通常mergeした。公開ソースは `50125e6d63d966c25b4d0424b82991dbedd5abfe`、既存Worker Versionは `00b4e105-aa09-4dad-9042-62e9d608d753`（100%）。[公開先](https://swarm-front.melosalife-24.workers.dev)。merge後の本番build・Worker dry-run成功、全60 GLBの元データ/build/manifest一致、公開90ファイルのSHA一致、health正常、844×390・1280×720の開始/射撃/切替/一時停止と画面例外0を確認した。公開manifest.webmanifestのHTTP・SHA・横画面指定も一致。[公開検査](evidence/weapon-models-20261111/published-release.json)、[補足](evidence/weapon-models-20261111/published-supplement.json)、[844画面](evidence/weapon-models-20261111/published-844.png)、[監査と公開の詳細](evidence/weapon-models-20261111/release-audit.md)。
+
+未確認・既知の範囲: 実スマホの表示/負荷/聴感、全連続動作の接触、実旧Worker通信は未確認。ダウン時の床入り込みと旧Workerでの元等級色制限は今回の監査必須修正から除外された。追加の専用ブラウザー検査では新SW登録は成功したが有効化の待機期限に達したため、旧→新SW更新・公開キャッシュ回復は未確認（実SWのローカル回復検査は合格済み）。公開UIの2画面検査はSWを無効にした使い捨て環境で、12丁すべての公開プレイを意味しない。モデル・手持ち・背負い・装填・銃口・詳細/共有のローカル確認と限界は下の履歴/証拠を参照。追加磨き込みは本人判断で終了。以下は制作中の経過記録であり、この先頭の公開済み状態を優先する。
 
 独立再監査に合格（2026-11-12）: 対象 `8d44d6f3` のP1/P2は両方閉鎖、追加必須修正0。通常main反映と、merge後build/dry-run→既存Worker公開→即時配信/health/2画面検査→不合格時切戻しの順序が認められた。[最終回答](evidence/weapon-models-20261111/audit-8d44d6f3.md)、[合格画面](evidence/weapon-models-20261111/audit-8d44d6f3.jpg)。本人は同じ監査の修正版共有も許可済み。次は通常PRでmain反映と公開。現時点ではmain・公開とも未実施。監査後の変更は記録文書と合格証拠だけで、製品は監査対象と同一。
 
