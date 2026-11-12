@@ -566,10 +566,9 @@ export class CombatEffects {
         e.mesh.position.addScaledVector(this.impactOffset, 0.4);
         e.impactPlaced = true;
       }
-      // Do not expire an undrawn grenade tracer before its first actual draw.
+      // Keep the grenade tracer at its muzzle position until its first actual draw.
       // The separate timer releases it even if this update keeps running undrawn.
-      const advance =
-        this.firstDraw.has(e) && e.age + dt >= e.duration ? 0 : dt;
+      const advance = this.firstDraw.has(e) ? 0 : dt;
       const previousAge = e.age;
       e.age += advance;
       const t = Math.min(1, e.age / e.duration);

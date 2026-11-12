@@ -1,5 +1,7 @@
 # 武器12丁の個別モデル制作中（2026-11-11、未公開）
 
+射撃線の描画前移動の追加修正（2026-11-12）: 自己レビューで、短い更新間隔では初回描画待ちの線が先に移動・減光する問題を発見。対象線は初回描画まで位置・明るさを保ち、描画後に進めるよう修正した。1/144秒・1/240秒の連続更新では移動0・不透明度1、描画後0.004秒で0.48m移動・不透明度0.76。期限回収・clear・上限・再利用と対象外、実ローカルでのGL-6・ST-3・RL-2・AR-9を再確認。型確認・関連11テスト成功。[回収と短い更新](evidence/weapon-models-20261111/grenade-firstdraw-freeze-test.json)、[実ローカル射撃](evidence/weapon-models-20261111/grenade-firstdraw-freeze-live.json)。閃光と線は実画面では小さく、スマホでの視認性・通信は未確認。
+
 RL-9の塗装欠け隔離試作（2026-11-12、不採用）: 橙装甲の端を不規則に欠かせ、既存の暗い金属を見せる案を比較。8,180三角形・材質6・445,516 bytes、40項目合格・警告0、5等級の識別色以外一致だったが、詳細の実寸と兵士サイズでは違いがほぼ読めず不採用。[比較](evidence/weapon-models-20261111/heavy-chipped-rejected.png)、[検査](evidence/weapon-models-20261111/heavy-chipped-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/heavy-chipped-rejected.py)。製品は変更せず、通常対戦・共有画像・スマホ実機は未確認。
 
 新規9丁の現在の横面は[一覧画像](evidence/weapon-models-20261111/reframe-nine-latest.png)にまとめた。形の違いを確認できる一方、参考画像の写実的な材質・摩耗には届いておらず、AAA級の完成とは判定していない。
