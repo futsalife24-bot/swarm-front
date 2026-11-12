@@ -16,7 +16,7 @@ function revealStyle() {
     const style = document.createElement("link");
     style.rel = "stylesheet";
     style.href =
-      import.meta.env.BASE_URL + "supply-reveal/gacha.css?v=20261112-2";
+      import.meta.env.BASE_URL + "supply-reveal/gacha.css?v=20261112-3";
     style.onload = () => resolve();
     style.onerror = () => {
       styleReady = undefined;

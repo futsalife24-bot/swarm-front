@@ -9,7 +9,7 @@ export const CLIPS = [
   { n: 2, scene: '10:SSR＋SR', caption: '② 流星群の降下', sub: '降下中 ／ SSR以上が1個以上確定', make: (M) => { const B = M.B; return [
     { d: 0.5, a: B, b: B, tap: true },
     { d: 2.6, a: B, b: B + 2.6, snd: true, cues: [0.25, 0.5, 0.8, 1.05, 1.3].map((at, i) => ({ at, id: 'whoosh', vol: 0.5, rate: 0.7 + 0.12 * i })), fx: (s) => ({ id: 'meteor', p: { t: s } }) }]; } },
-  { n: 3, right: true, scene: '10:SSR＋SR', caption: '③ 地割れの着地', sub: '着地 ／ そのポッドがSSR以上確定', make: (M) => { const P = M.pods.find((p) => p.tier === 4), a = M.B + 0.25, b = M.pods[9].tLand + 1.9; return [
+  { n: 3, right: true, scene: '10:SSR＋SR', caption: '③ 地割れの着地', sub: '着地 ／ そのポッドがSSR以上確定', make: (M) => { const P = M.pods.find((p) => p.tier === 4), a = M.B + 0.25, b = M.pods.at(-1).tLand + 1.9; return [
     { d: b - a, a, b, snd: true, cues: [{ at: P.tLand - a, id: 'land' }, { at: P.tLand - a + 0.02, id: 'promote4', vol: 0.55 }], fx: (s) => ({ id: 'crack', p: { a: a + s - P.tLand, x: 844 / 2 + P.x, gy: P.gy } }) }]; } },
   { n: 4, scene: '10:SSR＋SR', caption: '④ 目印の先読み', sub: 'タップの前 ／ そのポッドがSR以上確定', make: (M) => { const P = M.pods.find((p) => p.tier === 3), t = P.tStop, pp = { x: 844 / 2 + P.x, gy: P.gy, h: P.h }; return [
     { d: 0.9, a: t, b: t, tap: true },

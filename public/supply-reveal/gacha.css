@@ -34,6 +34,7 @@
 .gx-card { position: absolute; left: 50%; top: 188px; width: 500px; height: 158px; opacity: 0; display: grid; grid-template-columns: 214px 1fr; border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); border-top: 3px solid var(--c);
   background: linear-gradient(135deg, #0e1a20, #070e12); box-shadow: 0 0 44px color-mix(in srgb, var(--c) 38%, transparent), 0 14px 30px rgba(0, 0, 0, .5); }
 .gx-root[data-mode="multi"] .gx-card { display: none; }
+.gx-final .gx-card[role="button"] { pointer-events: auto; cursor: pointer; }
 .gx-card-art { position: relative; background: radial-gradient(closest-side, color-mix(in srgb, var(--c) 62%, #dfeef2 10%) 0%, color-mix(in srgb, var(--c) 30%, transparent) 55%, transparent 82%), repeating-linear-gradient(135deg, rgba(255, 255, 255, .03) 0 2px, transparent 2px 9px); }
 .gx-card-art img { position: absolute; inset: 10px; width: calc(100% - 20px); height: calc(100% - 20px); object-fit: contain; filter: drop-shadow(0 0 10px color-mix(in srgb, var(--c) 70%, transparent)); }
 .gx-root .gx-sil { filter: brightness(0) invert(1) drop-shadow(0 0 14px #fff) !important; }
