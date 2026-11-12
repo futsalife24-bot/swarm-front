@@ -95,7 +95,7 @@ it.each(MAPS.slice(3))(
     }
     expect(seen.size).toBe(open.size);
     const stage = STAGES.find((s) => MAPS[s.map] === map)!;
-    // HARROWは地上34.5mの空中から現れる（2026-10の空中遭遇仕様）。天井のある洞窟では
+    // HARROWは地上34.5mの空中から現れる（2026-09-24の空中遭遇仕様）。天井のある洞窟では
     // 成立しないため、洞窟にHARROWを出す作戦が無いことを確かめたうえで対象から外す。
     // 洞窟の作戦へHARROWを加える場合は、ここが失敗するので出現位置の扱いを先に決める。
     const harrowStages = [...STAGES, HARROW_BRANCH].filter((s) =>

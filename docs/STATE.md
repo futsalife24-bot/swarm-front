@@ -1,3 +1,17 @@
+# 全体テストとformatが全件成功：以後の基準線（2026-11-13、Claude Code）
+
+本人依頼「既存テスト失敗とformat警告を一掃し、全体合格の土台を作る」。最新main `aa886b0d` では1766件中16件失敗・format警告16ファイルだった。最終 `9f321ca0` で `npm run typecheck`、`npm test`（**1766件すべて成功・172ファイル、255秒**）、`npm run format:check`、`npm run build`、`npm run server:build` が全て終了コード0。以後、`npm test` か `format:check` の失敗は新規の回帰として扱える。[分類表・原因・根拠・生ログ](evidence/test-green-20261113/README.md)。
+
+- 16件は全て試験側の問題（仕様変更・構成変更への未追従と、試験入力の日付依存）で、製品の不具合は0件。ゲームルール・報酬・保存形式・難易度・通信形式は無変更。skip・timeout延長・assert削除なし。期待値は定義値と仕様文書から導出した。
+- **リファクタ候補2の開始ゲート（step同値）は通過。** 前線5条件に非決定性は無い。原因は、`createFrontRun` が `day` 省略時に実行日を状態へ保存すること（試験は採取時のUTC日付を固定）と、PR319で武器へ追加された表示用の `appearanceTier`。この項目を除くと全tickが分割前の基点 `303b7745` と一致。融合4条件だけスナップショットを更新（差分はsha256の4行）。
+- **B-4への引継ぎ（64KiB）：** 判定状態を落とさずに合格。4人最大密集の実 `broadcast` で、旧クライアント向けは65,520バイト（上限まで16バイト、古い演出を削って収める設計どおり）、現行クライアント向けは約59.4KB。上限値を上げる前に同じ試験で余裕を測ること。実WebSocketでは未確認。
+- format：prettierで13ファイルを整形。製品9ファイルは意味同一を `scripts/check-format-only-diff.mjs` で照合。旧保存fixtureのJSON 3件はSHA照合があるため `.prettierignore` で除外。
+- 安定化：更新履歴の生成（`scripts/automatic-changelog.mjs`）のgit起動を履歴全体で1回へまとめた。結果は旧生成器と完全一致、32.6秒→0.3秒。これを呼ぶ試験が11/10に77.7秒（上限90秒）かかっていた問題を解消。全体は11/10の548秒から255秒。
+- 作業場所：別worktree `task-test-green-20261113`、branch `claude/test-green-20261113`。元rootと他worktreeの差分には触れていない。独立Chat監査なし（2026-10-15方針）。
+- 公開：**既存Workerへの公開は不要と判断し未実施。** 配信物の動作を変える差分が無い（整形と内部処理のみ、機械照合済み）。実画面確認もしていない。次回公開時の更新履歴に「内部処理の整理（遊び方・性能の変更なし）」が入る。
+- 未確認・残り：実WebSocket／実機、`test:e2e`・`test:save:browser`・各integrationは対象外で未実行。洞窟×HARROWは製品に無い組合せとして出現位置の試験から外し、洞窟にHARROWの作戦が追加されたら失敗する条件へ置き換えた。重い4ファイルを `test:heavy` へ分ける案は未実施（上記READMEに記載）。
+- 注意：全体テストは他の重い検証と同時に走らせない（`harrow-model` の1件が負荷次第で19〜77秒）。前線の run を直列化する試験では `day` を必ず渡す。
+
 # 補給演出・結果画面と単発演出確認を公開済み（2026-11-12）
 
 金射出の視認性、昇格文字の整理、結果の武器・バディ詳細、X共有と「次へ」、地割れの描画順、3種の確定演出の発動順、結果以下の初期箱色、タップ位置に累積する画面割れと開発者向け単発演出確認を改修。[PR #323](https://github.com/futsalife24-bot/swarm-front/pull/323)・[PR #324](https://github.com/futsalife24-bot/swarm-front/pull/324) を通常mergeし、公開ソース `9c587395e98d932cb870df34d285bbe045291f4e` を既存Worker Version `73ec3f1e-3bd0-4b4a-8a0f-c5f67507722a` に公開。通常抽選・報酬・保存は変更しない。補給関連76件・型検査・マージ後本番build・Worker dry-run成功。隔離Workerと本体の試しガチャ1連・10連を2画面、通常10連で詳細復帰、保存不変、受領、SW旧CSS回避を確認し画面例外0。[検証](evidence/supply-reveal-improvements-20261112/README.md)。公開36ファイルがbuildと一致しhealth正常。[配信照合](evidence/supply-reveal-improvements-20261112/published.json)。実スマホ・聴感・公開環境の認証済み操作・実X接続は未確認。
