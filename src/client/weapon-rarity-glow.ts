@@ -1,6 +1,6 @@
 import * as T from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
-import { weaponTier } from "../shared/progression";
+import { weaponVisualTier } from "../shared/progression";
 import { NEW_WEAPON_NEON_PROFILES } from "./weapon-neon-profiles";
 import {
   modelOf,
@@ -140,7 +140,7 @@ export class WeaponRarityGlow {
   private readonly lines: T.Mesh[] = [];
 
   constructor(root: T.Object3D, weapon: Weapon) {
-    this.color = new T.Color(COLORS[weaponTier(weapon)]);
+    this.color = new T.Color(COLORS[weaponVisualTier(weapon)]);
     // Opaque core gives a stable, continuous line; no additive white hotspots.
     this.core = new T.MeshBasicMaterial({
       color: this.color,

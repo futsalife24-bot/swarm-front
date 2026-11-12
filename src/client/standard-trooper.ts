@@ -2,7 +2,7 @@ import * as T from "three";
 import { GLTFLoader, type GLTF } from "three/addons/loaders/GLTFLoader.js";
 import { progressionWeaponModel } from "./progression-weapons";
 import { WeaponRarityGlow } from "./weapon-rarity-glow";
-import { weaponTier } from "../shared/progression";
+import { weaponVisualTier } from "../shared/progression";
 import { clone } from "three/addons/utils/SkeletonUtils.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { soldierAccent } from "./soldier-accent";
@@ -698,7 +698,7 @@ export class StandardTrooper {
       weapons.every(
         (w, i) =>
           this.weaponIds[i] ===
-          `${w.id}:${w.kind}:${weaponTier(w)}:${progressionWeaponModel(w)?.uuid ?? ""}`,
+          `${w.id}:${w.kind}:${weaponVisualTier(w)}:${progressionWeaponModel(w)?.uuid ?? ""}`,
       )
     )
       return;
@@ -715,7 +715,7 @@ export class StandardTrooper {
     );
     this.weaponIds = weapons.map(
       (w) =>
-        `${w.id}:${w.kind}:${weaponTier(w)}:${progressionWeaponModel(w)?.uuid ?? ""}`,
+        `${w.id}:${w.kind}:${weaponVisualTier(w)}:${progressionWeaponModel(w)?.uuid ?? ""}`,
     );
     this.weaponGlows = this.weapons.map(
       (root, i) => new WeaponRarityGlow(root, weapons[i]),

@@ -9,6 +9,8 @@ import {
   FRONT_INITIAL_CARDS,
 } from "../src/shared/front-upgrades";
 import { neutral } from "../src/shared/game";
+import { STARTERS, stats } from "../src/shared/defs";
+import { makeWeapon } from "../src/shared/progression";
 import { restoreTurn } from "../src/shared/state-wire";
 import { restoreStateTuples } from "../src/shared/state-tuples";
 import { StateChunkAssembler } from "../src/shared/state-chunks";
@@ -131,6 +133,104 @@ class Client {
   }
 }
 afterEach(() => clients.splice(0).forEach((c) => c.ws.close()));
+
+it("融合後の表示等級を実Workerで同期し、再接続でも保持する", async () => {
+  const entry = await room("defense");
+  const host = new Client(entry.code, "", 3);
+  // The other peer negotiates compact tuple encoding.
+  const guest = new Client(entry.code, "", 3, 2, 2, false, true);
+  const zeroVariance = { power: 0, reload: 0, range: 0, rate: 0 };
+  const original = [
+    makeWeapon("visual-modern-n", "slug", 0, zeroVariance, false, 0),
+    { ...STARTERS[0], id: "visual-legacy-r", kind: "slug" as const },
+  ];
+  const pool = [
+    "blast-core",
+    "armor-piercer",
+    "afterimage-mine",
+    "armor",
+    "magnet",
+    "interceptor",
+  ];
+  for (const [index, client] of [host, guest].entries()) {
+    await client.wait((m) => m.type === "welcome");
+    client.send({
+      type: "equip",
+      upgradePool: pool,
+      // A saved or network input must not be allowed to choose its glow.
+      weapons: [
+        { ...original[index], appearanceTier: 4 },
+        { ...STARTERS[1], id: `visual-side-${index}` },
+      ],
+    });
+    const lobby = await client.wait(
+      (m) =>
+        m.members?.find((p: any) => p.id === client.id)?.weapons?.length === 2,
+    );
+    expect(
+      lobby.members.find((p: any) => p.id === client.id).weapons[0]
+        .appearanceTier,
+    ).toBeUndefined();
+  }
+  const lobby = await host.wait(
+    (m) =>
+      m.members?.length === 2 &&
+      m.members.every((p: any) => p.weapons?.length === 2),
+  );
+  for (const client of [host, guest])
+    client.send({
+      type: "ready",
+      ready: true,
+      stage: lobby.stage,
+      preparationGeneration: lobby.preparationGeneration,
+    });
+  await host.wait(
+    (m) => m.members?.length === 2 && m.members.every((p: any) => p.ready),
+  );
+  host.send({ type: "start" });
+  const states = await Promise.all(
+    [host, guest].map((c) => c.wait((m) => m.type === "state")),
+  );
+  const from = host.messages.length;
+  host.choose(states[0]);
+  guest.choose(states[1]);
+  const selected = await host.wait(
+    (m) =>
+      m.type === "state" &&
+      m.world.players.find((p: any) => p.id === host.id)?.weapons[0]
+        ?.appearanceTier === 0 &&
+      m.world.players.find((p: any) => p.id === guest.id)?.weapons[0]
+        ?.appearanceTier === 1,
+    from,
+    10000,
+  );
+  for (const [index, client] of [host, guest].entries()) {
+    const projected = selected.world.players.find(
+      (p: any) => p.id === client.id,
+    ).weapons[0];
+    const actual = stats(projected),
+      before = stats(original[index]);
+    for (const key of ["damage", "mag", "reload", "range", "interval"] as const)
+      expect(actual[key]).toBeCloseTo(before[key], 8);
+  }
+  expect(guest.tuplePackets).toBeGreaterThan(0);
+  guest.ws.close();
+  await host.wait(
+    (m) => m.members?.some((p: any) => p.id === guest.id && !p.connected),
+    from,
+  );
+  const restored = new Client(entry.code, guest.token, 3, 2, 2, false, true);
+  const rejoined = await restored.wait((m) => m.type === "state", 0, 10000);
+  expect(
+    rejoined.world.players.find((p: any) => p.id === host.id).weapons[0]
+      .appearanceTier,
+  ).toBe(0);
+  expect(
+    rejoined.world.players.find((p: any) => p.id === guest.id).weapons[0]
+      .appearanceTier,
+  ).toBe(1);
+  expect(restored.decodeErrors).toBe(0);
+});
 async function room(mode = "defense") {
   const response = await fetch(base + "/rooms", {
     method: "POST",

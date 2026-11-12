@@ -1,0 +1,110 @@
+{
+  "scope": "Local test-only Worker and real WebSocket; d7d1399 state decoder, equipment cache, model loader and neon class bundled from exact base source in Node; real old GLBs loaded from isolated local HTTP. No actual old browser, renderer, network deployment, phone or all upgrade combinations.",
+  "source": "d7d1399",
+  "modes": [
+    {
+      "requested": 0,
+      "wireEncoding": "json",
+      "oldDecoded": true,
+      "oldCacheAccepted": true,
+      "actualCachedPacket": true,
+      "cachedPlayersOnWireHaveWeapons": false,
+      "tiers": [
+        {
+          "input": "N",
+          "appearanceTier": 0
+        },
+        {
+          "input": "LR",
+          "appearanceTier": 4
+        },
+        {
+          "input": "legacy R",
+          "appearanceTier": 1
+        }
+      ]
+    },
+    {
+      "requested": 1,
+      "wireEncoding": "tuples-v1",
+      "oldDecoded": true,
+      "oldCacheAccepted": true,
+      "actualCachedPacket": true,
+      "cachedPlayersOnWireHaveWeapons": false,
+      "tiers": [
+        {
+          "input": "N",
+          "appearanceTier": 0
+        },
+        {
+          "input": "LR",
+          "appearanceTier": 4
+        },
+        {
+          "input": "legacy R",
+          "appearanceTier": 1
+        }
+      ]
+    },
+    {
+      "requested": 2,
+      "wireEncoding": "tuples-v2",
+      "oldDecoded": true,
+      "oldCacheAccepted": true,
+      "actualCachedPacket": true,
+      "cachedPlayersOnWireHaveWeapons": false,
+      "tiers": [
+        {
+          "input": "N",
+          "appearanceTier": 0
+        },
+        {
+          "input": "LR",
+          "appearanceTier": 4
+        },
+        {
+          "input": "legacy R",
+          "appearanceTier": 1
+        }
+      ]
+    }
+  ],
+  "glbRequests": [
+    "/assets/weapons/realism-v2/shotgun_0.glb",
+    "/assets/weapons/realism-v2/shotgun_4.glb"
+  ],
+  "visuals": [
+    {
+      "input": "N",
+      "wireAppearanceTier": 0,
+      "oldComputedTier": 1,
+      "oldGlow": "#83d8b0",
+      "oldProjectionHasFormat": false,
+      "oldUsesLoadedModel": false,
+      "oldOriginalUsesLoadedModel": true
+    },
+    {
+      "input": "LR",
+      "wireAppearanceTier": 4,
+      "oldComputedTier": 5,
+      "oldGlow": "#ffffff",
+      "oldProjectionHasFormat": false,
+      "oldUsesLoadedModel": false,
+      "oldOriginalUsesLoadedModel": true
+    },
+    {
+      "input": "legacy R",
+      "wireAppearanceTier": 1,
+      "oldComputedTier": 1,
+      "oldGlow": "#83d8b0",
+      "oldProjectionHasFormat": false,
+      "oldUsesLoadedModel": false,
+      "oldOriginalUsesLoadedModel": false
+    }
+  ],
+  "errors": [
+    [],
+    [],
+    []
+  ]
+}

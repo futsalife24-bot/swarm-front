@@ -69,6 +69,9 @@ export const ROLLS: Roll[] = ["power", "mag", "reload", "range", "rate"];
 // Reload is the one where a smaller number is the better outcome.
 export const LOWER_IS_BETTER: Roll[] = ["reload"];
 export interface Weapon {
+  // Run-local display grade, derived by the authoritative fusion simulation.
+  // Incoming equipment must not be trusted to supply this value.
+  appearanceTier?: 0 | 1 | 2 | 3 | 4;
   level?: number;
   mods?: WeaponMods;
   id: string;
