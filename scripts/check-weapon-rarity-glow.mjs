@@ -3,6 +3,7 @@ import fs from "node:fs";
 import assert from "node:assert/strict";
 const dir = "dist-validation/weapon-glow";
 fs.mkdirSync(dir, { recursive: true });
+fs.writeFileSync(`${dir}/dependencies.js`, `import * as THREE from 'three'; export { THREE };`);
 const browser = await chromium.launch({
   channel: "chrome",
   args: ["--use-angle=d3d11"],
@@ -22,7 +23,7 @@ try {
   );
   await page.goto("http://127.0.0.1:5419/glow-check");
   const result = await page.evaluate(async () => {
-    const T = await import("/node_modules/three/build/three.module.js");
+    const { THREE: T } = await import("/dist-validation/weapon-glow/dependencies.js");
     const { StandardTrooper, loadStandardTrooper } =
       await import("/src/client/standard-trooper.ts");
     const { loadProgressionWeapons } =

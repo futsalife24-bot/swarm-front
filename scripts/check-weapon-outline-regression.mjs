@@ -3,6 +3,7 @@ import fs from "node:fs";
 import assert from "node:assert/strict";
 const dir = "dist-validation/weapon-neon";
 fs.mkdirSync(dir, { recursive: true });
+fs.writeFileSync(`${dir}/dependencies.js`, `import * as THREE from 'three'; import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'; export { THREE, GLTFLoader };`);
 const browser = await chromium.launch({
   channel: "chrome",
   args: ["--use-angle=d3d11"],
@@ -16,9 +17,7 @@ try {
   );
   await page.goto("http://127.0.0.1:5419/neon-check");
   const results = await page.evaluate(async () => {
-    const T = await import("/node_modules/three/build/three.module.js");
-    const { GLTFLoader } =
-      await import("/node_modules/three/examples/jsm/loaders/GLTFLoader.js");
+    const { THREE: T, GLTFLoader } = await import("/dist-validation/weapon-neon/dependencies.js");
     const { WeaponRarityGlow } =
       await import("/src/client/weapon-rarity-glow.ts");
     const { makeWeapon } = await import("/src/shared/progression.ts");
