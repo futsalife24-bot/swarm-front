@@ -164,14 +164,23 @@ export function mountTitleEntry(root: HTMLElement) {
       });
       // Hide the static artwork dot while its animated replacement contracts.
       Object.assign(dotCover.style, {
-        left: `${x}px`, top: `${y}px`,
-        width: `${radius * 2.3}px`, height: `${radius * 2.3}px`,
-        marginLeft: `${-radius * 1.15}px`, marginTop: `${-radius * 1.15}px`,
+        left: `${x}px`,
+        top: `${y}px`,
+        width: `${radius * 2.3}px`,
+        height: `${radius * 2.3}px`,
+        marginLeft: `${-radius * 1.15}px`,
+        marginTop: `${-radius * 1.15}px`,
         opacity: "1",
       });
-      await animate(dot, [{ transform: "scale(1)" }, { transform: "scale(.58)" }], {
-        duration: 120, easing: "cubic-bezier(.4,0,.8,.4)", fill: "forwards",
-      });
+      await animate(
+        dot,
+        [{ transform: "scale(1)" }, { transform: "scale(.58)" }],
+        {
+          duration: 120,
+          easing: "cubic-bezier(.4,0,.8,.4)",
+          fill: "forwards",
+        },
+      );
       await animate(
         dot,
         [

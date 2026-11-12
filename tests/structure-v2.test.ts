@@ -22,6 +22,7 @@ import { ENEMIES } from "../src/shared/defs";
 import { troopCount, stageFor, troopAt } from "../src/shared/stages";
 import { enemyGeometry } from "../src/client/enemy-model";
 import { enemyStatSize } from "../src/shared/enemy-size";
+import { PLEAT_STRIKE } from "../src/shared/pleat-strike";
 
 function field(kind: Enemy["kind"] = "crawler", count = 4, stage = 1) {
   const w = createWorld("structure", 123, stage);
@@ -135,6 +136,20 @@ it("PLEAT holds through preparation and red warning before the forward shockwave
   expect(e.wind).toBeGreaterThan(0);
   expect(w.players.map((p) => p.hp)).toEqual(hp);
   while (e.wind > 0) step(w, {});
+  // 2026-11-06（PR288）以降、予告の終了tickは4mの踏み込みを始めるだけで、
+  // 命中は続く0.3秒の経路上で各隊員1回だけ（docs/evidence/pleat-pressure-20261106）。
+  expect(e.pleat?.strike?.remaining).toBe(PLEAT_STRIKE.travel);
+  expect(w.players.map((p) => p.hp)).toEqual(hp);
+  const from = { x: e.x, z: e.z };
+  let strikeTicks = 0;
+  while (e.pleat?.strike) {
+    step(w, {});
+    expect(++strikeTicks).toBeLessThanOrEqual(7);
+  }
+  expect(strikeTicks).toBeGreaterThanOrEqual(6);
+  expect(Math.hypot(e.x - from.x, e.z - from.z)).toBeCloseTo(
+    PLEAT_STRIKE.travel,
+  );
   expect(w.players[0].hp).toBeCloseTo(
     hp[0] - ENEMIES.crawler.damage * enemyStatSize(e),
   );

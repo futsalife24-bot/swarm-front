@@ -50,7 +50,9 @@ describe("developer authentication", () => {
     expect(manifest.scope).toBe("/admin/");
     expect(manifest.display).toBe("standalone");
     expect(manifest.orientation).toBe("portrait");
-    expect(adminPage).toContain('rel="manifest" href="/admin/manifest.webmanifest"');
+    expect(adminPage).toContain(
+      'rel="manifest" href="/admin/manifest.webmanifest"',
+    );
     expect(readFileSync("public/sw.js", "utf8")).toContain(
       "!url.pathname.startsWith(adminUrl.pathname)",
     );
@@ -68,11 +70,17 @@ describe("developer authentication", () => {
     });
     const fetchHandler = handlers.get("fetch");
     expect(fetchHandler).toBeDefined();
-    for (const path of ["/admin", "/admin/", "/admin/manifest.webmanifest"] ) {
+    for (const path of ["/admin", "/admin/", "/admin/manifest.webmanifest"]) {
       let intercepted = false;
       fetchHandler!({
-        request: { method: "GET", url: "https://swarm-front.example" + path, mode: "navigate" },
-        respondWith: () => { intercepted = true; },
+        request: {
+          method: "GET",
+          url: "https://swarm-front.example" + path,
+          mode: "navigate",
+        },
+        respondWith: () => {
+          intercepted = true;
+        },
       });
       expect(intercepted, path).toBe(false);
     }
@@ -97,8 +105,12 @@ describe("developer authentication", () => {
       );
       expect(response.status).toBe(200);
       const [target, init] = upstream.mock.calls[0] as [Request, RequestInit];
-      expect(String(target)).toBe("https://backend.example/api/developer/login");
-      expect((init.headers as Headers).get("Origin")).toBe("https://backend.example");
+      expect(String(target)).toBe(
+        "https://backend.example/api/developer/login",
+      );
+      expect((init.headers as Headers).get("Origin")).toBe(
+        "https://backend.example",
+      );
       expect((init.headers as Headers).get("Referer")).toBeNull();
       await expect(
         adminProxy.fetch(
@@ -110,7 +122,12 @@ describe("developer authentication", () => {
           { BACKEND_ORIGIN: "https://backend.example" },
         ),
       ).resolves.toMatchObject({ status: 403 });
-      expect(await adminProxy.fetch(new Request("https://swarm-front-admin.example/"), {})).toMatchObject({ status: 404 });
+      expect(
+        await adminProxy.fetch(
+          new Request("https://swarm-front-admin.example/"),
+          {},
+        ),
+      ).toMatchObject({ status: 404 });
     } finally {
       upstream.mockRestore();
     }

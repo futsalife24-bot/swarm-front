@@ -139,7 +139,11 @@ it.each(["front", "legacy"])(
         id: "p",
         token: "local",
         stateFlow: true,
-        ...(mode === "front" ? { ruleset: "front-v1", frontOpening: 2 } : {}),
+        // 現行クライアントは生存の専用武器編成（frontSurvivalBuild）へ未対応の
+        // 通信先を旧版として切断する。対応済みサーバーのwelcomeを再現する。
+        ...(mode === "front"
+          ? { ruleset: "front-v1", frontOpening: 2, frontSurvivalBuild: 1 }
+          : {}),
       });
       socket.receive({ type: "state", stateId: 1 }); // Invalid world: not accepted.
       vi.advanceTimersByTime(100);

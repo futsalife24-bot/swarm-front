@@ -1,0 +1,5 @@
+
+> swarm-front@0.1.0 typecheck
+> tsc -p tsconfig.json && tsc -p tsconfig.worker.json
+
+npm run typecheck exit=0 seconds=1

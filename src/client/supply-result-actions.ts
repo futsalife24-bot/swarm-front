@@ -52,11 +52,7 @@ export function openSupplyResult(r: Result) {
       },
       { tab: "roster", focus: r.buddyId },
     );
-    dialog.addEventListener(
-      "close",
-      () => menu.destroy(),
-      { once: true },
-    );
+    dialog.addEventListener("close", () => menu.destroy(), { once: true });
   }
 }
 

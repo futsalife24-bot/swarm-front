@@ -203,19 +203,24 @@ it("observes ten upward missiles and clears them when leaving attack playback", 
       (child) => child instanceof T.Group,
     )!;
     expect(group.visible).toBe(true);
-    expect(
+    // 2026-10-26採用の立体予告（突進・爆撃専用）は別の子として末尾に加わった。
+    // 上向きミサイルでは1本も出さないことを名前で確かめ、従来の並びはそのまま照合する。
+    const beacons = group.getObjectByName(
+      "harrow-warning-beacons",
+    ) as T.InstancedMesh;
+    expect(beacons).toBeInstanceOf(T.InstancedMesh);
+    const counts = () =>
       group.children
-        .filter((child) => !(child instanceof T.Group))
-        .map((child) => (child as T.InstancedMesh).count),
-    ).toEqual([10, 10, 10, 0, 0, undefined, 0]);
+        .filter((child) => !(child instanceof T.Group) && child !== beacons)
+        .map((child) => (child as T.InstancedMesh).count);
+    expect(counts()).toEqual([10, 10, 10, 0, 0, undefined, 0]);
+    expect(beacons.count).toBe(0);
+    expect(beacons.visible).toBe(false);
     expect(group.getObjectByName("HARROW_SPIN_PRESSURE")?.visible).toBe(false);
     effects.update("harrow", false, "idle", start + 0.1);
     expect(group.visible).toBe(false);
-    expect(
-      group.children
-        .filter((child) => !(child instanceof T.Group))
-        .map((child) => (child as T.InstancedMesh).count),
-    ).toEqual([0, 0, 0, 0, 0, undefined, 0]);
+    expect(counts()).toEqual([0, 0, 0, 0, 0, undefined, 0]);
+    expect(beacons.count).toBe(0);
   } finally {
     effects.dispose();
   }

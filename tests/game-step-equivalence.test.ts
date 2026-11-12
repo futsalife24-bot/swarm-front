@@ -325,6 +325,13 @@ const foundryPhases = (w: World, tick: number) => {
         e.hp = Math.min(e.hp, e.maxHp * (tick === 200 ? 0.6 : 0.3));
 };
 
+/**
+ * createFrontRun は day 省略時に実行日のUTC日付を run へ保存する。日付を渡さないと
+ * スナップショットが採取日にしか一致しないため、採取時のUTC日付（commit 2c97bc85、
+ * 2026-11-10 07:59 JST）を入力として固定する。
+ */
+const SNAPSHOT_DAY = "2026-11-09";
+
 function frontRun(
   seed: number,
   ids: string[],
@@ -334,6 +341,7 @@ function frontRun(
   let run = createFrontRun({
     runId: `golden-front-${seed}`,
     seed,
+    day: SNAPSHOT_DAY,
     ...options,
     players: ids.map((id) => ({ id })),
   });

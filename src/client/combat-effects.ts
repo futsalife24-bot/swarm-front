@@ -79,7 +79,10 @@ export class CombatEffects {
   // Bounded lifetime while a very short grenade tracer awaits a renderer draw.
   private firstDraw = new Map<
     Effect,
-    { timer: ReturnType<typeof globalThis.setTimeout>; previous: T.Object3D["onAfterRender"] }
+    {
+      timer: ReturnType<typeof globalThis.setTimeout>;
+      previous: T.Object3D["onAfterRender"];
+    }
   >();
 
   private cancelFirstDraw(effect: Effect) {

@@ -11,7 +11,8 @@ import {
   aimCamera,
   eye,
 } from "../src/shared/game";
-import { STARTERS, BLOCKS } from "../src/shared/defs";
+import { STARTERS, BLOCKS, ENEMIES } from "../src/shared/defs";
+import { enemySize } from "../src/shared/enemy-size";
 import { SCOPE_FOV, NORMAL_FOV } from "../src/shared/aim";
 import { mapFor } from "../src/shared/stages";
 
@@ -124,7 +125,13 @@ describe("camera-aligned authoritative shots", () => {
           shot.target.y - eye(e),
           shot.target.z - e.z,
         );
-        expect(targetDistance).toBeCloseTo(1.25, 6);
+        // 着弾点は中央の敵の当たり判定球の表面。半径は基準値×体格倍率
+        // （2026-09-19の全敵1.5倍化、docs/MONSTER-SIZE-150.md）。
+        expect(enemySize(e)).toBe(1.5);
+        expect(targetDistance).toBeCloseTo(
+          ENEMIES.crawler.radius * enemySize(e),
+          6,
+        );
       }
   });
   it("hits a centered close target with rifle and shotgun without hidden aim bending", () => {

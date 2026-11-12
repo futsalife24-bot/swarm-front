@@ -1,13 +1,19 @@
 import * as T from "three";
 
-export const SOLDIER_ACCENTS = ["#5dbccc", "#ef8b39", "#b278db", "#a5c85a"] as const;
+export const SOLDIER_ACCENTS = [
+  "#5dbccc",
+  "#ef8b39",
+  "#b278db",
+  "#a5c85a",
+] as const;
 
 /** Change the uniform's authored cyan paint; preserve fabric and white markings. */
 export function soldierAccent(material: T.MeshStandardMaterial) {
   const uniform = { value: new T.Color(SOLDIER_ACCENTS[0]) };
   material.onBeforeCompile = (shader) => {
     shader.uniforms.playerAccent = uniform;
-    shader.fragmentShader = "uniform vec3 playerAccent;\n" + shader.fragmentShader;
+    shader.fragmentShader =
+      "uniform vec3 playerAccent;\n" + shader.fragmentShader;
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <map_fragment>",
       `#include <map_fragment>
@@ -18,5 +24,6 @@ export function soldierAccent(material: T.MeshStandardMaterial) {
     );
   };
   material.customProgramCacheKey = () => "swarm-player-accent-v1";
-  return (index: number) => uniform.value.set(SOLDIER_ACCENTS[((index % 4) + 4) % 4]);
+  return (index: number) =>
+    uniform.value.set(SOLDIER_ACCENTS[((index % 4) + 4) % 4]);
 }
