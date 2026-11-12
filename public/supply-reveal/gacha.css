@@ -78,6 +78,9 @@
 .gx-tile span { height: 32px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 11px; line-height: 16px; overflow-wrap: anywhere; }
 .gx-tile span.gx-long { -webkit-line-clamp: 3; font-size: 9px; line-height: 12px; height: 36px; margin-top: -4px; }
 .gx-tile i { position: absolute; right: 4px; top: 4px; margin: 0; }
+.gx-final .gx-list { pointer-events: auto; }
+.gx-tile[role="button"] { cursor: pointer; }
+.gx-tile[role="button"]:focus-visible { outline: 3px solid #fff; outline-offset: -3px; }
 
 /* 上部の表示と操作（実寸。押せる大きさを保つ） */
 .gx-hud { position: absolute; left: 0; right: 0; top: 0; min-height: 48px; padding: max(2px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left)); display: flex; align-items: center; justify-content: space-between; gap: 8px; background: linear-gradient(180deg, rgba(2, 6, 10, .82), rgba(2, 6, 10, 0)); }
@@ -100,6 +103,7 @@
 .gx-launch small { padding: 3px 14px; font-size: 13px; letter-spacing: .14em; color: #cfeef3; background: rgba(2, 10, 14, .6); border-top: 1px solid rgba(87, 199, 212, .6); border-bottom: 1px solid rgba(87, 199, 212, .6); white-space: nowrap; }
 .gx-root button.gx-skip { border-color: #8fd8e2; color: #f2fdff; background: rgba(24, 62, 72, .92); }
 @keyframes gx-tap { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
-.gx-actions { position: absolute; right: max(14px, env(safe-area-inset-right)); bottom: max(10px, env(safe-area-inset-bottom)); display: none; gap: 8px; }
+.gx-actions { position: absolute; left: max(14px, env(safe-area-inset-left)); right: max(14px, env(safe-area-inset-right)); bottom: max(10px, env(safe-area-inset-bottom)); display: none; gap: 8px; justify-content: flex-end; }
+.gx-actions [data-id="share"] { margin-right: auto; }
 .gx-final .gx-actions { display: flex; }
 @media (prefers-reduced-motion: reduce) { .gx-tap { animation: none; } }

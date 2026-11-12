@@ -54,7 +54,7 @@ function artOf(r, base) {
    操作の流れ（2026-11-11 本人指定）：
    1. 「射出」の停止点でタップ → ポッドが降ってくる
    2. 10連は1個ずつ、タップで溜め→開封。溜めは全ポッド同じ長さ・同じ音で、終わるまで結果は分からない
-   3. SR以上は1回目の溜めで「SR+」に昇格して止まり、以後タップ1回ごとに1段ずつ上がる（SSR+ → バディ）。
+   3. SR以上は1回目の溜めで紫に昇格して止まり、以後タップ1回ごとに1段ずつ上がる（金 → バディ色）。
       上がり切ったあとのタップで開封。昇格は上がるだけで、見せた段階より結果が下がることはない
    停止点の種類：launch（射出）/ pod（次のポッド）/ promo（昇格のあと）/ cut（カットインのあと）/ final */
 export const STOP_HOLD_MS = { launch: 250, pod: 120, promo: 220, cut: 500, final: 0 }; // 止まってから次のタップを受け付けるまで
@@ -66,7 +66,7 @@ export function build(results, reduced = false) {
   const shake = (t, amp, dur = 0.35) => { if (!reduced) m.shakes.push({ t, amp, dur }); };
   const stop = (t, kind, p) => { m.stops.push({ t, kind, i: p ? p.i : -1 }); if (p) p.waits.push(t); };
   const B = 0.55 * q; m.tLaunch = B; stop(B, 'launch');
-  const pod = (i, x, gy, h) => { const p = { i, r: results[i], tier: tiers[i], x, gy, h, pan: 0, beats: [], waits: [], tCall: B + i * 0.03 * q }; m.pods.push(p); return p; };
+  const pod = (i, x, gy, h) => { const p = { i, r: results[i], tier: tiers[i], initial: results[i].initialTier ?? 1, x, gy, h, pan: 0, beats: [], waits: [], tCall: B + i * 0.03 * q }; m.pods.push(p); return p; };
   cue(B, 'call'); cue(B, 'bed', { vol: 0.45 }); cue(B, 'slam', { vol: 0.75, buzz: 45 }); shake(B, 6, 0.3);
   // 開封（ポッドの溜めが終わった時刻 t から）
   const open = (p, t, j) => {
@@ -76,7 +76,7 @@ export function build(results, reduced = false) {
     shake(t, [2, 2, 3, 7, 15, 15][p.tier], p.tier >= 4 ? 0.6 : 0.3);
     return t;
   };
-  // タップ1回分の溜め。1回目は全ポッド同じ（k0）。N・R・武装片はそのまま開き、SR以上はSR+へ上がって止まる
+  // タップ1回分の溜め。N・R・武装片はそのまま開き、SR以上は紫以上へ上がって止まる
   const steps = (p, t, k0, j) => {
     const d0 = CHARGE[k0] * q; cue(t, 'charge' + k0, { pan: p.pan });
     if (p.tier <= 2) { p.last = [t, t + d0, k0]; return open(p, t + d0, j); }
@@ -131,7 +131,7 @@ export function build(results, reduced = false) {
 }
 // 10連の開封音と一覧の音につける音階。幅を1オクターブ半に抑え、高い側が甲高くならないようにする
 const PENTA = [-7, -5, -3, 0, 2, 4, 7, 9, 12, 14];
-const levelAt = (p, t) => { let lv = 1, since = -9, from = 1; for (const b of p.beats) if (t >= b.t1) { lv = b.to; since = b.t1; from = b.from; } return { lv, since, from }; };
+const levelAt = (p, t) => { let lv = p.initial, since = -9, from = lv; for (const b of p.beats) if (t >= b.t1 && b.to > lv) { from = lv; lv = b.to; since = b.t1; } return { lv, since, from }; };
 const chargeAt = (m, p, t) => {
   for (const b of p.beats) if (t >= b.t0 && t < b.t1) return [(t - b.t0) / (b.t1 - b.t0), b.k];
   if (p.last && t >= p.last[0] && t < p.last[1]) return [(t - p.last[0]) / (p.last[1] - p.last[0]), p.last[2]];
@@ -320,7 +320,7 @@ function createRenderer(cv, imgs) {
     over();
   }
 
-  function draw(m, t, A) {
+  function draw(m, t, A, beforePods) {
     const cam = camera(m, t), sh = shakeAt(m, t), red = m.reduced;
     ctx.setTransform(1, 0, 0, 1, 0, 0); over(); ctx.globalAlpha = 1; ctx.fillStyle = '#02060a'; ctx.fillRect(0, 0, cv.width, cv.height);
     const world = () => ctx.setTransform(S * cam.z, 0, 0, S * cam.z, S * (VW / 2 - cam.x * cam.z + sh.x), S * (H / 2 - cam.y * cam.z + sh.y));
@@ -346,6 +346,7 @@ function createRenderer(cv, imgs) {
         g.addColorStop(0, rgba(tintCol, 0.26 * fkLead)); g.addColorStop(1, rgba(tintCol, 0)); ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(bx - 2, HZ); ctx.lineTo(bx + Math.cos(an - 0.055) * len, HZ + Math.sin(an - 0.055) * len); ctx.lineTo(bx + Math.cos(an + 0.055) * len, HZ + Math.sin(an + 0.055) * len); ctx.lineTo(bx + 2, HZ); ctx.fill(); }
       over();
     }
+    if (beforePods) { ctx.save(); beforePods(ctx, { cam, sh, VW, S, t, A, m, cv }); ctx.restore(); world(); }
     const order = m.pods.filter((p) => p !== lead);
     for (const p of order) podDraw(m, p, t);
     for (const p of order) podFx(m, p, t, A); // 動き減でも呼ぶ（次のポッドの目印を出すため。粒子は podFx 内で減らす）
@@ -425,7 +426,7 @@ export function createDropReveal(host, opts = {}) {
     model = build(results, reduced); root.dataset.mode = model.multi ? 'multi' : 'single'; el.label.textContent = `${o.label} ×${model.n}`;
     el.world.innerHTML = model.multi ? model.pods.map((p) => `<div class="gx-mini" data-tier="${TIER_KEY[p.tier]}"><img alt="" src="${esc(artOf(p.r, o.assetBase))}"><b>${esc(p.tier === 0 ? '×' + p.r.amount : rarText(p.tier))}</b></div>`).join('') : '';
     minis = [...el.world.querySelectorAll('.gx-mini')];
-    el.list.innerHTML = model.multi ? model.pods.map((p) => `<div class="gx-tile" data-tier="${TIER_KEY[p.tier]}" data-type="${p.r.type}"><img alt="" src="${esc(artOf(p.r, o.assetBase))}"><b>${esc(rarText(p.tier) || '素材')}</b><span${nameOf(p.r).length > 16 ? ' class="gx-long"' : ''}>${esc(nameOf(p.r))}</span>${p.r.new ? '<i>NEW</i>' : ''}</div>`).join('') : '';
+    el.list.innerHTML = model.multi ? model.pods.map((p) => `<div class="gx-tile" data-index="${p.i}" data-tier="${TIER_KEY[p.tier]}" data-type="${p.r.type}"${p.r.type !== 'shard' ? ' role="button" tabindex="0" aria-label="' + esc(nameOf(p.r)) + 'の詳細"' : ''}><img alt="" src="${esc(artOf(p.r, o.assetBase))}"><b>${esc(rarText(p.tier) || '素材')}</b><span${nameOf(p.r).length > 16 ? ' class="gx-long"' : ''}>${esc(nameOf(p.r))}</span>${p.r.new ? '<i>NEW</i>' : ''}</div>`).join('') : '';
     tiles = [...el.list.children];
     if (!model.multi) fillInfo(el.card, results[0], model.tiers[0]);
     // カード・カットインの絵は、出す前に画像の展開を済ませておく（初めて見せる瞬間に描画が止まらないように）
@@ -436,9 +437,9 @@ export function createDropReveal(host, opts = {}) {
   function layout() { if (!ren || !ren.resize()) return; const u = el.cv.clientHeight / H; set(el.stage, 'width', ren.VW + 'px'); root.style.setProperty('--u', u); }
   function frame(t, A, showTap = false) {
     if (!ren || !model) return;
-    const m = model, { cam, sh, VW, S } = ren.draw(m, t, A), u = el.cv.clientHeight / H;
+    const m = model, { cam, sh, VW, S } = ren.draw(m, t, A, onDraw && ((g, info) => onDraw(g, { ...info, phase: 'beforePods' }))), u = el.cv.clientHeight / H;
     // 試作用の描画フック（確定演出の案を上に重ねて見るためのもの。設定しなければ何もしない）
-    if (onDraw) { const g = el.cv.getContext('2d'); g.save(); onDraw(g, { cam, sh, VW, S, t, A, m, cv: el.cv }); g.restore(); }
+    if (onDraw) { const g = el.cv.getContext('2d'); g.save(); onDraw(g, { cam, sh, VW, S, t, A, m, cv: el.cv, phase: 'afterPods' }); g.restore(); }
     tf(el.stage, `translate(${(sh.x * u).toFixed(2)}px,${(sh.y * u).toFixed(2)}px) scale(${u})`);
     tf(el.world, `translate(${(VW / 2 - cam.x * cam.z).toFixed(2)}px,${(H / 2 - cam.y * cam.z).toFixed(2)}px) scale(${cam.z.toFixed(4)})`);
     const lead = m.multi ? m.pods.find((p) => p.focus && t >= p.focus[0] && t <= p.focus[3]) : m.pods[0];
@@ -447,8 +448,7 @@ export function createDropReveal(host, opts = {}) {
     else st = t < m.pods[9].tLand ? '降下中' : t < m.tList ? (lead && t < lead.tOpen ? '反応を検知' : `開封 ${m.pods.filter((p) => t >= p.tOpen).length}/10`) : t < m.tEnd ? '受領一覧' : '受領完了';
     if (el.status.textContent !== st) el.status.textContent = st;
     // 予兆の表示（下限だけ）
-    let ov = 0; if (lead && t < lead.tOpen) { const { lv, since } = levelAt(lead, t); if (lv >= 2 && (!lead.focus || t >= lead.focus[0] + 0.15)) { const txt = lv === 5 ? 'バディ反応' : `${TIER_NAME[lv]}以上の反応`; if (el.omenT.textContent !== txt) el.omenT.textContent = txt; el.omen.style.setProperty('--c', LV_COL[lv]); ov = 1; tf(el.omen, `translateX(-50%) scale(${(1 + 0.7 * Math.exp(-(t - Math.max(since, lead.focus ? lead.focus[0] + 0.15 : 0)) * 11)).toFixed(3)})`); } }
-    op(el.omen, ov);
+    op(el.omen, 0);
     // 射出の合図（タップで投下）
     const B = m.tLaunch, lk = seg(t, B * 0.3, B, E.out3) * (1 - seg(t, B, B + 0.18)); op(el.launch, lk); set(el.launch, 'visibility', lk > 0 ? 'visible' : 'hidden');
     if (lk > 0) tf(el.launch, `translate(-50%,-50%) scale(${(t < B ? 0.85 + 0.15 * lk + (reduced ? 0 : 0.035 * Math.sin(A * 4.5)) : 1 + 0.6 * seg(t, B, B + 0.18, E.out3)).toFixed(3)})`);
@@ -508,7 +508,7 @@ export function createDropReveal(host, opts = {}) {
   }
   const api = {
     ready,
-    async play(arr, po = {}) { results = validate(arr); await ready; root.hidden = false; live = true; mount(); layout(); T = po.atEnd ? model.tEnd : 0; idle = 0; stopIdx = po.atEnd ? model.stops.length - 1 : 0; waiting = null; queued = false; cueIdx = po.atEnd ? model.cues.length : 0;
+    async play(arr, po = {}) { results = validate(arr).map((r) => ({ ...r, initialTier: 1 + Math.floor(Math.random() * Math.max(1, tierOf(r))) })); await ready; root.hidden = false; live = true; mount(); layout(); T = po.atEnd ? model.tEnd : 0; idle = 0; stopIdx = po.atEnd ? model.stops.length - 1 : 0; waiting = null; queued = false; cueIdx = po.atEnd ? model.cues.length : 0;
       if (o.sound && !po.silent) { player.unlock(); player.prime(); } cancelAnimationFrame(raf); lastNow = performance.now(); if (!po.manual) raf = requestAnimationFrame(tick); else frame(T, T); o.onEvent({ type: 'play', n: model.n }); },
     replay() { if (results) return api.play(results); },
     tap() { const now = performance.now(); if (!live || !model || now - lastTap < TAP_GAP_MS) return; lastTap = now;

@@ -15,7 +15,7 @@ export function createSupplyReveal(host, options = {}) {
   let parts = [], pos = 0, elapsed = 0, presentationClock = 0, waiting = null, waitSince = 0, queued = false, active = false, closed = false;
   let fxNumber = 0, model = null, result = null, caption = null, raf = 0, last = 0;
   let muted = false, reduced = core.state().reduced, fast = core.state().fast, cleanupFx = null, heldPointer = false;
-  let skipping = false;
+  let skipping = false, cracks = [], lastCrackAt = 0;
   const confirmedCuts = new Set();
   const ready = Promise.all([core.ready, install(core, o.assetBase || new URL('./assets/', import.meta.url).href, () => reduced)]).then(([, cleanup]) => { if (closed) cleanup(); else cleanupFx = cleanup; });
   const visual = (p, sec, tap = false) => {
@@ -40,6 +40,7 @@ export function createSupplyReveal(host, options = {}) {
     if (p.wait) {
       if (queued && (p.wait === 'pod' || p.wait === 'promo') && !(fxNumber === 4 && p.fx)) { queued = false; advance(); return; }
       waiting = p.wait; waitSince = performance.now(); queued = false;
+      core.root.querySelector('.gx-tap').textContent = p.wait === 'fracture' ? `タップして画面を割る ${cracks.length}/3` : 'TAP';
       o.onEvent?.({ type: p.wait === 'final' ? 'final' : 'stop', kind: p.wait, t: p.a });
     }
   };
@@ -113,6 +114,40 @@ export function createSupplyReveal(host, options = {}) {
       M.pods = [proxy, ...m.pods.filter((p) => p !== target)];
       if (n === 4) M.pods = m.pods.map((p) => p === target ? proxy : p);
     }
+    // 対象箱の最初の操作直後に割り込み、以降は元の停止点へ戻す。
+    if (target && [5, 8, 10].includes(n)) {
+      const start = target.beats[0].t0, xy = { x: 844 / 2 + target.x, cy: target.gy - target.h / 2 };
+      let at = 0;
+      for (const s of stops) if (s.t <= start + 1e-5) { append(out, motion(at, s.t), [s]); at = s.t; }
+      if (start > at + 1e-5) append(out, motion(at, start), []);
+      if (n === 5) {
+        const first = target.beats[0], second = target.beats[1];
+        out.push(motion(start, first.t1 - 0.01));
+        out.push({ a: second.t1 - 0.004, b: second.t1 + 0.776, d: reduced ? 0.468 : 0.78, snd: true, cues: [{ at: 0, id: 'slam', vol: 0.7 }], fx: (s) => ({ id: 'skip', p: { ...xy, a: s } }) });
+        at = second.t1 + 0.776;
+      } else {
+        const effects = n === 8
+          ? [{ d: 2, fx: (s) => ({ id: 'freeze', p: { ...xy, k: clamp(s / 0.12) * (1 - clamp((s - 1.9) / 0.1)), a: s } }) }]
+          : [{ d: 0.45, fx: () => ({ id: 'jack', p: { g: 1, w: 0, a: 0 } }) }, { d: 2.6, fx: (s) => ({ id: 'jack', p: { g: s < 0.15 ? 1 : 0.12 * (Math.sin(s * 9) > 0.6 ? 1 : 0), w: clamp(s / 0.22), a: s } }) }, { d: 0.3, fx: (s, u) => ({ id: 'jack', p: { g: 1, w: 1 - u, a: 3 } }) }];
+        for (const effect of effects) out.push({ a: start, b: start, ...effect, d: effect.d * (reduced ? 0.6 : 1), notap: true });
+        at = start;
+      }
+      for (const s of stops) if (s.t > at + 1e-5) { append(out, motion(at, s.t), [s]); at = s.t; }
+      return out;
+    }
+    if (target && n === 9) {
+      const start = target.beats[0].t0, cut = target.cut;
+      let at = 0;
+      for (const s of stops) if (s.t <= start + 1e-5) { append(out, motion(at, s.t), [s]); at = s.t; }
+      if (start > at + 1e-5) append(out, motion(at, start), []);
+      out.push({ ...waitPart({ t: start, kind: 'fracture' }), fx: () => ({ id: 'fracture', p: { points: cracks } }) });
+      out.push({ a: start, b: start, d: reduced ? 0.2 : 0.35, notap: true, fx: () => ({ id: 'fracture', p: { points: cracks } }) });
+      out.push({ a: start, b: start, d: reduced ? 0.42 : 0.7, notap: true, fx: (s, u) => ({ id: 'shatter', p: { x: 844 / 2 + target.x, cy: target.gy - target.h / 2, screenPoint: cracks.at(-1), points: cracks, crack: 1, fall: u * 1.2, snap: s === 0 } }) });
+      append(out, motion(cut.c0, cut.tDone), [stops.find((s) => s.kind === 'cut' && Math.abs(s.t - cut.tDone) < 1e-5)]);
+      at = cut.tDone;
+      for (const s of stops) if (s.t > at + 1e-5) { append(out, motion(at, s.t), [s]); at = s.t; }
+      return out;
+    }
     const original = clip.make(M);
     let referenceAt = 0;
     for (const seg of original) { seg.refStart = referenceAt; seg.refDuration = seg.d; referenceAt += seg.d; }
@@ -154,7 +189,7 @@ export function createSupplyReveal(host, options = {}) {
       muted = !!cfg.silent;
       await core.play(results, { manual: true, silent: muted });
       model = core.model(); result = results;
-      skipping = false; confirmedCuts.clear();
+      skipping = false; cracks = []; lastCrackAt = 0; confirmedCuts.clear();
       fxNumber = chooseEffect(model, cfg.effects);
       setBuddyArt(fxNumber === 10 ? model.pods.find((p) => p.tier === 5)?.r.art : null);
       caption = fxNumber ? CLIPS[fxNumber - 1] : null;
@@ -164,10 +199,22 @@ export function createSupplyReveal(host, options = {}) {
       if (!cfg.manual) raf = requestAnimationFrame(tick);
       o.onEvent?.({ type: 'play', n: model.n, effect: fxNumber });
     },
-    tap() {
+    tap(point) {
       if (!active || waiting === 'final') return;
-      if (!waiting) { const next = parts.slice(pos + 1).find((p) => p.wait); if (next && (next.wait === 'pod' || next.wait === 'promo')) queued = true; return; }
+      if (!waiting) { const next = parts.slice(pos + 1).find((p) => p.wait); if (fxNumber !== 9 && next && (next.wait === 'pod' || next.wait === 'promo')) queued = true; return; }
+      if (waiting === 'fracture') {
+        const now = performance.now(); if (now - waitSince < 120 || now - lastCrackAt < 120) return;
+        lastCrackAt = now; cracks.push(point || { x: 0.5, y: 0.5 }); cue({ id: 'glass', vol: 0.7 });
+        core.root.querySelector('.gx-tap').textContent = `タップして画面を割る ${cracks.length}/3`;
+        o.onEvent?.({ type: 'fracture', count: cracks.length, point: cracks.at(-1) });
+        if (cracks.length >= 3) advance();
+        render(); return;
+      }
       if (performance.now() - waitSince < (STOP_HOLD_MS[waiting] || 0)) return;
+      if (fxNumber === 9 && ((waiting === 'pod' && Math.abs(current().a - model.pods.find((p) => p.tier === 4)?.beats[0].t0) < 1e-5) || (waiting === 'launch' && !model.multi))) {
+        lastCrackAt = performance.now(); cracks.push(point || { x: 0.5, y: 0.5 }); cue({ id: 'glass', vol: 0.7 });
+        o.onEvent?.({ type: 'fracture', count: cracks.length, point: cracks.at(-1) });
+      }
       if (waiting === 'cut') {
         const c = model.cuts.find((c) => Math.abs(c.tDone - current().a) < 1e-4);
         if (c) confirmedCuts.add(c.p.i);
@@ -195,18 +242,21 @@ export function createSupplyReveal(host, options = {}) {
     setReduced(v) { reduced = !!v; core.setReduced(reduced); if (active) { const old = current(), fr = old?.d ? elapsed / old.d : 0; model = core.model(); parts = skipping ? skippedParts(parts.filter((p) => p.skipCut !== undefined).map((p) => p.skipCut)) : makeParts(model, fxNumber); pos = Math.min(pos, parts.length - 1); elapsed = (current()?.d || 0) * fr; render(); } },
     setSound(v) { core.setSound(v); },
     seek(t, idle = 0, tap = false, fx = null) { setFx(fx); core.seek(t, idle, tap); },
-    state() { return { active, effect: fxNumber, waiting, part: pos, skipping, t: current() ? current().a + (current().b - current().a) * (current().d ? elapsed / current().d : 1) : 0, reduced, fast }; },
+    state() { return { active, effect: fxNumber, waiting, part: pos, skipping, cracks: cracks.length, t: current() ? current().a + (current().b - current().a) * (current().d ? elapsed / current().d : 1) : 0, reduced, fast }; },
     model() { return model; },
     timeline() { return parts.map((p) => ({ a: p.a, b: p.b, d: p.d, refStart: p.refStart, refDuration: p.refDuration, wait: p.wait || null, gold: !!p.gold, fx: p.fx?.(p.d * 0.5, 0.5)?.id || null, cues: (p.cues || []).map((c) => ({ at: c.at, id: c.id })), snd: !!p.snd })); },
     root: core.root,
     core,
   };
   const root = core.root;
-  const onPointer = (e) => { if (e.target.closest('button')) return; heldPointer = true; api.tap(); };
+  const onPointer = (e) => { if (e.target.closest('button,[role="button"]')) return; heldPointer = true; const r = root.getBoundingClientRect(); api.tap({ x: clamp((e.clientX - r.left) / r.width), y: clamp((e.clientY - r.top) / r.height) }); };
   const onRelease = () => { heldPointer = false; if (active && fxNumber === 7 && current()?.holdReady && elapsed >= 0.05) { advance(); render(); } };
   const onClick = (e) => {
+    const tile = e.target.closest('.gx-tile[role="button"]');
+    if (tile && waiting === 'final') { e.stopPropagation(); o.onResult?.(result[Number(tile.dataset.index)]); return; }
     const finalId = e.target.closest('.gx-actions [data-id]')?.dataset.id;
     if (finalId === 'close') { e.stopPropagation(); api.close(); o.onAction?.('close'); return; }
+    if (finalId === 'share' && waiting === 'final') { e.stopPropagation(); o.onShare?.(result); return; }
     const action = e.target.closest('[data-act]')?.dataset.act;
     if (!action) return;
     e.stopPropagation();
@@ -215,7 +265,7 @@ export function createSupplyReveal(host, options = {}) {
     else if (action === 'reduced') api.setReduced(!reduced);
     else if (action === 'sound') api.setSound(root.querySelector('[data-act="sound"]').getAttribute('aria-pressed') !== 'true');
   };
-  const onKey = (e) => { if (!active) return; if (e.key === 'Escape') api.skip(); else if ((e.key === ' ' || e.key === 'Enter') && !e.target.closest?.('button')) api.tap(); };
+  const onKey = (e) => { if (!active || e.target.closest?.('dialog')) return; if ((e.key === ' ' || e.key === 'Enter') && e.target.matches?.('.gx-tile[role="button"]')) { e.preventDefault(); e.target.click(); } else if (e.key === 'Escape') api.skip(); else if ((e.key === ' ' || e.key === 'Enter') && !e.target.closest?.('button')) api.tap(); };
   root.addEventListener('pointerdown', onPointer);
   root.addEventListener('click', onClick, true);
   window.addEventListener('pointerup', onRelease);

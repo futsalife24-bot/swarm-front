@@ -6,6 +6,7 @@ import {
   randomSupplyPreview,
 } from "./supply-preview-data";
 import "./supply-menu.css";
+import { openSupplyResult, shareSupplyResults } from "./supply-result-actions";
 
 /** 認証済み開発者の表示確認専用。補給サービス・受領・保存を呼ばない。 */
 export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
@@ -18,7 +19,7 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
     <button type="button" data-supply-preview-play>選択した演出で10連</button>
     <button type="button" data-supply-preview-random>ランダムで10連</button></div>
     <p data-supply-preview-note role="status" aria-live="polite">選択時は演出に必要な結果を用意します。ランダム時は通常と同じ排出確率・SR以上保証・演出選択です。</p>
-    <small>タップ・長押し・スキップ・2倍速・動き減を確認できます。結果一覧の「演出確認へ戻る」で繰り返し再生できます。</small>
+    <small>タップ・長押し・スキップ・2倍速・動き減を確認できます。結果一覧の「次へ」で繰り返し再生できます。</small>
     <p data-supply-preview-effect="" class="supply-preview-result"></p>
   </section>`;
   const note = host.querySelector<HTMLElement>("[data-supply-preview-note]")!;
@@ -52,7 +53,13 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
           import.meta.env.BASE_URL + "supply-reveal/assets/",
           location.origin,
         ).href,
-        finalActions: [{ id: "close", label: "演出確認へ戻る", primary: true }],
+        finalActions: [
+          { id: "share", label: "Xで共有" },
+          { id: "close", label: "次へ", primary: true },
+        ],
+        onResult: openSupplyResult,
+        onShare: (results: Parameters<typeof shareSupplyResults>[0]) =>
+          shareSupplyResults(results, true),
         onClose: () => {
           if (closed) return;
           reveal?.destroy();
