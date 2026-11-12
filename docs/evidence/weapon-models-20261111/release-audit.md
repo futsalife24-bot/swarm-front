@@ -1,5 +1,24 @@
 # 武器12種の独立監査・公開記録
 
+## 公開完了（2026-11-12）
+
+- [PR #319](https://github.com/futsalife24-bot/swarm-front/pull/319) を通常merge。公開ソース `50125e6d63d966c25b4d0424b82991dbedd5abfe`。監査対象 `8d44d6f36c4acb1020849a31e43ca3def07ab85b` 以降は文書/証拠6ファイルだけで製品差分0。
+- PR最終HEAD `0dc3e32cbcfb8d6174951437616038b16b3611f4` にstatus/workflow runsは0件、mainの必須check設定はなし。CI合格と呼ばず、保護やHookを変更せず通常mergeした。merge本文に日本語 `Player-Note` を保存。
+- merge後の `npm run build:production` と `npm run server:build:production` はexit 0。60 GLBのpublic/build/manifestのbytes/SHA・v2ヘッダー/宣言長、build SWとsourceの一致を確認。
+- 既存 `wrangler.production.jsonc` で公開。Worker Version `00b4e105-aa09-4dad-9042-62e9d608d753`、deployment `ca9fc070-10ff-49a0-bbf3-90f83a06d0aa`、公開時刻 `2026-11-12T09:20:31.148863Z`、100%配信を履歴の実取得で確認。新規サービス・課金・移行なし。
+- 公開直前の切戻し先は `6ec9ecc1-5d43-4049-bd15-683169679a51`。公開ゲート合格のため切戻しは未実施。
+- 公開先: https://swarm-front.melosalife-24.workers.dev
+
+`node scripts/check-weapon-realism-release.mjs https://swarm-front.melosalife-24.workers.dev` はexit 0。90ファイル（60 GLBを含む）のHTTP 200・buildとのSHA一致、GLBヘッダー/長さ/HTML以外のContent-Typeを確認。844×390と1280×720で名前入力・開始・射撃による弾数減少・武器切替・一時停止・モデルHTTP 200、画面例外0。healthはHTTP 200かつok=true。[実測JSON](published-release.json)、[844画面](published-844.png)、[1280画面](published-1280.png)。両画像を主担当が目視し、画面の主要UIと兵士/武器が表示されていることを確認した。
+
+推奨補足のmanifest.webmanifestもHTTP 200・Content-Type・bytes/SHAがbuildと一致し、orientation=landscape。[補足検査](published-supplement.json)、[再実行スクリプト](check-release-supplement.mjs)。スクリプトはrepoルートから実行し、dist-validation/weapon-final-auditへ結果を保存する。スクリプト初回はGLBディレクトリのmanifest.jsonも対象にしたため検査側で失敗し、拡張子をGLBへ限定して再実行成功。基準や製品は変更していない。
+
+公開UI検査はSWを無効にした使い捨てChrome。実スマホ・12丁すべての公開プレイ・実旧Worker通信の確認ではない。推奨された旧→新SW更新は、公開前の専用persistent profileで登録/有効化を確認できず未実施。公開後の別条件では登録成功・installingを観測したが、7秒の有効化待機期限に達し、制御・テストHTML保存・公開GLB回復は未確認。[未完了の生結果](published-sw-incomplete.json)。製品の不具合と確定しておらず、有効化成功や旧版更新成功とも報告しない。実SWのHTML拒否/回復は先のローカル検査と独立再監査で確認済み。実スマホの表示・負荷・聴感、全連続動作の接触、既存の床入り込み、旧Workerでの元等級色制限も未確認/既知の範囲として維持する。
+
+制作を追加で磨き込まず現在版で動作を優先する本人判断に従い、指定の独立再監査・main反映・公開と必須配信検査を完了。元Claude worktreeと元の現行3種は保持。作業場所は `task-weapon-models-20261111`。主担当 `gpt-6-astra`、推論設定は未確認。
+
+以下は監査と公開前の経過記録。
+
 ## 独立再監査合格（2026-11-12）
 
 修正HEAD `8d44d6f36c4acb1020849a31e43ca3def07ab85b` をcommit/push済み。型確認・関連10テスト・本番build・Worker dry-run成功。全60 GLBのbuild/public/manifest一致と修正版SWの一致を[検査](audit-fix-build-assets.json)。ローカル本番90配信ファイルの一致、844×390・1280×720の開始・射撃・一時停止、画面例外0を[確認](audit-fix-built-release.json)。先行ローカル接続のEACCES/ETIMEDOUTは検査未開始として区別し、正式な権限でpreviewと検査を同一実行環境に揃えて成功した。実配信の確認はまだ行っていない。

@@ -1,0 +1,16 @@
+{
+  "scope": "Published new SW in an isolated persistent browser profile; not an old-to-new upgrade test.",
+  "stage": "SW有効化",
+  "timestamp": "2026-11-12T09:22:39.903Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev/",
+  "asset": "assets/weapons/unique-v1/medic_0.glb",
+  "localSha256": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73",
+  "ok": false,
+  "registration": {
+    "scope": "https://swarm-front.melosalife-24.workers.dev/",
+    "active": null,
+    "installing": "installing",
+    "waiting": null
+  },
+  "error": "Error: page.evaluate: Error: SW ready timeout\n    at eval (eval at evaluate (:311:30), <anonymous>:2:63)"
+}
