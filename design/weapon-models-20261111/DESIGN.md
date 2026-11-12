@@ -94,7 +94,7 @@
 | GL-6 ホロウ | olive | brass | なし | steel、polymer、black |
 | ST-3 リンバー | hazmat（防護服の橙） | goo（薬液の桃） | glow_acid（黄緑） | steel、polymer |
 | KB-6 ケストレル | slate（青灰） | russet（赤茶） | glow_heat | steel、black |
-| MD-4 ブルーム | white（白磁） | teal（青緑） | glow_heal（暖かい白） | vial（薬液の緑）、polymer |
+| MD-4 ブルーム | white（白磁） | teal（青緑） | glow_heal（暖かい白） | vial（薬液の緑）、brass（真鍮） |
 
 決まり:
 

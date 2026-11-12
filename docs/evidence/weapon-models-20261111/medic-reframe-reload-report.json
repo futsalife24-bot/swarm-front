@@ -1,0 +1,134 @@
+{
+  "scope": "Actual local solo UI and game loop, disposable saves, mouse firing and R input, renderer observation; no physical device, real network, hidden hand-surface contact or continuous image video.",
+  "viewport": [
+    844,
+    390
+  ],
+  "requested": [
+    "medic"
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "medic",
+      "family": "special",
+      "shot": {
+        "time": 0.2,
+        "ammo": 4,
+        "capacity": 5
+      },
+      "started": {
+        "time": 0.3,
+        "reload": 2.6,
+        "duration": 2.6,
+        "ammo": 4,
+        "mode": "normal_Rifle_reload_idle"
+      },
+      "completed": {
+        "time": 2.9499999999999975,
+        "ammo": 5,
+        "capacity": 5,
+        "mode": "normal_Rifle_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.3,
+          "reload": 2.6,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.9162770297128048,
+            1.1582412781429916,
+            33.53120654475262
+          ],
+          "right": [
+            -0.8429351801524915,
+            1.08820624311606,
+            33.814049851755975
+          ],
+          "imageFile": "medic-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2692307692307684,
+          "time": 1.0000000000000002,
+          "reload": 1.9000000000000021,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7537704783108321,
+            1.0073909787208066,
+            33.730473408502874
+          ],
+          "right": [
+            -0.7925476171763776,
+            1.1036979257920632,
+            33.868311190539124
+          ],
+          "imageFile": "medic-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5192307692307687,
+          "time": 1.6500000000000008,
+          "reload": 1.2500000000000016,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.749489155107758,
+            0.9488862213025043,
+            33.85250202211042
+          ],
+          "right": [
+            -0.7937436837862951,
+            1.103422965404013,
+            33.86971717904279
+          ],
+          "imageFile": "medic-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7692307692307688,
+          "time": 2.3,
+          "reload": 0.600000000000001,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7379566156902659,
+            1.0575784641901544,
+            33.722962461624675
+          ],
+          "right": [
+            -0.79895964014506,
+            1.1055712809320632,
+            33.869047179301035
+          ],
+          "imageFile": "medic-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9615384615384611,
+          "time": 2.799999999999998,
+          "reload": 0.10000000000000096,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.791447008909612,
+            1.1616386692620964,
+            33.659990927574405
+          ],
+          "right": [
+            -0.7998436947447448,
+            1.1100566486439825,
+            33.870947921938125
+          ],
+          "imageFile": "medic-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    }
+  ]
+}
