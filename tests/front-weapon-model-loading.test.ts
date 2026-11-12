@@ -72,4 +72,29 @@ describe("weapon model loading", () => {
       "/assets/weapons/unique-v1/smg_3.glb",
     ]);
   });
+
+  it("keeps the individual shape when an old server requests an unloaded grade", async () => {
+    const loader = vi
+      .spyOn(GLTFLoader.prototype, "loadAsync")
+      .mockImplementation(async () => scene());
+    const original = { ...weapon("slug", 0), format: 2 as const };
+    await loadProgressionWeapons([original]);
+    const originalModel = progressionWeaponModel(original);
+    // Old fusion responses omit format and appearanceTier: N becomes legacy R.
+    const projected = weapon("slug", 0);
+    expect(weaponTier(projected)).toBe(1);
+    expect(progressionWeaponModel(projected)).toBe(originalModel);
+    expect(progressionWeaponModel(weapon("sniper", 0))).toBeUndefined();
+    expect(loader).toHaveBeenCalledTimes(1);
+
+    // A later preparation that loads the exact grade must take precedence.
+    await loadProgressionWeapons([projected]);
+    expect(progressionWeaponModel(projected)).toBeDefined();
+    expect(progressionWeaponModel(projected)).not.toBe(originalModel);
+    expect(progressionWeaponModel(original)).toBe(originalModel);
+    expect(loader.mock.calls.map(([url]) => url)).toEqual([
+      "/assets/weapons/unique-v1/slug_0.glb",
+      "/assets/weapons/unique-v1/slug_1.glb",
+    ]);
+  });
 });

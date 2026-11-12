@@ -8,7 +8,16 @@ const models = new Map<string, T.Group>(),
 // Match the neon tier for both the legacy R–LR and newer N–LR grades.
 const key = (w: Weapon) => `${modelOf(w.kind)}_${weaponVisualTier(w)}`;
 export function progressionWeaponModel(w: Weapon) {
-  return models.get(key(w));
+  const exact = models.get(key(w));
+  if (exact) return exact;
+  // Old servers can omit the visual grade after fusion. Keep the same weapon
+  // silhouette using a loaded grade; grade variants share identical geometry.
+  // Loading an exact grade later takes precedence without extra frame-time IO.
+  const kind = modelOf(w.kind);
+  for (let tier = 0; tier < 5; tier++) {
+    const loaded = models.get(`${kind}_${tier}`);
+    if (loaded) return loaded;
+  }
 }
 export function loadProgressionWeapons(weapons: Weapon[]) {
   return Promise.all(

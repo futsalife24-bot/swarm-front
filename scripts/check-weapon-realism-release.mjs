@@ -5,9 +5,18 @@ import {createHash} from 'node:crypto';
 const base=process.argv[2]??'http://127.0.0.1:5348',out='dist-validation/weapon-realism',isPublic=base.startsWith('https:');
 fs.mkdirSync(out,{recursive:true});
 const hash=b=>createHash('sha256').update(b).digest('hex');
-const paths=['/index.html',...fs.readdirSync('dist/assets').filter(p=>/\.(js|css)$/.test(p)).map(p=>'/assets/'+p),...['realism-v2','unique-v1'].flatMap(dir=>fs.readdirSync('dist/assets/weapons/'+dir).map(p=>'/assets/weapons/'+dir+'/'+p))];
+const paths=['/index.html','/front.html','/sw.js','/asset-download-manifest.json',...fs.readdirSync('dist/assets').filter(p=>/\.(js|css)$/.test(p)).map(p=>'/assets/'+p),...['realism-v2','unique-v1'].flatMap(dir=>fs.readdirSync('dist/assets/weapons/'+dir).map(p=>'/assets/weapons/'+dir+'/'+p))];
 const assets=[];
-for(const path of paths){const r=await fetch(base+path);assert.equal(r.status,200,path);const b=Buffer.from(await r.arrayBuffer());assert.equal(hash(b),hash(fs.readFileSync('dist'+path)),path);assets.push({path,bytes:b.length,sha256:hash(b)});}
+for(const path of paths){
+ const r=await fetch(base+path);assert.equal(r.status,200,path);
+ const b=Buffer.from(await r.arrayBuffer());assert.equal(hash(b),hash(fs.readFileSync('dist'+path)),path);
+ if(path.endsWith('.glb')){
+  assert.ok(b.length>=20,path);assert.equal(b.readUInt32LE(0),0x46546c67,path);
+  assert.equal(b.readUInt32LE(4),2,path);assert.equal(b.readUInt32LE(8),b.length,path);
+  assert.doesNotMatch(r.headers.get('content-type')??'',/^text\/html\b/i,path);
+ }
+ assets.push({path,bytes:b.length,sha256:hash(b),contentType:r.headers.get('content-type')});
+}
 const b=await chromium.launch({channel:'chrome',args:['--use-angle=d3d11']});
 const rows=[];
 try{
