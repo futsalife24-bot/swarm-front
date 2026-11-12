@@ -3,9 +3,9 @@ BORE = .0475
 SPEC = dict(
     kind='kick',code='KB-6',name='KB-6 ケストレル',family='special',
     # 発光排気口と重ならない本体上部にレア度インレイを置く。
-    bore_z=BORE,inlay=(.033,.15,.077),
+    bore_z=BORE,inlay=(.050,.155,.115),
     neon_profile=[[-.36,.11,.06],[-.25,.075,.045],[-.19,.075,.035],
-                  [-.19,.17,.018],[-.12,.17,.018],[.12,.09,.035],[.20,.085,.035],
+                  [-.19,.17,.018],[-.12,.17,.018],[.12,.135,.045],[.20,.10,.035],
                   [.40,.075,.03],[.52,.125,.078],[.52,-.03,.078],[.40,.02,.03],
                   [.30,.02,.03],[.27,-.085,.02],[.24,-.085,.02],[.22,.02,.03],
                   [.03,.01,.025],[.02,-.04,.021],[-.025,-.145,.021],
@@ -14,6 +14,32 @@ SPEC = dict(
 
 def build(k):
     k.profile('Main engine housing',[(-.10,0),(.20,0),(.22,.02),(.20,.085),(-.10,.085)],.064,'slate',.004)
+    # A deep aircraft-like engine nacelle with a faceted, two-tone outer shell.
+    k.profile('Faceted engine nacelle',[(-.15,.040),(-.135,.100),(-.095,.132),
+              (.12,.132),(.18,.108),(.185,.055),(.15,.035),(-.11,.035)],.084,'slate',.003)
+    for side in [-1,1]:
+        k.profile('Raised russet upper armor',[(-.13,.100),(-.10,.128),(.105,.128),
+                  (.155,.107),(.13,.100),(-.095,.100)],.004,'russet',.001,x=side*.043)
+        k.profile('Nacelle leading cheek',[(.125,.042),(.17,.053),(.17,.102),(.13,.113)],
+                  .006,'slate',.001,x=side*.044)
+        k.profile('Nacelle rear cheek',[(-.14,.047),(-.13,.095),(-.102,.12),(-.092,.04)],
+                  .006,'slate',.001,x=side*.044)
+        k.rod('Nacelle upper rail',(side*.046,-.10,.13),(side*.046,.10,.13),.0025,'steel',8)
+        k.rod('Nacelle lower rail',(side*.046,-.115,.039),(side*.046,.125,.039),.0025,'steel',8)
+        for y in [-.11,.12]:
+            k.rod('Armor seam',(side*.047,y,.043),(side*.047,y,.10),.002,'black',6)
+        # A 3 x 2 set of large framed and recessed vent louvers.
+        for y in [-.076,.005,.086]:
+            for z in [.088,.115]:
+                frame=[(y-.034,z-.012),(y-.026,z+.012),(y+.034,z+.012),(y+.026,z-.012)]
+                inside=[(y-.028,z-.008),(y-.023,z+.008),(y+.028,z+.008),(y+.023,z-.008)]
+                k.profile('Vent raised steel frame',frame,.003,'steel',.001,x=side*.044)
+                k.profile('Vent deep recess',inside,.002,'black',.0005,x=side*.046)
+                k.rod('Vent internal vane',(side*.047,y-.020,z),(side*.047,y+.020,z),.0016,'slate',6)
+        for y in [-.12,-.08,-.04,0,.04,.08,.12]:
+            k.rod('Nacelle upper fastener',(side*.046,y,.119),(side*.049,y,.119),.002,'steel',6)
+        # Pad for the identification inlay, set above the vent row.
+        k.box('Identification panel',(side*.046,.155,.115),(.006,.024,.020),'slate',.001)
     k.profile('Pistol grip',[(-.035,0),(.02,0),(.019,-.039),(-.025,-.145),(-.076,-.131)],.042,'black',.004)
     k.guard(.047,-.005,.057,.05,'steel')
     k.profile('Front support',[(.20,.02),(.30,.02),(.27,-.085),(.24,-.085)],.038,'black',.003)
@@ -72,14 +98,6 @@ def build(k):
             k.box('Wing vent notch',(side*.075,y,.052),(.002,.012,.004),'black',.0005)
         k.profile('Engine armor',[(-.085,.014),(.16,.014),(.19,.03),(.18,.071),(-.085,.071)],
                   .003,'russet',.001,x=side*.033)
-        # 6口を翼の下で読み取れる位置に置き、金属枠・暗い口・内側の光を分ける。
-        for i in range(6):
-            y = -.065 + i*.04
-            k.box('Exhaust metal frame',(side*.035,y,.024),(.003,.029,.022),'steel',0)
-            k.box('Exhaust port',(side*.037,y,.024),(.002,.024,.017),'black',0)
-            k.box('Exhaust inner glow',(side*.0385,y,.024),(.001,.015,.005),'glow_heat',0)
-            k.rod('Port rivet',(side*.036,y-.014,.040),(side*.038,y-.014,.040),.0025,'steel',8)
-            k.rod('Port lower rivet',(side*.036,y+.013,.011),(side*.038,y+.013,.011),.002,'steel',6)
         # 後端寄りと前端寄りに、外板の継ぎ目と保守用の小パネルを設ける。
         for y in [-.079,.159]:
             k.profile('Engine panel edge',[(y,.042),(y+.012,.042),(y+.012,.062),(y,.062)],
@@ -94,3 +112,4 @@ def build(k):
         k.rod('Wing conduit',(side*.040,-.10,.08),(side*.068,-.18,.065),.003,'russet',8)
     for y in [.23,.28,.33,.38]:
         k.ring('Forward pressure collar',y,BORE,.030,.026,'russet',.007,n=20)
+

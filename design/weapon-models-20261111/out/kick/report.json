@@ -4,8 +4,8 @@
   "name": "KB-6 ケストレル",
   "family": "special",
   "blender": "5.2.1 LTS",
-  "triangles": 7344,
-  "vertices": 4042,
+  "triangles": 8560,
+  "vertices": 4664,
   "bounds": [
     [
       -0.07800000160932541,
@@ -20,9 +20,9 @@
   ],
   "materials": [
     "Paint slate blue",
-    "Recess black",
-    "Metal steel",
     "Paint russet",
+    "Metal steel",
+    "Recess black",
     "Glow heat",
     "Rarity identification"
   ],
@@ -55,12 +55,12 @@
     ],
     [
       0.12,
-      0.09,
-      0.035
+      0.135,
+      0.045
     ],
     [
       0.2,
-      0.085,
+      0.1,
       0.035
     ],
     [
@@ -143,32 +143,32 @@
     {
       "file": "kick_0.glb",
       "grade": 0,
-      "bytes": 398044,
-      "sha256": "8ada79b19cfab2ff8dbfc7bfac8b2148f76efc3502c379a53c9bf39b657c7240"
+      "bytes": 488228,
+      "sha256": "d7526b3c7d0837068c8a2ba4340060ce7ea9c4f3c493c03da026c9f9d33bb0bc"
     },
     {
       "file": "kick_1.glb",
       "grade": 1,
-      "bytes": 398044,
-      "sha256": "a7d6b3a618ef1aaa8b2af4736cfb987945127c261d84684dcc56238dc7bb1e6f"
+      "bytes": 488228,
+      "sha256": "6b0fad5848a176c34d83cd9b2c00787eb55d322cdf47055443b1c0498702a0da"
     },
     {
       "file": "kick_2.glb",
       "grade": 2,
-      "bytes": 398044,
-      "sha256": "fd4c1407658e930c358bf6441ec2c38ef7bcc4260584ad0cae77d236c4e9a0d0"
+      "bytes": 488228,
+      "sha256": "d9d2f11982c346b73e626f54bbfaf822b7d124fd370fe1b70666acca4652b604"
     },
     {
       "file": "kick_3.glb",
       "grade": 3,
-      "bytes": 398044,
-      "sha256": "8e7cc615a4377b2169f2b52a5f4812255647e67fd82d289c12aebbb616271f7a"
+      "bytes": 488228,
+      "sha256": "b1df3a78fe336f7729204568af966c5c845b9e49521ea74956572dc65389c426"
     },
     {
       "file": "kick_4.glb",
       "grade": 4,
-      "bytes": 398040,
-      "sha256": "beff0101f271496e54e130cd02ef3663285d70a5efd7ab6a049e581255e85dd4"
+      "bytes": 488228,
+      "sha256": "94efed23a47f93a5152311d7d7a227411288a894082226c0af4e33f03f821194"
     }
   ]
 }
