@@ -5,8 +5,8 @@ SPEC = dict(
     kind='sniper', code='SR-1', name='SR-1 ソーン', family='sniper',
     bore_z=BORE, inlay=(.036, -.05, .05),
     neon_profile=[[-.39,.05,.024],[-.12,.065,.027],[-.09,.095,.027],
-                  [-.055,.17,.028],[.20,.17,.028],[.225,.20,.06],
-                  [.317,.20,.06],[.317,.08,.035],[.61,.056,.014],
+                  [-.055,.177,.038],[.20,.177,.038],[.215,.209,.071],
+                  [.338,.209,.071],[.338,.067,.071],[.61,.056,.014],
                   [.70,.056,.012],[.70,.036,.012],[.667,.036,.014],
                   [.65,.008,.014],[.61,.036,.014],[.25,.026,.025],[.22,-.015,.025],
                   [.12,-.015,.025],[.11,-.075,.025],[.05,-.075,.025],[.03,-.01,.027],
@@ -62,32 +62,32 @@ def build(k):
         k.ring('Barrel thermal sleeve',y,BORE,.014,.012,'polymer',.012,n=10)
     # スコープの前玉を太くし、架台・ダイヤル・レンズを別形状に。
     for y in [.015,.17]:
-        k.box('Optic mount',(0,y,.097),(.036,.02,.06),'steel',.002)
-    k.rod('Scope tube',(0,-.055,.138),(0,.23,.138),.027,'polymer',24)
-    k.rod('Scope objective',(0,.225,.138),(0,.305,.138),.045,'bone',24,r2=.058)
-    k.ring('Objective rim',.307,.138,.061,.048,'steel',.012,n=24)
-    k.rod('Objective lens',(0,.313,.138),(0,.314,.138),.047,'polymer',24)
-    k.ring('Objective internal focus ring',.314,.138,.043,.039,'brass',.002,n=16)
-    k.rod('Objective central lens',(0,.315,.138),(0,.317,.138),.030,'polymer',20)
-    k.ring('Eyepiece',-.058,.138,.032,.021,'steel',.018,n=20)
+        k.box('Optic mount',(0,y,.097),(.046,.028,.070),'steel',.002)
+    k.rod('Scope tube',(0,-.055,.138),(0,.23,.138),.034,'bone',24)
+    k.rod('Scope objective',(0,.215,.138),(0,.325,.138),.052,'bone',24,r2=.068)
+    k.ring('Objective rim',.327,.138,.071,.057,'steel',.012,n=24)
+    k.rod('Objective lens',(0,.333,.138),(0,.334,.138),.055,'polymer',24)
+    k.ring('Objective internal focus ring',.334,.138,.050,.046,'brass',.002,n=16)
+    k.rod('Objective central lens',(0,.335,.138),(0,.337,.138),.036,'polymer',20)
+    k.ring('Eyepiece',-.058,.138,.039,.028,'steel',.018,n=20)
     for y in [.01,.19]:
-        k.ring('Scope focus ring',y,.138,.030,.026,'steel',.008,n=12)
+        k.ring('Scope focus ring',y,.138,.039,.033,'steel',.012,n=12)
     for y in [.018,.030,.182]:
-        k.ring('Scope grip ring',y,.138,.029,.026,'bone',.002,n=8)
-    for y,radius in [(.246,.048),(.282,.054)]:
+        k.ring('Scope grip ring',y,.138,.035,.033,'leather',.004,n=8)
+    for y,radius in [(.246,.061),(.282,.066)]:
         k.ring('Objective focus rib',y,.138,radius,radius-.003,'leather',.006,n=12)
     # 参照画像の大きな光学系を、白い外套の細い操作溝で立体的にする。
     for i in range(6):
         a=2*math.pi*i/6
-        x,z=.050*math.cos(a),.138+.050*math.sin(a)
-        k.rod('Objective axial grip',(x,.252,z),(x,.269,z),.0014,'polymer',6)
+        x,z=.063*math.cos(a),.138+.063*math.sin(a)
+        k.rod('Objective axial grip',(x,.252,z),(x,.269,z),.0025,'polymer',6)
     k.rod('Scope elevation dial',(0,.10,.160),(0,.10,.177),.014,'steel',16)
     k.rod('Dial cap',(0,.10,.177),(0,.10,.179),.011,'leather',16)
     for side in [-1,1]:
-        k.rod('Scope windage dial',(side*.027,.105,.138),(side*.037,.105,.138),.012,'steel',16)
-        k.rod('Windage dial cap',(side*.037,.105,.138),(side*.039,.105,.138),.009,'leather',12)
+        k.rod('Scope windage dial',(side*.034,.105,.138),(side*.044,.105,.138),.012,'steel',16)
+        k.rod('Windage dial cap',(side*.044,.105,.138),(side*.046,.105,.138),.009,'leather',12)
         for y in [.035,.075,.145,.185]:
-            k.box('Scope adjustment mark',(side*.0265,y,.138),(.002,.003,.010),'bone',0)
+            k.box('Scope adjustment mark',(side*.0345,y,.138),(.002,.003,.010),'bone',0)
     for side in [-1,1]:
         k.profile('Receiver side armor',[(-.08,.012),(.045,.012),(.075,.028),(.075,.062),
                   (.045,.073),(-.08,.073)],.003,'steel',.001,x=side*.031)
@@ -142,16 +142,16 @@ def build(k):
             for z in [.026,.059]:
                 k.rod('Segment strap lock',(side*.037,y0+.0095,z),(side*.039,y0+.0095,z),.0025,'steel',6)
         for y0,y1 in [(.205,.275),(.285,.355),(.365,.435)]:
-            k.profile('Forward white armor',[(y0,.031),(y1,.031),(y1+.015,.043),
-                      (y1,.069),(y0,.069),(y0-.006,.05)],.006,'bone',.001,x=side*.017)
-            k.profile('Forward red brace',[(y0+.012,.033),(y0+.020,.033),
-                      (y0+.020,.066),(y0+.012,.066)],.002,'leather',0,x=side*.0205)
+            k.profile('Forward white armor',[(y0,.028),(y1,.028),(y1+.015,.044),
+                      (y1,.083),(y0,.083),(y0-.006,.05)],.012,'bone',.001,x=side*.024)
+            k.profile('Forward red brace',[(y0+.010,.033),(y0+.024,.033),
+                      (y0+.024,.077),(y0+.010,.077)],.002,'leather',0,x=side*.0305)
             for z in [.037,.062]:
-                k.rod('Forward brace rivet',(side*.021,y0+.016,z),(side*.023,y0+.016,z),.002,'steel',5)
+                k.rod('Forward brace rivet',(side*.031,y0+.017,z),(side*.034,y0+.017,z),.0025,'steel',5)
         # 既存の握り範囲に収まる金色の送液管と固定金具。
         for a,b in [((side*.025,.10,-.003),(side*.025,.15,-.014)),
                     ((side*.025,.15,-.014),(side*.025,.34,-.014)),
                     ((side*.025,.34,-.014),(side*.025,.37,.006))]:
-            k.rod('Gold service pipe',a,b,.003,'brass',8)
+            k.rod('Gold service pipe',a,b,.005,'brass',8)
         for y in [.17,.255,.33]:
-            k.rod('Pipe clamp',(side*.022,y,-.014),(side*.030,y,-.014),.0045,'steel',8)
+            k.rod('Pipe clamp',(side*.020,y,-.014),(side*.032,y,-.014),.006,'steel',8)

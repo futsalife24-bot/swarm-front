@@ -1,0 +1,134 @@
+{
+  "scope": "Actual local solo UI and game loop, disposable saves, mouse firing and R input, renderer observation; no physical device, real network, hidden hand-surface contact or continuous image video.",
+  "viewport": [
+    844,
+    390
+  ],
+  "requested": [
+    "sniper"
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "sniper",
+      "family": "sniper",
+      "shot": {
+        "time": 0.25,
+        "ammo": 5,
+        "capacity": 6
+      },
+      "started": {
+        "time": 0.35,
+        "reload": 2.4,
+        "duration": 2.4,
+        "ammo": 5,
+        "mode": "normal_Rifle_reload_idle"
+      },
+      "completed": {
+        "time": 2.799999999999998,
+        "ammo": 6,
+        "capacity": 6,
+        "mode": "normal_Rifle_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.35,
+          "reload": 2.4,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.9193422937742958,
+            1.1496238816612623,
+            33.5274383753749
+          ],
+          "right": [
+            -0.8439469135799851,
+            1.0835179250372924,
+            33.81054755334991
+          ],
+          "imageFile": "sniper-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2708333333333328,
+          "time": 1.0000000000000002,
+          "reload": 1.750000000000001,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7553334793272533,
+            1.003127291580681,
+            33.72890110605385
+          ],
+          "right": [
+            -0.7925439751729902,
+            1.1014559607575642,
+            33.86602519026134
+          ],
+          "imageFile": "sniper-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.520833333333333,
+          "time": 1.6000000000000008,
+          "reload": 1.1500000000000006,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7498715743748121,
+            0.9484284405454397,
+            33.850480988326815
+          ],
+          "right": [
+            -0.7934961715095474,
+            1.102967257834373,
+            33.868075086430714
+          ],
+          "imageFile": "sniper-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.75,
+          "time": 2.1500000000000004,
+          "reload": 0.6000000000000001,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7437373148315374,
+            1.032661544558048,
+            33.7218616589476
+          ],
+          "right": [
+            -0.7975286541399234,
+            1.0979150866541778,
+            33.86504433253959
+          ],
+          "imageFile": "sniper-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9583333333333333,
+          "time": 2.6499999999999986,
+          "reload": 0.10000000000000007,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7909292255759099,
+            1.1561946015733922,
+            33.65851551089817
+          ],
+          "right": [
+            -0.799819501821648,
+            1.1078356879300635,
+            33.868665160045026
+          ],
+          "imageFile": "sniper-95.png"
+        }
+      ],
+      "skippedEncounters": 0,
+      "errors": []
+    }
+  ]
+}
