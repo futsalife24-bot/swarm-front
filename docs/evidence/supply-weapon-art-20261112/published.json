@@ -1,0 +1,407 @@
+{
+  "date": "2026-11-12T10:42:34.741Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "2dca748c85502038c05a387af05dc79ff170c6c1",
+  "health": {
+    "status": 200,
+    "ok": true
+  },
+  "assets": [
+    {
+      "path": "/supply-reveal/assets/w-v2-rifle-0.webp",
+      "bytes": 35840,
+      "sha256": "6a609c60466275dc45c0fbc8cd3752ca46da66ff76bc4ae09291b9103dbb02cf",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-rifle-1.webp",
+      "bytes": 36050,
+      "sha256": "5a97da5366f93846dccdaff5b89e98ee56ab2085e59431b59fcb9eb20411c32b",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-rifle-2.webp",
+      "bytes": 36070,
+      "sha256": "77810a2c38424de44304c014985e84d589859c6c4b06e3856a3b39ed8565f562",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-rifle-3.webp",
+      "bytes": 36040,
+      "sha256": "7fed5979c2e4b6a99755ba8065234b7eb71526dc43573b6b7c9c392bb1724ae1",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-rifle-4.webp",
+      "bytes": 36032,
+      "sha256": "a16ff32e59bfeb3a86cbd15d483838fa37829ae415e3966daf463cb0eac06eb5",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-smg-0.webp",
+      "bytes": 50560,
+      "sha256": "aeea6e281fbbab5783d85bac2b9f55d115aecb90ff787b0c2448f6e17274d112",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-smg-1.webp",
+      "bytes": 50584,
+      "sha256": "f775ef161453a76f79fde10c3e062e151237cce4914febedbc3b23ba00b7e5dc",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-smg-2.webp",
+      "bytes": 50592,
+      "sha256": "989f3d5bb813f9b8edbfad659e4f9ba3dca9c0dfa018569519ae3442a4abff46",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-smg-3.webp",
+      "bytes": 50584,
+      "sha256": "f5f8f0e381ede1dcdd2e3867baba41f8d7e7c9bf3db754357ca0576ff12e9602",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-smg-4.webp",
+      "bytes": 50594,
+      "sha256": "deb2a2bf1580d315eaf0e6829c0d76e761e17a66286346845f47fa839d85f49e",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-shotgun-0.webp",
+      "bytes": 21916,
+      "sha256": "7252ff0d3b5c402e3c1832ce597089d385b0522055ee32db0525c5f0fa404a07",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-shotgun-1.webp",
+      "bytes": 21972,
+      "sha256": "b2b97c5105707cbfe08fa7a3141eff906367def90ae2aca820cf8a75b48c2ba9",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-shotgun-2.webp",
+      "bytes": 21996,
+      "sha256": "dc4394d7483f08133b1e55266e0d50766f1b4d0b67651b0afb3ac1305a5dbc96",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-shotgun-3.webp",
+      "bytes": 21992,
+      "sha256": "28bee00548bd2dddadcf9e10639982f2bb9b467228c9338b2877930713ec6ce1",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-shotgun-4.webp",
+      "bytes": 22036,
+      "sha256": "52d4a6b07426911c98a31fe9330f87d47069f02ad340df88b74c5b34bb521d22",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-slug-0.webp",
+      "bytes": 45050,
+      "sha256": "ba58528daff7120304f7bb20afb2b50144733308937f9ceea10495ccb18954d8",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-slug-1.webp",
+      "bytes": 45028,
+      "sha256": "cc771831852b23fdfdd6fede784fa2bae852b3aaf15fe5d4ae1d53eb19b9acd3",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-slug-2.webp",
+      "bytes": 45044,
+      "sha256": "ff7d43be18c28994b7f6a275cbc1557b6e571fbfa24a570fc5a69ee3231b5e88",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-slug-3.webp",
+      "bytes": 45040,
+      "sha256": "c8da1884eea23837e0209d7bf2ed88094c80b64b0ed44e216604f94a4bc2ec89",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-slug-4.webp",
+      "bytes": 45078,
+      "sha256": "9c0546d24a5ad2b46f04b267de227e8315968d3198121c6fecb964af7d8da013",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-rocket-0.webp",
+      "bytes": 31016,
+      "sha256": "d2ffee1a385fdc45afa0268d85d0204f5073e02b5909b69d7d8ca6d2b3a8c6ee",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-rocket-1.webp",
+      "bytes": 31014,
+      "sha256": "da3d5116e794f9c86cace7dc9752804fc447e8a113fdc93db67495495aade1ab",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-rocket-2.webp",
+      "bytes": 30602,
+      "sha256": "75b9047ac2fe2a445ae7a46e28ff7b1509edf03e69e5e6c9ed248144614d1bfd",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-rocket-3.webp",
+      "bytes": 30596,
+      "sha256": "5fc34b0f660bfd0914d3a621a3e1ad1cb64e50b96db54243684a23f5bbd64503",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-rocket-4.webp",
+      "bytes": 31066,
+      "sha256": "315bc48949e4b4b80b42730d25e2bce15d46f5b0305895205f74ddbdf8182c45",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-heavy-0.webp",
+      "bytes": 37812,
+      "sha256": "02685769b44253702ed81ffb0de24f92d190dd8f28878f5f518fcaa09a5ff90c",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-heavy-1.webp",
+      "bytes": 37868,
+      "sha256": "e688730d1bbf44a36f5fa3de7698e7eb802032aa2eda8aa3803383850aa7dead",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-heavy-2.webp",
+      "bytes": 37838,
+      "sha256": "d232aa1e45a03a36b5513fc10c0797750d9c0480e4e7731b3b31bb6da2b04e13",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-heavy-3.webp",
+      "bytes": 37812,
+      "sha256": "456604bf1c9ed8741de01c50374eda74c38f96677a34183b5705fc4116be7320",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-heavy-4.webp",
+      "bytes": 37796,
+      "sha256": "053cd9aab462d5c36769537368e3cd199dd50fb7d6fea348b33575df6db84265",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sniper-0.webp",
+      "bytes": 47072,
+      "sha256": "434d998366c346f55865b299fb70a1fda97b1bb9a9070634c60624240a92dc70",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sniper-1.webp",
+      "bytes": 47088,
+      "sha256": "832f1eb3e047c45f5c7cd3c290254d5faec0e540580080fa152f8118a8cd412b",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sniper-2.webp",
+      "bytes": 47102,
+      "sha256": "dc928492a88f9dc3f5781cda624d0606272f76d8f181d159dd8235b9af0d59eb",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sniper-3.webp",
+      "bytes": 47104,
+      "sha256": "c91391d83b00598c7d8746e783b31911b6d79a035be4fdd71b8592c824c455ce",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sniper-4.webp",
+      "bytes": 47128,
+      "sha256": "da12d1ac07b775563f5a57ee9c505d55389f7cbfc85b22bbb96d27ed92ed88ea",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-grenade-0.webp",
+      "bytes": 44778,
+      "sha256": "c424d7518fc19374af644b72577b93a5d42b21f2b3c9a23084b5e25173747857",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-grenade-1.webp",
+      "bytes": 44782,
+      "sha256": "b9c1592167d06d2edf15021679202f5d3432270e63bb7b6d63fcae5165c6767e",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-grenade-2.webp",
+      "bytes": 44820,
+      "sha256": "1c4c27c2b3149fb932cbf2a6df46f2efcef2fc99f51f43c2ef724219a538c497",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-grenade-3.webp",
+      "bytes": 44814,
+      "sha256": "c7105cd37b6ac513f2fe7b9127865523a5611d19fe7a3dac58715cdc9c08cd84",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-grenade-4.webp",
+      "bytes": 44830,
+      "sha256": "3ebb54e7765ebca52b5ab83ef9c825d345e03f733b07daf859326dfe23b97059",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sticky-0.webp",
+      "bytes": 57972,
+      "sha256": "c7905292e26a20b351cbe1ec56606ae8b22850ebae51d3fd5150e7309ef3d776",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sticky-1.webp",
+      "bytes": 57992,
+      "sha256": "7837490966ba292caea956f3658805de8198e203b0f32b6f44af7906f971e3ad",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sticky-2.webp",
+      "bytes": 58004,
+      "sha256": "b143718af15ee3ed0d9c9ac17033aa09114793a789c213c81b24654631bfbc8d",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sticky-3.webp",
+      "bytes": 57992,
+      "sha256": "0222ae1eaaada479246e3eb21af777168fd65b96765e1d7833944d8201a30ca0",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-sticky-4.webp",
+      "bytes": 58034,
+      "sha256": "792e267cf929d22497afe6560d7934c190b0ad8f6dfde36ac1705e1e1b206cd5",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-laser-0.webp",
+      "bytes": 50458,
+      "sha256": "bdab8831af512463b80d2c952f8d49963de5bb013a648dc061d72f9d8fcf99db",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-laser-1.webp",
+      "bytes": 50478,
+      "sha256": "0fe42540ede7ae3583f0bb9079656783c4cae92085113c44a7fee70db4787cea",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-laser-2.webp",
+      "bytes": 50490,
+      "sha256": "345d244d4482278833627594356e6b96c9cc9a0cb6744e822e1721fed2232b69",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-laser-3.webp",
+      "bytes": 50498,
+      "sha256": "1bc2376f9bcd7611c1dab4878e0f4fb35eb76997ef47b976c0917b244263e8e9",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-laser-4.webp",
+      "bytes": 50528,
+      "sha256": "8c85017dba78ea6a9bd654cd87850e74894a6892946c95ff69a7b3deeae11cce",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-kick-0.webp",
+      "bytes": 53998,
+      "sha256": "2ffa66480834732393c9109e198cde4e261ee9f38345a684fd7844a6018ff978",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-kick-1.webp",
+      "bytes": 53990,
+      "sha256": "71fe4e67a1eff4c60188d44a214dbb8e926c79b5654c713fa849bea2aedca675",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-kick-2.webp",
+      "bytes": 54018,
+      "sha256": "2c27f644d0a9da8521501018793351b1c21d48c9b5a7ee21e8d3d8c76c938d5a",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-kick-3.webp",
+      "bytes": 54064,
+      "sha256": "a6dc2c64219300b15ebb87a000a948f8b7ef21cbd75bf18db19899b6526e2e30",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-kick-4.webp",
+      "bytes": 54080,
+      "sha256": "1e844d54f72dc7cb21622173469bb4adc9ef45387d47967df70b7610af90558a",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-medic-0.webp",
+      "bytes": 62484,
+      "sha256": "c8ed791c13d78ad4838584355df32f968080bba73b916d38794c2264eb2805e0",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-medic-1.webp",
+      "bytes": 62492,
+      "sha256": "c5f25e7376907eb64ef09b4f3ce9fce372db814fee50f374d7b80c4591c26be6",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-medic-2.webp",
+      "bytes": 62512,
+      "sha256": "f76a945b451e3f2cf54c99fb93bd45b69f631b7f1896db6604330f3ee6480f87",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-medic-3.webp",
+      "bytes": 62494,
+      "sha256": "75c5ce5622704f7d07b1481750662de8e5b476e96b3795fb5209d3cde57c64d2",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/supply-reveal/assets/w-v2-medic-4.webp",
+      "bytes": 62538,
+      "sha256": "9f1f62104c76cf3cb674b0ca1f5f59e1d787bde19993509d52123933a47bcf9a",
+      "contentType": "image/webp"
+    },
+    {
+      "path": "/index.html",
+      "bytes": 5436,
+      "sha256": "37e0217e515741cebc9bf089f36c23db994f4dbb253a6bb777e013bc7786c823",
+      "contentType": "text/html"
+    },
+    {
+      "path": "/front.html",
+      "bytes": 4881,
+      "sha256": "6383c3d60042f3656f6ced88615b5fc324d5cb5f17e6eac05f205abeeb2e737c",
+      "contentType": "text/html"
+    },
+    {
+      "path": "/sw.js",
+      "bytes": 7876,
+      "sha256": "2dd5a875c202245707b337e3829bae8b7d988cd1bfa9c21fc6ea857a84236cdf",
+      "contentType": "text/javascript"
+    },
+    {
+      "path": "/asset-download-manifest.json",
+      "bytes": 50136,
+      "sha256": "24cf64349746bfe17f308c7120ed1c44484d9811b1000e54f868022159d05708",
+      "contentType": "application/json"
+    },
+    {
+      "path": "/supply-reveal/core.js",
+      "bytes": 65052,
+      "sha256": "53c7ed80f4483185d7441927567134a090d825d734c13473a2b80704e6373d11",
+      "contentType": "text/javascript"
+    },
+    {
+      "path": "/assets/playtest-app-B9YQ9rYU.js",
+      "bytes": 100478,
+      "sha256": "e1b954d2f6923ac4af86b2e5b9db8815fe0c47212c4ac5855ef3c15d0058ec21",
+      "contentType": "text/javascript"
+    }
+  ]
+}
