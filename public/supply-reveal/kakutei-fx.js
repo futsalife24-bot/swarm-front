@@ -69,14 +69,10 @@ const FX = {
     for (let i = 0; i < 8; i++) { const u = ((I.A * 0.8) + hash(i, 5)) % 1, an = hash(i, 6) * TAU; glow(g, p.x + Math.cos(an) * w * 0.8, p.gy - 4 - u * p.h * 1.1, 4, PURPLE, k * (1 - u)); }
     over(g);
   },
-  // 5 飛び級昇格：「SR+」の文字を割って、一気に SSR+ へ
+  // 5 飛び級昇格：稲光とともに一気に金へ
   skip(g, I, p) {
     world(g, I); const a = p.a, kk = 1;
-    if (a < 0.6) { const u = a / 0.6; g.font = `italic 700 ${118 * kk}px "GX Rajdhani", sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
-      for (const side of [-1, 1]) { g.save(); g.translate(p.x + side * (20 + 190 * out3(u)), p.cy - 40 * u + 260 * u * u); g.rotate(side * 0.9 * u); g.beginPath(); if (side < 0) { g.moveTo(-200, -90); g.lineTo(8, -90); g.lineTo(-10, -30); g.lineTo(12, 10); g.lineTo(-6, 90); g.lineTo(-200, 90); } else { g.moveTo(200, -90); g.lineTo(8, -90); g.lineTo(-10, -30); g.lineTo(12, 10); g.lineTo(-6, 90); g.lineTo(200, 90); } g.closePath(); g.clip(); g.fillStyle = rgba(PURPLE, 0.95 * (1 - u)); g.fillText('SR+', -side * 0, 0); g.restore(); }
-      add(g); g.strokeStyle = rgba('#ffffff', 1 - u); g.lineWidth = 5 * (1 - u) + 1; jag(g, p.x + 6, p.cy - 130, Math.PI / 2, 260, 3, 1, 7); glow(g, p.x, p.cy, 300, GOLD, 0.6 * Math.exp(-a * 6)); over(g); }
-    screen(g, I); const s = a < 0.18 ? 2.2 - 1.2 * out3(a / 0.18) : 1 + 0.03 * Math.sin(I.A * 6), al = c01(a / 0.08) * (1 - c01((a - 1.5) / 0.3));
-    g.save(); g.translate(I.VW * 0.24, 168); g.rotate(-0.1); g.scale(s, s); g.font = 'italic 800 40px "Yu Gothic", "Hiragino Sans", sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.lineWidth = 7; g.strokeStyle = rgba('#3a2600', al); g.strokeText('飛び級！', 0, 0); g.fillStyle = rgba('#ffe9a8', al); g.fillText('飛び級！', 0, 0); g.restore();
+    if (a < 0.6) { const u = a / 0.6; add(g); g.strokeStyle = rgba('#ffffff', 1 - u); g.lineWidth = 5 * (1 - u) + 1; jag(g, p.x + 6, p.cy - 130, Math.PI / 2, 260, 3, 1, 7); glow(g, p.x, p.cy, 300, GOLD, 0.6 * Math.exp(-a * 6)); over(g); }
   },
   // 6 再点火：灯が消えて静まり、一拍おいて内側から一気に上がる
   relight(g, I, p) {
@@ -107,13 +103,27 @@ const FX = {
     const hb = (p.a % 0.85) / 0.85; ring(g, px, py, 110 + 260 * out3(hb), '#ffffff', 0.55 * k * (1 - hb), 2.5, 1); glow(g, px, py, 150, GOLD, 0.35 * k * Math.exp(-hb * 6)); over(g); // 鼓動
     g.fillStyle = `rgba(0,0,0,${k.toFixed(3)})`; g.fillRect(0, 0, I.VW, 26 * k); g.fillRect(0, H - 26 * k, I.VW, 26 * k); // 上下の帯（映画の画面）
   },
+  // 押した座標を保持し、押すたびに全てのひびを画面の端まで伸ばす。
+  fracture(g, I, p) {
+    screen(g, I); const count = p.points.length, length = Math.hypot(I.VW, H) * (0.22 + count * 0.24);
+    for (let j = 0; j < count; j++) {
+      const point = p.points[j], x = point.x * I.VW, y = point.y * H;
+      add(g); glow(g, x, y, 35, '#ffffff', 0.4); g.lineJoin = 'round';
+      for (let i = 0; i < 12; i++) {
+        const an = i * TAU / 12 + (hash(i, j + 4) - 0.5) * 0.25, len = length * (0.65 + hash(i, j + 9) * 0.35);
+        g.strokeStyle = rgba('#b5e7ff', 0.3); g.lineWidth = 4; jag(g, x, y, an, len, i * 17 + j, 1, 9);
+        g.strokeStyle = rgba('#ffffff', 0.9); g.lineWidth = 1.1; jag(g, x, y, an, len, i * 17 + j, 1, 9);
+      }
+      over(g);
+    }
+  },
   // 9 画面割れ：画面がガラスのように割れて砕け、向こうに金色の夜明けが現れる
   shatter(g, I, p) {
-    const W = I.cv.width, Hh = I.cv.height, px = ((p.x - I.cam.x) * I.cam.z + I.VW / 2) * I.S, py = ((p.cy - I.cam.y) * I.cam.z + H / 2) * I.S;
+    const W = I.cv.width, Hh = I.cv.height, px = p.screenPoint ? p.screenPoint.x * W : ((p.x - I.cam.x) * I.cam.z + I.VW / 2) * I.S, py = p.screenPoint ? p.screenPoint.y * Hh : ((p.cy - I.cam.y) * I.cam.z + H / 2) * I.S;
     if (p.fall < 0) { g.setTransform(1, 0, 0, 1, 0, 0); add(g); glow(g, px, py, 130 * I.S * p.crack, '#ffffff', 0.8 * p.crack); g.lineJoin = 'round';
       for (let i = 0; i < 16; i++) { const an = i * TAU / 16 + (hash(i, 3) - 0.5) * 0.3, len = W * 0.75 * out3(p.crack) * (0.6 + 0.4 * hash(i, 4)); g.strokeStyle = rgba('#ffffff', 0.35); g.lineWidth = 5 * I.S; const [ex, ey] = jag(g, px, py, an, len, i * 7 + 2, 1, 10); g.strokeStyle = rgba('#ffffff', 0.95); g.lineWidth = 1.3 * I.S; jag(g, px, py, an, len, i * 7 + 2, 1, 10); if (i % 2) jag(g, (px + ex) / 2, (py + ey) / 2, an + 1.1, len * 0.3, i + 40, 1, 5); }
       for (let r = 1; r <= 3; r++) { g.beginPath(); for (let i = 0; i <= 16; i++) { const an = i * TAU / 16, rr = r * 90 * I.S * p.crack * (0.85 + 0.3 * hash(i % 16, r)); i ? g.lineTo(px + Math.cos(an) * rr, py + Math.sin(an) * rr) : g.moveTo(px + Math.cos(an) * rr, py + Math.sin(an) * rr); } g.strokeStyle = rgba('#ffffff', 0.6); g.lineWidth = I.S; g.stroke(); } over(g); return; }
-    if (p.snap || !snap) { snap = document.createElement('canvas'); snap.width = W; snap.height = Hh; snap.getContext('2d').drawImage(I.cv, 0, 0); }
+    if (p.snap || !snap) { if (p.points) FX.fracture(g, I, { points: p.points }); snap = document.createElement('canvas'); snap.width = W; snap.height = Hh; snap.getContext('2d').drawImage(I.cv, 0, 0); }
     // 向こう側：金色の夜明け
     screen(g, I); const sky = g.createLinearGradient(0, 0, 0, H); sky.addColorStop(0, '#140b2a'); sky.addColorStop(0.42, '#7a3a2a'); sky.addColorStop(0.6, '#ffb24d'); sky.addColorStop(0.66, '#fff0b8'); sky.addColorStop(0.7, '#5a3410'); sky.addColorStop(1, '#120a04'); g.fillStyle = sky; g.fillRect(0, 0, I.VW, H);
     add(g); glow(g, I.VW / 2, 250, 330, GOLD, 0.95); g.fillStyle = rgba('#fff2c0', 0.16); for (let i = 0; i < 18; i++) { const an = -Math.PI + i * Math.PI / 17 + 0.04 * Math.sin(I.A * 0.6 + i), w = 0.03 + 0.03 * hash(i, 1); g.beginPath(); g.moveTo(I.VW / 2, 250); g.lineTo(I.VW / 2 + Math.cos(an - w) * 900, 250 + Math.sin(an - w) * 900); g.lineTo(I.VW / 2 + Math.cos(an + w) * 900, 250 + Math.sin(an + w) * 900); g.fill(); }
@@ -151,7 +161,7 @@ export async function install(reveal, assetBase, isReduced = () => false) {
   targetRoot.dataset.jackArt = ''; targetRoot.dataset.jackLine = buddyLines[0]; targetRoot.dataset.jackReply = buddyLines[1];
   cap = document.createElement('div'); cap.className = 'kx-cap'; cap.hidden = true; targetRoot.appendChild(cap);
   const s = document.createElement('style'); s.textContent = '.gx-root .kx-cap{position:absolute;left:14px;bottom:12px;z-index:97;padding:6px 14px 6px 12px;font:700 15px/1.5 "Yu Gothic","Hiragino Sans",sans-serif;color:#fff;background:rgba(0,0,0,.72);border-left:4px solid #ffc94d;white-space:pre;pointer-events:none}.gx-root .kx-cap[hidden]{display:none}.gx-root .kx-cap small{display:block;font-size:11px;font-weight:600;color:#ffe9a8}'
-    + '.gx-root.kx-gold .gx-launch b{color:#fff2c0!important;text-shadow:0 0 18px rgba(255,201,77,.95),0 0 46px rgba(255,170,40,.8)!important}.gx-root.kx-gold .gx-launch small{color:#fff2c0!important;border-color:rgba(255,201,77,.8)!important}.gx-root.kx-notap .gx-tap{display:none!important}.gx-root.kx-right .kx-cap{left:auto;right:14px}'; document.head.appendChild(s);
+    + '.gx-root.kx-gold .gx-launch b{color:#fff7d8!important;-webkit-text-stroke:2px #342000;paint-order:stroke fill;text-shadow:0 3px 4px #000,0 0 10px #000,0 0 18px #000!important}.gx-root.kx-gold .gx-launch small{color:#fff2c0!important;border-color:rgba(255,201,77,.8)!important}.gx-root.kx-notap .gx-tap{display:none!important}.gx-root.kx-right .kx-cap{left:auto;right:14px}'; document.head.appendChild(s);
   // 全バディの絵を先に黒緑の影へ変換し、選ばれた個体だけ表示する。
   await Promise.all(BUDDY_ARTS.map(async (art) => {
     const im = new Image(); im.src = assetBase + art + '.webp';
@@ -164,7 +174,7 @@ export async function install(reveal, assetBase, isReduced = () => false) {
     await new Promise((r) => { silhouette.onload = silhouette.onerror = r; });
     if (silhouette.naturalWidth && silhouette.naturalHeight) buddyArts.set(art, silhouette);
   }));
-  reveal.setOnDraw((g, I) => { if (st && st.id && FX[st.id]) FX[st.id](g, isReduced() ? { ...I, A: 0 } : I, st.p || {}); });
+  reveal.setOnDraw((g, I) => { if (st && st.id && FX[st.id] && (st.id === 'crack' ? I.phase === 'beforePods' : I.phase === 'afterPods')) FX[st.id](g, isReduced() ? { ...I, A: 0 } : I, st.p || {}); });
   return () => { reveal.setOnDraw(null); set(null); cap?.remove(); s.remove(); cap = null; delete targetRoot.dataset.jackArt; delete targetRoot.dataset.jackLine; delete targetRoot.dataset.jackReply; targetRoot = null; buddy = null; buddyLines = COMMON_LINES; buddyArts.clear(); };
 }
 export function setBuddyArt(art) {

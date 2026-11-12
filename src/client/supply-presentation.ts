@@ -15,7 +15,8 @@ function revealStyle() {
   return (styleReady ??= new Promise<void>((resolve, reject) => {
     const style = document.createElement("link");
     style.rel = "stylesheet";
-    style.href = import.meta.env.BASE_URL + "supply-reveal/gacha.css";
+    style.href =
+      import.meta.env.BASE_URL + "supply-reveal/gacha.css?v=20261112-2";
     style.onload = () => resolve();
     style.onerror = () => {
       styleReady = undefined;
@@ -52,6 +53,7 @@ export function supplyResults(
         type: "buddy",
         name: BUDDY_ASSETS[reward.buddyId].name,
         art: `b-${reward.buddyId}`,
+        buddyId: reward.buddyId,
         new: !acquired.has(reward.buddyId),
       };
       acquired.add(reward.buddyId);
@@ -62,6 +64,7 @@ export function supplyResults(
       rarity: GRADES[reward.weapon.rarity],
       name: WEAPONS[reward.weapon.kind].name,
       art: `w-v2-${reward.weapon.kind}-${weaponVisualTier(reward.weapon)}`,
+      weapon: reward.weapon,
       new: true,
     };
   });

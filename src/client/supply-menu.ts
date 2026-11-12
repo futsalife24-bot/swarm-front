@@ -17,6 +17,7 @@ import {
   type Reveal,
 } from "./supply-presentation";
 import "./supply-menu.css";
+import { openSupplyResult, shareSupplyResults } from "./supply-result-actions";
 
 /** 基地の新補給。保存成功済みの結果だけを表示レイヤーへ渡す。 */
 export function mountSupplyMenu(
@@ -125,7 +126,12 @@ export function mountSupplyMenu(
         import.meta.env.BASE_URL + "supply-reveal/assets/",
         location.origin,
       ).href,
-      finalActions: [{ id: "close", label: "基地へ戻る", primary: true }],
+      finalActions: [
+        { id: "share", label: "Xで共有" },
+        { id: "close", label: "次へ", primary: true },
+      ],
+      onResult: openSupplyResult,
+      onShare: shareSupplyResults,
       onClose,
     }) as Reveal;
     await reveal!.ready;

@@ -1,0 +1,45 @@
+{
+  "cases": [
+    {
+      "mode": "preview",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "cacheCheck": {
+        "controlled": true,
+        "old": true,
+        "fresh": true,
+        "font": true
+      },
+      "details": [
+        "weapon",
+        "buddy"
+      ],
+      "rows": 10,
+      "saveUnchanged": true,
+      "errors": []
+    },
+    {
+      "mode": "preview",
+      "viewport": {
+        "width": 640,
+        "height": 360
+      },
+      "cacheCheck": null,
+      "details": [
+        "weapon",
+        "buddy"
+      ],
+      "rows": 10,
+      "saveUnchanged": true,
+      "errors": []
+    },
+    {
+      "mode": "normal-local-worker",
+      "rows": 10,
+      "ack": true,
+      "errors": []
+    }
+  ]
+}

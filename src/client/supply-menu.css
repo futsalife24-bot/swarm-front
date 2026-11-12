@@ -119,3 +119,16 @@
     grid-template-columns: 1fr;
   }
 }
+.supply-buddy-dialog .bd-toolbar,
+.supply-buddy-dialog .bd-list,
+.supply-buddy-dialog .bd-detail button {
+  display: none;
+}
+.supply-buddy-dialog .bd-roster {
+  grid-template-columns: minmax(0, 1fr);
+}
+.supply-buddy-dialog .bd-root,
+.supply-buddy-dialog .bd-detail {
+  min-height: 0;
+  height: auto;
+}

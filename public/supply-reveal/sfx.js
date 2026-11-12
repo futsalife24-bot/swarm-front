@@ -190,6 +190,7 @@ const DEF = {
   tile: () => { const b = buf(0.28); mallet(b, 0, 62, 0.5, 0, { dec: 9, len: 0.26, thud: 0.3 }); return fin(b, 0.3, 1.0, 3000); },
   done: () => { const b = buf(2.0); [74, 78, 81, 86].forEach((m, i) => mallet(b, i * 0.045, m, 0.38, i % 2 ? 0.3 : -0.3, { dec: 2.4, len: 1.8 }));
     saws(b, 0, 0.5, [50, 62, 66, 69, 74], 0.035, { cut0: 2200, cut1: 900, att: 0.05, rel: 0.8 }); reverb(b, 0.4); return fin(b, 0.55, 1.0, 6000); },
+  glass: () => { const b = buf(0.16); noise(b, 0, 0.11, 0.7, { hi0: 6500, hi1: 2800, lo0: 1300, dec: 48, att: 0.001 }); sine(b, 0.004, 0.11, 2800, 1900, 0.16, { dec: 35, att: 0.001 }); return fin(b, 0.3, 1.0, 6000); },
   ui: () => { const b = buf(0.14); mallet(b, 0, 79, 0.5, 0, { dec: 14, len: 0.13, thud: 0.3 }); return fin(b, 0.25, 1.0, 4500); },
   bed: () => { const b = buf(5.0); const sh = (u) => Math.min(1, u * 12) * Math.min(1, (1 - u) * 4);
     saws(b, 0, 4.4, [26, 38], 0.16, { cut0: 170, cut1: 330, att: 0.3, rel: 0.6 }); noise(b, 0, 5, 0.5, { hi0: 160, shape: sh }); return fin(b, 0.2, 1, 2000); },
