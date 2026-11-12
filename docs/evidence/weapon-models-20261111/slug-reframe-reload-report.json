@@ -1,0 +1,134 @@
+{
+  "scope": "Actual local solo UI and game loop, disposable saves, mouse firing and R input, renderer observation; no physical device, real network, hidden hand-surface contact or continuous image video.",
+  "viewport": [
+    844,
+    390
+  ],
+  "requested": [
+    "slug"
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "slug",
+      "family": "shotgun",
+      "shot": {
+        "time": 0.2,
+        "ammo": 5,
+        "capacity": 6
+      },
+      "started": {
+        "time": 0.3,
+        "reload": 2.2,
+        "duration": 2.2,
+        "ammo": 5,
+        "mode": "normal_Shotgun_reload_idle"
+      },
+      "completed": {
+        "time": 2.499999999999999,
+        "ammo": 6,
+        "capacity": 6,
+        "mode": "normal_Shotgun_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.3,
+          "reload": 2.2,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.8265557795161567,
+            1.1653259261779072,
+            33.659009406336715
+          ],
+          "right": [
+            -0.8434247461386739,
+            1.0890886989287238,
+            33.81425657133954
+          ],
+          "imageFile": "slug-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2727272727272726,
+          "time": 0.9000000000000002,
+          "reload": 1.6000000000000005,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.739577806254398,
+            1.0341773354561588,
+            33.78341903887088
+          ],
+          "right": [
+            -0.795813120169386,
+            1.0996528011881526,
+            33.86307097081905
+          ],
+          "imageFile": "slug-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5,
+          "time": 1.4000000000000006,
+          "reload": 1.1,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7279330159491462,
+            0.9884128016972247,
+            33.83932305463717
+          ],
+          "right": [
+            -0.7926708965561049,
+            1.1099994084956042,
+            33.87154555431839
+          ],
+          "imageFile": "slug-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7500000000000002,
+          "time": 1.950000000000001,
+          "reload": 0.5499999999999996,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7511238649940353,
+            1.0777389641699686,
+            33.75646614652684
+          ],
+          "right": [
+            -0.7956600227656816,
+            1.0966091521159709,
+            33.86651462294202
+          ],
+          "imageFile": "slug-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9545454545454547,
+          "time": 2.3999999999999995,
+          "reload": 0.09999999999999969,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7613765413739823,
+            1.1526202378898114,
+            33.776677344060595
+          ],
+          "right": [
+            -0.7997113433063819,
+            1.109279545769148,
+            33.87056475390832
+          ],
+          "imageFile": "slug-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    }
+  ]
+}

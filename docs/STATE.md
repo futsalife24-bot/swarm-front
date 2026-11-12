@@ -1,3 +1,259 @@
+# 武器12丁の個別モデル制作中（2026-11-11、未公開）
+
+独立再監査に合格（2026-11-12）: 対象 `8d44d6f3` のP1/P2は両方閉鎖、追加必須修正0。通常main反映と、merge後build/dry-run→既存Worker公開→即時配信/health/2画面検査→不合格時切戻しの順序が認められた。[最終回答](evidence/weapon-models-20261111/audit-8d44d6f3.md)、[合格画面](evidence/weapon-models-20261111/audit-8d44d6f3.jpg)。本人は同じ監査の修正版共有も許可済み。次は通常PRでmain反映と公開。現時点ではmain・公開とも未実施。監査後の変更は記録文書と合格証拠だけで、製品は監査対象と同一。
+
+過去の再監査共有承認待ち（2026-11-12、解消済み）: 自動承認審査が「初回ZIPの許可は修正版を含まない」として添付を拒否し、同じ未回答条件で3回のgoalターンが続いたため `blocked` へ切り替えた。その後の本人の明示許可・同じ正式経路での送信・goal復帰により解消済み。別経路で拒否を回避しておらず、現在の停止理由にはしない。
+
+必須修正の検証完了・再監査資料確定（2026-11-12）: 修正HEAD `8d44d6f3` の本番build・Worker dry-run成功。全60 GLBのmanifest/public/build一致と、ローカル本番90配信ファイルの一致、844×390・1280×720の開始/射撃/一時停止、画面例外0を確認。[build資産](evidence/weapon-models-20261111/audit-fix-build-assets.json)、[実HTTP/UI](evidence/weapon-models-20261111/audit-fix-built-release.json)。約1.7MBの再監査差分ZIPを確定し、現在は上記のとおり送信済み。修正の独立再判定・main反映・既存Worker公開は未完了。
+
+独立監査の必須指摘へ対応（2026-11-12）: 初回判定は[要修正](evidence/weapon-models-20261111/audit-5b4a1aab.md)。P1のHTML誤キャッシュは新武器GLBのヘッダー確認と正常品による対象キーの回復を追加し、実SWの修正前再現・修正後の拒否/復旧/オフライン/Rangeを確認。P2の旧Worker相当投影による旧3形状への退行は、同kindの読込済みモデルを使う最小修正で、新9kind×3条件の手持ち/背負いを維持。exact等級を読込後の切替も確認。型確認と関連10テスト成功。造形・通信・性能値は変更せず、旧Workerでの等級色の制限は残る。次は修正ソースの本番ビルド・dry-runと同じChatでの再監査。main・公開はまだ行っていない。[詳細](evidence/weapon-models-20261111/release-audit.md)。
+
+独立監査へ送信済み・判定待ち（2026-11-12）: 本人の「許可する」を受け、確定ZIPを通常Chatへ送信。画面の添付名は `weapon-audit-5b4a1aab(1).zip`、内容SHA-256は `70c5029bcca0feb8b9e1a0732589045b8999b9d4debbcacdd23e9d6e4d9f0096`、監査対象は `5b4a1aab`。主担当が[監査Chat](https://chatgpt.com/c/6af56982-8070-83e8-928b-6d91dee8a9be)でZIPのSHA・収容物・実コード・GLB検査へ着手した旨を確認したが、独立判定はまだ出ていない。送信時PR HEAD `c4fce32f` は監査対象からSTATEと監査公開記録の2文書だけの差分であることをGit照合し、依頼本文にも明示済み。goalはactiveへの復帰を実取得で確認。main反映・Worker公開・公開後確認は未実施。[監査・公開記録](evidence/weapon-models-20261111/release-audit.md)。
+
+監査資料準備と送信承認待ちの経過（2026-11-12、承認待ちは解消済み）: 対象 `5b4a1aab` のソース・45新モデル・15旧モデル・検証証拠589件をZIPに整理し、ハッシュとCRCを照合。初回添付は自動承認審査が非公開資料の具体的共有許可不足として拒否したため、本人へZIPと送信先を明示して確認した。同じ承認待ちが3回のgoalターンで続き、独立した公開準備も完了した時点でgoalを `blocked` にした。その後の本人許可・同じ正式経路での送信・goal復帰は上記の現在地を参照。別経路で拒否を回避していない。
+
+公開へ移行（2026-11-12、本人最新判断）: 本人が比較画像を確認し「デザインはほぼオッケーレベル、このままゲームが動けばいい」と指定。現行の新規9丁の造形を確定し、細部磨き込みとPBR量産を停止する。画像使用の許可は得たが、今回の製品は現在の画像なし `unique-v1` 45本で凍結。PBRは隔離参考のまま、公開へ含めない。実装・公開モデルは最終検証ソース `fc1fea1` 以降の差分0を確認。最新origin/mainは基点 `d7d1399` のまま。残りは必要な差分照合、依頼済み独立Chat監査、main反映・既存Worker公開・配信確認。床への入り込み・装填接触や実機の未確認は監査へ明示し、未実施を合格にしない。goalはactiveへ復帰を実取得で確認。
+
+Astraでの再開とPBR比較（2026-11-12、条件変更の本人判断待ち）: 過去の画像試作は平面の灰色Noiseを掛けただけで、形状に応じたPBRベイクではなかった。RL-9の実部品へ縁摩耗・AO・粗さ・金属度を焼いた隔離候補を制作。色512pxとORM256pxの2画像、8,020三角形・材質6・618,856 bytes。形状と材質割当、5等級の識別／発光材質は元と一致、UV由来の銃口算出高の差はPython再現で0.173mm。現行検査は画像禁止の不合格1・500KB目標の警告5、上限は維持。製品の詳細プレビュー関数と局所兵士表示では表面差を目視し、画面例外・HTTP失敗0。AAA完成・実ゲーム性能・実スマホは未確認。新規9丁のみ画像2枚以内／各512px以下を許可する案を比較付きで本人へ提示し、製品と検査基準は未変更。[比較と再現](evidence/weapon-models-20261111/astra-pbr-proof/README.md)。主担当 gpt-6-astra、推論設定は未確認。自走用goalはblockedのままで、既存未完goalのためcreate_goalも拒否された。画面のゴール再開操作を案内し、作業は手動継続。
+
+制作環境の確認（2026-11-12）: dxdiagの表示アダプタは Intel Iris Xe、専用メモリー128MB・共有16097MB。非表示の計算用GPUの有無は未確認。Blender 5.2.1は利用できる。調べたPython環境にはtorch等がなく、調べた標準キャッシュに画像から立体を作るモデルの重みはなかった。CPU対応をうたう候補も見つかったが、依存・重みの取得が必要で、当PCでの速度・品質・40項目への適合は未実証。インストール・ダウンロード・画像送信はしていない。
+
+SR-1の照準器・機関部隔離再設計（2026-11-12、不採用）: 奥まった照準器レンズ、独立した白装甲、赤茶の固定具と真鍮管を作り直した。7,332三角形・材質6・最大425,744 bytes、40項目合格・警告0。現行との差は小さく、一部の白い面はより平板に見え、参考画像の密度や材質感の明確な改善を確認できず不採用。[比較](evidence/weapon-models-20261111/sniper-redraw-rejected.png)、[検査](evidence/weapon-models-20261111/sniper-redraw-rejected-check.json)、[試作](evidence/weapon-models-20261111/sniper-redraw-rejected.py)。実ゲーム・干渉・共有・実機は未確認、製品は変更しない。
+
+ダウン時背負い武器の複数軸隔離試作（2026-11-12、不採用）: SG-4とSR-1の左右4条件で、静止時に床上2mm・体表と手持ちの辺面交差0となる配置を有限探索。静止候補を倒れる途中と復帰を含む211フレームに適用すると、4条件すべてで床上2mmを下回り、最深は床下15〜97mm、2条件で体表と手持ちの交差も出た。補正を0へ戻した後の位置・回転残留は0。復帰の1フレーム350〜369mm程度の大きな変化は現行にもあり、試作だけの原因とは断定できない。[比較](evidence/weapon-models-20261111/weapon-composite-rejected.png)、[静止](evidence/weapon-models-20261111/weapon-composite-static-report.json)、[連続](evidence/weapon-models-20261111/weapon-composite-timeline-report.json)、[現行比較](evidence/weapon-models-20261111/weapon-composite-motion-report.json)。全組合せ・完全内包・実ゲーム・実機は未確認、製品は変更しない。
+
+MD-4の薬液槽隔離試作（2026-11-12、不採用）: 白い胴を開いた殻に変更し、内側の不透明な緑槽と外側の真鍮枠を別の立体にした。8,784三角形・材質6・最大471,176 bytes、40項目合格・警告0。現行より枠と槽の前後関係は見えるが、透明容器や液体らしさは明確に改善せず、参考画像の質感に届かないため不採用。[比較](evidence/weapon-models-20261111/medic-reservoir-rejected.png)、[検査](evidence/weapon-models-20261111/medic-reservoir-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/medic-reservoir-rejected.py)、[試作材質](evidence/weapon-models-20261111/medic-reservoir-kit-rejected.py)。実ゲーム・共有・干渉・実機は未確認、製品は変更しない。
+
+公開前のURL確認（2026-11-12）: 既存Workerの新武器45 URLにHEADを送り、すべてHTTP 200・`text/html` の応答を確認。代表の `medic_0.glb` はGETでも `text/html`、先頭4バイト `<!do` を返し、GLBではない。残り44件はGET本文未確認。旧ブラウザーの保存状況は未確認で、公開後にはGLBの実体・manifest・キャッシュを別途確認する。
+
+RL-9の既存環境反射隔離試作（2026-11-12、不採用）: 兵士生成時の環境をRL-9の金属2材質へ隔離適用し、参照を確認。ゲーム画面と詳細の画素に差は出たが、目視で明確な品質向上は判定できなかった。固定画面のGPU測定中央値は各12回で4.91→5.76ms、小標本で差は断定できない。起動時THREEシェーダー警告と既存の分析通信CORS失敗あり、試作後のGLエラー・ページ例外0。既存AR-9とLZ-2の材質情報は変化なし。[比較](evidence/weapon-models-20261111/weapon-env-rejected.png)、[測定](evidence/weapon-models-20261111/weapon-env-rejected-report.json)、[試作](evidence/weapon-models-20261111/weapon-env-rejected.js)。別武器・共有画像・混戦・実機は未確認、製品は変更しない。
+
+武器キャッシュの初回公開と将来更新（2026-11-12）: 基点のGitツリーに `unique-v1` はなく、利用者が同一オリジンの同URLを事前保存していなければ、旧試作品が初回公開を邪魔する前提はない。ただし公開Workerでの先行配信有無・旧実ブラウザー・CDNは未確認。隔離試作は旧版保存後に同URLを更新した将来条件であり、初回公開の実害を示したものではない。公開後に同じURLへ上書きすると通常読込で旧キャッシュが残り得るため、次回変更時は新パス切替などの運用と旧版・オフラインを検証する。明示保存は照合・再取得で更新可能だが自動実行は保証されない。
+
+SMG-3の装填手首位置・向き隔離試作（2026-11-12、不採用）: 位置と向きを滑らかに補正したが、中盤で腕が大きく伸び、弾倉を握って交換する動きには見えない。装填50%の手首中心から弾倉候補面までの距離は206.57→24.50mm、位置目標の誤差は約0.000016mmだったが接触の証明ではない。静止5時点を目視、比較動画の連続再生は未確認。位置計算の正例は当初2回到達範囲外で失敗し、到達可能な点へ修正。[比較](evidence/weapon-models-20261111/reload-smg-gesture-rejected.png)、[測定](evidence/weapon-models-20261111/reload-smg-gesture-rejected-report.json)、[再現用](../scripts/reload-smg-gesture-probe.mjs)。指先と弾倉の接触・連続動作・実ゲーム・実機は未確認。
+
+SMG-3の立体構造隔離試作（2026-11-12、不採用）: 前部を6枚の分割装甲と内側コア、中央を接続輪、後部を点検区画に変更。6,088三角形・材質6・341,296 bytes、40項目合格・警告0。多面図を見比べた結果、黄色い平面が目立ち、参考画像の厚みと複雑な機械感に届かないため採用しない。[比較](evidence/weapon-models-20261111/smg-structural-rejected.png)、[検査](evidence/weapon-models-20261111/smg-structural-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/smg-structural-rejected.py)。実ゲーム・動作・実機は未確認。
+
+装填中の手と武器の表面測定（2026-11-12）: 12丁の装填25・50・75%で、手の骨に重みのある面を抽出して武器との辺面交差を測定。左の抽出面は36条件すべて交差0、右は9丁で15〜48組だった。握りの接触とめり込みの深さは区別できず、抽出外の手表面や完全内包も判定できない。弾倉・指先の接触、連続動作、実ゲーム入力と実機も未確認。[条件と結果](evidence/weapon-models-20261111/reload-hand-skin.md)、[比較画像](evidence/weapon-models-20261111/reload-hand-skin.png)、[測定](evidence/weapon-models-20261111/reload-hand-skin-report.json)。
+
+LZ-2の箱形機関部隔離試作（2026-11-12、不採用）: 紫の本体、銅の枠、冷却窓を太くした案を比較。8,460三角形・材質6・483,616 bytes、40項目合格・警告0、発光材質と5等級の識別色以外は一致したが、詳細の実寸では差が小さく参考画像の重厚な印象に届かないため不採用。[比較](evidence/weapon-models-20261111/laser-box-rejected.png)、[検査](evidence/weapon-models-20261111/laser-box-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/laser-box-rejected.py)。候補ネオン・完全内包・動作中・実ゲーム・スマホは未確認。製品は変更していない。
+
+旧サーバー外観ずれの復元可能性（2026-11-12）: 旧ロビーで元装備を観測し、出撃直前の装備と確実に対応付けられた場合には部分復元の可能性がある。一方、戦闘中の再接続や再読込後は元の形式が送られず、全員分を確実に復元する経路は確認できない。武器IDの異なる出撃・プレイヤー間の一意性も保証されないため、推測で補正せず既知のずれとして維持する。[調査](evidence/weapon-models-20261111/old-server-appearance-review.md)。旧Workerと新クライアントの実通信は未確認。
+
+独立監査の事前整理（2026-11-12）: 監査者が実装・モデル・40項目・実画面と未確認点を照合するための候補537件と容量を計算。[選定理由と不足](evidence/weapon-models-20261111/audit-preparation.md)、[ファイル一覧](evidence/weapon-models-20261111/audit-preparation-files.txt)。計算時点は `6e050bb` であり、最終HEAD・証拠の対応と秘密／個人情報の点検が必要。ZIP作成・監査送信・独立判定は行っていない。候補だけではマップ・敵・音などを含むゲーム全体の実行は再現できない。
+
+射撃線の追加修正後の本番ビルド再確認（2026-11-12）: ソース `fc1fea1` の本番ビルド・Worker dry-runが成功し、武器60件のmanifest・publicとの一致を確認。[測定](evidence/weapon-models-20261111/freeze-final-build-report.json)。ローカル本番ビルドでは87配信ファイルを照合し、844×390・1280×720の使い捨てブラウザーで名前入力・開始・射撃・一時停止、武器読込HTTP 200、画面例外0を確認。[測定](evidence/weapon-models-20261111/built-release-freeze.json)。公開環境・12丁すべての本番ビルド画面・実機は対象外。
+
+射撃線の描画前移動の追加修正（2026-11-12）: 自己レビューで、短い更新間隔では初回描画待ちの線が先に移動・減光する問題を発見。対象線は初回描画まで位置・明るさを保ち、描画後に進めるよう修正した。1/144秒・1/240秒の連続更新では移動0・不透明度1、描画後0.004秒で0.48m移動・不透明度0.76。期限回収・clear・上限・再利用と対象外、実ローカルでのGL-6・ST-3・RL-2・AR-9を再確認。型確認・関連11テスト成功。[回収と短い更新](evidence/weapon-models-20261111/grenade-firstdraw-freeze-test.json)、[実ローカル射撃](evidence/weapon-models-20261111/grenade-firstdraw-freeze-live.json)。閃光と線は実画面では小さく、スマホでの視認性・通信は未確認。
+
+RL-9の塗装欠け隔離試作（2026-11-12、不採用）: 橙装甲の端を不規則に欠かせ、既存の暗い金属を見せる案を比較。8,180三角形・材質6・445,516 bytes、40項目合格・警告0、5等級の識別色以外一致だったが、詳細の実寸と兵士サイズでは違いがほぼ読めず不採用。[比較](evidence/weapon-models-20261111/heavy-chipped-rejected.png)、[検査](evidence/weapon-models-20261111/heavy-chipped-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/heavy-chipped-rejected.py)。製品は変更せず、通常対戦・共有画像・スマホ実機は未確認。
+
+新規9丁の現在の横面は[一覧画像](evidence/weapon-models-20261111/reframe-nine-latest.png)にまとめた。形の違いを確認できる一方、参考画像の写実的な材質・摩耗には届いておらず、AAA級の完成とは判定していない。
+
+12丁×5等級のネオン再検査（2026-11-12）: 現在のモデル60組について、2層の輪郭、有限の形状、元モデルを変更しないこと、破棄、左右2枠、発光の強弱・持ち替えを既存検査で確認。36方向の画像を目視した。[輪郭・発光画像](evidence/weapon-models-20261111/neon-glow-final.png)、[輪郭測定](evidence/weapon-models-20261111/neon-final-report.json)、[発光測定](evidence/weapon-models-20261111/glow-final-report.json)。検査用スクリプトの依存モジュール読込を作業フォルダでも動くよう更新。実戦の全動作・実スマホは未確認。
+
+RL-9の手続き表面２尺度試作（2026-11-12、不採用）: 橙装甲に大小のむら、金属に細い擦れを付け、実ゲーム・詳細・共有画像を同倍率で比較。自然な質感の明確な向上は確認できず不採用。[比較](evidence/weapon-models-20261111/procedural-wear-v2-rejected.png)、[測定](evidence/weapon-models-20261111/procedural-wear-v2-rejected-report.json)、[試作コード](evidence/weapon-models-20261111/procedural-wear-v2-rejected.js)。共有画像の文字・数値は不変。GPU計測は各12回の小標本で変動が大きく、負荷の増減を断定できない。外部HTTPSを遮断した隔離ブラウザーの外部取得失敗3件は描画エラーと区別する。製品は変更せず、別武器・全等級・共有UIの操作・実スマホは未確認。
+
+本番ビルドの実画面確認（2026-11-12）: ソース `1bb61fe` のローカル本番ビルドで、配信対象87件をビルド実体と照合。844×390・1280×720の使い捨てブラウザーで名前入力・開始・射撃・一時停止を確認し、各画面の弾数は32→29、取得した武器3件はすべてHTTP 200、画面例外0。[測定](evidence/weapon-models-20261111/built-release-current.json)。開始検査は現行の画面遷移と入力保護へ合わせて更新した。公開環境・12丁すべての本番ビルド画面・実機はこの検査の対象外。
+
+RL-9の手続きシェーダー隔離試作（2026-11-12、不採用）: 画像テクスチャや材質を増やさず、金属・橙装甲の色と粗さに位置由来のむらを加えた。実ローカル画面と詳細プレビューの同倍率比較では、写実的な質感の明確な向上を確認できず不採用。[比較](evidence/weapon-models-20261111/procedural-wear-rejected.png)、[測定](evidence/weapon-models-20261111/procedural-wear-rejected-report.json)、[試作コード](evidence/weapon-models-20261111/procedural-wear-rejected.js)。固定画面各12回のGPUクエリ中央値は現行5.02ms・候補5.34msだが、小標本で確定的な差ではない。画面内のプログラム数は47→48、共有複製後も48。実ゲーム中に既存の分析通信のCORS失敗が記録されており、描画のエラーとは区別する。製品は変更せず、別武器・共有画面・長期キャッシュ・スマホ実機は未確認。
+
+KB-6の多層通風口隔離試作（2026-11-12、不採用）: 6つの通風口に縁・奥・二段の羽根、胴に赤茶と青灰の分割装甲を追加。8,432三角形・材質6・475,428 bytes、40項目合格・警告0、5等級の識別色以外一致だったが、詳細の実寸では差が小さく、兵士サイズではほぼ分からないため不採用。[比較](evidence/weapon-models-20261111/kick-layered-rejected.png)、[検査](evidence/weapon-models-20261111/kick-layered-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/kick-layered-rejected.py)。頭部との静止辺面交差は0組だが、完全内包・動作中・実ゲーム・スマホは未確認。製品は変更していない。
+
+射撃線修正後のビルド（2026-11-12）: ソース `1bb61fe` の本番ビルドとWorker dry-runが成功。武器60件はmanifestのサイズ・ハッシュとpublic実体に一致し、既存15ファイルは基点から未変更。[測定](evidence/weapon-models-20261111/grenade-final-build-report.json)。公開環境と実端末は未確認。
+
+LZ-2の頂点AO隔離試作（2026-11-12、不採用）: 形状由来の陰影を頂点色へ焼き、100%と30%で比較。100%は銅色が黒くつぶれ、30%は詳細でも違いが小さく、容量増に見合う改善を確認できなかった。両案とも8,788三角形・材質6・約625KB、画像0、40項目合格・500KB目標超過の警告5件、5等級の識別色以外一致。上限や検査条件は変更せず、製品にも反映しない。[比較](evidence/weapon-models-20261111/laser-ao-rejected.png)、[検査](evidence/weapon-models-20261111/laser-ao-rejected-check.json)。通常対戦・共有画面・実機は未確認。
+
+GL-6・ST-3の短い射撃線修正（2026-11-12、制作途中）: 2m方向目印からの射撃線が初回描画前に寿命切れになる問題に対し、対象の線だけ実描画を待つようにした。描画されない場合は100msのタイマーで回収し、描画後・回収時・clear時・再利用時に状態を解除。既存の効果数上限は維持。正式コードでGL-6・ST-3の初回描画、対象外のRL-2・AR-9、180件満杯・残り1枠・最大90本待機・clearと再利用を検証。ゲーム・Worker型確認と関連11テストも成功。[条件と再現](evidence/weapon-models-20261111/grenade-first-draw.md)、[回収検証](evidence/weapon-models-20261111/grenade-first-draw-lifecycle.json)、[実ローカル射撃](evidence/weapon-models-20261111/grenade-first-draw-live.json)、[先行画素比較](evidence/weapon-models-20261111/grenade-first-draw-pixel.png)。100msはタイマー設定で厳密な経過時間上限ではない。描画コールバックは遮蔽なく見える証明ではなく、通常サイズの視認性・実戦負荷・通信・スマホ実機は未確認。
+
+12丁の初回射撃の画面投影（2026-11-12）: 844×390の実ローカル単独プレイで初回描画を測り、全12丁の銃口発光中心は同じカメラで投影した銃口と0px差。射撃線を持つ8丁では描画対象と移動方向を確認し、ロケット2丁は別の飛翔体を描画。GL-6・ST-3は射撃線を生成するが、測定した初回は寿命切れで描画前に消えていたため修正を隔離検証中。[比較](evidence/weapon-models-20261111/shot-screen.png)、[条件と結果](evidence/weapon-models-20261111/shot-screen.md)、[測定](evidence/weapon-models-20261111/shot-screen-report.json)。円は診断用の印で、遮蔽による実画素の可視・全飛行・他時点・通信・実機は未確認。飛翔体の生成は身体基準であり、描画時の位置は生成後の移動を含む。
+
+LZ-2の発光環拡大隔離試作（2026-11-12、不採用）: 輪・配管を太くした案は8,712三角形・材質6・494,268 bytes、40項目合格・警告0だったが、発光環が白く飽和し、参考画像の内部が見える輪から遠ざかるため採用しない。[比較](evidence/weapon-models-20261111/laser-industrial-rejected.png)、[検査](evidence/weapon-models-20261111/laser-industrial-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/laser-industrial-rejected.py)。製品は変更しておらず、実ゲーム・動作中・実機は未確認。
+
+SR-1の大型照準器再設計（2026-11-12、制作途中）: 白いスコープと赤茶の輪を大きくし、前部装甲・留め具・真鍮管を強めた。正式生成は8,868三角形・材質6・最大497,568 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士10場面と844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/sniper-industrial-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/sniper-industrial-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/sniper-industrial-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/sniper-industrial-reframe-reload-report.json)。静止手持ち2位置で頭部の辺面交差0組、頭側へ寄せる正例は285組、制服との3,891組は正常接触とめり込みを未分類。[測定](evidence/weapon-models-20261111/sniper-industrial-held-report.json)。再造形後の12丁×左右の背負い静止24条件は体表の辺面交差0組、正例246組。[測定](evidence/weapon-models-20261111/back-final-sniper-report.json)。12丁×装填3時点×2方向の手元を再描画したが、指先・弾倉の接触は判定できない。[画像](evidence/weapon-models-20261111/reload-hands-sniper-final.png)、[測定](evidence/weapon-models-20261111/reload-hands-sniper-final-report.json)。
+
+SR-1再造形後の描画再測定（2026-11-12）: 同じデスクトップ固定画面で各5秒を再計測。画面更新は59.2〜60.1回/秒、CPU側描画処理の95%値は既存3丁11.3〜16.4ms、新規9丁10.6〜20.3ms。[測定](evidence/weapon-models-20261111/render-load-sniper-final-report.json)。1回ずつの比較でばらつきがあり、GPU完了時間・混雑中・スマホ性能は未確認。実ゲームの通常カメラでは大型照準器の細部の違いも判定しにくく、参考画像の写実的な摩耗は未達。
+
+12丁の固定画面の描画測定（2026-11-12）: Windows・Intel Iris Xe・Headless Chrome、844×390・兵士1人・敵0・背中のAR-9を固定して各5秒を1回ずつ比較。画面更新は全条件約59.9〜60.1回/秒、CPU側描画処理の95%値は既存3丁13.4〜15.9ms、新規9丁10.9〜16.1msだった。[条件と結果](evidence/weapon-models-20261111/render-load.md)、[測定](evidence/weapon-models-20261111/render-load-report.json)。これは短時間のデスクトップ固定画面の観察で、GPU完了時間・混雑中・実スマホの性能や負荷の保証ではない。
+
+ST-3の枠・蛇腹の再設計（2026-11-12、制作途中）: 3槽の黒い縁、橙の厚い枠、留め具と蛇腹を太くし、槽上半分の暗色で薬液の高さが分かるようにした。握り・前後端・銃口軸は維持。正式生成は8,444三角形・材質6・最大446,256 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士10場面と844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/sticky-industrial-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/sticky-industrial-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/sticky-industrial-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/sticky-industrial-reframe-reload-report.json)。静止手持ち2位置で頭部の辺面交差0組、頭側へ寄せる正例は820組、制服との1,439組は正常接触とめり込みを未分類。[測定](evidence/weapon-models-20261111/sticky-industrial-held-report.json)。12丁×左右の背負い静止24条件は体表との辺面交差0組、正例246組。[測定](evidence/weapon-models-20261111/back-final-sticky-report.json)。12丁×装填3時点×2方向の手元も再描画したが、指先・弾倉の接触は判定できない。[画像](evidence/weapon-models-20261111/reload-hands-sticky-final.png)、[測定](evidence/weapon-models-20261111/reload-hands-sticky-final-report.json)。参考画像の透明なガラス・写実的な摩耗、完全内包・共面・連続動作・実通信・スマホ実機は未確認。
+
+12丁の初回射撃音信号（2026-11-12）: 当時のモデルを装備した844×390の実ローカル単独プレイで、全12丁の初回射撃イベントと対応する再生要求・復号済みの正規クリップ・非ゼロの音声信号を確認。再生直前の無音対照は全件0、画面例外0。[条件と結果](evidence/weapon-models-20261111/shot-audio.md)、[測定](evidence/weapon-models-20261111/shot-audio-report.json)。測定は個別効果音ゲインの後、定位・マスター・圧縮の前であり、スピーカー出力・聴感・実スマホ・復号前の初回射撃は未確認。
+
+SMG-3の装填左手IK隔離試作（2026-11-12、不採用）: 既存３丁を変更せず、装填中盤だけ左手を弾倉の推定領域へ最大60mm寄せる案を60Hz・91時点で比較。到達可能／不能の対照は成功し、中盤の手首と推定領域の距離は約207→147mmとなったが、弾倉を操作する自然な動作に届かず不採用。[比較](evidence/weapon-models-20261111/reload-smg-ik.png)、[条件と限界](evidence/weapon-models-20261111/reload-smg-ik.md)、[測定](evidence/weapon-models-20261111/reload-smg-ik-report.json)。推定領域には弾倉以外も含まれ、指先の接触・貫通・実ゲーム・他武器・実機は未確認。
+
+RL-9の外周帯再設計（2026-11-12、制作途中）: 短筒・銃口軸・握りを維持し、筒全体に太い９本の外周帯と分割装甲を追加。正式生成は8,020三角形・材質6・最大436,872 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。実ゲームの初回描画1回では弾体と武器・体表の辺面交差0組、胸方向へずらす正例は74組。[比較](evidence/weapon-models-20261111/heavy-industrial-comparison.png)、[兵士](evidence/weapon-models-20261111/heavy-industrial-reframe-trooper.png)、[射撃と交差](evidence/weapon-models-20261111/heavy-industrial-intersection-report.json)、[詳細・共有](evidence/weapon-models-20261111/heavy-industrial-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/heavy-industrial-reframe-reload-report.json)。再造形後の12丁×左右の背負い静止24条件でも体表の辺面交差0組、正例246組。[測定](evidence/weapon-models-20261111/back-final-industrial-report.json)。12丁×装填3時点×2方向の手元も再描画し、右手は握り付近、左手は途中で離れる時点を確認。[画像](evidence/weapon-models-20261111/reload-hands-final.png)、[測定](evidence/weapon-models-20261111/reload-hands-final-report.json)。参考画像の写実的な摩耗、指先と弾倉の接触、完全内包・共面・連続動作・実通信・スマホ実機は未確認。
+
+12丁の装填手元の拡大診断（2026-11-12）: 当時のGLBと兵士の既存クリップを用い、12丁×装填25・50・75%×2方向を局所描画した。その後RL-9を再造形したため、この画像のRL-9は旧形状。右手は握り付近に見え、左手は途中で武器から離れる時点がある。手首ボーンから武器表面への距離も測り、既知距離と実武器表面の正負対照を確認したが、手袋・指先や弾倉との接触距離ではない。全12丁に独立した弾倉ノードやモデル内アニメーションはなく、この画像だけでは弾倉に合う装填表現の合格を判断できない。[比較](evidence/weapon-models-20261111/reload-hands-close.png)、[条件と所見](evidence/weapon-models-20261111/reload-hands-close.md)、[測定](evidence/weapon-models-20261111/reload-hands-close-report.json)。選択時点以外の連続動画・実ゲーム入力・スマホは本診断の対象外。
+
+再造形後のビルド・配信準備（2026-11-12）: ソース `37fa7cc` のゲーム・Worker型確認、本番ビルドとWorker dry-runが成功。本番ビルドの武器60ファイルはmanifestのサイズ・ハッシュとpublic実体に一致し、既存15ファイルは基点から未変更。[測定](evidence/weapon-models-20261111/reframe-build-report.json)。実Service Workerと保存処理を用いた隔離ブラウザーでは、60ファイルを明示保存後、オフラインで全件一致。[測定](evidence/weapon-models-20261111/cache-reframe-report.json)。公開環境・実端末・更新前にオフラインの端末は未確認。
+
+12丁の背負い静止検査（2026-11-12）: 当時のモデルで左右24条件を再測定し、変形後の体表と背負い武器の辺面交差は0組。武器を体側へ10cm移す正例では246組を検出。その後RL-9を再造形したため、RL-9については再確認が必要。[測定](evidence/weapon-models-20261111/back-reframe-static-report.json)。完全内包・共面・連続動作・実地形・通信・実機は未確認で、ダウン時の床めり込みは別途残る。
+
+横向きダウンの隔離試作（2026-11-12、不採用）: 胴を90度回す案を3武器・左右で60Hz測定。静止時も身体が床下182mm、片側の背負い武器が床下199〜248mmとなり、復帰時の動きも不自然だったため採用しない。[記録](evidence/weapon-models-20261111/ground-side-probe.md)、[画像](evidence/weapon-models-20261111/ground-side-probe.png)、[測定](evidence/weapon-models-20261111/ground-side-probe-report.json)。横向き姿勢の全方式が不可能と分かったわけではない。
+
+MD-4の陶器の仕上げ隔離試作（2026-11-12、不採用）: 4枚の花弁の立体的な欠けと陶器の色・粗さを2案で比較。各8,800三角形・材質6・最大492,364 bytes、40項目合格・警告0、5等級の識別色以外も一致したが、兵士表示では差がほぼ見えず参考画像の質感に届かないため製品へ反映しない。[比較](evidence/weapon-models-20261111/medic-patina-comparison.png)、[測定](evidence/weapon-models-20261111/medic-patina-report.json)。実ゲームループ・共有画面・実機は未確認。
+
+MD-4の丸胴・花弁再設計（2026-11-12、制作途中）: 参考画像を基に幅広い4枚の花弁、白い丸胴、緑の薬液窓、真鍮の帯と取っ手を加え、DESIGNとPRODUCTIONを更新。握り・前後端・銃口軸は維持。正式生成は8,512三角形・材質6・最大472,200 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/medic-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/medic-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/medic-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/medic-reframe-reload-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた手・体の接触、連続動作・実通信・スマホ実機は未確認。
+
+GL-6の6機構再設計（2026-11-12、制作途中）: 参考画像を基に中央を箱形にし、大きな円形機構を2×3に並べた。肩担ぎの後部、握り、前後端、銃口軸は維持し、DESIGNとPRODUCTIONも更新。正式生成は8,860三角形・材質6・最大499,400 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/grenade-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/grenade-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/grenade-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/grenade-reframe-reload-report.json)。別生成の隔離候補では静止時のヘルメットとの辺面交差は左右0組、制服との交差は各729組だが、正常接触とめり込みの内訳は未判定。[測定](evidence/weapon-models-20261111/grenade-held-crossing-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた接触、連続動作・実通信・スマホ実機は未確認。
+
+ダウン時に背負い武器を離す隔離試作（2026-11-12、不採用）: SG-4・短筒RL-9・SR-1の左右6条件を平面・60Hzで測定。体と手持ちの最低高は変更前と同じだったが、背負い武器は静止時に床上106〜126mmで浮き、移動途中の体表・手持ちとの辺面交差も検出した。支持のない浮遊・自動帰還も不自然なため製品へ反映しない。[記録](evidence/weapon-models-20261111/ground-detach-probe.md)、[測定](evidence/weapon-models-20261111/ground-detach-probe-report.json)、[画像](evidence/weapon-models-20261111/ground-detach-probe.png)。実地形・連続接触・通信・実機は未確認。背負い武器の床めり込みは未解決。
+
+ST-3の3連薬液槽再設計（2026-11-12、制作途中）: 参考画像を基に3本の槽・太い配管・橙色の枠を大きくし、肩担ぎ用の握り・前後端・銃口軸を維持した。正式生成は7,804三角形・材質6・最大410,668 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/sticky-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/sticky-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/sticky-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/sticky-reframe-reload-report.json)。別生成の隔離候補では、静止時のヘルメットとの辺面交差は左右0組、制服との交差は各1,439組だったが、正常接触とめり込みの内訳は未判定。[測定](evidence/weapon-models-20261111/sticky-held-crossing-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた接触、連続動作・実通信・スマホ実機は未確認。
+
+KB-6の通風機構再設計（2026-11-12、制作途中）: 参考画像を基に胴を太くし、両側に大きな6つの通風口と分割装甲を加えた。前後の噴射口と翼、既存の握り・銃口軸は維持。正式生成は8,560三角形・材質6・最大488,228 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/kick-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/kick-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/kick-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/kick-reframe-reload-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた手・体の接触、連続動作・実通信・スマホ実機は未確認。
+
+LZ-2の機構再設計（2026-11-12、制作途中）: 参考画像を基に円形機構・銅色の枠・冷却フィンを加えた。正式生成は8,788三角形・材質6・最大498,120 bytes、40項目合格・警告0、多面図を目視。5等級の識別色以外の不変検査は全9種で成功。実兵士の手持ち・背負い・装填10場面、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認した。発光弾と銃口炎の生成位置は製品銃口と0mm差。初回発光弾の色を線形色に変換した値は `[0.53948, 0.95597, 1]`、GLB発光値は `[0.53900, 0.95600, 1]` で最大差0.00048。[兵士](evidence/weapon-models-20261111/laser-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/laser-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/laser-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/laser-reframe-reload-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた手・体の接触、連続動作・実通信・スマホ実機は未確認。
+
+SG-7の厚い帯と機構の再設計（2026-11-12、制作途中）: 参考画像を基に太い7本の真鍮帯・赤茶の区画・上部輪を加え、棘とレバー輪を維持。銃口軸を0.054→0.080mへ変更し、DESIGNとPRODUCTIONも更新。正式生成は8,308三角形・材質6・最大494,744 bytes、40項目合格・警告0、多面図を目視。SG-4と同じ条件で無彩色96×36へ投影し、棘と上下の輪で識別できることを目視した。[輪郭比較](evidence/weapon-models-20261111/slug-reframe-silhouette.png)。5等級の生成物と本体およびネオン輪郭は一致、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と製品銃口、844×390隔離仮保存での初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/slug-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/slug-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/slug-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/slug-reframe-reload-report.json)。隔離試作の静止手持ちでは制服との辺面交差2,070組、ヘルメット0組で、正常接触とめり込みの内訳は未判定。参考画像の写実的な摩耗には届いておらず、連続動作・実通信・スマホ実機は未確認。
+
+SR-1のスコープと装甲再設計（2026-11-12、制作途中）: 参考画像を基に大口径スコープ・白い分割装甲・暗赤の補強・金属配管を追加し、銃口下の棘を1本に整理。銃身の範囲・握り・銃口軸は維持。正式生成は8,892三角形・材質6・最大499,628 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭は一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と製品銃口を局所確認。844×390の隔離仮保存で初回射撃の銃口炎・発光弾の生成位置は製品銃口と0mm差、詳細・共有画面と装填5時点・満弾復帰も確認した。[兵士](evidence/weapon-models-20261111/sniper-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/sniper-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/sniper-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/sniper-reframe-reload-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた手・体の接触、連続動作・実通信・スマホ実機は未確認。
+
+GL-6の箱形6機構隔離試作（2026-11-12）: 本人参考画像の2×3配列と緑の装甲を試作。8,004三角形・材質6・最大460,976 bytesで正規40項目合格・警告0、5等級の識別色以外も一致した。多面図・製品プレビュー関数・局所兵士表示を比較したが、製品サイズでは細部が小さく、現行からの明白な完成度向上とまでは判断できず不採用。[比較](evidence/weapon-models-20261111/grenade-box-prototype.png)。製品は変更しておらず、実ゲーム射撃・装填・スマホは未確認。
+
+SMG-3の3区画再設計（2026-11-12、制作途中）: 本人提供の参考画像に合わせ、細い機関部を3つの太い暗色機構・黄黒装甲・多層リング・配管と取っ手へ作り直した。針、2本の弾倉、握りと前方支持を維持し、DESIGNとPRODUCTIONの寸法・銃口軸を更新。正式生成は8,096三角形・材質6・最大448,980 bytes、40項目合格・警告0、多面図と札サイズを目視。5等級の生成物と本体が一致し、全9種のレア度不変検査とSMGのネオン輪郭照合も成功。実兵士の手持ち・背負い・装填の10場面と製品銃口を確認し、844×390の隔離仮保存による実射撃で銃口炎・発光弾は製品銃口と0mm差、詳細・共有画面と装填5時点・満弾復帰も確認。[兵士](evidence/weapon-models-20261111/smg-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/smg-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/smg-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/smg-reframe-reload-report.json)、[9丁の現状](evidence/weapon-models-20261111/concept-models-round4.png)。試作の手持ち静止時には制服との辺面交差1,678組があり、手の接触とめり込みの内訳は未判定。参考画像の写実的な摩耗・完成品質には届かず、連続動作・実通信・スマホ実機は未確認。初回の実射撃確認は画面読込が50秒で時間切れとなり、並行処理を止めた再実行で成功した。
+
+ダウンのうつ伏せ隔離試作（2026-11-12）: SG-4・短筒RL-9・SR-1×背負い両位置の平面6条件を60Hzで測定。既存姿勢を胴軸で回した単純案では背負い武器は静止時に床上へ出た一方、手持ち武器は静止時42〜48mm・倒れる途中最大451mm床下、背負いと体表は静止時最大1,336面組の交差、復帰時は胸位置が1フレーム最大約402mm変化して不自然だったため不採用。製品は変更していない。[測定・画像と再現方法](evidence/weapon-models-20261111/ground-prone-probe.md)。平面・6条件・この単純案に限定し、うつ伏せ方式全体の限界とは扱わない。実地形・通信・スマホは未確認。
+
+短筒RL-9を含む背負い静止位置（2026-11-12）: 現在の12種×背負い2位置で、変形後の体表と武器の辺・面交差は24条件すべて0組。武器を体側へ10cm移した正例は246組を検出。[測定](evidence/weapon-models-20261111/heavy-short-back-surface-report.json)。完全内包、共平面、深さ、連続動作、実ゲーム・実機は対象外。ダウン時の床下は別途未解決。
+
+SMG-3の立体傷隔離試作（2026-11-12）: 既存材質を使い塗装欠け50か所を立体で追加。8,016三角形・材質6・最大489,480 bytes、正規40項目合格・警告0、5等級の識別色以外のデータ一致も確認。しかし製品詳細プレビュー・局所兵士表示では傷の差が小さく、参考画像の細密さには届かないため不採用。[比較](evidence/weapon-models-20261111/smg-surface-geometry-comparison.png)。製品・原設計は変更していない。実ゲームループ・共有画像・実機は未確認。
+
+融合表示修正のコミット後build（2026-11-12）: 実装commit `0e7bde8` から本番クライアントbuildと既存Worker向けdry-runが成功。build内の武器60件についてmanifestのサイズ・SHAおよびpublic実体との一致を確認。[記録](evidence/weapon-models-20261111/fusion-committed-build-report.json)。これは公開・配信・実機の確認ではない。
+
+融合表示の実画面（2026-11-12）: 844×390・隔離仮保存の実ローカル防衛戦で、新形式SG-7のN・LRを各1回装備し、融合成長モードの最初の通常強化を選択。強化前後で選択スロット0・右手ソケット、モデルノード・識別インレイ・ネオンの色を実Rendererから確認し一致。`slug_0.glb`／`slug_4.glb` を要求し、`slug_5.glb` 要求・ページ例外・武器要求失敗は0。[測定](evidence/weapon-models-20261111/fusion-tier-ui-report.json)、[比較](evidence/weapon-models-20261111/fusion-tier-ui-comparison.png)。画像は選択UIに隠れた兵士を見るため、製品Rendererを追加描画して取得している。画像内の兵士は小さく、細部の目視判定ではない。融合カード自体、実通信を伴う画面、スマホ実機は対象外。再現は `node scripts/check-front-fusion-appearance-ui.mjs`。
+
+旧サーバー由来の表示上限（2026-11-12）: 基点の融合コードが出力する表示項目なしの新LRを現行コードで処理すると、存在しない等級5のGLBを要求して404、ネオンは白になった。表示専用 `weaponVisualTier` の欠落時フォールバックを0〜4へ収め、隔離ローカルHTTPの実GLB読込でLRの `_4.glb` とLR色を確認。正規の新旧9等級、保存値と戦闘値は維持。表示項目が存在しない旧サーバーの新N〜SSRは、新旧元装備を識別できず色ずれが残る。[測定](evidence/weapon-models-20261111/fusion-old-server-fallback-report.json)。旧コード実行と隔離HTTPによる試験であり、旧サーバープロセス・旧実ブラウザー・公開環境・実機は未確認。変更後の関連6ファイル72テスト・ゲーム／Worker型確認、新旧2人の実ローカルWorker通信テストは成功。
+
+SMG-3の画像なし表面試作（2026-11-12）: 分割した面に頂点色で摩耗・明暗を加える2案を隔離制作。8,916／9,000三角形、材質各6、最大448,960／464,920 bytes、各40項目合格・警告0、5等級の識別色以外のデータ一致も確認。製品の詳細プレビュー関数と局所兵士表示を比較したが、候補1の差は小さく、候補2も参考画像の細密さ・摩耗には届かないため不採用。[比較画像](evidence/weapon-models-20261111/smg-edge-paint-comparison.png)。製品・原設計は未変更。試作では画像未使用GLBのUVを除去したが、将来の素材編集への影響は未評価。実ゲームループ・共有画像・実機は未確認。
+
+融合表示の旧コード互換（2026-11-12）: 基点 `d7d1399` のデコーダ・装備キャッシュ・GLB読込・ネオンクラスをNodeで読み、実ローカルWorkerから新N・新LR・旧Rの融合後データを通常JSON／tuple v1／tuple v2の3接続で受信。旧コードで復元・装備キャッシュ受理し、旧GLB `shotgun_0` と `shotgun_4` のローカルHTTP読込も成功。[測定と再現手順](evidence/weapon-models-20261111/fusion-old-client-compat.md)。旧コードは追加された表示等級を使わず、NをR色、LRを白く表示し、融合投影には旧3形状を使用する。これは旧コード自体にある挙動で、旧版の見た目は修正されない。旧画面全体・旧実ブラウザー・公開環境・実機は未確認。
+
+融合後の表示等級の修正（2026-11-12、作業中）: 本人が表示用の通信項目追加を明示許可。元装備から `appearanceTier` を融合時に算出し、戦闘用GLB・インレイ・ネオンの選択に利用する。持ち込み値は兵士作成時の複製から除去し、元の保存データと戦闘値計算は変更しない。全12種×新5・旧4等級の関数検証、偽装値と既存保存、JSON／tuple v1・v2／装備キャッシュ、変更前の関数との戦闘値比較を実施。ゲーム・Worker型確認、関連11ファイル192テスト成功。実ローカルWorkerとWebSocketの2人検証では新N・旧Rの偽装値除去、融合後の表示等級、通常／tuple v2通信、再接続、代表強化での戦闘値保持を確認。既存の4人融合・旧世代を模した復帰の実通信2テストも成功。[通信検証](evidence/weapon-models-20261111/fusion-tier-live-network.json)。旧実ブラウザーの画面全体、公開Worker、実スマホ、すべての強化の実通信は未確認。詳細・共有の保存武器と報酬は従来の等級関数を維持する。
+
+RL-9短筒の銃口炎（2026-11-12）: 844×390の隔離仮保存を用いる実ローカル単独プレイで、初回射撃の銃口炎の生成位置が製品銃口と0mm差であることを確認。ロケット飛翔体の全飛行や画面上の厳密な位置、通信・実機は対象外。[測定](evidence/weapon-models-20261111/heavy-short-shot-report.json)。
+
+RL-9短筒の制作途中候補（2026-11-12）: 射撃初回フレームの弾体交差を改善するため、参考画像も踏まえ前端を約0.62→0.28m、後端を約−0.37→−0.18m、銃身軸を0.09→0.13mに変更。太いドラムの9本リブ、帯、留め具、圧力計を造形し、DESIGNとPRODUCTIONも更新。正式生成後は7,368三角形・材質6・最大398,720 bytes、正規40項目合格・警告0。多面図を目視、5等級の生成物と本体の一致、全9種のネオンとreport一致・レア度不変検査成功。実兵士の手持ち・背負い・装填10場面、844×390の隔離仮保存による実ローカルの詳細・共有と装填5時点・満弾復帰を確認。[9丁の現状](evidence/weapon-models-20261111/concept-models-round3.png)、[兵士](evidence/weapon-models-20261111/heavy-short-trooper.png)、[詳細・共有・射撃・装填](evidence/weapon-models-20261111/heavy-short-ui.png)。実際の初回描画1回ではRL-9とRL-2とも武器・体表の辺面交差0組、体側へ移した正例は交差あり。[測定](evidence/weapon-models-20261111/heavy-short-rocket-report.json)。単一時点の観測であり、完全内包・共平面・全射撃・連続動作・実通信・スマホは未確認。参考画像の写実的な表面には届いておらず完成品質ではない。型検査・本番ビルド・Worker dry-run成功、本番ビルド60件のmanifestと実体一致、明示保存後オフライン60件一致。[本番build](evidence/weapon-models-20261111/heavy-short-build-manifest-report.json)、[オフライン](evidence/weapon-models-20261111/heavy-short-cache-report.json)。
+
+SMG-3の造形隔離試作（2026-11-12）: 参考画像に近づけるため、大型装甲と上部取っ手を別環境で追加。8,208三角形・6材質・最大492,552 bytes、正規40項目合格・警告0。ただし黄色い単調な面が目立ち、参考画像の機構密度・摩耗や求められた完成品質には届かず不採用。製品ファイルは変更していない。兵士・実ゲーム・製品ネオンでは未確認。[比較](evidence/weapon-models-20261111/smg-art-lab-comparison.png)、[検査](evidence/weapon-models-20261111/smg-art-lab-check.json)、[試作ソース](evidence/weapon-models-20261111/smg-art-lab.py)。
+
+参考画像後のRL-9飛翔体の再測定（2026-11-12）: 追加造形後、補正なしの実ローカル単独プレイで最初に描かれた弾体と武器の辺・面交差はRL-9で277組、RL-2は0組。どちらも兵士の可視体表との交差は0組で、弾を体側へ移した正例は交差を検出。RL-9の問題は引き続き未解決。完全内包・共平面・他時点・実通信・実機は対象外。[測定](evidence/weapon-models-20261111/concept-rocket-overlap-report.json)。再現は `node scripts/rocket-overlap-probe.mjs`。
+
+参考画像後の背負い静止位置（2026-11-12）: 実兵士を局所更新し、12種×背負い2位置で体表と武器の辺・面交差を調べた結果、24条件すべて0組。銃を体側に動かした正例では246組の交差を検出した。[測定](evidence/weapon-models-20261111/concept-back-surface-report.json)。完全内包、共平面、接触の深さ、連続動作、実ゲーム・実機は対象外で、ダウン時の床への入り込み問題は別途未解決。
+
+参考画像後のローカル配信検証（2026-11-12）: 再造形後のGL-6／ST-3は844×390の隔離仮保存の実画面で初回射撃と詳細・共有画像を再確認し、生成時の銃口炎・発光弾と製品の銃口位置の差は各0mm。[射撃](evidence/weapon-models-20261111/concept-round2-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/concept-round2-detail-report.json)。ゲームとWorkerの型検査、本番ビルドとWorkerの公開しないdry-run、武器読込・配信関連4ファイル67テストが成功。本番ビルドの武器60件はmanifestのサイズ・SHAおよびpublic実体と一致。隔離環境での明示保存後、60件をオフラインで一致確認。[本番ビルド](evidence/weapon-models-20261111/concept-build-manifest-report.json)、[オフライン](evidence/weapon-models-20261111/concept-cache-report.json)。これは本番配信や実スマホの検証ではない。同じURLの将来更新で古いキャッシュが残る課題は未解決。
+
+参考画像後の装填観測（2026-11-12）: 新規9丁について、844×390の隔離仮保存を使った実ローカル単独プレイで装填開始、5時点のRenderer画像と両手の座標、満弾への復帰を取得。6丁では遭遇演出をスキップしている。画像はゲームの通常カメラで兵士が小さく、隠れた手の接触・めり込みを判定できないため、手の位置の完全な確認とは扱わない。[画像](evidence/weapon-models-20261111/concept-reload-9.png)、[測定](evidence/weapon-models-20261111/concept-reload-9-report.json)。実通信・実スマホ・音は未確認。
+
+参考画像を踏まえた2丁の追加造形（2026-11-12）: GL-6の六連機構を段付きにして配管を追加。初回の左手範囲不合格は該当2室を薄くして修正し、8,512三角形・材質6・最大470,296 bytesで正規40項目合格、警告0。ST-3は3槽を太くしそれぞれにアーチ管と固定枠を追加、ネオン輪郭も更新し、8,924三角形・材質6・最大484,856 bytesで同合格。両方の多面画像を目視し、実兵士の持ち・背負い・装填の静止20場面と製品の銃口計算を局所確認。[9丁の現状](evidence/weapon-models-20261111/concept-models-round2.png)、[兵士表示](evidence/weapon-models-20261111/concept-round2-trooper.png)、[測定](evidence/weapon-models-20261111/concept-round2-trooper-report.json)。9種の生成物と本体の各5等級のバイト一致、ネオン輪郭と各reportの一致、レア度不変検査も確認。隠れた手や体との接触と連続動作、実通信・実機は未確認。参考画像の摩耗は未再現であり、完成品質とは扱わない。
+
+参考画像を受けた初回造形（2026-11-12）: 新規9丁に装甲・配管・留め具などを追加し、正規40項目の検査は各合格・警告0、5等級の生成物と本体ファイルのSHAが一致。各10場面の兵士表示と製品の銃口計算、844×390の隔離仮保存を使った12種の詳細・共有画像と初回射撃を確認した。初回射撃の銃口炎12件と発光弾10件は生成時の製品銃口から0mm、2種のロケットは発光弾対象外。[初回造形](evidence/weapon-models-20261111/concept-models-round1.png)、[兵士表示](evidence/weapon-models-20261111/concept-round1-trooper-report.json)、[詳細・共有](evidence/weapon-models-20261111/concept-round1-detail-report.json)、[射撃](evidence/weapon-models-20261111/concept-round1-shot-report.json)。参考画像の写実的な傷・汚れ・複雑さには届いておらず完成品質とは扱わない。隠れた部分の接触、連続動作、実通信・スマホ実機は未確認。GL-6とST-3については追加造形前の結果。
+
+本人提供の参考画像を受領（2026-11-12）: 9点の非武装小道具画像を[原寸保存](../design/weapon-models-20261111/concepts/user-reference-9.png)。前に本人へ渡した順番と色・特徴から左上→右下をSMG-3、SG-7、RL-9、SR-1、LZ-2、GL-6、ST-3、KB-6、MD-4に対応すると推定。画像に型番はなく、対応は推定。材質・装甲・機構密度を参考にし、武器固有の輪郭・握り・担ぐ構えはDESIGNを維持して9丁を作り直す。テクスチャ・透過禁止や三角形12,060／材質6／800KBの上限、検査基準は変更していない。画像そのものは武器の設計図でも完成モデルでもない。
+
+コンセプト画像の生成停止（2026-11-12）: 本人の選択を受けて新規9丁の統一方向の画像生成を実行したが、画像ツールの安全審査に `violence` を理由に拒否された。画像は生成されていない。現在の試作3Dを1枚にまとめた参照と、9丁の造形・材質の制作メモを保存したが、コンセプトアートの代替とは扱わない。[制作メモ](../design/weapon-models-20261111/concepts/DIRECTION.md)。本体・公開先は変更せず、最終3D制作・実機・独立Chat監査・公開は未完了。
+
+本人の制作方針変更（2026-11-12）: 新規9丁はコンセプトアートから進めて3Dを仕上げ直す。既存AR-9・SG-4・RL-2は維持。現時点の新規9モデルは寸法・握り・装着検証の試作として保持し、完成品やAAA級の到達と扱わない。GL-6／ST-3は先に決定した担ぐ構えと武器形状の方向を維持。下記の検査結果は変更前の試作の結果であり、新しい造形には再検証が必要。
+
+RL-9格子化の隔離試作（2026-11-12）: 武器の剛体三角形をローカル格子に前計算し、実Rendererの同一フレームでは262交差から補正後0。RL-2は観測5フレームで元サイズ。単一観測で格子初回構築18.6ms、構築を除く補正前後の照合計5.6ms。同じ交差位置を32弾分繰り返す近似では照合だけで45.5ms。装備切替後に過去弾が別銃と偶然重なる場合、同一Group内で形状が変わる場合の安全性は未解決で不採用。実通信・実切替・実機・GPU・全体fps・完全内包・共平面は未確認。[RL-9](evidence/weapon-models-20261111/rocket-grid-heavy-report.json)、[RL-2](evidence/weapon-models-20261111/rocket-grid-rocket-report.json)。再現は `python scripts/create-rocket-grid.py` の後 `node dist-validation/rocket-grid-collision.mjs`。
+
+追加確認（2026-11-12）: GL-6のネオン外形で末尾の重複点を除き、正規40項目・局所兵士表示・実ローカル初回射撃を再確認。GLB自体は先の本体配置版を用い、再読み込み検査合格・生成物と本体の5等級SHA一致。最終client buildと既存Workerの公開用dry-run成功、weapon関連3テストファイル51件成功、ゲーム・Workerの型確認成功。最終buildの武器60件はmanifestとサイズ・SHA一致。実通信・実スマホは未確認。[GL-6射撃](evidence/weapon-models-20261111/grenade-final-shot-report.json)。
+
+本人判断と12種の完成途中検証（2026-11-12）: 本人の「後者」で、GL-6／ST-3は構えをrocketのまま形を担ぐ向きに改修。続けての「後者」はレア度修正について通信情報を追加せず別案を検討する選択として扱う。現行の融合成長投影には新Nと旧Rが同じ武器データになる例があり、既存通信を維持しながら全等級・復帰・他プレイヤー・旧クライアントの表示と戦闘値を保つ解は未発見。レア度ずれは未修正。[根拠](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+GL-6／ST-3の造形と局所確認: GL-6は下がった銃床を短い後部機構に改め、6連弾倉・照尺を維持。ST-3は担ぐ筒、3本の薬液ボンベ・蛇腹・ラッパ形噴射口を制作。GL-6は6,216三角形・材質6・最大359,616 bytes、ST-3は8,372三角形・材質6・最大461,960 bytes。どちらも正規40項目合格・警告0、5等級の生成物と本体SHA一致、ネオン外形とreportが一致し、多面画像を目視した。[2丁の画像](evidence/weapon-models-20261111/grenade-sticky-new.png)。実兵士の手持ち・背負い・装填3時点の各10場面と製品の銃口計算を局所確認。静止時の背負い2位置は両武器とも体表の辺・面交差0組。静止の手持ちはヘルメットとの交差0だが、手・腕・体を含むuniformとはGL-6 2,105組、ST-3 1,464組の交差を検出し、握る接触とめり込みの内訳は未判定。完全内包・共平面・連続動作は未確認。持ち上げ・床との干渉は別途課題。[手持ち測定GL-6](evidence/weapon-models-20261111/grenade-held-surface-report.json)、[ST-3](evidence/weapon-models-20261111/sticky-held-surface-report.json)。生成時の測定JSONのscopeにあった背負いという表記と、未実行の体移動対照を示す文言は実際の手持ち対象と対照の実行範囲に修正し、数値は変えていない。
+
+12種の実画面と配信の途中確認: 844×390の隔離仮保存を用いる実ローカル単独プレイで12種の初回射撃を確認。生成直後の銃口炎12件と発光弾10件は銃口から0mm、RL-2／RL-9は飛翔体方式で発光弾対象外。GL-6／ST-3は装填開始・実Rendererの5時点・残弾満杯への復帰を確認。12種各1レア度の詳細・共有画像は実UIで開き、ページ例外・武器素材読込失敗0。正規build成功、製品の配信manifestと実ファイルの武器60件のサイズ・SHA一致。隔離環境の実Service Workerで明示ダウンロード後、オフライン60件が実ファイルと一致。全9新規モデルのレア度不変検査は負例付き成功、武器・配信関連既存テスト計51件成功、ゲーム・Worker双方の型確認成功。実通信・実スマホ・連続動作や隠れた手の接触・飛翔体の飛行全体・完成版の独立Chat監査・公開は未確認。[射撃](evidence/weapon-models-20261111/weapon-shot-12-report.json)、[詳細・共有](evidence/weapon-models-20261111/weapon-detail-12-report.json)、[配信](evidence/weapon-models-20261111/weapon-catalog-60-report.json)、[オフライン](evidence/weapon-models-20261111/weapon-cache-60-report.json)、[装填](evidence/weapon-models-20261111/grenade-sticky-reload-report.json)。以前のST-3未制作という記録は当時の状態。
+
+RL-9の現在フレーム交差に限定した隔離試作（2026-11-12）: 発射イベントと弾の対応付けを使わず、現行のRL-9に該当する系統・爆風半径を候補に、実Rendererで現在の武器との面交差がある場合だけ弾体を前端固定で縮小。初回描画は258面組から0組、長さ62.28%。次に観測した約0.1秒後には元の長さ。RL-2は観測7フレームで元サイズ。RL-9の弾1件の交差検査は `performance.now` の単一観測で約41.9msかかり、60fpsの1フレーム約16.7msを超えたため不採用。GPUや全フレームの負荷、実スマホ性能を示す値ではない。中間時点・装備切替・他弾との交差・実通信・実機は未確認。爆風半径は武器IDの保証ではなく、結果JSONの `clipFrames.active` は前回値が残る計測上の欠陥があるため継続判定に使わない。[RL-9測定](evidence/weapon-models-20261111/rocket-current-heavy-report.json)、[RL-2測定](evidence/weapon-models-20261111/rocket-current-rocket-report.json)。再現は `python scripts/create-rocket-current.py`、続けて `node dist-validation/rocket-current-collision.mjs`。
+
+内容版を別ファイルで保持する隔離試作（2026-11-12）: MD-4の旧新5等級を内容ハッシュ付きの物理ファイルとして同時配信し、実Service Workerと保存処理で検証。旧版未保存の仮クライアントも旧版を取得でき、診断用6資産の旧新manifestは各々照合成功。新版5件の初回取得後は再読込・明示保存の追加通信0、オフライン5件一致、旧版と既存AR-9もオフラインで維持。新版未取得のままオフラインでは読込失敗。旧5本2,438,496 bytesと新5本2,490,656 bytesの双方を配信側に保持する運用が前提で、無期限の容量増加・旧版保持方針・既存固定URLからの移行は未検討。実旧ブラウザー・CDN・Worker・スマホ・正規全manifest・保存失敗時は未確認、製品未採用。[結果](evidence/weapon-models-20261111/cache-immutable-report.json)。再現は `node scripts/cache-immutable-proto.mjs`。
+
+内容に応じたURL版の隔離試作（2026-11-12）: 新規武器URLのクエリに内容由来の版を付け、配信一覧と同じ値を使う案を、既存の実Service Worker・保存処理とMD-4旧新5等級＋既存AR-9の診断用6資産で検証。新5種は初回だけ取得し、再読込の配信元要求0、取得後オフライン5件一致。旧キャッシュと既存AR-9も読めた。新版未取得のままオフラインでは新版URLが失敗し、クエリを無視する静的配信では旧版未キャッシュの旧URLが新版を返し得る。古い一覧による明示保存は不一致を拒否。正規全manifest・実CDN・旧ブラウザー・実スマホは未確認で製品未採用。[結果](evidence/weapon-models-20261111/cache-revision-report.json)。再現は `node scripts/cache-revision-proto.mjs`。
+
+同一URL武器のネットワーク優先・隔離試作（2026-11-12）: 新規武器フォルダのみを対象に、最新版取得と両キャッシュ更新、通信失敗時の既存キャッシュ利用を試作。旧MD-4から新版へ更新し、503・オフライン・短い不正応答時に旧版へ戻れた。成功時は両キャッシュが新版になりオフラインでも新版だったが、PRELOAD書込失敗を模擬するとオンラインで新版を返した後、オフラインでは旧版が返った。no-store条件では2回の読込で計996,264 bytesを受信し、模擬遅延200msで各約234／240ms。通信量と安定性のため未採用、製品未変更。不正応答全般・実スマホ・公開配信は未確認。[結果](evidence/weapon-models-20261111/cache-network-first-report.json)。再現は `node scripts/cache-network-first-proto.mjs`。
+
+同一URL更新時の通常キャッシュ（2026-11-12）: 隔離ローカルで旧MD-4をPRELOADへ保存し、同じURLの配信元を新版にした後、実Service Workerのコメントだけを変えて更新・切替を確認。通常再読込後も旧GLBが返り、GLBの配信元への要求は0、ページ例外0だった。明示ダウンロードでは更新できるが、通常起動では古いデータが残る例として未解決。今回の新URL初回公開で利用者が旧MD-4を持つことを示す結果ではない。公開Worker・実通信・実スマホは未確認。[測定](evidence/weapon-models-20261111/medic-auto-cache-report.json)。再現は `node scripts/check-medic-auto-update.mjs`。
+
+追加造形後のMD-4のキャッシュ確認（2026-11-12）: 隔離ローカル環境の実Service Workerと製品保存処理で、旧MD-4の実GLB5種を2種類のキャッシュへ入れ、通常読込で旧版が返ることを確認。明示ダウンロード後、オフラインで新5種を読み、実ファイルのサイズ・SHA-256と全件一致。ページ例外0。以前の55件の記録はMD-4追加造形前のもので、現行MD-4の証拠にはしない。正規manifest・自動更新・公開Worker・実スマホは未確認。[測定](evidence/weapon-models-20261111/medic-updated-cache-report.json)。再現は `node scripts/check-medic-cache-updated.mjs`。
+
+追加造形後のMD-4の詳細・共有画像確認（2026-11-12）: 隔離仮保存を用いた844×390の実ローカルUIでN等級の詳細画面と共有画像画面を開き、追加造形を目視。実UIが生成した1200×720 PNGを取り出し、性能表示と下端の注記まで画像内にあることを確認した。ページ例外・武器素材読込失敗0。横画面の共有ダイアログでは画像下部がスクロール領域に隠れ、全体を一度に表示できたとは確認していない。実送信・他等級・スマホ実機は未確認。[生成画像](evidence/weapon-models-20261111/medic-updated-share.png)、[測定](evidence/weapon-models-20261111/medic-updated-share-report.json)。再現は `node scripts/check-medic-detail-after-update.mjs`。
+
+追加造形後のMD-4の実プレイ確認（2026-11-12）: 隔離仮保存の実ローカル単独プレイを844×390で出撃・初回射撃。実CombatEffects生成直後の銃口炎・発光弾の位置はいずれも製品の銃口と0mm差。実UIでMD-4装備と残弾4/5、ページ例外0を確認。既存WebGL警告あり。実通信・スマホ・飛行全体・画面上の厳密な位置は未確認。[画像](evidence/weapon-models-20261111/medic-updated-live.png)は上が射撃時Canvas、下が実UIで、出撃表示が中央に重なる。[測定](evidence/weapon-models-20261111/medic-updated-live-report.json)。再現は `node scripts/weapon-shot-medic-after-update.mjs`。
+
+MD-4の胴体を追加造形（2026-11-12）: 白い円筒面に周方向の分割、両側の点検蓋・通気窓・留め具を追加。8,496三角形、材質6、最大498,132 bytes、40項目合格・警告0。多面画像を目視し、本体5等級のSHA-256が生成物と一致、生成済み8種のレア度不変検査も成功。実兵士を直接更新する局所検査10場面と製品コードの銃口を確認、ページ例外0。実プレイの射撃エフェクト・実機は追加確認していない。[素材画像](../design/weapon-models-20261111/out/medic/views.png)、[兵士表示](evidence/weapon-models-20261111/medic-detail-trooper.png)、[測定](evidence/weapon-models-20261111/medic-detail-trooper-report.json)。
+
+融合成長の持ち込み値を除去する第3隔離試作（2026-11-12）: 兵士作成時の装備複製から同名値を除去し、元装備から表示等級を再算出。新旧9等級、偽装値12条件、代表不正入力5条件とJSON・tupleの関数試験で期待どおり。GLBはスタブ、実保存・実ゲーム・実通信・旧ブラウザー・実機は未確認。通信項目追加の承認・互換検証待ちで製品未変更。[結果](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+融合成長の持ち込み値を拒否する第2隔離試作（2026-11-12）: 表示専用等級を元装備から算出する案で新旧9条件の表示・戦闘値・符号化／復号を関数単位で確認。GLB読込はスタブ。偽装入力は拒否できたが、従来の保存検証を通る同名未知項目付き武器も出撃時に拒否する互換上の課題があり未採用。旧実ブラウザー・実通信・保存・実機は未確認。[結果](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+融合成長の表示等級を保持する隔離試作（2026-11-12）: 新5等級・旧4等級の表示を維持し、戦闘値と通常JSON・tuple v1/v2の復号／装備キャッシュを関数単位で確認。ただし入力された表示等級を偽装できる例があり不採用。旧実ブラウザー・実通信・実機は未確認。新Nと旧Rが強化後に同じ武器データになる例も確認した。[条件と結果](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+融合成長後の表示等級の不具合（2026-11-12）: 防衛戦の正規強化選択をSG-7の5等級で実行すると、表示用等級が1段ずれ、最高等級は存在しない5になる。対象候補では戦闘値は前後でほぼ一致。実画面・通信・実機は未確認。未修正で、通信する武器情報に表示等級を追加する候補は形式変更の承認と互換性検証が必要。[再現と修正候補](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+ダウン中の体側移動試作（2026-11-12）: SG-4・SR-1×両背負いの平面4条件で、武器を体側に移して床下を避けたが、体表交差が最大4,319組、元位置からの移動が最大331.3mm、復帰時の1フレーム変化が最大77.2mmとなり不採用。製品は未変更。回避中の一瞬の床めり込みは過去に本人が許容したが、ダウン静止中は別として扱う。実ゲーム・通信・実機は未確認。[画像と条件](evidence/weapon-models-20261111/ground-down-side.md)。
+
+RL-9補正の対応付け追加検討（2026-11-12）: 同じ所有者・系統で新規観測の弾と射撃が各1件でも、イベント省略と弾の衝突が重なると別の発射を対応付ける反例がコード上成立する。実通信での再現や誤補正の発動は未確認。この条件だけを根拠に試作を製品へ採用しない。[詳細](evidence/weapon-models-20261111/rocket-visual-prototype.md)。
+
+RL-9表示補正の隔離試作（2026-11-12）: 実ローカル単独プレイの実Rendererで、初回観測時の銃口面を弾IDごとに固定し、弾体の前端を保って後端側を圧縮。RL-9の初回フレームは武器との辺／面交差0組（無補正の別走は258組）で、前端位置も別走と約0.002mm差。RL-2の今回の初回フレームでは縮小なし。RL-9は初回62.3%、次に観測できた約0.1秒後に100%だったが、その間の自然な伸び方は未確認。初回観測を新規発射と区別できず、途中参加・遅延・装備切替やモデル未ロード時の安全性も未確認のため、製品には採用していない。[画像と限界](evidence/weapon-models-20261111/rocket-visual-prototype.md)。
+
+RL-9飛翔体と武器の交差（2026-11-12）: 仮保存の実ローカル単独プレイで初回描画の弾体と兵士・手持ち武器の三角面の辺／面交差を測定。RL-9は実際の手持ちGLBと258面組の交差を検出し、同条件のRL-2は武器・兵士とも0、RL-9と兵士も0。体へ意図的に近づける正例と遠ざける負例、既知の三角形対照は成功。完全内包・共平面・他時点・通信・実機は未確認。弾体の前端を保って後端を縮める数値試作ではRL-9が約62%の長さとなったが、現行の飛翔体と発射イベントには直接対応するID・武器kindがなく、装備切替や通信遅延時の誤適用を防ぐ方法が未確定のため製品へ採用していない。交差の見た目への影響と安全な修正は未解決。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+レビュー用の[下書きPR #319](https://github.com/futsalife24-bot/swarm-front/pull/319)を作成。未完成のST-3、GL-6／ST-3の構えの本人判断、床への入り込み、全体検証と独立Chat監査を未完了と明記している。完成版への更新、main反映、既存Worker公開は未実施。
+
+既存素材の照合（2026-11-12）: `realism-v2/` のAR-9・SG-4・RL-2各5レア度、計15 GLBについて、作業基点 `d7d1399` の各ファイルと現在の実ファイルのSHA-256がすべて一致した。既存の出撃画面・武器行のソースにも基点からの差分はないが、画面の全操作や実機の検証を意味しない。
+
+RL-2／RL-9飛翔体の途中確認: 仮保存を使う実ローカル単独プレイで初回発射と通常更新後の実Rendererを観測。飛翔体は銃口ではなく射撃イベントの視点位置に生成され、初回描画までの0.05秒で各1.4m／1.0m進んだ。初回描画の弾体中心は銃口より進行方向へ約553mm／136mm前、飛行軸は銃口から横約160mm。RL-9の実描画形状の最後端を進行方向に投影すると銃口より約417mm後方だが、体や武器との交差を示す値ではない。見た目の自然さ、複数照準、飛行全体・通信・実機は未確認。ページ例外0、既存WebGL警告あり。製品は変更していない。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+背負い内包検査の前提確認: 兵士GLBの静止初期姿勢を解析すると、位置とスキン情報で頂点を解析上統合しても体・頭に多数の境界辺と非多様体の辺が残る。閉じた／開いた四面体の対照は期待どおり。兵士全体を穴のない単一体積として扱う単純な内外判定は信頼できず、めり込みなしとは判定していない。変形後の接触・実ゲーム・実機は未確認。[条件と結果](evidence/weapon-models-20261111/body-topology.md)。
+
+実ゲーム装填確認（2026-11-12）: 隔離した仮保存のローカル単独プレイで生成済み11種を射撃後にR入力し、装填開始、実Rendererの5時点、残弾が満杯に戻ることを確認。RL-9は自動装填条件も成立するため、開始をどちらが誘発したかは未判定。自然遭遇の紹介は実UIで計8回スキップ。ページ例外0。Rendererの解像度は負荷により一部低下。ST-3・手の隠れた接触・連続映像・実通信・実スマホは未確認。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+実射撃の生成位置（2026-11-12）: 孤立した実ローカル単独プレイで、実RendererがCombatEffectsを生成する瞬間を観測。生成済み11種の初回銃口炎11件と、発光弾を使う9種の発光弾9件は、いずれも生成時の兵士の銃口座標と0mm差。RL-2／RL-9は発光弾ではなく飛翔体を使用し、その初期位置・飛行は本検査の対象外。LZ-2の射撃発光色は `0xc2faff`。GL-6の発光弾は生成時に確認したが描画後には消えていた。既存WebGL警告あり、ページ例外0。ST-3・連続射撃・飛行中の見た目・実通信・実スマホは未確認。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+実戦画面と背負い体表の途中確認（2026-11-12）: 孤立ブラウザーの仮保存で生成済み11種を順に装備し、844×390の実ローカル単独プレイ画面から初回射撃。各武器の射撃イベント、銃口座標と方向、銃口エフェクトの存在を確認しページ例外0。描画の記録を追加しており、実通信・実スマホではない。発光弾の見た目の位置や連続動作はこの検証だけでは確定しない。別の隔離測定では、兵士の変形後の体表と背負い武器の辺・面の交差が、通常静止11種×両位置の22条件と、SG-4・SR-1の回避・ダウン各1時点×両位置の8条件で0。SG-4を意図的に体へ10cm寄せた負例は246面組を検出。完全内包や共平面は検出できず、自然な装着・連続動作の合格ではない。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+配信一覧の途中照合（2026-11-12、MD-4追加造形前）: 製品の配信カタログが列挙する武器60 URLは、実際のKind→URL関数による12種×5レア度の60 URLと一致。未生成ST-3の5件を含む正規manifest生成は欠落を検出して停止した。メモリー上の検証用一覧だけからその5件を除くと、残り55件のサイズとSHA-256は当時の実ファイルに一致。MD-4の5件はその後更新済み。完成manifest・本番build・公開配信は未確認。[方法と結果](evidence/weapon-models-20261111/README.md)。
+
+配信キャッシュの途中検証（2026-11-12、MD-4追加造形前）: 関連単体テスト21件成功。隔離ローカル環境で実Service Workerと製品の保存処理を使い、古いLZ-2ファイルを2種類のキャッシュに入れて古い内容が返る状態を再現し、明示ダウンロードで更新。その後オフラインにして、生成済み11種×5レア度の55ファイルを読み、全件のサイズとSHA-256が当時の実ファイルと一致した。MD-4の5件はその後更新済み。対象は手動で列挙した武器のみで、未生成ST-3・製品manifest全体・実スマホ・公開Workerの検証ではない。[記録と再現](evidence/weapon-models-20261111/README.md)。
+
+左手の隔離計測: 生成済み11種の通常構え・装填0/50/99%について、左手ボーンに強く追従する兵士頂点から武器三角面までの最短距離を計測。支え候補面の通常構え距離は既存SG-4が43.5mm、SG-7が44.9mm、既存RL-2が33.9mm、RL-9が32.7mm。範囲に頂点を持つ面全体を候補とする近似であり、手の接触・貫通や自然さの合否は判定できない。ST-3・連続再生・実操作・実機は未確認。[方法と画像](evidence/weapon-models-20261111/README.md)。
+
+床の追加試作: 武器と体を一体で持ち上げる案は、平面8条件で武器の床下を避けたが、最大339.1mmの移動と1フレーム最大299.1mmの急変、ダウン静止時の84.2〜89.0mmの浮きがあり不採用。製品は変更していない。実操作・地形・通信・実機は未確認。[条件と結果](evidence/weapon-models-20261111/ground-whole-body-lift.md)。
+
+SG-7追加造形と床の切り分け（2026-11-12）: 棘の補強板・銃床の段差・機関部の留め具を追加。7,916三角形・材質6・最大499,552 bytes、40項目合格・警告0。SG-4と実GLBを単色96×36で同条件投影し、棘とレバー輪で区別できることを目視。SG-4とSG-7の兵士表示・装填11時点、生成済み11種の実詳細・共有画面と局所射撃を再確認したが、手の接触と身体交差は一部隠れて未判定。床の隔離計測ではSG-4・SR-1×両位置×選択72時点で兵士頂点は床上、武器は最大337.1mm床下。回避クリップの時間圧縮と骨盤の下降・回転が急速な接近に関係することと整合するが、自然な修正・実操作・実地形は未確認。[検証記録](evidence/weapon-models-20261111/README.md)。
+
+装填の追加確認（2026-11-12）: SMG-3・LZ-2・MD-4の実兵士を、手持ち・背負いと装填11時点で左右から局所描画。3丁とも共通のrifle動作で、記録した左手ボーンは装填開始から最大約303mm移動し99%時点で約2mmまで戻った。背中や武器に隠れる手の接触・めり込み、連続再生、実操作と実機はこの静止画像では判定できず未完了。[範囲と画像](evidence/weapon-models-20261111/README.md)。
+
+追加造形・レア度比較（2026-11-12）: SMG-3の遮熱板・冷却溝・副弾倉の窓・照準器と固定具を追加。7,760三角形・材質6・最大480,004 bytes、40項目合格・警告0。兵士の手持ち・背負い・装填3時点の10画像、銃口計算、11種の局所射撃と844×390の実詳細・共有画像画面を再確認。生成済み新規8種のGLB全体を5レア度で比較し、識別材質のRGB以外のglTF設定とバイナリが一致。別材質とバイナリの負例は検出した。ネオンは別生成なので比較対象外。既存ネオン多角度検査はworktreeに依存ファイルがなく、親ディレクトリへのVite配信も許可リスト外で403となり未実施。全12種・実スマホ・実通信の確認は未了。[証拠と再現方法](evidence/weapon-models-20261111/README.md)。
+
+背負い床対策の先読み試作: 平面上のSG-4・SR-1×両位置×ダウン／回避の8条件では、武器回転を滑らかにして床下を避けたが、最大309mmの押し上げと1フレーム最大262.7mmの補正変化が残った。大きく動く既存の体・背負いソケットとの組合せが一因と示唆され、製品には採用していない。実操作・体との交差・実地形・通信・実機は未確認。
+
+実UI追加確認（2026-11-12）: 孤立ブラウザーの仮保存から、生成済み11種それぞれを出撃準備の一覧で装備し、実際の詳細ダイアログと共有画像ダイアログを開いて閉じた。844×390、画像は各1200×720、ページ例外・武器読込失敗0。ST-3、画像の実送信、実スマホは未確認。画面遷移中の入力保護を待たない初期試験は操作を取りこぼしたため、遷移完了を待って再試験した。[画面と範囲](evidence/weapon-models-20261111/README.md)。
+
+追加造形と床対策の試作（2026-11-12）: MD-4に送液管・残量窓・交換セルの段差を追加し、8,336三角形・材質6・最大487,700 bytes、強化40項目合格・警告0。実兵士の手持ち・背負い・装填3時点を10画像で確認し、製品の銃口計算も一致。生成済み11種の局所射撃エフェクトを再確認、ページ例外0。背負い武器をソケット中心に回転し不足分を押し上げる案は、SG-4・SR-1の平面8条件で床下を避けたが、隣接フレームで最大66.5度回転。速度制限案も最大253mmの押し上げが必要で、自然さや体との交差を確認できず両案とも不採用。実地形・実操作・実機は未確認。[検証範囲と結果](evidence/weapon-models-20261111/README.md)。
+
+追加造形と検査強化: RL-9に排気リング・固定具・圧力計・握りの溝、KB-6に銃口補強・翼の骨組み・留め具を追加。RL-9は8,456三角形・材質6・469,624 bytes、KB-6は7,888三角形・材質6・434,720 bytes。KB-6の識別インレイが装甲に隠れていたため位置を修正。読み直したGLBの左右それぞれ正面9点で見えること、およびレア度間の頂点位置と面接続の一致を検査に追加し、生成済み8種すべて40項目合格・警告0。隠れたインレイと、寸法・頂点数を変えない面接続変更の負例が不合格になることも確認。斜めからの見え方や実ゲーム中の視認性はこの検査では保証しない。両武器の兵士表示・銃口計算と、生成済み11種のプレビュー・共有画像生成・局所射撃エフェクトを再確認。当時は実ダイアログ未確認で、後日の結果は上記。実通信・実スマホや主観的なAAA品質の評価は未了。[画像と検証範囲](evidence/weapon-models-20261111/README.md)。
+
+専用worktree `task-weapon-models-20261111`、branch `codex/weapon-models-20261111`、基点 `d7d1399c5ba452b96b432819b69d3076ca668352`。Claude の未コミット設計19ファイルを複製し、元worktreeは保持。LZ-2の射撃線色との整合・詳細追加と、GL-6、SG-7、RL-9、SMG-3、SR-1、KB-6、MD-4の生成・各38項目合格・画像目視まで実施。既存3形は保持。製品統合は作業中、ST-3未制作。保存commitの状態は実Gitを参照。実画面の全12種検証、独立監査、完成版のcommit/push/PR/main反映、既存Worker公開はいずれも未完了。
+
+GL-6を実兵士の現行ロケット姿勢で比較し、銃床が首・肩付近に重なるため、[画像](evidence/weapon-models-20261111/grenade-pose-comparison.png)を添えて「姿勢を変更」か「担ぐ形へ改修」か本人の判断を確認中。比較は静止した2時点のみ。ST-3と両武器の最終姿勢は回答待ち。銃口は製品 `weaponBore` で `[0, 0.0531065, -0.5]` を測定し、射撃中の線は未確認。独立監査は本人が実施を選択。型検査は途中版で成功、全素材と最終差分での必要検証は未完了。モデルID・推論設定未確認。
+
+途中検証: ネオン形状が銃口計算へ混ざり発光位置がずれる既存問題を修正し、関連16テスト成功。修正後、GL-6/ST-3以外の10種は実兵士の銃口と元GLB単体の製品計算値が一致。SG-4/SG-7の装填11時点では左手が離れて戻る動きと座標が同じで、背中に隠れた接触部分や連続再生は未判定。ローカル検証画面で生成済み11種の詳細プレビュー・共有画像に空画像・読込エラーなし、実際の詳細ダイアログ・実機は未確認。実射撃の局所測定でGL-6の発光弾の方向差を発見したが、実Rendererでは短く消え視認性は未判定。[画像](evidence/weapon-models-20261111/grenade-projectile-60fps.png)では頭付近に弾体が重なったが、これは `fire()` の後 `step()` の前を人工的に描いた中間状態であり、通常実戦の表示証拠ではない。通常 `step()` 後の[初回描画](evidence/weapon-models-20261111/grenade-projectile-stepped.png)では弾体は座標上銃口より前に進んでいた。両方とも隔離fixtureであり、実UIの検証結果は次段に記載。協力通信での初回表示は未検証。発射イベントと弾体は共通IDがなく、通信中の確実な対応付けには別途設計が必要。当たり判定・通信は維持。以前から古かった素材名・発射エフェクト名のテスト期待値を現行実装に合わせた。ST-3が未生成のため事前保存manifest全体のテストは未完了。
+
+既存の武器地面接触検査をST-3以外の11種で厳格実行すると、全11種の背負いソケットで静的クリップ計88条件が不合格。手持ちソケットと5レア度の形状一致は成功。[集計](evidence/weapon-models-20261111/ground-11-summary.json)。既存SG-4と新SR-1を実兵士の更新・姿勢ブレンドで比較した[局所検証](evidence/weapon-models-20261111/ground-runtime-sg4-sr1.png)でも、ダウン・回避時に床に隠れる部分を確認。実ゲームの地形・通信・手操作は未確認。隔離した実UI確認は最初の準備ページが30秒でタイムアウト。仮保存を初期化時に入れ、PCの左クリック射撃を使う別方式でGL-6装備の実戦画面と[初回発射](evidence/weapon-models-20261111/grenade-ui-first-render.png)を確認。最初の弾体は3D座標上で銃口より前、画面上は頭付近に重なる。ページ例外0、WebGL警告あり。協力通信とスマホ実機は未確認で、実機の接続手段を確認中。
+
+継続検証: 武器系統の単体テストは28件成功、ST-3の完成が必要な2件は未実施。事前保存manifestのテストは15件成功、全素材が必要な1件は未実施。GL-6の短い発光弾が2mの方向目印へ向かっていた既存の問題を、描画方向だけ兵士の照準に合わせて修正。当たり判定・通信・発光弾の寿命は維持。関連17テストと両型検査が成功。生成済み11種類の実発射イベントとエフェクトを局所確認し、銃口炎・発光弾の開始位置が製品の銃口に一致。GL-6の銃身と発光弾の方向差は約7.68度から約0.011度に改善。[記録](evidence/weapon-models-20261111/shot-effects-11-report.json)。GitHubのmainと作業ブランチは照合時点でそれぞれ基点 `d7d1399`、途中保存 `341ecd6` と一致した。
+
+方向修正後のローカル実ゲームUIでもGL-6の射撃・弾体・銃口炎を確認し、ページ例外0。短い発光弾は初回描画には残っていないため、画像での方向判定には使わない。[記録](evidence/weapon-models-20261111/grenade-ui-after-direction-report.json)。
+
+床への入り込みは固定位置・角度を変える4案では解消せず、1案は悪化したため不採用。[結果](evidence/weapon-models-20261111/ground-offset-review.md)。地形アセット読み込み済みの実Renderer・844×390の固定入力でも、既存SG-4と新SR-1の両背負い位置でダウン・回避中に地表より下へ入り、画像上も床に隠れる場面を確認。[画像と範囲](evidence/weapon-models-20261111/README.md)。実操作、移動、高低差、他地形、通信、実機は未確認。既存クリップや持ち替えを損なわない解決策は未確定で、基準を変えていない。
+
+継続試作: 武器の外接箱を使う垂直押し上げを、既存SG-4・新SR-1の平面上で試した。床下は避けられたが回避中の移動が最大367mmとなり、背中からの浮き・体との交差が懸念されるため製品へ採用しない。[試作の条件と結果](evidence/weapon-models-20261111/ground-lift-prototype.md)。段差・高台・持ち替え・通信・実機負荷は未検証。
+
+追加造形: 本人の書き込み重視の指定に合わせ、LZ-2は握り・照準器・蓄電ドラム・前部固定具を追加、SR-1は銃床・弾倉・銃身・照準器・機関部を追加。形の目印と材質を維持。LZ-2は8,500三角形・材質6・499,592 bytes、SR-1は8,448三角形・材質5・496,060 bytesで、各38項目合格・警告0。実兵士の手持ち・背負い・装填各10場面と銃口計算を再確認し、ネオン外形データと生成レポートが一致。生成済み11種類のプレビュー・共有画像・局所射撃エフェクトを再確認し、ページ例外0。詳細は[検証記録](evidence/weapon-models-20261111/README.md)。AAA級に相当するかの主観評価、ST-3を含む全体検証・実機は未了。
+
 # 確定演出のSSR以上条件を修正・公開（2026-11-11）
 
 本人が指定先へのpush・main反映・既存Worker公開を承認。実装PR [#317](https://github.com/futsalife24-bot/swarm-front/pull/317) を通常mergeし、公開source `aa1dc0026d330e809cfc942e4ac4d22167dd4dcb` からWorker Version `6ec9ecc1-5d43-4049-bd15-683169679a51` を100%配信。演出23ファイル、index/frontと実行runtimeがビルドと一致、health正常。公開側の認証済みゲーム操作と実スマホは未確認。初回pushは自動承認レビューが送信先の具体的承認不足として拒否し、本人の明示承認後に成功。初回deployは非対話端末の認証要求で失敗し、既存認証を確認した対話端末で成功。

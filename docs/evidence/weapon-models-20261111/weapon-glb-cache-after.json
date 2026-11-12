@@ -1,0 +1,85 @@
+{
+  "mode": "after",
+  "html": {
+    "ok": false,
+    "error": "TypeError: Failed to fetch"
+  },
+  "htmlWithBinaryMime": {
+    "ok": false,
+    "error": "TypeError: Failed to fetch"
+  },
+  "afterFixed": {
+    "ok": true,
+    "status": 200,
+    "size": 472200,
+    "digest": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+  },
+  "networkRange": {
+    "ok": true,
+    "status": 206,
+    "size": 4,
+    "digest": "c74f919439792582aa4f0b188ec2a928675cdb3ba72797781ceb6dfaa86b313f"
+  },
+  "validShellOffline": {
+    "ok": true,
+    "status": 200,
+    "size": 472200,
+    "digest": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+  },
+  "preloadRepaired": {
+    "size": 472200,
+    "digest": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+  },
+  "validPreloadOffline": {
+    "ok": true,
+    "status": 200,
+    "size": 472200,
+    "digest": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+  },
+  "range": {
+    "ok": true,
+    "status": 206,
+    "size": 4,
+    "digest": "c74f919439792582aa4f0b188ec2a928675cdb3ba72797781ceb6dfaa86b313f"
+  },
+  "originalOffline": {
+    "ok": true,
+    "status": 200,
+    "size": 792224,
+    "digest": "5a5539736338946c43f070e20203c08ce3ffa27cf23f999c701e922c9321a537"
+  },
+  "invalidOffline": {
+    "ok": false,
+    "error": "TypeError: Failed to fetch"
+  },
+  "recovered": {
+    "ok": true,
+    "status": 200,
+    "size": 472200,
+    "digest": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+  },
+  "recoveredPreload": {
+    "size": 472200,
+    "digest": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+  },
+  "recoveredOffline": {
+    "ok": true,
+    "status": 200,
+    "size": 472200,
+    "digest": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+  },
+  "network503": {
+    "ok": false,
+    "status": 503,
+    "size": 7,
+    "digest": "8e2c7ac508139a02af859de64a4743c1f3946837279332c35ec8f5ddf20654ae"
+  },
+  "quotaOnline": {
+    "status": 200,
+    "digest": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+  },
+  "quotaOffline": {
+    "failed": true
+  },
+  "errors": []
+}

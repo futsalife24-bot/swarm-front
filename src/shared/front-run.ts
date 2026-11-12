@@ -1,5 +1,6 @@
 import { frontAutomaticRequestId } from "./front-request-id";
 import { createFrontSurvivalWeapon } from "./front-weapon";
+import { weaponVisualTier } from "./progression";
 import * as legacy from "./front-legacy-run";
 /** 改装版の権威状態。候補・乱数・要求履歴は World に載せない。 */
 import {
@@ -398,6 +399,10 @@ function applyBuild(run: FrontRun, id: string) {
       id: weapon.id,
       kind: weapon.kind,
       rarity: weapon.rarity,
+      // A restored run can lack originalEquipment, so retain an existing
+      // projection's visual grade and prevent an out-of-range model URL.
+      appearanceTier: Math.min(4, weaponVisualTier(weapon)) as
+        0 | 1 | 2 | 3 | 4,
       power: base.damage / WEAPONS[weapon.kind].damage,
       effect: weapon.effect,
       // Damage/magazine growth is already baked into this run-local projection.

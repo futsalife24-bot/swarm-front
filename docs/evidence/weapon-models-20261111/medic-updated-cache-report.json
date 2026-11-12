@@ -1,0 +1,72 @@
+{
+  "scope": "Actual service worker and download store at isolated local origin; 5 real previous MD-4 GLBs in both caches, manually requested update; no product manifest, real device or deployed Worker.",
+  "oldRevision": "1cf64f2",
+  "before": [
+    {
+      "url": "assets/weapons/unique-v1/medic_0.glb",
+      "bytes": 487700,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_1.glb",
+      "bytes": 487700,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_2.glb",
+      "bytes": 487700,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_3.glb",
+      "bytes": 487700,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_4.glb",
+      "bytes": 487696,
+      "hashMatch": true
+    }
+  ],
+  "controlled": true,
+  "preSaved": 0,
+  "afterSaved": 5,
+  "offlineRows": [
+    {
+      "url": "assets/weapons/unique-v1/medic_0.glb",
+      "ok": true,
+      "bytes": 498132,
+      "expectedBytes": 498132,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_1.glb",
+      "ok": true,
+      "bytes": 498132,
+      "expectedBytes": 498132,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_2.glb",
+      "ok": true,
+      "bytes": 498132,
+      "expectedBytes": 498132,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_3.glb",
+      "ok": true,
+      "bytes": 498132,
+      "expectedBytes": 498132,
+      "hashMatch": true
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_4.glb",
+      "ok": true,
+      "bytes": 498128,
+      "expectedBytes": 498128,
+      "hashMatch": true
+    }
+  ],
+  "errors": []
+}

@@ -75,6 +75,41 @@ export class CombatEffects {
     private scene: T.Scene,
     private capture = cleanCapture,
   ) {}
+
+  // Bounded lifetime while a very short grenade tracer awaits a renderer draw.
+  private firstDraw = new Map<
+    Effect,
+    { timer: ReturnType<typeof globalThis.setTimeout>; previous: T.Object3D["onAfterRender"] }
+  >();
+
+  private cancelFirstDraw(effect: Effect) {
+    const state = this.firstDraw.get(effect);
+    if (!state) return;
+    globalThis.clearTimeout(state.timer);
+    effect.mesh.onAfterRender = state.previous;
+    this.firstDraw.delete(effect);
+  }
+
+  private waitForFirstDraw(effect: Effect) {
+    this.cancelFirstDraw(effect);
+    const previous = effect.mesh.onAfterRender;
+    const timer = globalThis.setTimeout(() => {
+      if (!this.firstDraw.has(effect)) return;
+      this.cancelFirstDraw(effect);
+      const index = this.items.indexOf(effect);
+      if (index < 0) return;
+      this.items.splice(index, 1);
+      this.scene.remove(effect.mesh);
+      if (this.spare.length < 180) this.spare.push(effect);
+      else effect.mesh.material.dispose();
+    }, 100);
+    this.firstDraw.set(effect, { timer, previous });
+    effect.mesh.onAfterRender = (...args) => {
+      this.cancelFirstDraw(effect);
+      previous.apply(effect.mesh, args);
+    };
+  }
+
   add(
     kind: Effect["kind"],
     x: number,
@@ -114,6 +149,7 @@ export class CombatEffects {
     const spareIndex = this.spare.findIndex((e) => e.kind === kind);
     const reused =
       spareIndex < 0 ? undefined : this.spare.splice(spareIndex, 1)[0];
+    if (reused) this.cancelFirstDraw(reused);
     const mesh =
       reused?.mesh ??
       new T.Mesh(
@@ -294,6 +330,20 @@ export class CombatEffects {
       const delta = new T.Vector3(e.tx!, e.ty!, e.tz!).sub(start);
       const distance = delta.length();
       const dir = delta.normalize();
+      // Grenade shots carry a two-metre direction marker, not an impact point.
+      // Match the renderer's 30 m aim target without extending the tracer life.
+      let grenadeMarker = false;
+      if (muzzle && e.weapon === "grenade") {
+        const origin = new T.Vector3(e.x, e.y, e.z);
+        const marker = new T.Vector3(e.tx!, e.ty!, e.tz!).sub(origin);
+        const length = marker.length();
+        if (length > 0.001 && length < 3) {
+          dir
+            .copy(origin.addScaledVector(marker, 30 / length).sub(start))
+            .normalize();
+          grenadeMarker = true;
+        }
+      }
       const color =
         e.frontEffect === "ricochet"
           ? 0x8fd7ff
@@ -305,6 +355,7 @@ export class CombatEffects {
                 ? 0xffa55e
                 : 0xffdc83;
       // 短い発光弾。敵を隠す長い光線にはしない。
+      const beforeBullet = this.items.length;
       if (e.weapon !== "rocket" && distance > 0.1)
         this.add(
           "bullet",
@@ -316,6 +367,9 @@ export class CombatEffects {
           color,
           dir.clone().multiplyScalar(120),
         );
+      const bullet = this.items[beforeBullet];
+      if (grenadeMarker && bullet?.kind === "bullet")
+        this.waitForFirstDraw(bullet);
       const beforeFlash = this.items.length;
       this.add(
         "muzzle",
@@ -512,8 +566,11 @@ export class CombatEffects {
         e.mesh.position.addScaledVector(this.impactOffset, 0.4);
         e.impactPlaced = true;
       }
+      // Keep the grenade tracer at its muzzle position until its first actual draw.
+      // The separate timer releases it even if this update keeps running undrawn.
+      const advance = this.firstDraw.has(e) ? 0 : dt;
       const previousAge = e.age;
-      e.age += dt;
+      e.age += advance;
       const t = Math.min(1, e.age / e.duration);
       const expand = (age: number) =>
         1 - Math.pow(1 - Math.min(1, age / 0.16), 3);
@@ -522,7 +579,7 @@ export class CombatEffects {
           e.velocity,
           e.kind === "billow" || e.kind === "pixel-billow"
             ? expand(e.age) - expand(previousAge)
-            : dt,
+            : advance,
         );
       // Only the brief emission flash follows the body; fired rounds never do.
       if (e.shotFollow && e.shotFollow(e.mesh.position)) {
@@ -587,6 +644,7 @@ export class CombatEffects {
             ];
       }
       if (t === 1) {
+        this.cancelFirstDraw(e);
         if (e.kind === "impact") this.impactCount--;
         this.scene.remove(e.mesh);
         // Keep GPU programs/materials warm during sustained multi-player fire.
@@ -601,6 +659,7 @@ export class CombatEffects {
     this.items.length = active;
   }
   clear() {
+    for (const effect of this.firstDraw.keys()) this.cancelFirstDraw(effect);
     for (const e of [...this.items, ...this.spare]) {
       this.scene.remove(e.mesh);
       e.mesh.material.dispose();

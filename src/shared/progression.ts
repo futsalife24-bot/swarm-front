@@ -53,6 +53,19 @@ export const weaponGrade = (w: Weapon) =>
   ("format" in w && w.format === 2 ? GRADES : RARITIES)[w.rarity];
 export const weaponTier = (w: Weapon) =>
   "format" in w && w.format === 2 ? w.rarity : w.rarity + 1;
+/** Fusion projects combat stats into the old format but preserves the visual grade. */
+export const weaponVisualTier = (w: Weapon) => {
+  if (
+    Number.isInteger(w.appearanceTier) &&
+    Number(w.appearanceTier) >= 0 &&
+    Number(w.appearanceTier) <= 4
+  )
+    return Number(w.appearanceTier);
+  // Older servers do not transmit the override and their fusion projection
+  // can make an LR weapon look like legacy tier 5. No such asset exists.
+  const tier = weaponTier(w);
+  return Number.isInteger(tier) ? Math.max(0, Math.min(4, tier)) : 0;
+};
 export const weaponYield = (w: Weapon) =>
   ("format" in w && w.format === 2 ? YIELDS : [1, 3, 10, 30])[w.rarity];
 

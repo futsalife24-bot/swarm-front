@@ -1,0 +1,88 @@
+{
+  "scope": "Static idle direct StandardTrooper update; crossing tests between deformed visible skinned-mesh triangles and held weapon mesh triangles, excluding neon. Triangle edge/face crossing only: no coplanar handling, containment-only detection, penetration depth or strap/body categorization. No full continuous motion, actual game loop, network or device.",
+  "missing": [],
+  "analyticControls": "crossing and non-crossing triangle pairs; helmet-shift positive control in baseline slot 1",
+  "records": [
+    {
+      "kind": "sticky",
+      "variant": "baseline",
+      "index": 0,
+      "helmetTriangles": 48777,
+      "helmetCrossingPairs": 0,
+      "action": "idle",
+      "mode": "normal_Rocket_idle",
+      "socket": "RightHandWeaponSocket",
+      "bodyTriangles": 99302,
+      "weaponTriangles": 8924,
+      "testedPairs": 6998,
+      "crossingPairs": 1436,
+      "pointBins4mm": 494,
+      "bodyMeshPairs": {
+        "Trooper_Material_uniform": 1436
+      },
+      "positiveControl": {
+        "target": "helmet",
+        "shiftMetres": 0.1,
+        "crossingPairs": 359
+      }
+    },
+    {
+      "kind": "sticky",
+      "variant": "baseline",
+      "index": 1,
+      "helmetTriangles": 48777,
+      "helmetCrossingPairs": 0,
+      "action": "idle",
+      "mode": "normal_Rocket_idle",
+      "socket": "RightHandWeaponSocket",
+      "bodyTriangles": 99302,
+      "weaponTriangles": 8924,
+      "testedPairs": 6998,
+      "crossingPairs": 1436,
+      "pointBins4mm": 494,
+      "bodyMeshPairs": {
+        "Trooper_Material_uniform": 1436
+      },
+      "positiveControl": null
+    },
+    {
+      "kind": "sticky",
+      "variant": "candidate",
+      "index": 0,
+      "helmetTriangles": 48777,
+      "helmetCrossingPairs": 0,
+      "action": "idle",
+      "mode": "normal_Rocket_idle",
+      "socket": "RightHandWeaponSocket",
+      "bodyTriangles": 99302,
+      "weaponTriangles": 7804,
+      "testedPairs": 7134,
+      "crossingPairs": 1439,
+      "pointBins4mm": 517,
+      "bodyMeshPairs": {
+        "Trooper_Material_uniform": 1439
+      },
+      "positiveControl": null
+    },
+    {
+      "kind": "sticky",
+      "variant": "candidate",
+      "index": 1,
+      "helmetTriangles": 48777,
+      "helmetCrossingPairs": 0,
+      "action": "idle",
+      "mode": "normal_Rocket_idle",
+      "socket": "RightHandWeaponSocket",
+      "bodyTriangles": 99302,
+      "weaponTriangles": 7804,
+      "testedPairs": 7134,
+      "crossingPairs": 1439,
+      "pointBins4mm": 517,
+      "bodyMeshPairs": {
+        "Trooper_Material_uniform": 1439
+      },
+      "positiveControl": null
+    }
+  ],
+  "errors": []
+}

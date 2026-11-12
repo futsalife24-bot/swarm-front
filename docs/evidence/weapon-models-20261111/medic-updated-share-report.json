@@ -1,0 +1,21 @@
+{
+  "scope": "Actual local gear, detail dialog and share-image dialog with isolated disposable save; no external sharing or real phone",
+  "viewport": [
+    844,
+    390
+  ],
+  "missing": [],
+  "rows": [
+    {
+      "kind": "medic",
+      "title": "MD-4 ブルーム / N",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    }
+  ],
+  "errors": [],
+  "failedRequests": []
+}

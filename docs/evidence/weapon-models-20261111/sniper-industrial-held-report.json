@@ -1,0 +1,57 @@
+{
+  "scope": "Static idle direct StandardTrooper update; crossing tests between deformed visible skinned-mesh triangles and held weapon mesh triangles, excluding neon. Triangle edge/face crossing only: no coplanar handling, containment-only detection, penetration depth or strap/body categorization. No full continuous motion, actual game loop, network or device. Production GLB and matching generated neon profile loaded in an isolated local server/browser.",
+  "missing": [],
+  "candidateRequests": 1,
+  "analyticControls": "analytic triangle controls; candidate helmet far-shift negative and helmet-directed positive controls",
+  "records": [
+    {
+      "kind": "sniper",
+      "index": 0,
+      "action": "idle",
+      "mode": "normal_Rifle_idle_ready",
+      "socket": "RightHandWeaponSocket",
+      "bodyTriangles": 99302,
+      "weaponTriangles": 8868,
+      "testedPairs": 196549,
+      "crossingPairs": 3891,
+      "pointBins4mm": 1466,
+      "bodyMeshPairs": {
+        "Trooper_Material_uniform": 3891
+      },
+      "helmetTriangles": 48777,
+      "helmetPairs": 0,
+      "helmetGroups": {},
+      "headFarControlPairs": 0,
+      "headPositiveControl": {
+        "shiftMetres": 0.25,
+        "crossingPairs": 285
+      },
+      "positiveControl": null
+    },
+    {
+      "kind": "sniper",
+      "index": 1,
+      "action": "idle",
+      "mode": "normal_Rifle_idle_ready",
+      "socket": "RightHandWeaponSocket",
+      "bodyTriangles": 99302,
+      "weaponTriangles": 8868,
+      "testedPairs": 196549,
+      "crossingPairs": 3891,
+      "pointBins4mm": 1466,
+      "bodyMeshPairs": {
+        "Trooper_Material_uniform": 3891
+      },
+      "helmetTriangles": 48777,
+      "helmetPairs": 0,
+      "helmetGroups": {},
+      "headFarControlPairs": 0,
+      "headPositiveControl": {
+        "shiftMetres": 0.25,
+        "crossingPairs": 285
+      },
+      "positiveControl": null
+    }
+  ],
+  "errors": []
+}

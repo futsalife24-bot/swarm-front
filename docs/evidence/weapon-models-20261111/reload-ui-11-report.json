@@ -1,0 +1,1343 @@
+{
+  "scope": "Local actual solo UI with isolated injected saves; mouse fire followed by R input, renderer observation at five thresholds, encounter introduction skipped via UI when necessary. No real network, phone, full continuous video, or hidden hand contact verification.",
+  "viewport": [
+    844,
+    390
+  ],
+  "missing": [
+    "sticky"
+  ],
+  "records": [
+    {
+      "kind": "rifle",
+      "family": "rifle",
+      "shot": {
+        "time": 0.49999999999999994,
+        "ammo": 31,
+        "capacity": 32
+      },
+      "started": {
+        "time": 0.7500000000000001,
+        "reload": 1.65,
+        "duration": 1.65,
+        "ammo": 30,
+        "mode": "normal_Rifle_reload_idle"
+      },
+      "completed": {
+        "time": 2.4499999999999993,
+        "ammo": 32,
+        "capacity": 32,
+        "mode": "normal_Rifle_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.7500000000000001,
+          "reload": 1.65,
+          "ammo": 30,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.9180759791990064,
+            1.1462137384425364,
+            33.52642127430195
+          ],
+          "right": [
+            -0.8414023855994718,
+            1.0804490385894385,
+            33.80940620816827
+          ],
+          "imageFile": "rifle-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.27272727272727293,
+          "time": 1.2000000000000004,
+          "reload": 1.1999999999999995,
+          "ammo": 30,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7644406141357581,
+            1.0058592541195053,
+            33.72213100185725
+          ],
+          "right": [
+            -0.7972589605870625,
+            1.1049050229021846,
+            33.86020020362983
+          ],
+          "imageFile": "rifle-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5151515151515156,
+          "time": 1.6000000000000008,
+          "reload": 0.7999999999999992,
+          "ammo": 30,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7498052428983195,
+            0.9481806597461268,
+            33.85237179566985
+          ],
+          "right": [
+            -0.7934969365429905,
+            1.1032021288538965,
+            33.86831742209689
+          ],
+          "imageFile": "rifle-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7878787878787885,
+          "time": 2.0500000000000007,
+          "reload": 0.349999999999999,
+          "ammo": 30,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7319317038439672,
+            1.0561194893908064,
+            33.71755291253079
+          ],
+          "right": [
+            -0.7965880947270926,
+            1.0957604003493973,
+            33.864670785851075
+          ],
+          "imageFile": "rifle-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9696969696969703,
+          "time": 2.3499999999999996,
+          "reload": 0.04999999999999902,
+          "ammo": 30,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7943711491093547,
+            1.1578852215603275,
+            33.65363108675093
+          ],
+          "right": [
+            -0.7993994800856016,
+            1.1057539686042381,
+            33.867874502498886
+          ],
+          "imageFile": "rifle-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    },
+    {
+      "kind": "smg",
+      "family": "rifle",
+      "shot": {
+        "time": 0.44999999999999996,
+        "ammo": 44,
+        "capacity": 45
+      },
+      "started": {
+        "time": 0.65,
+        "reload": 1.5,
+        "duration": 1.5,
+        "ammo": 42,
+        "mode": "normal_Rifle_reload_idle"
+      },
+      "completed": {
+        "time": 2.2,
+        "ammo": 45,
+        "capacity": 45,
+        "mode": "normal_Rifle_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.65,
+          "reload": 1.5,
+          "ammo": 42,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.9380175701636775,
+            1.1685041299685548,
+            33.52714518150447
+          ],
+          "right": [
+            -0.8405034245430121,
+            1.0851848043949173,
+            33.81429596186085
+          ],
+          "imageFile": "smg-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.26666666666666694,
+          "time": 1.0500000000000003,
+          "reload": 1.0999999999999996,
+          "ammo": 42,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.81975465825377,
+            0.9901677122731647,
+            33.68311120638256
+          ],
+          "right": [
+            -0.8309250810159121,
+            1.0929356531918706,
+            33.820840592491265
+          ],
+          "imageFile": "smg-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5000000000000004,
+          "time": 1.4000000000000006,
+          "reload": 0.7499999999999993,
+          "ammo": 42,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7477353081083336,
+            0.9556515513374142,
+            33.85819135851417
+          ],
+          "right": [
+            -0.7926979382792646,
+            1.1111783500876706,
+            33.872794247126095
+          ],
+          "imageFile": "smg-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7666666666666672,
+          "time": 1.800000000000001,
+          "reload": 0.3499999999999992,
+          "ammo": 42,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7338674910559347,
+            1.049374677399948,
+            33.72338540160544
+          ],
+          "right": [
+            -0.7945596024914076,
+            1.0997110137523356,
+            33.86886652743728
+          ],
+          "imageFile": "smg-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9666666666666672,
+          "time": 2.1000000000000005,
+          "reload": 0.04999999999999924,
+          "ammo": 42,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7895769302874784,
+            1.1496765784402674,
+            33.654605474716696
+          ],
+          "right": [
+            -0.7970632357662055,
+            1.1000446919712392,
+            33.868141210190416
+          ],
+          "imageFile": "smg-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    },
+    {
+      "kind": "shotgun",
+      "family": "shotgun",
+      "shot": {
+        "time": 0.35,
+        "ammo": 6,
+        "capacity": 7
+      },
+      "started": {
+        "time": 0.49999999999999994,
+        "reload": 2.1,
+        "duration": 2.1,
+        "ammo": 6,
+        "mode": "normal_Shotgun_reload_idle"
+      },
+      "completed": {
+        "time": 2.5999999999999988,
+        "ammo": 7,
+        "capacity": 7,
+        "mode": "normal_Shotgun_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.49999999999999994,
+          "reload": 2.1,
+          "ammo": 6,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.8289635907719255,
+            1.1752101340173635,
+            33.66510779879898
+          ],
+          "right": [
+            -0.8445670937407096,
+            1.0940826189808364,
+            33.817989032300545
+          ],
+          "imageFile": "shotgun-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.26190476190476186,
+          "time": 1.0500000000000003,
+          "reload": 1.55,
+          "ammo": 6,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7312180195636026,
+            1.030998695360594,
+            33.80012877452287
+          ],
+          "right": [
+            -0.7954049899868996,
+            1.110404602855528,
+            33.87065800318748
+          ],
+          "imageFile": "shotgun-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5000000000000002,
+          "time": 1.5500000000000007,
+          "reload": 1.0499999999999996,
+          "ammo": 6,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7269138740829881,
+            0.9926348158120042,
+            33.84400938059419
+          ],
+          "right": [
+            -0.7935145206100536,
+            1.1128914760557413,
+            33.87740511651263
+          ],
+          "imageFile": "shotgun-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7619047619047623,
+          "time": 2.1000000000000005,
+          "reload": 0.49999999999999917,
+          "ammo": 6,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7516343301525721,
+            1.0951083298555013,
+            33.75965590171851
+          ],
+          "right": [
+            -0.7971797941871696,
+            1.1050092230591393,
+            33.873211586121634
+          ],
+          "imageFile": "shotgun-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9523809523809528,
+          "time": 2.499999999999999,
+          "reload": 0.09999999999999924,
+          "ammo": 6,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7609120587420312,
+            1.1616780954596464,
+            33.78450152386412
+          ],
+          "right": [
+            -0.8000565131049495,
+            1.116128573955592,
+            33.877324718047625
+          ],
+          "imageFile": "shotgun-95.png"
+        }
+      ],
+      "skippedEncounters": 0,
+      "errors": []
+    },
+    {
+      "kind": "slug",
+      "family": "shotgun",
+      "shot": {
+        "time": 0.44999999999999996,
+        "ammo": 5,
+        "capacity": 6
+      },
+      "started": {
+        "time": 0.5499999999999999,
+        "reload": 2.1500000000000004,
+        "duration": 2.2,
+        "ammo": 5,
+        "mode": "normal_Shotgun_reload_idle"
+      },
+      "completed": {
+        "time": 2.6999999999999984,
+        "ammo": 6,
+        "capacity": 6,
+        "mode": "normal_Shotgun_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0.022727272727272596,
+          "time": 0.5499999999999999,
+          "reload": 2.1500000000000004,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.8154261479666327,
+            1.1062911330204712,
+            33.724564035742574
+          ],
+          "right": [
+            -0.8398112941436302,
+            1.0833281931449101,
+            33.81404549393792
+          ],
+          "imageFile": "slug-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2727272727272726,
+          "time": 1.1000000000000003,
+          "reload": 1.6000000000000005,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7540066605237342,
+            1.0350879791668035,
+            33.76739543422952
+          ],
+          "right": [
+            -0.8054338775120679,
+            1.1013798901553629,
+            33.84958120689775
+          ],
+          "imageFile": "slug-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5,
+          "time": 1.6000000000000008,
+          "reload": 1.1,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7289626841483455,
+            0.9832971835796039,
+            33.838965674330694
+          ],
+          "right": [
+            -0.7935160045292573,
+            1.1051923366150262,
+            33.870382646101625
+          ],
+          "imageFile": "slug-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7500000000000002,
+          "time": 2.1500000000000004,
+          "reload": 0.5499999999999996,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7529691727850221,
+            1.0818287051525148,
+            33.7571608599744
+          ],
+          "right": [
+            -0.7975242280224737,
+            1.1001654207090419,
+            33.86729183844586
+          ],
+          "imageFile": "slug-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9545454545454547,
+          "time": 2.5999999999999988,
+          "reload": 0.09999999999999969,
+          "ammo": 5,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.7615304463822015,
+            1.1536193448260386,
+            33.77715448853755
+          ],
+          "right": [
+            -0.7998436945752168,
+            1.1100564379661488,
+            33.8709478139853
+          ],
+          "imageFile": "slug-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    },
+    {
+      "kind": "rocket",
+      "family": "rocket",
+      "shot": {
+        "time": 0.44999999999999996,
+        "ammo": 1,
+        "capacity": 2
+      },
+      "started": {
+        "time": 0.6,
+        "reload": 2.7,
+        "duration": 2.7,
+        "ammo": 1,
+        "mode": "normal_Rocket_reload_idle"
+      },
+      "completed": {
+        "time": 3.349999999999996,
+        "ammo": 2,
+        "capacity": 2,
+        "mode": "normal_Rocket_idle"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.6,
+          "reload": 2.7,
+          "ammo": 1,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.7990597435058918,
+            1.2584057477153172,
+            33.72401266815651
+          ],
+          "right": [
+            -0.8039269390541838,
+            1.2548132114411967,
+            33.87869058662342
+          ],
+          "imageFile": "rocket-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2592592592592583,
+          "time": 1.3000000000000005,
+          "reload": 2.0000000000000027,
+          "ammo": 1,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -1.15570170011604,
+            1.067689098631485,
+            33.76926421112304
+          ],
+          "right": [
+            -0.8034522436556255,
+            1.2534348748220463,
+            33.87942325228085
+          ],
+          "imageFile": "rocket-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5370370370370363,
+          "time": 2.0500000000000007,
+          "reload": 1.250000000000002,
+          "ammo": 1,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9631738757637146,
+            1.3053305825677246,
+            33.74071203226695
+          ],
+          "right": [
+            -0.8034522376698282,
+            1.2504565350023111,
+            33.87942326263719
+          ],
+          "imageFile": "rocket-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7592592592592587,
+          "time": 2.6499999999999986,
+          "reload": 0.6500000000000015,
+          "ammo": 1,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9409032570186168,
+            1.2912212998596817,
+            33.72039822593958
+          ],
+          "right": [
+            -0.8034522327868314,
+            1.251009158840044,
+            33.879423261992585
+          ],
+          "imageFile": "rocket-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9629629629629625,
+          "time": 3.1999999999999966,
+          "reload": 0.10000000000000141,
+          "ammo": 1,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.8090073205005508,
+            1.2925604232057444,
+            33.73964971713943
+          ],
+          "right": [
+            -0.8034522280121379,
+            1.253434936774513,
+            33.87942327483099
+          ],
+          "imageFile": "rocket-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    },
+    {
+      "kind": "heavy",
+      "family": "rocket",
+      "shot": {
+        "time": 0.6,
+        "ammo": 0,
+        "capacity": 1
+      },
+      "started": {
+        "time": 0.7000000000000001,
+        "reload": 3.95,
+        "duration": 4,
+        "ammo": 0,
+        "mode": "normal_Rocket_reload_idle"
+      },
+      "completed": {
+        "time": 4.699999999999991,
+        "ammo": 1,
+        "capacity": 1,
+        "mode": "normal_Rocket_idle"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0.012499999999999956,
+          "time": 0.7000000000000001,
+          "reload": 3.95,
+          "ammo": 0,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.8111936722984476,
+            1.287615344202648,
+            33.73102288386296
+          ],
+          "right": [
+            -0.8039245784827509,
+            1.2549572769888853,
+            33.87884874560675
+          ],
+          "imageFile": "heavy-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.26249999999999907,
+          "time": 1.7000000000000008,
+          "reload": 2.9500000000000037,
+          "ammo": 0,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -1.1496090545939563,
+            1.0741414977080976,
+            33.768405966436696
+          ],
+          "right": [
+            -0.8034522437503857,
+            1.251600114485055,
+            33.87942324919744
+          ],
+          "imageFile": "heavy-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5124999999999982,
+          "time": 2.6999999999999984,
+          "reload": 1.950000000000007,
+          "ammo": 0,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9666515485226336,
+            1.3046846826768392,
+            33.74148220922215
+          ],
+          "right": [
+            -0.8034522381718462,
+            1.251190556460789,
+            33.87942326123221
+          ],
+          "imageFile": "heavy-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7624999999999984,
+          "time": 3.699999999999995,
+          "reload": 0.9500000000000062,
+          "ammo": 0,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9404795404986402,
+            1.29495111196524,
+            33.72042613563664
+          ],
+          "right": [
+            -0.8034522324398697,
+            1.2547546953190152,
+            33.87942326326824
+          ],
+          "imageFile": "heavy-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9624999999999986,
+          "time": 4.499999999999992,
+          "reload": 0.15000000000000585,
+          "ammo": 0,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.8090408320800511,
+            1.2917036465987841,
+            33.73985091946278
+          ],
+          "right": [
+            -0.803452228056107,
+            1.2525186590821888,
+            33.879423277260194
+          ],
+          "imageFile": "heavy-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    },
+    {
+      "kind": "sniper",
+      "family": "sniper",
+      "shot": {
+        "time": 0.44999999999999996,
+        "ammo": 5,
+        "capacity": 6
+      },
+      "started": {
+        "time": 0.6,
+        "reload": 2.4,
+        "duration": 2.4,
+        "ammo": 5,
+        "mode": "normal_Rifle_reload_idle"
+      },
+      "completed": {
+        "time": 3.049999999999997,
+        "ammo": 6,
+        "capacity": 6,
+        "mode": "normal_Rifle_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.6,
+          "reload": 2.4,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.928676845738771,
+            1.1622591169117573,
+            33.545920322370364
+          ],
+          "right": [
+            -0.8418132109486485,
+            1.0800849442535292,
+            33.81026532359653
+          ],
+          "imageFile": "sniper-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2708333333333328,
+          "time": 1.2500000000000004,
+          "reload": 1.750000000000001,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7547142782191143,
+            1.0113461157509,
+            33.729953869364095
+          ],
+          "right": [
+            -0.7922300049069365,
+            1.1076267625055134,
+            33.868441305500106
+          ],
+          "imageFile": "sniper-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.520833333333333,
+          "time": 1.850000000000001,
+          "reload": 1.1500000000000006,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7519155960330592,
+            0.940139035004709,
+            33.850176413700154
+          ],
+          "right": [
+            -0.794885998340464,
+            1.0951654117227998,
+            33.86484852508076
+          ],
+          "imageFile": "sniper-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.75,
+          "time": 2.3999999999999995,
+          "reload": 0.6000000000000001,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7456317457556862,
+            1.0447157291069238,
+            33.72391090098065
+          ],
+          "right": [
+            -0.799690113076956,
+            1.1070556285083524,
+            33.868286247998576
+          ],
+          "imageFile": "sniper-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9583333333333333,
+          "time": 2.8999999999999977,
+          "reload": 0.10000000000000007,
+          "ammo": 5,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7909292255759099,
+            1.1561946015733922,
+            33.65851551089817
+          ],
+          "right": [
+            -0.799819501821648,
+            1.1078356879300635,
+            33.868665160045026
+          ],
+          "imageFile": "sniper-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    },
+    {
+      "kind": "laser",
+      "family": "sniper",
+      "shot": {
+        "time": 0.44999999999999996,
+        "ammo": 118,
+        "capacity": 120
+      },
+      "started": {
+        "time": 0.65,
+        "reload": 3,
+        "duration": 3,
+        "ammo": 115,
+        "mode": "normal_Rifle_reload_idle"
+      },
+      "completed": {
+        "time": 3.699999999999995,
+        "ammo": 120,
+        "capacity": 120,
+        "mode": "normal_Rifle_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.65,
+          "reload": 3,
+          "ammo": 115,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.9125349522472488,
+            1.1396253947433312,
+            33.52351781893073
+          ],
+          "right": [
+            -0.8388470591843377,
+            1.0853325353674124,
+            33.804984382346966
+          ],
+          "imageFile": "laser-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2666666666666657,
+          "time": 1.4500000000000006,
+          "reload": 2.200000000000003,
+          "ammo": 115,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7541315898595988,
+            1.0135735112926958,
+            33.72990418717705
+          ],
+          "right": [
+            -0.7928510860397509,
+            1.1070950366776233,
+            33.86922373604103
+          ],
+          "imageFile": "laser-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5166666666666657,
+          "time": 2.2,
+          "reload": 1.450000000000003,
+          "ammo": 115,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7549029975761468,
+            0.9440636081375441,
+            33.85164777540983
+          ],
+          "right": [
+            -0.7979797097560831,
+            1.099391039486151,
+            33.8654609703228
+          ],
+          "imageFile": "laser-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7666666666666658,
+          "time": 2.9499999999999975,
+          "reload": 0.7000000000000024,
+          "ammo": 115,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7404115439516585,
+            1.0583635974085015,
+            33.722359801618495
+          ],
+          "right": [
+            -0.799819484517893,
+            1.1078356415394306,
+            33.86866514386201
+          ],
+          "imageFile": "laser-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9666666666666659,
+          "time": 3.5499999999999954,
+          "reload": 0.1000000000000023,
+          "ammo": 115,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.78992096570318,
+            1.1436317667746276,
+            33.651204390460464
+          ],
+          "right": [
+            -0.7960125479377584,
+            1.0958717743346373,
+            33.86521082724647
+          ],
+          "imageFile": "laser-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    },
+    {
+      "kind": "grenade",
+      "family": "grenade",
+      "shot": {
+        "time": 0.39999999999999997,
+        "ammo": 4,
+        "capacity": 5
+      },
+      "started": {
+        "time": 0.5499999999999999,
+        "reload": 2.6,
+        "duration": 2.6,
+        "ammo": 4,
+        "mode": "normal_Rocket_reload_idle"
+      },
+      "completed": {
+        "time": 3.1999999999999966,
+        "ammo": 5,
+        "capacity": 5,
+        "mode": "normal_Rocket_idle"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.5499999999999999,
+          "reload": 2.6,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.797535662581732,
+            1.2589803217779587,
+            33.72614887687068
+          ],
+          "right": [
+            -0.8033321773827046,
+            1.25505070792252,
+            33.881052473443326
+          ],
+          "imageFile": "grenade-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2692307692307684,
+          "time": 1.2500000000000004,
+          "reload": 1.9000000000000021,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -1.1361829925651121,
+            1.0945534981089482,
+            33.76688789670213
+          ],
+          "right": [
+            -0.8031579151081486,
+            1.2540140091794312,
+            33.88115193803618
+          ],
+          "imageFile": "grenade-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5192307692307687,
+          "time": 1.900000000000001,
+          "reload": 1.2500000000000016,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9649531241662306,
+            1.3057132905077404,
+            33.742818174310926
+          ],
+          "right": [
+            -0.8031579098048439,
+            1.25121005110269,
+            33.88115194199579
+          ],
+          "imageFile": "grenade-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7692307692307688,
+          "time": 2.549999999999999,
+          "reload": 0.600000000000001,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9385569451478133,
+            1.2918810187949714,
+            33.72208775501199
+          ],
+          "right": [
+            -0.8031579042726766,
+            1.2510643654519866,
+            33.88115195037294
+          ],
+          "imageFile": "grenade-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9615384615384611,
+          "time": 3.049999999999997,
+          "reload": 0.10000000000000096,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.8084899877055085,
+            1.2930118020017736,
+            33.742148434056446
+          ],
+          "right": [
+            -0.8031578998814579,
+            1.2531254553506146,
+            33.88115195526591
+          ],
+          "imageFile": "grenade-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    },
+    {
+      "kind": "kick",
+      "family": "special",
+      "shot": {
+        "time": 0.39999999999999997,
+        "ammo": 2,
+        "capacity": 3
+      },
+      "started": {
+        "time": 0.65,
+        "reload": 2.4,
+        "duration": 2.4,
+        "ammo": 2,
+        "mode": "normal_Shotgun_reload_Run_Backward"
+      },
+      "completed": {
+        "time": 3.099999999999997,
+        "ammo": 3,
+        "capacity": 3,
+        "mode": "normal_Shotgun_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.65,
+          "reload": 2.4,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_Run_Backward",
+          "left": [
+            -1.0033778699573452,
+            1.1682247315068666,
+            42.56714983136948
+          ],
+          "right": [
+            -1.0271539592925762,
+            1.0717438615749288,
+            42.69872374412997
+          ],
+          "imageFile": "kick-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2708333333333328,
+          "time": 1.3000000000000005,
+          "reload": 1.750000000000001,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.9480293120516355,
+            1.0641261173867622,
+            42.803820180342846
+          ],
+          "right": [
+            -1.0110320621335065,
+            1.124074901817625,
+            42.88353698946802
+          ],
+          "imageFile": "kick-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.520833333333333,
+          "time": 1.900000000000001,
+          "reload": 1.1500000000000006,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.9581377141731325,
+            0.9624105017427447,
+            42.87883866890412
+          ],
+          "right": [
+            -1.0137002074869885,
+            1.1107462320585428,
+            42.878673804164194
+          ],
+          "imageFile": "kick-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.75,
+          "time": 2.4499999999999993,
+          "reload": 0.6000000000000001,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.9698544728653065,
+            1.1144570274643189,
+            42.77348261649114
+          ],
+          "right": [
+            -1.0184895965969638,
+            1.1237170453242784,
+            42.88302300753699
+          ],
+          "imageFile": "kick-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9583333333333333,
+          "time": 2.9499999999999975,
+          "reload": 0.10000000000000007,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.9786035946141216,
+            1.1737141518092182,
+            42.793773711396064
+          ],
+          "right": [
+            -1.0185175547605,
+            1.1238615172872604,
+            42.883108901390045
+          ],
+          "imageFile": "kick-95.png"
+        }
+      ],
+      "skippedEncounters": 0,
+      "errors": []
+    },
+    {
+      "kind": "medic",
+      "family": "special",
+      "shot": {
+        "time": 0.44999999999999996,
+        "ammo": 4,
+        "capacity": 5
+      },
+      "started": {
+        "time": 0.6,
+        "reload": 2.6,
+        "duration": 2.6,
+        "ammo": 4,
+        "mode": "normal_Rifle_reload_idle"
+      },
+      "completed": {
+        "time": 3.2499999999999964,
+        "ammo": 5,
+        "capacity": 5,
+        "mode": "normal_Rifle_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.6,
+          "reload": 2.6,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.95257718617424,
+            1.1649701293011825,
+            33.52389062067831
+          ],
+          "right": [
+            -0.8470217817183407,
+            1.0832881762860247,
+            33.80864927347605
+          ],
+          "imageFile": "medic-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2692307692307684,
+          "time": 1.3000000000000005,
+          "reload": 1.9000000000000021,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7532175733927379,
+            1.0163419954454525,
+            33.731758592103446
+          ],
+          "right": [
+            -0.7923443284803154,
+            1.1102823580987888,
+            33.87112233923221
+          ],
+          "imageFile": "medic-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5192307692307687,
+          "time": 1.950000000000001,
+          "reload": 1.2500000000000016,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7520627257429001,
+            0.9415934936859992,
+            33.852168282021
+          ],
+          "right": [
+            -0.7956600044129668,
+            1.0966092616825613,
+            33.866514681295385
+          ],
+          "imageFile": "medic-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7692307692307688,
+          "time": 2.5999999999999988,
+          "reload": 0.600000000000001,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7387241843707992,
+            1.0637932761478586,
+            33.724354798262695
+          ],
+          "right": [
+            -0.799843677087642,
+            1.110056602294888,
+            33.87094790544128
+          ],
+          "imageFile": "medic-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9615384615384611,
+          "time": 3.099999999999997,
+          "reload": 0.10000000000000096,
+          "ammo": 4,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7914793091745227,
+            1.1625137612214516,
+            33.66071597690794
+          ],
+          "right": [
+            -0.7998382991562328,
+            1.1102574932481089,
+            33.871508450276224
+          ],
+          "imageFile": "medic-95.png"
+        }
+      ],
+      "skippedEncounters": 0,
+      "errors": []
+    }
+  ]
+}

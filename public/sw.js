@@ -30,6 +30,61 @@ const cachedAsset = async (key) =>
   (await (await caches.open(PRELOAD)).match(key)) ??
   (await (await caches.open(CACHE)).match(key));
 
+// A missing GLB can be answered by the host's HTML fallback with status 200.
+// Check the GLB container before trusting or caching a new-weapon response.
+async function validWeaponGlb(response) {
+  if (!response || response.status !== 200) return false;
+  try {
+    const bytes = await response.clone().arrayBuffer();
+    if (bytes.byteLength < 20) return false;
+    const header = new DataView(bytes);
+    return (
+      header.getUint32(0, true) === 0x46546c67 &&
+      header.getUint32(4, true) === 2 &&
+      header.getUint32(8, true) === bytes.byteLength &&
+      header.getUint32(16, true) === 0x4e4f534a &&
+      header.getUint32(12, true) > 0 &&
+      header.getUint32(12, true) <= bytes.byteLength - 20
+    );
+  } catch {
+    return false;
+  }
+}
+
+async function weaponGlb(request) {
+  const preload = await caches.open(PRELOAD),
+    shell = await caches.open(CACHE),
+    invalid = [];
+  const repair = async (cache, response) => {
+    try {
+      await cache.put(request, response.clone());
+    } catch {
+      // A full cache must not prevent the valid response from being used.
+    }
+  };
+  for (const cache of [preload, shell]) {
+    const response = await cache.match(request);
+    if (!response) continue;
+    if (await validWeaponGlb(response)) {
+      for (const broken of invalid) await repair(broken, response);
+      return cachedRange(request, response);
+    }
+    invalid.push(cache);
+  }
+  // Bypass an HTTP-cached fallback after a previous failed asset response.
+  const response = await fetch(request, { cache: "reload" });
+  if (response.status === 206 && request.headers.has("range"))
+    return /^text\/html\b/i.test(response.headers.get("content-type") ?? "")
+      ? Response.error()
+      : response;
+  if (response.status !== 200) return response;
+  if (!(await validWeaponGlb(response))) return Response.error();
+  await repair(shell, response);
+  for (const broken of invalid)
+    if (broken !== shell) await repair(broken, response);
+  return response;
+}
+
 // Media requests use Range even offline. Serve a bounded single byte range
 // from a complete cached file; never store a partial response as a full asset.
 async function cachedRange(request, response) {
@@ -104,6 +159,15 @@ self.addEventListener("fetch", (event) => {
     url.pathname === new URL("sw.js", scope).pathname
   )
     return;
+  if (
+    url.pathname.startsWith(
+      new URL("assets/weapons/unique-v1/", scope).pathname,
+    ) &&
+    url.pathname.endsWith(".glb")
+  ) {
+    event.respondWith(weaponGlb(request));
+    return;
+  }
   // The installed app must be able to discover updated display/orientation
   // settings; an indefinitely cached manifest keeps the old window mode.
   if (

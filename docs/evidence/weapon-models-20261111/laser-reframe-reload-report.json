@@ -1,0 +1,134 @@
+{
+  "scope": "Actual local solo UI and game loop, disposable saves, mouse firing and R input, renderer observation; no physical device, real network, hidden hand-surface contact or continuous image video.",
+  "viewport": [
+    844,
+    390
+  ],
+  "requested": [
+    "laser"
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "laser",
+      "family": "sniper",
+      "shot": {
+        "time": 0.25,
+        "ammo": 118,
+        "capacity": 120
+      },
+      "started": {
+        "time": 0.35,
+        "reload": 3,
+        "duration": 3,
+        "ammo": 118,
+        "mode": "normal_Rifle_reload_idle"
+      },
+      "completed": {
+        "time": 3.399999999999996,
+        "ammo": 120,
+        "capacity": 120,
+        "mode": "normal_Rifle_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.35,
+          "reload": 3,
+          "ammo": 118,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.9193670524094892,
+            1.1496040273504244,
+            33.52742596386787
+          ],
+          "right": [
+            -0.8439630898683156,
+            1.0835222492157839,
+            33.81053847919786
+          ],
+          "imageFile": "laser-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2666666666666657,
+          "time": 1.1500000000000004,
+          "reload": 2.200000000000003,
+          "ammo": 118,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7536882875105798,
+            1.0108394244327845,
+            33.72913074524394
+          ],
+          "right": [
+            -0.792205369519467,
+            1.1057762963975917,
+            33.867546194249606
+          ],
+          "imageFile": "laser-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5166666666666657,
+          "time": 1.900000000000001,
+          "reload": 1.450000000000003,
+          "ammo": 118,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.752378377586919,
+            0.9389984484496439,
+            33.85152965445203
+          ],
+          "right": [
+            -0.7952548097601247,
+            1.0944582159212692,
+            33.86444827182716
+          ],
+          "imageFile": "laser-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7666666666666658,
+          "time": 2.6499999999999986,
+          "reload": 0.7000000000000024,
+          "ammo": 118,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7404115439516585,
+            1.0583635974085015,
+            33.722359801618495
+          ],
+          "right": [
+            -0.799819484517893,
+            1.1078356415394306,
+            33.86866514386201
+          ],
+          "imageFile": "laser-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9666666666666659,
+          "time": 3.2499999999999964,
+          "reload": 0.1000000000000023,
+          "ammo": 118,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7932735816266623,
+            1.1579861075798352,
+            33.656060927064196
+          ],
+          "right": [
+            -0.799122405097952,
+            1.1055759985761475,
+            33.8689830982337
+          ],
+          "imageFile": "laser-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    }
+  ]
+}

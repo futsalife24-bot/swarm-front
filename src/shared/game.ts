@@ -426,7 +426,11 @@ export function addPlayer(
     hp: 160,
     down: 0,
     revive: 0,
-    weapons: structuredClone(weapons),
+    // Equipment comes from saved or remote input; the display override is
+    // authoritative only after the fusion simulation has derived it.
+    weapons: structuredClone(weapons).map(
+      ({ appearanceTier, ...weapon }) => weapon,
+    ),
     slot: 0,
     ammo: weapons.map((a) => stats(a).mag),
     reload: 0,

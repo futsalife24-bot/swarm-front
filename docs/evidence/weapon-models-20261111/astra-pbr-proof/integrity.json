@@ -1,0 +1,90 @@
+{
+  "protected_materials_exact_match": {
+    "0": {
+      "Rarity identification": true,
+      "Glow heat": true
+    },
+    "1": {
+      "Rarity identification": true,
+      "Glow heat": true
+    },
+    "2": {
+      "Rarity identification": true,
+      "Glow heat": true
+    },
+    "3": {
+      "Rarity identification": true,
+      "Glow heat": true
+    },
+    "4": {
+      "Rarity identification": true,
+      "Glow heat": true
+    }
+  },
+  "triangle_position_multiset_exact_match": true,
+  "triangles": 8020,
+  "materials": 6,
+  "max_bytes": 618856,
+  "images": 2,
+  "production_unchanged": true,
+  "material_triangle_correspondence": {
+    "Recess black": true,
+    "Metal steel": true,
+    "Metal gunmetal": true,
+    "Paint rust orange": true,
+    "Glow heat": true,
+    "Rarity identification": true
+  },
+  "original_bore": {
+    "bounds": [
+      [
+        -0.07699999958276749,
+        -0.1239795908331871,
+        -0.28200000524520874
+      ],
+      [
+        0.07700000703334808,
+        0.20749999582767487,
+        0.17900000512599945
+      ]
+    ],
+    "axis": 2,
+    "end": -0.28200000524520874,
+    "muzzle": [
+      1.5114590812813713e-11,
+      0.1301728892210938,
+      -0.28200000524520874
+    ],
+    "tip_vertex_count": 723
+  },
+  "candidate_bore": {
+    "bounds": [
+      [
+        -0.07699999958276749,
+        -0.1239795908331871,
+        -0.28200000524520874
+      ],
+      [
+        0.07700000703334808,
+        0.20749999582767487,
+        0.17900000512599945
+      ]
+    ],
+    "axis": 2,
+    "end": -0.28200000524520874,
+    "muzzle": [
+      -1.8369701764972006e-19,
+      0.1299999984174641,
+      -0.28200000524520874
+    ],
+    "tip_vertex_count": 732
+  },
+  "bounds_exact_match": true,
+  "muzzle_delta_m": [
+    -1.511459099651073e-11,
+    -0.00017289080362969944,
+    0.0
+  ],
+  "checker_sha256": "5e6ba118bcdb3212d6f932caa1a602ea066d79b53e730e8dce29771f9e49f578",
+  "checker_exact_match": true
+}

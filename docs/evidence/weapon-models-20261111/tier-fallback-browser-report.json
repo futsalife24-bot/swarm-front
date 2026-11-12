@@ -1,0 +1,3303 @@
+{
+  "scope": "Explicit legacy fusion projection fixture with actual GLBs, StandardTrooper and WebGL; not old-Worker network, live UI, continuous animation, phone or full rarity-colour compatibility.",
+  "oldRef": "c4fce32fa7ff00d3e0d6186f10c568a69bd7b25a",
+  "sourcePath": "src/client/progression-weapons.ts",
+  "oldSourceSha256": "d20c5a5cdb3818bd86634ce229fc149e306f07d1b91d6afb021f1a1f9944a50f",
+  "currentSourceSha256": "90266a756a1d224406894079a5a6c833afaa90891aa8cf5290b21292565bf24e",
+  "phases": [
+    "load modern tier0 only",
+    "legacy projection rarity0 -> visual tier1",
+    "rarity2 -> tier3",
+    "rarity4 -> tier4",
+    "load exact tier4 and refresh same projection"
+  ],
+  "results": {
+    "before": {
+      "rows": [
+        {
+          "kind": "smg",
+          "pose": "rifle",
+          "initialSource": "6b6d5d26-cdf2-4c2e-bcb6-8f4eef238dd8",
+          "exactSource": "2bf17eee-5e7b-4903-a61c-3177746a9ee6",
+          "legacyGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+          "initialGeometry": "1029a3ce-8df6-440e-8dae-aad49dd27efc|9d04b5dd-8025-4198-acdd-a2a91f87b04f|be35e8f5-351c-4f40-91cd-4f6927016345|c864b00b-cfaa-404b-9e28-3ee4560cd4f0|e5f46c2f-c882-4684-8b43-ebe917f73741|f7f065bc-2556-4b27-af63-6bdf35e1cde5",
+          "exactGeometry": "21ffdd4f-0163-45ea-975e-652d94ba19c0|3b4e36bf-830d-4f61-a787-acc0c2586e1d|536ec2ca-0455-4e1f-a312-3eaadcb5f016|8f127e26-d0b5-40cd-8833-213fa64c0789|c2d66c65-2638-438a-83fe-fd86ae337307|f027baf0-0c65-4172-baa4-0b65cdbc5a7a",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "6b6d5d26-cdf2-4c2e-bcb6-8f4eef238dd8",
+              "sourceIsInitial": true,
+              "heldGeometry": "1029a3ce-8df6-440e-8dae-aad49dd27efc|9d04b5dd-8025-4198-acdd-a2a91f87b04f|be35e8f5-351c-4f40-91cd-4f6927016345|c864b00b-cfaa-404b-9e28-3ee4560cd4f0|e5f46c2f-c882-4684-8b43-ebe917f73741|f7f065bc-2556-4b27-af63-6bdf35e1cde5",
+              "backGeometry": "1029a3ce-8df6-440e-8dae-aad49dd27efc|9d04b5dd-8025-4198-acdd-a2a91f87b04f|be35e8f5-351c-4f40-91cd-4f6927016345|c864b00b-cfaa-404b-9e28-3ee4560cd4f0|e5f46c2f-c882-4684-8b43-ebe917f73741|f7f065bc-2556-4b27-af63-6bdf35e1cde5",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "2bf17eee-5e7b-4903-a61c-3177746a9ee6",
+              "sourceIsInitial": false,
+              "heldGeometry": "21ffdd4f-0163-45ea-975e-652d94ba19c0|3b4e36bf-830d-4f61-a787-acc0c2586e1d|536ec2ca-0455-4e1f-a312-3eaadcb5f016|8f127e26-d0b5-40cd-8833-213fa64c0789|c2d66c65-2638-438a-83fe-fd86ae337307|f027baf0-0c65-4172-baa4-0b65cdbc5a7a",
+              "backGeometry": "21ffdd4f-0163-45ea-975e-652d94ba19c0|3b4e36bf-830d-4f61-a787-acc0c2586e1d|536ec2ca-0455-4e1f-a312-3eaadcb5f016|8f127e26-d0b5-40cd-8833-213fa64c0789|c2d66c65-2638-438a-83fe-fd86ae337307|f027baf0-0c65-4172-baa4-0b65cdbc5a7a",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "slug",
+          "pose": "shotgun",
+          "initialSource": "4b587c3b-1890-4df7-8e7b-2a8733afee94",
+          "exactSource": "f4166adc-8312-4c4d-8701-17fb72f99f6b",
+          "legacyGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+          "initialGeometry": "363fc824-e1d6-4e2c-b1ec-5ea5a6057ee9|4ca2d7db-54fa-4f35-adc7-9f007cc6d39f|60015075-1ca2-4f3e-98f9-cb998b5c2c21|60210bbd-3ebd-4367-bda1-791a1ffd1e52|b56221a8-31eb-404b-ad5b-f4db9e2105e8|e003e2d4-a280-4d13-9967-006b5cff8ca4",
+          "exactGeometry": "19ef6e30-b090-46e8-ab37-931a96caac99|1ddbb967-7e6a-4b35-8430-4d5bc31f3965|35016425-83c2-49b0-945b-9af089110dfd|522bb2d7-b0ce-4110-9be1-5daec4604e06|c975fc34-ca8e-4c79-8fbf-53681e36d6d7|e7a4e7a3-4d82-4df6-8398-97c6e77116f5",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "4b587c3b-1890-4df7-8e7b-2a8733afee94",
+              "sourceIsInitial": true,
+              "heldGeometry": "363fc824-e1d6-4e2c-b1ec-5ea5a6057ee9|4ca2d7db-54fa-4f35-adc7-9f007cc6d39f|60015075-1ca2-4f3e-98f9-cb998b5c2c21|60210bbd-3ebd-4367-bda1-791a1ffd1e52|b56221a8-31eb-404b-ad5b-f4db9e2105e8|e003e2d4-a280-4d13-9967-006b5cff8ca4",
+              "backGeometry": "363fc824-e1d6-4e2c-b1ec-5ea5a6057ee9|4ca2d7db-54fa-4f35-adc7-9f007cc6d39f|60015075-1ca2-4f3e-98f9-cb998b5c2c21|60210bbd-3ebd-4367-bda1-791a1ffd1e52|b56221a8-31eb-404b-ad5b-f4db9e2105e8|e003e2d4-a280-4d13-9967-006b5cff8ca4",
+              "meshNames": [
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ],
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "backGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "meshNames": [
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ],
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "backGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "meshNames": [
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ],
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "backGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "meshNames": [
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ],
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "f4166adc-8312-4c4d-8701-17fb72f99f6b",
+              "sourceIsInitial": false,
+              "heldGeometry": "19ef6e30-b090-46e8-ab37-931a96caac99|1ddbb967-7e6a-4b35-8430-4d5bc31f3965|35016425-83c2-49b0-945b-9af089110dfd|522bb2d7-b0ce-4110-9be1-5daec4604e06|c975fc34-ca8e-4c79-8fbf-53681e36d6d7|e7a4e7a3-4d82-4df6-8398-97c6e77116f5",
+              "backGeometry": "19ef6e30-b090-46e8-ab37-931a96caac99|1ddbb967-7e6a-4b35-8430-4d5bc31f3965|35016425-83c2-49b0-945b-9af089110dfd|522bb2d7-b0ce-4110-9be1-5daec4604e06|c975fc34-ca8e-4c79-8fbf-53681e36d6d7|e7a4e7a3-4d82-4df6-8398-97c6e77116f5",
+              "meshNames": [
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ],
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "heavy",
+          "pose": "rocket",
+          "initialSource": "7a47eb73-73ef-4770-a1f7-c13d77e55d97",
+          "exactSource": "c6ebffbd-c8b0-4a6f-8f0e-4fed29c1d1c2",
+          "legacyGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+          "initialGeometry": "2497f3f6-64a0-45d1-9154-b06bd792ff26|410b75e9-edd0-4b43-bb65-22c1be33f203|612136fb-494f-4cc8-a9c6-217a36a33d18|61efa46a-0e50-400f-a252-1c4edca13937|7f738668-423b-41fb-a4c7-d452d1916c39|caeb4004-bc01-4489-be19-669ee33e75fb",
+          "exactGeometry": "0f559e56-2f52-4994-a214-4ab52fafa719|3f823bb3-0738-411f-9afa-ad8c59708271|7aedf6bd-138d-4b44-bc61-a848a6fb5f7a|85e63dc8-4acc-4d8d-8d84-47885a958dc6|b69a37d3-fa16-40b9-a5d9-9f087972aed4|eaa9c98f-b546-4be3-ab56-3b4800047c39",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "7a47eb73-73ef-4770-a1f7-c13d77e55d97",
+              "sourceIsInitial": true,
+              "heldGeometry": "2497f3f6-64a0-45d1-9154-b06bd792ff26|410b75e9-edd0-4b43-bb65-22c1be33f203|612136fb-494f-4cc8-a9c6-217a36a33d18|61efa46a-0e50-400f-a252-1c4edca13937|7f738668-423b-41fb-a4c7-d452d1916c39|caeb4004-bc01-4489-be19-669ee33e75fb",
+              "backGeometry": "2497f3f6-64a0-45d1-9154-b06bd792ff26|410b75e9-edd0-4b43-bb65-22c1be33f203|612136fb-494f-4cc8-a9c6-217a36a33d18|61efa46a-0e50-400f-a252-1c4edca13937|7f738668-423b-41fb-a4c7-d452d1916c39|caeb4004-bc01-4489-be19-669ee33e75fb",
+              "meshNames": [
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ],
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "backGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "backGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "backGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "c6ebffbd-c8b0-4a6f-8f0e-4fed29c1d1c2",
+              "sourceIsInitial": false,
+              "heldGeometry": "0f559e56-2f52-4994-a214-4ab52fafa719|3f823bb3-0738-411f-9afa-ad8c59708271|7aedf6bd-138d-4b44-bc61-a848a6fb5f7a|85e63dc8-4acc-4d8d-8d84-47885a958dc6|b69a37d3-fa16-40b9-a5d9-9f087972aed4|eaa9c98f-b546-4be3-ab56-3b4800047c39",
+              "backGeometry": "0f559e56-2f52-4994-a214-4ab52fafa719|3f823bb3-0738-411f-9afa-ad8c59708271|7aedf6bd-138d-4b44-bc61-a848a6fb5f7a|85e63dc8-4acc-4d8d-8d84-47885a958dc6|b69a37d3-fa16-40b9-a5d9-9f087972aed4|eaa9c98f-b546-4be3-ab56-3b4800047c39",
+              "meshNames": [
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ],
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "sniper",
+          "pose": "rifle",
+          "initialSource": "da350e8a-587d-4774-9ddf-44fc892754d3",
+          "exactSource": "b5477da8-3944-4ee2-8ef8-4d1556d2594f",
+          "legacyGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+          "initialGeometry": "02f583ed-b6e3-40de-a9aa-7e722abba877|31f55fc2-a978-4cb2-85ad-3187fac4c981|b3097334-703f-4e34-8750-e01d87d83932|b9b484dd-5d8c-45f7-a6f0-5ebd9e3c9016|caaf71d0-c477-45da-a6cf-b96fc24cacb1|faaae160-94d4-4193-8f85-39b0a037d4b1",
+          "exactGeometry": "4220e74e-ef89-4c3c-9aaf-5b4e67916a19|46381049-cd68-4610-84aa-4ae304f1c82d|598d2da9-d594-49bc-a007-9c7d421b0057|9697614d-ec2b-42a5-8abb-0b942c667357|b0c2c190-8330-4358-82fd-1a002ac3f465|ed05ddb8-1c8d-4853-a65a-02a1ea7143bd",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "da350e8a-587d-4774-9ddf-44fc892754d3",
+              "sourceIsInitial": true,
+              "heldGeometry": "02f583ed-b6e3-40de-a9aa-7e722abba877|31f55fc2-a978-4cb2-85ad-3187fac4c981|b3097334-703f-4e34-8750-e01d87d83932|b9b484dd-5d8c-45f7-a6f0-5ebd9e3c9016|caaf71d0-c477-45da-a6cf-b96fc24cacb1|faaae160-94d4-4193-8f85-39b0a037d4b1",
+              "backGeometry": "02f583ed-b6e3-40de-a9aa-7e722abba877|31f55fc2-a978-4cb2-85ad-3187fac4c981|b3097334-703f-4e34-8750-e01d87d83932|b9b484dd-5d8c-45f7-a6f0-5ebd9e3c9016|caaf71d0-c477-45da-a6cf-b96fc24cacb1|faaae160-94d4-4193-8f85-39b0a037d4b1",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "b5477da8-3944-4ee2-8ef8-4d1556d2594f",
+              "sourceIsInitial": false,
+              "heldGeometry": "4220e74e-ef89-4c3c-9aaf-5b4e67916a19|46381049-cd68-4610-84aa-4ae304f1c82d|598d2da9-d594-49bc-a007-9c7d421b0057|9697614d-ec2b-42a5-8abb-0b942c667357|b0c2c190-8330-4358-82fd-1a002ac3f465|ed05ddb8-1c8d-4853-a65a-02a1ea7143bd",
+              "backGeometry": "4220e74e-ef89-4c3c-9aaf-5b4e67916a19|46381049-cd68-4610-84aa-4ae304f1c82d|598d2da9-d594-49bc-a007-9c7d421b0057|9697614d-ec2b-42a5-8abb-0b942c667357|b0c2c190-8330-4358-82fd-1a002ac3f465|ed05ddb8-1c8d-4853-a65a-02a1ea7143bd",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "laser",
+          "pose": "rifle",
+          "initialSource": "218f11d0-314a-408b-84bc-d152d5f423a8",
+          "exactSource": "ab6054e9-8f0c-4001-89d9-17bf3d33dcf5",
+          "legacyGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+          "initialGeometry": "5ba09b9b-dbb5-41fb-ae65-5d2e9061d560|647b0d39-fbab-4a7b-add1-9b9538ae7c10|9463bf2d-cf4d-46ce-941e-7d723223561c|a03bf1b9-755f-4721-964f-f6561db11aef|c9eebbc2-c96d-4da7-9299-864a35f9beba|d02c7d76-0aea-4e03-9c06-1d25f0a2834f",
+          "exactGeometry": "1726f7cb-a94d-4e9e-8906-d08661333310|6657c19d-a00a-4452-b0a8-0158d242fff4|67d6336e-2649-4e0a-90bb-3890fa4f1612|96236e21-6bba-4fc8-b15d-a9f1f1de14ce|a5024ecf-8240-4b80-ab16-4e5ee90a3fa0|b619bb76-68a6-430b-bc0f-1b688df93b09",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "218f11d0-314a-408b-84bc-d152d5f423a8",
+              "sourceIsInitial": true,
+              "heldGeometry": "5ba09b9b-dbb5-41fb-ae65-5d2e9061d560|647b0d39-fbab-4a7b-add1-9b9538ae7c10|9463bf2d-cf4d-46ce-941e-7d723223561c|a03bf1b9-755f-4721-964f-f6561db11aef|c9eebbc2-c96d-4da7-9299-864a35f9beba|d02c7d76-0aea-4e03-9c06-1d25f0a2834f",
+              "backGeometry": "5ba09b9b-dbb5-41fb-ae65-5d2e9061d560|647b0d39-fbab-4a7b-add1-9b9538ae7c10|9463bf2d-cf4d-46ce-941e-7d723223561c|a03bf1b9-755f-4721-964f-f6561db11aef|c9eebbc2-c96d-4da7-9299-864a35f9beba|d02c7d76-0aea-4e03-9c06-1d25f0a2834f",
+              "meshNames": [
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ],
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "ab6054e9-8f0c-4001-89d9-17bf3d33dcf5",
+              "sourceIsInitial": false,
+              "heldGeometry": "1726f7cb-a94d-4e9e-8906-d08661333310|6657c19d-a00a-4452-b0a8-0158d242fff4|67d6336e-2649-4e0a-90bb-3890fa4f1612|96236e21-6bba-4fc8-b15d-a9f1f1de14ce|a5024ecf-8240-4b80-ab16-4e5ee90a3fa0|b619bb76-68a6-430b-bc0f-1b688df93b09",
+              "backGeometry": "1726f7cb-a94d-4e9e-8906-d08661333310|6657c19d-a00a-4452-b0a8-0158d242fff4|67d6336e-2649-4e0a-90bb-3890fa4f1612|96236e21-6bba-4fc8-b15d-a9f1f1de14ce|a5024ecf-8240-4b80-ab16-4e5ee90a3fa0|b619bb76-68a6-430b-bc0f-1b688df93b09",
+              "meshNames": [
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ],
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "grenade",
+          "pose": "rocket",
+          "initialSource": "e573eb52-f921-4837-ab26-fc8173d40a4d",
+          "exactSource": "9f34ca5c-09c8-485e-b12f-74710fd05610",
+          "legacyGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+          "initialGeometry": "0a1bbadb-ebc1-41ff-9bab-969dcb5075a4|3ed2f6f5-c2d1-49f4-979d-fb1d0b394c8c|6e89f260-c0c8-485e-b8dc-d4d16d4d4614|7b2147de-fe6a-4c97-a508-a7fb90c299e3|9119f1d8-8b31-4c9e-949f-da8e22473236|a5f51ca4-b1f0-4e24-a3fb-74f56fd6173a",
+          "exactGeometry": "0f123e5e-52f2-4507-9d5f-95b1d21aaa7e|20fba5d1-1a99-4dfb-a024-6f98177ba2ca|39500026-80f1-451e-ae94-3017448abeb8|798543a4-bfeb-49ec-beac-4a6d22f1c39f|8cf42c6d-aa87-4d92-86fb-c56a5276339e|c25969e3-bd46-454e-876b-a3fcc4251d4d",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "e573eb52-f921-4837-ab26-fc8173d40a4d",
+              "sourceIsInitial": true,
+              "heldGeometry": "0a1bbadb-ebc1-41ff-9bab-969dcb5075a4|3ed2f6f5-c2d1-49f4-979d-fb1d0b394c8c|6e89f260-c0c8-485e-b8dc-d4d16d4d4614|7b2147de-fe6a-4c97-a508-a7fb90c299e3|9119f1d8-8b31-4c9e-949f-da8e22473236|a5f51ca4-b1f0-4e24-a3fb-74f56fd6173a",
+              "backGeometry": "0a1bbadb-ebc1-41ff-9bab-969dcb5075a4|3ed2f6f5-c2d1-49f4-979d-fb1d0b394c8c|6e89f260-c0c8-485e-b8dc-d4d16d4d4614|7b2147de-fe6a-4c97-a508-a7fb90c299e3|9119f1d8-8b31-4c9e-949f-da8e22473236|a5f51ca4-b1f0-4e24-a3fb-74f56fd6173a",
+              "meshNames": [
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ],
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "backGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "backGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "backGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "9f34ca5c-09c8-485e-b12f-74710fd05610",
+              "sourceIsInitial": false,
+              "heldGeometry": "0f123e5e-52f2-4507-9d5f-95b1d21aaa7e|20fba5d1-1a99-4dfb-a024-6f98177ba2ca|39500026-80f1-451e-ae94-3017448abeb8|798543a4-bfeb-49ec-beac-4a6d22f1c39f|8cf42c6d-aa87-4d92-86fb-c56a5276339e|c25969e3-bd46-454e-876b-a3fcc4251d4d",
+              "backGeometry": "0f123e5e-52f2-4507-9d5f-95b1d21aaa7e|20fba5d1-1a99-4dfb-a024-6f98177ba2ca|39500026-80f1-451e-ae94-3017448abeb8|798543a4-bfeb-49ec-beac-4a6d22f1c39f|8cf42c6d-aa87-4d92-86fb-c56a5276339e|c25969e3-bd46-454e-876b-a3fcc4251d4d",
+              "meshNames": [
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ],
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "sticky",
+          "pose": "rocket",
+          "initialSource": "dbe6b188-decc-4f32-9620-f516c40e4953",
+          "exactSource": "f70b35ac-23d0-448d-a68c-d8dc557e6074",
+          "legacyGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+          "initialGeometry": "02f4c830-aff4-4af1-82c6-cdc13c7744f8|042df498-0b1b-4c2c-9bd9-a117a7f24475|464e9873-a77b-46dd-8fb0-c98505c198be|51da9e93-2c89-4382-bf56-d4c4a8ef73b8|93fed9f4-e335-4163-84e6-87a4134baa8e|b85fe149-f99f-4460-ab9a-7ff9c8b55e98",
+          "exactGeometry": "3480b25b-8484-4875-8f3d-95b3d60c8d82|40174a7f-3746-4377-a990-135868dd8e04|4e956b70-f0a0-4874-88a7-163c8f55813f|8409d836-3d8d-44d7-9c60-d7da8ef1c823|ad82286b-24de-42a4-8b84-d1514632e0b7|e8df8891-79b6-4ed7-b2b6-c14080ae24a6",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "dbe6b188-decc-4f32-9620-f516c40e4953",
+              "sourceIsInitial": true,
+              "heldGeometry": "02f4c830-aff4-4af1-82c6-cdc13c7744f8|042df498-0b1b-4c2c-9bd9-a117a7f24475|464e9873-a77b-46dd-8fb0-c98505c198be|51da9e93-2c89-4382-bf56-d4c4a8ef73b8|93fed9f4-e335-4163-84e6-87a4134baa8e|b85fe149-f99f-4460-ab9a-7ff9c8b55e98",
+              "backGeometry": "02f4c830-aff4-4af1-82c6-cdc13c7744f8|042df498-0b1b-4c2c-9bd9-a117a7f24475|464e9873-a77b-46dd-8fb0-c98505c198be|51da9e93-2c89-4382-bf56-d4c4a8ef73b8|93fed9f4-e335-4163-84e6-87a4134baa8e|b85fe149-f99f-4460-ab9a-7ff9c8b55e98",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "backGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "backGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "backGeometry": "2d4700d2-e412-46d5-beae-209a78696476|3379d01a-0ed9-4438-af67-03840e0a77c4|663f6d68-aa97-47cd-9b34-0918cda61845|90802ca3-51a6-4014-8d95-1f39c023f4cc|ac2be683-310b-41a3-a2b2-e30920d07ebd|ca89658b-9564-48d4-a7a1-562bb550b8ed|d92b5d1f-dee3-4841-b873-163720ded60c|dfb176bc-0925-4522-ac8a-b4752736a7da",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5",
+                  "Cone_6",
+                  "Cone_7"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "f70b35ac-23d0-448d-a68c-d8dc557e6074",
+              "sourceIsInitial": false,
+              "heldGeometry": "3480b25b-8484-4875-8f3d-95b3d60c8d82|40174a7f-3746-4377-a990-135868dd8e04|4e956b70-f0a0-4874-88a7-163c8f55813f|8409d836-3d8d-44d7-9c60-d7da8ef1c823|ad82286b-24de-42a4-8b84-d1514632e0b7|e8df8891-79b6-4ed7-b2b6-c14080ae24a6",
+              "backGeometry": "3480b25b-8484-4875-8f3d-95b3d60c8d82|40174a7f-3746-4377-a990-135868dd8e04|4e956b70-f0a0-4874-88a7-163c8f55813f|8409d836-3d8d-44d7-9c60-d7da8ef1c823|ad82286b-24de-42a4-8b84-d1514632e0b7|e8df8891-79b6-4ed7-b2b6-c14080ae24a6",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "kick",
+          "pose": "shotgun",
+          "initialSource": "edf2e1ad-7f8d-4471-a2c7-a552bd8a18a1",
+          "exactSource": "f01399f5-2ede-4eab-bef8-5baeac26a92c",
+          "legacyGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+          "initialGeometry": "2711ac7b-7791-407c-ae2e-2e642d447123|7080b40c-0656-4e6b-a8a6-3117f82e66af|8aa04532-9c84-4a7f-a41a-260acb985669|b9514364-8c2b-4df8-b5e3-58e7efd732a9|d41ebe17-6efb-448b-a692-9fdde543f19b|f247a56d-8e66-4b66-84aa-f5120e40a374",
+          "exactGeometry": "3b90e844-0486-4faf-8d02-aa4df358cf9f|5180a821-12c1-4eb5-b71f-93fb6c756cbb|8c46e69d-5ecb-4156-99e9-5c045cfeb2fc|b17f1d9d-79ec-4cf6-9acc-ec82797f6c52|c5877d6b-dc59-4051-afeb-ae899acdb364|ffdde1bb-4f2f-4ac9-b260-d20d03a0bbab",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "edf2e1ad-7f8d-4471-a2c7-a552bd8a18a1",
+              "sourceIsInitial": true,
+              "heldGeometry": "2711ac7b-7791-407c-ae2e-2e642d447123|7080b40c-0656-4e6b-a8a6-3117f82e66af|8aa04532-9c84-4a7f-a41a-260acb985669|b9514364-8c2b-4df8-b5e3-58e7efd732a9|d41ebe17-6efb-448b-a692-9fdde543f19b|f247a56d-8e66-4b66-84aa-f5120e40a374",
+              "backGeometry": "2711ac7b-7791-407c-ae2e-2e642d447123|7080b40c-0656-4e6b-a8a6-3117f82e66af|8aa04532-9c84-4a7f-a41a-260acb985669|b9514364-8c2b-4df8-b5e3-58e7efd732a9|d41ebe17-6efb-448b-a692-9fdde543f19b|f247a56d-8e66-4b66-84aa-f5120e40a374",
+              "meshNames": [
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ],
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "backGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "meshNames": [
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ],
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "backGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "meshNames": [
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ],
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "backGeometry": "0270ce59-5839-4f3e-afd4-9fe35486770d|10c40e18-5ded-410b-be4f-9c0ac8a01171|63a806bd-1092-4fc6-a022-5d5a3c28889a|68b92992-9bdf-4c2e-b5a6-27623d816361|96b17e23-c5a8-4d46-b099-f7568878b7bb|e8dfb030-0abe-4a74-8f6f-55365d392fc8",
+              "meshNames": [
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ],
+                [
+                  "590_receiver",
+                  "590_receiver_1",
+                  "590_receiver_2",
+                  "590_receiver_3",
+                  "590_receiver_4",
+                  "590_receiver_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "f01399f5-2ede-4eab-bef8-5baeac26a92c",
+              "sourceIsInitial": false,
+              "heldGeometry": "3b90e844-0486-4faf-8d02-aa4df358cf9f|5180a821-12c1-4eb5-b71f-93fb6c756cbb|8c46e69d-5ecb-4156-99e9-5c045cfeb2fc|b17f1d9d-79ec-4cf6-9acc-ec82797f6c52|c5877d6b-dc59-4051-afeb-ae899acdb364|ffdde1bb-4f2f-4ac9-b260-d20d03a0bbab",
+              "backGeometry": "3b90e844-0486-4faf-8d02-aa4df358cf9f|5180a821-12c1-4eb5-b71f-93fb6c756cbb|8c46e69d-5ecb-4156-99e9-5c045cfeb2fc|b17f1d9d-79ec-4cf6-9acc-ec82797f6c52|c5877d6b-dc59-4051-afeb-ae899acdb364|ffdde1bb-4f2f-4ac9-b260-d20d03a0bbab",
+              "meshNames": [
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ],
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "medic",
+          "pose": "rifle",
+          "initialSource": "1587da43-357f-475a-b135-60e78fcd7f33",
+          "exactSource": "d02fbcae-2389-4da6-bfdf-0fbf0e689d86",
+          "legacyGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+          "initialGeometry": "148093fd-3af7-429f-b2ea-9556018f8398|1c0b1d09-b4c5-4d9d-90e6-a312a8af8977|8166b273-145e-4b1e-9922-abed4933a475|8b545c13-f3ba-44f9-80f2-b89c8e34321f|94aff044-979e-4281-b171-d3724e5161c5|9b42cc6c-a83d-4c40-ac95-9701a074f3f4",
+          "exactGeometry": "50beea11-609c-4aa4-868c-7f2a33732ef6|862b626a-5597-4997-9aaf-78679bbaa273|86f3fbb8-1dc8-4018-9a14-a81ec2a69dfb|ad253b88-2ab2-4e09-bf54-4a5806070fea|b93a09a8-28a2-460a-a915-910c569c1c0e|be88167d-1b3d-4ab7-9d66-9d5bc3914a56",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "1587da43-357f-475a-b135-60e78fcd7f33",
+              "sourceIsInitial": true,
+              "heldGeometry": "148093fd-3af7-429f-b2ea-9556018f8398|1c0b1d09-b4c5-4d9d-90e6-a312a8af8977|8166b273-145e-4b1e-9922-abed4933a475|8b545c13-f3ba-44f9-80f2-b89c8e34321f|94aff044-979e-4281-b171-d3724e5161c5|9b42cc6c-a83d-4c40-ac95-9701a074f3f4",
+              "backGeometry": "148093fd-3af7-429f-b2ea-9556018f8398|1c0b1d09-b4c5-4d9d-90e6-a312a8af8977|8166b273-145e-4b1e-9922-abed4933a475|8b545c13-f3ba-44f9-80f2-b89c8e34321f|94aff044-979e-4281-b171-d3724e5161c5|9b42cc6c-a83d-4c40-ac95-9701a074f3f4",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": null,
+              "sourceIsInitial": false,
+              "heldGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "backGeometry": "423c33a8-c25d-4766-a5c2-76917a880028|6d0e57e8-047c-42aa-85ab-3219652f007d|73988c7d-1bbc-4bd4-b771-930d34a4a542|88c901f1-d104-484c-a861-1a1106907d6d|918c098a-1a17-45ea-b38a-a6addd95cb4f|b5dc0feb-3fda-4249-9363-fb0422f4129c|e2b98913-7648-47a7-abc3-3f84ea3a9118",
+              "meshNames": [
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ],
+                [
+                  "SCAR_upper",
+                  "SCAR_upper_1",
+                  "SCAR_upper_2",
+                  "SCAR_upper_3",
+                  "SCAR_upper_4",
+                  "SCAR_upper_5",
+                  "SCAR_upper_6"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "d02fbcae-2389-4da6-bfdf-0fbf0e689d86",
+              "sourceIsInitial": false,
+              "heldGeometry": "50beea11-609c-4aa4-868c-7f2a33732ef6|862b626a-5597-4997-9aaf-78679bbaa273|86f3fbb8-1dc8-4018-9a14-a81ec2a69dfb|ad253b88-2ab2-4e09-bf54-4a5806070fea|b93a09a8-28a2-460a-a915-910c569c1c0e|be88167d-1b3d-4ab7-9d66-9d5bc3914a56",
+              "backGeometry": "50beea11-609c-4aa4-868c-7f2a33732ef6|862b626a-5597-4997-9aaf-78679bbaa273|86f3fbb8-1dc8-4018-9a14-a81ec2a69dfb|ad253b88-2ab2-4e09-bf54-4a5806070fea|b93a09a8-28a2-460a-a915-910c569c1c0e|be88167d-1b3d-4ab7-9d66-9d5bc3914a56",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        }
+      ],
+      "glError": 0,
+      "errors": [],
+      "failed": []
+    },
+    "after": {
+      "rows": [
+        {
+          "kind": "smg",
+          "pose": "rifle",
+          "initialSource": "cd1964f2-bd09-4ad7-8700-f5cc4372bb14",
+          "exactSource": "9e2e9e94-ee17-499c-9e50-5279869317f4",
+          "legacyGeometry": "20d224cd-7eb9-44f2-afb9-5d346b4bd901|32c7ce61-fa23-4e84-9a5d-9d7fc470ebfd|3faf704c-5c80-4761-9239-653510144d03|5247220a-dbcd-4094-9dbf-21439397c440|5b482730-3074-48a4-be73-6fc22ab4bf04|91be1830-6f78-42a6-bfcc-4cade5da37ff|ba0b7004-63aa-4ef7-93b0-7b567b8b4f4c",
+          "initialGeometry": "1e1c4c97-06b7-42f1-9db8-d02ab3890fbd|2252aaeb-ee4a-4d0d-ab44-340787f94e70|43a5fe16-850f-4c62-980d-726db30d1d46|4719f554-36ce-4d29-915d-1440f26326fc|6b9616dc-7ab3-497b-a699-0d62fe529b24|ea993ee1-7382-42fe-8645-88278851335f",
+          "exactGeometry": "02dac0a6-1e0a-4adc-a595-613c412ddcd0|2232654c-79e2-411d-ae11-87e61f93ba07|38a93ca1-433f-43ed-864f-f1a8a9d70c9d|5c5b95d6-f4ec-4d52-865d-1c6bbe06008e|6ae2e659-0e0f-4d02-9e66-155e724c41d4|cc9d9fa3-4aa3-446f-b655-d9e41116a1d2",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "cd1964f2-bd09-4ad7-8700-f5cc4372bb14",
+              "sourceIsInitial": true,
+              "heldGeometry": "1e1c4c97-06b7-42f1-9db8-d02ab3890fbd|2252aaeb-ee4a-4d0d-ab44-340787f94e70|43a5fe16-850f-4c62-980d-726db30d1d46|4719f554-36ce-4d29-915d-1440f26326fc|6b9616dc-7ab3-497b-a699-0d62fe529b24|ea993ee1-7382-42fe-8645-88278851335f",
+              "backGeometry": "1e1c4c97-06b7-42f1-9db8-d02ab3890fbd|2252aaeb-ee4a-4d0d-ab44-340787f94e70|43a5fe16-850f-4c62-980d-726db30d1d46|4719f554-36ce-4d29-915d-1440f26326fc|6b9616dc-7ab3-497b-a699-0d62fe529b24|ea993ee1-7382-42fe-8645-88278851335f",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "cd1964f2-bd09-4ad7-8700-f5cc4372bb14",
+              "sourceIsInitial": true,
+              "heldGeometry": "1e1c4c97-06b7-42f1-9db8-d02ab3890fbd|2252aaeb-ee4a-4d0d-ab44-340787f94e70|43a5fe16-850f-4c62-980d-726db30d1d46|4719f554-36ce-4d29-915d-1440f26326fc|6b9616dc-7ab3-497b-a699-0d62fe529b24|ea993ee1-7382-42fe-8645-88278851335f",
+              "backGeometry": "1e1c4c97-06b7-42f1-9db8-d02ab3890fbd|2252aaeb-ee4a-4d0d-ab44-340787f94e70|43a5fe16-850f-4c62-980d-726db30d1d46|4719f554-36ce-4d29-915d-1440f26326fc|6b9616dc-7ab3-497b-a699-0d62fe529b24|ea993ee1-7382-42fe-8645-88278851335f",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "cd1964f2-bd09-4ad7-8700-f5cc4372bb14",
+              "sourceIsInitial": true,
+              "heldGeometry": "1e1c4c97-06b7-42f1-9db8-d02ab3890fbd|2252aaeb-ee4a-4d0d-ab44-340787f94e70|43a5fe16-850f-4c62-980d-726db30d1d46|4719f554-36ce-4d29-915d-1440f26326fc|6b9616dc-7ab3-497b-a699-0d62fe529b24|ea993ee1-7382-42fe-8645-88278851335f",
+              "backGeometry": "1e1c4c97-06b7-42f1-9db8-d02ab3890fbd|2252aaeb-ee4a-4d0d-ab44-340787f94e70|43a5fe16-850f-4c62-980d-726db30d1d46|4719f554-36ce-4d29-915d-1440f26326fc|6b9616dc-7ab3-497b-a699-0d62fe529b24|ea993ee1-7382-42fe-8645-88278851335f",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "cd1964f2-bd09-4ad7-8700-f5cc4372bb14",
+              "sourceIsInitial": true,
+              "heldGeometry": "1e1c4c97-06b7-42f1-9db8-d02ab3890fbd|2252aaeb-ee4a-4d0d-ab44-340787f94e70|43a5fe16-850f-4c62-980d-726db30d1d46|4719f554-36ce-4d29-915d-1440f26326fc|6b9616dc-7ab3-497b-a699-0d62fe529b24|ea993ee1-7382-42fe-8645-88278851335f",
+              "backGeometry": "1e1c4c97-06b7-42f1-9db8-d02ab3890fbd|2252aaeb-ee4a-4d0d-ab44-340787f94e70|43a5fe16-850f-4c62-980d-726db30d1d46|4719f554-36ce-4d29-915d-1440f26326fc|6b9616dc-7ab3-497b-a699-0d62fe529b24|ea993ee1-7382-42fe-8645-88278851335f",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "9e2e9e94-ee17-499c-9e50-5279869317f4",
+              "sourceIsInitial": false,
+              "heldGeometry": "02dac0a6-1e0a-4adc-a595-613c412ddcd0|2232654c-79e2-411d-ae11-87e61f93ba07|38a93ca1-433f-43ed-864f-f1a8a9d70c9d|5c5b95d6-f4ec-4d52-865d-1c6bbe06008e|6ae2e659-0e0f-4d02-9e66-155e724c41d4|cc9d9fa3-4aa3-446f-b655-d9e41116a1d2",
+              "backGeometry": "02dac0a6-1e0a-4adc-a595-613c412ddcd0|2232654c-79e2-411d-ae11-87e61f93ba07|38a93ca1-433f-43ed-864f-f1a8a9d70c9d|5c5b95d6-f4ec-4d52-865d-1c6bbe06008e|6ae2e659-0e0f-4d02-9e66-155e724c41d4|cc9d9fa3-4aa3-446f-b655-d9e41116a1d2",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "slug",
+          "pose": "shotgun",
+          "initialSource": "fb4b1b12-03fc-4913-a6c0-ff0a15a32df6",
+          "exactSource": "44bba6eb-cb4d-4e53-a954-0121f268cf27",
+          "legacyGeometry": "5309d768-9f96-4900-8c51-40eda6eff3bc|898b6a53-638f-4b1a-b231-ed7d6d4443ae|89eff119-d88d-4b65-9277-6786c144a645|91624b00-243c-4bb5-bc59-83ede4809b06|cca728d2-2970-413c-8c24-fdfcd97447a5|e3b1aff2-62ac-4fa2-a080-3ac2b48f0b71",
+          "initialGeometry": "2eec6bdb-598a-4a5a-9f4b-9ba664c55b1d|75db2a4e-79bd-4689-b318-beb0f199d76c|7c48894d-a1bf-4604-8326-9771152cf2b9|a726bb86-c04e-42b9-911d-3f6f69a6c695|cdc7e319-0a57-46b0-9e66-038fbebc625d|f639c3be-0d48-4680-8fe8-a3c68c986c4d",
+          "exactGeometry": "37e7a980-907f-490c-a83d-85e77b5ce623|3f923d2c-06e3-45e0-905e-26d435c62868|67e2b4e1-e379-423c-b15f-9dae8ff501a4|68ff5898-b944-4744-9109-2d60c6673b78|85d9435b-b553-4eda-9177-97c0a3748d8b|f6a0a034-3774-48ff-b92a-216700ccc453",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "fb4b1b12-03fc-4913-a6c0-ff0a15a32df6",
+              "sourceIsInitial": true,
+              "heldGeometry": "2eec6bdb-598a-4a5a-9f4b-9ba664c55b1d|75db2a4e-79bd-4689-b318-beb0f199d76c|7c48894d-a1bf-4604-8326-9771152cf2b9|a726bb86-c04e-42b9-911d-3f6f69a6c695|cdc7e319-0a57-46b0-9e66-038fbebc625d|f639c3be-0d48-4680-8fe8-a3c68c986c4d",
+              "backGeometry": "2eec6bdb-598a-4a5a-9f4b-9ba664c55b1d|75db2a4e-79bd-4689-b318-beb0f199d76c|7c48894d-a1bf-4604-8326-9771152cf2b9|a726bb86-c04e-42b9-911d-3f6f69a6c695|cdc7e319-0a57-46b0-9e66-038fbebc625d|f639c3be-0d48-4680-8fe8-a3c68c986c4d",
+              "meshNames": [
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ],
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "fb4b1b12-03fc-4913-a6c0-ff0a15a32df6",
+              "sourceIsInitial": true,
+              "heldGeometry": "2eec6bdb-598a-4a5a-9f4b-9ba664c55b1d|75db2a4e-79bd-4689-b318-beb0f199d76c|7c48894d-a1bf-4604-8326-9771152cf2b9|a726bb86-c04e-42b9-911d-3f6f69a6c695|cdc7e319-0a57-46b0-9e66-038fbebc625d|f639c3be-0d48-4680-8fe8-a3c68c986c4d",
+              "backGeometry": "2eec6bdb-598a-4a5a-9f4b-9ba664c55b1d|75db2a4e-79bd-4689-b318-beb0f199d76c|7c48894d-a1bf-4604-8326-9771152cf2b9|a726bb86-c04e-42b9-911d-3f6f69a6c695|cdc7e319-0a57-46b0-9e66-038fbebc625d|f639c3be-0d48-4680-8fe8-a3c68c986c4d",
+              "meshNames": [
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ],
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "fb4b1b12-03fc-4913-a6c0-ff0a15a32df6",
+              "sourceIsInitial": true,
+              "heldGeometry": "2eec6bdb-598a-4a5a-9f4b-9ba664c55b1d|75db2a4e-79bd-4689-b318-beb0f199d76c|7c48894d-a1bf-4604-8326-9771152cf2b9|a726bb86-c04e-42b9-911d-3f6f69a6c695|cdc7e319-0a57-46b0-9e66-038fbebc625d|f639c3be-0d48-4680-8fe8-a3c68c986c4d",
+              "backGeometry": "2eec6bdb-598a-4a5a-9f4b-9ba664c55b1d|75db2a4e-79bd-4689-b318-beb0f199d76c|7c48894d-a1bf-4604-8326-9771152cf2b9|a726bb86-c04e-42b9-911d-3f6f69a6c695|cdc7e319-0a57-46b0-9e66-038fbebc625d|f639c3be-0d48-4680-8fe8-a3c68c986c4d",
+              "meshNames": [
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ],
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "fb4b1b12-03fc-4913-a6c0-ff0a15a32df6",
+              "sourceIsInitial": true,
+              "heldGeometry": "2eec6bdb-598a-4a5a-9f4b-9ba664c55b1d|75db2a4e-79bd-4689-b318-beb0f199d76c|7c48894d-a1bf-4604-8326-9771152cf2b9|a726bb86-c04e-42b9-911d-3f6f69a6c695|cdc7e319-0a57-46b0-9e66-038fbebc625d|f639c3be-0d48-4680-8fe8-a3c68c986c4d",
+              "backGeometry": "2eec6bdb-598a-4a5a-9f4b-9ba664c55b1d|75db2a4e-79bd-4689-b318-beb0f199d76c|7c48894d-a1bf-4604-8326-9771152cf2b9|a726bb86-c04e-42b9-911d-3f6f69a6c695|cdc7e319-0a57-46b0-9e66-038fbebc625d|f639c3be-0d48-4680-8fe8-a3c68c986c4d",
+              "meshNames": [
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ],
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "44bba6eb-cb4d-4e53-a954-0121f268cf27",
+              "sourceIsInitial": false,
+              "heldGeometry": "37e7a980-907f-490c-a83d-85e77b5ce623|3f923d2c-06e3-45e0-905e-26d435c62868|67e2b4e1-e379-423c-b15f-9dae8ff501a4|68ff5898-b944-4744-9109-2d60c6673b78|85d9435b-b553-4eda-9177-97c0a3748d8b|f6a0a034-3774-48ff-b92a-216700ccc453",
+              "backGeometry": "37e7a980-907f-490c-a83d-85e77b5ce623|3f923d2c-06e3-45e0-905e-26d435c62868|67e2b4e1-e379-423c-b15f-9dae8ff501a4|68ff5898-b944-4744-9109-2d60c6673b78|85d9435b-b553-4eda-9177-97c0a3748d8b|f6a0a034-3774-48ff-b92a-216700ccc453",
+              "meshNames": [
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ],
+                [
+                  "Curved_stock",
+                  "Curved_stock_1",
+                  "Curved_stock_2",
+                  "Curved_stock_3",
+                  "Curved_stock_4",
+                  "Curved_stock_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "heavy",
+          "pose": "rocket",
+          "initialSource": "76eaff46-fdea-4563-8419-59e19ec66b0a",
+          "exactSource": "8f78e6b6-ceda-4f1c-8343-ffadfb8fe409",
+          "legacyGeometry": "1dc9dc1e-f158-41d0-b5a3-6342a6b186f9|22338e89-916f-4f9e-ad5c-6d84bf5aed2c|3591291b-d064-4c65-a655-637589b90c89|5017b937-a3c7-4cab-b7e8-c0839ede96fe|90f03631-c87f-4b03-807a-ff89c65443aa|b37d5ecb-596a-4c23-a0ce-3a4658dcb47c|ba21c92f-5a17-4581-8d32-4f6df0b7e49f|fdf4bc60-9045-4b12-9503-3832fae96ab8",
+          "initialGeometry": "11f1e7c5-6998-4d81-9e5f-1334d481cf65|5f565468-28a8-4ecd-bcb4-c1957429aaff|95929aa9-7bb7-4e3d-aad9-b7c8ee3f3d3d|a10ef0e7-112f-479d-8b62-44a9c46ece90|a59a3a76-7666-4842-8f0d-5779facb146b|e6c8e8e1-14bc-402b-b039-eb7def6d5f4c",
+          "exactGeometry": "0bcda39a-3dda-42d5-8249-45e5a5ac9c32|54781f91-7016-4cdf-a4ff-f96399574183|99239a5b-3d51-42bb-8998-46929d17c235|bfe5e1dd-e5c7-4fd1-891e-8193a53877ef|cd850fc8-f376-4142-90a8-9aa26bbb63da|d48b1278-dac0-4ee5-9d9a-c877e4487224",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "76eaff46-fdea-4563-8419-59e19ec66b0a",
+              "sourceIsInitial": true,
+              "heldGeometry": "11f1e7c5-6998-4d81-9e5f-1334d481cf65|5f565468-28a8-4ecd-bcb4-c1957429aaff|95929aa9-7bb7-4e3d-aad9-b7c8ee3f3d3d|a10ef0e7-112f-479d-8b62-44a9c46ece90|a59a3a76-7666-4842-8f0d-5779facb146b|e6c8e8e1-14bc-402b-b039-eb7def6d5f4c",
+              "backGeometry": "11f1e7c5-6998-4d81-9e5f-1334d481cf65|5f565468-28a8-4ecd-bcb4-c1957429aaff|95929aa9-7bb7-4e3d-aad9-b7c8ee3f3d3d|a10ef0e7-112f-479d-8b62-44a9c46ece90|a59a3a76-7666-4842-8f0d-5779facb146b|e6c8e8e1-14bc-402b-b039-eb7def6d5f4c",
+              "meshNames": [
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ],
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "76eaff46-fdea-4563-8419-59e19ec66b0a",
+              "sourceIsInitial": true,
+              "heldGeometry": "11f1e7c5-6998-4d81-9e5f-1334d481cf65|5f565468-28a8-4ecd-bcb4-c1957429aaff|95929aa9-7bb7-4e3d-aad9-b7c8ee3f3d3d|a10ef0e7-112f-479d-8b62-44a9c46ece90|a59a3a76-7666-4842-8f0d-5779facb146b|e6c8e8e1-14bc-402b-b039-eb7def6d5f4c",
+              "backGeometry": "11f1e7c5-6998-4d81-9e5f-1334d481cf65|5f565468-28a8-4ecd-bcb4-c1957429aaff|95929aa9-7bb7-4e3d-aad9-b7c8ee3f3d3d|a10ef0e7-112f-479d-8b62-44a9c46ece90|a59a3a76-7666-4842-8f0d-5779facb146b|e6c8e8e1-14bc-402b-b039-eb7def6d5f4c",
+              "meshNames": [
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ],
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "76eaff46-fdea-4563-8419-59e19ec66b0a",
+              "sourceIsInitial": true,
+              "heldGeometry": "11f1e7c5-6998-4d81-9e5f-1334d481cf65|5f565468-28a8-4ecd-bcb4-c1957429aaff|95929aa9-7bb7-4e3d-aad9-b7c8ee3f3d3d|a10ef0e7-112f-479d-8b62-44a9c46ece90|a59a3a76-7666-4842-8f0d-5779facb146b|e6c8e8e1-14bc-402b-b039-eb7def6d5f4c",
+              "backGeometry": "11f1e7c5-6998-4d81-9e5f-1334d481cf65|5f565468-28a8-4ecd-bcb4-c1957429aaff|95929aa9-7bb7-4e3d-aad9-b7c8ee3f3d3d|a10ef0e7-112f-479d-8b62-44a9c46ece90|a59a3a76-7666-4842-8f0d-5779facb146b|e6c8e8e1-14bc-402b-b039-eb7def6d5f4c",
+              "meshNames": [
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ],
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "76eaff46-fdea-4563-8419-59e19ec66b0a",
+              "sourceIsInitial": true,
+              "heldGeometry": "11f1e7c5-6998-4d81-9e5f-1334d481cf65|5f565468-28a8-4ecd-bcb4-c1957429aaff|95929aa9-7bb7-4e3d-aad9-b7c8ee3f3d3d|a10ef0e7-112f-479d-8b62-44a9c46ece90|a59a3a76-7666-4842-8f0d-5779facb146b|e6c8e8e1-14bc-402b-b039-eb7def6d5f4c",
+              "backGeometry": "11f1e7c5-6998-4d81-9e5f-1334d481cf65|5f565468-28a8-4ecd-bcb4-c1957429aaff|95929aa9-7bb7-4e3d-aad9-b7c8ee3f3d3d|a10ef0e7-112f-479d-8b62-44a9c46ece90|a59a3a76-7666-4842-8f0d-5779facb146b|e6c8e8e1-14bc-402b-b039-eb7def6d5f4c",
+              "meshNames": [
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ],
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "8f78e6b6-ceda-4f1c-8343-ffadfb8fe409",
+              "sourceIsInitial": false,
+              "heldGeometry": "0bcda39a-3dda-42d5-8249-45e5a5ac9c32|54781f91-7016-4cdf-a4ff-f96399574183|99239a5b-3d51-42bb-8998-46929d17c235|bfe5e1dd-e5c7-4fd1-891e-8193a53877ef|cd850fc8-f376-4142-90a8-9aa26bbb63da|d48b1278-dac0-4ee5-9d9a-c877e4487224",
+              "backGeometry": "0bcda39a-3dda-42d5-8249-45e5a5ac9c32|54781f91-7016-4cdf-a4ff-f96399574183|99239a5b-3d51-42bb-8998-46929d17c235|bfe5e1dd-e5c7-4fd1-891e-8193a53877ef|cd850fc8-f376-4142-90a8-9aa26bbb63da|d48b1278-dac0-4ee5-9d9a-c877e4487224",
+              "meshNames": [
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ],
+                [
+                  "Pistol_grip",
+                  "Pistol_grip_1",
+                  "Pistol_grip_2",
+                  "Pistol_grip_3",
+                  "Pistol_grip_4",
+                  "Pistol_grip_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "sniper",
+          "pose": "rifle",
+          "initialSource": "5e390074-34d1-49b5-b51a-59f34bc50dd7",
+          "exactSource": "7f79c456-d0d4-4aaf-b92e-cb9834afcad1",
+          "legacyGeometry": "20d224cd-7eb9-44f2-afb9-5d346b4bd901|32c7ce61-fa23-4e84-9a5d-9d7fc470ebfd|3faf704c-5c80-4761-9239-653510144d03|5247220a-dbcd-4094-9dbf-21439397c440|5b482730-3074-48a4-be73-6fc22ab4bf04|91be1830-6f78-42a6-bfcc-4cade5da37ff|ba0b7004-63aa-4ef7-93b0-7b567b8b4f4c",
+          "initialGeometry": "102e3281-2d87-4303-8be1-a37764ed780b|29b35b26-1a58-4d35-9fbd-c1e547b9d1be|380684a8-777f-4fb5-9a35-4f2ba86af531|384cb26e-2321-4802-a7a4-c17605e41bd3|9090ccc8-c5b0-4a57-827a-cdd5ebcca3e2|bf94decd-fc27-4884-b560-a15670f07fc8",
+          "exactGeometry": "07d4f218-183b-4d20-874a-9903545c7a56|2cb22536-143b-49f9-b1ed-52c1c3b4de40|48f20dbe-0c61-4bc5-b885-ad6aee11fe2f|5dd49913-acca-4a68-8bb7-e74508928003|ada2f44f-85a9-4ec3-b6f3-48951101f313|dc639e08-5ba4-44cf-9bd9-0e396a1b0837",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "5e390074-34d1-49b5-b51a-59f34bc50dd7",
+              "sourceIsInitial": true,
+              "heldGeometry": "102e3281-2d87-4303-8be1-a37764ed780b|29b35b26-1a58-4d35-9fbd-c1e547b9d1be|380684a8-777f-4fb5-9a35-4f2ba86af531|384cb26e-2321-4802-a7a4-c17605e41bd3|9090ccc8-c5b0-4a57-827a-cdd5ebcca3e2|bf94decd-fc27-4884-b560-a15670f07fc8",
+              "backGeometry": "102e3281-2d87-4303-8be1-a37764ed780b|29b35b26-1a58-4d35-9fbd-c1e547b9d1be|380684a8-777f-4fb5-9a35-4f2ba86af531|384cb26e-2321-4802-a7a4-c17605e41bd3|9090ccc8-c5b0-4a57-827a-cdd5ebcca3e2|bf94decd-fc27-4884-b560-a15670f07fc8",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "5e390074-34d1-49b5-b51a-59f34bc50dd7",
+              "sourceIsInitial": true,
+              "heldGeometry": "102e3281-2d87-4303-8be1-a37764ed780b|29b35b26-1a58-4d35-9fbd-c1e547b9d1be|380684a8-777f-4fb5-9a35-4f2ba86af531|384cb26e-2321-4802-a7a4-c17605e41bd3|9090ccc8-c5b0-4a57-827a-cdd5ebcca3e2|bf94decd-fc27-4884-b560-a15670f07fc8",
+              "backGeometry": "102e3281-2d87-4303-8be1-a37764ed780b|29b35b26-1a58-4d35-9fbd-c1e547b9d1be|380684a8-777f-4fb5-9a35-4f2ba86af531|384cb26e-2321-4802-a7a4-c17605e41bd3|9090ccc8-c5b0-4a57-827a-cdd5ebcca3e2|bf94decd-fc27-4884-b560-a15670f07fc8",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "5e390074-34d1-49b5-b51a-59f34bc50dd7",
+              "sourceIsInitial": true,
+              "heldGeometry": "102e3281-2d87-4303-8be1-a37764ed780b|29b35b26-1a58-4d35-9fbd-c1e547b9d1be|380684a8-777f-4fb5-9a35-4f2ba86af531|384cb26e-2321-4802-a7a4-c17605e41bd3|9090ccc8-c5b0-4a57-827a-cdd5ebcca3e2|bf94decd-fc27-4884-b560-a15670f07fc8",
+              "backGeometry": "102e3281-2d87-4303-8be1-a37764ed780b|29b35b26-1a58-4d35-9fbd-c1e547b9d1be|380684a8-777f-4fb5-9a35-4f2ba86af531|384cb26e-2321-4802-a7a4-c17605e41bd3|9090ccc8-c5b0-4a57-827a-cdd5ebcca3e2|bf94decd-fc27-4884-b560-a15670f07fc8",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "5e390074-34d1-49b5-b51a-59f34bc50dd7",
+              "sourceIsInitial": true,
+              "heldGeometry": "102e3281-2d87-4303-8be1-a37764ed780b|29b35b26-1a58-4d35-9fbd-c1e547b9d1be|380684a8-777f-4fb5-9a35-4f2ba86af531|384cb26e-2321-4802-a7a4-c17605e41bd3|9090ccc8-c5b0-4a57-827a-cdd5ebcca3e2|bf94decd-fc27-4884-b560-a15670f07fc8",
+              "backGeometry": "102e3281-2d87-4303-8be1-a37764ed780b|29b35b26-1a58-4d35-9fbd-c1e547b9d1be|380684a8-777f-4fb5-9a35-4f2ba86af531|384cb26e-2321-4802-a7a4-c17605e41bd3|9090ccc8-c5b0-4a57-827a-cdd5ebcca3e2|bf94decd-fc27-4884-b560-a15670f07fc8",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "7f79c456-d0d4-4aaf-b92e-cb9834afcad1",
+              "sourceIsInitial": false,
+              "heldGeometry": "07d4f218-183b-4d20-874a-9903545c7a56|2cb22536-143b-49f9-b1ed-52c1c3b4de40|48f20dbe-0c61-4bc5-b885-ad6aee11fe2f|5dd49913-acca-4a68-8bb7-e74508928003|ada2f44f-85a9-4ec3-b6f3-48951101f313|dc639e08-5ba4-44cf-9bd9-0e396a1b0837",
+              "backGeometry": "07d4f218-183b-4d20-874a-9903545c7a56|2cb22536-143b-49f9-b1ed-52c1c3b4de40|48f20dbe-0c61-4bc5-b885-ad6aee11fe2f|5dd49913-acca-4a68-8bb7-e74508928003|ada2f44f-85a9-4ec3-b6f3-48951101f313|dc639e08-5ba4-44cf-9bd9-0e396a1b0837",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "laser",
+          "pose": "rifle",
+          "initialSource": "678d5a9b-6703-4d31-85af-16c2033eaa5c",
+          "exactSource": "acaaba1e-e99b-4861-b487-436808610b42",
+          "legacyGeometry": "20d224cd-7eb9-44f2-afb9-5d346b4bd901|32c7ce61-fa23-4e84-9a5d-9d7fc470ebfd|3faf704c-5c80-4761-9239-653510144d03|5247220a-dbcd-4094-9dbf-21439397c440|5b482730-3074-48a4-be73-6fc22ab4bf04|91be1830-6f78-42a6-bfcc-4cade5da37ff|ba0b7004-63aa-4ef7-93b0-7b567b8b4f4c",
+          "initialGeometry": "1250a21e-56d0-4fbf-808a-9597ac9ee67c|39cfa55d-39e3-433f-b70b-81c5ce7e705c|5f227d6c-f396-4c0b-bf37-2a6fb76fe9ea|6a3392a4-a3ae-487d-940e-fd238cea0054|804cccc1-b2a8-473c-b2d5-4abb8065b420|dc93aaa2-1568-4adc-abc9-ee2c6e72875c",
+          "exactGeometry": "6cf20a75-01a9-4f84-8365-86c55c0ce8c0|79fb14fb-9707-40af-8296-b1f492befd09|a59ce58d-6aed-4f90-920c-df4df8eb78eb|abfef378-064b-4332-b650-4cd42e58df05|c91b9cb7-065b-41ee-992c-5f4eab4a4bdc|f52400e4-1f8f-4525-a0a5-edca79ca5815",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "678d5a9b-6703-4d31-85af-16c2033eaa5c",
+              "sourceIsInitial": true,
+              "heldGeometry": "1250a21e-56d0-4fbf-808a-9597ac9ee67c|39cfa55d-39e3-433f-b70b-81c5ce7e705c|5f227d6c-f396-4c0b-bf37-2a6fb76fe9ea|6a3392a4-a3ae-487d-940e-fd238cea0054|804cccc1-b2a8-473c-b2d5-4abb8065b420|dc93aaa2-1568-4adc-abc9-ee2c6e72875c",
+              "backGeometry": "1250a21e-56d0-4fbf-808a-9597ac9ee67c|39cfa55d-39e3-433f-b70b-81c5ce7e705c|5f227d6c-f396-4c0b-bf37-2a6fb76fe9ea|6a3392a4-a3ae-487d-940e-fd238cea0054|804cccc1-b2a8-473c-b2d5-4abb8065b420|dc93aaa2-1568-4adc-abc9-ee2c6e72875c",
+              "meshNames": [
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ],
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "678d5a9b-6703-4d31-85af-16c2033eaa5c",
+              "sourceIsInitial": true,
+              "heldGeometry": "1250a21e-56d0-4fbf-808a-9597ac9ee67c|39cfa55d-39e3-433f-b70b-81c5ce7e705c|5f227d6c-f396-4c0b-bf37-2a6fb76fe9ea|6a3392a4-a3ae-487d-940e-fd238cea0054|804cccc1-b2a8-473c-b2d5-4abb8065b420|dc93aaa2-1568-4adc-abc9-ee2c6e72875c",
+              "backGeometry": "1250a21e-56d0-4fbf-808a-9597ac9ee67c|39cfa55d-39e3-433f-b70b-81c5ce7e705c|5f227d6c-f396-4c0b-bf37-2a6fb76fe9ea|6a3392a4-a3ae-487d-940e-fd238cea0054|804cccc1-b2a8-473c-b2d5-4abb8065b420|dc93aaa2-1568-4adc-abc9-ee2c6e72875c",
+              "meshNames": [
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ],
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "678d5a9b-6703-4d31-85af-16c2033eaa5c",
+              "sourceIsInitial": true,
+              "heldGeometry": "1250a21e-56d0-4fbf-808a-9597ac9ee67c|39cfa55d-39e3-433f-b70b-81c5ce7e705c|5f227d6c-f396-4c0b-bf37-2a6fb76fe9ea|6a3392a4-a3ae-487d-940e-fd238cea0054|804cccc1-b2a8-473c-b2d5-4abb8065b420|dc93aaa2-1568-4adc-abc9-ee2c6e72875c",
+              "backGeometry": "1250a21e-56d0-4fbf-808a-9597ac9ee67c|39cfa55d-39e3-433f-b70b-81c5ce7e705c|5f227d6c-f396-4c0b-bf37-2a6fb76fe9ea|6a3392a4-a3ae-487d-940e-fd238cea0054|804cccc1-b2a8-473c-b2d5-4abb8065b420|dc93aaa2-1568-4adc-abc9-ee2c6e72875c",
+              "meshNames": [
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ],
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "678d5a9b-6703-4d31-85af-16c2033eaa5c",
+              "sourceIsInitial": true,
+              "heldGeometry": "1250a21e-56d0-4fbf-808a-9597ac9ee67c|39cfa55d-39e3-433f-b70b-81c5ce7e705c|5f227d6c-f396-4c0b-bf37-2a6fb76fe9ea|6a3392a4-a3ae-487d-940e-fd238cea0054|804cccc1-b2a8-473c-b2d5-4abb8065b420|dc93aaa2-1568-4adc-abc9-ee2c6e72875c",
+              "backGeometry": "1250a21e-56d0-4fbf-808a-9597ac9ee67c|39cfa55d-39e3-433f-b70b-81c5ce7e705c|5f227d6c-f396-4c0b-bf37-2a6fb76fe9ea|6a3392a4-a3ae-487d-940e-fd238cea0054|804cccc1-b2a8-473c-b2d5-4abb8065b420|dc93aaa2-1568-4adc-abc9-ee2c6e72875c",
+              "meshNames": [
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ],
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "acaaba1e-e99b-4861-b487-436808610b42",
+              "sourceIsInitial": false,
+              "heldGeometry": "6cf20a75-01a9-4f84-8365-86c55c0ce8c0|79fb14fb-9707-40af-8296-b1f492befd09|a59ce58d-6aed-4f90-920c-df4df8eb78eb|abfef378-064b-4332-b650-4cd42e58df05|c91b9cb7-065b-41ee-992c-5f4eab4a4bdc|f52400e4-1f8f-4525-a0a5-edca79ca5815",
+              "backGeometry": "6cf20a75-01a9-4f84-8365-86c55c0ce8c0|79fb14fb-9707-40af-8296-b1f492befd09|a59ce58d-6aed-4f90-920c-df4df8eb78eb|abfef378-064b-4332-b650-4cd42e58df05|c91b9cb7-065b-41ee-992c-5f4eab4a4bdc|f52400e4-1f8f-4525-a0a5-edca79ca5815",
+              "meshNames": [
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ],
+                [
+                  "Core_housing",
+                  "Core_housing_1",
+                  "Core_housing_2",
+                  "Core_housing_3",
+                  "Core_housing_4",
+                  "Core_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "grenade",
+          "pose": "rocket",
+          "initialSource": "a7e1d7b2-64f9-44a3-8dfc-ada4eb721494",
+          "exactSource": "64f55d76-079a-4192-b044-a88ed2f82800",
+          "legacyGeometry": "1dc9dc1e-f158-41d0-b5a3-6342a6b186f9|22338e89-916f-4f9e-ad5c-6d84bf5aed2c|3591291b-d064-4c65-a655-637589b90c89|5017b937-a3c7-4cab-b7e8-c0839ede96fe|90f03631-c87f-4b03-807a-ff89c65443aa|b37d5ecb-596a-4c23-a0ce-3a4658dcb47c|ba21c92f-5a17-4581-8d32-4f6df0b7e49f|fdf4bc60-9045-4b12-9503-3832fae96ab8",
+          "initialGeometry": "020fc4af-9b78-42f3-b99a-c69deb8eaefc|18454c51-cf3c-4cfd-a504-742794ef38d2|1b6acc63-6fbb-4904-8ffb-219bc194e4ce|9c87f82b-33a4-4fbe-9156-32c0e63ee567|bd3232e2-5ee7-486b-bdbb-87ea5ddd69ae|d6019e06-d2d6-48ed-929b-2600574f94a8",
+          "exactGeometry": "01915115-5f0b-4adb-944d-664500d29019|1ba99520-3b8a-45cf-b2a7-b840bd43a44f|3d43fd94-b416-4095-9f8c-c0a041787a70|3f00941d-65e1-4a72-96ab-3c3aca3c4e7a|5e1143b8-5a21-4017-8533-6bd105ccbbad|ccc18e18-a976-417d-a554-7a7b10aabda8",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "a7e1d7b2-64f9-44a3-8dfc-ada4eb721494",
+              "sourceIsInitial": true,
+              "heldGeometry": "020fc4af-9b78-42f3-b99a-c69deb8eaefc|18454c51-cf3c-4cfd-a504-742794ef38d2|1b6acc63-6fbb-4904-8ffb-219bc194e4ce|9c87f82b-33a4-4fbe-9156-32c0e63ee567|bd3232e2-5ee7-486b-bdbb-87ea5ddd69ae|d6019e06-d2d6-48ed-929b-2600574f94a8",
+              "backGeometry": "020fc4af-9b78-42f3-b99a-c69deb8eaefc|18454c51-cf3c-4cfd-a504-742794ef38d2|1b6acc63-6fbb-4904-8ffb-219bc194e4ce|9c87f82b-33a4-4fbe-9156-32c0e63ee567|bd3232e2-5ee7-486b-bdbb-87ea5ddd69ae|d6019e06-d2d6-48ed-929b-2600574f94a8",
+              "meshNames": [
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ],
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "a7e1d7b2-64f9-44a3-8dfc-ada4eb721494",
+              "sourceIsInitial": true,
+              "heldGeometry": "020fc4af-9b78-42f3-b99a-c69deb8eaefc|18454c51-cf3c-4cfd-a504-742794ef38d2|1b6acc63-6fbb-4904-8ffb-219bc194e4ce|9c87f82b-33a4-4fbe-9156-32c0e63ee567|bd3232e2-5ee7-486b-bdbb-87ea5ddd69ae|d6019e06-d2d6-48ed-929b-2600574f94a8",
+              "backGeometry": "020fc4af-9b78-42f3-b99a-c69deb8eaefc|18454c51-cf3c-4cfd-a504-742794ef38d2|1b6acc63-6fbb-4904-8ffb-219bc194e4ce|9c87f82b-33a4-4fbe-9156-32c0e63ee567|bd3232e2-5ee7-486b-bdbb-87ea5ddd69ae|d6019e06-d2d6-48ed-929b-2600574f94a8",
+              "meshNames": [
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ],
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "a7e1d7b2-64f9-44a3-8dfc-ada4eb721494",
+              "sourceIsInitial": true,
+              "heldGeometry": "020fc4af-9b78-42f3-b99a-c69deb8eaefc|18454c51-cf3c-4cfd-a504-742794ef38d2|1b6acc63-6fbb-4904-8ffb-219bc194e4ce|9c87f82b-33a4-4fbe-9156-32c0e63ee567|bd3232e2-5ee7-486b-bdbb-87ea5ddd69ae|d6019e06-d2d6-48ed-929b-2600574f94a8",
+              "backGeometry": "020fc4af-9b78-42f3-b99a-c69deb8eaefc|18454c51-cf3c-4cfd-a504-742794ef38d2|1b6acc63-6fbb-4904-8ffb-219bc194e4ce|9c87f82b-33a4-4fbe-9156-32c0e63ee567|bd3232e2-5ee7-486b-bdbb-87ea5ddd69ae|d6019e06-d2d6-48ed-929b-2600574f94a8",
+              "meshNames": [
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ],
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "a7e1d7b2-64f9-44a3-8dfc-ada4eb721494",
+              "sourceIsInitial": true,
+              "heldGeometry": "020fc4af-9b78-42f3-b99a-c69deb8eaefc|18454c51-cf3c-4cfd-a504-742794ef38d2|1b6acc63-6fbb-4904-8ffb-219bc194e4ce|9c87f82b-33a4-4fbe-9156-32c0e63ee567|bd3232e2-5ee7-486b-bdbb-87ea5ddd69ae|d6019e06-d2d6-48ed-929b-2600574f94a8",
+              "backGeometry": "020fc4af-9b78-42f3-b99a-c69deb8eaefc|18454c51-cf3c-4cfd-a504-742794ef38d2|1b6acc63-6fbb-4904-8ffb-219bc194e4ce|9c87f82b-33a4-4fbe-9156-32c0e63ee567|bd3232e2-5ee7-486b-bdbb-87ea5ddd69ae|d6019e06-d2d6-48ed-929b-2600574f94a8",
+              "meshNames": [
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ],
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "64f55d76-079a-4192-b044-a88ed2f82800",
+              "sourceIsInitial": false,
+              "heldGeometry": "01915115-5f0b-4adb-944d-664500d29019|1ba99520-3b8a-45cf-b2a7-b840bd43a44f|3d43fd94-b416-4095-9f8c-c0a041787a70|3f00941d-65e1-4a72-96ab-3c3aca3c4e7a|5e1143b8-5a21-4017-8533-6bd105ccbbad|ccc18e18-a976-417d-a554-7a7b10aabda8",
+              "backGeometry": "01915115-5f0b-4adb-944d-664500d29019|1ba99520-3b8a-45cf-b2a7-b840bd43a44f|3d43fd94-b416-4095-9f8c-c0a041787a70|3f00941d-65e1-4a72-96ab-3c3aca3c4e7a|5e1143b8-5a21-4017-8533-6bd105ccbbad|ccc18e18-a976-417d-a554-7a7b10aabda8",
+              "meshNames": [
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ],
+                [
+                  "Shoulder_receiver_shell",
+                  "Shoulder_receiver_shell_1",
+                  "Shoulder_receiver_shell_2",
+                  "Shoulder_receiver_shell_3",
+                  "Shoulder_receiver_shell_4",
+                  "Shoulder_receiver_shell_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "sticky",
+          "pose": "rocket",
+          "initialSource": "4343536f-ca72-4e07-bd0e-4ff676039892",
+          "exactSource": "282d3a08-60e7-41fe-8484-406ad0004c9c",
+          "legacyGeometry": "1dc9dc1e-f158-41d0-b5a3-6342a6b186f9|22338e89-916f-4f9e-ad5c-6d84bf5aed2c|3591291b-d064-4c65-a655-637589b90c89|5017b937-a3c7-4cab-b7e8-c0839ede96fe|90f03631-c87f-4b03-807a-ff89c65443aa|b37d5ecb-596a-4c23-a0ce-3a4658dcb47c|ba21c92f-5a17-4581-8d32-4f6df0b7e49f|fdf4bc60-9045-4b12-9503-3832fae96ab8",
+          "initialGeometry": "07791bd0-97e0-4887-ab46-e642ee7334e8|1774f90a-da5e-4c44-ae44-bb304e667721|28967faa-361d-4e8d-9add-8e777e5b8a4e|978383cc-7e7b-473d-a12e-153dd4385bbe|9a8a5d1b-7f9a-48a0-9667-baf7f5ef5416|c76c4aa1-cfc6-4499-a476-295a041d5548",
+          "exactGeometry": "02d7a46a-f0e0-4264-8814-191b08fc223d|0c20e5b6-a879-45df-9228-fe233b8be927|40ab3f44-b163-4a2e-9fec-6a0a773f2603|6e258078-a09b-4c64-86d0-89a380a52896|961a853c-2f3f-48fb-b2d6-2f797f3718d6|dda25ca9-e9ee-40fa-bac4-7ab691ea6faf",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "4343536f-ca72-4e07-bd0e-4ff676039892",
+              "sourceIsInitial": true,
+              "heldGeometry": "07791bd0-97e0-4887-ab46-e642ee7334e8|1774f90a-da5e-4c44-ae44-bb304e667721|28967faa-361d-4e8d-9add-8e777e5b8a4e|978383cc-7e7b-473d-a12e-153dd4385bbe|9a8a5d1b-7f9a-48a0-9667-baf7f5ef5416|c76c4aa1-cfc6-4499-a476-295a041d5548",
+              "backGeometry": "07791bd0-97e0-4887-ab46-e642ee7334e8|1774f90a-da5e-4c44-ae44-bb304e667721|28967faa-361d-4e8d-9add-8e777e5b8a4e|978383cc-7e7b-473d-a12e-153dd4385bbe|9a8a5d1b-7f9a-48a0-9667-baf7f5ef5416|c76c4aa1-cfc6-4499-a476-295a041d5548",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "4343536f-ca72-4e07-bd0e-4ff676039892",
+              "sourceIsInitial": true,
+              "heldGeometry": "07791bd0-97e0-4887-ab46-e642ee7334e8|1774f90a-da5e-4c44-ae44-bb304e667721|28967faa-361d-4e8d-9add-8e777e5b8a4e|978383cc-7e7b-473d-a12e-153dd4385bbe|9a8a5d1b-7f9a-48a0-9667-baf7f5ef5416|c76c4aa1-cfc6-4499-a476-295a041d5548",
+              "backGeometry": "07791bd0-97e0-4887-ab46-e642ee7334e8|1774f90a-da5e-4c44-ae44-bb304e667721|28967faa-361d-4e8d-9add-8e777e5b8a4e|978383cc-7e7b-473d-a12e-153dd4385bbe|9a8a5d1b-7f9a-48a0-9667-baf7f5ef5416|c76c4aa1-cfc6-4499-a476-295a041d5548",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "4343536f-ca72-4e07-bd0e-4ff676039892",
+              "sourceIsInitial": true,
+              "heldGeometry": "07791bd0-97e0-4887-ab46-e642ee7334e8|1774f90a-da5e-4c44-ae44-bb304e667721|28967faa-361d-4e8d-9add-8e777e5b8a4e|978383cc-7e7b-473d-a12e-153dd4385bbe|9a8a5d1b-7f9a-48a0-9667-baf7f5ef5416|c76c4aa1-cfc6-4499-a476-295a041d5548",
+              "backGeometry": "07791bd0-97e0-4887-ab46-e642ee7334e8|1774f90a-da5e-4c44-ae44-bb304e667721|28967faa-361d-4e8d-9add-8e777e5b8a4e|978383cc-7e7b-473d-a12e-153dd4385bbe|9a8a5d1b-7f9a-48a0-9667-baf7f5ef5416|c76c4aa1-cfc6-4499-a476-295a041d5548",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "4343536f-ca72-4e07-bd0e-4ff676039892",
+              "sourceIsInitial": true,
+              "heldGeometry": "07791bd0-97e0-4887-ab46-e642ee7334e8|1774f90a-da5e-4c44-ae44-bb304e667721|28967faa-361d-4e8d-9add-8e777e5b8a4e|978383cc-7e7b-473d-a12e-153dd4385bbe|9a8a5d1b-7f9a-48a0-9667-baf7f5ef5416|c76c4aa1-cfc6-4499-a476-295a041d5548",
+              "backGeometry": "07791bd0-97e0-4887-ab46-e642ee7334e8|1774f90a-da5e-4c44-ae44-bb304e667721|28967faa-361d-4e8d-9add-8e777e5b8a4e|978383cc-7e7b-473d-a12e-153dd4385bbe|9a8a5d1b-7f9a-48a0-9667-baf7f5ef5416|c76c4aa1-cfc6-4499-a476-295a041d5548",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "282d3a08-60e7-41fe-8484-406ad0004c9c",
+              "sourceIsInitial": false,
+              "heldGeometry": "02d7a46a-f0e0-4264-8814-191b08fc223d|0c20e5b6-a879-45df-9228-fe233b8be927|40ab3f44-b163-4a2e-9fec-6a0a773f2603|6e258078-a09b-4c64-86d0-89a380a52896|961a853c-2f3f-48fb-b2d6-2f797f3718d6|dda25ca9-e9ee-40fa-bac4-7ab691ea6faf",
+              "backGeometry": "02d7a46a-f0e0-4264-8814-191b08fc223d|0c20e5b6-a879-45df-9228-fe233b8be927|40ab3f44-b163-4a2e-9fec-6a0a773f2603|6e258078-a09b-4c64-86d0-89a380a52896|961a853c-2f3f-48fb-b2d6-2f797f3718d6|dda25ca9-e9ee-40fa-bac4-7ab691ea6faf",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "kick",
+          "pose": "shotgun",
+          "initialSource": "50a77ccc-b92c-491b-aa66-4d76710225fe",
+          "exactSource": "95100543-2390-4543-ac78-1a3b3f411dea",
+          "legacyGeometry": "5309d768-9f96-4900-8c51-40eda6eff3bc|898b6a53-638f-4b1a-b231-ed7d6d4443ae|89eff119-d88d-4b65-9277-6786c144a645|91624b00-243c-4bb5-bc59-83ede4809b06|cca728d2-2970-413c-8c24-fdfcd97447a5|e3b1aff2-62ac-4fa2-a080-3ac2b48f0b71",
+          "initialGeometry": "3b451dc0-4f71-4379-846a-101b7f93f3a9|4e65c87a-b65f-4fd6-932f-e213397669aa|6de186de-1714-4303-9af1-4e6ee9a29b7e|85964b2e-3165-4df1-95ad-5b08a7a82f8d|86f1805d-853b-4b65-a407-1cf56a162962|8c148ceb-e41a-4e92-b552-1280bddb807b",
+          "exactGeometry": "0d5c0fd8-8089-4aca-8dca-67f57eec90e9|a65c7cd9-5ab4-45e0-a04e-ce7a31b971c4|ad384fbe-201b-4ea4-994c-be3c93f6ec07|d5d7ea8d-acfa-4060-b239-0ba74b36a31e|dd2d969c-baa2-4bd2-83a2-fd24a197e9c6|e42829f9-f721-44ce-a04b-dd5ef97ff294",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "50a77ccc-b92c-491b-aa66-4d76710225fe",
+              "sourceIsInitial": true,
+              "heldGeometry": "3b451dc0-4f71-4379-846a-101b7f93f3a9|4e65c87a-b65f-4fd6-932f-e213397669aa|6de186de-1714-4303-9af1-4e6ee9a29b7e|85964b2e-3165-4df1-95ad-5b08a7a82f8d|86f1805d-853b-4b65-a407-1cf56a162962|8c148ceb-e41a-4e92-b552-1280bddb807b",
+              "backGeometry": "3b451dc0-4f71-4379-846a-101b7f93f3a9|4e65c87a-b65f-4fd6-932f-e213397669aa|6de186de-1714-4303-9af1-4e6ee9a29b7e|85964b2e-3165-4df1-95ad-5b08a7a82f8d|86f1805d-853b-4b65-a407-1cf56a162962|8c148ceb-e41a-4e92-b552-1280bddb807b",
+              "meshNames": [
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ],
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "50a77ccc-b92c-491b-aa66-4d76710225fe",
+              "sourceIsInitial": true,
+              "heldGeometry": "3b451dc0-4f71-4379-846a-101b7f93f3a9|4e65c87a-b65f-4fd6-932f-e213397669aa|6de186de-1714-4303-9af1-4e6ee9a29b7e|85964b2e-3165-4df1-95ad-5b08a7a82f8d|86f1805d-853b-4b65-a407-1cf56a162962|8c148ceb-e41a-4e92-b552-1280bddb807b",
+              "backGeometry": "3b451dc0-4f71-4379-846a-101b7f93f3a9|4e65c87a-b65f-4fd6-932f-e213397669aa|6de186de-1714-4303-9af1-4e6ee9a29b7e|85964b2e-3165-4df1-95ad-5b08a7a82f8d|86f1805d-853b-4b65-a407-1cf56a162962|8c148ceb-e41a-4e92-b552-1280bddb807b",
+              "meshNames": [
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ],
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "50a77ccc-b92c-491b-aa66-4d76710225fe",
+              "sourceIsInitial": true,
+              "heldGeometry": "3b451dc0-4f71-4379-846a-101b7f93f3a9|4e65c87a-b65f-4fd6-932f-e213397669aa|6de186de-1714-4303-9af1-4e6ee9a29b7e|85964b2e-3165-4df1-95ad-5b08a7a82f8d|86f1805d-853b-4b65-a407-1cf56a162962|8c148ceb-e41a-4e92-b552-1280bddb807b",
+              "backGeometry": "3b451dc0-4f71-4379-846a-101b7f93f3a9|4e65c87a-b65f-4fd6-932f-e213397669aa|6de186de-1714-4303-9af1-4e6ee9a29b7e|85964b2e-3165-4df1-95ad-5b08a7a82f8d|86f1805d-853b-4b65-a407-1cf56a162962|8c148ceb-e41a-4e92-b552-1280bddb807b",
+              "meshNames": [
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ],
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "50a77ccc-b92c-491b-aa66-4d76710225fe",
+              "sourceIsInitial": true,
+              "heldGeometry": "3b451dc0-4f71-4379-846a-101b7f93f3a9|4e65c87a-b65f-4fd6-932f-e213397669aa|6de186de-1714-4303-9af1-4e6ee9a29b7e|85964b2e-3165-4df1-95ad-5b08a7a82f8d|86f1805d-853b-4b65-a407-1cf56a162962|8c148ceb-e41a-4e92-b552-1280bddb807b",
+              "backGeometry": "3b451dc0-4f71-4379-846a-101b7f93f3a9|4e65c87a-b65f-4fd6-932f-e213397669aa|6de186de-1714-4303-9af1-4e6ee9a29b7e|85964b2e-3165-4df1-95ad-5b08a7a82f8d|86f1805d-853b-4b65-a407-1cf56a162962|8c148ceb-e41a-4e92-b552-1280bddb807b",
+              "meshNames": [
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ],
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "95100543-2390-4543-ac78-1a3b3f411dea",
+              "sourceIsInitial": false,
+              "heldGeometry": "0d5c0fd8-8089-4aca-8dca-67f57eec90e9|a65c7cd9-5ab4-45e0-a04e-ce7a31b971c4|ad384fbe-201b-4ea4-994c-be3c93f6ec07|d5d7ea8d-acfa-4060-b239-0ba74b36a31e|dd2d969c-baa2-4bd2-83a2-fd24a197e9c6|e42829f9-f721-44ce-a04b-dd5ef97ff294",
+              "backGeometry": "0d5c0fd8-8089-4aca-8dca-67f57eec90e9|a65c7cd9-5ab4-45e0-a04e-ce7a31b971c4|ad384fbe-201b-4ea4-994c-be3c93f6ec07|d5d7ea8d-acfa-4060-b239-0ba74b36a31e|dd2d969c-baa2-4bd2-83a2-fd24a197e9c6|e42829f9-f721-44ce-a04b-dd5ef97ff294",
+              "meshNames": [
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ],
+                [
+                  "Main_engine_housing",
+                  "Main_engine_housing_1",
+                  "Main_engine_housing_2",
+                  "Main_engine_housing_3",
+                  "Main_engine_housing_4",
+                  "Main_engine_housing_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        },
+        {
+          "kind": "medic",
+          "pose": "rifle",
+          "initialSource": "6fdf3d79-7337-4c65-811c-ee2384218974",
+          "exactSource": "d5232e46-4acb-4257-891a-052c766dbaff",
+          "legacyGeometry": "20d224cd-7eb9-44f2-afb9-5d346b4bd901|32c7ce61-fa23-4e84-9a5d-9d7fc470ebfd|3faf704c-5c80-4761-9239-653510144d03|5247220a-dbcd-4094-9dbf-21439397c440|5b482730-3074-48a4-be73-6fc22ab4bf04|91be1830-6f78-42a6-bfcc-4cade5da37ff|ba0b7004-63aa-4ef7-93b0-7b567b8b4f4c",
+          "initialGeometry": "3af2dfe1-dda2-47cb-a2b9-3d074888e8aa|401cb09e-3ae9-4199-ad3f-bddedbe474f2|5168db30-4da0-4dfa-85b4-f6ecd87c892b|be6c7552-54ab-4dd3-be4b-6d1c6841329e|d62fd0a0-5315-4e05-b2e3-db8eab5991de|e7b44294-76a8-460d-83eb-61fde8044aba",
+          "exactGeometry": "2c749efc-5d65-4bed-944e-53f7f02d3559|69a8cbb0-ec2f-4f96-b883-e570692a01d2|81b8184a-1fba-4db2-8a39-e8a6e638c624|8f5ab59d-c98d-40ce-ac33-5548d098c77e|bc02d9ac-09e9-4c7b-a485-e5783a2a6876|c261a394-7550-4ee4-ba8e-712f7ac57c92",
+          "samples": [
+            {
+              "stage": "initial tier 0",
+              "visualTier": 0,
+              "hasFormat": true,
+              "hasAppearanceTier": false,
+              "sourceId": "6fdf3d79-7337-4c65-811c-ee2384218974",
+              "sourceIsInitial": true,
+              "heldGeometry": "3af2dfe1-dda2-47cb-a2b9-3d074888e8aa|401cb09e-3ae9-4199-ad3f-bddedbe474f2|5168db30-4da0-4dfa-85b4-f6ecd87c892b|be6c7552-54ab-4dd3-be4b-6d1c6841329e|d62fd0a0-5315-4e05-b2e3-db8eab5991de|e7b44294-76a8-460d-83eb-61fde8044aba",
+              "backGeometry": "3af2dfe1-dda2-47cb-a2b9-3d074888e8aa|401cb09e-3ae9-4199-ad3f-bddedbe474f2|5168db30-4da0-4dfa-85b4-f6ecd87c892b|be6c7552-54ab-4dd3-be4b-6d1c6841329e|d62fd0a0-5315-4e05-b2e3-db8eab5991de|e7b44294-76a8-460d-83eb-61fde8044aba",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 1",
+              "visualTier": 1,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "6fdf3d79-7337-4c65-811c-ee2384218974",
+              "sourceIsInitial": true,
+              "heldGeometry": "3af2dfe1-dda2-47cb-a2b9-3d074888e8aa|401cb09e-3ae9-4199-ad3f-bddedbe474f2|5168db30-4da0-4dfa-85b4-f6ecd87c892b|be6c7552-54ab-4dd3-be4b-6d1c6841329e|d62fd0a0-5315-4e05-b2e3-db8eab5991de|e7b44294-76a8-460d-83eb-61fde8044aba",
+              "backGeometry": "3af2dfe1-dda2-47cb-a2b9-3d074888e8aa|401cb09e-3ae9-4199-ad3f-bddedbe474f2|5168db30-4da0-4dfa-85b4-f6ecd87c892b|be6c7552-54ab-4dd3-be4b-6d1c6841329e|d62fd0a0-5315-4e05-b2e3-db8eab5991de|e7b44294-76a8-460d-83eb-61fde8044aba",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 3",
+              "visualTier": 3,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "6fdf3d79-7337-4c65-811c-ee2384218974",
+              "sourceIsInitial": true,
+              "heldGeometry": "3af2dfe1-dda2-47cb-a2b9-3d074888e8aa|401cb09e-3ae9-4199-ad3f-bddedbe474f2|5168db30-4da0-4dfa-85b4-f6ecd87c892b|be6c7552-54ab-4dd3-be4b-6d1c6841329e|d62fd0a0-5315-4e05-b2e3-db8eab5991de|e7b44294-76a8-460d-83eb-61fde8044aba",
+              "backGeometry": "3af2dfe1-dda2-47cb-a2b9-3d074888e8aa|401cb09e-3ae9-4199-ad3f-bddedbe474f2|5168db30-4da0-4dfa-85b4-f6ecd87c892b|be6c7552-54ab-4dd3-be4b-6d1c6841329e|d62fd0a0-5315-4e05-b2e3-db8eab5991de|e7b44294-76a8-460d-83eb-61fde8044aba",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "missing projected tier 4",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "6fdf3d79-7337-4c65-811c-ee2384218974",
+              "sourceIsInitial": true,
+              "heldGeometry": "3af2dfe1-dda2-47cb-a2b9-3d074888e8aa|401cb09e-3ae9-4199-ad3f-bddedbe474f2|5168db30-4da0-4dfa-85b4-f6ecd87c892b|be6c7552-54ab-4dd3-be4b-6d1c6841329e|d62fd0a0-5315-4e05-b2e3-db8eab5991de|e7b44294-76a8-460d-83eb-61fde8044aba",
+              "backGeometry": "3af2dfe1-dda2-47cb-a2b9-3d074888e8aa|401cb09e-3ae9-4199-ad3f-bddedbe474f2|5168db30-4da0-4dfa-85b4-f6ecd87c892b|be6c7552-54ab-4dd3-be4b-6d1c6841329e|d62fd0a0-5315-4e05-b2e3-db8eab5991de|e7b44294-76a8-460d-83eb-61fde8044aba",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            },
+            {
+              "stage": "exact tier 4 loaded",
+              "visualTier": 4,
+              "hasFormat": false,
+              "hasAppearanceTier": false,
+              "sourceId": "d5232e46-4acb-4257-891a-052c766dbaff",
+              "sourceIsInitial": false,
+              "heldGeometry": "2c749efc-5d65-4bed-944e-53f7f02d3559|69a8cbb0-ec2f-4f96-b883-e570692a01d2|81b8184a-1fba-4db2-8a39-e8a6e638c624|8f5ab59d-c98d-40ce-ac33-5548d098c77e|bc02d9ac-09e9-4c7b-a485-e5783a2a6876|c261a394-7550-4ee4-ba8e-712f7ac57c92",
+              "backGeometry": "2c749efc-5d65-4bed-944e-53f7f02d3559|69a8cbb0-ec2f-4f96-b883-e570692a01d2|81b8184a-1fba-4db2-8a39-e8a6e638c624|8f5ab59d-c98d-40ce-ac33-5548d098c77e|bc02d9ac-09e9-4c7b-a485-e5783a2a6876|c261a394-7550-4ee4-ba8e-712f7ac57c92",
+              "meshNames": [
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ],
+                [
+                  "Cone",
+                  "Cone_1",
+                  "Cone_2",
+                  "Cone_3",
+                  "Cone_4",
+                  "Cone_5"
+                ]
+              ],
+              "parents": [
+                "RightHandWeaponSocket",
+                "BackWeaponSocket_2"
+              ]
+            }
+          ],
+          "exactRefresh": true
+        }
+      ],
+      "glError": 0,
+      "errors": [],
+      "failed": []
+    }
+  },
+  "assets": [
+    {
+      "path": "public/assets/characters/swarm-soldier.glb",
+      "bytes": 15341532,
+      "sha256": "d1028fd14cb42cfab2a0c484c57fa99032dc73609f8c3a08684abdec76f35269"
+    },
+    {
+      "path": "public/assets/weapons/realism-v2/rifle_0.glb",
+      "bytes": 792224,
+      "sha256": "5a5539736338946c43f070e20203c08ce3ffa27cf23f999c701e922c9321a537"
+    },
+    {
+      "path": "public/assets/weapons/realism-v2/rocket_0.glb",
+      "bytes": 483424,
+      "sha256": "af11c626d8e82dbc277d0a04e54df0ce4c2645cc9be728a1f9450669dd004a40"
+    },
+    {
+      "path": "public/assets/weapons/realism-v2/shotgun_0.glb",
+      "bytes": 444960,
+      "sha256": "37ffc6c7a90abe35e1d4c4a1b7b1581bfa4274d14788c7ed21c66428d6e63061"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/grenade_0.glb",
+      "bytes": 499400,
+      "sha256": "7ae145e7a59f73e1df44439b9e9e155560543dd71b21b51933adc77c07926640"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/grenade_4.glb",
+      "bytes": 499396,
+      "sha256": "03fcebc59adc755279fd83450d42c608c8fc80333e1662d4b666432b4c3080d2"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/heavy_0.glb",
+      "bytes": 436872,
+      "sha256": "3186fbedaf04fcb8b42632ad73ebd6936f29847a2e49af14eb76573c8418e3d9"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/heavy_4.glb",
+      "bytes": 436872,
+      "sha256": "ccf95779cdeec5b9910751e665463077fd6b927f8771861475cacaa0733a6418"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/kick_0.glb",
+      "bytes": 488228,
+      "sha256": "d7526b3c7d0837068c8a2ba4340060ce7ea9c4f3c493c03da026c9f9d33bb0bc"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/kick_4.glb",
+      "bytes": 488228,
+      "sha256": "94efed23a47f93a5152311d7d7a227411288a894082226c0af4e33f03f821194"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/laser_0.glb",
+      "bytes": 498120,
+      "sha256": "3858ca9c66889f1c2b905596cdf86b2e0428a7d0e0c842c0f8cee16950524d10"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/laser_4.glb",
+      "bytes": 498116,
+      "sha256": "bd5ac57481b7feac6700170ee405f47b7b4e42e1d1709e5a76a7ef0e6b9006ed"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/medic_0.glb",
+      "bytes": 472200,
+      "sha256": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/medic_4.glb",
+      "bytes": 472196,
+      "sha256": "95d3633193fae94a4bd2c0b8a84fbad666061b3cef7a95ad3f7bbd0f303b58ec"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/slug_0.glb",
+      "bytes": 494744,
+      "sha256": "b8cdd32be340601e7d853acf9ecf11b0ac73f0af47ffcc3256229724a873f9ee"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/slug_4.glb",
+      "bytes": 494740,
+      "sha256": "9f103fd3a20f1b966a160ea5c9e42dd75b8d3ffe2eff7ce46842a23f7413d3d5"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/smg_0.glb",
+      "bytes": 448980,
+      "sha256": "6b3095b092f87b1bbdb41f2dc5f5810c8d3988132edc4994c99522396cbe6f18"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/smg_4.glb",
+      "bytes": 448976,
+      "sha256": "ee6205fb455ad975450ad8048f768ff6da159e0516ad7f7941e813d5a5e4544e"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/sniper_0.glb",
+      "bytes": 497568,
+      "sha256": "2f8205316ea439cfafa9d21fbcd04d9e5a10d5244324f6db18a7a46acd491c6b"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/sniper_4.glb",
+      "bytes": 497564,
+      "sha256": "be7f36f6255e6c05248961985765dd174cec5031aeaca097c21d784417c0119b"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/sticky_0.glb",
+      "bytes": 446256,
+      "sha256": "d3b46ee1918d1ce297c0caef2c0efe1c64a2403e2ed4ae346110bc0c600776e9"
+    },
+    {
+      "path": "public/assets/weapons/unique-v1/sticky_4.glb",
+      "bytes": 446252,
+      "sha256": "eef75273c8ecaa57943b1181699b3d0b56d05776e83d0b9b77a5dc0773f09a9f"
+    }
+  ],
+  "limitations": [
+    "旧Workerの色制限は残る",
+    "手・体への接触や動作全般はこの検査の判定対象外",
+    "実旧Worker通信・公開環境・スマホ実機は未確認"
+  ]
+}

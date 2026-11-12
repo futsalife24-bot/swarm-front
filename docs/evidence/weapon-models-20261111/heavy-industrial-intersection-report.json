@@ -1,0 +1,139 @@
+{
+  "scope": "Actual local solo UI/game loop and real renderer, first frame only. Edge/face crossings between projectile and deformed visible skinned body / held-weapon mesh; excludes neon. Does not detect containment, coplanar contact, hidden-parent visibility, full flight, actual network or phone.",
+  "analyticControls": "known intersecting / separate triangle pairs and projectile translated 100m away; shifted-toward-chest test where detected",
+  "viewport": [
+    844,
+    390
+  ],
+  "records": [
+    {
+      "kind": "heavy",
+      "initial": {
+        "projectile": {
+          "id": 2,
+          "x": -1,
+          "z": 34,
+          "y": 1.5,
+          "dx": -0.24584677243728648,
+          "dz": -19.993730124275334,
+          "dy": -0.43625116862556407,
+          "life": 4,
+          "owner": "solo",
+          "damage": 430,
+          "rocket": true,
+          "chain": false,
+          "radius": 11,
+          "family": "rocket"
+        },
+        "worldTime": 0.2
+      },
+      "worldTime": 0.2,
+      "shot": {
+        "type": "shot",
+        "weapon": "rocket",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0245846772437286,
+        "tz": 32.00062698757247,
+        "ty": 1.4563748831374437,
+        "owner": "solo",
+        "id": 1
+      },
+      "projectile": {
+        "id": 2,
+        "x": -1.0122923386218643,
+        "z": 33.00031349378623,
+        "y": 1.4781874415687217,
+        "dx": -0.24584677243728648,
+        "dz": -19.993730124275334,
+        "dy": -0.43625116862556407,
+        "life": 3.95,
+        "owner": "solo",
+        "damage": 430,
+        "rocket": true,
+        "chain": false,
+        "radius": 11,
+        "family": "rocket"
+      },
+      "instanceIndex": 0,
+      "instanceCount": 1,
+      "meshWorld": [
+        -1.0122923851013184,
+        1.4781874418258667,
+        33.00031280517578
+      ],
+      "muzzle": [
+        -0.8584701416914716,
+        1.4619311750428854,
+        33.47214402310606
+      ],
+      "barrel": [
+        -0.017399918196426743,
+        -0.02089463790268673,
+        -0.9996302601230483
+      ],
+      "muzzleScreen": [
+        394.33596297418455,
+        259.98785929596943,
+        0.9641084831164536
+      ],
+      "projectileScreen": [
+        389.21953579938634,
+        253.11105776546674,
+        0.9669476173604755
+      ],
+      "alongMetres": 0.47321885714949263,
+      "sideMetres": 0.15037784446590463,
+      "meshVertexAlongMin": -0.07970348137130347,
+      "meshVertexAlongMax": 1.0261425735909002,
+      "heldSocket": "RightHandWeaponSocket",
+      "assetNodePresent": true,
+      "crossings": {
+        "body": {
+          "targetTriangles": 99302,
+          "projectileTriangles": 20,
+          "testedPairs": 325,
+          "crossingPairs": 0,
+          "groups": {},
+          "examples": [],
+          "exampleScreen": []
+        },
+        "weapon": {
+          "targetTriangles": 8020,
+          "projectileTriangles": 20,
+          "testedPairs": 2685,
+          "crossingPairs": 0,
+          "groups": {},
+          "examples": [],
+          "exampleScreen": []
+        },
+        "farControl": {
+          "targetTriangles": 99302,
+          "projectileTriangles": 20,
+          "testedPairs": 0,
+          "crossingPairs": 0,
+          "groups": {},
+          "examples": []
+        },
+        "shiftedControl": {
+          "fraction": 0.2,
+          "shiftMetres": 0.21521839974025367,
+          "crossingPairs": 74
+        }
+      },
+      "screen": "battle",
+      "meshStateDifference": 6.901773364728608e-7,
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "THREE.WebGLProgram: Program Info Log: (271,1): warning X4000: use of potentially uninitialized variable (f_motionLocal)",
+        "THREE.WebGLProgram: Program Info Log: (180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized v"
+      ]
+    }
+  ]
+}

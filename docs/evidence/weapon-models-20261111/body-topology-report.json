@@ -1,0 +1,381 @@
+{
+  "scope": "Rest-pose mesh topology. Weld uses 1 micrometre rounded positions and, for weldSkin, matching joints and 1e-6 rounded weights. Torso box is broad and not a semantic skin/back segmentation. No deformation, self-intersection, closed-volume or actual game conclusion.",
+  "analyticControls": {
+    "closedTetrahedronBoundaryEdges": 0,
+    "openedTetrahedronBoundaryEdges": 3
+  },
+  "rows": [
+    {
+      "mesh": "body_00001.001",
+      "raw": {
+        "vertices": 32821,
+        "triangles": 50525,
+        "degenerateTriangles": 0,
+        "edges": 82729,
+        "boundaryEdges": 13883,
+        "boundaryEdgesTorsoBox": 5336,
+        "nonmanifoldEdges": 0,
+        "components": 642,
+        "closedManifoldComponents": 0,
+        "largestComponents": [
+          {
+            "vertices": 578,
+            "edges": 1630,
+            "boundaryEdges": 101,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 578,
+            "edges": 1630,
+            "boundaryEdges": 101,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 559,
+            "edges": 1562,
+            "boundaryEdges": 112,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 555,
+            "edges": 1553,
+            "boundaryEdges": 109,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 378,
+            "edges": 1028,
+            "boundaryEdges": 103,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 363,
+            "edges": 996,
+            "boundaryEdges": 90,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 362,
+            "edges": 994,
+            "boundaryEdges": 89,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 348,
+            "edges": 980,
+            "boundaryEdges": 61,
+            "nonmanifoldEdges": 0
+          }
+        ]
+      },
+      "weldSkin": {
+        "vertices": 27659,
+        "triangles": 50525,
+        "degenerateTriangles": 0,
+        "edges": 78225,
+        "boundaryEdges": 5267,
+        "boundaryEdgesTorsoBox": 2131,
+        "nonmanifoldEdges": 352,
+        "components": 173,
+        "closedManifoldComponents": 23,
+        "largestComponents": [
+          {
+            "vertices": 2373,
+            "edges": 6790,
+            "boundaryEdges": 401,
+            "nonmanifoldEdges": 9
+          },
+          {
+            "vertices": 2027,
+            "edges": 5908,
+            "boundaryEdges": 508,
+            "nonmanifoldEdges": 121
+          },
+          {
+            "vertices": 2007,
+            "edges": 5852,
+            "boundaryEdges": 505,
+            "nonmanifoldEdges": 112
+          },
+          {
+            "vertices": 1678,
+            "edges": 5007,
+            "boundaryEdges": 24,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 1675,
+            "edges": 4998,
+            "boundaryEdges": 24,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 1330,
+            "edges": 3864,
+            "boundaryEdges": 160,
+            "nonmanifoldEdges": 4
+          },
+          {
+            "vertices": 647,
+            "edges": 1935,
+            "boundaryEdges": 16,
+            "nonmanifoldEdges": 1
+          },
+          {
+            "vertices": 621,
+            "edges": 1813,
+            "boundaryEdges": 47,
+            "nonmanifoldEdges": 0
+          }
+        ]
+      },
+      "weldPositionOnly": {
+        "vertices": 27653,
+        "triangles": 50525,
+        "degenerateTriangles": 0,
+        "edges": 78223,
+        "boundaryEdges": 5263,
+        "boundaryEdgesTorsoBox": 2127,
+        "nonmanifoldEdges": 352,
+        "components": 171,
+        "closedManifoldComponents": 23,
+        "largestComponents": [
+          {
+            "vertices": 2373,
+            "edges": 6790,
+            "boundaryEdges": 401,
+            "nonmanifoldEdges": 9
+          },
+          {
+            "vertices": 2027,
+            "edges": 5908,
+            "boundaryEdges": 508,
+            "nonmanifoldEdges": 121
+          },
+          {
+            "vertices": 2007,
+            "edges": 5852,
+            "boundaryEdges": 505,
+            "nonmanifoldEdges": 112
+          },
+          {
+            "vertices": 1678,
+            "edges": 5007,
+            "boundaryEdges": 24,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 1675,
+            "edges": 4998,
+            "boundaryEdges": 24,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 1330,
+            "edges": 3864,
+            "boundaryEdges": 160,
+            "nonmanifoldEdges": 4
+          },
+          {
+            "vertices": 647,
+            "edges": 1935,
+            "boundaryEdges": 16,
+            "nonmanifoldEdges": 1
+          },
+          {
+            "vertices": 621,
+            "edges": 1813,
+            "boundaryEdges": 47,
+            "nonmanifoldEdges": 0
+          }
+        ]
+      }
+    },
+    {
+      "mesh": "head_00001.001",
+      "raw": {
+        "vertices": 36203,
+        "triangles": 48777,
+        "degenerateTriangles": 0,
+        "edges": 84121,
+        "boundaryEdges": 21911,
+        "boundaryEdgesTorsoBox": 3942,
+        "nonmanifoldEdges": 0,
+        "components": 984,
+        "closedManifoldComponents": 0,
+        "largestComponents": [
+          {
+            "vertices": 323,
+            "edges": 930,
+            "boundaryEdges": 36,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 323,
+            "edges": 930,
+            "boundaryEdges": 36,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 261,
+            "edges": 672,
+            "boundaryEdges": 111,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 259,
+            "edges": 668,
+            "boundaryEdges": 109,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 244,
+            "edges": 660,
+            "boundaryEdges": 72,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 255,
+            "edges": 656,
+            "boundaryEdges": 115,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 243,
+            "edges": 634,
+            "boundaryEdges": 107,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 220,
+            "edges": 587,
+            "boundaryEdges": 73,
+            "nonmanifoldEdges": 0
+          }
+        ]
+      },
+      "weldSkin": {
+        "vertices": 26752,
+        "triangles": 48777,
+        "degenerateTriangles": 0,
+        "edges": 75524,
+        "boundaryEdges": 4840,
+        "boundaryEdgesTorsoBox": 1171,
+        "nonmanifoldEdges": 117,
+        "components": 147,
+        "closedManifoldComponents": 8,
+        "largestComponents": [
+          {
+            "vertices": 3373,
+            "edges": 9756,
+            "boundaryEdges": 464,
+            "nonmanifoldEdges": 13
+          },
+          {
+            "vertices": 2087,
+            "edges": 6079,
+            "boundaryEdges": 216,
+            "nonmanifoldEdges": 7
+          },
+          {
+            "vertices": 2037,
+            "edges": 5707,
+            "boundaryEdges": 511,
+            "nonmanifoldEdges": 49
+          },
+          {
+            "vertices": 1542,
+            "edges": 4462,
+            "boundaryEdges": 237,
+            "nonmanifoldEdges": 18
+          },
+          {
+            "vertices": 1322,
+            "edges": 3855,
+            "boundaryEdges": 120,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 1182,
+            "edges": 3479,
+            "boundaryEdges": 73,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 904,
+            "edges": 2622,
+            "boundaryEdges": 87,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 877,
+            "edges": 2565,
+            "boundaryEdges": 72,
+            "nonmanifoldEdges": 0
+          }
+        ]
+      },
+      "weldPositionOnly": {
+        "vertices": 26752,
+        "triangles": 48777,
+        "degenerateTriangles": 0,
+        "edges": 75524,
+        "boundaryEdges": 4840,
+        "boundaryEdgesTorsoBox": 1171,
+        "nonmanifoldEdges": 117,
+        "components": 147,
+        "closedManifoldComponents": 8,
+        "largestComponents": [
+          {
+            "vertices": 3373,
+            "edges": 9756,
+            "boundaryEdges": 464,
+            "nonmanifoldEdges": 13
+          },
+          {
+            "vertices": 2087,
+            "edges": 6079,
+            "boundaryEdges": 216,
+            "nonmanifoldEdges": 7
+          },
+          {
+            "vertices": 2037,
+            "edges": 5707,
+            "boundaryEdges": 511,
+            "nonmanifoldEdges": 49
+          },
+          {
+            "vertices": 1542,
+            "edges": 4462,
+            "boundaryEdges": 237,
+            "nonmanifoldEdges": 18
+          },
+          {
+            "vertices": 1322,
+            "edges": 3855,
+            "boundaryEdges": 120,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 1182,
+            "edges": 3479,
+            "boundaryEdges": 73,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 904,
+            "edges": 2622,
+            "boundaryEdges": 87,
+            "nonmanifoldEdges": 0
+          },
+          {
+            "vertices": 877,
+            "edges": 2565,
+            "boundaryEdges": 72,
+            "nonmanifoldEdges": 0
+          }
+        ]
+      }
+    }
+  ]
+}

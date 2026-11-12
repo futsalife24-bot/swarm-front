@@ -1,0 +1,825 @@
+{
+  "scope": "11 selected models; ST-3 excluded; existing unmodified ground threshold and samples; authored clips without gameplay blending or terrain",
+  "strictPassed": false,
+  "toleranceMetres": 0.002,
+  "reports": [
+    "shotgun.json",
+    "remaining.json"
+  ],
+  "results": [
+    {
+      "kind": "shotgun",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.20143981244910722,
+      "passed": true
+    },
+    {
+      "kind": "shotgun",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.05770743287989277,
+      "passed": true
+    },
+    {
+      "kind": "shotgun",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": 0.057707032888325516,
+      "passed": true
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.08051798032414038,
+      "passed": false
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.19467381329748595,
+      "passed": false
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.19467379550064975,
+      "passed": false
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.19467377509018374,
+      "passed": false
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.08009890675507408,
+      "passed": false
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.3181933919006133,
+      "passed": false
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.318193440903293,
+      "passed": false
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.3181933231546449,
+      "passed": false
+    },
+    {
+      "kind": "rifle",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.20900272363641897,
+      "passed": true
+    },
+    {
+      "kind": "rifle",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.06434681434481399,
+      "passed": true
+    },
+    {
+      "kind": "rifle",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.07691792164676421,
+      "passed": false
+    },
+    {
+      "kind": "rifle",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.1807717007026876,
+      "passed": false
+    },
+    {
+      "kind": "rifle",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.1807716829058514,
+      "passed": false
+    },
+    {
+      "kind": "rifle",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.18077166659176724,
+      "passed": false
+    },
+    {
+      "kind": "rifle",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.08376943438747703,
+      "passed": false
+    },
+    {
+      "kind": "rifle",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.3231691690718927,
+      "passed": false
+    },
+    {
+      "kind": "rifle",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.3231692179746214,
+      "passed": false
+    },
+    {
+      "kind": "rifle",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.32316909907373537,
+      "passed": false
+    },
+    {
+      "kind": "smg",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.246916977451903,
+      "passed": true
+    },
+    {
+      "kind": "smg",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.225837552727702,
+      "passed": true
+    },
+    {
+      "kind": "smg",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.03304217977104518,
+      "passed": false
+    },
+    {
+      "kind": "smg",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.09142487688997919,
+      "passed": false
+    },
+    {
+      "kind": "smg",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.09142485919804563,
+      "passed": false
+    },
+    {
+      "kind": "smg",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.0914248451634843,
+      "passed": false
+    },
+    {
+      "kind": "smg",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.04435279650561276,
+      "passed": false
+    },
+    {
+      "kind": "smg",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.1518657150693149,
+      "passed": false
+    },
+    {
+      "kind": "smg",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.15186573890066718,
+      "passed": false
+    },
+    {
+      "kind": "smg",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.15186566949969688,
+      "passed": false
+    },
+    {
+      "kind": "slug",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.20657564798313344,
+      "passed": true
+    },
+    {
+      "kind": "slug",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.06253893653695758,
+      "passed": true
+    },
+    {
+      "kind": "slug",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": 0.06253851978306435,
+      "passed": true
+    },
+    {
+      "kind": "slug",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.0730463564518718,
+      "passed": false
+    },
+    {
+      "kind": "slug",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.18246666528046268,
+      "passed": false
+    },
+    {
+      "kind": "slug",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.18246664748362648,
+      "passed": false
+    },
+    {
+      "kind": "slug",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.18246662779997275,
+      "passed": false
+    },
+    {
+      "kind": "slug",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.07187653030941674,
+      "passed": false
+    },
+    {
+      "kind": "slug",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.33255128214581137,
+      "passed": false
+    },
+    {
+      "kind": "slug",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.3325513277695416,
+      "passed": false
+    },
+    {
+      "kind": "slug",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.3325512064383573,
+      "passed": false
+    },
+    {
+      "kind": "rocket",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.17182626689942837,
+      "passed": true
+    },
+    {
+      "kind": "rocket",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.08403649088470816,
+      "passed": true
+    },
+    {
+      "kind": "rocket",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": 0.08403661638574256,
+      "passed": true
+    },
+    {
+      "kind": "rocket",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.1447394134456299,
+      "passed": false
+    },
+    {
+      "kind": "rocket",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.24681674766111372,
+      "passed": false
+    },
+    {
+      "kind": "rocket",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.24681672986427752,
+      "passed": false
+    },
+    {
+      "kind": "rocket",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.2468167118035446,
+      "passed": false
+    },
+    {
+      "kind": "rocket",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.15220300123931388,
+      "passed": false
+    },
+    {
+      "kind": "rocket",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.3404459949660095,
+      "passed": false
+    },
+    {
+      "kind": "rocket",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.34044602572083554,
+      "passed": false
+    },
+    {
+      "kind": "rocket",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.3404459099555188,
+      "passed": false
+    },
+    {
+      "kind": "heavy",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.19369257569380716,
+      "passed": true
+    },
+    {
+      "kind": "heavy",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.08584367498024009,
+      "passed": true
+    },
+    {
+      "kind": "heavy",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": 0.08584379646610085,
+      "passed": true
+    },
+    {
+      "kind": "heavy",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.12357389327045332,
+      "passed": false
+    },
+    {
+      "kind": "heavy",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.2369851751142666,
+      "passed": false
+    },
+    {
+      "kind": "heavy",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.2369851573174304,
+      "passed": false
+    },
+    {
+      "kind": "heavy",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.2369851382762056,
+      "passed": false
+    },
+    {
+      "kind": "heavy",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.12972989738533805,
+      "passed": false
+    },
+    {
+      "kind": "heavy",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.3362302380143528,
+      "passed": false
+    },
+    {
+      "kind": "heavy",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.33623027449684756,
+      "passed": false
+    },
+    {
+      "kind": "heavy",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.3362301580511438,
+      "passed": false
+    },
+    {
+      "kind": "sniper",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.21152669065753377,
+      "passed": true
+    },
+    {
+      "kind": "sniper",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.04156052735125687,
+      "passed": true
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.0809870217102994,
+      "passed": false
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.20612266726080505,
+      "passed": false
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.20612264970807537,
+      "passed": false
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.20612262935639114,
+      "passed": false
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.08363587648439531,
+      "passed": false
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.34942593341089456,
+      "passed": false
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.34942598834979166,
+      "passed": false
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.34942586056848374,
+      "passed": false
+    },
+    {
+      "kind": "laser",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.2215379676032358,
+      "passed": true
+    },
+    {
+      "kind": "laser",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.06179702730361403,
+      "passed": true
+    },
+    {
+      "kind": "laser",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.07779141753734028,
+      "passed": false
+    },
+    {
+      "kind": "laser",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.18687697897991015,
+      "passed": false
+    },
+    {
+      "kind": "laser",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.18687696142718047,
+      "passed": false
+    },
+    {
+      "kind": "laser",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.18687694536555388,
+      "passed": false
+    },
+    {
+      "kind": "laser",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.08613356653383876,
+      "passed": false
+    },
+    {
+      "kind": "laser",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.3187991249756953,
+      "passed": false
+    },
+    {
+      "kind": "laser",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.31879917452379775,
+      "passed": false
+    },
+    {
+      "kind": "laser",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.3187990562682854,
+      "passed": false
+    },
+    {
+      "kind": "grenade",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.2103512893601933,
+      "passed": true
+    },
+    {
+      "kind": "grenade",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.1673363696997599,
+      "passed": true
+    },
+    {
+      "kind": "grenade",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": 0.16733650570522118,
+      "passed": true
+    },
+    {
+      "kind": "grenade",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.07021852064737644,
+      "passed": false
+    },
+    {
+      "kind": "grenade",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.1734213973386156,
+      "passed": false
+    },
+    {
+      "kind": "grenade",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.173421379339883,
+      "passed": false
+    },
+    {
+      "kind": "grenade",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.1734213609060923,
+      "passed": false
+    },
+    {
+      "kind": "grenade",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.07122540086175475,
+      "passed": false
+    },
+    {
+      "kind": "grenade",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.23275879611080547,
+      "passed": false
+    },
+    {
+      "kind": "grenade",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.2327588237932195,
+      "passed": false
+    },
+    {
+      "kind": "grenade",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.23275873600549107,
+      "passed": false
+    },
+    {
+      "kind": "kick",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.1965146692445293,
+      "passed": true
+    },
+    {
+      "kind": "kick",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.12557142034456092,
+      "passed": true
+    },
+    {
+      "kind": "kick",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": 0.12557109179049375,
+      "passed": true
+    },
+    {
+      "kind": "kick",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.11222534788318589,
+      "passed": false
+    },
+    {
+      "kind": "kick",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.21837780510195542,
+      "passed": false
+    },
+    {
+      "kind": "kick",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.21837778730511923,
+      "passed": false
+    },
+    {
+      "kind": "kick",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.21837776883179255,
+      "passed": false
+    },
+    {
+      "kind": "kick",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.11704210966992779,
+      "passed": false
+    },
+    {
+      "kind": "kick",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.27112212791910023,
+      "passed": false
+    },
+    {
+      "kind": "kick",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.27112215402331735,
+      "passed": false
+    },
+    {
+      "kind": "kick",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.27112205856403854,
+      "passed": false
+    },
+    {
+      "kind": "medic",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Down",
+      "minimum": 0.19176595354532677,
+      "passed": true
+    },
+    {
+      "kind": "medic",
+      "socket": "RightHandWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": 0.12610794020903415,
+      "passed": true
+    },
+    {
+      "kind": "medic",
+      "socket": "BackWeaponSocket",
+      "clip": "Down",
+      "minimum": -0.06782287640158936,
+      "passed": false
+    },
+    {
+      "kind": "medic",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.16763354857609475,
+      "passed": false
+    },
+    {
+      "kind": "medic",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.16763353077925855,
+      "passed": false
+    },
+    {
+      "kind": "medic",
+      "socket": "BackWeaponSocket",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.16763351458934245,
+      "passed": false
+    },
+    {
+      "kind": "medic",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Down",
+      "minimum": -0.073034630788389,
+      "passed": false
+    },
+    {
+      "kind": "medic",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll",
+      "minimum": -0.27572392863212264,
+      "passed": false
+    },
+    {
+      "kind": "medic",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Shotgun",
+      "minimum": -0.2757239490259953,
+      "passed": false
+    },
+    {
+      "kind": "medic",
+      "socket": "BackWeaponSocket_2",
+      "clip": "Trial_Dodge_Roll_Rocket",
+      "minimum": -0.2757238536680645,
+      "passed": false
+    }
+  ],
+  "runtimeAssetUrlMatches": true,
+  "rarityGeometryMatches": true
+}

@@ -1,0 +1,61 @@
+{
+  "materials": [
+    {
+      "name": "Recess black",
+      "map": true,
+      "normal": false,
+      "roughness": true,
+      "metalness": true,
+      "ao": true
+    },
+    {
+      "name": "Metal steel",
+      "map": true,
+      "normal": false,
+      "roughness": true,
+      "metalness": true,
+      "ao": true
+    },
+    {
+      "name": "Metal gunmetal",
+      "map": true,
+      "normal": false,
+      "roughness": true,
+      "metalness": true,
+      "ao": true
+    },
+    {
+      "name": "Paint rust orange",
+      "map": true,
+      "normal": false,
+      "roughness": true,
+      "metalness": true,
+      "ao": true
+    },
+    {
+      "name": "Glow heat",
+      "map": false,
+      "normal": false,
+      "roughness": false,
+      "metalness": false,
+      "ao": false
+    },
+    {
+      "name": "Rarity identification",
+      "map": false,
+      "normal": false,
+      "roughness": false,
+      "metalness": false,
+      "ao": false
+    }
+  ],
+  "intercepted": 1,
+  "previewSize": {
+    "width": 620,
+    "height": 170
+  },
+  "error": 0,
+  "scope": "Product preview function and isolated StandardTrooper; not actual game input, share, phone or performance test",
+  "errors": [],
+  "failed": []
+}

@@ -1,0 +1,266 @@
+{
+  "scope": "Actual local solo gameplay frozen at same frame, actual previewWeapon and weaponImage twice. Isolated Vite plugin and material hooks; no product changes. GPU timer only when extension available; no device performance, other weapons, long-term cache, actual share UI.",
+  "browser": "157.0.8103.39",
+  "affected": 3,
+  "beforeSig": [
+    {
+      "name": "Recess black",
+      "wear": false,
+      "emissive": 0,
+      "color": 1580834,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal steel",
+      "wear": false,
+      "emissive": 0,
+      "color": 4738898,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal gunmetal",
+      "wear": false,
+      "emissive": 0,
+      "color": 6381423,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Paint rust orange",
+      "wear": false,
+      "emissive": 0,
+      "color": 12876863,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Glow heat",
+      "wear": false,
+      "emissive": 16757584,
+      "color": 11168807,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Rarity identification",
+      "wear": false,
+      "emissive": 0,
+      "color": 8162190,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "emissive": null,
+      "color": 9282977,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "emissive": null,
+      "color": 9611942,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+  ],
+  "afterSig": [
+    {
+      "name": "Recess black",
+      "wear": false,
+      "emissive": 0,
+      "color": 1580834,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal steel",
+      "wear": true,
+      "emissive": 0,
+      "color": 4738898,
+      "map": false,
+      "emissiveMap": false,
+      "key": "weapon-wear-lab-v2-metal"
+    },
+    {
+      "name": "Metal gunmetal",
+      "wear": true,
+      "emissive": 0,
+      "color": 6381423,
+      "map": false,
+      "emissiveMap": false,
+      "key": "weapon-wear-lab-v2-metal"
+    },
+    {
+      "name": "Paint rust orange",
+      "wear": true,
+      "emissive": 0,
+      "color": 12876863,
+      "map": false,
+      "emissiveMap": false,
+      "key": "weapon-wear-lab-v2-paint"
+    },
+    {
+      "name": "Glow heat",
+      "wear": false,
+      "emissive": 16757584,
+      "color": 11168807,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Rarity identification",
+      "wear": false,
+      "emissive": 0,
+      "color": 8162190,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "emissive": null,
+      "color": 9282977,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "emissive": null,
+      "color": 9611942,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+  ],
+  "controls": [
+    {
+      "kind": "rifle",
+      "applied": 0,
+      "unchanged": true
+    },
+    {
+      "kind": "shotgun",
+      "applied": 0,
+      "unchanged": true
+    },
+    {
+      "kind": "rocket",
+      "applied": 0,
+      "unchanged": true
+    },
+    {
+      "kind": "laser",
+      "applied": 0,
+      "unchanged": true
+    }
+  ],
+  "programs": {
+    "before": 47,
+    "candidate": 49,
+    "repeat": 49,
+    "clone": 49,
+    "sharedMaterials": true,
+    "compiled": 9
+  },
+  "gpuBefore": {
+    "supported": true,
+    "ready": true,
+    "disjoint": false,
+    "times": [
+      5.081614,
+      5.30401,
+      5.885729,
+      5.307604,
+      5.168177,
+      5.651406,
+      4.311666,
+      4.33302,
+      5.999375,
+      3.742812,
+      3.712291,
+      3.729687
+    ],
+    "median": 5.168177,
+    "p95": 5.999375
+  },
+  "gpuAfter": {
+    "supported": true,
+    "ready": true,
+    "disjoint": false,
+    "times": [
+      7.518906,
+      7.531093,
+      7.33927,
+      7.621145,
+      4.118489,
+      4.061145,
+      3.955,
+      4.108802,
+      4.159739,
+      3.966927,
+      3.754895,
+      4.284843
+    ],
+    "median": 4.159739,
+    "p95": 7.621145
+  },
+  "cpuBefore": [
+    7,
+    4.800000011920929,
+    5.299999997019768,
+    5.5,
+    5.199999988079071,
+    5,
+    5.100000008940697,
+    4.600000008940697,
+    4.899999991059303,
+    7.100000008940697,
+    5.5,
+    4.5
+  ],
+  "cpuAfter": [
+    23.5,
+    14.200000002980232,
+    9.099999994039536,
+    7,
+    5.600000008940697,
+    5.200000002980232,
+    6.299999997019768,
+    5.700000002980232,
+    5.299999997019768,
+    5.200000002980232,
+    8.5,
+    6.5
+  ],
+  "gpuInfo": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "glError": 0,
+  "shaderErrors": [],
+  "viewport": [
+    844,
+    390
+  ],
+  "errors": [],
+  "consoleErrors": [
+    "Failed to load resource: net::ERR_FAILED",
+    "Failed to load resource: net::ERR_FAILED",
+    "Failed to load resource: net::ERR_FAILED"
+  ]
+}
