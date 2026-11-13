@@ -23,6 +23,7 @@ export default defineConfig({
       "tests/weapon-stat-marks.test.ts",
       "tests/room-invite.test.ts",
       "tests/coop-performance.test.ts",
+      "tests/coop-comfort-regression.test.ts",
       "tests/player-projectile-pressure.test.ts",
       "tests/room-clock.test.ts",
       "tests/adaptive-quality.test.ts",

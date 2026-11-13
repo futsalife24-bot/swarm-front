@@ -1042,6 +1042,7 @@ export class Room extends DurableObject<Env> {
       stateTupleVersion?: 1 | 2;
       pleatPose?: boolean;
       stateChunks?: boolean;
+      stateChunkBudget?: boolean;
       stateDelta?: StateDeltaSender;
       stateDelivery: StateDelivery;
       equipmentKey?: string;
@@ -1081,6 +1082,7 @@ export class Room extends DurableObject<Env> {
           stateTupleVersion?: 1 | 2;
           pleatPose?: boolean;
           stateChunks?: boolean;
+          stateChunkBudget?: boolean;
           stateDelta?: boolean;
           stateDeltaPlayers?: boolean;
           stateFlow?: boolean;
@@ -1100,6 +1102,8 @@ export class Room extends DurableObject<Env> {
           stateTupleVersion: a.stateTupleVersion === 2 ? 2 : 1,
           pleatPose: a.pleatPose === true,
           stateChunks: a.stateChunks === true,
+          stateChunkBudget:
+            a.stateChunks === true && a.stateChunkBudget === true,
           stateDelta:
             a.stateDelta === true
               ? new StateDeltaSender(a.stateDeltaPlayers === true ? 2 : 1)
@@ -1428,6 +1432,7 @@ export class Room extends DurableObject<Env> {
       s.stateTupleVersion = m.stateTuples === 2 ? 2 : 1;
       s.pleatPose = m.pleatPose === 1;
       s.stateChunks = m.stateChunks === 1;
+      s.stateChunkBudget = s.stateChunks && m.stateChunkBudget === 1;
       s.inputReceipt = m.inputReceipt === 1;
       s.networkTiming = m.networkTiming === 1;
       s.networkTrace =
@@ -2052,6 +2057,7 @@ export class Room extends DurableObject<Env> {
       stateTupleVersion: s.stateTupleVersion,
       pleatPose: s.pleatPose,
       stateChunks: s.stateChunks,
+      stateChunkBudget: s.stateChunkBudget,
       stateDelta: !!s.stateDelta,
       stateDeltaPlayers: s.stateDelta?.version === 2,
       inputReceipt: s.inputReceipt,
@@ -2197,12 +2203,28 @@ export class Room extends DurableObject<Env> {
               cached,
               s.seq,
               recipientMetadata,
-              s.stateOmissions === true,
+              s.stateChunks === true && s.stateOmissions === true,
               s.stateTuples === true,
               s.stateChunks === true,
               s.pleatPose === true,
               s.stateTupleVersion ?? 1,
+              61440,
             );
+            // Keep 4KiB below the transport ceiling. An old screen cannot
+            // reconstruct chunks: retain all combat state or ask it to update.
+            if (
+              !s.stateChunkBudget &&
+              new TextEncoder().encode(payload).length > 61440
+            ) {
+              this.send(ws, {
+                type: "notice",
+                reason:
+                  "戦況データの表示が更新されています。画面を再読み込みして復帰してください",
+              });
+              ws.close(4000, "画面を再読み込みして復帰してください");
+              this.disconnected(ws);
+              return [];
+            }
             if (s.stateDelta) {
               try {
                 payload = s.stateDelta.encode(payload, stateId);
@@ -2212,7 +2234,7 @@ export class Room extends DurableObject<Env> {
             }
             this.lastEncodeMs = performance.now() - encodingStarted;
             const chunks = s.stateChunks
-              ? encodeStateChunks(payload, stateId)
+              ? encodeStateChunks(payload, stateId, 61440)
               : [payload];
             trace?.record(
               RoomTraceEvent.encodeEnd,

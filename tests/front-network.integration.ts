@@ -62,7 +62,7 @@ class Client {
         ...(growth === 3 && opening === 2 ? { frontOpening: 2 } : {}),
         ...(stateOmissions ? { stateOmissions: 1 } : {}),
         ...(stateTuples ? { stateTuples: 2 } : {}),
-        ...(stateChunks ? { stateChunks: 1 } : {}),
+        ...(stateChunks ? { stateChunks: 1, stateChunkBudget: 1 } : {}),
         ...(stateFlow ? { stateFlow: 1 } : {}),
         ...(optimized
           ? { stateDelta: 1, inputReceipt: 1, networkTiming: 1 }
@@ -656,8 +656,51 @@ describe("改装版の実通信", () => {
       "turnBits",
     );
   });
-  it("4人の密集状態を省略可能なクライアントへ送り、切断せず権威状態を維持する", async () => {
+  it("分割非対応の旧画面は密集時に敵を省略せず更新案内で切断する", async () => {
     const { entry, members } = await team(4, "survival", 3, true);
+    const offsets = members.map((member) => member.messages.length);
+    const response = await fetch(
+      `${base}/fixtures/${entry.code}/front-wire-dense`,
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    const notices = await Promise.all(
+      members.map((member, index) =>
+        member.wait((m) => m.type === "notice", offsets[index]),
+      ),
+    );
+    for (let i = 0; i < members.length; i++) {
+      expect(notices[i].reason).toContain("再読み込み");
+      const member = members[i];
+      if (!member.closeCodes.includes(4000))
+        await new Promise<void>((resolve, reject) =>
+          member.ws.addEventListener(
+            "close",
+            (event) =>
+              event.code === 4000
+                ? resolve()
+                : reject(Error(`予期しない切断: ${event.code}`)),
+            { once: true },
+          ),
+        );
+      expect(member.closeCodes).toContain(4000);
+      expect(
+        member.messages
+          .slice(offsets[i])
+          .some((m) => m.type === "state" && m.omitted),
+      ).toBe(false);
+    }
+    const snapshotResponse = await fetch(
+      `${base}/fixtures/${entry.code}/snapshot`,
+      { method: "POST" },
+    );
+    const authority = await snapshotResponse.json();
+    expect(authority.world.enemies).toHaveLength(96);
+    expect(authority.world.front.orbs).toHaveLength(160);
+    expect(authority.world.projectiles).toHaveLength(180);
+  });
+  it("分割対応4人は同じ密集状態の全敵・全弾・全オーブを受信する", async () => {
+    const { entry, members } = await team(4, "survival", 3, true, true, true);
     const offsets = members.map((member) => member.messages.length);
     const response = await fetch(
       `${base}/fixtures/${entry.code}/front-wire-dense`,
@@ -666,22 +709,20 @@ describe("改装版の実通信", () => {
     expect(response.status).toBe(200);
     const packets = await Promise.all(
       members.map((member, index) =>
-        member.wait((m) => m.type === "state" && m.omitted, offsets[index]),
+        member.wait(
+          (m) => m.type === "state" && m.world.projectiles.length === 180,
+          offsets[index],
+        ),
       ),
     );
     for (let i = 0; i < members.length; i++) {
       expect(members[i].ws.readyState).toBe(WebSocket.OPEN);
-      expect(Buffer.byteLength(JSON.stringify(packets[i]))).toBeLessThanOrEqual(
-        65536,
-      );
+      expect(members[i].maxPacketBytes).toBeLessThanOrEqual(61440);
       expect(packets[i].world.projectiles).toHaveLength(180);
-      expect(packets[i].omitted.orbs.length).toBeGreaterThan(0);
-      expect(
-        packets[i].world.enemies.length + packets[i].omitted.enemies.length,
-      ).toBe(96);
-      expect(
-        packets[i].world.front.orbs.length + packets[i].omitted.orbs.length,
-      ).toBe(160);
+      expect(packets[i].world.enemies).toHaveLength(96);
+      expect(packets[i].world.front.orbs).toHaveLength(160);
+      expect(packets[i].omitted?.enemies ?? []).toEqual([]);
+      expect(packets[i].omitted?.orbs ?? []).toEqual([]);
     }
     const snapshotResponse = await fetch(
       `${base}/fixtures/${entry.code}/snapshot`,

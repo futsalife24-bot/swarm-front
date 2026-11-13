@@ -8,8 +8,12 @@ import path from "node:path";
 import assert from "node:assert/strict";
 
 // Isolated live combat: ordinary input only, no fixture API, no real save/profile.
-const origin = "http://127.0.0.1:5186",
-  endpoint = "http://127.0.0.1:8793";
+const origin = process.env.SWARM_LIVE_ORIGIN ?? "http://127.0.0.1:5186",
+  endpoint = process.env.SWARM_LIVE_ENDPOINT ?? "http://127.0.0.1:8793";
+const fixedFixture = process.env.SWARM_LIVE_FIXTURE ?? "";
+assert.ok(["", "mixed"].includes(fixedFixture));
+assert.equal(new URL(endpoint).hostname, "127.0.0.1");
+assert.equal(new URL(origin).hostname, "127.0.0.1");
 const seconds = Number(process.env.SWARM_LIVE_SECONDS ?? 60);
 assert.ok(
   Number.isFinite(seconds) && seconds >= 10 && seconds <= 120,
@@ -66,6 +70,9 @@ const files = [
   "server/worker.ts",
   "server/room-clock.ts",
   "server/state-delivery.ts",
+  "server/testing.ts",
+  "scripts/coop-comfort-fixture.ts",
+  "src/client/harrow-effects.ts",
   "src/shared/game.ts",
   "src/shared/state-wire.ts",
   "src/shared/state-tuples.ts",
@@ -117,6 +124,7 @@ const result = {
   renderClients,
   releaseAfterSeconds,
   inputWindowOverride,
+  fixedFixture,
   linkConfig: shapeLink
     ? {
         latencyMs: linkLatencyMs,
@@ -140,6 +148,7 @@ const result = {
   preparations: [],
   progress: [],
   wire: Array.from({ length: 4 }, () => ({
+    bytes: 0,
     states: 0,
     chunks: 0,
     maxBytes: 0,
@@ -173,7 +182,9 @@ import {createFrontRun,frontTemporaryWeapons} from './src/shared/front-run';
 import {neutral,validInput} from './src/shared/game';
 import {clampPitch} from './src/shared/aim';
 import {stats} from './src/shared/defs';
+import {DEFENSE_MAPS,MAPS} from './src/shared/stages';
 import {pilot} from './tests/bot';
+if(${JSON.stringify(fixedFixture)}==='mixed')Object.assign(DEFENSE_MAPS[3],MAPS[3]);
 window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
   if(!validInput({...neutral(),seq:1}))throw Error('neutral Input contract failed');
   if(!document.getElementById('damage'))throw Error('Product damage DOM required');
@@ -294,7 +305,7 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
   window.live={
     prepare:async()=>{
       if(!renderEnabled){net.setAssetReady(true);return{ms:0,preparationSkippedForNetworkIsolation:true};}
-      const run=createFrontRun({runId:'live-preview',seed:4520,mode:'survival',fusion:true,clearedStage:0,players:net.members.filter(m=>m.connected).map(m=>({id:m.id,equipment:net.equip}))},Date.now()/1000);
+      const run=createFrontRun({runId:'live-preview',seed:4520,mode:'survival',fusion:true,survivalBuildVersion:1,catalogVersion:3,clearedStage:0,players:net.members.filter(m=>m.connected).map(m=>({id:m.id,equipment:net.equip}))},Date.now()/1000);
       diagnosticPhase='prepare';
       if(diagnostics)diagnostic.snapshots.push(snapshot('before-prepare'));
       const worldBefore=JSON.stringify(run.world);
@@ -305,7 +316,7 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
       diagnosticPhase='prepared';
       net.setAssetReady(true);return{ms:performance.now()-start,actors:run.world.players.length,preparationRestored,programCount:view.renderer.info.programs.length,...(diagnostics?{batches:batchInfo()}: {})};
     },
-    ready:()=>!!net.id&&net.members.length===4&&net.members.every(m=>m.connected&&m.weapons?.length===2),
+    ready:()=>!!net.id&&net.members.length===4&&net.members.every(m=>m.connected&&m.weapons?.length===net.equip.length),
     allReady:()=>net.members.length===4&&net.members.every(m=>m.ready),
     start:()=>net.send({type:'start'}),phase:()=>net.frontView?.phase,
     begin:()=>{if(${inputWindowOverride}>0)Object.defineProperty(net.inputWindow,"limit",{get:()=>${inputWindowOverride}});measuring=true;began=performance.now();lastWorld=0;lastPhase='';nextReload=began+9000;lastEvent=world?.eventSerial??0;return{at:began,time:world?.time};},
@@ -317,6 +328,7 @@ window.boot=(endpoint,code,index,diagnostics,networkTiming,renderEnabled)=>{
 };`,
   },
   bundle: true,
+  loader: { ".png": "dataurl" },
   write: false,
   outfile: path.join(output, "live-browser.js"),
   format: "iife",
@@ -403,7 +415,7 @@ try {
   }
   await new Promise((resolve, reject) => {
     server.once("error", reject);
-    server.listen(5186, "127.0.0.1", resolve);
+    server.listen(Number(new URL(origin).port), "127.0.0.1", resolve);
   });
   serverStarted = true;
   const key = /^ROOM_CREATION_KEY="([a-f0-9]{64})"$/m.exec(
@@ -468,6 +480,7 @@ try {
         if (m.type === "welcome")
           result.wire[index].negotiatedStateFlow = m.stateFlow === true;
         if (!measuring) return;
+        result.wire[index].bytes += Buffer.byteLength(text);
         if (m.type === "state" || m.type === "stateChunk") {
           const w = result.wire[index];
           w.states += m.type === "state" ? 1 : 0;
@@ -521,6 +534,15 @@ try {
   await Promise.all(
     pages.map((page) => page.waitForFunction(() => live.phase() === "combat")),
   );
+  if (fixedFixture) {
+    const fixture = await fetch(
+      `${endpoint}/fixtures/${code}/front-comfort-close?kind=${fixedFixture}&projectiles=100`,
+      { method: "POST" },
+    );
+    assert.equal(fixture.status, 200);
+    result.fixture = await fixture.json();
+    await new Promise((resolve) => setTimeout(resolve, 300));
+  }
   result.beginnings = await Promise.all(
     pages.map((page) => page.evaluate(() => live.begin())),
   );
@@ -554,6 +576,18 @@ try {
     );
   }
   measuring = false;
+  if (fixedFixture) {
+    const snapshot = await (
+      await fetch(`${endpoint}/fixtures/${code}/snapshot`)
+    ).json();
+    result.workerTicks = summary(snapshot.comfortTicks ?? []);
+    result.finalEnemyKinds = Object.fromEntries(
+      [...new Set(snapshot.world.enemies.map((e) => e.kind))].map((kind) => [
+        kind,
+        snapshot.world.enemies.filter((e) => e.kind === kind).length,
+      ]),
+    );
+  }
   const raw = await Promise.all(
     pages.map((page) => page.evaluate(() => live.end())),
   );

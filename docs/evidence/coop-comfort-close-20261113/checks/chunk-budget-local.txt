@@ -1,0 +1,11 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-coop-comfort-close-20261113
+
+
+ Test Files  4 passed (4)
+      Tests  87 passed (87)
+   Start at  12:05:05
+   Duration  5.10s (import 66%, transform 24%, tests 10%)
+
+    Isolate  4 workers spawned · ~106ms startup each (spawn + environment, per file)
+             at least ~317ms faster with isolate: false — reuses workers across files instead of one per file

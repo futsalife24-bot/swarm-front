@@ -15,6 +15,7 @@ import { wormNodes } from "../src/shared/worm";
 import { planOmega } from "../src/shared/catena-omega";
 import { enemySize } from "../src/shared/enemy-size";
 import { populateDenseWireWorld } from "../scripts/state-wire-fixture";
+import { comfortFixture } from "../scripts/coop-comfort-fixture";
 import production, { Room, Gate } from "./worker";
 import { frontDedicatedSurvivalThreshold } from "../src/shared/front-run";
 import {
@@ -50,12 +51,16 @@ export class TestGate extends Gate {
 }
 export class TestRoom extends Room {
   private fixedWire = false;
+  private comfortTicks: number[] | undefined;
   override async tick() {
     if (this.fixedWire) {
       if (++this.ticks % 2 === 0) this.broadcast();
       return;
     }
+    const began = performance.now();
     await super.tick();
+    if (this.comfortTicks && this.comfortTicks.length < 4096)
+      this.comfortTicks.push(performance.now() - began);
   }
   override async fetch(req: Request) {
     const u = new URL(req.url);
@@ -69,11 +74,29 @@ export class TestRoom extends Room {
         ),
         paused: this.saved.paused ?? false,
         running: !!this.timer,
+        comfortTicks: this.comfortTicks,
       });
     }
     if (u.pathname === "/fixture") {
       this.stop();
       this.fixedWire = false;
+      if (u.searchParams.get("case") === "front-comfort-close") {
+        const run = this.saved.frontRun;
+        if (!run || run.world.players.length !== 4)
+          return new Response("4人の生存戦が必要です", { status: 409 });
+        const kind =
+          u.searchParams.get("kind") === "mixed" ? "mixed" : "boundary";
+        const count = Math.min(
+          1000,
+          Math.max(0, Number(u.searchParams.get("projectiles") ?? 100)),
+        );
+        const info = comfortFixture(run, kind, count);
+        this.comfortTicks = [];
+        this.fixedWire = kind === "boundary";
+        this.broadcast();
+        this.run();
+        return Response.json(info);
+      }
       if (u.searchParams.get("case") === "front-elements") {
         const run = this.saved.frontRun;
         const player = run?.world.players.find((p) => p.hp > 0);
@@ -718,7 +741,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|catena-omega|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-support-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(front-comfort-close|harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|catena-omega|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-support-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
         u.pathname,
       );
     if (
@@ -732,6 +755,8 @@ export default {
             ? "https://internal/snapshot"
             : `https://internal/fixture?${new URLSearchParams({
                 case: match[2],
+                kind: u.searchParams.get("kind") ?? "boundary",
+                projectiles: u.searchParams.get("projectiles") ?? "100",
                 ...(match[2] === "foundry"
                   ? {
                       form: u.searchParams.get("form") ?? "",

@@ -230,6 +230,7 @@ export class FrontNetwork {
         stateTuples: 2,
         pleatPose: 1,
         stateChunks: 1,
+        stateChunkBudget: 1,
         stateFlow: 1,
         stateDelta: 1,
         stateDeltaPlayers: 1,
