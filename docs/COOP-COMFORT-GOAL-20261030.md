@@ -4,7 +4,7 @@
 
 最新main `3fd6e65` から残件1〜5を検証。[今回の判定表・数値・制約](evidence/coop-comfort-close-20261113/README.md)と[本人用5分チェック](evidence/coop-comfort-close-20261113/device-check.md)を正とする。64KiB送信予算・旧画面の更新案内と、HARROW突進予告の描画容量例外へ対処。高負荷の入力空白・単発の描画待ちは残り、PCだけで快適化達成とは書かない。Wi-Fi固定36での周期停止解消は11/02の本人確認を維持し再調査しない。今回の全体検証・main/公開の段階はSTATE先頭に記録する。
 
-正式goalの完了条件1〜6は維持。通常Chat独立監査は今回明示依頼されていないため、最新AGENTS/WORKFLOWの通常運用を適用し、過去の「独立レビュー確認中」を新しい承認待ちへ戻さない。本人の実機結果と終了判断は未受領。過去チャットのgoalツール状態と、この依頼での作業進行を区別し、goalをcompleteへ変更していない。
+正式goalの完了条件1〜6は維持。通常Chat独立監査は今回明示依頼されていないため、最新AGENTS/WORKFLOWの通常運用を適用し、過去の「独立レビュー確認中」を新しい承認待ちへ戻さない。本人の実機診断と「若干重い・連射が不規則」の報告を受領、[匿名集計と限界](evidence/coop-comfort-close-20261113/device-feedback-20261113.md)を記録。本人の終了判断は未受領。過去チャットのgoalツール状態と、この依頼での作業進行を区別し、goalをcompleteへ変更していない。
 
 [PR #327](https://github.com/futsalife24-bot/swarm-front/pull/327) のmainソース `006d600e` を既存Workerへ公開し、公開38ファイル一致・health・ソロの起動/移動と例外0を確認。公開記録は[PR #328](https://github.com/futsalife24-bot/swarm-front/pull/328)へ保存。公開協力も通常Chromeの本物の認証で作成した自室へ別ブラウザを招待し、2人準備・起動・移動を確認。[結果と観測範囲](evidence/coop-comfort-close-20261113/published-coop-ui.json)。当初の認証待ちは解消。ゲストpageerror0・ホスト製品console.error0、認証側ログ4件とホスト全例外監視の限界は区別する。高負荷の入力空白・単発RAF待ち・クラウド側の残量/CPU・本人実機は残る。
 
