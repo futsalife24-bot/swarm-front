@@ -140,7 +140,7 @@ try {
       () =>
         !!document.querySelector('input[name="cf-turnstile-response"]')?.value,
       null,
-      { timeout: 60000 },
+      { timeout: Number(process.env.SWARM_CLOSE_HUMAN_WAIT_MS ?? 60000) },
     );
   }
   await host.locator("css:light=#room-name").fill("残件の隔離起動検査");

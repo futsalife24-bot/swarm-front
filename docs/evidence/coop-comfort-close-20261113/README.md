@@ -12,6 +12,14 @@
 
 本人用の手順は[5分のOPPO Find X8・ホーム画面版チェック](device-check.md)。Wi-Fi固定36で解消済みの約15秒周期停止と、公開済みの自機予測は再調査していない。前者は11/02の本人確認を維持する「製品外の要因（根拠あり）」で、今回の未解決な単発停止へ一般化しない。
 
+## main反映と公開
+
+[PR #327](https://github.com/futsalife24-bot/swarm-front/pull/327) を通常merge。検証対象 `870665f3` と製品コードが同じmain `006d600e4131713331e9350c2a8edbcb8b9794a9` から本番build・Worker dry-runを成功し、既存 `swarm-front` Workerへ公開した。Worker Versionは `bc3ebaaa-a78b-40ff-bbce-5647bf49a5a5`、公開先は https://swarm-front.melosalife-24.workers.dev 。新しい公開先・契約・権限・費用は追加していない。本人から現在も無料プランと回答を受領した。
+
+[配信照合](published-delivery.json) は本体38ファイルのSHAすべて一致、health200/ok・websocket/durable-object。[公開ソロの開始・移動](published-solo.png) と画面例外0を確認した。[UI結果](published-ui.json)。使い捨てChrome、844×390、Service Worker無効、動きを減らす設定を使用し、PWA更新や実スマホの検証とは区別する。
+
+公開版の協力入口も例外0で表示できたが、headlessの通常Turnstile認証を60秒待って期限となり、部屋はまだ作っていない。本人操作で通常の人間確認を待つ。認証token・作成キーの差し替えや認証回避はしていない。公開協力の起動成功とは記録しない。PRのstatus/workflowは0件で、CI成功という意味ではなく、通常merge可否とローカル必須チェックを確認した。
+
 ## 64KiBの方針比較と採用
 
 | 案 | 判断 | 理由 |

@@ -1,0 +1,19 @@
+{
+  "source": "006d600e4131713331e9350c2a8edbcb8b9794a9",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "solo": {
+    "passed": true,
+    "errors": []
+  },
+  "coop": {
+    "passed": false,
+    "status": "通常Turnstileの自動認証を60秒待機、部屋作成前に期限終了。人間確認の回避なし。",
+    "errors": []
+  },
+  "conditions": {
+    "viewport": "844x390",
+    "serviceWorkers": "block",
+    "reducedMotion": "reduce",
+    "headless": true
+  }
+}
