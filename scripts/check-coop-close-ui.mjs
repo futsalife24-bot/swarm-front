@@ -134,6 +134,8 @@ try {
   console.log("協力入口2画面を表示");
   if (!publicMode) await host.locator("css:light=#creation-key").fill(key);
   else {
+    await host.locator("#turnstile-room-create").scrollIntoViewIfNeeded();
+    await host.bringToFront();
     // Read only a boolean: the normal widget obtains and submits its own token.
     // Never substitute a creation key, token or Turnstile response.
     await host.waitForFunction(

@@ -7,8 +7,25 @@
   },
   "coop": {
     "passed": false,
-    "status": "通常Turnstileの自動認証を60秒待機、部屋作成前に期限終了。人間確認の回避なし。",
-    "errors": []
+    "status": "通常Turnstileの私はロボットではありませんが未チェック。部屋作成前で終了。認証回避なし。",
+    "errors": [],
+    "attempts": [
+      {
+        "headless": true,
+        "timeoutMs": 60000
+      },
+      {
+        "headless": false,
+        "timeoutMs": 300000
+      },
+      {
+        "headless": false,
+        "timeoutMs": 180000,
+        "widgetScrolledIntoView": true,
+        "hostBroughtToFront": true
+      }
+    ],
+    "resume": "本人が通常の人間確認を完了後、自分の非公開部屋で2人入室・準備・開始・移動と例外0を確認する。確認用ブラウザは期限終了後に閉じた。"
   },
   "conditions": {
     "viewport": "844x390",
