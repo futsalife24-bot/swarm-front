@@ -1,0 +1,83 @@
+{
+  "method": "4 real local Worker WebSockets; fixed seed 4520; A-1 composition; 400 projectiles is synthetic overflow, not asserted legal maximum",
+  "trials": [
+    {
+      "version": "object",
+      "count": 400,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 400
+      },
+      "clients": [
+        {
+          "bytes": 137,
+          "maxFrame": 137,
+          "minMargin": 65399,
+          "states": 0,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        },
+        {
+          "bytes": 137,
+          "maxFrame": 137,
+          "minMargin": 65399,
+          "states": 0,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        },
+        {
+          "bytes": 137,
+          "maxFrame": 137,
+          "minMargin": 65399,
+          "states": 0,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        },
+        {
+          "bytes": 137,
+          "maxFrame": 137,
+          "minMargin": 65399,
+          "states": 0,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        }
+      ],
+      "reconnect": {
+        "samePlayer": true,
+        "enemies": 97,
+        "projectiles": 400,
+        "errors": []
+      }
+    }
+  ]
+}

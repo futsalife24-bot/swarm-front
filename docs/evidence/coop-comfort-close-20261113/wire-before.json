@@ -1,0 +1,541 @@
+{
+  "method": "4 real local Worker WebSockets; fixed seed 4520; A-1 composition; 400 projectiles is synthetic overflow, not asserted legal maximum",
+  "trials": [
+    {
+      "version": "object",
+      "count": 100,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 100
+      },
+      "clients": [
+        {
+          "bytes": 724361,
+          "maxFrame": 65525,
+          "minMargin": 11,
+          "states": 13,
+          "first": {
+            "ms": 1949.96,
+            "enemies": 97,
+            "projectiles": 100,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": [
+            "websocket error"
+          ]
+        },
+        {
+          "bytes": 724361,
+          "maxFrame": 65525,
+          "minMargin": 11,
+          "states": 13,
+          "first": {
+            "ms": 1951.8592,
+            "enemies": 97,
+            "projectiles": 100,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": [
+            "websocket error"
+          ]
+        },
+        {
+          "bytes": 724361,
+          "maxFrame": 65525,
+          "minMargin": 11,
+          "states": 13,
+          "first": {
+            "ms": 1951.1804,
+            "enemies": 97,
+            "projectiles": 100,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": [
+            "websocket error"
+          ]
+        },
+        {
+          "bytes": 724361,
+          "maxFrame": 65525,
+          "minMargin": 11,
+          "states": 13,
+          "first": {
+            "ms": 1953.4116,
+            "enemies": 97,
+            "projectiles": 100,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": [
+            "websocket error"
+          ]
+        }
+      ]
+    },
+    {
+      "version": "object",
+      "count": 400,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 400
+      },
+      "clients": [
+        {
+          "bytes": 8463,
+          "maxFrame": 8463,
+          "minMargin": 57073,
+          "states": 1,
+          "first": {
+            "ms": 4775.0431,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0
+          },
+          "closes": [
+            4009
+          ],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 8463,
+          "maxFrame": 8463,
+          "minMargin": 57073,
+          "states": 1,
+          "first": {
+            "ms": 4775.4671,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0
+          },
+          "closes": [
+            4009
+          ],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 8463,
+          "maxFrame": 8463,
+          "minMargin": 57073,
+          "states": 1,
+          "first": {
+            "ms": 4773.9394,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0
+          },
+          "closes": [
+            4009
+          ],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 8463,
+          "maxFrame": 8463,
+          "minMargin": 57073,
+          "states": 1,
+          "first": {
+            "ms": 4774.5563,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0
+          },
+          "closes": [
+            4009
+          ],
+          "notices": [],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "version": "v1",
+      "count": 100,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 100
+      },
+      "clients": [
+        {
+          "bytes": 502665,
+          "maxFrame": 60470,
+          "minMargin": 5066,
+          "states": 14,
+          "first": {
+            "ms": 7878.1515,
+            "enemies": 97,
+            "projectiles": 100,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 502665,
+          "maxFrame": 60470,
+          "minMargin": 5066,
+          "states": 14,
+          "first": {
+            "ms": 7888.229,
+            "enemies": 97,
+            "projectiles": 100,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 502665,
+          "maxFrame": 60470,
+          "minMargin": 5066,
+          "states": 14,
+          "first": {
+            "ms": 7902.2874,
+            "enemies": 97,
+            "projectiles": 100,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 468650,
+          "maxFrame": 60470,
+          "minMargin": 5066,
+          "states": 13,
+          "first": {
+            "ms": 7896.5929,
+            "enemies": 97,
+            "projectiles": 100,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "version": "v1",
+      "count": 400,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 400
+      },
+      "clients": [
+        {
+          "bytes": 788347,
+          "maxFrame": 65404,
+          "minMargin": 132,
+          "states": 14,
+          "first": {
+            "ms": 10685.2022,
+            "enemies": 97,
+            "projectiles": 400,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 788347,
+          "maxFrame": 65404,
+          "minMargin": 132,
+          "states": 14,
+          "first": {
+            "ms": 10694.3665,
+            "enemies": 97,
+            "projectiles": 400,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 732736,
+          "maxFrame": 65404,
+          "minMargin": 132,
+          "states": 13,
+          "first": {
+            "ms": 10700.5873,
+            "enemies": 97,
+            "projectiles": 400,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 732736,
+          "maxFrame": 65404,
+          "minMargin": 132,
+          "states": 13,
+          "first": {
+            "ms": 10706.2026,
+            "enemies": 97,
+            "projectiles": 400,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "version": "modern",
+      "count": 100,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 100
+      },
+      "clients": [
+        {
+          "bytes": 61940,
+          "maxFrame": 57600,
+          "minMargin": 7936,
+          "states": 14,
+          "first": {
+            "ms": 13418.7778,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0,
+            "tickMs": 0,
+            "encodeMs": 1
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 62375,
+          "maxFrame": 57687,
+          "minMargin": 7849,
+          "states": 14,
+          "first": {
+            "ms": 13420.7601,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0,
+            "tickMs": 0,
+            "encodeMs": 2
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 93268,
+          "maxFrame": 57687,
+          "minMargin": 7849,
+          "states": 14,
+          "first": {
+            "ms": 13422.4728,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0,
+            "tickMs": 0,
+            "encodeMs": 1
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 62344,
+          "maxFrame": 57858,
+          "minMargin": 7678,
+          "states": 14,
+          "first": {
+            "ms": 13424.3661,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0,
+            "tickMs": 0,
+            "encodeMs": 1
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "version": "modern",
+      "count": 400,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 400
+      },
+      "clients": [
+        {
+          "bytes": 72501,
+          "maxFrame": 64383,
+          "minMargin": 1153,
+          "states": 15,
+          "first": {
+            "ms": 16237.8872,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0,
+            "tickMs": 0,
+            "encodeMs": 0
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 131888,
+          "maxFrame": 64615,
+          "minMargin": 921,
+          "states": 16,
+          "first": {
+            "ms": 16219.744,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0,
+            "tickMs": 0,
+            "encodeMs": 2
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 132062,
+          "maxFrame": 64615,
+          "minMargin": 921,
+          "states": 16,
+          "first": {
+            "ms": 16221.5028,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0,
+            "tickMs": 0,
+            "encodeMs": 1
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 131973,
+          "maxFrame": 64614,
+          "minMargin": 922,
+          "states": 16,
+          "first": {
+            "ms": 16223.0077,
+            "enemies": 0,
+            "projectiles": 0,
+            "orbs": 0,
+            "mines": 0,
+            "omitted": 0,
+            "hp": 0,
+            "tickMs": 0,
+            "encodeMs": 0
+          },
+          "closes": [],
+          "notices": [],
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

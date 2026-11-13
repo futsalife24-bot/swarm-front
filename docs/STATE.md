@@ -1,4 +1,14 @@
+# マルチ快適化の残件を計測・修正、自己検証完了（2026-11-13、公開準備）
+
+最新main `3fd6e65` から `codex/coop-comfort-close-20261113` を作成し、A-1のPR #326/merge SHAを補記。60KiB予算・早期分割の対応通知・旧画面の更新案内で判定状態を保持し、HARROWの正規突進予告が小数座標で描画容量を超える例外を修正した。ゲームルール・予告形状・判定・報酬・保存は不変。
+
+[残件1〜5の判定・実測・採否](evidence/coop-comfort-close-20261113/README.md)、[回帰照合](evidence/coop-comfort-close-20261113/regression.md)、[本人用5分チェック](evidence/coop-comfort-close-20261113/device-check.md)。実WebSocket12条件＋旧分割互換4条件、関連87件、実Worker14項目成功。通常生存60秒は全員の250ms超入力間隔/猶予外ACK=0が0、人工混在では入力空白と単発RAF待ちが残る。実UIのHARROWレポート・ソロ・非公開2人協力は例外0。協力UIは既存検査同様の動きを減らす設定で確認し、通常アニメーションの早押しが待機した試行は成功扱いしていない。
+
+本人は現在もWorkers Freeと回答。契約API403/ブラウザ接続喪失と、利用量API成功は区別して記録。最終の `typecheck`・`npm test`（174ファイル/1769件すべて成功、341秒）・`format:check`・`build`・`server:build` は全て終了コード0。[生ログと終了コード](evidence/coop-comfort-close-20261113/checks/summary.json)。main反映・既存Worker公開・公開版のSHA/health/ソロ協力確認はこの記録時点で未実施。goalは閉じず、OPPO Find X8・ホーム画面版と本人の終了判断を待つ。
+
 # 全体テストとformatが全件成功：以後の基準線（2026-11-13、Claude Code）
+
+A-1のmain反映: [PR #326](https://github.com/futsalife24-bot/swarm-front/pull/326) を通常merge済み。merge後のmainは `3fd6e65faa6af9fe6ed3c147abe17b3d8607f28b`（`3fd6e65`）。
 
 本人依頼「既存テスト失敗とformat警告を一掃し、全体合格の土台を作る」。最新main `aa886b0d` では1766件中16件失敗・format警告16ファイルだった。最終 `9f321ca0` で `npm run typecheck`、`npm test`（**1766件すべて成功・172ファイル、255秒**）、`npm run format:check`、`npm run build`、`npm run server:build` が全て終了コード0。以後、`npm test` か `format:check` の失敗は新規の回帰として扱える。[分類表・原因・根拠・生ログ](evidence/test-green-20261113/README.md)。
 

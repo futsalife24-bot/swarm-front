@@ -211,6 +211,7 @@ export class Network {
         stateTuples: 2,
         pleatPose: 1,
         stateChunks: 1,
+        stateChunkBudget: 1,
         stateFlow: 1,
         stateDelta: 1,
         inputReceipt: 1,

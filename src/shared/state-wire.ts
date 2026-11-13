@@ -282,6 +282,7 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
       chunksSupported = false,
       pleatPoseSupported = false,
       tupleVersion: 1 | 2 = 2,
+      maxBytes = 65536,
     ) {
       // v1 cannot represent Ω. Use the existing object-state path only while
       // that telegraph is active; all other v1 frames keep their tuple budget.
@@ -351,20 +352,20 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
         return `{"type":"state"${pleatPoseSupported ? `,"pleatPose":1` : ""}${tupleMode ? `,"stateEncoding":"${tupleVersion === 1 ? "tuples-v1" : STATE_TUPLE_ENCODING}","stateOwners":${ownerWire}` : ""},"equipmentCached":${equipmentCached},"inputAck":${inputAck},"world":${encoded},${own}}${recipientTail ? `,${recipientTail}` : ""}${omitted ? `,"omitted":${JSON.stringify(omitted)}` : ""}}`;
       };
       const packet = packetWith(common.events.length);
-      if (!front || new TextEncoder().encode(packet).length <= 65536)
+      if (!front || new TextEncoder().encode(packet).length <= maxBytes)
         return packet;
       // まず古い演出から省略し、可能な限り新しい演出を残す。
       let low = 0,
         high = common.events.length;
       while (low < high) {
         const middle = Math.ceil((low + high) / 2);
-        if (new TextEncoder().encode(packetWith(middle)).length <= 65536)
+        if (new TextEncoder().encode(packetWith(middle)).length <= maxBytes)
           low = middle;
         else high = middle - 1;
       }
       const withoutEvents = packetWith(low);
       if (
-        new TextEncoder().encode(withoutEvents).length <= 65536 ||
+        new TextEncoder().encode(withoutEvents).length <= maxBytes ||
         !partialSupported ||
         chunksSupported
       )
@@ -397,12 +398,12 @@ export function prepareState(w: World, sentEvent: number, metadata: object) {
           },
         );
       const maxFit = (total: number, build: (count: number) => string) => {
-        if (new TextEncoder().encode(build(0)).length > 65536) return -1;
+        if (new TextEncoder().encode(build(0)).length > maxBytes) return -1;
         let min = 0,
           max = total;
         while (min < max) {
           const middle = Math.ceil((min + max) / 2);
-          if (new TextEncoder().encode(build(middle)).length <= 65536)
+          if (new TextEncoder().encode(build(middle)).length <= maxBytes)
             min = middle;
           else max = middle - 1;
         }
