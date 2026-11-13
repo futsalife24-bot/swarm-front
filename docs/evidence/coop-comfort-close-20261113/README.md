@@ -18,25 +18,21 @@
 
 [配信照合](published-delivery.json) は本体38ファイルのSHAすべて一致、health200/ok・websocket/durable-object。[公開ソロの開始・移動](published-solo.png) と画面例外0を確認した。[UI結果](published-ui.json)。使い捨てChrome、844×390、Service Worker無効、動きを減らす設定を使用し、PWA更新や実スマホの検証とは区別する。
 
-公開版の協力入口も例外0で表示できたが、headlessの通常Turnstile認証を60秒待って期限となり、部屋はまだ作っていない。公開記録は[PR #328](https://github.com/futsalife24-bot/swarm-front/pull/328)でmainへ保存。認証token・作成キーの差し替えや認証回避はしていない。公開協力の起動成功とは記録しない。PRのstatus/workflowは0件で、CI成功という意味ではなく、通常merge可否とローカル必須チェックを確認した。
+公開協力も、通常Chromeの本物のTurnstile認証で作成した非公開自室へ独立ブラウザを招待し、2人の入室・準備・出撃・ゲスト移動を確認した。[結果と観測範囲](published-coop-ui.json)、[2人の戦闘画面](published-coop.png)。ゲストのpageerrorは0、ホストのゲーム側console.errorは0。ホストのTurnstile側console.error4件は別に記録し、ゲーム例外へ混同しない。ホストには独立したpageerror監視を後付けしていないため、全ページの全例外を捕捉したとはしない。公開記録は[PR #328](https://github.com/futsalife24-bot/swarm-front/pull/328)、当初の認証待ちは[PR #329](https://github.com/futsalife24-bot/swarm-front/pull/329)で保存。認証token・作成キーの差し替えや認証回避はしていない。PRのstatus/workflowは0件で、CI成功という意味ではなく、通常merge可否とローカル必須チェックを確認した。
 
-### 公開協力の停止地点と再開
+### 公開協力の認証待ちを解消
 
-専用の表示付きChromeでも300秒で認証待機の期限となった。画面上で認証欄が下へ隠れていたため、検査スクリプトだけを直して欄をスクロール表示し、ホスト画面を手前に出した。この追試は「私はロボットではありません」が未チェックで180秒の期限となった。[実画面](published-auth-pending.png)。全試行でページ例外0、部屋作成前。本人操作の依頼は未回答で、確認用Chromeは終了時に閉じた。これは製品の協力起動失敗が実証されたという意味ではなく、その前の認証が完了していないという未検証点である。
+自動検査Chromeでは通常Turnstileを60/300/180秒待って期限となった。[当初の画面](published-auth-pending.png)。本人へ操作を案内して再開すると、本人のチェック後にも「検証に失敗しました」を表示した。取得した画面と本人の申告が一致。エラー番号は未取得。自動検査用ブラウザが拒否された可能性があり、個別原因の確定ではない。[Cloudflare公式](https://developers.cloudflare.com/turnstile/troubleshooting/testing/)もPlaywright等がbotとして検知され、試験が失敗し得ると説明している。自動用Chromeで本人操作を繰り返す方法を終了し、認証を偽装・無効化せず通常Chromeで本物の認証を確認した。
 
-停止理由: ご依頼のTurnstile回避禁止を維持し、本人による通常の人間確認が必要なため、公開協力の検証を完了できない。独立して可能な修正・計測・公開照合・記録保存は実施済み。
+通常Chromeの新しいタブは追加操作なしで「成功しました！」を表示し、非公開自室を作成できた。別contextのChromeは通常の招待参加を使い、認証を必要としない参加経路から接続。ホスト/ゲストのカード準備と出撃を行い、ゲストはカードを選択・戦闘開始・2秒移動、味方HP160と60FPSの戦闘画面を取得。ホストの最初のカードは選択期限で自動決定され、古いカード要素へのクリックは不成立だったため、クリック成功とは数えない。ホストの戦闘画面も確認した。ゲストは検証後に正常終了し、その後ホストには味方切断・32秒で全滅の結果を表示。今回開いたホストタブも閉じた。
 
-再開条件: 本人が確認用Chromeで通常の人間確認を完了できる時に、下記を起動し、自室の非公開部屋で2人入室・準備・開始・移動と画面例外0を確認する。他人の部屋や認証代替キーは使わない。実機の5分確認とgoalを閉じる判断は別に残す。
+ホストは通常Service Worker/画面設定、ゲストは844×390・Service Worker無効・動きを減らす設定。ホストの戦闘11秒時の表示には1FPSがあり、起動成功を快適性の合格へ読み替えない。ゲストとの条件は異なり比較計測には使わない。今回のChrome接続は本文取得・操作・再読取りまで成功したが、以前の接続喪失の根因や恒久復旧は未確定。実機5分確認とgoal終了判断は引き続き本人が行う。
+
+同じ公開確認を再実施する場合は、通常Chromeで本物の認証を通して自分の非公開部屋を作り、表示された部屋IDをこのshellだけへ入力する。参加スクリプトは部屋ID・tokenを結果JSONへ書き出さない。ホストのカードデッキを保存し、ゲストの準備完了後にホストから出撃する。ローカルの模擬認証を公開へ持ち込まない。
 
 ```powershell
-$env:SWARM_CLOSE_PUBLIC='1'
-$env:SWARM_CLOSE_SITE='https://swarm-front.melosalife-24.workers.dev'
-$env:SWARM_CLOSE_ENDPOINT='https://swarm-front.melosalife-24.workers.dev/api'
-$env:SWARM_CLOSE_UI_OUTPUT='dist-validation/coop-comfort-close-20261113/public-coop-resume'
-$env:SWARM_CLOSE_COOP_ONLY='1'
-$env:SWARM_CLOSE_HEADED='1'
-$env:SWARM_CLOSE_HUMAN_WAIT_MS='300000'
-node scripts/check-coop-close-ui.mjs
+$env:SWARM_CLOSE_PUBLIC_ROOM = Read-Host '通常認証で作成した自室の3桁ID'
+node scripts/check-coop-close-public-guest.mjs
 ```
 
 ## 64KiBの方針比較と採用
