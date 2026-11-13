@@ -6,7 +6,7 @@
 
 正式goalの完了条件1〜6は維持。通常Chat独立監査は今回明示依頼されていないため、最新AGENTS/WORKFLOWの通常運用を適用し、過去の「独立レビュー確認中」を新しい承認待ちへ戻さない。本人の実機結果と終了判断は未受領。過去チャットのgoalツール状態と、この依頼での作業進行を区別し、goalをcompleteへ変更していない。
 
-[PR #327](https://github.com/futsalife24-bot/swarm-front/pull/327) のmainソース `006d600e` を既存Workerへ公開し、公開38ファイル一致・health・ソロの起動/移動と例外0を確認。公開協力の通常Turnstileは人間確認待ち。ローカルの実2人協力成功と、公開版で未確認の段階を分ける。高負荷の入力空白・単発RAF待ち・クラウド側の残量/CPU・本人実機は残る。
+[PR #327](https://github.com/futsalife24-bot/swarm-front/pull/327) のmainソース `006d600e` を既存Workerへ公開し、公開38ファイル一致・health・ソロの起動/移動と例外0を確認。公開記録は[PR #328](https://github.com/futsalife24-bot/swarm-front/pull/328)へ保存。公開協力は通常Turnstileの人間確認が未完了で、確認用ブラウザは待機期限で閉じた。[停止地点と再開](evidence/coop-comfort-close-20261113/README.md#公開協力の停止地点と再開)。ローカルの実2人協力成功と、公開版で未確認の段階を分ける。高負荷の入力空白・単発RAF待ち・クラウド側の残量/CPU・本人実機は残る。
 
 ## 本人決定（2026-10-30）
 

@@ -18,7 +18,26 @@
 
 [配信照合](published-delivery.json) は本体38ファイルのSHAすべて一致、health200/ok・websocket/durable-object。[公開ソロの開始・移動](published-solo.png) と画面例外0を確認した。[UI結果](published-ui.json)。使い捨てChrome、844×390、Service Worker無効、動きを減らす設定を使用し、PWA更新や実スマホの検証とは区別する。
 
-公開版の協力入口も例外0で表示できたが、headlessの通常Turnstile認証を60秒待って期限となり、部屋はまだ作っていない。本人操作で通常の人間確認を待つ。認証token・作成キーの差し替えや認証回避はしていない。公開協力の起動成功とは記録しない。PRのstatus/workflowは0件で、CI成功という意味ではなく、通常merge可否とローカル必須チェックを確認した。
+公開版の協力入口も例外0で表示できたが、headlessの通常Turnstile認証を60秒待って期限となり、部屋はまだ作っていない。公開記録は[PR #328](https://github.com/futsalife24-bot/swarm-front/pull/328)でmainへ保存。認証token・作成キーの差し替えや認証回避はしていない。公開協力の起動成功とは記録しない。PRのstatus/workflowは0件で、CI成功という意味ではなく、通常merge可否とローカル必須チェックを確認した。
+
+### 公開協力の停止地点と再開
+
+専用の表示付きChromeでも300秒で認証待機の期限となった。画面上で認証欄が下へ隠れていたため、検査スクリプトだけを直して欄をスクロール表示し、ホスト画面を手前に出した。この追試は「私はロボットではありません」が未チェックで180秒の期限となった。[実画面](published-auth-pending.png)。全試行でページ例外0、部屋作成前。本人操作の依頼は未回答で、確認用Chromeは終了時に閉じた。これは製品の協力起動失敗が実証されたという意味ではなく、その前の認証が完了していないという未検証点である。
+
+停止理由: ご依頼のTurnstile回避禁止を維持し、本人による通常の人間確認が必要なため、公開協力の検証を完了できない。独立して可能な修正・計測・公開照合・記録保存は実施済み。
+
+再開条件: 本人が確認用Chromeで通常の人間確認を完了できる時に、下記を起動し、自室の非公開部屋で2人入室・準備・開始・移動と画面例外0を確認する。他人の部屋や認証代替キーは使わない。実機の5分確認とgoalを閉じる判断は別に残す。
+
+```powershell
+$env:SWARM_CLOSE_PUBLIC='1'
+$env:SWARM_CLOSE_SITE='https://swarm-front.melosalife-24.workers.dev'
+$env:SWARM_CLOSE_ENDPOINT='https://swarm-front.melosalife-24.workers.dev/api'
+$env:SWARM_CLOSE_UI_OUTPUT='dist-validation/coop-comfort-close-20261113/public-coop-resume'
+$env:SWARM_CLOSE_COOP_ONLY='1'
+$env:SWARM_CLOSE_HEADED='1'
+$env:SWARM_CLOSE_HUMAN_WAIT_MS='300000'
+node scripts/check-coop-close-ui.mjs
+```
 
 ## 64KiBの方針比較と採用
 
