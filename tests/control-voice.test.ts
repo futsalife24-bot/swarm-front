@@ -212,6 +212,7 @@ describe("control voice queue", () => {
     const { q, end, advance } = queue();
     expect(q.request("tut-move")).toBe("playing");
     expect(q.request("tut-move")).toBe("duplicate");
+    advance(8000);
     end("tut-move");
     expect(q.request("tut-move")).toBe("duplicate");
     advance(251);

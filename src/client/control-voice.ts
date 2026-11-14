@@ -265,6 +265,7 @@ export class ControlVoiceQueue {
     try {
       stop = this.backend.start(this.path(line), () => {
         if (this.playing !== entry) return;
+        this.recent = { id: line.id, at: this.now() };
         this.playing = undefined;
       });
     } catch {
