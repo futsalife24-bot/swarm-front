@@ -1,5 +1,5 @@
-/** 設定 → 管制AIボイス: 声/字幕の選択・ダウンロード・試聴。 */
-import { loadVoiceEnabled, mountCaptionSetting } from "./control-captions";
+/** 設定 → 管制AIボイス: 声の選択・ダウンロード・試聴。 */
+import { loadVoiceEnabled } from "./control-voice-enabled";
 import { formatDownloadBytes } from "./asset-download";
 import {
   CONTROL_VOICES,
@@ -21,7 +21,6 @@ export interface ControlVoiceHost {
   setControlVoiceEnabled(enabled: boolean): void;
   previewControlVoice(voice: ControlVoiceId): Promise<boolean>;
   stopControlPreview(): void;
-  clearControlCaptions(): void;
 }
 
 const NOTES: Record<ControlVoiceId, string> = {
@@ -48,19 +47,11 @@ export function openControlVoiceMenu(
 ) {
   const d = menuDialog(
     "管制AIボイス",
-    '<p class="cv-intro">声は端末に保存して使います。未ダウンロードの声は再生されません。字幕の表示は下の設定で選べます。</p><div class="cv-list" role="radiogroup" aria-label="使う声"></div><p class="cv-status" role="status" aria-live="polite"></p><small class="cv-note">保存先はこのブラウザです。端末の空き容量が少ないと自動で消えることがあります。チュートリアルの音声はヒロミの声で再生します。</small>',
+    '<p class="cv-intro">声は端末に保存して使います。未ダウンロードの声は再生されません。</p><div class="cv-list" role="radiogroup" aria-label="使う声"></div><p class="cv-status" role="status" aria-live="polite"></p><small class="cv-note">保存先はこのブラウザです。端末の空き容量が少ないと自動で消えることがあります。チュートリアルの音声はヒロミの声で再生します。</small>',
     "SETTINGS / VOICE",
   );
   d.classList.add("cv-dialog");
-  const captionSelect = mountCaptionSetting(
-    d.querySelector(".menu-dialog-body")!,
-    () => {
-      host.clearControlCaptions();
-      status.textContent = "字幕の設定を保存しました。";
-    },
-  );
   const list = d.querySelector<HTMLElement>(".cv-list")!;
-  list.before(captionSelect.parentElement!);
   const status = d.querySelector<HTMLElement>(".cv-status")!;
   const progress = new Map<ControlVoiceId, number>();
   let closed = false;
@@ -98,11 +89,10 @@ export function openControlVoiceMenu(
     el.className = "cv-row cv-none";
     el.dataset.voice = "none";
     el.dataset.selected = String(selected);
-    el.innerHTML = `<label class="cv-pick"><input type="radio" name="cv-voice" value="none" ${selected ? "checked" : ""}><b>ボイスなし（字幕のみ）</b><small>字幕は上の設定に従います</small></label><span class="cv-state">${selected ? "選択中" : ""}</span>`;
+    el.innerHTML = `<label class="cv-pick"><input type="radio" name="cv-voice" value="none" ${selected ? "checked" : ""}><b>ボイスなし</b></label><span class="cv-state">${selected ? "選択中" : ""}</span>`;
     el.querySelector("input")!.onchange = () => {
       host.setControlVoiceEnabled(false);
-      status.textContent =
-        "管制AIボイスをオフにしました。字幕は上の設定に従います。";
+      status.textContent = "管制AIボイスをオフにしました。";
       void render();
     };
     return el;

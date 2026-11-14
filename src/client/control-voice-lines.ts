@@ -3,7 +3,7 @@
  * 正本:
  * - チュートリアル34本: docs/tutorial-proposal-20261113.md §6（ID・トリガー・文面・タグ・制作優先度）
  * - 管制AI147行: docs/voice-proposal-20261113.md §4-1〜4-5・4-8・4-9
- * 文面は字幕にも使う。タグ・再生優先度・採用フラグ・止めている理由は、コードではなくこの表のデータで持つ。
+ * 文面は収録台詞の正本。タグ・再生優先度・採用フラグ・止めている理由は、コードではなくこの表のデータで持つ。
  */
 
 /** 音声セット。フォルダは `voice-<set>-<voice>-v<version>/`。 */
@@ -56,7 +56,7 @@ export interface ControlVoiceLine {
   scene: ControlVoiceScene;
   /** 鳴らすきっかけ（提案書のトリガー列の要約）。 */
   trigger: string;
-  /** 台詞（字幕にも使う）。 */
+  /** 収録台詞。 */
   text: string;
   tag: ControlVoiceTag;
   priority: ControlVoicePriority;

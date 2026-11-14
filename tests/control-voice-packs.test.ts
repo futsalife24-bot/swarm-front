@@ -249,7 +249,7 @@ describe("Sound reads control voice from downloaded packs", () => {
     const sound = new Sound(packs);
     sound.unlock();
     expect(sound.controlVoice.voice).toBe("hiromi");
-    // 未ダウンロード: 無音（字幕だけ）。例外にしない。通信もしない。
+    // 未ダウンロード: 無音。例外にしない。通信もしない。
     await sound.prepareControlVoice(["tut-intro"]);
     expect(sound.controlVoice.request("tut-intro")).toBe("unavailable");
     expect(
@@ -262,7 +262,21 @@ describe("Sound reads control voice from downloaded packs", () => {
     await sound.prepareControlVoice(["tut-intro"]);
     expect(sound.controlVoice.request("tut-intro")).toBe("playing");
     expect(started).toHaveLength(1);
-    // 削除で展開済みの声も捨て、再生中を止める。以降は字幕だけ。
+    // 試聴は日本語のみの既存homeを使い、ボイスなしでも選択を変えない。
+    const clip = vi.spyOn(packs, "clip");
+    sound.setControlVoiceEnabled(false);
+    expect(await sound.previewControlVoice("hiromi")).toBe(true);
+    expect(clip.mock.calls.map(([key]) => key)).toContain(
+      "voice-control-hiromi-v1/home",
+    );
+    expect(clip.mock.calls.map(([key]) => key)).not.toContain(
+      "voice-control-hiromi-v1/title",
+    );
+    expect(sound.controlVoice.enabled).toBe(false);
+    expect(sound.controlVoice.voice).toBe("hiromi");
+    expect(await sound.previewControlVoice("yoko")).toBe(false);
+    sound.setControlVoiceEnabled(true);
+    // 削除で展開済みの声も捨て、再生中を止める。以降は無音。
     await packs.remove("hiromi");
     expect(sound.controlVoice.current).toBeUndefined();
     await sound.prepareControlVoice(["tut-intro"]);

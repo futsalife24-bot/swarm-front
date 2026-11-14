@@ -1,8 +1,7 @@
 import {
-  ControlCaptions,
   CONTROL_VOICE_ENABLED_KEY,
   loadVoiceEnabled,
-} from "./control-captions";
+} from "./control-voice-enabled";
 import { isControlVoiceUnlocked } from "./control-voice";
 import { loadControlVoiceVolume } from "./control-voice-volume";
 import { backgroundMusic } from "./bgm";
@@ -107,7 +106,6 @@ export class Sound {
   /** 基礎訓練の間は兵士の掛け声を止める（tutorial-proposal §8-1 の3）。 */
   soldierVoiceEnabled = true;
   /** 管制AI音声。全体音量と専用の倍率を通り、SE音量から独立する。 */
-  private readonly captions = new ControlCaptions();
   private previewGeneration = 0;
   private previewStop?: () => void;
   readonly controlVoice = new ControlVoiceQueue(
@@ -123,7 +121,6 @@ export class Sound {
     {
       voice: loadControlVoice(),
       enabled: loadVoiceEnabled(),
-      caption: (line, audible) => this.captions.show(line, audible),
     },
   );
   get volume() {
@@ -178,7 +175,7 @@ export class Sound {
     /** 管制AIの声の取得元（設定でダウンロードしたパック）。テストで差し替える。 */
     private readonly packs: ControlVoicePacks = controlVoicePacks,
   ) {
-    // パックの保存・削除で、展開済みの声を捨てる（削除後は無音・字幕だけに戻る）。
+    // パックの保存・削除で、展開済みの声を捨てる（削除後は無音に戻る）。
     packs.subscribe((voice) => {
       const pattern = new RegExp(`^control:voice-[a-z]+-${voice}-v\\d+/`);
       let removed = false;
@@ -308,12 +305,10 @@ export class Sound {
     }
     this.stopControlPreview();
     this.controlVoice.stop();
-    this.captions.clear();
     this.controlVoice.enabled = enabled;
   }
   stopControlPreview() {
     this.previewGeneration++;
-    if (this.previewStop) this.captions.clear();
     this.previewStop?.();
     this.previewStop = undefined;
   }
@@ -329,7 +324,7 @@ export class Sound {
     if (generation !== this.previewGeneration) return false;
     this.controlVoice.stop();
     this.unlock();
-    await this.prepareControlVoice(["title"], voice);
+    await this.prepareControlVoice(["home"], voice);
     if (generation !== this.previewGeneration) return false;
     if (
       !this.context ||
@@ -337,16 +332,12 @@ export class Sound {
       this.controlOutputVolume <= 0
     )
       return false;
-    const path = controlVoicePath(controlVoiceLine("title")!, voice);
+    const path = controlVoicePath(controlVoiceLine("home")!, voice);
     if (!this.buffers.has(`control:${path}`)) return false;
     this.previewStop = this.startControl(path, () => {
       this.previewStop = undefined;
     });
-    this.captions.show(controlVoiceLine("title")!, true);
     return true;
-  }
-  clearControlCaptions() {
-    this.captions.clear();
   }
   setControlVoice(voice: ControlVoiceId) {
     // 保存先がなくても、この起動中は選んだ声を使う。
@@ -359,7 +350,7 @@ export class Sound {
   /**
    * 指定した台詞だけを、選択中の声で展開する（起動時の一括読み込みには載せない）。
    * 音声は設定でダウンロードした声のパックから引く。通信はしない。
-   * 未ダウンロード・旧版・削除済みの声は読み込まれず、再生要求は "unavailable"（字幕だけ）になる。
+   * 未ダウンロード・旧版・削除済みの声は読み込まれず、再生要求は "unavailable"（無音）になる。
    */
   async prepareControlVoice(
     ids: readonly string[],
@@ -376,7 +367,7 @@ export class Sound {
           const bytes = await this.packs.clip(path);
           if (bytes) this.bytes.set(key, bytes);
         } catch {
-          /* 読めない保存は無音のまま。字幕だけで進められる。 */
+          /* 読めない保存は無音のまま。進行は止めない。 */
         }
       }),
     );
@@ -400,7 +391,7 @@ export class Sound {
     return this.prepareControlVoice(controlVoiceIdsForScene(scene));
   }
   /**
-   * 1本を準備して鳴らす。waitMs 以内に用意できなければ声は諦める（字幕は呼び出し側）。
+   * 1本を準備して鳴らす。waitMs 以内に用意できなければ声は諦める。
    * 音声の終了や成否を進行条件にしないため、結果は参考情報としてだけ返す。
    */
   async say(id: string, waitMs = 1500) {
@@ -454,7 +445,6 @@ export class Sound {
     if (!combatOnly) {
       this.controlVoice.stop();
       this.stopControlPreview();
-      this.captions.clear();
     }
     for (const voice of this.voices) {
       if (combatOnly && this.menuVoices.has(voice)) continue;

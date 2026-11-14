@@ -38,7 +38,7 @@ export const CONTROL_VOICE_SET_VOICES: Record<
   tutorial: ["hiromi"],
   control: ["hiromi", "hiyori", "yoko"],
 };
-/** 選択中の声が収録されていないセットで使う声。null なら代替せず字幕だけにする。 */
+/** 選択中の声が収録されていないセットで使う声。null なら代替せず無音にする。 */
 export const CONTROL_VOICE_FALLBACK: ControlVoiceId | null = "hiromi";
 /** 初回ガイドが前の台詞の鳴り終わりを待つ上限。 */
 export const GUIDE_WAIT_MS = 5000;
@@ -209,19 +209,16 @@ export class ControlVoiceQueue {
     options: {
       voice?: ControlVoiceId;
       enabled?: boolean;
-      caption?: (line: ControlVoiceLine, audible: boolean) => void;
       now?: () => number;
       /** 台詞定義の参照先（既定は定義表）。 */
       lines?: (id: string) => ControlVoiceLine | undefined;
     } = {},
   ) {
     this.enabled = options.enabled ?? true;
-    this.caption = options.caption;
     this.voice = options.voice ?? DEFAULT_CONTROL_VOICE;
     this.now = options.now ?? (() => performance.now());
     this.lookup = options.lines ?? controlVoiceLine;
   }
-  private readonly caption?: (line: ControlVoiceLine, audible: boolean) => void;
   get current() {
     return this.playing?.line.id;
   }
@@ -231,7 +228,7 @@ export class ControlVoiceQueue {
   path(line: ControlVoiceLine) {
     return controlVoicePath(line, this.voice);
   }
-  /** 台詞IDで再生を要求する。結果は字幕だけにするかの判断に使える。 */
+  /** 台詞IDで再生を要求する。結果は再生状態の判断に使える。 */
   request(id: string, allowAudio = true): ControlVoiceResult {
     const line = this.lookup(id);
     if (!line) return "unknown";
@@ -241,7 +238,6 @@ export class ControlVoiceQueue {
     if (this.playing?.line.id === id || this.pending?.line.id === id)
       return "duplicate";
     if (!allowAudio || !this.enabled || !this.backend.ready(this.path(line))) {
-      this.caption?.(line, false);
       return "unavailable";
     }
     this.expire();
@@ -259,7 +255,6 @@ export class ControlVoiceQueue {
       this.pending = { line, until: this.now() + GUIDE_WAIT_MS };
       return "queued";
     }
-    this.caption?.(line, false);
     return "dropped";
   }
   /** 待ち時間切れの初回ガイドを捨てる。毎フレーム呼んでもよい。 */
@@ -274,7 +269,6 @@ export class ControlVoiceQueue {
   }
   private expire() {
     if (this.pending && this.now() > this.pending.until) {
-      this.caption?.(this.pending.line, false);
       this.pending = undefined;
     }
   }
@@ -295,10 +289,8 @@ export class ControlVoiceQueue {
       });
     } catch {
       if (this.playing === entry) this.playing = undefined;
-      this.caption?.(line, false);
       return "unavailable";
     }
-    this.caption?.(line, this.playing === entry);
     return this.playing === entry ? "playing" : "dropped";
   }
   private next() {
@@ -308,7 +300,6 @@ export class ControlVoiceQueue {
     if (!pending) return;
     if (!lineMatchesMode(pending.line, this.mode)) return;
     if (!this.enabled || !this.backend.ready(this.path(pending.line))) {
-      this.caption?.(pending.line, false);
       return;
     }
     this.begin(pending.line);

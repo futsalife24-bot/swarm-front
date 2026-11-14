@@ -2,7 +2,7 @@
  * 管制AIボイスの任意ダウンロード（2026-11-14 本人指示）。
  * - 声ごとに1つの圧縮パック（scripts/build-voice-packs.mjs が作る SFVP 形式・MP3）。
  * - 設定から利用者が選んだときだけ取得し、端末の Cache Storage に保存する（再起動後も使える）。
- * - 起動時・戦闘前に勝手に取得しない。未ダウンロードの声は無音（字幕だけ）で進む。
+ * - 起動時・戦闘前に勝手に取得しない。未ダウンロードの声は無音で進む。
  * - 保存データ（進行・設定）には触れない。
  */
 import {
@@ -239,7 +239,7 @@ export class ControlVoicePacks {
     try {
       const cache = await this.io.open();
       const stored = await cache?.match(this.io.resolve(entry.url));
-      // 旧版は鳴らさない（台詞の差し替えと字幕がずれないように）。
+      // 旧版は鳴らさない（台詞の差し替えを反映するため）。
       if (!stored || stored.headers.get(VOICE_PACK_HASH) !== entry.sha256)
         return undefined;
       const data = await stored.arrayBuffer();
