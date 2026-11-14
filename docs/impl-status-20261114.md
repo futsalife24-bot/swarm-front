@@ -346,3 +346,13 @@
 - 公開ソース・Worker Version・配信照合は確定後に追記する。過去の第2弾の「字幕」仕様/要確認は履歴であり、本節の本人判断で置き換える。
 - 未確認: 実スマホ/iOS・人間による実聴（AudioBufferSource開始の観測とは別）・全台詞/全分岐・インターネット上の多人数戦。タイトルの英語読みは依頼範囲外として残す。
 - 担当Codex単独。実モデルID・推論設定は取得不可のため未確認。独立Chat監査は現行の通常タスク方針で追加しない。
+
+
+## 第3弾のmain反映・公開・実確認
+
+- 実装 `cc6f8b255510f0606a9a29450536830cc5e3853b` をpushし、[PR #341](https://github.com/futsalife24-bot/swarm-front/pull/341) を通常merge。main/公開ソース **`3069d315781079436ad4470e5a0b680ae346dfa1`**。merge後と実装のツリー差分なし。GitHub status/workflowは0件、mergeableを確認して通常mergeし、保護変更・管理者バイパスなし。
+- 新worktreeを `codex/voice-fix3-release-20261115` へ切り替え、公開ソースから再build→本番Worker dry-run→既存Worker deploy成功（すべて終了コード0）。**Worker Version `dfc09c94-94a0-461d-b087-87770ae57c75`**。既存公開先 https://swarm-front.melosalife-24.workers.dev/ 。14ファイル更新・541ファイル既存。
+- 公開トップ/front HTML・全生成JS/CSS・3音声パックの**30ファイルSHA-256一致**、ソースSHAの埋込一致、`/api/health` 200・ok true。[配信照合](evidence/voice-fix3-20261115/published-files.json)。全生成JS/CSSの字幕部品/字幕設定名/旧名称は0件。全シーンで共有していた表示部品と通知経路の削除を差分でも確認した。
+- [公開先の実Chrome結果](evidence/voice-fix3-20261115/published/result.json): 未DL、ボイスなしと保存済みパック、試聴（3.36秒のAudioBufferSource開始）、選択保持、再読込、旧字幕always残存、TAP START前後の発話、設定/専用導線/表示なしを確認。ヨウコの選択/試聴不可・DLボタンなし、削除ボタンなし、844×390/568×320の横はみ出しなし。画面例外0。公開のタイトル/設定/試聴と、ローカル訓練の実確認は区別する。
+- 第3弾の2件と共通完了条件の実装・自己検証・通常main反映・Worker公開・公開先実確認を完了。公開記録/証拠のみを別の通常PRからmainへ保存する。新規作業場所のHEADをorigin/mainと同期し、他worktreeが保持するローカルmainは動かさない。
+- 人間による試聴品質・実スマホ/iOS・全台詞/分岐・多人数インターネット戦は未確認。タイトルのtitleクリップは範囲外として残した。新たな承認待ちはない。
