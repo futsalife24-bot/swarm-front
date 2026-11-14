@@ -5,6 +5,8 @@
 原因は3段の重なり：①権威側の50ms刻み（ソロでも、AR 100/150ms・SMG 50/100ms、発数は公称どおり）②協力の10Hzまとめ送り（ARの届く間隔100/200ms、SMGは受信の45%に2発）③同じ受信内の射撃音のまとめ（協力SMGで31%の発が無音）。入力の欠落・失効と描画の詰まりは通常・揺らぎ条件で棄却（失効はローカルPCの3秒停止の1試行のみ）。公平性（射出数・ダメージ）の問題は無し。
 
 修正は表示と音だけ：`src/client/shot-pacer.ts` で速い単発武器の自分の射撃を連射間隔に均して描画・音へ渡す（上限160ms遅延、途切れ後の1発目は即時）。表示の変動係数はAR 37〜51%→6〜10%、SMG 70%→12〜14%、音の欠落95→1〜3発。代償として自分の連射の表示・音が受信から中央値38ms（ソロ）／63〜84ms（協力）遅れる。射撃ルール・連射速度・失効期限・DPSは不変。同一PCの計測で、OPPO実機での改善は未確認。製品画面のソロ/協力2人で押しっぱなし→保存→集計を確認。型・全1,783テスト・format・build・Worker dry-run成功。20Hz配信は未実装でCodex向け仕様を記載。[段ごとの分布・判定・棄却仮説・本人用3分手順](evidence/fire-cadence-20261114/README.md)。
+
+**停止中（main未反映・未公開）**：実装commit `3663c568b7fb8489a75ac4cf3f2b339702a302e0` を `origin/claude/fire-cadence-20261114` へpush済み。このPCの `gh` が未認証（`gh auth status`: not logged in）で、過去と同じGitHub上のPR作成・mergeができない。認証設定の変更やgit認証情報のAPI流用はしていない。再開条件：本人が `gh auth login` を済ませるか、GitHub上で同branchからmain向けPRを作成・mergeする。その後、mainの本番buildから既存Workerへ公開し配信照合する。
 # マルチ快適化の判定材料を最新mainで再確認（2026-11-14）
 
 指定されたB-4は11/13に実装・公開済みだったため、最新main `eb652977` から `codex/coop-comfort-close-20261114` を作成し、既存証拠を保持して追加計測した。A-1のPR #326・merge後main `3fd6e65` は補記済み。今回の変更は記録と集計器の入出力指定のみで製品変更なし、再公開なし。元root・他worktreeは保護し、既存の `task-coop-comfort-close-20261113` を使用。本記録の反映先は [PR #336](https://github.com/futsalife24-bot/swarm-front/pull/336)。
