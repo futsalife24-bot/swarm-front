@@ -312,3 +312,13 @@
 - ローカル検証は新worktreeの完成build＋専用Workerで実施。実通信の協力は1人部隊。静的配信とAPI転送を分離した構成であり、本番での複数人検証ではない。通信のモック化、人間確認の迂回、既存他タスクのサーバー利用はしていない。
 - `npm run typecheck`、全 **181ファイル / 1861件**（既存1849＋新規12）、format、build、既存Worker dry-run、差分チェック成功。新規は3状態、設定復元/破損/保存拒否、保存済みでもボイスなし時の再生拒否、音声あり/未DL/時間切れの字幕、訓練の再生待ち同期、禁止/人数フィルター、Popover非対応/例外のゲーム継続。既存の第1弾テストも全件に含む。
 - 最終CSS配置後の全件追認も **181ファイル/1861件成功・終了コード0**（06:32開始、300.47秒）。[最終全件ログ](evidence/voice-fix2-20261115/checks/tests-release.txt)。型・format・build・本番Worker dry-runも終了コード0。buildの既存500kB超chunk警告は残る。協力の未DL/ボイスなし条件の実戦も最終確認成功、画面例外0。
+
+
+## 第2弾のmain反映・Worker公開・公開先実確認
+
+- 実装commit `15f5ddec04956682184f2ed6388cdeb599d83b79` をpushし、[PR #339](https://github.com/futsalife24-bot/swarm-front/pull/339) を通常merge。main/公開ソースは **`e67964e63794b69c288e66939667fb0cf9bf5451`**。実装commitとmerge後のツリー差分なし。GitHubの当該HEADのstatus/workflowは0件、mergeableを確認し、保護変更/管理者バイパスなしでmergeした。CLIのghは未ログインだったため、既存のGitHub接続ツールを使用した。
+- merge後ソースから再build・既存の本番設定でWorker dry-run・deployが全て終了コード0。既存 `swarm-front` Workerの **Version `4298818a-0185-40e8-b2f7-2ec35991d93c`** へ公開した。公開先は https://swarm-front.melosalife-24.workers.dev/ 。
+- 公開トップ/front HTML・全生成JS/CSS・3音声パックの **計30ファイル** が公開用buildとSHA-256一致。公開JS内の新ソースSHAを確認し、`/api/health` は200・ok true。[配信照合](evidence/voice-fix2-20261115/published-files.json)。
+- 公開先の実Chromeでも [設定試験5条件](evidence/voice-fix2-20261115/published/settings-result.json) が全て成功。ボイスなし＋字幕off、試聴の選択保持/字幕、音声あり＋missingの非表示、5秒遅いTAP STARTでの音声/字幕、保存済みパックでボイスなし＋missingの表示と再読込保持を確認。844×390/568×320の横はみ出しなし、ヨウコの選択/試聴無効、画面例外0。[公開の試聴字幕](evidence/voice-fix2-20261115/published/preview-caption.png)・[公開の狭幅設定](evidence/voice-fix2-20261115/published/settings-568.png)。
+- シーン別の戦闘/協力/補給/訓練は完成buildと専用ローカルWorkerでの実操作、公開先はタイトル/設定/試聴の実操作である。公開インターネット上の複数人戦や本番補給抽選を実施済みとは扱わない。未確認と仮称/導線/将来スタイルの要確認は前節のまま維持する。
+- 第1弾は再実施せず、第2弾の依頼範囲・自己検証・既存Worker公開と配信実確認を完了した。公開記録は `codex/voice-fix2-release-20261115` の文書/検証器のみのPRからmainへ保存する。新worktree以外のローカルmain・既存作業ツリーは保護し、移動/上書きしない。
