@@ -1,0 +1,124 @@
+{
+  "source": "eb65297747dca36dfc42c994114a7e285913b21d",
+  "previousSource": "006d600e4131713331e9350c2a8edbcb8b9794a9",
+  "unchangedPaths": [
+    "server",
+    "src/shared",
+    "src/client/front-network.ts",
+    "src/client/network-input-loop.ts",
+    "src/client/input-window.ts",
+    "src/client/render.ts",
+    "src/client/harrow-effects.ts",
+    "src/client/state-receipt.ts"
+  ],
+  "trials": {
+    "mixed-render1": {
+      "headBefore": "eb65297747dca36dfc42c994114a7e285913b21d",
+      "headAfter": "eb65297747dca36dfc42c994114a7e285913b21d",
+      "sourcesStable": true,
+      "observationCompleted": true,
+      "checkPassed": true,
+      "errors": 0,
+      "clientErrors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "glErrors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "rawHashes": {
+        "results.json": "0d7ec2d069de942904f9b0cd6388a46d7668a3c82d089532ad6630423e7293af",
+        "client-0-samples.json": "44dcfd766f7fe2441d1f0bb603a1422a053826857fa367b806eb9ac449a4dd9e",
+        "client-1-samples.json": "74f296fad7f0d216d46ce37f64f07b05d03c6e2f528716c7f28e99d61e3c1cc8",
+        "client-2-samples.json": "8db583d5ae03c480f0b33c2f08cf2259386a5a631bf96d742dd8251c76da25ae",
+        "client-3-samples.json": "c9115bd9b84b45f8a1a310e308f85cae9ea86245ae70c00a10acf580d84c26d9"
+      }
+    },
+    "mixed-render4-aligned": {
+      "headBefore": "eb65297747dca36dfc42c994114a7e285913b21d",
+      "headAfter": "eb65297747dca36dfc42c994114a7e285913b21d",
+      "sourcesStable": true,
+      "observationCompleted": true,
+      "checkPassed": true,
+      "errors": 0,
+      "clientErrors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "glErrors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "rawHashes": {
+        "results.json": "d7969d8c0355f951ed2c6b958550293f93cf63c6474130595488976fa7a7b05f",
+        "client-0-samples.json": "9dae519763ea45f545a28da46d3e99a30e4b9d84b75fd13b4245d7abe8e54740",
+        "client-1-samples.json": "eca3ef1b63b2c51501e1adf2bf3d23068b7ebab5b7577db427bad77f04761f25",
+        "client-2-samples.json": "9ab502827b53434045283693f2de8235e21ab19d0b4a62bbf709e087fdba6fed",
+        "client-3-samples.json": "02684f6de5072ee1df989cb1c7cbc2be7e924d403f129e685aa35a1a5a620ce3"
+      }
+    },
+    "mixed-slow-up": {
+      "headBefore": "eb65297747dca36dfc42c994114a7e285913b21d",
+      "headAfter": "eb65297747dca36dfc42c994114a7e285913b21d",
+      "sourcesStable": true,
+      "observationCompleted": true,
+      "checkPassed": true,
+      "errors": 0,
+      "clientErrors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "glErrors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "rawHashes": {
+        "results.json": "1276e5306966fa0aa168fbf40472c3e2ff5be35683c1e3957b6409c2c75123a5",
+        "client-0-samples.json": "63a07a7384916863689af0d59d7dafadd3be36b87f3b2867987e346bce33de80",
+        "client-1-samples.json": "10f449becb5bfbe6752db600f0eb7733628c43f70532a0d61db15be56ccb1b87",
+        "client-2-samples.json": "31ca25946b38c27c198a5c0c86dff4d82f4ab36d7b6509240812666605445b06",
+        "client-3-samples.json": "d403530045b60c0f2049fcd586007b1a198fa6896ca1d4394618356a29ae5795"
+      }
+    },
+    "survival-render1": {
+      "headBefore": "eb65297747dca36dfc42c994114a7e285913b21d",
+      "headAfter": "eb65297747dca36dfc42c994114a7e285913b21d",
+      "sourcesStable": true,
+      "observationCompleted": true,
+      "checkPassed": true,
+      "errors": 0,
+      "clientErrors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "glErrors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "rawHashes": {
+        "results.json": "01e09c1fe71716fd0b5d2349b25f9dcab01e43d70f6fe735a3abf7688330fe4b",
+        "client-0-samples.json": "a4f17613c53c9b3c7929bdde50ad3d689256b0ec3a708acecac74413c7acaa0f",
+        "client-1-samples.json": "5820e34e05af55fa7ba173074e4588e3b44e04f38c78668765435cbe2d8c82c5",
+        "client-2-samples.json": "dde1f9e8bca815f5df5aa1ba3147a470482272e3343996e65949eaf6c002636e",
+        "client-3-samples.json": "b4a99e034cfb5d504167d7b4c17102b6b193c54af2cc28ee545502ee0664101d"
+      }
+    }
+  }
+}

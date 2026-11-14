@@ -2,22 +2,28 @@ import { readFileSync, existsSync, writeFileSync } from "node:fs";
 import { resolve, join } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
-const rawRoot = join(root, "dist-validation", "coop-comfort-close-20261113");
-const output = join(
-  root,
-  "docs",
-  "evidence",
-  "coop-comfort-close-20261113",
-  "measurements.json",
-);
-const trials = [
-  "mixed-render1-profile",
-  "mixed-render4",
-  "mixed-slow-up",
-  "mixed-render1-control",
-  "mixed-render4-aligned",
-  "survival-render1",
-];
+const rawRoot = process.argv[2]
+  ? resolve(process.argv[2])
+  : join(root, "dist-validation", "coop-comfort-close-20261113");
+const output = process.argv[3]
+  ? resolve(process.argv[3])
+  : join(
+      root,
+      "docs",
+      "evidence",
+      "coop-comfort-close-20261113",
+      "measurements.json",
+    );
+const trials = process.argv[4]
+  ? process.argv[4].split(",")
+  : [
+      "mixed-render1-profile",
+      "mixed-render4",
+      "mixed-slow-up",
+      "mixed-render1-control",
+      "mixed-render4-aligned",
+      "survival-render1",
+    ];
 const finite = (value) => typeof value === "number" && Number.isFinite(value);
 const round = (value) => (finite(value) ? Math.round(value * 10) / 10 : null);
 
