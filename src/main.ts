@@ -1,3 +1,4 @@
+import { mountControlVoiceVolume } from "./client/control-voice-volume";
 import { loadProgress } from "./client/progression-save";
 import { bindResultWeaponActions } from "./client/result-weapon-actions";
 import { lockMarkup } from "./client/gear-weapon-list";
@@ -1053,6 +1054,11 @@ function alignSettings(container: Element) {
 }
 
 function bindAimRanges(prefix: string, update: (next: Save) => boolean) {
+  mountControlVoiceVolume(
+    $(prefix + "se-volume").closest("label")!,
+    sound,
+    document.querySelector(".settings-status") ?? undefined,
+  );
   for (const [id, key] of [
     ["sense", "sensitivity"],
     ["fire-sense", "fireSensitivity"],

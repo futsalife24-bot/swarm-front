@@ -162,10 +162,10 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     goal: 0,
     how: {
       touch:
-        "時間がたつと半分まで自動回復 · 救急箱は1出撃に1回、全回復（ソロ）",
-      pc: "時間がたつと半分まで自動回復 · 救急箱は1出撃に1回、全回復（ソロ）",
+        "時間がたつと半分まで自動回復 · 救急箱ボタンで全回復（1出撃に1回）",
+      pc: "時間がたつと半分まで自動回復 · H／救急箱で全回復（1出撃に1回）",
     },
-    arena: "practice",
+    arena: "health",
   },
   {
     id: "T11",
@@ -309,11 +309,8 @@ export class TutorialRun {
           this.progress = 1;
         break;
       case "T10":
-        // 操作なし。「次へ」または台詞の長さ＋1秒で自動。
-        if (
-          this.elapsed >=
-          s.lines.reduce((sum, id) => sum + lineSeconds(id), 0) + 1
-        )
+        // 音声の長さで操作前に終了させず、救急箱の実使用（または「次へ」）を待つ。
+        if (w.solo && !w.solo.medkit)
           actions.push(...this.enter(this.index + 1));
         return actions;
       default:

@@ -2604,7 +2604,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (w.front) {
     /* 改装版の出現予定は front-run が管理する。 */
   } else if (w.defense) defenseSpawn(w);
-  else if (w.solo) soloSpawnAndProgress(w);
+  else if (w.solo && !w.training) soloSpawnAndProgress(w);
   else if (!w.training && !w.rebuild) {
     spawnWaveTroop(w, wave);
     if (advanceWave(w, plan, wave, living)) return;
@@ -2620,7 +2620,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (w.front) {
     /* 改装版の任務終了は front-run が管理する。 */
   } else if (w.defense) finishDefenseTick(w);
-  else if (w.solo) endSoloTick(w);
+  else if (w.solo && !w.training) endSoloTick(w);
   else if (!w.training && !w.rebuild && w.time > 600)
     finish(w, false, "作戦時間の上限（10分）に達しました");
 }

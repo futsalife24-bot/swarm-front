@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { maxHp, useMedkit } from "../src/shared/solo-progression";
+import { resetTargets } from "../src/shared/training";
 import type { Input } from "../src/shared/game";
 import { TARGETS } from "../src/shared/training";
 import {
@@ -9,6 +11,7 @@ import {
   createTutorialWorld,
   placeKillTargets,
   placeSampleDrop,
+  prepareTutorialHealth,
   stepTutorial,
 } from "../src/shared/tutorial";
 import {
@@ -89,6 +92,8 @@ function apply(
     if (action.type === "arena") {
       if (action.arena === "kill") placeKillTargets(w);
       else if (action.arena === "drop") placeSampleDrop(w);
+      else if (action.arena === "health") prepareTutorialHealth(w);
+      else resetTargets(w);
     }
   return a;
 }
@@ -189,12 +194,17 @@ describe("tutorial run (W3)", () => {
     run.observe(w, 0, lineSeconds("tut-drop-rule") + 0.1);
     expect(run.step.id).toBe("T10");
   });
-  it("plays both health lines in turn and advances by itself", () => {
+  it("plays both health lines and waits for a real medkit use", () => {
     const { run, w } = runTo(10);
     expect(run.manual).toBe("next");
     const second = run.observe(w, 0, lineSeconds("tut-recover") + 0.4);
     expect(said(second)).toEqual(["tut-medkit"]);
-    const end = run.observe(w, 0, lineSeconds("tut-medkit") + 1);
+    run.observe(w, 0, lineSeconds("tut-medkit") + 1);
+    expect(run.step.id).toBe("T10");
+    stepTutorial(w, { ...idle(), revive: true }, "health");
+    expect(w.players[0].hp).toBe(maxHp(w));
+    expect(w.solo!.medkit).toBe(false);
+    const end = run.observe(w, 0, 0.1);
     expect(said(end)).toEqual(["tut-complete"]);
     expect(end.some((a) => a.type === "complete")).toBe(true);
     expect(run.step.id).toBe("T11");
@@ -244,5 +254,65 @@ describe("tutorial run (W3)", () => {
     expect(run.text("touch")).toContain("射撃ボタンを長押し");
     expect(run.text("pc")).toContain("左クリック長押し");
     expect(run.text("pc")).toContain(`0/${HIT_GOAL}`);
+  });
+});
+
+describe("tutorial pickup and health regressions", () => {
+  it("keeps the sample after T8 has fewer than four targets, then completes T9 through real movement and collection", () => {
+    const { run, w } = runTo(8);
+    // T8終了時には標的が0〜3体。旧実装では次tickでresetTargetsが武器を消した。
+    w.enemies = [];
+    apply(run, w, skipNow(run));
+    run.observe(w, 0, 0);
+    for (let i = 0; i < 20; i++) stepTutorial(w, idle(), "drop");
+    expect(w.drops.map((d) => d.id)).toEqual([SAMPLE_DROP_ID]);
+    expect(w.enemies).toEqual([]);
+    for (let i = 0; i < 50 && w.drops.length; i++) {
+      stepTutorial(w, { ...idle(), mz: 1 }, "drop");
+      apply(run, w, run.observe(w, 0, 0.05));
+    }
+    expect(w.pending[TUTORIAL_PLAYER]).toHaveLength(1);
+    expect(run.progress).toBe(1);
+    apply(run, w, run.observe(w, 0, lineSeconds("tut-drop-rule") + 0.1));
+    expect(run.step.id).toBe("T10");
+    expect(w.rewards).toEqual({});
+  });
+  it.each([0, Math.PI / 2, Math.PI, -Math.PI / 2])(
+    "places a visible reachable sample ahead even at a wall (yaw %s)",
+    (yaw) => {
+      const w = createTutorialWorld();
+      w.players[0].x = 22;
+      w.players[0].z = -46;
+      placeSampleDrop(w, yaw);
+      const p = w.players[0],
+        d = w.drops[0];
+      expect(Math.hypot(d.x - p.x, d.z - p.z)).toBeCloseTo(6);
+      expect(d.x).toBeGreaterThan(-23);
+      expect(d.x).toBeLessThan(23);
+      expect(d.z).toBeGreaterThan(-47);
+      expect(d.z).toBeLessThan(23);
+      for (let i = 0; i < 50 && w.drops.length; i++)
+        stepTutorial(w, { ...idle(), yaw, mz: 1 }, "drop");
+      expect(w.pending[TUTORIAL_PLAYER]).toHaveLength(1);
+    },
+  );
+  it("uses real solo recovery capped at half, and a single full-health medkit without campaign spawns or rewards", () => {
+    const w = createTutorialWorld();
+    prepareTutorialHealth(w);
+    expect(w.players[0].hp).toBe(maxHp(w) / 4);
+    for (let i = 0; i < 800; i++) stepTutorial(w, idle(), "health");
+    expect(w.players[0].hp).toBe(maxHp(w) / 2);
+    expect(w.enemies).toHaveLength(TARGETS.length);
+    expect(w.phase).toBe("battle");
+    expect(w.wave).toBe(1);
+    stepTutorial(w, { ...idle(), revive: true }, "health");
+    expect(w.players[0].hp).toBe(maxHp(w));
+    expect(w.solo!.medkit).toBe(false);
+    w.players[0].hp = 20;
+    expect(useMedkit(w)).toBe(false);
+    expect(w.players[0].hp).toBe(20);
+    expect(w.rewards).toEqual({});
+    expect(w.drops).toEqual([]);
+    expect(w.pending[TUTORIAL_PLAYER]).toEqual([]);
   });
 });
