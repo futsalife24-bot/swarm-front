@@ -1,6 +1,4 @@
-import fs from "node:fs";
-import path from "node:path";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
   CONTROL_SET_LINES,
   CONTROL_VOICE_LINES,
@@ -10,8 +8,11 @@ import {
   playableLine,
 } from "../src/client/control-voice-lines";
 import {
-  CONTROL_VOICE_SET_VOICES,
   CONTROL_VOICE_STORAGE_KEY,
+  CONTROL_VOICE_UNLOCK_KEY,
+  isControlVoiceUnlocked,
+  unlockControlVoice,
+  unlockedControlVoices,
   voiceForSet,
   ControlVoiceQueue,
   DEFAULT_CONTROL_VOICE,
@@ -28,9 +29,9 @@ function backend(missing: string[] = []) {
   const stopped: string[] = [];
   const endings = new Map<string, () => void>();
   const b: ControlVoiceBackend = {
-    ready: (path) => !missing.some((m) => path.endsWith(`/${m}.wav`)),
+    ready: (path) => !missing.some((m) => path.endsWith(`/${m}`)),
     start(path, onEnded) {
-      const id = path.split("/").pop()!.replace(".wav", "");
+      const id = path.split("/").pop()!;
       started.push(id);
       endings.set(id, onEnded);
       return () => stopped.push(id);
@@ -110,17 +111,6 @@ describe("control voice line table", () => {
     expect(ids).not.toContain("tut-offer");
     expect(ids).toHaveLength(19);
   });
-  it("ships an audio file for every playable line in each recorded voice", () => {
-    const root = path.resolve("public");
-    for (const line of CONTROL_VOICE_LINES) {
-      for (const voice of CONTROL_VOICE_SET_VOICES[line.set]) {
-        const file = path.join(root, controlVoicePath(line, voice));
-        if (line.blocked === "abolished" || line.blocked === "on-hold")
-          expect(fs.existsSync(file), file).toBe(false);
-        else expect(fs.existsSync(file), file).toBe(true);
-      }
-    }
-  });
 });
 describe("control voice selection and paths", () => {
   const store = () => {
@@ -135,6 +125,9 @@ describe("control voice selection and paths", () => {
     expect(DEFAULT_CONTROL_VOICE).toBe("hiromi");
     expect(loadControlVoice(s)).toBe("hiromi");
     expect(saveControlVoice("yoko", s)).toBe(true);
+    // 未解放の声は選んでいても既定に戻る。解放後は保存した選択を使う。
+    expect(loadControlVoice(s)).toBe("hiromi");
+    expect(unlockControlVoice("yoko", s)).toBe(true);
     expect(loadControlVoice(s)).toBe("yoko");
     s.setItem(CONTROL_VOICE_STORAGE_KEY, "unknown");
     expect(loadControlVoice(s)).toBe("hiromi");
@@ -150,17 +143,30 @@ describe("control voice selection and paths", () => {
     expect(loadControlVoice(broken)).toBe("hiromi");
     expect(saveControlVoice("hiyori", broken)).toBe(false);
   });
-  it("builds the conventional versioned folder path", () => {
+  it("unlocks only Hiromi by default and stores extra voices in a new key", () => {
+    const s = store();
+    expect(unlockedControlVoices(s)).toEqual(["hiromi"]);
+    expect(isControlVoiceUnlocked("hiyori", s)).toBe(false);
+    expect(unlockControlVoice("hiyori", s)).toBe(true);
+    expect(unlockControlVoice("hiyori", s)).toBe(true);
+    expect(s.getItem(CONTROL_VOICE_UNLOCK_KEY)).toBe('["hiyori"]');
+    expect(unlockedControlVoices(s)).toEqual(["hiromi", "hiyori"]);
+    expect(isControlVoiceUnlocked("yoko", s)).toBe(false);
+    s.setItem(CONTROL_VOICE_UNLOCK_KEY, "{broken");
+    expect(unlockedControlVoices(s)).toEqual(["hiromi"]);
+    expect(unlockControlVoice("hiyori", undefined)).toBe(false);
+  });
+  it("builds the conventional versioned clip key", () => {
     expect(controlVoicePath(controlVoiceLine("tut-intro")!, "hiromi")).toBe(
-      "assets/audio/voice-tutorial-hiromi-v1/tut-intro.wav",
+      "voice-tutorial-hiromi-v1/tut-intro",
     );
     expect(controlVoicePath(controlVoiceLine("wave-clear")!, "yoko")).toBe(
-      "assets/audio/voice-control-yoko-v1/wave-clear.wav",
+      "voice-control-yoko-v1/wave-clear",
     );
   });
   it("falls back to Hiromi for the tutorial set (provisional, data-driven)", () => {
     expect(controlVoicePath(controlVoiceLine("tut-intro")!, "yoko")).toBe(
-      "assets/audio/voice-tutorial-hiromi-v1/tut-intro.wav",
+      "voice-tutorial-hiromi-v1/tut-intro",
     );
     expect(voiceForSet("tutorial", "hiyori")).toBe("hiromi");
     expect(voiceForSet("control", "hiyori")).toBe("hiyori");
@@ -306,37 +312,5 @@ describe("control voice queue", () => {
     end("tut-move");
     expect(started).toEqual(["tut-move"]);
     expect(q.current).toBeUndefined();
-  });
-});
-
-describe("Sound integration", () => {
-  it("routes control voice through the SE master and tolerates missing files", async () => {
-    vi.resetModules();
-    vi.doMock("../src/client/bgm", () => ({
-      backgroundMusic: () => ({ unlock() {}, volume: 1 }),
-    }));
-    const fetchMock = vi.fn(async () => ({ ok: false, status: 404 }));
-    vi.stubGlobal("fetch", fetchMock);
-    vi.stubGlobal("document", {
-      hidden: false,
-      addEventListener() {},
-    });
-    try {
-      const { Sound } = await import("../src/client/audio");
-      const sound = new Sound();
-      expect(sound.controlVoice.voice).toBe("hiromi");
-      await sound.prepareControlVoice(["tut-intro", "missing-line"]);
-      expect(fetchMock).toHaveBeenCalledWith(
-        expect.stringContaining(
-          "assets/audio/voice-tutorial-hiromi-v1/tut-intro.wav",
-        ),
-      );
-      expect(sound.controlVoice.request("tut-intro")).toBe("unavailable");
-      sound.setControlVoice("yoko");
-      expect(sound.controlVoice.voice).toBe("yoko");
-    } finally {
-      vi.unstubAllGlobals();
-      vi.doUnmock("../src/client/bgm");
-    }
   });
 });

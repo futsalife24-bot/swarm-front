@@ -26,6 +26,10 @@ import {
   type ControlVoiceScene,
 } from "./control-voice-lines";
 import { ControlAnnouncer } from "./control-announcer";
+import {
+  controlVoicePacks,
+  type ControlVoicePacks,
+} from "./control-voice-packs";
 const LEVELS: Record<string, number> = {
   ...Object.fromEntries(ANOMALY_VOICE_KEYS.map((key) => [key, 0.24])),
   rifle: 0.62,
@@ -135,7 +139,22 @@ export class Sound {
       );
     if (this.effectsVolume === 0) this.stop();
   }
-  constructor() {
+  constructor(
+    /** 管制AIの声の取得元（設定でダウンロードしたパック）。テストで差し替える。 */
+    private readonly packs: ControlVoicePacks = controlVoicePacks,
+  ) {
+    // パックの保存・削除で、展開済みの声を捨てる（削除後は無音・字幕だけに戻る）。
+    packs.subscribe((voice) => {
+      const pattern = new RegExp(`^control:voice-[a-z]+-${voice}-v\\d+/`);
+      let removed = false;
+      for (const map of [this.buffers, this.bytes] as Map<string, unknown>[])
+        for (const key of [...map.keys()])
+          if (pattern.test(key)) {
+            map.delete(key);
+            removed = true;
+          }
+      if (removed) this.controlVoice.stop();
+    });
     void this.preload();
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
@@ -214,9 +233,14 @@ export class Sound {
       /* Gameplay also works where Web Audio is unavailable. */
     }
   }
-  async load() {
+  async load(): Promise<void> {
     if (!this.context) return;
-    if (this.decoding) return this.decoding;
+    if (this.decoding) {
+      // 展開中に追加された声（パックから読んだ台詞など）も、待たせた側で展開する。
+      await this.decoding;
+      if ([...this.bytes.keys()].every((key) => this.buffers.has(key))) return;
+      return this.load();
+    }
     this.decoding = (async () => {
       await this.preload();
       await Promise.all(
@@ -246,8 +270,9 @@ export class Sound {
     this.controlVoice.voice = voice;
   }
   /**
-   * 指定した台詞だけを、選択中の声で取得・展開する（起動時の一括読み込みには載せない）。
-   * 実ファイルが無い台詞は読み込まれず、再生要求は "unavailable" になる。
+   * 指定した台詞だけを、選択中の声で展開する（起動時の一括読み込みには載せない）。
+   * 音声は設定でダウンロードした声のパックから引く。通信はしない。
+   * 未ダウンロード・旧版・削除済みの声は読み込まれず、再生要求は "unavailable"（字幕だけ）になる。
    */
   async prepareControlVoice(ids: readonly string[]) {
     await Promise.all(
@@ -258,11 +283,10 @@ export class Sound {
           key = `control:${path}`;
         if (this.buffers.has(key) || this.bytes.has(key)) return;
         try {
-          const r = await fetch(`${import.meta.env.BASE_URL}${path}`);
-          if (!r.ok) return;
-          this.bytes.set(key, await r.arrayBuffer());
+          const bytes = await this.packs.clip(path);
+          if (bytes) this.bytes.set(key, bytes);
         } catch {
-          /* 受け渡し前の素材は無音のまま。字幕だけで進められる。 */
+          /* 読めない保存は無音のまま。字幕だけで進められる。 */
         }
       }),
     );

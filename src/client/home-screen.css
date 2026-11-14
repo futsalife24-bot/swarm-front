@@ -87,6 +87,10 @@ body[data-screen="title"] #ui .home-utilities {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
+/* 日替わり防衛・週間ミッション・支給ボックスを1段に収める。 */
+body[data-screen="title"] #ui .home-challenges:has(> :nth-child(3)) {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 body[data-screen="title"] #ui .home-challenges:empty {
   display: none;
 }

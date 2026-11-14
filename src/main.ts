@@ -991,6 +991,7 @@ function openSettings(back: () => void) {
     dialog,
     () => sound.volume,
     () => sound.musicVolume,
+    sound,
   );
   bindAimRanges("", update);
   bindGyro("", update);

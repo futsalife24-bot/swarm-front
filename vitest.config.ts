@@ -46,6 +46,8 @@ export default defineConfig({
       "tests/audio.test.ts",
       "tests/control-voice.test.ts",
       "tests/control-announcer.test.ts",
+      "tests/control-voice-packs.test.ts",
+      "tests/supply-box.test.ts",
       "tests/tutorial.test.ts",
       "tests/tutorial-flags.test.ts",
       "tests/anomaly-voice.test.ts",

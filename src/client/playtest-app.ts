@@ -211,6 +211,8 @@ import {
   syncCloud,
 } from "./cloud-save";
 import { openCloudSettings, openWeeklyMissions } from "./continuity-ui";
+import { refreshSupplyBox } from "./supply-box";
+import { openSupplyBox, supplyBoxCount } from "./supply-box-ui";
 import { WEEKLY_MISSIONS } from "../shared/weekly-missions";
 import { japanWeek } from "../shared/calendar";
 import { initDailyDefense } from "../shared/daily-defense";
@@ -1012,6 +1014,7 @@ function settingsUI() {
     d,
     () => sound.volume,
     () => sound.musicVolume,
+    sound,
   );
   d.querySelector("#pt-volume")!.addEventListener(
     "input",
@@ -1049,6 +1052,35 @@ function weeklyMissionsUI() {
     save = loadProgress("normal")!;
     home();
   });
+}
+function supplyBoxUI(initialized: boolean) {
+  openSupplyBox(
+    dialog,
+    {
+      // コインは既存の進行保存へ加える。進行の開始前は受け取れない（箱に残る）。
+      addCoins: initialized
+        ? (amount) => {
+            const next = structuredClone(save);
+            next.coins = Math.min(Number.MAX_SAFE_INTEGER, next.coins + amount);
+            persistProgress(next);
+            save = next;
+          }
+        : undefined,
+    },
+    updateSupplyBadge,
+  );
+}
+function updateSupplyBadge() {
+  const button = ui.querySelector<HTMLButtonElement>("#pt-supply-box");
+  if (!button) return;
+  const count = supplyBoxCount();
+  const badge = button.querySelector<HTMLElement>(".weekly-notification")!;
+  badge.textContent = String(count);
+  badge.hidden = count === 0;
+  button.setAttribute(
+    "aria-label",
+    count ? `支給ボックス、未受取${count}件` : "支給ボックス",
+  );
 }
 function updateWeeklyBadge() {
   const button = ui.querySelector<HTMLButtonElement>("#pt-weekly-missions");
@@ -1771,6 +1803,20 @@ function showHome(initialized: boolean) {
     );
     bind("pt-weekly-missions", weeklyMissionsUI);
     updateWeeklyBadge();
+    if (mode === "normal") {
+      // 初起動のヒヨリ解放とその日のログインボーナスを箱へ入れる（受け取りで初めて付与）。
+      try {
+        refreshSupplyBox();
+      } catch {
+        /* 読めない保存は上書きしない。箱を開いたときに理由を出す。 */
+      }
+      ui.querySelector(".home-challenges")!.insertAdjacentHTML(
+        "beforeend",
+        '<button id="pt-supply-box" class="weekly-title-button">支給ボックス<span class="weekly-notification" aria-hidden="true" hidden></span></button>',
+      );
+      bind("pt-supply-box", () => supplyBoxUI(initialized));
+      updateSupplyBadge();
+    }
   }
   bind("open-armory", () => enter(base));
   if (developerMode)

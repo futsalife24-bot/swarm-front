@@ -57,17 +57,72 @@ export function voiceForSet(
   return fallback && available[set].includes(fallback) ? fallback : undefined;
 }
 
-/** 規約パス `assets/audio/voice-<set>-<voice>-v<N>/<clip>.wav`（BASE_URL を除く）。 */
+/**
+ * 台詞キー `voice-<set>-<voice>-v<N>/<clip>`。
+ * 音声は公開物に同梱せず、設定からダウンロードした声のパック（control-voice-packs.ts）の目次をこのキーで引く。
+ */
 export function controlVoicePath(
   line: Pick<ControlVoiceLine, "id" | "set">,
   voice: ControlVoiceId,
 ) {
   const actual = voiceForSet(line.set, voice) ?? voice;
-  return `assets/audio/voice-${line.set}-${actual}-v${CONTROL_VOICE_SET_VERSION[line.set]}/${line.id}.wav`;
+  return `voice-${line.set}-${actual}-v${CONTROL_VOICE_SET_VERSION[line.set]}/${line.id}`;
 }
 
 export const isControlVoice = (v: unknown): v is ControlVoiceId =>
   CONTROL_VOICES.includes(v as ControlVoiceId);
+
+/** 声の表示名。 */
+export const CONTROL_VOICE_NAMES: Record<ControlVoiceId, string> = {
+  hiromi: "ヒロミ",
+  hiyori: "ヒヨリ",
+  yoko: "ヨウコ",
+};
+/** 最初から選べる声。ほかは支給ボックスで解放アイテムを受け取ると選べる（2026-11-14 本人指示）。 */
+export const CONTROL_VOICE_INITIAL: readonly ControlVoiceId[] = ["hiromi"];
+/** 解放済みの声（端末ごと・新キー。既存の保存キーには触れない）。 */
+export const CONTROL_VOICE_UNLOCK_KEY = "swarm-front-control-voice-unlocks-v1";
+
+export function unlockedControlVoices(
+  store = defaultStore(),
+): ControlVoiceId[] {
+  let saved: unknown = [];
+  try {
+    saved = JSON.parse(store?.getItem(CONTROL_VOICE_UNLOCK_KEY) ?? "[]");
+  } catch {
+    saved = [];
+  }
+  const extra = Array.isArray(saved) ? saved.filter(isControlVoice) : [];
+  return CONTROL_VOICES.filter(
+    (v) => CONTROL_VOICE_INITIAL.includes(v) || extra.includes(v),
+  );
+}
+export const isControlVoiceUnlocked = (
+  voice: ControlVoiceId,
+  store = defaultStore(),
+) => unlockedControlVoices(store).includes(voice);
+
+/** 声を解放する（何度呼んでも同じ）。保存できなければ false。 */
+export function unlockControlVoice(
+  voice: ControlVoiceId,
+  store = defaultStore(),
+) {
+  if (!isControlVoice(voice) || !store) return false;
+  const current = unlockedControlVoices(store).filter(
+    (v) => !CONTROL_VOICE_INITIAL.includes(v),
+  );
+  if (current.includes(voice) || CONTROL_VOICE_INITIAL.includes(voice))
+    return true;
+  try {
+    store.setItem(
+      CONTROL_VOICE_UNLOCK_KEY,
+      JSON.stringify([...current, voice]),
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 type Store = Pick<Storage, "getItem" | "setItem">;
 const defaultStore = (): Store | undefined => {
@@ -78,11 +133,13 @@ const defaultStore = (): Store | undefined => {
   }
 };
 
-/** 端末ごとの選択。未保存・不正値・保存先なしは既定（ヒロミ）。 */
+/** 端末ごとの選択。未保存・不正値・保存先なし・未解放の声は既定（ヒロミ）。 */
 export function loadControlVoice(store = defaultStore()): ControlVoiceId {
   try {
     const v = store?.getItem(CONTROL_VOICE_STORAGE_KEY);
-    return isControlVoice(v) ? v : DEFAULT_CONTROL_VOICE;
+    return isControlVoice(v) && isControlVoiceUnlocked(v, store)
+      ? v
+      : DEFAULT_CONTROL_VOICE;
   } catch {
     return DEFAULT_CONTROL_VOICE;
   }
