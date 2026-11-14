@@ -224,6 +224,7 @@ describe("Sound reads control voice from downloaded packs", () => {
         const source = {
           ...node(),
           buffer: null as unknown,
+          playbackRate: { value: 1 },
           onended: null as null | (() => void),
           start() {
             started.push(source.buffer);
@@ -251,7 +252,9 @@ describe("Sound reads control voice from downloaded packs", () => {
     expect(sound.controlVoice.voice).toBe("hiromi");
     // 未ダウンロード: 無音。例外にしない。通信もしない。
     await sound.prepareControlVoice(["tut-intro"]);
-    expect(sound.controlVoice.request("tut-intro")).toBe("unavailable");
+    expect(sound.controlVoice.request("tut-intro")).toBe("queued");
+    await vi.waitFor(() => expect(sound.controlVoice.waiting).toBeUndefined());
+    expect(sound.controlVoice.current).toBeUndefined();
     expect(
       network.mock.calls.some((c) =>
         /voice-(control|tutorial|packs)/.test(String(c[0])),
@@ -280,6 +283,8 @@ describe("Sound reads control voice from downloaded packs", () => {
     await packs.remove("hiromi");
     expect(sound.controlVoice.current).toBeUndefined();
     await sound.prepareControlVoice(["tut-intro"]);
-    expect(sound.controlVoice.request("tut-intro")).toBe("unavailable");
+    expect(sound.controlVoice.request("tut-intro")).toBe("duplicate");
+    await vi.waitFor(() => expect(sound.controlVoice.waiting).toBeUndefined());
+    expect(sound.controlVoice.current).toBeUndefined();
   });
 });

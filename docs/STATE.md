@@ -1,3 +1,7 @@
+## 2026-11-15 第4弾・管制AI再生改善の自己検証完了（公開準備）
+
+最新main 2bd3e703から新規 `codex/voice-fix4-20261115` / `../swarm-voice-fix4-20261115` で実装。SE読込に巻き込まれる1.5秒期限切れと旧終了待ちを実測し、専用準備・要求時点の最新優先・逆順完了の破棄へ修正。通常/1.3倍速設定を独立保存し、字幕なし・ヨウコロック・禁止範囲を維持。型/全182ファイル1857テスト/format/build/本番dry-run成功、実Chrome8条件・重複max1・連続操作の最終音声117.4ms・訓練初回再生を確認。詳細は [impl-status](impl-status-20261114.md) と [証拠](evidence/voice-fix4-20261115/README.md)。通常PR/main反映→既存Worker公開→公開実確認・記録が残る。元root/他worktree/ローカルmainは保持。
+
 # 第3弾：試聴差し替え・管制AI字幕撤去を公開（2026-11-15）
 
 最新main `22c06174` から新規 `codex/voice-fix3-20261115` / `../swarm-voice-fix3-20261115` で本人指定の2件のみ実装。[PR #341](https://github.com/futsalife24-bot/swarm-front/pull/341) を通常merge、公開ソースmain `3069d315`、既存Worker Version `dfc09c94-94a0-461d-b087-87770ae57c75`。試聴を既存の日本語home台詞へ変更し、全シーン共通字幕/設定/専用導線を撤去、「ボイスなし」を正式名称に確定。ガイド文・禁止領域・ヨウコロック・第2弾の他の成果は維持。タイトルの既存title発話は範囲外として記録のみ。
