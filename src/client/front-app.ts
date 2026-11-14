@@ -658,6 +658,8 @@ async function loadBattle() {
   clearInput();
   document.body.dataset.screen = "battle";
   $("ui").innerHTML = battleLoadingMarkup();
+  void sound.say("loading");
+  void sound.prepareControlScene("battle");
   try {
     if (
       network?.assetReady &&
@@ -1304,8 +1306,12 @@ function paintOverlay() {
       import.meta.env.BASE_URL,
       treasureRevealed,
     );
+    const chest = `${world.run}:treasure:${info.treasure?.id}`;
+    if (treasureRevealed) sound.announce("boss-reward", `${chest}:reward`);
+    else sound.announce("treasure", chest);
   } else if (levelUp) {
     ui.innerHTML = frontLevelUpMarkup();
+    sound.announce("levelup", `${world.run}:levelup:${info.picks}`);
   } else if (info.phase === "selection" && offer) {
     ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><button id="front-choice-owned" aria-haspopup="dialog">現在の強化 ${info.growthVersion === 3 ? `${Object.values(info.levels).filter((n) => n > 0).length}/6枠` : `${info.picks}/${info.maxPicks}`}</button><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
       .map((card) =>
@@ -1378,6 +1384,14 @@ function paintOverlay() {
       showOperationCue(mode === "survival" ? "srv-sortie" : "adv-sortie", {
         key: `${world.run}:sortie`,
       });
+      sound.announce(
+        mode === "survival"
+          ? "srv-sortie"
+          : mode === "defense"
+            ? "def-sortie"
+            : "adv-sortie",
+        `${world.run}:sortie`,
+      );
     }
   }
 }
@@ -1407,6 +1421,21 @@ warnings.frustumCulled = false;
 marks.count = orbs.count = warnings.count = 0;
 marks.frustumCulled = orbs.frustumCulled = false;
 view.scene.add(marks, orbs, warnings);
+/** 生存側の時間・局面のアナウンス（HUD の表示条件と同じ閾値。key で1回だけ）。 */
+function frontVoice(view: FrontRunView) {
+  if (!world) return;
+  const run = world.run;
+  if (view.phase === "boss")
+    sound.announce("final-large", `${run}:final-large`);
+  if (
+    !(view.growthVersion === 3 && view.mode === "survival") &&
+    world.time >= 480 &&
+    world.time < 540
+  )
+    sound.announce("time-warning", `${run}:time-warning`);
+  if (view.returnAt != null && view.returnAt - now() <= 300)
+    sound.announce("return-soon", `${run}:return-soon`);
+}
 function paintBattle() {
   if (!world || !info) return;
   const p = world.players.find((p) => p.id === id);
@@ -1584,13 +1613,12 @@ function frame(time: number) {
             }
           : undefined,
       );
-      showOperationCue(
-        operationCueForResult(
-          info.mode === "survival" ? "survival" : "advance",
-          info.phase,
-        ),
-        { key: `${world.run}:result` },
+      const resultCue = operationCueForResult(
+        info.mode === "survival" ? "survival" : "advance",
+        info.phase,
       );
+      showOperationCue(resultCue, { key: `${world.run}:result` });
+      sound.announce(resultCue, `${world.run}:result`);
       awardedRun = world.run;
       rewardError = rewardStatus.error;
       rewardText = rewardStatus.text;
@@ -1606,7 +1634,9 @@ function frame(time: number) {
           .replace("READY", "準備完了")
           .replace(/s$/, "秒");
     }
+    sound.controlVoice.mode = network ? "multi" : "solo";
     sound.update(world, id, controls.input.yaw, active);
+    if (active) frontVoice(info);
     const renderKey = [
       world.run,
       world.time,

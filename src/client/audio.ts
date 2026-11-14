@@ -19,7 +19,13 @@ import {
   saveControlVoice,
   type ControlVoiceId,
 } from "./control-voice";
-import { controlVoiceLine } from "./control-voice-lines";
+import {
+  controlVoiceLine,
+  controlVoiceIdsForScene,
+  playableLine,
+  type ControlVoiceScene,
+} from "./control-voice-lines";
+import { ControlAnnouncer } from "./control-announcer";
 const LEVELS: Record<string, number> = {
   ...Object.fromEntries(ANOMALY_VOICE_KEYS.map((key) => [key, 0.24])),
   rifle: 0.62,
@@ -84,6 +90,9 @@ export class Sound {
   private speechOwner = "";
   private active = false;
   private controlSources = new Set<AudioBufferSourceNode>();
+  private announcer = new ControlAnnouncer();
+  /** 基礎訓練の間は兵士の掛け声を止める（tutorial-proposal §8-1 の3）。 */
+  soldierVoiceEnabled = true;
   /** 管制AI音声。SE と同じ master を通るので音量は SE に追随する。 */
   readonly controlVoice = new ControlVoiceQueue(
     {
@@ -244,7 +253,7 @@ export class Sound {
     await Promise.all(
       ids.map(async (id) => {
         const line = controlVoiceLine(id);
-        if (!line) return;
+        if (!line || !playableLine(line)) return;
         const path = controlVoicePath(line, this.controlVoice.voice),
           key = `control:${path}`;
         if (this.buffers.has(key) || this.bytes.has(key)) return;
@@ -259,10 +268,50 @@ export class Sound {
     );
     await this.load();
   }
+  private announced: string[] = [];
+  /**
+   * 読み込み済みの1本を鳴らす。key を渡すと同じ key では二度鳴らさない
+   * （作戦キューと同じく、画面の再表示で同じ合図を繰り返さない）。
+   */
+  announce(id: string, key?: string) {
+    if (key) {
+      if (this.announced.includes(key)) return "duplicate" as const;
+      this.announced.push(key);
+      if (this.announced.length > 64) this.announced.shift();
+    }
+    return this.controlVoice.request(id);
+  }
+  /** 場面の採用分をまとめて準備する（戦闘の読み込み画面など）。 */
+  prepareControlScene(scene: ControlVoiceScene) {
+    return this.prepareControlVoice(controlVoiceIdsForScene(scene));
+  }
+  /**
+   * 1本を準備して鳴らす。waitMs 以内に用意できなければ声は諦める（字幕は呼び出し側）。
+   * 音声の終了や成否を進行条件にしないため、結果は参考情報としてだけ返す。
+   */
+  async say(id: string, waitMs = 1500) {
+    const line = controlVoiceLine(id);
+    if (!line || !playableLine(line)) return "disabled" as const;
+    const started = performance.now();
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const ready = await Promise.race([
+      this.prepareControlVoice([id]).then(() => true),
+      new Promise<false>((resolve) => {
+        timer = setTimeout(() => resolve(false), waitMs);
+      }),
+    ]);
+    clearTimeout(timer);
+    if (!ready || performance.now() - started > waitMs)
+      return "unavailable" as const;
+    return this.controlVoice.request(id);
+  }
   private startControl(path: string, onEnded: () => void) {
     const c = this.context,
       buffer = this.buffers.get(`control:${path}`);
     if (!c || !buffer || !this.master) throw Error("control voice not ready");
+    // 発話は同時に1本: 管制AIが話し始めたら兵士の掛け声を止める。
+    this.speech?.stop();
+    this.speech = undefined;
     const source = c.createBufferSource(),
       gain = c.createGain();
     source.buffer = buffer;
@@ -322,6 +371,7 @@ export class Sound {
     if (!w) {
       this.tracker = new CombatAudio();
       this.resetSpeech();
+      this.announcer.suspend();
       return;
     }
     const p = w.players.find((p) => p.id === id);
@@ -343,6 +393,7 @@ export class Sound {
       w,
       id,
       active &&
+        this.soldierVoiceEnabled &&
         !!p?.connected &&
         p.hp > 0 &&
         this.effectsVolume > 0 &&
@@ -350,6 +401,9 @@ export class Sound {
         SOLDIER_VOICES.every((v) => this.buffers.has(`voice:${v.id}`)),
     );
     if (line) this.speak(line);
+    for (const cue of this.announcer.collect(w, id, active))
+      this.controlVoice.request(cue);
+    this.controlVoice.tick();
     const calls = this.anomaly.collect(
       w,
       id,
@@ -384,6 +438,8 @@ export class Sound {
     const c = this.context,
       buffer = this.buffers.get(`voice:${clip}`);
     if (!c || !buffer || !this.master) return;
+    // 管制AIの発話中は兵士の掛け声を重ねない。
+    if (this.controlVoice.current) return;
     if (this.speech) {
       if (clip !== "warning") return;
       this.speech.stop();

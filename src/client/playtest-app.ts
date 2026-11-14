@@ -57,6 +57,7 @@ import { openWeaponWorkshop } from "./weapon-workshop-ui";
 import { showOperationCue, cancelOperationCue } from "./operation-cue";
 import { mountTitleMotion, trackTitleAction } from "./title-motion";
 import { openTutorialGuide } from "./tutorial-guide";
+import { watchSupplyVoice } from "./supply-voice";
 import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
 import { hudMarkup, updateCooldowns } from "./hud";
@@ -216,6 +217,8 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   loadReady = false;
   paused = false;
   setScreen("loading");
+  void sound.say("loading");
+  void sound.prepareControlScene("battle");
   const p = soldier(save);
   world = createWorld(
     crypto.randomUUID(),
@@ -620,6 +623,14 @@ function finishDaily(interrupted = false) {
       ui.classList.add("pt-clear");
       const ledger = save.dailyDefense!;
       ui.innerHTML = `<div class="daily-cinematic"><strong>${outcome === "victory" ? "武器庫を守り抜いた" : d.armory.hp <= 0 ? "武器庫が破壊された" : "防衛作戦終了"}</strong></div>`;
+      sound.announce(
+        outcome === "victory"
+          ? "daily-victory"
+          : d.armory.hp <= 0
+            ? "daily-destroyed"
+            : "daily-ended",
+        `${w.run}:daily-result`,
+      );
       const showResult = () => {
         if (
           world !== w ||
@@ -694,6 +705,8 @@ function result() {
   );
   bind("pt-result-home", home);
   bind("pt-result-retry", gear);
+  // 敗北は作戦キュー adv-failed の声が先に鳴るため、勝利の時だけ案内する。
+  if (r.win) sound.announce("result-win", `${r.run}:result`);
 }
 function report() {
   modalCount++;
@@ -753,6 +766,7 @@ function encounter() {
     commit(n, () => {
       // A save conflict opens its own dialog without starting a cutscene.
       encounterActive = true;
+      sound.announce("anomaly-new");
       const d = dialog(
         `新たなANOMALYを確認：${names[key]}`,
         '<p>エネミーレポートに記録しました。</p><button id="pt-intro-skip">スキップして戦闘へ</button>',
@@ -1137,6 +1151,8 @@ function frame(now: number) {
           ? `次波まで ${Math.max(0, Math.ceil(warn))}秒`
           : undefined,
     );
+    if (screen === "battle" && !world.defense && warn > 0 && warn <= 10)
+      sound.announce("wave-incoming", `${world.run}:incoming:${world.wave}`);
     updateCooldowns(world, "solo", true);
     const med = $("revive") as HTMLButtonElement;
     med.disabled = !s.medkit || p.hp <= 0 || p.hp >= maxHp(world);
@@ -1432,6 +1448,8 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   return true;
 }
 let releaseRewardDetails: (() => void) | undefined;
+let releaseSupplyVoice: (() => void) | undefined;
+let homeVoiced = false;
 function setScreen(next: string) {
   releaseRewardDetails?.();
   releaseRewardDetails = undefined;
@@ -1439,14 +1457,24 @@ function setScreen(next: string) {
   activeBuddyMenu = undefined;
   activeSupplyMenu?.destroy();
   activeSupplyMenu = undefined;
+  releaseSupplyVoice?.();
+  releaseSupplyVoice = undefined;
   if (next !== screen) {
     cancelOperationCue();
-    if (next === "battle")
+    if (next === "battle") {
       showOperationCue("adv-sortie", { key: `${world?.run}:sortie` });
-    else if (next === "collection")
+      sound.announce(
+        world?.defense ? "daily-sortie" : "adv-sortie",
+        `${world?.run}:sortie`,
+      );
+    } else if (next === "collection") {
       showOperationCue("adv-complete", { key: `${world?.run}:complete` });
-    else if (next === "result" && save?.result?.win === false)
+      // 回収時間の案内（G4 の既存 stage-clear）。作戦達成の声と1本の枠を取り合うため、こちらを鳴らす。
+      sound.announce("stage-clear", `${world?.run}:complete`);
+    } else if (next === "result" && save?.result?.win === false) {
       showOperationCue("adv-failed", { key: `${save.result.run}:failed` });
+      sound.announce("adv-failed", `${save.result.run}:failed`);
+    }
   }
   backgroundMusic().setScreen(next, save?.result?.win === true, world);
   queueMicrotask(() => {
@@ -1621,6 +1649,9 @@ function showHome(initialized: boolean) {
     install: canInstallApp(),
   });
   if (canInstallApp()) bind("install", () => installApp());
+  // 起動して最初のホームはタイトル名、以降は「出撃待機中」を案内する。
+  void sound.say(homeVoiced ? "home" : "title");
+  homeVoiced = true;
   const enter = (after: () => void) =>
     initialized
       ? after()
@@ -1632,14 +1663,15 @@ function showHome(initialized: boolean) {
             after();
           },
         );
-  bind("solo", () =>
+  bind("solo", () => {
+    void sound.say("pick-operation");
     openOperationPicker("solo", {
       advance: () => enter(gear),
       survival: () => {
         navigateMenu(import.meta.env.BASE_URL + "front?solo=1");
       },
-    }),
-  );
+    });
+  });
   if (!developerMode) {
     ui.querySelector(".home-challenges")!.insertAdjacentHTML(
       "beforeend",
@@ -1668,7 +1700,8 @@ function showHome(initialized: boolean) {
   bind("open-bestiary", () => enter(report));
   bind("home-settings", settingsUI);
   bind("home-tutorial", () => openTutorialGuide(dialog));
-  bind("coop", () =>
+  bind("coop", () => {
+    void sound.say("pick-operation");
     openOperationPicker("coop", {
       advance: () => {
         navigateMenu(
@@ -1680,8 +1713,8 @@ function showHome(initialized: boolean) {
       survival: () => {
         navigateMenu(import.meta.env.BASE_URL + "front?coop=1");
       },
-    }),
-  );
+    });
+  });
   bind("changelog", () =>
     dialog(
       "更新履歴",
@@ -2062,6 +2095,8 @@ function supply() {
     developerMode ? "補給ポッド・演出確認" : "補給ポッド",
     '<div class="pt-supply"></div>',
   );
+  void sound.prepareControlScene("supply");
+  releaseSupplyVoice = watchSupplyVoice((id) => sound.announce(id));
   if (developerMode) {
     activeSupplyMenu = mountSupplyPreview(
       ui.querySelector(".pt-supply")!,

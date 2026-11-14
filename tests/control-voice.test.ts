@@ -1,10 +1,18 @@
+import fs from "node:fs";
+import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import {
+  CONTROL_SET_LINES,
   CONTROL_VOICE_LINES,
+  TUTORIAL_VOICE_LINES,
+  controlVoiceIdsForScene,
   controlVoiceLine,
+  playableLine,
 } from "../src/client/control-voice-lines";
 import {
+  CONTROL_VOICE_SET_VOICES,
   CONTROL_VOICE_STORAGE_KEY,
+  voiceForSet,
   ControlVoiceQueue,
   DEFAULT_CONTROL_VOICE,
   GUIDE_WAIT_MS,
@@ -41,34 +49,72 @@ function queue(missing: string[] = []) {
 
 describe("control voice line table", () => {
   it("holds the 34 tutorial lines with tags as data", () => {
-    expect(CONTROL_VOICE_LINES).toHaveLength(34);
-    expect(new Set(CONTROL_VOICE_LINES.map((l) => l.id)).size).toBe(34);
+    expect(TUTORIAL_VOICE_LINES).toHaveLength(34);
+    expect(new Set(TUTORIAL_VOICE_LINES.map((l) => l.id)).size).toBe(34);
     const count = (tag: string) =>
-      CONTROL_VOICE_LINES.filter((l) => l.tag === tag).length;
+      TUTORIAL_VOICE_LINES.filter((l) => l.tag === tag).length;
     expect([count("common"), count("solo"), count("multi")]).toEqual([
       28, 2, 4,
     ]);
     const production = (p: string) =>
-      CONTROL_VOICE_LINES.filter((l) => l.production === p).length;
+      TUTORIAL_VOICE_LINES.filter((l) => l.production === p).length;
     expect([
       production("required"),
       production("recommended"),
       production("optional"),
     ]).toEqual([24, 7, 3]);
   });
+  it("registers all 147 control lines with unique ids", () => {
+    expect(CONTROL_SET_LINES).toHaveLength(147);
+    expect(CONTROL_VOICE_LINES).toHaveLength(181);
+    expect(new Set(CONTROL_VOICE_LINES.map((l) => l.id)).size).toBe(181);
+    const category = (c: string) =>
+      CONTROL_SET_LINES.filter((l) => l.category === c).length;
+    expect(
+      ["announce", "supply", "coop", "system", "weapon", "report", "brief"].map(
+        category,
+      ),
+    ).toEqual([46, 14, 10, 19, 12, 20, 26]);
+    for (const line of CONTROL_VOICE_LINES) {
+      expect(line.text.length).toBeGreaterThan(0);
+      expect(line.trigger.length).toBeGreaterThan(0);
+    }
+  });
+  it("adopts required and recommended control lines by default", () => {
+    for (const line of CONTROL_SET_LINES)
+      expect(line.adopted).toBe(line.production !== "optional");
+    expect(TUTORIAL_VOICE_LINES.every((l) => l.adopted)).toBe(true);
+  });
   it("uses the adopted tut-reload wording", () => {
     expect(controlVoiceLine("tut-reload")?.text).toBe(
-      "弾を撃ち切ると、自動で装填が始まります。装填ボタンで、好きなときに装填することもできます。一度、装填してください。",
+      "弾切れになると、自動で装填が始まります。装填ボタンで、好きなときに装填することもできます。一度、装填してください。",
     );
   });
-  it("excludes brief-* and anomaly-* lines and keeps G18 disabled", () => {
-    expect(
-      CONTROL_VOICE_LINES.filter((l) => /^(brief|anomaly)-/.test(l.id)),
-    ).toEqual([]);
-    expect(controlVoiceLine("tut-enemy-info")?.enabled).toBe(false);
+  it("blocks brief-* and anomaly names, keeps anomaly-new and G18 disabled", () => {
+    const briefs = CONTROL_SET_LINES.filter((l) => l.id.startsWith("brief-"));
+    expect(briefs).toHaveLength(26);
+    expect(briefs.every((l) => l.blocked === "abolished")).toBe(true);
+    const names = CONTROL_SET_LINES.filter(
+      (l) => l.id.startsWith("anomaly-") && l.id !== "anomaly-new",
+    );
+    expect(names).toHaveLength(10);
+    expect(names.every((l) => l.blocked === "on-hold")).toBe(true);
+    expect(playableLine(controlVoiceLine("anomaly-new")!)).toBe(true);
+    expect(controlVoiceLine("tut-enemy-info")?.blocked).toBe("unimplemented");
+    expect(controlVoiceIdsForScene("battle")).not.toContain("anomaly-harrow");
+  });
+  it("ships an audio file for every playable line in each recorded voice", () => {
+    const root = path.resolve("public");
+    for (const line of CONTROL_VOICE_LINES) {
+      for (const voice of CONTROL_VOICE_SET_VOICES[line.set]) {
+        const file = path.join(root, controlVoicePath(line, voice));
+        if (line.blocked === "abolished" || line.blocked === "on-hold")
+          expect(fs.existsSync(file), file).toBe(false);
+        else expect(fs.existsSync(file), file).toBe(true);
+      }
+    }
   });
 });
-
 describe("control voice selection and paths", () => {
   const store = () => {
     const m = new Map<string, string>();
@@ -101,6 +147,26 @@ describe("control voice selection and paths", () => {
     expect(controlVoicePath(controlVoiceLine("tut-intro")!, "hiromi")).toBe(
       "assets/audio/voice-tutorial-hiromi-v1/tut-intro.wav",
     );
+    expect(controlVoicePath(controlVoiceLine("wave-clear")!, "yoko")).toBe(
+      "assets/audio/voice-control-yoko-v1/wave-clear.wav",
+    );
+  });
+  it("falls back to Hiromi for the tutorial set (provisional, data-driven)", () => {
+    expect(controlVoicePath(controlVoiceLine("tut-intro")!, "yoko")).toBe(
+      "assets/audio/voice-tutorial-hiromi-v1/tut-intro.wav",
+    );
+    expect(voiceForSet("tutorial", "hiyori")).toBe("hiromi");
+    expect(voiceForSet("control", "hiyori")).toBe("hiyori");
+    // 代替を外せば字幕だけになる。収録が増えれば選んだ声で鳴る。
+    expect(voiceForSet("tutorial", "hiyori", undefined, null)).toBe(undefined);
+    expect(
+      voiceForSet(
+        "tutorial",
+        "hiyori",
+        { tutorial: ["hiromi", "hiyori"], control: [] },
+        null,
+      ),
+    ).toBe("hiyori");
   });
   it("filters solo and multi lines by entry route", () => {
     const medkit = controlVoiceLine("tut-medkit")!,
@@ -159,6 +225,9 @@ describe("control voice queue", () => {
     const alert = {
       id: "alert",
       set: "control" as const,
+      category: "announce" as const,
+      scene: "battle" as const,
+      adopted: true,
       trigger: "test",
       text: "警告",
       tag: "common" as const,
@@ -199,7 +268,10 @@ describe("control voice queue", () => {
     expect(q.request("tut-medkit")).toBe("filtered");
     expect(q.request("tut-revive")).toBe("playing");
     expect(q.request("tut-enemy-info")).toBe("disabled");
-    expect(q.request("brief-01")).toBe("unknown");
+    expect(q.request("brief-01")).toBe("disabled");
+    expect(q.request("anomaly-harrow")).toBe("disabled");
+    expect(q.request("weapon-rifle")).toBe("unadopted");
+    expect(q.request("no-such-line")).toBe("unknown");
     expect(started).toEqual(["tut-revive"]);
   });
   it("treats missing audio files as unavailable without throwing", () => {
