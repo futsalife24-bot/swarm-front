@@ -1,0 +1,23 @@
+{
+  "source": "e67964e63794b69c288e66939667fb0cf9bf5451",
+  "implementation": "15f5ddec04956682184f2ed6388cdeb599d83b79",
+  "pr": "https://github.com/futsalife24-bot/swarm-front/pull/339",
+  "worker": "swarm-front",
+  "version": "4298818a-0185-40e8-b2f7-2ec35991d93c",
+  "buildExit": 0,
+  "dryRunExit": 0,
+  "deployExit": 0,
+  "publishedFiles": 30,
+  "health": {
+    "status": 200,
+    "ok": true
+  },
+  "publishedBrowser": {
+    "settingsChecks": 5,
+    "pageErrors": 0,
+    "sizes": [
+      "844x390",
+      "568x320"
+    ]
+  }
+}
