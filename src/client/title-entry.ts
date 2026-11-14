@@ -62,6 +62,7 @@ export function mountTitleEntry(root: HTMLElement) {
     portrait.removeEventListener("change", orientation);
     entry.close();
     entry.remove();
+    entry.dispatchEvent(new Event("swarm-title-ready"));
     root
       .querySelector<HTMLButtonElement>("#solo")
       ?.focus({ preventScroll: true });

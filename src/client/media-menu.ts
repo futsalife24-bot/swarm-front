@@ -38,7 +38,7 @@ export function mountMediaMenu(
   const entries = document.createElement("nav");
   entries.className = "settings-media";
   entries.setAttribute("aria-label", "データ保存・音楽・映像");
-  entries.innerHTML = `<button type="button" data-download-menu>データを事前ダウンロード</button>${controlVoice ? '<button type="button" data-control-voice>管制AIボイス</button>' : ""}<button type="button" data-sound-test>サウンドテスト</button><button type="button" data-pv>PVを見る</button>`;
+  entries.innerHTML = `<button type="button" data-download-menu>データを事前ダウンロード</button>${controlVoice ? '<button type="button" data-control-voice>管制AIボイス</button><button type="button" data-control-captions>管制AIの字幕</button>' : ""}<button type="button" data-sound-test>サウンドテスト</button><button type="button" data-pv>PVを見る</button>`;
   const panel = owner.querySelector("#settings-save");
   const name = panel?.querySelector(".player-name-setting");
   if (name) name.after(entries);
@@ -58,6 +58,14 @@ export function mountMediaMenu(
         },
         { once: true },
       );
+    };
+  const captionsButton = entries.querySelector<HTMLButtonElement>(
+    "[data-control-captions]",
+  );
+  if (captionsButton)
+    captionsButton.onclick = () => {
+      voiceButton?.click();
+      active?.querySelector<HTMLSelectElement>(".cv-captions select")?.focus();
     };
   entries.querySelector<HTMLButtonElement>("[data-download-menu]")!.onclick =
     () => {

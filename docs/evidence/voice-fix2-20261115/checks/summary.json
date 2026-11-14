@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-15 JST",
+  "base": "8fd172f05902a1c5530927ab746c3c96444a5b47",
+  "typecheck": 0,
+  "tests": {
+    "exit": 0,
+    "files": 181,
+    "tests": 1861,
+    "seconds": 300.47
+  },
+  "format": 0,
+  "build": 0,
+  "workerDryRun": 0,
+  "browserPageErrors": 0,
+  "note": "実機・実聴品質・多人数実インターネットは未確認。各試験の範囲はREADME参照。"
+}

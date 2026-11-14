@@ -1,3 +1,9 @@
+import {
+  ControlCaptions,
+  CONTROL_VOICE_ENABLED_KEY,
+  loadVoiceEnabled,
+} from "./control-captions";
+import { isControlVoiceUnlocked } from "./control-voice";
 import { loadControlVoiceVolume } from "./control-voice-volume";
 import { backgroundMusic } from "./bgm";
 import { CombatAudio } from "./combat-audio";
@@ -101,6 +107,9 @@ export class Sound {
   /** 基礎訓練の間は兵士の掛け声を止める（tutorial-proposal §8-1 の3）。 */
   soldierVoiceEnabled = true;
   /** 管制AI音声。全体音量と専用の倍率を通り、SE音量から独立する。 */
+  private readonly captions = new ControlCaptions();
+  private previewGeneration = 0;
+  private previewStop?: () => void;
   readonly controlVoice = new ControlVoiceQueue(
     {
       ready: (path) =>
@@ -111,7 +120,11 @@ export class Sound {
         this.buffers.has(`control:${path}`),
       start: (path, onEnded) => this.startControl(path, onEnded),
     },
-    { voice: loadControlVoice() },
+    {
+      voice: loadControlVoice(),
+      enabled: loadVoiceEnabled(),
+      caption: (line, audible) => this.captions.show(line, audible),
+    },
   );
   get volume() {
     return this.level;
@@ -287,8 +300,57 @@ export class Sound {
     return this.decoding;
   }
   /** 管制AIの声を切り替えて端末に保存する。読み込みは prepareControlVoice で行う。 */
+  setControlVoiceEnabled(enabled: boolean) {
+    try {
+      localStorage.setItem(CONTROL_VOICE_ENABLED_KEY, String(enabled));
+    } catch {
+      /* 起動中だけ適用 */
+    }
+    this.stopControlPreview();
+    this.controlVoice.stop();
+    this.captions.clear();
+    this.controlVoice.enabled = enabled;
+  }
+  stopControlPreview() {
+    this.previewGeneration++;
+    if (this.previewStop) this.captions.clear();
+    this.previewStop?.();
+    this.previewStop = undefined;
+  }
+  async previewControlVoice(voice: ControlVoiceId) {
+    this.stopControlPreview();
+    const generation = this.previewGeneration;
+    if (
+      voice === "yoko" ||
+      !isControlVoiceUnlocked(voice) ||
+      (await this.packs.state(voice)) !== "ready"
+    )
+      return false;
+    if (generation !== this.previewGeneration) return false;
+    this.controlVoice.stop();
+    this.unlock();
+    await this.prepareControlVoice(["title"], voice);
+    if (generation !== this.previewGeneration) return false;
+    if (
+      !this.context ||
+      this.context.state !== "running" ||
+      this.controlOutputVolume <= 0
+    )
+      return false;
+    const path = controlVoicePath(controlVoiceLine("title")!, voice);
+    if (!this.buffers.has(`control:${path}`)) return false;
+    this.previewStop = this.startControl(path, () => {
+      this.previewStop = undefined;
+    });
+    this.captions.show(controlVoiceLine("title")!, true);
+    return true;
+  }
+  clearControlCaptions() {
+    this.captions.clear();
+  }
   setControlVoice(voice: ControlVoiceId) {
     // 保存先がなくても、この起動中は選んだ声を使う。
+    this.setControlVoiceEnabled(true);
     saveControlVoice(voice);
     if (this.controlVoice.voice === voice) return;
     this.controlVoice.stop();
@@ -299,12 +361,15 @@ export class Sound {
    * 音声は設定でダウンロードした声のパックから引く。通信はしない。
    * 未ダウンロード・旧版・削除済みの声は読み込まれず、再生要求は "unavailable"（字幕だけ）になる。
    */
-  async prepareControlVoice(ids: readonly string[]) {
+  async prepareControlVoice(
+    ids: readonly string[],
+    voice = this.controlVoice.voice,
+  ) {
     await Promise.all(
       ids.map(async (id) => {
         const line = controlVoiceLine(id);
         if (!line || !playableLine(line)) return;
-        const path = controlVoicePath(line, this.controlVoice.voice),
+        const path = controlVoicePath(line, voice),
           key = `control:${path}`;
         if (this.buffers.has(key) || this.bytes.has(key)) return;
         try {
@@ -351,7 +416,7 @@ export class Sound {
     ]);
     clearTimeout(timer);
     if (!ready || performance.now() - started > waitMs)
-      return "unavailable" as const;
+      return this.controlVoice.request(id, false);
     return this.controlVoice.request(id);
   }
   private startControl(path: string, onEnded: () => void) {
@@ -386,7 +451,11 @@ export class Sound {
   }
   stop(combatOnly = false) {
     this.resetSpeech();
-    if (!combatOnly) this.controlVoice.stop();
+    if (!combatOnly) {
+      this.controlVoice.stop();
+      this.stopControlPreview();
+      this.captions.clear();
+    }
     for (const voice of this.voices) {
       if (combatOnly && this.menuVoices.has(voice)) continue;
       voice.stop();

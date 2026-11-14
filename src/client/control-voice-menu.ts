@@ -1,4 +1,5 @@
-/** 設定 → 管制AIボイス: 声の選択と、声ごとのダウンロード・削除（2026-11-14）。 */
+/** 設定 → 管制AIボイス: 声/字幕の選択・ダウンロード・試聴。 */
+import { loadVoiceEnabled, mountCaptionSetting } from "./control-captions";
 import { formatDownloadBytes } from "./asset-download";
 import {
   CONTROL_VOICES,
@@ -17,6 +18,10 @@ import "./control-voice-menu.css";
 
 export interface ControlVoiceHost {
   setControlVoice(voice: ControlVoiceId): void;
+  setControlVoiceEnabled(enabled: boolean): void;
+  previewControlVoice(voice: ControlVoiceId): Promise<boolean>;
+  stopControlPreview(): void;
+  clearControlCaptions(): void;
 }
 
 const NOTES: Record<ControlVoiceId, string> = {
@@ -43,14 +48,21 @@ export function openControlVoiceMenu(
 ) {
   const d = menuDialog(
     "管制AIボイス",
-    '<p class="cv-intro">声は端末に保存して使います。未ダウンロードの声は字幕だけで進みます（エラーにはなりません）。</p><div class="cv-list" role="radiogroup" aria-label="使う声"></div><p class="cv-status" role="status" aria-live="polite"></p><small class="cv-note">保存先はこのブラウザです。端末の空き容量が少ないと自動で消えることがあります。チュートリアルの音声はヒロミの声で再生します。</small>',
+    '<p class="cv-intro">声は端末に保存して使います。未ダウンロードの声は再生されません。字幕の表示は下の設定で選べます。</p><div class="cv-list" role="radiogroup" aria-label="使う声"></div><p class="cv-status" role="status" aria-live="polite"></p><small class="cv-note">保存先はこのブラウザです。端末の空き容量が少ないと自動で消えることがあります。チュートリアルの音声はヒロミの声で再生します。</small>',
     "SETTINGS / VOICE",
   );
   d.classList.add("cv-dialog");
+  const captionSelect = mountCaptionSetting(
+    d.querySelector(".menu-dialog-body")!,
+    () => {
+      host.clearControlCaptions();
+      status.textContent = "字幕の設定を保存しました。";
+    },
+  );
   const list = d.querySelector<HTMLElement>(".cv-list")!;
+  list.before(captionSelect.parentElement!);
   const status = d.querySelector<HTMLElement>(".cv-status")!;
   const progress = new Map<ControlVoiceId, number>();
-  const lifetime = new AbortController();
   let closed = false;
   const ownerClosed = () => closeMenuDialog(d);
   owner?.addEventListener("close", ownerClosed, { once: true });
@@ -60,7 +72,7 @@ export function openControlVoiceMenu(
     () => {
       closed = true;
       // 閉じても保存中のダウンロードは止めない（完了すれば保存される）。
-      lifetime.abort();
+      host.stopControlPreview();
       unsubscribe();
       owner?.removeEventListener("close", ownerClosed);
     },
@@ -69,27 +81,43 @@ export function openControlVoiceMenu(
   let drawing = 0;
   async function render() {
     const generation = ++drawing;
-    const selected = loadControlVoice();
+    const selected = loadVoiceEnabled() ? loadControlVoice() : "none";
     const states = await Promise.all(
       CONTROL_VOICES.map((voice) => packs.state(voice)),
     );
     if (closed || generation !== drawing) return;
     list.replaceChildren(
+      noVoiceRow(selected === "none"),
       ...CONTROL_VOICES.map((voice, i) =>
         row(voice, states[i], selected === voice),
       ),
     );
+  }
+  function noVoiceRow(selected: boolean) {
+    const el = document.createElement("div");
+    el.className = "cv-row cv-none";
+    el.dataset.voice = "none";
+    el.dataset.selected = String(selected);
+    el.innerHTML = `<label class="cv-pick"><input type="radio" name="cv-voice" value="none" ${selected ? "checked" : ""}><b>ボイスなし（字幕のみ）</b><small>字幕は上の設定に従います</small></label><span class="cv-state">${selected ? "選択中" : ""}</span>`;
+    el.querySelector("input")!.onchange = () => {
+      host.setControlVoiceEnabled(false);
+      status.textContent =
+        "管制AIボイスをオフにしました。字幕は上の設定に従います。";
+      void render();
+    };
+    return el;
   }
   function row(
     voice: ControlVoiceId,
     state: ControlVoicePackState,
     selected: boolean,
   ) {
-    const unlocked = isControlVoiceUnlocked(voice),
+    const unlocked = voice !== "yoko" && isControlVoiceUnlocked(voice),
       entry = packs.entry(voice);
     const el = document.createElement("div");
     el.className = "cv-row";
     el.dataset.voice = voice;
+    el.dataset.selected = String(selected);
     el.dataset.state = unlocked ? state : "locked";
     const pick = document.createElement("label");
     pick.className = "cv-pick";
@@ -104,11 +132,12 @@ export function openControlVoiceMenu(
       status.textContent =
         state === "ready"
           ? `${CONTROL_VOICE_NAMES[voice]}の声に切り替えました。`
-          : `${CONTROL_VOICE_NAMES[voice]}を選びました。ダウンロードするまでは字幕だけで進みます。`;
+          : `${CONTROL_VOICE_NAMES[voice]}を選びました。ダウンロードするまで音声は再生されません。`;
       void render();
     };
     const name = document.createElement("b");
-    name.textContent = CONTROL_VOICE_NAMES[voice];
+    name.textContent =
+      CONTROL_VOICE_NAMES[voice] + (selected ? " · 選択中" : "");
     const note = document.createElement("small");
     note.textContent = unlocked ? NOTES[voice] : LOCKED[voice];
     pick.append(radio, name, note);
@@ -124,23 +153,38 @@ export function openControlVoiceMenu(
         ? `${STATE_LABEL[state]} ${percent}%`
         : STATE_LABEL[state];
     el.append(pick, size, label);
-    if (unlocked && entry) {
+    const preview = document.createElement("button");
+    preview.type = "button";
+    preview.dataset.cvAction = "preview";
+    preview.textContent = "試聴";
+    preview.setAttribute("aria-label", `${CONTROL_VOICE_NAMES[voice]}を試聴`);
+    preview.disabled = !unlocked || state !== "ready";
+    preview.title = !unlocked
+      ? "未解放のため試聴できません"
+      : state !== "ready"
+        ? "ダウンロード後に試聴できます"
+        : "代表台詞を再生";
+    preview.onclick = async () => {
+      preview.disabled = true;
+      const played = await host.previewControlVoice(voice);
+      if (closed) return;
+      status.textContent = played
+        ? `${CONTROL_VOICE_NAMES[voice]}のサンプルを再生しています。`
+        : "試聴できません。音量・保存状態を確認してください。";
+      preview.disabled = false;
+    };
+    el.append(preview);
+    if (unlocked && entry && state !== "ready") {
       const action = document.createElement("button");
       action.type = "button";
-      action.dataset.cvAction = state === "ready" ? "delete" : "download";
-      action.textContent =
-        state === "ready"
-          ? "削除"
-          : state === "outdated"
-            ? "更新"
-            : "ダウンロード";
+      action.dataset.cvAction = "download";
+      action.textContent = state === "outdated" ? "更新" : "ダウンロード";
       action.disabled = state === "downloading";
       action.setAttribute(
         "aria-label",
         `${CONTROL_VOICE_NAMES[voice]}の音声を${action.textContent}`,
       );
-      action.onclick = () =>
-        void (state === "ready" ? remove(voice) : download(voice));
+      action.onclick = () => void download(voice);
       el.append(action);
     }
     return el;
@@ -172,15 +216,6 @@ export function openControlVoiceMenu(
       progress.delete(voice);
       void render();
     }
-  }
-  async function remove(voice: ControlVoiceId) {
-    try {
-      await packs.remove(voice);
-      status.textContent = `${CONTROL_VOICE_NAMES[voice]}の音声を削除しました。字幕だけで進みます。`;
-    } catch {
-      status.textContent = "削除できませんでした。再試行してください。";
-    }
-    void render();
   }
   void render();
   return d;
