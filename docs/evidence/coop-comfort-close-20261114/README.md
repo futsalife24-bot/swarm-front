@@ -75,4 +75,4 @@ raw・全Chrome画像はGit除外 `dist-validation/coop-comfort-close-20261114/`
 
 本人用は[5分実機確認票](device-check.md)。実機報告を受領済みであることを維持し、goal終了の未受領と区別する。通常ソロ/協力UI・本番配信は11/13の[既存公開証拠](../coop-comfort-close-20261113/README.md)を参照し、今回の追加検証としない。
 
-GitHub正本: https://github.com/futsalife24-bot/swarm-front 。主担当の実モデルID/推論設定は取得不可・未確認、サブエージェントなし。今回の独立Chat監査は依頼されておらず追加していない。
+GitHub正本: https://github.com/futsalife24-bot/swarm-front 、本記録の反映先は [PR #336](https://github.com/futsalife24-bot/swarm-front/pull/336)。主担当の実モデルID/推論設定は取得不可・未確認、サブエージェントなし。今回の独立Chat監査は依頼されておらず追加していない。
