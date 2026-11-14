@@ -12,6 +12,24 @@ import {
   ANOMALY_VOICE_KEYS,
   ANOMALY_VOICE_PATH,
 } from "./anomaly-voice";
+import {
+  ControlVoiceQueue,
+  controlVoicePath,
+  loadControlVoice,
+  saveControlVoice,
+  type ControlVoiceId,
+} from "./control-voice";
+import {
+  controlVoiceLine,
+  controlVoiceIdsForScene,
+  playableLine,
+  type ControlVoiceScene,
+} from "./control-voice-lines";
+import { ControlAnnouncer } from "./control-announcer";
+import {
+  controlVoicePacks,
+  type ControlVoicePacks,
+} from "./control-voice-packs";
 const LEVELS: Record<string, number> = {
   ...Object.fromEntries(ANOMALY_VOICE_KEYS.map((key) => [key, 0.24])),
   rifle: 0.62,
@@ -75,6 +93,23 @@ export class Sound {
   private speechRun = "";
   private speechOwner = "";
   private active = false;
+  private controlSources = new Set<AudioBufferSourceNode>();
+  private announcer = new ControlAnnouncer();
+  /** 基礎訓練の間は兵士の掛け声を止める（tutorial-proposal §8-1 の3）。 */
+  soldierVoiceEnabled = true;
+  /** 管制AI音声。SE と同じ master を通るので音量は SE に追随する。 */
+  readonly controlVoice = new ControlVoiceQueue(
+    {
+      ready: (path) =>
+        !!this.master &&
+        this.context?.state === "running" &&
+        this.effectsVolume > 0 &&
+        !document.hidden &&
+        this.buffers.has(`control:${path}`),
+      start: (path, onEnded) => this.startControl(path, onEnded),
+    },
+    { voice: loadControlVoice() },
+  );
   get volume() {
     return this.level;
   }
@@ -104,7 +139,22 @@ export class Sound {
       );
     if (this.effectsVolume === 0) this.stop();
   }
-  constructor() {
+  constructor(
+    /** 管制AIの声の取得元（設定でダウンロードしたパック）。テストで差し替える。 */
+    private readonly packs: ControlVoicePacks = controlVoicePacks,
+  ) {
+    // パックの保存・削除で、展開済みの声を捨てる（削除後は無音・字幕だけに戻る）。
+    packs.subscribe((voice) => {
+      const pattern = new RegExp(`^control:voice-[a-z]+-${voice}-v\\d+/`);
+      let removed = false;
+      for (const map of [this.buffers, this.bytes] as Map<string, unknown>[])
+        for (const key of [...map.keys()])
+          if (pattern.test(key)) {
+            map.delete(key);
+            removed = true;
+          }
+      if (removed) this.controlVoice.stop();
+    });
     void this.preload();
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
@@ -153,7 +203,10 @@ export class Sound {
       if (!this.context) {
         this.context = new AudioContext();
         this.context.onstatechange = () => {
-          if (this.context?.state !== "running") this.resetSpeech();
+          if (this.context?.state !== "running") {
+            this.resetSpeech();
+            this.controlVoice.stop();
+          }
         };
         this.master = this.context.createGain();
         this.master.gain.value = this.effectsVolume;
@@ -180,9 +233,14 @@ export class Sound {
       /* Gameplay also works where Web Audio is unavailable. */
     }
   }
-  async load() {
+  async load(): Promise<void> {
     if (!this.context) return;
-    if (this.decoding) return this.decoding;
+    if (this.decoding) {
+      // 展開中に追加された声（パックから読んだ台詞など）も、待たせた側で展開する。
+      await this.decoding;
+      if ([...this.bytes.keys()].every((key) => this.buffers.has(key))) return;
+      return this.load();
+    }
     this.decoding = (async () => {
       await this.preload();
       await Promise.all(
@@ -203,8 +261,106 @@ export class Sound {
     });
     return this.decoding;
   }
+  /** 管制AIの声を切り替えて端末に保存する。読み込みは prepareControlVoice で行う。 */
+  setControlVoice(voice: ControlVoiceId) {
+    // 保存先がなくても、この起動中は選んだ声を使う。
+    saveControlVoice(voice);
+    if (this.controlVoice.voice === voice) return;
+    this.controlVoice.stop();
+    this.controlVoice.voice = voice;
+  }
+  /**
+   * 指定した台詞だけを、選択中の声で展開する（起動時の一括読み込みには載せない）。
+   * 音声は設定でダウンロードした声のパックから引く。通信はしない。
+   * 未ダウンロード・旧版・削除済みの声は読み込まれず、再生要求は "unavailable"（字幕だけ）になる。
+   */
+  async prepareControlVoice(ids: readonly string[]) {
+    await Promise.all(
+      ids.map(async (id) => {
+        const line = controlVoiceLine(id);
+        if (!line || !playableLine(line)) return;
+        const path = controlVoicePath(line, this.controlVoice.voice),
+          key = `control:${path}`;
+        if (this.buffers.has(key) || this.bytes.has(key)) return;
+        try {
+          const bytes = await this.packs.clip(path);
+          if (bytes) this.bytes.set(key, bytes);
+        } catch {
+          /* 読めない保存は無音のまま。字幕だけで進められる。 */
+        }
+      }),
+    );
+    await this.load();
+  }
+  private announced: string[] = [];
+  /**
+   * 読み込み済みの1本を鳴らす。key を渡すと同じ key では二度鳴らさない
+   * （作戦キューと同じく、画面の再表示で同じ合図を繰り返さない）。
+   */
+  announce(id: string, key?: string) {
+    if (key) {
+      if (this.announced.includes(key)) return "duplicate" as const;
+      this.announced.push(key);
+      if (this.announced.length > 64) this.announced.shift();
+    }
+    return this.controlVoice.request(id);
+  }
+  /** 場面の採用分をまとめて準備する（戦闘の読み込み画面など）。 */
+  prepareControlScene(scene: ControlVoiceScene) {
+    return this.prepareControlVoice(controlVoiceIdsForScene(scene));
+  }
+  /**
+   * 1本を準備して鳴らす。waitMs 以内に用意できなければ声は諦める（字幕は呼び出し側）。
+   * 音声の終了や成否を進行条件にしないため、結果は参考情報としてだけ返す。
+   */
+  async say(id: string, waitMs = 1500) {
+    const line = controlVoiceLine(id);
+    if (!line || !playableLine(line)) return "disabled" as const;
+    const started = performance.now();
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const ready = await Promise.race([
+      this.prepareControlVoice([id]).then(() => true),
+      new Promise<false>((resolve) => {
+        timer = setTimeout(() => resolve(false), waitMs);
+      }),
+    ]);
+    clearTimeout(timer);
+    if (!ready || performance.now() - started > waitMs)
+      return "unavailable" as const;
+    return this.controlVoice.request(id);
+  }
+  private startControl(path: string, onEnded: () => void) {
+    const c = this.context,
+      buffer = this.buffers.get(`control:${path}`);
+    if (!c || !buffer || !this.master) throw Error("control voice not ready");
+    // 発話は同時に1本: 管制AIが話し始めたら兵士の掛け声を止める。
+    this.speech?.stop();
+    this.speech = undefined;
+    const source = c.createBufferSource(),
+      gain = c.createGain();
+    source.buffer = buffer;
+    gain.gain.value = 0.95;
+    source.connect(gain).connect(this.master);
+    this.controlSources.add(source);
+    source.onended = () => {
+      this.controlSources.delete(source);
+      source.disconnect();
+      gain.disconnect();
+      onEnded();
+    };
+    source.start();
+    return () => {
+      if (!this.controlSources.has(source)) return;
+      try {
+        source.stop();
+      } catch {
+        /* already stopped */
+      }
+    };
+  }
   stop(combatOnly = false) {
     this.resetSpeech();
+    if (!combatOnly) this.controlVoice.stop();
     for (const voice of this.voices) {
       if (combatOnly && this.menuVoices.has(voice)) continue;
       voice.stop();
@@ -239,6 +395,7 @@ export class Sound {
     if (!w) {
       this.tracker = new CombatAudio();
       this.resetSpeech();
+      this.announcer.suspend();
       return;
     }
     const p = w.players.find((p) => p.id === id);
@@ -260,6 +417,7 @@ export class Sound {
       w,
       id,
       active &&
+        this.soldierVoiceEnabled &&
         !!p?.connected &&
         p.hp > 0 &&
         this.effectsVolume > 0 &&
@@ -267,6 +425,9 @@ export class Sound {
         SOLDIER_VOICES.every((v) => this.buffers.has(`voice:${v.id}`)),
     );
     if (line) this.speak(line);
+    for (const cue of this.announcer.collect(w, id, active))
+      this.controlVoice.request(cue);
+    this.controlVoice.tick();
     const calls = this.anomaly.collect(
       w,
       id,
@@ -301,6 +462,8 @@ export class Sound {
     const c = this.context,
       buffer = this.buffers.get(`voice:${clip}`);
     if (!c || !buffer || !this.master) return;
+    // 管制AIの発話中は兵士の掛け声を重ねない。
+    if (this.controlVoice.current) return;
     if (this.speech) {
       if (clip !== "warning") return;
       this.speech.stop();

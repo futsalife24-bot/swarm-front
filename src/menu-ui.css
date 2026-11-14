@@ -314,6 +314,27 @@ body[data-screen="title"]
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px 20px;
 }
+/* 基礎訓練と初回ガイドの入口（読み物の上に1行だけ）。 */
+.tutorial-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 10px;
+}
+.tutorial-actions button {
+  min-height: 44px;
+  padding: 6px 14px;
+}
+.tutorial-actions small {
+  font-size: 12px;
+}
+/* 基礎訓練の1行案内（既存の訓練射撃場の上部帯を使う）。 */
+.tutorial-toolbar output {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+}
 .tutorial-entries h3 {
   margin: 0 0 4px;
   font-size: 14px;
