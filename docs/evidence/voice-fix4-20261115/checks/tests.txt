@@ -14,4 +14,3 @@
      Import  429 modules were evaluated 589 times · 80.97s total, 25% of tracked time
              ~21.99s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
              learn more: https://vitest.dev/guide/improving-performance#test-isolation
-
