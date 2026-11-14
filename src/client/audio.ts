@@ -12,6 +12,14 @@ import {
   ANOMALY_VOICE_KEYS,
   ANOMALY_VOICE_PATH,
 } from "./anomaly-voice";
+import {
+  ControlVoiceQueue,
+  controlVoicePath,
+  loadControlVoice,
+  saveControlVoice,
+  type ControlVoiceId,
+} from "./control-voice";
+import { controlVoiceLine } from "./control-voice-lines";
 const LEVELS: Record<string, number> = {
   ...Object.fromEntries(ANOMALY_VOICE_KEYS.map((key) => [key, 0.24])),
   rifle: 0.62,
@@ -75,6 +83,20 @@ export class Sound {
   private speechRun = "";
   private speechOwner = "";
   private active = false;
+  private controlSources = new Set<AudioBufferSourceNode>();
+  /** 管制AI音声。SE と同じ master を通るので音量は SE に追随する。 */
+  readonly controlVoice = new ControlVoiceQueue(
+    {
+      ready: (path) =>
+        !!this.master &&
+        this.context?.state === "running" &&
+        this.effectsVolume > 0 &&
+        !document.hidden &&
+        this.buffers.has(`control:${path}`),
+      start: (path, onEnded) => this.startControl(path, onEnded),
+    },
+    { voice: loadControlVoice() },
+  );
   get volume() {
     return this.level;
   }
@@ -153,7 +175,10 @@ export class Sound {
       if (!this.context) {
         this.context = new AudioContext();
         this.context.onstatechange = () => {
-          if (this.context?.state !== "running") this.resetSpeech();
+          if (this.context?.state !== "running") {
+            this.resetSpeech();
+            this.controlVoice.stop();
+          }
         };
         this.master = this.context.createGain();
         this.master.gain.value = this.effectsVolume;
@@ -203,8 +228,66 @@ export class Sound {
     });
     return this.decoding;
   }
+  /** 管制AIの声を切り替えて端末に保存する。読み込みは prepareControlVoice で行う。 */
+  setControlVoice(voice: ControlVoiceId) {
+    // 保存先がなくても、この起動中は選んだ声を使う。
+    saveControlVoice(voice);
+    if (this.controlVoice.voice === voice) return;
+    this.controlVoice.stop();
+    this.controlVoice.voice = voice;
+  }
+  /**
+   * 指定した台詞だけを、選択中の声で取得・展開する（起動時の一括読み込みには載せない）。
+   * 実ファイルが無い台詞は読み込まれず、再生要求は "unavailable" になる。
+   */
+  async prepareControlVoice(ids: readonly string[]) {
+    await Promise.all(
+      ids.map(async (id) => {
+        const line = controlVoiceLine(id);
+        if (!line) return;
+        const path = controlVoicePath(line, this.controlVoice.voice),
+          key = `control:${path}`;
+        if (this.buffers.has(key) || this.bytes.has(key)) return;
+        try {
+          const r = await fetch(`${import.meta.env.BASE_URL}${path}`);
+          if (!r.ok) return;
+          this.bytes.set(key, await r.arrayBuffer());
+        } catch {
+          /* 受け渡し前の素材は無音のまま。字幕だけで進められる。 */
+        }
+      }),
+    );
+    await this.load();
+  }
+  private startControl(path: string, onEnded: () => void) {
+    const c = this.context,
+      buffer = this.buffers.get(`control:${path}`);
+    if (!c || !buffer || !this.master) throw Error("control voice not ready");
+    const source = c.createBufferSource(),
+      gain = c.createGain();
+    source.buffer = buffer;
+    gain.gain.value = 0.95;
+    source.connect(gain).connect(this.master);
+    this.controlSources.add(source);
+    source.onended = () => {
+      this.controlSources.delete(source);
+      source.disconnect();
+      gain.disconnect();
+      onEnded();
+    };
+    source.start();
+    return () => {
+      if (!this.controlSources.has(source)) return;
+      try {
+        source.stop();
+      } catch {
+        /* already stopped */
+      }
+    };
+  }
   stop(combatOnly = false) {
     this.resetSpeech();
+    if (!combatOnly) this.controlVoice.stop();
     for (const voice of this.voices) {
       if (combatOnly && this.menuVoices.has(voice)) continue;
       voice.stop();
