@@ -1,6 +1,8 @@
-# 基礎訓練2件の修正・管制AI音量の公開準備（2026-11-15）
+# 基礎訓練の回収・救急箱と管制AI独立音量を公開（2026-11-15）
 
-最新main `21954c46` から新規 `codex/tutorial-fix-fresh-20261115` / `../swarm-tutorial-fix-fresh-20261115` で作業。旧 `claude/tutorial-fix-20261115` と元rootは保持。T9の標的復元による見本消去を修正し、T10を本編の救急箱・自然回復へ接続。設定にSEと独立した管制AI音量を追加。型・180ファイル1849テスト・build成功。実Chromeで入口から回収・救急箱・修了/復帰、音量の独立保存と再読込、音声パックDL/保持/削除が成功、画面例外0。format・Worker dry-run成功。PR/main反映、既存Worker公開・照合は進行中。詳細・原因・新保存キー・限界は [impl-status](impl-status-20261114.md)。
+新規 `codex/tutorial-fix-fresh-20261115` / `../swarm-tutorial-fix-fresh-20261115` で実装し、[PR #337](https://github.com/futsalife24-bot/swarm-front/pull/337) を通常merge。公開ソースmain `433f13c5`、既存Worker Version `b5c4892c-d72f-418c-8e7b-e673ecc49de1`。T9の標的復元による見本消去を修正し、T10を本編の救急箱・自然回復へ接続、進行開始前の訓練終了時のタイトル復帰も修正。設定にSEと独立した管制AI音量を追加。型・180ファイル1849テスト・format・build・Worker dry-run成功。公開30ファイル一致/health正常、実Chromeで回収・救急箱・修了/復帰、横2サイズの音量保存/再読込、音声パックDL/保持/削除が成功、画面例外0。原因・新保存キー・証拠・実機等の未確認は [impl-status](impl-status-20261114.md)。
+
+着手時の3件は公開済み。作業中に依頼書へ後追いで追加された「第2弾」のボイス選択UI/試聴/字幕監査・表示設定は未着手として分離し、本人へ続行範囲を質問済み。元root・中止済みtutorial/旧voice worktreeは保持。公開記録は `codex/tutorial-fix-release-20261115` から文書PRでmainへ保存する。
 
 # 管制AI音声・基礎訓練・支給ボックスを公開（2026-11-15）
 

@@ -1,0 +1,161 @@
+{
+  "source": "433f13c5cf2886a148eeaf575a549bab30884334",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 5436,
+      "sha256": "880f25aff117d578d1601fd8817d8628a017e9e2006fb516501a000cc0d21fa1"
+    },
+    {
+      "path": "front.html",
+      "bytes": 4881,
+      "sha256": "65d0d370f1dd1907798a003109392827c30dbd69d93a4939af6d9912ec2fe464"
+    },
+    {
+      "path": "assets/cloud-save-DDmsa4bl.css",
+      "bytes": 8906,
+      "sha256": "0fa0a929e7d513fd6d0e0a9a90185093215b38a22efa33f9d4dc18ad63caac29"
+    },
+    {
+      "path": "assets/cloud-save-DpLcBKUm.js",
+      "bytes": 139256,
+      "sha256": "5c9c7bf3e9a8ee009a8e0201cab2ad5a982fb2349167333c56fa5eaea4f31cc8"
+    },
+    {
+      "path": "assets/front-B4wpibxc.js",
+      "bytes": 131296,
+      "sha256": "0506e22e7eaa27f37d2829f6a885daa923824d13ab044145519c63987fbf1c60"
+    },
+    {
+      "path": "assets/front-BthREkfP.css",
+      "bytes": 48033,
+      "sha256": "3799c7f9e835350b445232086cded8dde2ad6e4110b7c1e21ef8f7ef9be5de1c"
+    },
+    {
+      "path": "assets/game-select-BTELrQP_.js",
+      "bytes": 40500,
+      "sha256": "d7dbd42ffea01456a657fb874cc986c6954aa0a24bc26b3e0e77a7c6a74c3f61"
+    },
+    {
+      "path": "assets/game-select-Bxmc5Or0.css",
+      "bytes": 22011,
+      "sha256": "359376552b672d8b873a9c1d8474e013eea661a7d48aa6c13b4731a30558971a"
+    },
+    {
+      "path": "assets/hud-DbXcu7yw.css",
+      "bytes": 109540,
+      "sha256": "3f5810e1bdab54e21ed4678c846b3194db8df509d2a99fe3b1a7a72d54363fed"
+    },
+    {
+      "path": "assets/hud-ShphAmaX.js",
+      "bytes": 935358,
+      "sha256": "000135cd9528a7a1775d935f77a0ef202c6940a79d10bc06bcdf51a943fc9f4d"
+    },
+    {
+      "path": "assets/legacy-CPbai1ZT.css",
+      "bytes": 259,
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9"
+    },
+    {
+      "path": "assets/legacy-xm5YKjpL.js",
+      "bytes": 18046,
+      "sha256": "f6c87412f812a55ef72fc5ade0347d18736510cd0305fa3d1b301619d896243d"
+    },
+    {
+      "path": "assets/main-BOIn8V8d.css",
+      "bytes": 1316,
+      "sha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027"
+    },
+    {
+      "path": "assets/main-DfjhHDEN.js",
+      "bytes": 58128,
+      "sha256": "5264e7b044ec362e85fed87db152c96e658cdc4b9f586caef37560a6d38ac743"
+    },
+    {
+      "path": "assets/playtest-app-B6XTpZG7.css",
+      "bytes": 20489,
+      "sha256": "b91db046725c31d3ee7004c112cbc6cc63fb6ac2c5b938258f87d8fba0226226"
+    },
+    {
+      "path": "assets/playtest-app-Bo3D61pk.js",
+      "bytes": 112140,
+      "sha256": "21c89756deeb5fbc5853a1e9c3ad1232e86db1a0b8b3d3b7fb66f177ba6648b6"
+    },
+    {
+      "path": "assets/preload-helper-BUUOzIBn.css",
+      "bytes": 2949,
+      "sha256": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc"
+    },
+    {
+      "path": "assets/preload-helper-CQ-icceF.js",
+      "bytes": 202733,
+      "sha256": "a4b3f5faa18011927d83ac24834dd8742fed3616c6f4f61985318eeb1abfcb0d"
+    },
+    {
+      "path": "assets/room-access-C5Ic_ggc.js",
+      "bytes": 9353,
+      "sha256": "9ccb602fa21203d7a577d4c5b2f1688306ddc57e3fae38f7fab393e2db7ee4e3"
+    },
+    {
+      "path": "assets/room-access-n-8m8axW.css",
+      "bytes": 6755,
+      "sha256": "f45dc9e8a45cdc3a61d2274b3f69504f722c39b5b77d655209c54795afb70254"
+    },
+    {
+      "path": "assets/runtime-DA72_MY0.js",
+      "bytes": 148585,
+      "sha256": "4c2c9f04511370fe91ae212eadf5e7232acc883769881a8b4e7a1f2357a7d6ba"
+    },
+    {
+      "path": "assets/sfx-worker-CWaXMaay.js",
+      "bytes": 76475,
+      "sha256": "38ae5a895afc8457108e954212d2b558252e519a41d7ccd0dbc4e3a5dba65b83"
+    },
+    {
+      "path": "assets/training-app-DOL42o9p.js",
+      "bytes": 12859,
+      "sha256": "e2e52e26274aee855a2c7c50c93c12ced74c517e449d01fd8a53142769f42915"
+    },
+    {
+      "path": "assets/weapon-sharing-Ys1dFIRG.js",
+      "bytes": 4775,
+      "sha256": "a99697d870ef9ad4d4b495fa773a659c5e1a5e77c06208c5a9602cb44f19d166"
+    },
+    {
+      "path": "assets/weapon-workshop-ui-DinQKt7l.js",
+      "bytes": 495138,
+      "sha256": "16deb15e5be892ca80f7acfa60eedc0ed44efcf2925003b1b0494a0c94c41189"
+    },
+    {
+      "path": "assets/weapon-workshop-ui-nOIftC5r.css",
+      "bytes": 37535,
+      "sha256": "5991e5fae0de318d8f3342294ad4a74ef963987cdb3db7fdc8ea818e5a7a9235"
+    },
+    {
+      "path": "assets/zoom-guard-CYxqEXnM.js",
+      "bytes": 387,
+      "sha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b"
+    },
+    {
+      "path": "assets/voice-packs/control-voice-hiromi-v1.bin",
+      "bytes": 6197594,
+      "sha256": "d7ae0d7993ff231d5ae1365517f6408840168d8799ae63838f38c14f2fb399e3"
+    },
+    {
+      "path": "assets/voice-packs/control-voice-hiyori-v1.bin",
+      "bytes": 4382297,
+      "sha256": "f68e009063de6a0779b299e479a7a006419341d847b0efab072166e68d617d6e"
+    },
+    {
+      "path": "assets/voice-packs/control-voice-yoko-v1.bin",
+      "bytes": 4682173,
+      "sha256": "06cf5e4dd40f05e0cdee4f08907d4e303d9501f7ac09dd63d98df845b3cebc7e"
+    }
+  ],
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  }
+}
