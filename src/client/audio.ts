@@ -75,6 +75,8 @@ export class Sound {
   private speechRun = "";
   private speechOwner = "";
   private active = false;
+  /** 診断用。本人の射撃音が鳴ったか（1）、まとめられたか（2）、省略されたか（3/4）。 */
+  shotTrace: ((event: number, result: 1 | 2 | 3 | 4) => void) | undefined;
   get volume() {
     return this.level;
   }
@@ -294,7 +296,11 @@ export class Sound {
               (dx * Math.cos(yaw) + dz * Math.sin(yaw)) / Math.max(6, d),
             ),
           );
-      this.play(cue.type, gain, pan, cue.key);
+      const result = this.play(cue.type, gain, pan, cue.key);
+      if (this.shotTrace && mine && "shot" in cue && cue.shot !== undefined) {
+        this.shotTrace(cue.shot, result);
+        for (const merged of cue.merged ?? []) this.shotTrace(merged, 2);
+      }
     }
   }
   private speak(clip: SoldierClip) {
@@ -318,7 +324,8 @@ export class Sound {
     };
     source.start();
   }
-  play(type: string, gain = 1, pan = 0, key = type, delay = 0) {
+  /** 戻り値は診断用：1=再生、3=同じ音源の最短間隔で省略、4=音声が無効。 */
+  play(type: string, gain = 1, pan = 0, key = type, delay = 0): 1 | 3 | 4 {
     const c = this.context;
     if (
       !c ||
@@ -327,18 +334,18 @@ export class Sound {
       document.hidden ||
       !(type in LEVELS)
     )
-      return;
+      return 4;
     const now = c.currentTime;
     const monster = type.startsWith("anomaly:");
     // Missing voice assets stay silent; never replace a vocal with a click.
-    if (monster && !this.buffers.has(type)) return;
-    if (monster && this.anomalyVoices.size >= 2) return;
+    if (monster && !this.buffers.has(type)) return 4;
+    if (monster && this.anomalyVoices.size >= 2) return 4;
     // Per cue/source: pellets coalesce, but a shot never suppresses a hit or dodge.
     if (
       now - (this.last.get(key) ?? -Infinity) <
       (isImpact(type) ? 0.075 : 0.045)
     )
-      return;
+      return 3;
     this.last.set(key, now);
     if (this.last.size > 256)
       for (const [k, t] of this.last) if (now - t > 2) this.last.delete(k);
@@ -389,5 +396,6 @@ export class Sound {
       stereo.disconnect();
     };
     source.start(now + delay);
+    return 1;
   }
 }

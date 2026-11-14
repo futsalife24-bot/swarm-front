@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "errors": [],
+  "checks": [
+    "製品ソロ：押しっぱなし・一時停止・「診断を保存」",
+    "製品協力2人：ホストの押しっぱなし・「通信診断を保存」"
+  ],
+  "downloads": [
+    {
+      "label": "solo",
+      "file": "solo.json",
+      "buttonText": "診断を保存",
+      "shots": 69,
+      "displayed": 69,
+      "sounded": 69,
+      "ticks": 261
+    },
+    {
+      "label": "coop-host",
+      "file": "coop-host.json",
+      "buttonText": "通信診断を保存",
+      "shots": 70,
+      "displayed": 70,
+      "sounded": 70,
+      "ticks": 312
+    }
+  ]
+}

@@ -16,6 +16,7 @@ import { planOmega } from "../src/shared/catena-omega";
 import { enemySize } from "../src/shared/enemy-size";
 import { populateDenseWireWorld } from "../scripts/state-wire-fixture";
 import { comfortFixture } from "../scripts/coop-comfort-fixture";
+import { fireCadenceFixture } from "../scripts/fire-cadence-fixture";
 import production, { Room, Gate } from "./worker";
 import { frontDedicatedSurvivalThreshold } from "../src/shared/front-run";
 import {
@@ -93,6 +94,22 @@ export class TestRoom extends Room {
         const info = comfortFixture(run, kind, count);
         this.comfortTicks = [];
         this.fixedWire = kind === "boundary";
+        this.broadcast();
+        this.run();
+        return Response.json(info);
+      }
+      if (u.searchParams.get("case") === "fire-cadence") {
+        const run = this.saved.frontRun;
+        if (!run || run.phase === "victory" || run.phase === "defeat")
+          return new Response("進行中の改装版の戦闘が必要です", {
+            status: 409,
+          });
+        const info = fireCadenceFixture(
+          run,
+          u.searchParams.get("weapon") === "smg" ? "smg" : "rifle",
+          u.searchParams.get("kind") === "keep" ? "keep" : "quiet",
+        );
+        this.inputs = {};
         this.broadcast();
         this.run();
         return Response.json(info);
@@ -741,7 +758,7 @@ export default {
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(front-comfort-close|harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|catena-omega|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-support-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(front-comfort-close|fire-cadence|harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|catena-omega|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-support-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
         u.pathname,
       );
     if (
@@ -757,7 +774,7 @@ export default {
                 case: match[2],
                 kind: u.searchParams.get("kind") ?? "boundary",
                 projectiles: u.searchParams.get("projectiles") ?? "100",
-                ...(match[2] === "foundry"
+                ...(match[2] === "foundry" || match[2] === "fire-cadence"
                   ? {
                       form: u.searchParams.get("form") ?? "",
                       weapon: u.searchParams.get("weapon") ?? "",

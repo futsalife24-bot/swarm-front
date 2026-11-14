@@ -5,6 +5,14 @@ export class Controls {
   input = { ...neutral(), cameraAim: true };
   private active = false;
   private buddyHolds = new Set<string>();
+  /** 診断用。射撃の保持が変わった時だけ呼ばれ、入力そのものは変えない。 */
+  onFire: ((held: boolean, eventTime: number) => void) | undefined;
+  private firing = false;
+  private noteFire(eventTime = performance.now()) {
+    if (this.input.fire === this.firing) return;
+    this.firing = this.input.fire;
+    this.onFire?.(this.firing, eventTime);
+  }
   get enabled() {
     return this.active;
   }
@@ -58,6 +66,7 @@ export class Controls {
       this.scoped = false;
       this.mouseAim = false;
       el("move").querySelector("span")!.setAttribute("style", "");
+      this.noteFire();
     };
     this.resetInput = reset;
     window.addEventListener("blur", reset);
@@ -154,16 +163,19 @@ export class Controls {
         if (e.button === 2) this.mouseAim = true;
         if (e.button === 0) (e.target as HTMLElement).requestPointerLock?.();
       }
+      this.noteFire(e.timeStamp);
     });
     window.addEventListener("pointerup", (e) => {
       if (e.pointerType === "mouse" && e.button === 0) this.input.fire = false;
       if (e.pointerType === "mouse" && e.button === 2) this.mouseAim = false;
+      this.noteFire(e.timeStamp);
     });
     window.addEventListener("pointercancel", (e) => {
       if (e.pointerType === "mouse") {
         this.input.fire = false;
         this.mouseAim = false;
       }
+      this.noteFire(e.timeStamp);
     });
     window.addEventListener("pointermove", (e) => {
       // 複数ボタンの一部だけを離すとpointerupではなくpointermoveが届く。
@@ -173,6 +185,7 @@ export class Controls {
             (t) => t.role === "fire",
           );
         if ((e.buttons & 2) === 0) this.mouseAim = false;
+        this.noteFire(e.timeStamp);
       }
       if (
         this.enabled &&
@@ -212,7 +225,7 @@ export class Controls {
       if (role === "scope" || role === "scope2") this.toggleScope();
       if (["reload", "swap", "dodge", "jump"].includes(role))
         this.queued.add(role);
-      this.refresh();
+      this.refresh(e.timeStamp);
     });
     controls.addEventListener("pointermove", (ev) => {
       const e = ev as PointerEvent,
@@ -246,7 +259,7 @@ export class Controls {
           el("move").querySelector("span")!.setAttribute("style", "");
         }
         this.touches.delete(e.pointerId);
-        this.refresh();
+        this.refresh(e.timeStamp);
       });
     this.reset = reset;
     // Secondary touches do not reliably generate click on mobile browsers.
@@ -284,9 +297,10 @@ export class Controls {
     this.input.yaw = angle(this.input.yaw + dx * 0.003 * sensitivity);
     this.input.pitch = clampPitch(this.input.pitch - dy * 0.0025 * sensitivity);
   }
-  refresh() {
+  refresh(eventTime?: number) {
     for (const key of ["fire", "reload", "swap", "dodge", "revive"] as const)
       this.input[key] = [...this.touches.values()].some((t) => t.role === key);
+    this.noteFire(eventTime);
   }
   /** 表示用。送信番号や一度だけの操作を消費せず、今の歩行方向を読む。 */
   previewMovement() {

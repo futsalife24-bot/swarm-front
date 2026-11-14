@@ -32,6 +32,9 @@ export interface Cue {
   z?: number;
   owner?: string;
   key?: string;
+  /** 射撃音の元になったイベントIDと、同じ音へまとめられた射撃。診断用。 */
+  shot?: number;
+  merged?: number[];
 }
 /** Audio observes authoritative state; it never changes combat or sends input. */
 export class CombatAudio {
@@ -60,16 +63,25 @@ export class CombatAudio {
       this.projectiles.clear();
     }
     const cues: Cue[] = [];
-    const shots = new Set<string>();
+    const shots = new Map<string, Cue>();
     for (const e of w.events) {
       if (e.id <= this.event) continue;
       this.event = Math.max(this.event, e.id);
       if (!active || fresh || e.silent) continue;
       if (e.type === "shot") {
         const key = `${e.owner}:${e.weapon}`;
-        if (!shots.has(key)) {
-          cues.push({ ...e, type: SHOT_SOUND[e.weapon ?? "rifle"], key });
-          shots.add(key);
+        const first = shots.get(key);
+        if (first) first.merged!.push(e.id);
+        else {
+          const cue: Cue = {
+            ...e,
+            type: SHOT_SOUND[e.weapon ?? "rifle"],
+            key,
+            shot: e.id,
+            merged: [],
+          };
+          cues.push(cue);
+          shots.set(key, cue);
         }
         // The authority reports whether the round stopped on something. Working
         // it out here from the shooter's loadout picked the wrong gun whenever

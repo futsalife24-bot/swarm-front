@@ -1,0 +1,16 @@
+
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 <repo>/task-fire-cadence-20261114
+
+
+ Test Files  176 passed (176)
+      Tests  1783 passed (1783)
+   Start at  14:15:36
+   Duration  244.56s (tests 67%, import 30%, transform 2%)
+
+     Import  411 modules were evaluated 557 times · 67.01s total, 30% of tracked time
+             ~17.56s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation

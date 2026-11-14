@@ -1,0 +1,24 @@
+{
+  "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+  "at": "2026-11-14T14:15:27.2745618+09:00",
+  "typecheck": {
+    "seconds": 8,
+    "exit": 0
+  },
+  "test": {
+    "seconds": 246,
+    "exit": 0
+  },
+  "format": {
+    "seconds": 13,
+    "exit": 0
+  },
+  "build": {
+    "seconds": 12,
+    "exit": 0
+  },
+  "server-build": {
+    "seconds": 3,
+    "exit": 0
+  }
+}

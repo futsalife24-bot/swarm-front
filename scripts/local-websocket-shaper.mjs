@@ -49,6 +49,10 @@ export async function createLocalWebSocketShaper({
   upstream,
   origin,
   latencyMs = 0,
+  // 追加の揺らぎ（0〜jitterMsの一様乱数、seed固定）。順序は保つため、遅れた
+  // 1通の後ろに次の通信が詰まって同時に届く（回線の揺れによるまとめ着き）。
+  jitterMs = 0,
+  jitterSeed = 4520,
   bytesPerSecond = Infinity,
   upBytesPerSecond = bytesPerSecond,
   downBytesPerSecond = bytesPerSecond,
@@ -57,6 +61,17 @@ export async function createLocalWebSocketShaper({
   const originUrl = localUrl(origin, "origin");
   if (!Number.isFinite(latencyMs) || latencyMs < 0 || latencyMs > WAIT_MS)
     throw new RangeError("latencyMs must be 0..30000");
+  if (!Number.isFinite(jitterMs) || jitterMs < 0 || jitterMs > 2000)
+    throw new RangeError("jitterMs must be 0..2000");
+  let jitterState = jitterSeed >>> 0;
+  const jitter = () => {
+    if (!jitterMs) return 0;
+    jitterState = (jitterState + 0x6d2b79f5) >>> 0;
+    let t = jitterState;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return (((t ^ (t >>> 14)) >>> 0) / 4294967296) * jitterMs;
+  };
   if (
     ![bytesPerSecond, upBytesPerSecond, downBytesPerSecond].every(
       (rate) => rate === Infinity || (Number.isFinite(rate) && rate > 0),
@@ -65,6 +80,7 @@ export async function createLocalWebSocketShaper({
     throw new RangeError("bytesPerSecond must be positive or Infinity");
   const metrics = {
     latencyMs,
+    jitterMs,
     bytesPerSecond: bytesPerSecond === Infinity ? null : bytesPerSecond,
     upBytesPerSecond: upBytesPerSecond === Infinity ? null : upBytesPerSecond,
     downBytesPerSecond:
@@ -262,7 +278,7 @@ export async function createLocalWebSocketShaper({
         m.receivedMessages++;
         m.receivedBytes += buffer.length;
         const end = Math.max(now, available) + (buffer.length / rate) * 1000;
-        const due = end + latencyMs,
+        const due = end + latencyMs + jitter(),
           delay = due - now;
         m.maxScheduledDelayMs = Math.max(m.maxScheduledDelayMs, delay);
         if (

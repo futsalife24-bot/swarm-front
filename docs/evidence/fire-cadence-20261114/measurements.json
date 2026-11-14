@@ -1,0 +1,7635 @@
+{
+  "runs": [
+    {
+      "name": "coop1-rifle-jitter70-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 1,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": {
+          "latencyMs": 30,
+          "jitterMs": 70
+        },
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": {
+        "latencyMs": 30,
+        "jitterMs": 70
+      },
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 170,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 164,
+              "min": 22,
+              "median": 140,
+              "p95": 160,
+              "max": 227,
+              "mean": 128.8,
+              "cvPercent": 22.6,
+              "unevenPercent": 68.9
+            },
+            "received": {
+              "count": 164,
+              "min": 0,
+              "median": 122.7,
+              "p95": 229.1,
+              "max": 282.9,
+              "mean": 126.8,
+              "cvPercent": 48.6,
+              "unevenPercent": 78
+            },
+            "displayed": {
+              "count": 156,
+              "min": 0,
+              "median": 118.1,
+              "p95": 231.5,
+              "max": 250.3,
+              "mean": 126.5,
+              "cvPercent": 45.8,
+              "unevenPercent": 74.4
+            },
+            "sound": {
+              "count": 149,
+              "min": 49.4,
+              "median": 132.8,
+              "p95": 233.2,
+              "max": 534.4,
+              "mean": 138.1,
+              "cvPercent": 46.1,
+              "unevenPercent": 75.8
+            }
+          },
+          "authorityTickGaps": {
+            "2": 69,
+            "3": 95
+          },
+          "notDisplayed": 6,
+          "shotsPerState": {
+            "1": 158,
+            "2": 6
+          },
+          "shotsPerFrame": {
+            "1": 156,
+            "2": 4
+          },
+          "sounds": {
+            "played": 155,
+            "merged": 4,
+            "throttled": 5,
+            "inactive": 0,
+            "none": 6
+          },
+          "receiveToDisplayMs": {
+            "count": 164,
+            "min": 4.4,
+            "median": 14.9,
+            "p95": 18.1,
+            "max": 40.5,
+            "mean": 13.9,
+            "cvPercent": 33.6
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 565,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 63.8,
+              "max": 74.9,
+              "mean": 53,
+              "cvPercent": 7.9
+            },
+            "sendGapMs": {
+              "count": 565,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 63.7,
+              "max": 74.9,
+              "mean": 53,
+              "cvPercent": 7.9
+            },
+            "unsent": 0,
+            "sampled": 566,
+            "heldTicks": 599,
+            "notHeldTicks": 5,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 599,
+              "min": 5,
+              "median": 41,
+              "p95": 92,
+              "max": 174,
+              "mean": 42,
+              "cvPercent": 62.7
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 0,
+            "median": 48,
+            "p95": 63,
+            "max": 178,
+            "mean": 50.1,
+            "cvPercent": 25.9
+          },
+          "stateGapMs": {
+            "count": 309,
+            "min": 0.6,
+            "median": 98.2,
+            "p95": 173.5,
+            "max": 235.1,
+            "mean": 102.4,
+            "cvPercent": 41.4
+          },
+          "frames": {
+            "count": 1926,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 49.9,
+              "median": 49.9,
+              "p95": 49.9,
+              "max": 49.9,
+              "mean": 49.9,
+              "cvPercent": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop1-rifle-jitter70-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 1,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": {
+          "latencyMs": 30,
+          "jitterMs": 70
+        },
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": {
+        "latencyMs": 30,
+        "jitterMs": 70
+      },
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 170,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 164,
+              "min": 83,
+              "median": 140,
+              "p95": 160,
+              "max": 171,
+              "mean": 128.9,
+              "cvPercent": 20.6,
+              "unevenPercent": 74.4
+            },
+            "received": {
+              "count": 164,
+              "min": 0,
+              "median": 114.9,
+              "p95": 240.6,
+              "max": 265.6,
+              "mean": 127.3,
+              "cvPercent": 49.4,
+              "unevenPercent": 84.8
+            },
+            "displayed": {
+              "count": 164,
+              "min": 78.5,
+              "median": 133.1,
+              "p95": 136.9,
+              "max": 183.1,
+              "mean": 130.8,
+              "cvPercent": 8.8,
+              "unevenPercent": 4.3
+            },
+            "sound": {
+              "count": 164,
+              "min": 82.9,
+              "median": 133.3,
+              "p95": 134.3,
+              "max": 184,
+              "mean": 131.1,
+              "cvPercent": 7.7,
+              "unevenPercent": 2.4
+            }
+          },
+          "authorityTickGaps": {
+            "2": 69,
+            "3": 95
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 160,
+            "2": 5
+          },
+          "shotsPerFrame": {
+            "1": 170
+          },
+          "sounds": {
+            "played": 170,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 170,
+            "min": 5.3,
+            "median": 76.9,
+            "p95": 151.3,
+            "max": 174.5,
+            "mean": 80.6,
+            "cvPercent": 53.4
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 565,
+              "min": 50,
+              "median": 51.1,
+              "p95": 64.4,
+              "max": 83.7,
+              "mean": 53,
+              "cvPercent": 8.5
+            },
+            "sendGapMs": {
+              "count": 565,
+              "min": 50,
+              "median": 51.1,
+              "p95": 64.4,
+              "max": 83.7,
+              "mean": 53,
+              "cvPercent": 8.5
+            },
+            "unsent": 0,
+            "sampled": 566,
+            "heldTicks": 600,
+            "notHeldTicks": 6,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 4,
+              "median": 36,
+              "p95": 86,
+              "max": 109,
+              "mean": 40.2,
+              "cvPercent": 62.2
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 29,
+            "median": 48,
+            "p95": 63,
+            "max": 70,
+            "mean": 50,
+            "cvPercent": 14.6
+          },
+          "stateGapMs": {
+            "count": 314,
+            "min": 1,
+            "median": 101,
+            "p95": 162.4,
+            "max": 201.5,
+            "mean": 100.7,
+            "cvPercent": 37.6
+          },
+          "frames": {
+            "count": 1920,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 33.2,
+              "median": 33.2,
+              "p95": 50,
+              "max": 50,
+              "mean": 41.6,
+              "cvPercent": 20.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop1-rifle-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 1,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 172,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 166,
+              "min": 88,
+              "median": 142,
+              "p95": 156,
+              "max": 162,
+              "mean": 128.9,
+              "cvPercent": 20.1,
+              "unevenPercent": 75.9
+            },
+            "received": {
+              "count": 166,
+              "min": 82.2,
+              "median": 102.2,
+              "p95": 207.2,
+              "max": 215.4,
+              "mean": 128.8,
+              "cvPercent": 35.9,
+              "unevenPercent": 98.2
+            },
+            "displayed": {
+              "count": 166,
+              "min": 61.3,
+              "median": 100.8,
+              "p95": 215.6,
+              "max": 218.5,
+              "mean": 128.5,
+              "cvPercent": 37.2,
+              "unevenPercent": 89.2
+            },
+            "sound": {
+              "count": 166,
+              "min": 82.7,
+              "median": 100.2,
+              "p95": 216.5,
+              "max": 217.2,
+              "mean": 128.7,
+              "cvPercent": 37.1,
+              "unevenPercent": 89.2
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 96
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 172
+          },
+          "shotsPerFrame": {
+            "1": 172
+          },
+          "sounds": {
+            "played": 172,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 172,
+            "min": 3.9,
+            "median": 14.4,
+            "p95": 17.5,
+            "max": 54.5,
+            "mean": 12.6,
+            "cvPercent": 43.9
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 565,
+              "min": 50.1,
+              "median": 51,
+              "p95": 64.2,
+              "max": 82.4,
+              "mean": 53,
+              "cvPercent": 8.3
+            },
+            "sendGapMs": {
+              "count": 565,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 64.2,
+              "max": 82.4,
+              "mean": 53,
+              "cvPercent": 8.3
+            },
+            "unsent": 0,
+            "sampled": 566,
+            "heldTicks": 600,
+            "notHeldTicks": 1,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 31,
+              "p95": 55,
+              "max": 70,
+              "mean": 31.1,
+              "cvPercent": 53.7
+            }
+          },
+          "authorityTickMs": {
+            "count": 629,
+            "min": 36,
+            "median": 49,
+            "p95": 61,
+            "max": 65,
+            "mean": 50,
+            "cvPercent": 9.9
+          },
+          "stateGapMs": {
+            "count": 317,
+            "min": 20.4,
+            "median": 100,
+            "p95": 110,
+            "max": 115.1,
+            "mean": 99.5,
+            "cvPercent": 7.9
+          },
+          "frames": {
+            "count": 1899,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 33.2,
+              "median": 33.2,
+              "p95": 33.2,
+              "max": 33.2,
+              "mean": 33.2,
+              "cvPercent": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop1-rifle-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 1,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 86,
+              "median": 142,
+              "p95": 156,
+              "max": 163,
+              "mean": 128.9,
+              "cvPercent": 19.8,
+              "unevenPercent": 75.2
+            },
+            "received": {
+              "count": 165,
+              "min": 82,
+              "median": 102.5,
+              "p95": 203.4,
+              "max": 214,
+              "mean": 128.4,
+              "cvPercent": 35.7,
+              "unevenPercent": 90.3
+            },
+            "displayed": {
+              "count": 165,
+              "min": 90.9,
+              "median": 132.6,
+              "p95": 136.3,
+              "max": 150.4,
+              "mean": 129.9,
+              "cvPercent": 5.8,
+              "unevenPercent": 1.2
+            },
+            "sound": {
+              "count": 165,
+              "min": 115.9,
+              "median": 133.2,
+              "p95": 133.8,
+              "max": 134.3,
+              "mean": 130.1,
+              "cvPercent": 5.1,
+              "unevenPercent": 0
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 171
+          },
+          "shotsPerFrame": {
+            "1": 171
+          },
+          "sounds": {
+            "played": 171,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 171,
+            "min": 9.9,
+            "median": 65.3,
+            "p95": 114.1,
+            "max": 135.4,
+            "mean": 68.9,
+            "cvPercent": 45.8
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 566,
+              "min": 50.1,
+              "median": 51,
+              "p95": 64.5,
+              "max": 92.1,
+              "mean": 52.9,
+              "cvPercent": 8.5
+            },
+            "sendGapMs": {
+              "count": 566,
+              "min": 50.1,
+              "median": 51,
+              "p95": 64.5,
+              "max": 92,
+              "mean": 52.9,
+              "cvPercent": 8.5
+            },
+            "unsent": 0,
+            "sampled": 567,
+            "heldTicks": 600,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 4,
+              "median": 34,
+              "p95": 55,
+              "max": 69,
+              "mean": 33.8,
+              "cvPercent": 44.7
+            }
+          },
+          "authorityTickMs": {
+            "count": 629,
+            "min": 25,
+            "median": 49,
+            "p95": 62,
+            "max": 74,
+            "mean": 50,
+            "cvPercent": 11.8
+          },
+          "stateGapMs": {
+            "count": 317,
+            "min": 20.3,
+            "median": 99.8,
+            "p95": 114.1,
+            "max": 133.1,
+            "mean": 99.5,
+            "cvPercent": 9.6
+          },
+          "frames": {
+            "count": 1899,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 33.1,
+              "median": 33.1,
+              "p95": 33.2,
+              "max": 33.2,
+              "mean": 33.2,
+              "cvPercent": 0.2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop1-smg-jitter70-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 1,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": {
+          "latencyMs": 30,
+          "jitterMs": 70
+        },
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": {
+        "latencyMs": 30,
+        "jitterMs": 70
+      },
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 302,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 295,
+              "min": 24,
+              "median": 57,
+              "p95": 107,
+              "max": 130,
+              "mean": 69.3,
+              "cvPercent": 35.7,
+              "unevenPercent": 91.5
+            },
+            "received": {
+              "count": 295,
+              "min": 0,
+              "median": 73.1,
+              "p95": 167.9,
+              "max": 235.6,
+              "mean": 68.3,
+              "cvPercent": 89.6,
+              "unevenPercent": 89.2
+            },
+            "displayed": {
+              "count": 282,
+              "min": 0,
+              "median": 68.5,
+              "p95": 166.1,
+              "max": 231.1,
+              "mean": 68.1,
+              "cvPercent": 88,
+              "unevenPercent": 91.8
+            },
+            "sound": {
+              "count": 175,
+              "min": 49.3,
+              "median": 100.3,
+              "p95": 200,
+              "max": 234.1,
+              "mean": 112.4,
+              "cvPercent": 38.5,
+              "unevenPercent": 87.4
+            }
+          },
+          "authorityTickGaps": {
+            "1": 181,
+            "2": 114
+          },
+          "notDisplayed": 11,
+          "shotsPerState": {
+            "1": 106,
+            "2": 89,
+            "3": 6
+          },
+          "shotsPerFrame": {
+            "1": 106,
+            "2": 85,
+            "3": 5
+          },
+          "sounds": {
+            "played": 182,
+            "merged": 95,
+            "throttled": 14,
+            "inactive": 0,
+            "none": 11
+          },
+          "receiveToDisplayMs": {
+            "count": 291,
+            "min": 5.3,
+            "median": 14.4,
+            "p95": 20.1,
+            "max": 38.9,
+            "mean": 13.8,
+            "cvPercent": 36.1
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 565,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 64,
+              "max": 69.5,
+              "mean": 53,
+              "cvPercent": 7.8
+            },
+            "sendGapMs": {
+              "count": 565,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 64,
+              "max": 69.5,
+              "mean": 53,
+              "cvPercent": 7.8
+            },
+            "unsent": 0,
+            "sampled": 566,
+            "heldTicks": 600,
+            "notHeldTicks": 4,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 35,
+              "p95": 90,
+              "max": 122,
+              "mean": 39.9,
+              "cvPercent": 63.5
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 24,
+            "median": 48,
+            "p95": 62,
+            "max": 96,
+            "mean": 50.1,
+            "cvPercent": 12.9
+          },
+          "stateGapMs": {
+            "count": 316,
+            "min": 0.7,
+            "median": 96.5,
+            "p95": 172.5,
+            "max": 217.3,
+            "mean": 100.6,
+            "cvPercent": 41.5
+          },
+          "frames": {
+            "count": 1924,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 50,
+              "median": 50,
+              "p95": 50,
+              "max": 50,
+              "mean": 50,
+              "cvPercent": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop1-smg-jitter70-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 1,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": {
+          "latencyMs": 30,
+          "jitterMs": 70
+        },
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": {
+        "latencyMs": 30,
+        "jitterMs": 70
+      },
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 301,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 294,
+              "min": 34,
+              "median": 59,
+              "p95": 108,
+              "max": 115,
+              "mean": 69.4,
+              "cvPercent": 36.4,
+              "unevenPercent": 89.1
+            },
+            "received": {
+              "count": 294,
+              "min": 0,
+              "median": 78.6,
+              "p95": 166.4,
+              "max": 229.4,
+              "mean": 70.1,
+              "cvPercent": 86.2,
+              "unevenPercent": 90.8
+            },
+            "displayed": {
+              "count": 293,
+              "min": 30.6,
+              "median": 67.3,
+              "p95": 97.2,
+              "max": 150.6,
+              "mean": 72.1,
+              "cvPercent": 18.9,
+              "unevenPercent": 29
+            },
+            "sound": {
+              "count": 291,
+              "min": 49,
+              "median": 66.8,
+              "p95": 99.6,
+              "max": 149.9,
+              "mean": 72.7,
+              "cvPercent": 18.3,
+              "unevenPercent": 26.8
+            }
+          },
+          "authorityTickGaps": {
+            "1": 180,
+            "2": 114
+          },
+          "notDisplayed": 1,
+          "shotsPerState": {
+            "1": 118,
+            "2": 84,
+            "3": 5
+          },
+          "shotsPerFrame": {
+            "1": 300
+          },
+          "sounds": {
+            "played": 298,
+            "merged": 0,
+            "throttled": 2,
+            "inactive": 0,
+            "none": 1
+          },
+          "receiveToDisplayMs": {
+            "count": 300,
+            "min": 3.5,
+            "median": 83.9,
+            "p95": 155.8,
+            "max": 174.1,
+            "mean": 84.7,
+            "cvPercent": 51.9
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 564,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 63.9,
+              "max": 69.5,
+              "mean": 53.1,
+              "cvPercent": 8
+            },
+            "sendGapMs": {
+              "count": 564,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 63.8,
+              "max": 69.5,
+              "mean": 53.1,
+              "cvPercent": 8
+            },
+            "unsent": 0,
+            "sampled": 565,
+            "heldTicks": 599,
+            "notHeldTicks": 4,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 599,
+              "min": 3,
+              "median": 36,
+              "p95": 85,
+              "max": 125,
+              "mean": 40,
+              "cvPercent": 63.3
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 31,
+            "median": 48,
+            "p95": 63,
+            "max": 69,
+            "mean": 50,
+            "cvPercent": 14.6
+          },
+          "stateGapMs": {
+            "count": 315,
+            "min": 0.6,
+            "median": 99,
+            "p95": 169.6,
+            "max": 227.8,
+            "mean": 100.7,
+            "cvPercent": 42.6
+          },
+          "frames": {
+            "count": 1921,
+            "over25ms": 3,
+            "gapMs": {
+              "count": 3,
+              "min": 33.1,
+              "median": 33.4,
+              "p95": 50.2,
+              "max": 50.2,
+              "mean": 38.9,
+              "cvPercent": 20.5
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop1-smg-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 1,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 305,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 298,
+              "min": 6,
+              "median": 54,
+              "p95": 110,
+              "max": 155,
+              "mean": 69.4,
+              "cvPercent": 37.1,
+              "unevenPercent": 93
+            },
+            "received": {
+              "count": 298,
+              "min": 0,
+              "median": 94.6,
+              "p95": 113.1,
+              "max": 154.5,
+              "mean": 68.2,
+              "cvPercent": 69.4,
+              "unevenPercent": 99.7
+            },
+            "displayed": {
+              "count": 298,
+              "min": 0,
+              "median": 98.3,
+              "p95": 117.4,
+              "max": 151.7,
+              "mean": 68,
+              "cvPercent": 69.9,
+              "unevenPercent": 97.7
+            },
+            "sound": {
+              "count": 203,
+              "min": 67.1,
+              "median": 100,
+              "p95": 116.9,
+              "max": 149.7,
+              "mean": 100.1,
+              "cvPercent": 11.3,
+              "unevenPercent": 99.5
+            }
+          },
+          "authorityTickGaps": {
+            "1": 183,
+            "2": 115
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 115,
+            "2": 95
+          },
+          "shotsPerFrame": {
+            "1": 115,
+            "2": 95
+          },
+          "sounds": {
+            "played": 210,
+            "merged": 95,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 305,
+            "min": 3.3,
+            "median": 12.8,
+            "p95": 17.4,
+            "max": 60.6,
+            "mean": 12.8,
+            "cvPercent": 40.5
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 566,
+              "min": 50.1,
+              "median": 51,
+              "p95": 64,
+              "max": 80.4,
+              "mean": 53,
+              "cvPercent": 8.2
+            },
+            "sendGapMs": {
+              "count": 566,
+              "min": 50.1,
+              "median": 51,
+              "p95": 64,
+              "max": 80.3,
+              "mean": 53,
+              "cvPercent": 8.2
+            },
+            "unsent": 0,
+            "sampled": 567,
+            "heldTicks": 600,
+            "notHeldTicks": 0,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 4,
+              "median": 35,
+              "p95": 57,
+              "max": 95,
+              "mean": 34.9,
+              "cvPercent": 43.9
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 6,
+            "median": 49,
+            "p95": 62,
+            "max": 96,
+            "mean": 50,
+            "cvPercent": 13.3
+          },
+          "stateGapMs": {
+            "count": 318,
+            "min": 35.2,
+            "median": 100,
+            "p95": 113.9,
+            "max": 154.5,
+            "mean": 99.4,
+            "cvPercent": 10.4
+          },
+          "frames": {
+            "count": 1898,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 33.2,
+              "median": 33.2,
+              "p95": 49.9,
+              "max": 49.9,
+              "mean": 41.6,
+              "cvPercent": 20.1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop1-smg-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 1,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 305,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 298,
+              "min": 12,
+              "median": 55,
+              "p95": 109,
+              "max": 130,
+              "mean": 69.4,
+              "cvPercent": 38.4,
+              "unevenPercent": 94
+            },
+            "received": {
+              "count": 298,
+              "min": 0,
+              "median": 93.8,
+              "p95": 114.6,
+              "max": 179.1,
+              "mean": 68.4,
+              "cvPercent": 70.2,
+              "unevenPercent": 97.3
+            },
+            "displayed": {
+              "count": 296,
+              "min": 35.6,
+              "median": 67.4,
+              "p95": 84.2,
+              "max": 117.3,
+              "mean": 70.6,
+              "cvPercent": 11.7,
+              "unevenPercent": 21.6
+            },
+            "sound": {
+              "count": 296,
+              "min": 62.3,
+              "median": 66.8,
+              "p95": 83.7,
+              "max": 117.2,
+              "mean": 70.7,
+              "cvPercent": 11.2,
+              "unevenPercent": 22.6
+            }
+          },
+          "authorityTickGaps": {
+            "1": 183,
+            "2": 115
+          },
+          "notDisplayed": 2,
+          "shotsPerState": {
+            "1": 115,
+            "2": 95
+          },
+          "shotsPerFrame": {
+            "1": 303
+          },
+          "sounds": {
+            "played": 303,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 2
+          },
+          "receiveToDisplayMs": {
+            "count": 303,
+            "min": 3.9,
+            "median": 62.8,
+            "p95": 114.6,
+            "max": 162.8,
+            "mean": 65.2,
+            "cvPercent": 51.8
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 557,
+              "min": 50.1,
+              "median": 51.5,
+              "p95": 64.8,
+              "max": 70.3,
+              "mean": 53.9,
+              "cvPercent": 8.2
+            },
+            "sendGapMs": {
+              "count": 557,
+              "min": 50.1,
+              "median": 51.5,
+              "p95": 64.8,
+              "max": 70.4,
+              "mean": 53.9,
+              "cvPercent": 8.2
+            },
+            "unsent": 0,
+            "sampled": 558,
+            "heldTicks": 602,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 602,
+              "min": 3,
+              "median": 38,
+              "p95": 59,
+              "max": 116,
+              "mean": 35.8,
+              "cvPercent": 48.3
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 1,
+            "median": 49,
+            "p95": 64,
+            "max": 119,
+            "mean": 50,
+            "cvPercent": 23.1
+          },
+          "stateGapMs": {
+            "count": 318,
+            "min": 22.4,
+            "median": 99.9,
+            "p95": 116.1,
+            "max": 179.1,
+            "mean": 99.5,
+            "cvPercent": 14.6
+          },
+          "frames": {
+            "count": 1897,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 33.3,
+              "median": 33.3,
+              "p95": 49.9,
+              "max": 49.9,
+              "mean": 41.6,
+              "cvPercent": 20
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-rifle-jitter70-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": {
+          "latencyMs": 30,
+          "jitterMs": 70
+        },
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 4,
+        "enemies": 0
+      },
+      "link": {
+        "latencyMs": 30,
+        "jitterMs": 70
+      },
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 148,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 4,
+          "inputBreaks": 6,
+          "interval": {
+            "authority": {
+              "count": 143,
+              "min": 14,
+              "median": 143,
+              "p95": 174,
+              "max": 3531,
+              "mean": 158,
+              "cvPercent": 182.7,
+              "unevenPercent": 69.2
+            },
+            "received": {
+              "count": 143,
+              "min": 0,
+              "median": 118.6,
+              "p95": 239.6,
+              "max": 4093.1,
+              "mean": 158,
+              "cvPercent": 218.4,
+              "unevenPercent": 74.1
+            },
+            "displayed": {
+              "count": 140,
+              "min": 0,
+              "median": 122.7,
+              "p95": 237.5,
+              "max": 4062.7,
+              "mean": 158.8,
+              "cvPercent": 217.9,
+              "unevenPercent": 74.3
+            },
+            "sound": {
+              "count": 125,
+              "min": 49.8,
+              "median": 133.4,
+              "p95": 250.2,
+              "max": 4092.3,
+              "mean": 179.8,
+              "cvPercent": 202.4,
+              "unevenPercent": 72
+            }
+          },
+          "authorityTickGaps": {
+            "2": 62,
+            "3": 76,
+            "4": 1,
+            "5": 2,
+            "6": 1,
+            "8": 1
+          },
+          "notDisplayed": 2,
+          "shotsPerState": {
+            "1": 121,
+            "2": 9,
+            "3": 3
+          },
+          "shotsPerFrame": {
+            "1": 119,
+            "2": 9,
+            "3": 3
+          },
+          "sounds": {
+            "played": 130,
+            "merged": 15,
+            "throttled": 1,
+            "inactive": 0,
+            "none": 2
+          },
+          "receiveToDisplayMs": {
+            "count": 146,
+            "min": 6,
+            "median": 15.2,
+            "p95": 20.8,
+            "max": 108.9,
+            "mean": 15.9,
+            "cvPercent": 62
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 539,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 64.1,
+              "max": 711.3,
+              "mean": 55.6,
+              "cvPercent": 59
+            },
+            "sendGapMs": {
+              "count": 462,
+              "min": 50.2,
+              "median": 51.1,
+              "p95": 65.2,
+              "max": 2198.5,
+              "mean": 64.9,
+              "cvPercent": 186.9
+            },
+            "unsent": 77,
+            "sampled": 540,
+            "heldTicks": 522,
+            "notHeldTicks": 32,
+            "expiredTicks": 27,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 522,
+              "min": 4,
+              "median": 41,
+              "p95": 256,
+              "max": 3696,
+              "mean": 78.4,
+              "cvPercent": 306.4
+            }
+          },
+          "authorityTickMs": {
+            "count": 559,
+            "min": 0,
+            "median": 49,
+            "p95": 74,
+            "max": 3005,
+            "mean": 57.2,
+            "cvPercent": 224.2
+          },
+          "stateGapMs": {
+            "count": 247,
+            "min": 1.3,
+            "median": 101.7,
+            "p95": 208.8,
+            "max": 4093.1,
+            "mean": 129.7,
+            "cvPercent": 205
+          },
+          "frames": {
+            "count": 1818,
+            "over25ms": 41,
+            "gapMs": {
+              "count": 41,
+              "min": 32.2,
+              "median": 33.5,
+              "p95": 116,
+              "max": 588.7,
+              "mean": 66.3,
+              "cvPercent": 150.5
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 143,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 4,
+          "inputBreaks": 3,
+          "interval": {
+            "authority": {
+              "count": 138,
+              "min": 38,
+              "median": 144,
+              "p95": 168,
+              "max": 3628,
+              "mean": 162.4,
+              "cvPercent": 187,
+              "unevenPercent": 71
+            },
+            "received": {
+              "count": 138,
+              "min": 0,
+              "median": 113.8,
+              "p95": 248.2,
+              "max": 4234.4,
+              "mean": 160.6,
+              "cvPercent": 224.2,
+              "unevenPercent": 84.8
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 58,
+            "3": 77,
+            "6": 1,
+            "8": 1,
+            "15": 1
+          },
+          "notDisplayed": 143,
+          "shotsPerState": {
+            "1": 124,
+            "2": 8,
+            "3": 1
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 143
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 579,
+              "min": 50.2,
+              "median": 51,
+              "p95": 54.7,
+              "max": 182.1,
+              "mean": 51.8,
+              "cvPercent": 11.8
+            },
+            "sendGapMs": {
+              "count": 467,
+              "min": 50.1,
+              "median": 51,
+              "p95": 54.1,
+              "max": 4549.8,
+              "mean": 64.3,
+              "cvPercent": 328.3
+            },
+            "unsent": 112,
+            "sampled": 580,
+            "heldTicks": 520,
+            "notHeldTicks": 40,
+            "expiredTicks": 36,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 520,
+              "min": 4,
+              "median": 40,
+              "p95": 381,
+              "max": 3814,
+              "mean": 80.4,
+              "cvPercent": 251.9
+            }
+          },
+          "authorityTickMs": {
+            "count": 557,
+            "min": 0,
+            "median": 49,
+            "p95": 74,
+            "max": 3005,
+            "mean": 57.2,
+            "cvPercent": 224.4
+          },
+          "stateGapMs": {
+            "count": 248,
+            "min": 0.5,
+            "median": 101.6,
+            "p95": 200.6,
+            "max": 4158.6,
+            "mean": 128.6,
+            "cvPercent": 210.5
+          },
+          "frames": {
+            "count": 3421,
+            "over25ms": 5,
+            "gapMs": {
+              "count": 5,
+              "min": 25.3,
+              "median": 33.4,
+              "p95": 164.8,
+              "max": 164.8,
+              "mean": 64.1,
+              "cvPercent": 81.1
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 147,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 4,
+          "inputBreaks": 6,
+          "interval": {
+            "authority": {
+              "count": 142,
+              "min": 15,
+              "median": 144,
+              "p95": 171,
+              "max": 3534,
+              "mean": 158.8,
+              "cvPercent": 183.9,
+              "unevenPercent": 73.2
+            },
+            "received": {
+              "count": 142,
+              "min": 0,
+              "median": 122.9,
+              "p95": 259.5,
+              "max": 4150.4,
+              "mean": 159.2,
+              "cvPercent": 223.3,
+              "unevenPercent": 81
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 60,
+            "3": 77,
+            "4": 2,
+            "6": 2,
+            "7": 1
+          },
+          "notDisplayed": 147,
+          "shotsPerState": {
+            "1": 122,
+            "2": 9,
+            "3": 1,
+            "4": 1
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 147
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 575,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 56,
+              "max": 213.5,
+              "mean": 52.2,
+              "cvPercent": 17.3
+            },
+            "sendGapMs": {
+              "count": 466,
+              "min": 50.1,
+              "median": 51,
+              "p95": 59.4,
+              "max": 4514.1,
+              "mean": 64.4,
+              "cvPercent": 325.7
+            },
+            "unsent": 109,
+            "sampled": 576,
+            "heldTicks": 522,
+            "notHeldTicks": 28,
+            "expiredTicks": 23,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 522,
+              "min": 3,
+              "median": 38,
+              "p95": 229,
+              "max": 3596,
+              "mean": 74.3,
+              "cvPercent": 309.8
+            }
+          },
+          "authorityTickMs": {
+            "count": 559,
+            "min": 0,
+            "median": 49,
+            "p95": 74,
+            "max": 3005,
+            "mean": 57.2,
+            "cvPercent": 224.2
+          },
+          "stateGapMs": {
+            "count": 252,
+            "min": 0.7,
+            "median": 100.2,
+            "p95": 189.8,
+            "max": 4150.4,
+            "mean": 126.9,
+            "cvPercent": 212.7
+          },
+          "frames": {
+            "count": 3405,
+            "over25ms": 8,
+            "gapMs": {
+              "count": 8,
+              "min": 29.8,
+              "median": 33.5,
+              "p95": 233.3,
+              "max": 233.3,
+              "mean": 78.6,
+              "cvPercent": 86.9
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 144,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 4,
+          "inputBreaks": 4,
+          "interval": {
+            "authority": {
+              "count": 139,
+              "min": 17,
+              "median": 144,
+              "p95": 179,
+              "max": 3707,
+              "mean": 161.5,
+              "cvPercent": 190.2,
+              "unevenPercent": 71.2
+            },
+            "received": {
+              "count": 139,
+              "min": 0,
+              "median": 122.8,
+              "p95": 247.7,
+              "max": 4191.5,
+              "mean": 161.3,
+              "cvPercent": 223.9,
+              "unevenPercent": 82
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 59,
+            "3": 76,
+            "4": 1,
+            "7": 2,
+            "14": 1
+          },
+          "notDisplayed": 144,
+          "shotsPerState": {
+            "1": 120,
+            "2": 9,
+            "3": 2
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 144
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 568,
+              "min": 50.1,
+              "median": 51,
+              "p95": 53.3,
+              "max": 648.2,
+              "mean": 52.8,
+              "cvPercent": 50.1
+            },
+            "sendGapMs": {
+              "count": 477,
+              "min": 50.1,
+              "median": 51,
+              "p95": 52.2,
+              "max": 3821.2,
+              "mean": 62.9,
+              "cvPercent": 282
+            },
+            "unsent": 91,
+            "sampled": 569,
+            "heldTicks": 522,
+            "notHeldTicks": 36,
+            "expiredTicks": 32,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 522,
+              "min": 4,
+              "median": 37,
+              "p95": 318,
+              "max": 3385,
+              "mean": 69.8,
+              "cvPercent": 244.9
+            }
+          },
+          "authorityTickMs": {
+            "count": 559,
+            "min": 0,
+            "median": 49,
+            "p95": 74,
+            "max": 3005,
+            "mean": 57.2,
+            "cvPercent": 224.2
+          },
+          "stateGapMs": {
+            "count": 250,
+            "min": 0.7,
+            "median": 103.2,
+            "p95": 201.3,
+            "max": 4191.5,
+            "mean": 127.9,
+            "cvPercent": 213.7
+          },
+          "frames": {
+            "count": 3382,
+            "over25ms": 5,
+            "gapMs": {
+              "count": 5,
+              "min": 25.8,
+              "median": 33.5,
+              "p95": 627.7,
+              "max": 627.7,
+              "mean": 193.9,
+              "cvPercent": 120.1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-rifle-jitter70-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": {
+          "latencyMs": 30,
+          "jitterMs": 70
+        },
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 4,
+        "enemies": 0
+      },
+      "link": {
+        "latencyMs": 30,
+        "jitterMs": 70
+      },
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 170,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 164,
+              "min": 89,
+              "median": 144,
+              "p95": 157,
+              "max": 164,
+              "mean": 129,
+              "cvPercent": 19.5,
+              "unevenPercent": 71.3
+            },
+            "received": {
+              "count": 164,
+              "min": 0.7,
+              "median": 121.1,
+              "p95": 219.2,
+              "max": 249.6,
+              "mean": 129.4,
+              "cvPercent": 44.2,
+              "unevenPercent": 77.4
+            },
+            "displayed": {
+              "count": 164,
+              "min": 110,
+              "median": 132.8,
+              "p95": 146.2,
+              "max": 213.4,
+              "mean": 132.7,
+              "cvPercent": 10.4,
+              "unevenPercent": 4.3
+            },
+            "sound": {
+              "count": 164,
+              "min": 115.9,
+              "median": 133.3,
+              "p95": 149.7,
+              "max": 217,
+              "mean": 132.6,
+              "cvPercent": 10.2,
+              "unevenPercent": 5.5
+            }
+          },
+          "authorityTickGaps": {
+            "2": 69,
+            "3": 95
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 170
+          },
+          "shotsPerFrame": {
+            "1": 170
+          },
+          "sounds": {
+            "played": 170,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 170,
+            "min": 6.3,
+            "median": 84.3,
+            "p95": 151.8,
+            "max": 179.7,
+            "mean": 85.6,
+            "cvPercent": 48.9
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 570,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 60.3,
+              "max": 69.9,
+              "mean": 52.5,
+              "cvPercent": 6.4
+            },
+            "sendGapMs": {
+              "count": 570,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 60.3,
+              "max": 70,
+              "mean": 52.5,
+              "cvPercent": 6.4
+            },
+            "unsent": 0,
+            "sampled": 571,
+            "heldTicks": 600,
+            "notHeldTicks": 5,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 33,
+              "p95": 87,
+              "max": 126,
+              "mean": 38.6,
+              "cvPercent": 66
+            }
+          },
+          "authorityTickMs": {
+            "count": 637,
+            "min": 2,
+            "median": 50,
+            "p95": 61,
+            "max": 104,
+            "mean": 50.1,
+            "cvPercent": 13.6
+          },
+          "stateGapMs": {
+            "count": 316,
+            "min": 0.4,
+            "median": 101.1,
+            "p95": 168.6,
+            "max": 244.9,
+            "mean": 101.1,
+            "cvPercent": 41.2
+          },
+          "frames": {
+            "count": 1943,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 33.5,
+              "median": 33.5,
+              "p95": 33.5,
+              "max": 33.5,
+              "mean": 33.5,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 170,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 164,
+              "min": 84,
+              "median": 144,
+              "p95": 156,
+              "max": 167,
+              "mean": 129.1,
+              "cvPercent": 19.1,
+              "unevenPercent": 68.9
+            },
+            "received": {
+              "count": 164,
+              "min": 0,
+              "median": 121.9,
+              "p95": 229.8,
+              "max": 264.4,
+              "mean": 128.7,
+              "cvPercent": 48.4,
+              "unevenPercent": 78
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 69,
+            "3": 95
+          },
+          "notDisplayed": 170,
+          "shotsPerState": {
+            "1": 160,
+            "2": 5
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 170
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 575,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 59.7,
+              "max": 66,
+              "mean": 52,
+              "cvPercent": 5.6
+            },
+            "sendGapMs": {
+              "count": 575,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 59.8,
+              "max": 66,
+              "mean": 52,
+              "cvPercent": 5.6
+            },
+            "unsent": 0,
+            "sampled": 576,
+            "heldTicks": 600,
+            "notHeldTicks": 6,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 34,
+              "p95": 84,
+              "max": 128,
+              "mean": 39.2,
+              "cvPercent": 61.7
+            }
+          },
+          "authorityTickMs": {
+            "count": 637,
+            "min": 2,
+            "median": 50,
+            "p95": 61,
+            "max": 104,
+            "mean": 50.1,
+            "cvPercent": 13.6
+          },
+          "stateGapMs": {
+            "count": 317,
+            "min": 0.6,
+            "median": 97.4,
+            "p95": 174.2,
+            "max": 276.7,
+            "mean": 100.8,
+            "cvPercent": 43
+          },
+          "frames": {
+            "count": 2772,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 133.4,
+              "median": 133.4,
+              "p95": 133.4,
+              "max": 133.4,
+              "mean": 133.4,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 89,
+              "median": 144,
+              "p95": 157,
+              "max": 164,
+              "mean": 128.8,
+              "cvPercent": 19.6,
+              "unevenPercent": 71.5
+            },
+            "received": {
+              "count": 165,
+              "min": 0,
+              "median": 124.6,
+              "p95": 224.7,
+              "max": 262.8,
+              "mean": 128.4,
+              "cvPercent": 45.6,
+              "unevenPercent": 77
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 169,
+            "2": 1
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 573,
+              "min": 50.2,
+              "median": 51.1,
+              "p95": 61.9,
+              "max": 65.6,
+              "mean": 52.3,
+              "cvPercent": 6.2
+            },
+            "sendGapMs": {
+              "count": 573,
+              "min": 50.2,
+              "median": 51.1,
+              "p95": 61.8,
+              "max": 65.7,
+              "mean": 52.3,
+              "cvPercent": 6.2
+            },
+            "unsent": 0,
+            "sampled": 574,
+            "heldTicks": 602,
+            "notHeldTicks": 5,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 602,
+              "min": 3,
+              "median": 35,
+              "p95": 82,
+              "max": 138,
+              "mean": 37.5,
+              "cvPercent": 63.1
+            }
+          },
+          "authorityTickMs": {
+            "count": 639,
+            "min": 2,
+            "median": 50,
+            "p95": 61,
+            "max": 104,
+            "mean": 50,
+            "cvPercent": 13.6
+          },
+          "stateGapMs": {
+            "count": 317,
+            "min": 0.5,
+            "median": 100.4,
+            "p95": 175.5,
+            "max": 243.5,
+            "mean": 101.1,
+            "cvPercent": 40.7
+          },
+          "frames": {
+            "count": 2772,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 133.4,
+              "median": 133.4,
+              "p95": 133.4,
+              "max": 133.4,
+              "mean": 133.4,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 89,
+              "median": 144,
+              "p95": 157,
+              "max": 164,
+              "mean": 128.8,
+              "cvPercent": 19.6,
+              "unevenPercent": 71.5
+            },
+            "received": {
+              "count": 165,
+              "min": 0,
+              "median": 117.3,
+              "p95": 228.3,
+              "max": 261.1,
+              "mean": 128,
+              "cvPercent": 45.3,
+              "unevenPercent": 81.8
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 165,
+            "2": 3
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 573,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 60.9,
+              "max": 65.8,
+              "mean": 52.4,
+              "cvPercent": 6.2
+            },
+            "sendGapMs": {
+              "count": 573,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 61,
+              "max": 65.7,
+              "mean": 52.4,
+              "cvPercent": 6.2
+            },
+            "unsent": 0,
+            "sampled": 574,
+            "heldTicks": 602,
+            "notHeldTicks": 5,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 602,
+              "min": 3,
+              "median": 33,
+              "p95": 86,
+              "max": 124,
+              "mean": 37.6,
+              "cvPercent": 66.7
+            }
+          },
+          "authorityTickMs": {
+            "count": 639,
+            "min": 2,
+            "median": 50,
+            "p95": 61,
+            "max": 104,
+            "mean": 50,
+            "cvPercent": 13.6
+          },
+          "stateGapMs": {
+            "count": 317,
+            "min": 1.3,
+            "median": 101.8,
+            "p95": 154.5,
+            "max": 262.8,
+            "mean": 101,
+            "cvPercent": 37.4
+          },
+          "frames": {
+            "count": 2771,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 133.3,
+              "median": 133.3,
+              "p95": 133.3,
+              "max": 133.3,
+              "mean": 133.3,
+              "cvPercent": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-rifle-mixed-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": null,
+        "load": "mixed",
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "keep",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 4,
+        "enemies": 49
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 78,
+              "median": 142,
+              "p95": 156,
+              "max": 170,
+              "mean": 128.9,
+              "cvPercent": 18.8,
+              "unevenPercent": 67.3
+            },
+            "received": {
+              "count": 165,
+              "min": 35.1,
+              "median": 105.4,
+              "p95": 207.2,
+              "max": 223.6,
+              "mean": 128.8,
+              "cvPercent": 34.4,
+              "unevenPercent": 85.5
+            },
+            "displayed": {
+              "count": 165,
+              "min": 31.8,
+              "median": 106.8,
+              "p95": 211.9,
+              "max": 256.7,
+              "mean": 128.6,
+              "cvPercent": 37.2,
+              "unevenPercent": 83.6
+            },
+            "sound": {
+              "count": 164,
+              "min": 69.3,
+              "median": 107.1,
+              "p95": 206.3,
+              "max": 224.8,
+              "mean": 129.6,
+              "cvPercent": 34.1,
+              "unevenPercent": 83.5
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 171
+          },
+          "shotsPerFrame": {
+            "1": 171
+          },
+          "sounds": {
+            "played": 170,
+            "merged": 0,
+            "throttled": 1,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 171,
+            "min": 10.9,
+            "median": 18.5,
+            "p95": 37.1,
+            "max": 89.8,
+            "mean": 21.4,
+            "cvPercent": 49.7
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 557,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 63.1,
+              "max": 126.1,
+              "mean": 53.8,
+              "cvPercent": 12.9
+            },
+            "sendGapMs": {
+              "count": 557,
+              "min": 50.1,
+              "median": 51.3,
+              "p95": 63.1,
+              "max": 126.1,
+              "mean": 53.8,
+              "cvPercent": 12.8
+            },
+            "unsent": 0,
+            "sampled": 558,
+            "heldTicks": 600,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 27,
+              "p95": 61,
+              "max": 104,
+              "mean": 29.2,
+              "cvPercent": 59.1
+            }
+          },
+          "authorityTickMs": {
+            "count": 955,
+            "min": 16,
+            "median": 50,
+            "p95": 61,
+            "max": 108,
+            "mean": 50.1,
+            "cvPercent": 13.5
+          },
+          "stateGapMs": {
+            "count": 473,
+            "min": 6.4,
+            "median": 99.6,
+            "p95": 122.4,
+            "max": 697.1,
+            "mean": 101.3,
+            "cvPercent": 35.1
+          },
+          "frames": {
+            "count": 2436,
+            "over25ms": 350,
+            "gapMs": {
+              "count": 350,
+              "min": 31,
+              "median": 33.3,
+              "p95": 34.2,
+              "max": 683.4,
+              "mean": 37.8,
+              "cvPercent": 104.1
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 78,
+              "median": 142,
+              "p95": 156,
+              "max": 170,
+              "mean": 128.9,
+              "cvPercent": 18.8,
+              "unevenPercent": 67.3
+            },
+            "received": {
+              "count": 165,
+              "min": 77.5,
+              "median": 104.5,
+              "p95": 205.8,
+              "max": 231.3,
+              "mean": 128.7,
+              "cvPercent": 34.6,
+              "unevenPercent": 92.1
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 171
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 586,
+              "min": 50.1,
+              "median": 50.9,
+              "p95": 52.1,
+              "max": 64.3,
+              "mean": 51.1,
+              "cvPercent": 2.5
+            },
+            "sendGapMs": {
+              "count": 586,
+              "min": 50.1,
+              "median": 50.9,
+              "p95": 52.1,
+              "max": 64.3,
+              "mean": 51.1,
+              "cvPercent": 2.5
+            },
+            "unsent": 0,
+            "sampled": 587,
+            "heldTicks": 600,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 26,
+              "p95": 51,
+              "max": 115,
+              "mean": 27.3,
+              "cvPercent": 60.5
+            }
+          },
+          "authorityTickMs": {
+            "count": 955,
+            "min": 16,
+            "median": 50,
+            "p95": 61,
+            "max": 108,
+            "mean": 50.1,
+            "cvPercent": 13.5
+          },
+          "stateGapMs": {
+            "count": 480,
+            "min": 13.8,
+            "median": 99.7,
+            "p95": 118.6,
+            "max": 205.8,
+            "mean": 99.8,
+            "cvPercent": 16.3
+          },
+          "frames": {
+            "count": 4031,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 33.6,
+              "median": 33.6,
+              "p95": 33.6,
+              "max": 33.6,
+              "mean": 33.6,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 78,
+              "median": 142,
+              "p95": 156,
+              "max": 170,
+              "mean": 128.9,
+              "cvPercent": 18.8,
+              "unevenPercent": 67.3
+            },
+            "received": {
+              "count": 165,
+              "min": 82.8,
+              "median": 104.6,
+              "p95": 205.2,
+              "max": 225,
+              "mean": 128.7,
+              "cvPercent": 34.4,
+              "unevenPercent": 93.3
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 171
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 587,
+              "min": 50.1,
+              "median": 51,
+              "p95": 52,
+              "max": 60.1,
+              "mean": 51.1,
+              "cvPercent": 1.8
+            },
+            "sendGapMs": {
+              "count": 587,
+              "min": 50.1,
+              "median": 51,
+              "p95": 52,
+              "max": 60.2,
+              "mean": 51.1,
+              "cvPercent": 1.8
+            },
+            "unsent": 0,
+            "sampled": 588,
+            "heldTicks": 600,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 27,
+              "p95": 51,
+              "max": 114,
+              "mean": 27.4,
+              "cvPercent": 55.6
+            }
+          },
+          "authorityTickMs": {
+            "count": 955,
+            "min": 16,
+            "median": 50,
+            "p95": 61,
+            "max": 108,
+            "mean": 50.1,
+            "cvPercent": 13.5
+          },
+          "stateGapMs": {
+            "count": 479,
+            "min": 23.8,
+            "median": 99.8,
+            "p95": 118.4,
+            "max": 208.3,
+            "mean": 100,
+            "cvPercent": 14.5
+          },
+          "frames": {
+            "count": 4019,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 83.4,
+              "median": 83.4,
+              "p95": 166.8,
+              "max": 166.8,
+              "mean": 125.1,
+              "cvPercent": 33.3
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 78,
+              "median": 142,
+              "p95": 156,
+              "max": 170,
+              "mean": 128.9,
+              "cvPercent": 18.8,
+              "unevenPercent": 67.3
+            },
+            "received": {
+              "count": 165,
+              "min": 78.2,
+              "median": 104.7,
+              "p95": 205.1,
+              "max": 229.2,
+              "mean": 128.7,
+              "cvPercent": 34.4,
+              "unevenPercent": 92.1
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 171
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 587,
+              "min": 50.1,
+              "median": 50.9,
+              "p95": 51.9,
+              "max": 62.1,
+              "mean": 51.1,
+              "cvPercent": 2.3
+            },
+            "sendGapMs": {
+              "count": 587,
+              "min": 50.1,
+              "median": 50.9,
+              "p95": 52,
+              "max": 62.1,
+              "mean": 51.1,
+              "cvPercent": 2.3
+            },
+            "unsent": 0,
+            "sampled": 588,
+            "heldTicks": 600,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 27,
+              "p95": 48,
+              "max": 129,
+              "mean": 26.5,
+              "cvPercent": 56.3
+            }
+          },
+          "authorityTickMs": {
+            "count": 955,
+            "min": 16,
+            "median": 50,
+            "p95": 61,
+            "max": 108,
+            "mean": 50.1,
+            "cvPercent": 13.5
+          },
+          "stateGapMs": {
+            "count": 480,
+            "min": 24.3,
+            "median": 99.9,
+            "p95": 118.4,
+            "max": 202.9,
+            "mean": 99.8,
+            "cvPercent": 15.2
+          },
+          "frames": {
+            "count": 4006,
+            "over25ms": 4,
+            "gapMs": {
+              "count": 4,
+              "min": 33.6,
+              "median": 50,
+              "p95": 349.9,
+              "max": 349.9,
+              "mean": 125,
+              "cvPercent": 104.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-rifle-mixed-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": null,
+        "load": "mixed",
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "keep",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 4,
+        "enemies": 49
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 169,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 163,
+              "min": 48,
+              "median": 143,
+              "p95": 163,
+              "max": 201,
+              "mean": 129.1,
+              "cvPercent": 22.3,
+              "unevenPercent": 71.8
+            },
+            "received": {
+              "count": 163,
+              "min": 42,
+              "median": 108.5,
+              "p95": 210.7,
+              "max": 258.4,
+              "mean": 129.6,
+              "cvPercent": 36.4,
+              "unevenPercent": 84
+            },
+            "displayed": {
+              "count": 163,
+              "min": 81,
+              "median": 131.6,
+              "p95": 151.4,
+              "max": 194.9,
+              "mean": 130.6,
+              "cvPercent": 10.5,
+              "unevenPercent": 12.9
+            },
+            "sound": {
+              "count": 163,
+              "min": 83,
+              "median": 132.7,
+              "p95": 146.1,
+              "max": 193.1,
+              "mean": 130.9,
+              "cvPercent": 9.8,
+              "unevenPercent": 6.1
+            }
+          },
+          "authorityTickGaps": {
+            "2": 69,
+            "3": 94
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 169
+          },
+          "shotsPerFrame": {
+            "1": 169
+          },
+          "sounds": {
+            "played": 169,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 169,
+            "min": 11.8,
+            "median": 76,
+            "p95": 133.4,
+            "max": 199.8,
+            "mean": 78.5,
+            "cvPercent": 42.5
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 544,
+              "min": 50.1,
+              "median": 52,
+              "p95": 65.7,
+              "max": 109.2,
+              "mean": 55,
+              "cvPercent": 12.1
+            },
+            "sendGapMs": {
+              "count": 538,
+              "min": 50.1,
+              "median": 52,
+              "p95": 67.2,
+              "max": 158.8,
+              "mean": 55.4,
+              "cvPercent": 15.8
+            },
+            "unsent": 6,
+            "sampled": 545,
+            "heldTicks": 594,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 594,
+              "min": 3,
+              "median": 30,
+              "p95": 88,
+              "max": 137,
+              "mean": 35.1,
+              "cvPercent": 72.7
+            }
+          },
+          "authorityTickMs": {
+            "count": 629,
+            "min": 8,
+            "median": 50,
+            "p95": 71,
+            "max": 113,
+            "mean": 50.1,
+            "cvPercent": 26.2
+          },
+          "stateGapMs": {
+            "count": 314,
+            "min": 12.5,
+            "median": 99.7,
+            "p95": 127.7,
+            "max": 344.2,
+            "mean": 100.8,
+            "cvPercent": 26.3
+          },
+          "frames": {
+            "count": 1471,
+            "over25ms": 400,
+            "gapMs": {
+              "count": 400,
+              "min": 32.9,
+              "median": 33.3,
+              "p95": 33.5,
+              "max": 333.5,
+              "mean": 35.3,
+              "cvPercent": 52.7
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 169,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 163,
+              "min": 48,
+              "median": 143,
+              "p95": 163,
+              "max": 201,
+              "mean": 129.1,
+              "cvPercent": 22.3,
+              "unevenPercent": 71.8
+            },
+            "received": {
+              "count": 163,
+              "min": 57.9,
+              "median": 106.5,
+              "p95": 211,
+              "max": 307.9,
+              "mean": 131,
+              "cvPercent": 37.3,
+              "unevenPercent": 86.5
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 69,
+            "3": 94
+          },
+          "notDisplayed": 169,
+          "shotsPerState": {
+            "1": 169
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 169
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 577,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 58.9,
+              "max": 65.6,
+              "mean": 51.9,
+              "cvPercent": 5.3
+            },
+            "sendGapMs": {
+              "count": 570,
+              "min": 50.2,
+              "median": 51.1,
+              "p95": 59.1,
+              "max": 153.7,
+              "mean": 52.4,
+              "cvPercent": 13.2
+            },
+            "unsent": 7,
+            "sampled": 578,
+            "heldTicks": 594,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 594,
+              "min": 3,
+              "median": 27,
+              "p95": 84,
+              "max": 182,
+              "mean": 32.2,
+              "cvPercent": 77.9
+            }
+          },
+          "authorityTickMs": {
+            "count": 629,
+            "min": 8,
+            "median": 50,
+            "p95": 71,
+            "max": 113,
+            "mean": 50.1,
+            "cvPercent": 26.2
+          },
+          "stateGapMs": {
+            "count": 317,
+            "min": 27.4,
+            "median": 100.1,
+            "p95": 125.7,
+            "max": 307.9,
+            "mean": 100.5,
+            "cvPercent": 22.7
+          },
+          "frames": {
+            "count": 2889,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 50,
+              "median": 50,
+              "p95": 50,
+              "max": 50,
+              "mean": 50,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 169,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 163,
+              "min": 48,
+              "median": 143,
+              "p95": 163,
+              "max": 201,
+              "mean": 129.1,
+              "cvPercent": 22.3,
+              "unevenPercent": 71.8
+            },
+            "received": {
+              "count": 163,
+              "min": 58.1,
+              "median": 107,
+              "p95": 208.3,
+              "max": 312.8,
+              "mean": 131.1,
+              "cvPercent": 37.3,
+              "unevenPercent": 86.5
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 69,
+            "3": 94
+          },
+          "notDisplayed": 169,
+          "shotsPerState": {
+            "1": 169
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 169
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 574,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.7,
+              "max": 66.3,
+              "mean": 52.2,
+              "cvPercent": 6
+            },
+            "sendGapMs": {
+              "count": 568,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.9,
+              "max": 358,
+              "mean": 52.7,
+              "cvPercent": 25
+            },
+            "unsent": 6,
+            "sampled": 575,
+            "heldTicks": 595,
+            "notHeldTicks": 4,
+            "expiredTicks": 2,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 595,
+              "min": 3,
+              "median": 29,
+              "p95": 91,
+              "max": 324,
+              "mean": 35.6,
+              "cvPercent": 87.6
+            }
+          },
+          "authorityTickMs": {
+            "count": 630,
+            "min": 8,
+            "median": 50,
+            "p95": 71,
+            "max": 113,
+            "mean": 50.1,
+            "cvPercent": 26.2
+          },
+          "stateGapMs": {
+            "count": 315,
+            "min": 27.4,
+            "median": 100,
+            "p95": 127.4,
+            "max": 312.8,
+            "mean": 101.1,
+            "cvPercent": 24.2
+          },
+          "frames": {
+            "count": 2889,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 50,
+              "median": 50,
+              "p95": 50,
+              "max": 50,
+              "mean": 50,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 169,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 163,
+              "min": 48,
+              "median": 143,
+              "p95": 163,
+              "max": 201,
+              "mean": 129.1,
+              "cvPercent": 22.3,
+              "unevenPercent": 71.8
+            },
+            "received": {
+              "count": 163,
+              "min": 58.7,
+              "median": 106.6,
+              "p95": 210.8,
+              "max": 260.4,
+              "mean": 129.8,
+              "cvPercent": 36.6,
+              "unevenPercent": 85.3
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 69,
+            "3": 94
+          },
+          "notDisplayed": 169,
+          "shotsPerState": {
+            "1": 169
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 169
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 572,
+              "min": 50,
+              "median": 51.1,
+              "p95": 61.4,
+              "max": 65.8,
+              "mean": 52.3,
+              "cvPercent": 6.1
+            },
+            "sendGapMs": {
+              "count": 568,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61.4,
+              "max": 218,
+              "mean": 52.6,
+              "cvPercent": 14.5
+            },
+            "unsent": 4,
+            "sampled": 573,
+            "heldTicks": 594,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 594,
+              "min": 3,
+              "median": 28,
+              "p95": 83,
+              "max": 163,
+              "mean": 32.2,
+              "cvPercent": 78.2
+            }
+          },
+          "authorityTickMs": {
+            "count": 629,
+            "min": 8,
+            "median": 50,
+            "p95": 71,
+            "max": 113,
+            "mean": 50.1,
+            "cvPercent": 26.2
+          },
+          "stateGapMs": {
+            "count": 317,
+            "min": 27.5,
+            "median": 99.4,
+            "p95": 125.5,
+            "max": 218.3,
+            "mean": 99.9,
+            "cvPercent": 19.3
+          },
+          "frames": {
+            "count": 2876,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 50,
+              "median": 50,
+              "p95": 233.3,
+              "max": 233.3,
+              "mean": 141.6,
+              "cvPercent": 64.7
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-rifle-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 4,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 31,
+              "median": 142,
+              "p95": 157,
+              "max": 217,
+              "mean": 128.6,
+              "cvPercent": 23.3,
+              "unevenPercent": 69.7
+            },
+            "received": {
+              "count": 165,
+              "min": 0,
+              "median": 102.8,
+              "p95": 226,
+              "max": 380.7,
+              "mean": 127.5,
+              "cvPercent": 51.7,
+              "unevenPercent": 95.2
+            },
+            "displayed": {
+              "count": 163,
+              "min": 0,
+              "median": 101.4,
+              "p95": 221.4,
+              "max": 385.2,
+              "mean": 128,
+              "cvPercent": 51,
+              "unevenPercent": 96.3
+            },
+            "sound": {
+              "count": 154,
+              "min": 49.7,
+              "median": 100.3,
+              "p95": 249.2,
+              "max": 383.3,
+              "mean": 136.8,
+              "cvPercent": 42.7,
+              "unevenPercent": 96.8
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 1,
+          "shotsPerState": {
+            "1": 154,
+            "2": 7,
+            "3": 1
+          },
+          "shotsPerFrame": {
+            "1": 153,
+            "2": 7,
+            "3": 1
+          },
+          "sounds": {
+            "played": 160,
+            "merged": 9,
+            "throttled": 1,
+            "inactive": 0,
+            "none": 1
+          },
+          "receiveToDisplayMs": {
+            "count": 170,
+            "min": 6.8,
+            "median": 13.7,
+            "p95": 18.2,
+            "max": 47.6,
+            "mean": 13.7,
+            "cvPercent": 29.5
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 581,
+              "min": 50.1,
+              "median": 51,
+              "p95": 55.9,
+              "max": 94.8,
+              "mean": 51.5,
+              "cvPercent": 4.8
+            },
+            "sendGapMs": {
+              "count": 549,
+              "min": 50.1,
+              "median": 51,
+              "p95": 57.2,
+              "max": 406.2,
+              "mean": 54.5,
+              "cvPercent": 43
+            },
+            "unsent": 32,
+            "sampled": 582,
+            "heldTicks": 600,
+            "notHeldTicks": 4,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 29,
+              "p95": 101,
+              "max": 226,
+              "mean": 35.7,
+              "cvPercent": 89
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 0,
+            "median": 50,
+            "p95": 67,
+            "max": 144,
+            "mean": 50,
+            "cvPercent": 26.6
+          },
+          "stateGapMs": {
+            "count": 306,
+            "min": 1,
+            "median": 100.3,
+            "p95": 148.5,
+            "max": 358.6,
+            "mean": 103.7,
+            "cvPercent": 32.9
+          },
+          "frames": {
+            "count": 1910,
+            "over25ms": 3,
+            "gapMs": {
+              "count": 3,
+              "min": 33.2,
+              "median": 33.3,
+              "p95": 33.3,
+              "max": 33.3,
+              "mean": 33.3,
+              "cvPercent": 0.1
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 1,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 31,
+              "median": 142,
+              "p95": 157,
+              "max": 217,
+              "mean": 128.6,
+              "cvPercent": 23.3,
+              "unevenPercent": 69.7
+            },
+            "received": {
+              "count": 165,
+              "min": 0,
+              "median": 102.6,
+              "p95": 250.7,
+              "max": 411.2,
+              "mean": 127.4,
+              "cvPercent": 58.4,
+              "unevenPercent": 97.6
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 149,
+            "2": 8,
+            "3": 2
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 584,
+              "min": 50.1,
+              "median": 50.9,
+              "p95": 52.4,
+              "max": 64.7,
+              "mean": 51.3,
+              "cvPercent": 3.1
+            },
+            "sendGapMs": {
+              "count": 549,
+              "min": 50.1,
+              "median": 51,
+              "p95": 55.1,
+              "max": 383.9,
+              "mean": 54.5,
+              "cvPercent": 45.6
+            },
+            "unsent": 35,
+            "sampled": 585,
+            "heldTicks": 600,
+            "notHeldTicks": 5,
+            "expiredTicks": 1,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 31,
+              "p95": 120,
+              "max": 283,
+              "mean": 40.3,
+              "cvPercent": 87.9
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 0,
+            "median": 50,
+            "p95": 67,
+            "max": 144,
+            "mean": 50,
+            "cvPercent": 26.6
+          },
+          "stateGapMs": {
+            "count": 302,
+            "min": 5,
+            "median": 100.2,
+            "p95": 145.2,
+            "max": 411.2,
+            "mean": 105,
+            "cvPercent": 37.8
+          },
+          "frames": {
+            "count": 3266,
+            "over25ms": 3,
+            "gapMs": {
+              "count": 3,
+              "min": 38.5,
+              "median": 50.1,
+              "p95": 62.3,
+              "max": 62.3,
+              "mean": 50.3,
+              "cvPercent": 19.3
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 169,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 1,
+          "interval": {
+            "authority": {
+              "count": 163,
+              "min": 31,
+              "median": 145,
+              "p95": 162,
+              "max": 291,
+              "mean": 129.8,
+              "cvPercent": 26.1,
+              "unevenPercent": 73.6
+            },
+            "received": {
+              "count": 163,
+              "min": 0,
+              "median": 102.9,
+              "p95": 248.6,
+              "max": 713.2,
+              "mean": 127.4,
+              "cvPercent": 61,
+              "unevenPercent": 93.3
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 69,
+            "3": 93,
+            "6": 1
+          },
+          "notDisplayed": 169,
+          "shotsPerState": {
+            "1": 152,
+            "2": 5,
+            "3": 1,
+            "4": 1
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 169
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 583,
+              "min": 50.1,
+              "median": 51,
+              "p95": 53,
+              "max": 63.6,
+              "mean": 51.4,
+              "cvPercent": 3.7
+            },
+            "sendGapMs": {
+              "count": 554,
+              "min": 50.1,
+              "median": 51,
+              "p95": 57.6,
+              "max": 564.9,
+              "mean": 54.1,
+              "cvPercent": 47
+            },
+            "unsent": 29,
+            "sampled": 584,
+            "heldTicks": 600,
+            "notHeldTicks": 7,
+            "expiredTicks": 3,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 2,
+              "median": 33,
+              "p95": 117,
+              "max": 361,
+              "mean": 39.9,
+              "cvPercent": 98
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 0,
+            "median": 50,
+            "p95": 67,
+            "max": 144,
+            "mean": 50,
+            "cvPercent": 26.6
+          },
+          "stateGapMs": {
+            "count": 304,
+            "min": 11.9,
+            "median": 100.1,
+            "p95": 134.2,
+            "max": 411.9,
+            "mean": 104.3,
+            "cvPercent": 35.4
+          },
+          "frames": {
+            "count": 3266,
+            "over25ms": 3,
+            "gapMs": {
+              "count": 3,
+              "min": 33.3,
+              "median": 38.5,
+              "p95": 62.3,
+              "max": 62.3,
+              "mean": 44.7,
+              "cvPercent": 28.2
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 31,
+              "median": 142,
+              "p95": 157,
+              "max": 217,
+              "mean": 128.6,
+              "cvPercent": 23.3,
+              "unevenPercent": 69.7
+            },
+            "received": {
+              "count": 165,
+              "min": 0,
+              "median": 102.4,
+              "p95": 231.1,
+              "max": 518.6,
+              "mean": 127.4,
+              "cvPercent": 58.2,
+              "unevenPercent": 94.5
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 154,
+            "2": 7,
+            "3": 1
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 580,
+              "min": 50.1,
+              "median": 51,
+              "p95": 56.6,
+              "max": 65.2,
+              "mean": 51.6,
+              "cvPercent": 4.6
+            },
+            "sendGapMs": {
+              "count": 550,
+              "min": 50.2,
+              "median": 51,
+              "p95": 60.1,
+              "max": 383.5,
+              "mean": 54.4,
+              "cvPercent": 42.1
+            },
+            "unsent": 30,
+            "sampled": 581,
+            "heldTicks": 600,
+            "notHeldTicks": 4,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 33,
+              "p95": 107,
+              "max": 184,
+              "mean": 38,
+              "cvPercent": 79.6
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 0,
+            "median": 50,
+            "p95": 67,
+            "max": 144,
+            "mean": 50,
+            "cvPercent": 26.6
+          },
+          "stateGapMs": {
+            "count": 304,
+            "min": 1,
+            "median": 100.1,
+            "p95": 135.8,
+            "max": 518.6,
+            "mean": 104.3,
+            "cvPercent": 37.9
+          },
+          "frames": {
+            "count": 3245,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 62.3,
+              "median": 62.3,
+              "p95": 416.8,
+              "max": 416.8,
+              "mean": 239.5,
+              "cvPercent": 74
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-rifle-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 4,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 61,
+              "median": 144,
+              "p95": 156,
+              "max": 189,
+              "mean": 128.8,
+              "cvPercent": 19.8,
+              "unevenPercent": 72.7
+            },
+            "received": {
+              "count": 165,
+              "min": 85.6,
+              "median": 102,
+              "p95": 204.8,
+              "max": 209.4,
+              "mean": 128.4,
+              "cvPercent": 35.3,
+              "unevenPercent": 98.2
+            },
+            "displayed": {
+              "count": 165,
+              "min": 98.4,
+              "median": 133.1,
+              "p95": 137.4,
+              "max": 147.6,
+              "mean": 129.8,
+              "cvPercent": 6.3,
+              "unevenPercent": 1.2
+            },
+            "sound": {
+              "count": 165,
+              "min": 115.4,
+              "median": 133.2,
+              "p95": 134.2,
+              "max": 135.2,
+              "mean": 130.1,
+              "cvPercent": 5.1,
+              "unevenPercent": 0
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 171
+          },
+          "shotsPerFrame": {
+            "1": 171
+          },
+          "sounds": {
+            "played": 171,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 171,
+            "min": 11.9,
+            "median": 67.9,
+            "p95": 118.9,
+            "max": 126.9,
+            "mean": 70.7,
+            "cvPercent": 43.3
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 566,
+              "min": 50,
+              "median": 51.1,
+              "p95": 61.9,
+              "max": 84.2,
+              "mean": 52.9,
+              "cvPercent": 7.6
+            },
+            "sendGapMs": {
+              "count": 566,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61.9,
+              "max": 84.3,
+              "mean": 52.9,
+              "cvPercent": 7.6
+            },
+            "unsent": 0,
+            "sampled": 567,
+            "heldTicks": 600,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 30,
+              "p95": 54,
+              "max": 129,
+              "mean": 29.8,
+              "cvPercent": 54.9
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 9,
+            "median": 50,
+            "p95": 59,
+            "max": 98,
+            "mean": 50.1,
+            "cvPercent": 11.2
+          },
+          "stateGapMs": {
+            "count": 319,
+            "min": 6.6,
+            "median": 100.3,
+            "p95": 108.7,
+            "max": 118.8,
+            "mean": 99.3,
+            "cvPercent": 9.2
+          },
+          "frames": {
+            "count": 1908,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 33.1,
+              "median": 33.1,
+              "p95": 33.2,
+              "max": 33.2,
+              "mean": 33.2,
+              "cvPercent": 0.2
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 61,
+              "median": 144,
+              "p95": 156,
+              "max": 189,
+              "mean": 128.8,
+              "cvPercent": 19.8,
+              "unevenPercent": 72.7
+            },
+            "received": {
+              "count": 165,
+              "min": 85.5,
+              "median": 103.1,
+              "p95": 204.9,
+              "max": 210.2,
+              "mean": 128.4,
+              "cvPercent": 35.2,
+              "unevenPercent": 98.8
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 171
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 572,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61.1,
+              "max": 65.5,
+              "mean": 52.4,
+              "cvPercent": 6.2
+            },
+            "sendGapMs": {
+              "count": 572,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61.2,
+              "max": 65.5,
+              "mean": 52.4,
+              "cvPercent": 6.2
+            },
+            "unsent": 0,
+            "sampled": 573,
+            "heldTicks": 600,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 28,
+              "p95": 53,
+              "max": 76,
+              "mean": 29.3,
+              "cvPercent": 53
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 9,
+            "median": 50,
+            "p95": 59,
+            "max": 98,
+            "mean": 50.1,
+            "cvPercent": 11.2
+          },
+          "stateGapMs": {
+            "count": 319,
+            "min": 17.5,
+            "median": 100.1,
+            "p95": 108.4,
+            "max": 115.2,
+            "mean": 99.3,
+            "cvPercent": 8.6
+          },
+          "frames": {
+            "count": 2694,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 49.9,
+              "median": 49.9,
+              "p95": 49.9,
+              "max": 49.9,
+              "mean": 49.9,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 61,
+              "median": 144,
+              "p95": 156,
+              "max": 189,
+              "mean": 128.8,
+              "cvPercent": 19.8,
+              "unevenPercent": 72.7
+            },
+            "received": {
+              "count": 165,
+              "min": 85.7,
+              "median": 103.1,
+              "p95": 205,
+              "max": 210.4,
+              "mean": 128.4,
+              "cvPercent": 35.2,
+              "unevenPercent": 98.2
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 171
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 569,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 61.7,
+              "max": 65.5,
+              "mean": 52.7,
+              "cvPercent": 6.5
+            },
+            "sendGapMs": {
+              "count": 569,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 61.7,
+              "max": 65.5,
+              "mean": 52.7,
+              "cvPercent": 6.5
+            },
+            "unsent": 0,
+            "sampled": 570,
+            "heldTicks": 600,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 29,
+              "p95": 54,
+              "max": 107,
+              "mean": 29.1,
+              "cvPercent": 52.8
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 9,
+            "median": 50,
+            "p95": 59,
+            "max": 98,
+            "mean": 50.1,
+            "cvPercent": 11.2
+          },
+          "stateGapMs": {
+            "count": 319,
+            "min": 17.5,
+            "median": 100,
+            "p95": 108.7,
+            "max": 115,
+            "mean": 99.3,
+            "cvPercent": 8.6
+          },
+          "frames": {
+            "count": 2692,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 49.9,
+              "median": 49.9,
+              "p95": 50,
+              "max": 50,
+              "mean": 50,
+              "cvPercent": 0.1
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 171,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 165,
+              "min": 61,
+              "median": 144,
+              "p95": 156,
+              "max": 189,
+              "mean": 128.8,
+              "cvPercent": 19.8,
+              "unevenPercent": 72.7
+            },
+            "received": {
+              "count": 165,
+              "min": 85.8,
+              "median": 103.3,
+              "p95": 205.1,
+              "max": 210.2,
+              "mean": 128.4,
+              "cvPercent": 35.3,
+              "unevenPercent": 98.8
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 95
+          },
+          "notDisplayed": 171,
+          "shotsPerState": {
+            "1": 171
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 171
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 569,
+              "min": 50.1,
+              "median": 51.2,
+              "p95": 61.7,
+              "max": 66.3,
+              "mean": 52.7,
+              "cvPercent": 6.5
+            },
+            "sendGapMs": {
+              "count": 569,
+              "min": 50,
+              "median": 51.2,
+              "p95": 61.7,
+              "max": 66.4,
+              "mean": 52.7,
+              "cvPercent": 6.5
+            },
+            "unsent": 0,
+            "sampled": 570,
+            "heldTicks": 600,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 30,
+              "p95": 56,
+              "max": 108,
+              "mean": 29.9,
+              "cvPercent": 54
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 9,
+            "median": 50,
+            "p95": 59,
+            "max": 98,
+            "mean": 50.1,
+            "cvPercent": 11.2
+          },
+          "stateGapMs": {
+            "count": 319,
+            "min": 17.1,
+            "median": 99.9,
+            "p95": 108.7,
+            "max": 115.4,
+            "mean": 99.3,
+            "cvPercent": 8.6
+          },
+          "frames": {
+            "count": 2676,
+            "over25ms": 4,
+            "gapMs": {
+              "count": 4,
+              "min": 49.9,
+              "median": 50.1,
+              "p95": 233.2,
+              "max": 233.2,
+              "mean": 99.9,
+              "cvPercent": 77.3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-smg-jitter70-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": {
+          "latencyMs": 30,
+          "jitterMs": 70
+        },
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 4,
+        "enemies": 0
+      },
+      "link": {
+        "latencyMs": 30,
+        "jitterMs": 70
+      },
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 301,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 294,
+              "min": 36,
+              "median": 54,
+              "p95": 107,
+              "max": 120,
+              "mean": 69.4,
+              "cvPercent": 35.9,
+              "unevenPercent": 96.6
+            },
+            "received": {
+              "count": 294,
+              "min": 0,
+              "median": 81.1,
+              "p95": 154.5,
+              "max": 204.9,
+              "mean": 69.8,
+              "cvPercent": 78.1,
+              "unevenPercent": 88.8
+            },
+            "displayed": {
+              "count": 292,
+              "min": 0,
+              "median": 82.2,
+              "p95": 151.9,
+              "max": 201.7,
+              "mean": 70.3,
+              "cvPercent": 77.9,
+              "unevenPercent": 91.8
+            },
+            "sound": {
+              "count": 197,
+              "min": 49.3,
+              "median": 99.9,
+              "p95": 167.3,
+              "max": 200.2,
+              "mean": 104.2,
+              "cvPercent": 32.2,
+              "unevenPercent": 89.3
+            }
+          },
+          "authorityTickGaps": {
+            "1": 180,
+            "2": 114
+          },
+          "notDisplayed": 2,
+          "shotsPerState": {
+            "1": 122,
+            "2": 85,
+            "3": 3
+          },
+          "shotsPerFrame": {
+            "1": 122,
+            "2": 84,
+            "3": 3
+          },
+          "sounds": {
+            "played": 204,
+            "merged": 90,
+            "throttled": 5,
+            "inactive": 0,
+            "none": 2
+          },
+          "receiveToDisplayMs": {
+            "count": 299,
+            "min": 5.9,
+            "median": 14.8,
+            "p95": 24.1,
+            "max": 34.7,
+            "mean": 14.8,
+            "cvPercent": 32.3
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 580,
+              "min": 50.1,
+              "median": 50.9,
+              "p95": 56.9,
+              "max": 66.4,
+              "mean": 51.7,
+              "cvPercent": 4.3
+            },
+            "sendGapMs": {
+              "count": 580,
+              "min": 50.1,
+              "median": 50.9,
+              "p95": 56.9,
+              "max": 66.4,
+              "mean": 51.7,
+              "cvPercent": 4.3
+            },
+            "unsent": 0,
+            "sampled": 581,
+            "heldTicks": 600,
+            "notHeldTicks": 5,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 4,
+              "median": 34,
+              "p95": 85,
+              "max": 108,
+              "mean": 38.5,
+              "cvPercent": 63.5
+            }
+          },
+          "authorityTickMs": {
+            "count": 637,
+            "min": 24,
+            "median": 49,
+            "p95": 61,
+            "max": 93,
+            "mean": 50.1,
+            "cvPercent": 12.7
+          },
+          "stateGapMs": {
+            "count": 317,
+            "min": 0.6,
+            "median": 101.5,
+            "p95": 160.8,
+            "max": 227.1,
+            "mean": 100.9,
+            "cvPercent": 35.5
+          },
+          "frames": {
+            "count": 1940,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 66.6,
+              "median": 66.6,
+              "p95": 66.6,
+              "max": 66.6,
+              "mean": 66.6,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 300,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 293,
+              "min": 25,
+              "median": 56,
+              "p95": 106,
+              "max": 124,
+              "mean": 69.3,
+              "cvPercent": 35.4,
+              "unevenPercent": 94.5
+            },
+            "received": {
+              "count": 293,
+              "min": 0,
+              "median": 76.8,
+              "p95": 153,
+              "max": 202.5,
+              "mean": 68.4,
+              "cvPercent": 82.2,
+              "unevenPercent": 88.4
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 180,
+            "2": 113
+          },
+          "notDisplayed": 300,
+          "shotsPerState": {
+            "1": 112,
+            "2": 91,
+            "3": 2
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 300
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 583,
+              "min": 50.1,
+              "median": 51,
+              "p95": 53.8,
+              "max": 65.5,
+              "mean": 51.4,
+              "cvPercent": 3.7
+            },
+            "sendGapMs": {
+              "count": 583,
+              "min": 50.1,
+              "median": 51,
+              "p95": 53.8,
+              "max": 65.5,
+              "mean": 51.4,
+              "cvPercent": 3.7
+            },
+            "unsent": 0,
+            "sampled": 584,
+            "heldTicks": 600,
+            "notHeldTicks": 6,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 34,
+              "p95": 84,
+              "max": 123,
+              "mean": 37.7,
+              "cvPercent": 65.4
+            }
+          },
+          "authorityTickMs": {
+            "count": 637,
+            "min": 24,
+            "median": 49,
+            "p95": 61,
+            "max": 93,
+            "mean": 50.1,
+            "cvPercent": 12.7
+          },
+          "stateGapMs": {
+            "count": 319,
+            "min": 1.4,
+            "median": 98.7,
+            "p95": 157.5,
+            "max": 204.4,
+            "mean": 100.1,
+            "cvPercent": 35.9
+          },
+          "frames": {
+            "count": 3092,
+            "over25ms": 0,
+            "gapMs": {
+              "count": 0
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 301,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 294,
+              "min": 36,
+              "median": 54,
+              "p95": 107,
+              "max": 120,
+              "mean": 69.4,
+              "cvPercent": 35.9,
+              "unevenPercent": 96.6
+            },
+            "received": {
+              "count": 294,
+              "min": 0,
+              "median": 80.8,
+              "p95": 152.2,
+              "max": 195.9,
+              "mean": 70.3,
+              "cvPercent": 78.4,
+              "unevenPercent": 88.1
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 180,
+            "2": 114
+          },
+          "notDisplayed": 301,
+          "shotsPerState": {
+            "1": 118,
+            "2": 90,
+            "3": 1
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 301
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 580,
+              "min": 50,
+              "median": 51,
+              "p95": 58.4,
+              "max": 65.5,
+              "mean": 51.7,
+              "cvPercent": 5
+            },
+            "sendGapMs": {
+              "count": 580,
+              "min": 50.1,
+              "median": 51,
+              "p95": 58.4,
+              "max": 65.5,
+              "mean": 51.7,
+              "cvPercent": 5
+            },
+            "unsent": 0,
+            "sampled": 581,
+            "heldTicks": 600,
+            "notHeldTicks": 5,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 31,
+              "p95": 84,
+              "max": 114,
+              "mean": 37.3,
+              "cvPercent": 65.8
+            }
+          },
+          "authorityTickMs": {
+            "count": 637,
+            "min": 24,
+            "median": 49,
+            "p95": 61,
+            "max": 93,
+            "mean": 50.1,
+            "cvPercent": 12.7
+          },
+          "stateGapMs": {
+            "count": 318,
+            "min": 0.5,
+            "median": 97.4,
+            "p95": 156.4,
+            "max": 317.9,
+            "mean": 100.6,
+            "cvPercent": 37.4
+          },
+          "frames": {
+            "count": 3092,
+            "over25ms": 0,
+            "gapMs": {
+              "count": 0
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 302,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 295,
+              "min": 35,
+              "median": 54,
+              "p95": 108,
+              "max": 112,
+              "mean": 69.3,
+              "cvPercent": 36.9,
+              "unevenPercent": 96.6
+            },
+            "received": {
+              "count": 295,
+              "min": 0,
+              "median": 77.3,
+              "p95": 156.3,
+              "max": 197.9,
+              "mean": 68.1,
+              "cvPercent": 81.5,
+              "unevenPercent": 86.4
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 181,
+            "2": 114
+          },
+          "notDisplayed": 302,
+          "shotsPerState": {
+            "1": 111,
+            "2": 94,
+            "3": 1
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 302
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 580,
+              "min": 50.1,
+              "median": 51,
+              "p95": 57.1,
+              "max": 65,
+              "mean": 51.7,
+              "cvPercent": 4.5
+            },
+            "sendGapMs": {
+              "count": 580,
+              "min": 50.1,
+              "median": 51,
+              "p95": 57.1,
+              "max": 65,
+              "mean": 51.7,
+              "cvPercent": 4.5
+            },
+            "unsent": 0,
+            "sampled": 581,
+            "heldTicks": 600,
+            "notHeldTicks": 4,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 34,
+              "p95": 80,
+              "max": 115,
+              "mean": 37.2,
+              "cvPercent": 62.6
+            }
+          },
+          "authorityTickMs": {
+            "count": 637,
+            "min": 24,
+            "median": 49,
+            "p95": 61,
+            "max": 93,
+            "mean": 50.1,
+            "cvPercent": 12.7
+          },
+          "stateGapMs": {
+            "count": 318,
+            "min": 1,
+            "median": 98,
+            "p95": 160.7,
+            "max": 241.1,
+            "mean": 100.6,
+            "cvPercent": 35.9
+          },
+          "frames": {
+            "count": 3091,
+            "over25ms": 0,
+            "gapMs": {
+              "count": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-smg-jitter70-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": {
+          "latencyMs": 30,
+          "jitterMs": 70
+        },
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 4,
+        "enemies": 0
+      },
+      "link": {
+        "latencyMs": 30,
+        "jitterMs": 70
+      },
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 301,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 294,
+              "min": 21,
+              "median": 55,
+              "p95": 107,
+              "max": 117,
+              "mean": 69.4,
+              "cvPercent": 36,
+              "unevenPercent": 94.2
+            },
+            "received": {
+              "count": 294,
+              "min": 0,
+              "median": 80.8,
+              "p95": 167.8,
+              "max": 215.8,
+              "mean": 71.4,
+              "cvPercent": 83.1,
+              "unevenPercent": 91.5
+            },
+            "displayed": {
+              "count": 293,
+              "min": 20,
+              "median": 67.8,
+              "p95": 87.2,
+              "max": 155.9,
+              "mean": 71.7,
+              "cvPercent": 18.4,
+              "unevenPercent": 28
+            },
+            "sound": {
+              "count": 292,
+              "min": 49.7,
+              "median": 66.8,
+              "p95": 84.3,
+              "max": 150.6,
+              "mean": 72,
+              "cvPercent": 15.7,
+              "unevenPercent": 26
+            }
+          },
+          "authorityTickGaps": {
+            "1": 180,
+            "2": 114
+          },
+          "notDisplayed": 1,
+          "shotsPerState": {
+            "1": 118,
+            "2": 90,
+            "3": 1
+          },
+          "shotsPerFrame": {
+            "1": 300
+          },
+          "sounds": {
+            "played": 299,
+            "merged": 0,
+            "throttled": 1,
+            "inactive": 0,
+            "none": 1
+          },
+          "receiveToDisplayMs": {
+            "count": 300,
+            "min": 6,
+            "median": 82.4,
+            "p95": 148.7,
+            "max": 182,
+            "mean": 81.5,
+            "cvPercent": 51.3
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 574,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 58.7,
+              "max": 68.1,
+              "mean": 52.1,
+              "cvPercent": 5.6
+            },
+            "sendGapMs": {
+              "count": 570,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 58.8,
+              "max": 207.4,
+              "mean": 52.5,
+              "cvPercent": 14.1
+            },
+            "unsent": 4,
+            "sampled": 575,
+            "heldTicks": 600,
+            "notHeldTicks": 5,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 36,
+              "p95": 90,
+              "max": 160,
+              "mean": 39.1,
+              "cvPercent": 67.3
+            }
+          },
+          "authorityTickMs": {
+            "count": 639,
+            "min": 21,
+            "median": 50,
+            "p95": 61,
+            "max": 105,
+            "mean": 50.1,
+            "cvPercent": 14.1
+          },
+          "stateGapMs": {
+            "count": 312,
+            "min": 0.6,
+            "median": 100.2,
+            "p95": 171.1,
+            "max": 283.5,
+            "mean": 102.7,
+            "cvPercent": 41
+          },
+          "frames": {
+            "count": 1932,
+            "over25ms": 3,
+            "gapMs": {
+              "count": 3,
+              "min": 33.4,
+              "median": 50,
+              "p95": 149.9,
+              "max": 149.9,
+              "mean": 77.8,
+              "cvPercent": 66.2
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 302,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 295,
+              "min": 24,
+              "median": 54,
+              "p95": 106,
+              "max": 135,
+              "mean": 69.3,
+              "cvPercent": 36.5,
+              "unevenPercent": 93.9
+            },
+            "received": {
+              "count": 295,
+              "min": 0,
+              "median": 76.3,
+              "p95": 169,
+              "max": 423.2,
+              "mean": 68,
+              "cvPercent": 92.2,
+              "unevenPercent": 89.5
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 181,
+            "2": 114
+          },
+          "notDisplayed": 302,
+          "shotsPerState": {
+            "1": 105,
+            "2": 89,
+            "3": 5,
+            "4": 1
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 302
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 576,
+              "min": 50.1,
+              "median": 51,
+              "p95": 61.3,
+              "max": 66.4,
+              "mean": 52,
+              "cvPercent": 5.9
+            },
+            "sendGapMs": {
+              "count": 571,
+              "min": 50.1,
+              "median": 51,
+              "p95": 61.4,
+              "max": 305.4,
+              "mean": 52.4,
+              "cvPercent": 21
+            },
+            "unsent": 5,
+            "sampled": 577,
+            "heldTicks": 600,
+            "notHeldTicks": 4,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 35,
+              "p95": 92,
+              "max": 206,
+              "mean": 39.1,
+              "cvPercent": 69.8
+            }
+          },
+          "authorityTickMs": {
+            "count": 639,
+            "min": 21,
+            "median": 50,
+            "p95": 61,
+            "max": 105,
+            "mean": 50.1,
+            "cvPercent": 14.1
+          },
+          "stateGapMs": {
+            "count": 311,
+            "min": 0.8,
+            "median": 96.8,
+            "p95": 178.4,
+            "max": 423.2,
+            "mean": 103.1,
+            "cvPercent": 45.2
+          },
+          "frames": {
+            "count": 2889,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 33.3,
+              "median": 33.3,
+              "p95": 33.3,
+              "max": 33.3,
+              "mean": 33.3,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 303,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 296,
+              "min": 25,
+              "median": 55,
+              "p95": 106,
+              "max": 123,
+              "mean": 69.4,
+              "cvPercent": 36.5,
+              "unevenPercent": 97
+            },
+            "received": {
+              "count": 296,
+              "min": 0,
+              "median": 77.3,
+              "p95": 150.1,
+              "max": 255,
+              "mean": 69.8,
+              "cvPercent": 79.9,
+              "unevenPercent": 87.5
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 182,
+            "2": 114
+          },
+          "notDisplayed": 303,
+          "shotsPerState": {
+            "1": 120,
+            "2": 87,
+            "3": 3
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 303
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 575,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60,
+              "max": 65.6,
+              "mean": 52.1,
+              "cvPercent": 5.7
+            },
+            "sendGapMs": {
+              "count": 571,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61,
+              "max": 203.6,
+              "mean": 52.5,
+              "cvPercent": 13.9
+            },
+            "unsent": 4,
+            "sampled": 576,
+            "heldTicks": 600,
+            "notHeldTicks": 3,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 32,
+              "p95": 82,
+              "max": 173,
+              "mean": 37.6,
+              "cvPercent": 70.6
+            }
+          },
+          "authorityTickMs": {
+            "count": 639,
+            "min": 21,
+            "median": 50,
+            "p95": 61,
+            "max": 105,
+            "mean": 50.1,
+            "cvPercent": 14.1
+          },
+          "stateGapMs": {
+            "count": 317,
+            "min": 1,
+            "median": 103.2,
+            "p95": 156.4,
+            "max": 255,
+            "mean": 101,
+            "cvPercent": 34.3
+          },
+          "frames": {
+            "count": 2887,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 33.4,
+              "median": 33.4,
+              "p95": 66.6,
+              "max": 66.6,
+              "mean": 50,
+              "cvPercent": 33.2
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 302,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 295,
+              "min": 24,
+              "median": 54,
+              "p95": 106,
+              "max": 135,
+              "mean": 69.3,
+              "cvPercent": 36.5,
+              "unevenPercent": 93.9
+            },
+            "received": {
+              "count": 295,
+              "min": 0,
+              "median": 75.8,
+              "p95": 154.7,
+              "max": 249,
+              "mean": 68.1,
+              "cvPercent": 84.4,
+              "unevenPercent": 83.1
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 181,
+            "2": 114
+          },
+          "notDisplayed": 302,
+          "shotsPerState": {
+            "1": 107,
+            "2": 93,
+            "3": 3
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 302
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 573,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.9,
+              "max": 66.2,
+              "mean": 52.2,
+              "cvPercent": 5.9
+            },
+            "sendGapMs": {
+              "count": 569,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61.3,
+              "max": 210.2,
+              "mean": 52.6,
+              "cvPercent": 14.4
+            },
+            "unsent": 4,
+            "sampled": 574,
+            "heldTicks": 601,
+            "notHeldTicks": 5,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 601,
+              "min": 3,
+              "median": 34,
+              "p95": 87,
+              "max": 177,
+              "mean": 39.3,
+              "cvPercent": 67.9
+            }
+          },
+          "authorityTickMs": {
+            "count": 639,
+            "min": 21,
+            "median": 50,
+            "p95": 61,
+            "max": 105,
+            "mean": 50.1,
+            "cvPercent": 14.1
+          },
+          "stateGapMs": {
+            "count": 315,
+            "min": 0.6,
+            "median": 100.1,
+            "p95": 174.4,
+            "max": 257.1,
+            "mean": 101.7,
+            "cvPercent": 40.4
+          },
+          "frames": {
+            "count": 2886,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 33.3,
+              "median": 33.3,
+              "p95": 66.7,
+              "max": 66.7,
+              "mean": 50,
+              "cvPercent": 33.4
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-smg-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 4,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 305,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 298,
+              "min": 15,
+              "median": 54,
+              "p95": 107,
+              "max": 139,
+              "mean": 69.3,
+              "cvPercent": 37.6,
+              "unevenPercent": 93.3
+            },
+            "received": {
+              "count": 298,
+              "min": 0,
+              "median": 96.6,
+              "p95": 111.1,
+              "max": 141.2,
+              "mean": 68.1,
+              "cvPercent": 69.5,
+              "unevenPercent": 97
+            },
+            "displayed": {
+              "count": 298,
+              "min": 0,
+              "median": 98.4,
+              "p95": 118,
+              "max": 135.7,
+              "mean": 67.9,
+              "cvPercent": 69.8,
+              "unevenPercent": 95.6
+            },
+            "sound": {
+              "count": 203,
+              "min": 66.3,
+              "median": 100,
+              "p95": 116.7,
+              "max": 133.4,
+              "mean": 99.9,
+              "cvPercent": 9.1,
+              "unevenPercent": 97.5
+            }
+          },
+          "authorityTickGaps": {
+            "1": 183,
+            "2": 115
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 115,
+            "2": 95
+          },
+          "shotsPerFrame": {
+            "1": 115,
+            "2": 95
+          },
+          "sounds": {
+            "played": 210,
+            "merged": 95,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 305,
+            "min": 6.7,
+            "median": 14.3,
+            "p95": 18.9,
+            "max": 70.1,
+            "mean": 14.6,
+            "cvPercent": 39.4
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 573,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.1,
+              "max": 119.1,
+              "mean": 52.3,
+              "cvPercent": 8
+            },
+            "sendGapMs": {
+              "count": 573,
+              "min": 50,
+              "median": 51.1,
+              "p95": 60,
+              "max": 119.1,
+              "mean": 52.3,
+              "cvPercent": 8
+            },
+            "unsent": 0,
+            "sampled": 574,
+            "heldTicks": 602,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 602,
+              "min": 2,
+              "median": 30,
+              "p95": 76,
+              "max": 132,
+              "mean": 32.6,
+              "cvPercent": 66.5
+            }
+          },
+          "authorityTickMs": {
+            "count": 635,
+            "min": 8,
+            "median": 50,
+            "p95": 65,
+            "max": 117,
+            "mean": 50.1,
+            "cvPercent": 20.9
+          },
+          "stateGapMs": {
+            "count": 320,
+            "min": 4.8,
+            "median": 99.7,
+            "p95": 118,
+            "max": 173,
+            "mean": 99.5,
+            "cvPercent": 13.9
+          },
+          "frames": {
+            "count": 1911,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 50,
+              "median": 50,
+              "p95": 66.7,
+              "max": 66.7,
+              "mean": 58.4,
+              "cvPercent": 14.3
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 305,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 298,
+              "min": 15,
+              "median": 54,
+              "p95": 107,
+              "max": 139,
+              "mean": 69.3,
+              "cvPercent": 37.6,
+              "unevenPercent": 93.3
+            },
+            "received": {
+              "count": 298,
+              "min": 0,
+              "median": 96,
+              "p95": 113.1,
+              "max": 141.4,
+              "mean": 68.1,
+              "cvPercent": 69.5,
+              "unevenPercent": 97
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 183,
+            "2": 115
+          },
+          "notDisplayed": 305,
+          "shotsPerState": {
+            "1": 115,
+            "2": 95
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 305
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 579,
+              "min": 50.2,
+              "median": 51,
+              "p95": 58.2,
+              "max": 64.9,
+              "mean": 51.8,
+              "cvPercent": 5.2
+            },
+            "sendGapMs": {
+              "count": 579,
+              "min": 50.1,
+              "median": 51,
+              "p95": 58.4,
+              "max": 64.9,
+              "mean": 51.8,
+              "cvPercent": 5.2
+            },
+            "unsent": 0,
+            "sampled": 580,
+            "heldTicks": 602,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 602,
+              "min": 3,
+              "median": 34,
+              "p95": 65,
+              "max": 160,
+              "mean": 32.8,
+              "cvPercent": 61.5
+            }
+          },
+          "authorityTickMs": {
+            "count": 635,
+            "min": 8,
+            "median": 50,
+            "p95": 65,
+            "max": 117,
+            "mean": 50.1,
+            "cvPercent": 20.9
+          },
+          "stateGapMs": {
+            "count": 321,
+            "min": 25.9,
+            "median": 99.7,
+            "p95": 117.9,
+            "max": 172.7,
+            "mean": 99.2,
+            "cvPercent": 13.9
+          },
+          "frames": {
+            "count": 3003,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 116.7,
+              "median": 116.7,
+              "p95": 116.7,
+              "max": 116.7,
+              "mean": 116.7,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 305,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 298,
+              "min": 15,
+              "median": 54,
+              "p95": 107,
+              "max": 139,
+              "mean": 69.3,
+              "cvPercent": 37.6,
+              "unevenPercent": 93.3
+            },
+            "received": {
+              "count": 298,
+              "min": 0,
+              "median": 96.1,
+              "p95": 112.7,
+              "max": 142.7,
+              "mean": 68.1,
+              "cvPercent": 69.6,
+              "unevenPercent": 96.6
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 183,
+            "2": 115
+          },
+          "notDisplayed": 305,
+          "shotsPerState": {
+            "1": 115,
+            "2": 95
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 305
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 576,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.1,
+              "max": 65.7,
+              "mean": 52,
+              "cvPercent": 5.7
+            },
+            "sendGapMs": {
+              "count": 576,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.1,
+              "max": 65.7,
+              "mean": 52,
+              "cvPercent": 5.7
+            },
+            "unsent": 0,
+            "sampled": 577,
+            "heldTicks": 602,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 602,
+              "min": 3,
+              "median": 32,
+              "p95": 65,
+              "max": 188,
+              "mean": 32.8,
+              "cvPercent": 65.4
+            }
+          },
+          "authorityTickMs": {
+            "count": 635,
+            "min": 8,
+            "median": 50,
+            "p95": 65,
+            "max": 117,
+            "mean": 50.1,
+            "cvPercent": 20.9
+          },
+          "stateGapMs": {
+            "count": 320,
+            "min": 25.8,
+            "median": 99.8,
+            "p95": 119.1,
+            "max": 173.7,
+            "mean": 99.5,
+            "cvPercent": 14.4
+          },
+          "frames": {
+            "count": 3003,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 116.7,
+              "median": 116.7,
+              "p95": 116.7,
+              "max": 116.7,
+              "mean": 116.7,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 305,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 298,
+              "min": 15,
+              "median": 54,
+              "p95": 107,
+              "max": 139,
+              "mean": 69.3,
+              "cvPercent": 37.6,
+              "unevenPercent": 93.3
+            },
+            "received": {
+              "count": 298,
+              "min": 0,
+              "median": 95.9,
+              "p95": 113.4,
+              "max": 143.1,
+              "mean": 68.1,
+              "cvPercent": 69.6,
+              "unevenPercent": 96.6
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 183,
+            "2": 115
+          },
+          "notDisplayed": 305,
+          "shotsPerState": {
+            "1": 115,
+            "2": 95
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 305
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 576,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 58.8,
+              "max": 66.2,
+              "mean": 52,
+              "cvPercent": 5.5
+            },
+            "sendGapMs": {
+              "count": 576,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 58.9,
+              "max": 66.2,
+              "mean": 52,
+              "cvPercent": 5.5
+            },
+            "unsent": 0,
+            "sampled": 577,
+            "heldTicks": 602,
+            "notHeldTicks": 2,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 602,
+              "min": 3,
+              "median": 30,
+              "p95": 67,
+              "max": 161,
+              "mean": 32.6,
+              "cvPercent": 62.5
+            }
+          },
+          "authorityTickMs": {
+            "count": 635,
+            "min": 8,
+            "median": 50,
+            "p95": 65,
+            "max": 117,
+            "mean": 50.1,
+            "cvPercent": 20.9
+          },
+          "stateGapMs": {
+            "count": 321,
+            "min": 25.5,
+            "median": 99.8,
+            "p95": 118.3,
+            "max": 174.1,
+            "mean": 99.2,
+            "cvPercent": 14.1
+          },
+          "frames": {
+            "count": 2986,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 116.7,
+              "median": 116.7,
+              "p95": 300,
+              "max": 300,
+              "mean": 208.4,
+              "cvPercent": 44
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "coop4-smg-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "coop",
+        "players": 4,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 4,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 304,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 297,
+              "min": 37,
+              "median": 53,
+              "p95": 105,
+              "max": 118,
+              "mean": 69.5,
+              "cvPercent": 35.6,
+              "unevenPercent": 98
+            },
+            "received": {
+              "count": 297,
+              "min": 0,
+              "median": 98.2,
+              "p95": 107.8,
+              "max": 128.3,
+              "mean": 70.5,
+              "cvPercent": 65.4,
+              "unevenPercent": 99
+            },
+            "displayed": {
+              "count": 296,
+              "min": 46.7,
+              "median": 67.3,
+              "p95": 88.6,
+              "max": 103.2,
+              "mean": 71.2,
+              "cvPercent": 13.9,
+              "unevenPercent": 26
+            },
+            "sound": {
+              "count": 296,
+              "min": 65.2,
+              "median": 66.8,
+              "p95": 84.1,
+              "max": 100.6,
+              "mean": 71.3,
+              "cvPercent": 12,
+              "unevenPercent": 24.7
+            }
+          },
+          "authorityTickGaps": {
+            "1": 182,
+            "2": 115
+          },
+          "notDisplayed": 1,
+          "shotsPerState": {
+            "1": 128,
+            "2": 88
+          },
+          "shotsPerFrame": {
+            "1": 303
+          },
+          "sounds": {
+            "played": 303,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 1
+          },
+          "receiveToDisplayMs": {
+            "count": 303,
+            "min": 7.3,
+            "median": 63.1,
+            "p95": 112.6,
+            "max": 122,
+            "mean": 59.7,
+            "cvPercent": 51.6
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 569,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61.6,
+              "max": 69.2,
+              "mean": 52.6,
+              "cvPercent": 6.9
+            },
+            "sendGapMs": {
+              "count": 569,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61.6,
+              "max": 69.2,
+              "mean": 52.6,
+              "cvPercent": 6.9
+            },
+            "unsent": 0,
+            "sampled": 570,
+            "heldTicks": 600,
+            "notHeldTicks": 1,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 2,
+              "median": 29,
+              "p95": 55,
+              "max": 80,
+              "mean": 29.6,
+              "cvPercent": 54.4
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 17,
+            "median": 50,
+            "p95": 59,
+            "max": 82,
+            "mean": 50,
+            "cvPercent": 11.6
+          },
+          "stateGapMs": {
+            "count": 320,
+            "min": 7.1,
+            "median": 100,
+            "p95": 109.5,
+            "max": 128.3,
+            "mean": 99.1,
+            "cvPercent": 10.1
+          },
+          "frames": {
+            "count": 1906,
+            "over25ms": 2,
+            "gapMs": {
+              "count": 2,
+              "min": 33.3,
+              "median": 33.3,
+              "p95": 66.6,
+              "max": 66.6,
+              "mean": 49.9,
+              "cvPercent": 33.3
+            }
+          }
+        },
+        {
+          "client": 1,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 304,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 297,
+              "min": 37,
+              "median": 53,
+              "p95": 105,
+              "max": 118,
+              "mean": 69.5,
+              "cvPercent": 35.6,
+              "unevenPercent": 98
+            },
+            "received": {
+              "count": 297,
+              "min": 0,
+              "median": 97.8,
+              "p95": 108.4,
+              "max": 127.3,
+              "mean": 70.4,
+              "cvPercent": 65.3,
+              "unevenPercent": 99
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 182,
+            "2": 115
+          },
+          "notDisplayed": 304,
+          "shotsPerState": {
+            "1": 128,
+            "2": 88
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 304
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 573,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.2,
+              "max": 66.1,
+              "mean": 52.3,
+              "cvPercent": 6
+            },
+            "sendGapMs": {
+              "count": 573,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.3,
+              "max": 66.1,
+              "mean": 52.3,
+              "cvPercent": 6
+            },
+            "unsent": 0,
+            "sampled": 574,
+            "heldTicks": 600,
+            "notHeldTicks": 1,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 2,
+              "median": 28,
+              "p95": 53,
+              "max": 94,
+              "mean": 29.6,
+              "cvPercent": 52.8
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 17,
+            "median": 50,
+            "p95": 59,
+            "max": 82,
+            "mean": 50,
+            "cvPercent": 11.6
+          },
+          "stateGapMs": {
+            "count": 320,
+            "min": 27.7,
+            "median": 99.9,
+            "p95": 109.4,
+            "max": 127.3,
+            "mean": 99.1,
+            "cvPercent": 9.2
+          },
+          "frames": {
+            "count": 2770,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 34.3,
+              "median": 34.3,
+              "p95": 34.3,
+              "max": 34.3,
+              "mean": 34.3,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 2,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 304,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 297,
+              "min": 37,
+              "median": 53,
+              "p95": 105,
+              "max": 118,
+              "mean": 69.5,
+              "cvPercent": 35.6,
+              "unevenPercent": 98
+            },
+            "received": {
+              "count": 297,
+              "min": 0,
+              "median": 97.9,
+              "p95": 108.3,
+              "max": 127.6,
+              "mean": 70.4,
+              "cvPercent": 65.4,
+              "unevenPercent": 99
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 182,
+            "2": 115
+          },
+          "notDisplayed": 304,
+          "shotsPerState": {
+            "1": 128,
+            "2": 88
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 304
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 573,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.6,
+              "max": 64.7,
+              "mean": 52.4,
+              "cvPercent": 5.9
+            },
+            "sendGapMs": {
+              "count": 573,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 60.6,
+              "max": 64.6,
+              "mean": 52.4,
+              "cvPercent": 5.9
+            },
+            "unsent": 0,
+            "sampled": 574,
+            "heldTicks": 600,
+            "notHeldTicks": 1,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 28,
+              "p95": 54,
+              "max": 80,
+              "mean": 29.2,
+              "cvPercent": 52
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 17,
+            "median": 50,
+            "p95": 59,
+            "max": 82,
+            "mean": 50,
+            "cvPercent": 11.6
+          },
+          "stateGapMs": {
+            "count": 320,
+            "min": 27.8,
+            "median": 99.9,
+            "p95": 109.5,
+            "max": 127.6,
+            "mean": 99.1,
+            "cvPercent": 9.3
+          },
+          "frames": {
+            "count": 2770,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 34.2,
+              "median": 34.2,
+              "p95": 34.2,
+              "max": 34.2,
+              "mean": 34.2,
+              "cvPercent": 0
+            }
+          }
+        },
+        {
+          "client": 3,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 304,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 297,
+              "min": 37,
+              "median": 53,
+              "p95": 105,
+              "max": 118,
+              "mean": 69.5,
+              "cvPercent": 35.6,
+              "unevenPercent": 98
+            },
+            "received": {
+              "count": 297,
+              "min": 0,
+              "median": 97.6,
+              "p95": 108.3,
+              "max": 127.5,
+              "mean": 70.4,
+              "cvPercent": 65.4,
+              "unevenPercent": 99
+            },
+            "displayed": {
+              "count": 0,
+              "unevenPercent": null
+            },
+            "sound": {
+              "count": 0,
+              "unevenPercent": null
+            }
+          },
+          "authorityTickGaps": {
+            "1": 182,
+            "2": 115
+          },
+          "notDisplayed": 304,
+          "shotsPerState": {
+            "1": 128,
+            "2": 88
+          },
+          "shotsPerFrame": {},
+          "sounds": {
+            "played": 0,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 304
+          },
+          "receiveToDisplayMs": {
+            "count": 0
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 570,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61.6,
+              "max": 65.2,
+              "mean": 52.5,
+              "cvPercent": 6.2
+            },
+            "sendGapMs": {
+              "count": 570,
+              "min": 50.1,
+              "median": 51.1,
+              "p95": 61.6,
+              "max": 65.2,
+              "mean": 52.5,
+              "cvPercent": 6.2
+            },
+            "unsent": 0,
+            "sampled": 571,
+            "heldTicks": 600,
+            "notHeldTicks": 1,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 3,
+              "median": 30,
+              "p95": 54,
+              "max": 93,
+              "mean": 29.9,
+              "cvPercent": 51.4
+            }
+          },
+          "authorityTickMs": {
+            "count": 633,
+            "min": 17,
+            "median": 50,
+            "p95": 59,
+            "max": 82,
+            "mean": 50,
+            "cvPercent": 11.6
+          },
+          "stateGapMs": {
+            "count": 320,
+            "min": 28.4,
+            "median": 99.9,
+            "p95": 109.4,
+            "max": 127.5,
+            "mean": 99.1,
+            "cvPercent": 9.2
+          },
+          "frames": {
+            "count": 2757,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 233.3,
+              "median": 233.3,
+              "p95": 233.3,
+              "max": 233.3,
+              "mean": 233.3,
+              "cvPercent": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "solo-rifle-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "solo",
+        "players": 1,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 172,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 166,
+              "min": 99,
+              "median": 150,
+              "p95": 151,
+              "max": 167,
+              "mean": 129,
+              "cvPercent": 19,
+              "unevenPercent": 92.2
+            },
+            "received": {
+              "count": 166,
+              "min": 99.5,
+              "median": 149.7,
+              "p95": 150.4,
+              "max": 166.6,
+              "mean": 129,
+              "cvPercent": 19,
+              "unevenPercent": 93.4
+            },
+            "displayed": {
+              "count": 166,
+              "min": 67.4,
+              "median": 147.6,
+              "p95": 152.4,
+              "max": 183.1,
+              "mean": 128.8,
+              "cvPercent": 19.5,
+              "unevenPercent": 72.9
+            },
+            "sound": {
+              "count": 166,
+              "min": 99.2,
+              "median": 149.6,
+              "p95": 150.5,
+              "max": 166.5,
+              "mean": 129,
+              "cvPercent": 19,
+              "unevenPercent": 92.2
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 96
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 172
+          },
+          "shotsPerFrame": {
+            "1": 172
+          },
+          "sounds": {
+            "played": 172,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 172,
+            "min": 1.7,
+            "median": 4.4,
+            "p95": 8.1,
+            "max": 54,
+            "mean": 5.3,
+            "cvPercent": 91.3
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 598,
+              "min": 33,
+              "median": 50,
+              "p95": 50.5,
+              "max": 66.8,
+              "mean": 50,
+              "cvPercent": 6.2
+            },
+            "sendGapMs": {
+              "count": 0
+            },
+            "unsent": 599,
+            "sampled": 599,
+            "heldTicks": 599,
+            "notHeldTicks": 0,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 599,
+              "min": 0,
+              "median": 0,
+              "p95": 0,
+              "max": 0,
+              "mean": 0,
+              "cvPercent": null
+            }
+          },
+          "authorityTickMs": {
+            "count": 630,
+            "min": 1,
+            "median": 50,
+            "p95": 51,
+            "max": 67,
+            "mean": 49.9,
+            "cvPercent": 8
+          },
+          "stateGapMs": {
+            "count": 0
+          },
+          "frames": {
+            "count": 1889,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 49.8,
+              "median": 49.8,
+              "p95": 49.8,
+              "max": 49.8,
+              "mean": 49.8,
+              "cvPercent": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "solo-rifle-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "solo",
+        "players": 1,
+        "weapon": "rifle",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "rifle",
+        "mode": "quiet",
+        "intervalMs": 130,
+        "mag": 32,
+        "reloadMs": 1650,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 130,
+          "shots": 172,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 5,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 166,
+              "min": 83,
+              "median": 149,
+              "p95": 151,
+              "max": 167,
+              "mean": 128.9,
+              "cvPercent": 19.2,
+              "unevenPercent": 89.2
+            },
+            "received": {
+              "count": 166,
+              "min": 83.4,
+              "median": 149.6,
+              "p95": 150.4,
+              "max": 167.4,
+              "mean": 128.9,
+              "cvPercent": 19.2,
+              "unevenPercent": 91.6
+            },
+            "displayed": {
+              "count": 166,
+              "min": 97.5,
+              "median": 132.8,
+              "p95": 136.8,
+              "max": 150.5,
+              "mean": 130,
+              "cvPercent": 7,
+              "unevenPercent": 3.6
+            },
+            "sound": {
+              "count": 166,
+              "min": 114.6,
+              "median": 133.2,
+              "p95": 134,
+              "max": 135,
+              "mean": 130.2,
+              "cvPercent": 5,
+              "unevenPercent": 0
+            }
+          },
+          "authorityTickGaps": {
+            "2": 70,
+            "3": 96
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 172
+          },
+          "shotsPerFrame": {
+            "1": 172
+          },
+          "sounds": {
+            "played": 172,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 172,
+            "min": 2.9,
+            "median": 38.3,
+            "p95": 71.8,
+            "max": 88,
+            "mean": 42.3,
+            "cvPercent": 40.4
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 599,
+              "min": 31.7,
+              "median": 50,
+              "p95": 50.7,
+              "max": 67.1,
+              "mean": 50,
+              "cvPercent": 8.4
+            },
+            "sendGapMs": {
+              "count": 0
+            },
+            "unsent": 600,
+            "sampled": 600,
+            "heldTicks": 600,
+            "notHeldTicks": 0,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 0,
+              "median": 0,
+              "p95": 0,
+              "max": 0,
+              "mean": 0,
+              "cvPercent": null
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 1,
+            "median": 50,
+            "p95": 51,
+            "max": 67,
+            "mean": 49.9,
+            "cvPercent": 9.4
+          },
+          "stateGapMs": {
+            "count": 0
+          },
+          "frames": {
+            "count": 1891,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 33.3,
+              "median": 33.3,
+              "p95": 33.3,
+              "max": 33.3,
+              "mean": 33.3,
+              "cvPercent": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "solo-smg-pacer0",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "solo",
+        "players": 1,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": false
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 305,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 298,
+              "min": 32,
+              "median": 50,
+              "p95": 100,
+              "max": 118,
+              "mean": 69.4,
+              "cvPercent": 35.6,
+              "unevenPercent": 98
+            },
+            "received": {
+              "count": 298,
+              "min": 31.8,
+              "median": 50.3,
+              "p95": 100.3,
+              "max": 118.6,
+              "mean": 69.4,
+              "cvPercent": 35.7,
+              "unevenPercent": 98
+            },
+            "displayed": {
+              "count": 298,
+              "min": 18,
+              "median": 50.9,
+              "p95": 101.7,
+              "max": 119.8,
+              "mean": 69.3,
+              "cvPercent": 36.3,
+              "unevenPercent": 98
+            },
+            "sound": {
+              "count": 292,
+              "min": 48.8,
+              "median": 50.4,
+              "p95": 100.4,
+              "max": 149.9,
+              "mean": 70.8,
+              "cvPercent": 35.6,
+              "unevenPercent": 98.6
+            }
+          },
+          "authorityTickGaps": {
+            "1": 183,
+            "2": 115
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 305
+          },
+          "shotsPerFrame": {
+            "1": 305
+          },
+          "sounds": {
+            "played": 299,
+            "merged": 0,
+            "throttled": 6,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 305,
+            "min": 2,
+            "median": 4.6,
+            "p95": 6.2,
+            "max": 41.2,
+            "mean": 4.7,
+            "cvPercent": 49
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 599,
+              "min": 31.9,
+              "median": 50,
+              "p95": 50.5,
+              "max": 67.3,
+              "mean": 50,
+              "cvPercent": 6.9
+            },
+            "sendGapMs": {
+              "count": 0
+            },
+            "unsent": 600,
+            "sampled": 600,
+            "heldTicks": 600,
+            "notHeldTicks": 0,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 600,
+              "min": 0,
+              "median": 0,
+              "p95": 0,
+              "max": 0,
+              "mean": 0,
+              "cvPercent": null
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 1,
+            "median": 50,
+            "p95": 51,
+            "max": 69,
+            "mean": 49.9,
+            "cvPercent": 9.7
+          },
+          "stateGapMs": {
+            "count": 0
+          },
+          "frames": {
+            "count": 1891,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 33.2,
+              "median": 33.2,
+              "p95": 33.2,
+              "max": 33.2,
+              "mean": 33.2,
+              "cvPercent": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "solo-smg-pacer1",
+      "passed": true,
+      "sourcesStable": true,
+      "head": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+      "condition": {
+        "mode": "solo",
+        "players": 1,
+        "weapon": "smg",
+        "seconds": 30,
+        "link": null,
+        "load": null,
+        "serverTrace": true,
+        "renderClients": 1,
+        "pacer": true
+      },
+      "fixture": {
+        "seed": 4520,
+        "weapon": "smg",
+        "mode": "quiet",
+        "intervalMs": 70,
+        "mag": 45,
+        "reloadMs": 1500,
+        "players": 1,
+        "enemies": 0
+      },
+      "link": null,
+      "errors": 0,
+      "clients": [
+        {
+          "client": 0,
+          "audio": "running",
+          "nominalMs": 70,
+          "shots": 304,
+          "unmatchedAuthorityShots": 0,
+          "reloadGaps": 6,
+          "inputBreaks": 0,
+          "interval": {
+            "authority": {
+              "count": 297,
+              "min": 33,
+              "median": 50,
+              "p95": 101,
+              "max": 117,
+              "mean": 69.4,
+              "cvPercent": 35.3,
+              "unevenPercent": 98
+            },
+            "received": {
+              "count": 297,
+              "min": 33.3,
+              "median": 50.2,
+              "p95": 100.4,
+              "max": 116.8,
+              "mean": 69.3,
+              "cvPercent": 35.3,
+              "unevenPercent": 98
+            },
+            "displayed": {
+              "count": 297,
+              "min": 45.4,
+              "median": 67.1,
+              "p95": 84.1,
+              "max": 97.3,
+              "mean": 70,
+              "cvPercent": 10.9,
+              "unevenPercent": 23.6
+            },
+            "sound": {
+              "count": 297,
+              "min": 64.7,
+              "median": 66.8,
+              "p95": 83.4,
+              "max": 85.3,
+              "mean": 70.1,
+              "cvPercent": 9.5,
+              "unevenPercent": 20.5
+            }
+          },
+          "authorityTickGaps": {
+            "1": 182,
+            "2": 115
+          },
+          "notDisplayed": 0,
+          "shotsPerState": {
+            "1": 304
+          },
+          "shotsPerFrame": {
+            "1": 304
+          },
+          "sounds": {
+            "played": 304,
+            "merged": 0,
+            "throttled": 0,
+            "inactive": 0,
+            "none": 0
+          },
+          "receiveToDisplayMs": {
+            "count": 304,
+            "min": 3.4,
+            "median": 37.4,
+            "p95": 56.4,
+            "max": 73.4,
+            "mean": 35.5,
+            "cvPercent": 43.7
+          },
+          "input": {
+            "sampleGapMs": {
+              "count": 598,
+              "min": 33,
+              "median": 50,
+              "p95": 50.5,
+              "max": 67.5,
+              "mean": 50,
+              "cvPercent": 8.3
+            },
+            "sendGapMs": {
+              "count": 0
+            },
+            "unsent": 599,
+            "sampled": 599,
+            "heldTicks": 599,
+            "notHeldTicks": 0,
+            "expiredTicks": 0,
+            "missingTicks": 0,
+            "appliedAgeMs": {
+              "count": 599,
+              "min": 0,
+              "median": 0,
+              "p95": 0,
+              "max": 0,
+              "mean": 0,
+              "cvPercent": null
+            }
+          },
+          "authorityTickMs": {
+            "count": 631,
+            "min": 1,
+            "median": 50,
+            "p95": 51,
+            "max": 68,
+            "mean": 49.9,
+            "cvPercent": 9.6
+          },
+          "stateGapMs": {
+            "count": 0
+          },
+          "frames": {
+            "count": 1893,
+            "over25ms": 1,
+            "gapMs": {
+              "count": 1,
+              "min": 33.3,
+              "median": 33.3,
+              "p95": 33.3,
+              "max": 33.3,
+              "mean": 33.3,
+              "cvPercent": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

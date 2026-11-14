@@ -1,0 +1,139 @@
+{
+  "build": "a3c089ca9cd0fd58c26139fd679e2c0ae8dc63ed",
+  "capturedAt": "2026-11-14T05:14:29.462Z",
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "standalone": false,
+    "viewport": [
+      844,
+      390,
+      1
+    ]
+  },
+  "summary": {
+    "nominalMs": null,
+    "shots": 69,
+    "unmatchedAuthorityShots": 0,
+    "reloadGaps": 2,
+    "inputBreaks": 0,
+    "interval": {
+      "authority": {
+        "count": 66,
+        "min": 92,
+        "median": 149,
+        "p95": 151,
+        "max": 152,
+        "mean": 128.7,
+        "cvPercent": 19.1
+      },
+      "received": {
+        "count": 66,
+        "min": 92,
+        "median": 149,
+        "p95": 150.9,
+        "max": 151.9,
+        "mean": 128.7,
+        "cvPercent": 19.1
+      },
+      "displayed": {
+        "count": 66,
+        "min": 112.6,
+        "median": 132.2,
+        "p95": 139,
+        "max": 141.9,
+        "mean": 129.9,
+        "cvPercent": 5.7
+      },
+      "sound": {
+        "count": 66,
+        "min": 115.8,
+        "median": 132.7,
+        "p95": 138.4,
+        "max": 141.8,
+        "mean": 130.5,
+        "cvPercent": 5.1
+      }
+    },
+    "authorityTickGaps": {
+      "2": 28,
+      "3": 38
+    },
+    "notDisplayed": 0,
+    "shotsPerState": {
+      "1": 69
+    },
+    "shotsPerFrame": {
+      "1": 69
+    },
+    "sounds": {
+      "played": 69,
+      "merged": 0,
+      "throttled": 0,
+      "inactive": 0,
+      "none": 0
+    },
+    "receiveToDisplayMs": {
+      "count": 69,
+      "min": 8.5,
+      "median": 42,
+      "p95": 72.2,
+      "max": 74.4,
+      "mean": 46,
+      "cvPercent": 34.1
+    },
+    "input": {
+      "sampleGapMs": {
+        "count": 239,
+        "min": 42.4,
+        "median": 50,
+        "p95": 51.2,
+        "max": 59.3,
+        "mean": 50,
+        "cvPercent": 2.8
+      },
+      "sendGapMs": {
+        "count": 0
+      },
+      "unsent": 240,
+      "sampled": 240,
+      "heldTicks": 240,
+      "notHeldTicks": 0,
+      "expiredTicks": 0,
+      "missingTicks": 0,
+      "appliedAgeMs": {
+        "count": 240,
+        "min": 0,
+        "median": 0,
+        "p95": 0,
+        "max": 0,
+        "mean": 0,
+        "cvPercent": null
+      }
+    },
+    "authorityTickMs": {
+      "count": 260,
+      "min": 0,
+      "median": 50,
+      "p95": 51,
+      "max": 59,
+      "mean": 49.7,
+      "cvPercent": 7.3
+    },
+    "stateGapMs": {
+      "count": 0
+    },
+    "frames": {
+      "count": 1153,
+      "over25ms": 18,
+      "gapMs": {
+        "count": 18,
+        "min": 33.2,
+        "median": 99.8,
+        "p95": 2383.5,
+        "max": 2383.5,
+        "mean": 345.4,
+        "cvPercent": 172.2
+      }
+    }
+  }
+}

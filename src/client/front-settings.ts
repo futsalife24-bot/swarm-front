@@ -160,7 +160,7 @@ export class FrontSettings {
         try {
           setNetworkDiagnostics(!networkDiagnosticsEnabled());
           label();
-          status.textContent = `次の接続から適用。停止後に一時停止画面の「通信診断を保存」を押してください。版 ${diagnosticBuild.slice(0, 7)}`;
+          status.textContent = `次の出撃から適用。一時停止画面の「診断を保存」を押してください。版 ${diagnosticBuild.slice(0, 7)}`;
         } catch {
           status.textContent = "診断設定を保存できませんでした。";
         }

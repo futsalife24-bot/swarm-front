@@ -2,7 +2,11 @@ declare const __SWARM_BUILD__: string;
 export const diagnosticBuild =
   typeof __SWARM_BUILD__ === "string" ? __SWARM_BUILD__ : "development";
 
-/** No URL, room identity, storage, cookies, input contents or automatic upload. */
+/**
+ * No URL, room identity, storage, cookies or automatic upload. Input contents
+ * are limited to when the fire button was held (fire cadence trace); aim and
+ * movement are never included.
+ */
 export function diagnosticReport(details: unknown) {
   return {
     format: 1,

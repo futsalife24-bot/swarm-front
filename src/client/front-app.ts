@@ -127,6 +127,9 @@ import { stats, type Weapon } from "../shared/defs";
 import { createFrontSurvivalWeapon } from "../shared/front-weapon";
 import { STAGES } from "../shared/stages";
 import { retireEvents, eye, type World } from "../shared/game";
+import { fireTraceRow } from "../shared/fire-trace";
+import { FireCadenceTrace } from "./fire-cadence-trace";
+import { ShotPacer, withPresentedEvents } from "./shot-pacer";
 import {
   createRebuildUiGate,
   acceptRebuildKeydown,
@@ -158,6 +161,29 @@ const view = new Renderer(
 const battleFps = new BattleFps();
 const settings = new FrontSettings(controls, sound, view);
 const minimap = new Minimap();
+// 連射の表示と音の間隔を均す。権威側の射出数・ダメージには関与しない。
+const shotPacer = new ShotPacer();
+// 連射診断。詳細診断がオンの出撃だけ端末内に記録し、既定では生成しない。
+let fireTrace: FireCadenceTrace | undefined;
+let localFireTick = 0;
+function armFireTrace() {
+  const trace = networkDiagnosticsEnabled()
+    ? new FireCadenceTrace()
+    : undefined;
+  fireTrace = trace;
+  localFireTick = 0;
+  controls.onFire = trace
+    ? (held, eventTime) => trace.press(held, eventTime)
+    : undefined;
+  sound.shotTrace = trace
+    ? (event, result) => trace.sounded(event, result)
+    : undefined;
+  return trace;
+}
+const diagnosticDetails = () => ({
+  ...network?.diagnostics.details(),
+  ...(fireTrace ? { fireCadence: fireTrace.details() } : {}),
+});
 let soldierLiveReview: import("./soldier-live-review").LiveReview | undefined;
 if (
   import.meta.env.DEV &&
@@ -611,6 +637,7 @@ async function solo() {
     notice(frontLoadout.error, 5);
     return;
   }
+  armFireTrace();
   localRun = createFrontRun(
     {
       runId: crypto.randomUUID(),
@@ -850,9 +877,13 @@ function connectRoom(code: string, target: string, token = "") {
       document.hasFocus()
         ? controls.read()
         : undefined;
-    if (input) localMotion.sample(input);
+    if (input) {
+      localMotion.sample(input);
+      fireTrace?.sampled(input.seq, input.fire);
+    }
     return input;
   });
+  net.fireTrace = armFireTrace();
   net.clearedStage = highestClearedStage(
     readFrontCampaign(progressStorage).save,
   );
@@ -901,6 +932,8 @@ function connectRoom(code: string, target: string, token = "") {
     world = snapshot;
     info = net.frontView;
     inputReady = true;
+    // 描画より先に次の戦況が届いても、未表示の射撃・命中を失わない。
+    shotPacer.ingest(snapshot, performance.now() / 1000);
     observeFusions();
     const newFusions = FRONT_FUSION_IDS.filter(
       (f) => info!.levels[f] > 0 && !previousLevels?.[f],
@@ -1257,11 +1290,11 @@ function paintOverlay() {
     info.phase !== "victory" &&
     info.phase !== "defeat"
   ) {
-    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header>${network || info.returnAt != null ? `<p class="front-pause-note">${gate.pauseReason}${info.returnAt !== null && info.returnAt !== undefined ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}</p>` : ""}${frontUpgradeDetails(info, import.meta.env.BASE_URL, discoveredFusions)}<div class="pause-actions"><button id="front-settings">設定・操作</button>${network ? '<button id="front-diagnostics">通信診断を保存</button>' : ""}<button id="front-leave">タイトルへ</button></div></section>`;
+    ui.innerHTML = `<section class="pause-card rebuild-panel front-pause"><header><h1>${network ? "操作を停止中" : "一時停止"}</h1><button id="front-resume" class="primary">再開</button></header>${network || info.returnAt != null ? `<p class="front-pause-note">${gate.pauseReason}${info.returnAt !== null && info.returnAt !== undefined ? ` · 帰還まで ${formatRebuildTime(Math.max(0, info.returnAt - now()))}` : ""}</p>` : ""}${frontUpgradeDetails(info, import.meta.env.BASE_URL, discoveredFusions)}<div class="pause-actions"><button id="front-settings">設定・操作</button>${network || fireTrace ? `<button id="front-diagnostics">${network ? "通信診断を保存" : "診断を保存"}</button>` : ""}<button id="front-leave">タイトルへ</button></div></section>`;
     document
       .getElementById("front-diagnostics")
       ?.addEventListener("click", () => {
-        downloadNetworkDiagnostics(network?.diagnostics.details());
+        downloadNetworkDiagnostics(diagnosticDetails());
       });
     $("front-settings").onclick = () =>
       settings.open(ui, () => {
@@ -1483,6 +1516,7 @@ function canOperateBattle() {
 }
 function frame(time: number) {
   network?.diagnostics.frame(time, document.hidden);
+  fireTrace?.frame(time);
   requestAnimationFrame(frame);
   const wallDt = Math.max(0, (time - previous) / 1000),
     dt = Math.min(0.1, wallDt);
@@ -1515,7 +1549,25 @@ function frame(time: number) {
       accumulator += dt;
       while (accumulator >= 0.05 && active) {
         const phase = localRun.phase;
-        stepFrontRun(localRun, { [id]: controls.read() }, 0.05, now());
+        const input = controls.read();
+        const eventFloor = localRun.world.eventSerial;
+        stepFrontRun(localRun, { [id]: input }, 0.05, now());
+        if (fireTrace) {
+          fireTrace.sampled(input.seq, input.fire);
+          fireTrace.local(
+            fireTraceRow(
+              localRun.world,
+              id,
+              eventFloor,
+              ++localFireTick,
+              performance.now(),
+              input,
+              0,
+              false,
+              localRun.phase !== "combat" && localRun.phase !== "boss",
+            ),
+          );
+        }
         accumulator -= 0.05;
         if (phase !== localRun.phase) {
           clearInput();
@@ -1527,6 +1579,10 @@ function frame(time: number) {
       stepFrontRun(localRun, {}, 0.05, now());
     }
     setView();
+    if (world) {
+      shotPacer.ingest(world, performance.now() / 1000);
+      fireTrace?.received(world, id, performance.now(), 0);
+    }
   }
   $("controls").hidden = !active;
   $("swap").hidden = world?.front?.survivalBuildVersion === 1;
@@ -1606,37 +1662,60 @@ function frame(time: number) {
           .replace("READY", "準備完了")
           .replace(/s$/, "秒");
     }
-    sound.update(world, id, controls.input.yaw, active);
-    const renderKey = [
-      world.run,
-      world.time,
-      info.phase,
-      info.picks,
-      controls.input.yaw,
-      controls.input.pitch,
-      innerWidth,
-      innerHeight,
-    ].join(":");
-    if (
-      active ||
-      (network && (info.phase === "combat" || info.phase === "boss")) ||
-      renderKey !== lastRenderKey
-    ) {
-      view.render(
-        world,
-        id,
-        dt,
-        controls.input.yaw,
-        controls.input.pitch,
-        predictedPosition,
-        active,
-        controls.scoped,
-        controls.aiming,
-      );
-      soldierLiveReview?.capture(world, id);
-      network?.diagnostics.rendered();
-      lastRenderKey = renderKey;
-    }
+    // 描画と音には、連射間隔に均した順番のイベントだけを見せる。
+    const battleWorld = world,
+      battleInfo = info;
+    withPresentedEvents(
+      battleWorld,
+      shotPacer.present(
+        performance.now() / 1000,
+        Math.min(
+          view.consumed(battleWorld.run),
+          sound.consumed(battleWorld.run),
+        ),
+      ),
+      () => {
+        sound.update(battleWorld, id, controls.input.yaw, active);
+        const renderKey = [
+          battleWorld.run,
+          battleWorld.time,
+          battleInfo.phase,
+          battleInfo.picks,
+          controls.input.yaw,
+          controls.input.pitch,
+          innerWidth,
+          innerHeight,
+        ].join(":");
+        if (
+          active ||
+          (network &&
+            (battleInfo.phase === "combat" || battleInfo.phase === "boss")) ||
+          renderKey !== lastRenderKey
+        ) {
+          const consumedBefore = fireTrace ? view.consumed(battleWorld.run) : 0;
+          view.render(
+            battleWorld,
+            id,
+            dt,
+            controls.input.yaw,
+            controls.input.pitch,
+            predictedPosition,
+            active,
+            controls.scoped,
+            controls.aiming,
+          );
+          fireTrace?.displayed(
+            battleWorld,
+            id,
+            consumedBefore,
+            view.consumed(battleWorld.run),
+          );
+          soldierLiveReview?.capture(battleWorld, id);
+          network?.diagnostics.rendered();
+          lastRenderKey = renderKey;
+        }
+      },
+    );
     if (localRun)
       retireEvents(
         world,
@@ -1674,7 +1753,7 @@ if (networkDiagnosticsEnabled()) {
   Object.defineProperty(window, "swarmNetworkDiagnostics", {
     configurable: true,
     value: () => ({
-      ...network?.diagnostics.details(),
+      ...diagnosticDetails(),
       build: diagnosticBuild,
     }),
   });

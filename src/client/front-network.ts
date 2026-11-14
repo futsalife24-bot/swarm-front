@@ -30,6 +30,7 @@ import {
   type NetworkInputSource,
 } from "./network-input-loop";
 import type { RoomOptions } from "../shared/room-directory";
+import type { FireCadenceTrace } from "./fire-cadence-trace";
 export interface Member {
   id: string;
   name?: string;
@@ -131,6 +132,8 @@ export class FrontNetwork {
   clearedStage = 0;
   private chunks: StateChunkReceiver | undefined;
   readonly diagnostics = new ConnectionDiagnostics();
+  /** 連射診断。詳細診断がオンの時だけ設定され、通信内容は変えない。 */
+  fireTrace: FireCadenceTrace | undefined;
   private inputAt = -Infinity;
   private pendingInput: Input | undefined;
   private usesInputAck = false;
@@ -385,6 +388,19 @@ export class FrontNetwork {
         this.diagnostics.state(performance.now(), m.stateId);
         this.diagnostics.server(m.networkTiming);
         this.diagnostics.serverTrace(m.networkTiming?.roomTrace);
+        if (this.fireTrace) {
+          this.fireTrace.server(
+            m.networkTiming?.roomTrace?.fire,
+            processingStarted,
+            m.stateId,
+          );
+          this.fireTrace.received(
+            m.world,
+            this.id,
+            processingStarted,
+            m.stateId,
+          );
+        }
         const applied = m.world.players.find(
           (p: { id: string }) => p.id === this.id,
         )?.ack;
@@ -559,6 +575,7 @@ export class FrontNetwork {
       return;
     this.diagnostics.sent(this.pendingInput.seq, this.inFlightInputs.length);
     this.send({ type: "input", input: this.pendingInput });
+    this.fireTrace?.sent(this.pendingInput.seq, now);
     if (this.usesInputAck) {
       this.inFlightInputs.push(this.pendingInput.seq);
       this.inputWindow.sent(this.pendingInput.seq);

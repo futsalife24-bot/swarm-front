@@ -62,6 +62,7 @@ import { supplyVault } from "./supply-vault";
 import { DurableObject } from "cloudflare:workers";
 import { RoomClock } from "./room-clock";
 import { RoomNetworkTrace, RoomTraceEvent } from "./room-network-trace";
+import { fireTraceRow } from "../src/shared/fire-trace";
 import {
   StateDelivery,
   deliverState,
@@ -2252,6 +2253,8 @@ export class Room extends DurableObject<Env> {
             return sent;
           },
         );
+        if (result === "sent" && attachedTrace?.fire?.length)
+          trace?.sentFire(attachedTrace.fire.at(-1)![0]);
         if (result === "sent" && attachedTrace?.history)
           trace?.sentHistory(
             attachedTrace.sequence,
@@ -2334,6 +2337,9 @@ export class Room extends DurableObject<Env> {
         now - v.at < 250 ? v.i : neutral(),
       ]),
     );
+    // 連射診断（既定オフ）。step前の入力とイベント番号を控えるだけで戦闘は変えない。
+    const fireHeld = this.traceSockets.size ? { ...this.inputs } : undefined;
+    const fireFloor = w.eventSerial;
     if (this.saved.frontRun) {
       const phase = this.saved.frontRun.phase;
       stepFrontRun(this.saved.frontRun, active, 0.05, now / 1000);
@@ -2351,6 +2357,31 @@ export class Room extends DurableObject<Env> {
     this.lastTickMs = performance.now() - stepStarted;
     this.ticks++;
     this.traceAll(RoomTraceEvent.step);
+    if (fireHeld) {
+      const run = this.saved.frontRun;
+      const paused =
+        !!run &&
+        ((run.phase !== "combat" && run.phase !== "boss") ||
+          now / 1000 < run.resumeUntil);
+      for (const ws of this.traceSockets) {
+        const s = this.sockets.get(ws);
+        if (!s?.id || !s.networkTrace) continue;
+        const v = fireHeld[s.id];
+        s.networkTrace.fireRow(
+          fireTraceRow(
+            w,
+            s.id,
+            fireFloor,
+            this.ticks,
+            now,
+            v ? active[s.id] : undefined,
+            v ? now - v.at : -1,
+            !!v && now - v.at >= 250,
+            paused,
+          ),
+        );
+      }
+    }
     if (w.phase !== "battle") {
       this.markFrontResult();
       this.invalidatePreparation();
