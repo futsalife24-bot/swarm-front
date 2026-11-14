@@ -142,17 +142,21 @@ export function soloResolved(w: World) {
     pendingFoundryCount(w) === 0
   );
 }
-export function useMedkit(w: World) {
+/** 救急箱（1出撃に1回・全回復）。基礎訓練は w.tutorialKit を渡して同じ処理を使う。 */
+export function useMedkit(
+  w: World,
+  kit: { medkit: boolean } | undefined = w.solo,
+) {
   const p = w.players[0];
   if (
-    !w.solo ||
+    !kit ||
     w.phase !== "battle" ||
-    !w.solo.medkit ||
+    !kit.medkit ||
     p.hp <= 0 ||
     p.hp >= maxHp(w)
   )
     return false;
-  w.solo.medkit = false;
+  kit.medkit = false;
   p.hp = maxHp(w);
   return true;
 }

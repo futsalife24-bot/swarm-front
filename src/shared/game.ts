@@ -350,6 +350,8 @@ export interface World {
   pollen?: import("./calyx").PollenCloud[];
   defense?: DailyDefense;
   training?: boolean;
+  /** 基礎訓練の救急箱（1回の訓練で1回）。本編と同じ useMedkit で使う。 */
+  tutorialKit?: { medkit: boolean };
   solo?: SoloProgression;
   foundrySpawns?: FoundrySpawnBatch[];
   foundrySpawned?: number;

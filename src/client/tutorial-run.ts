@@ -36,6 +36,8 @@ export const DODGE_COOLDOWN_S = 2.2;
 /** 20秒たっても達成しなければ促しを1回。10秒たつと「この手順を飛ばす」を出す。 */
 export const NUDGE_AFTER_S = 20;
 export const SKIP_AFTER_S = 10;
+/** T10 で救急箱を使ってから、全回復を見せる間。 */
+export const MEDKIT_SHOW_S = 1.5;
 /** 音声が無いときも同じ間で進めるための、台詞の長さの見込み（実測は約5.6字/秒）。 */
 export const lineSeconds = (id: string) =>
   (controlVoiceLine(id)?.text.length ?? 0) / 5.5 + 0.3;
@@ -162,10 +164,11 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
     goal: 0,
     how: {
       touch:
-        "時間がたつと半分まで自動回復 · 救急箱は1出撃に1回、全回復（ソロ）",
-      pc: "時間がたつと半分まで自動回復 · 救急箱は1出撃に1回、全回復（ソロ）",
+        "時間がたつと半分まで自動回復 · 救急箱ボタンは1出撃に1回、全回復（ソロ）",
+      pc: "時間がたつと半分まで自動回復 · 救急箱（H）は1出撃に1回、全回復（ソロ）",
     },
-    arena: "practice",
+    // 体力を減らした状態で始め、救急箱を実際に使えるようにする。
+    arena: "health",
   },
   {
     id: "T11",
@@ -209,6 +212,8 @@ export class TutorialRun {
   };
   /** T9 達成後、tut-drop-rule を聞く間（見込み）だけ待つ。 */
   private holdUntil?: number;
+  /** T10 で救急箱を使ったのを見つけた時刻（ステップ内の経過秒）。 */
+  private medkitAt?: number;
   constructor(private random: () => number = Math.random) {}
 
   get step() {
@@ -309,12 +314,19 @@ export class TutorialRun {
           this.progress = 1;
         break;
       case "T10":
-        // 操作なし。「次へ」または台詞の長さ＋1秒で自動。
-        if (
-          this.elapsed >=
-          s.lines.reduce((sum, id) => sum + lineSeconds(id), 0) + 1
-        )
-          actions.push(...this.enter(this.index + 1));
+        // 「次へ」、または救急箱を使ってから自動で進む（台詞の長さ＋1秒と、
+        // 使ってから全回復が見える間の遅い方）。使う前に進むと説明した操作を試せないため待つ。
+        if (w.tutorialKit?.medkit !== true) {
+          this.medkitAt ??= this.elapsed;
+          if (
+            this.elapsed >=
+            Math.max(
+              s.lines.reduce((sum, id) => sum + lineSeconds(id), 0) + 1,
+              this.medkitAt + MEDKIT_SHOW_S,
+            )
+          )
+            actions.push(...this.enter(this.index + 1));
+        }
         return actions;
       default:
         return actions;
@@ -371,6 +383,7 @@ export class TutorialRun {
     this.nudged = false;
     this.base = undefined;
     this.holdUntil = undefined;
+    this.medkitAt = undefined;
     this.queue = [];
     const s = this.step;
     const actions: TutorialAction[] = [

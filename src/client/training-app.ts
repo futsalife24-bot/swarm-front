@@ -18,11 +18,14 @@ import {
 } from "../shared/training";
 import {
   clearTutorialLoot,
+  createTutorialWorld,
   placeKillTargets,
   placeSampleDrop,
+  prepareHealthDrill,
   stepTutorial,
   type TutorialArena,
 } from "../shared/tutorial";
+import { maxHp } from "../shared/solo-progression";
 import {
   TUTORIAL_STEPS,
   TutorialRun,
@@ -49,11 +52,13 @@ const device: TutorialDevice = matchMedia("(pointer: coarse)").matches
   ? "touch"
   : "pc";
 let layout = defaultLayout(),
-  world = createTrainingWorld(),
+  world = tutorialMode ? createTutorialWorld() : createTrainingWorld(),
   arena: TutorialArena = "practice",
   started = false,
   paused = false,
-  leaving = false;
+  leaving = false,
+  /** PC の H（本編ソロと同じ救急箱キー）。次の tick の入力で使う。 */
+  medkitKey = false;
 $("portrait").remove();
 installZoomGuard();
 $("hud").innerHTML = '<div class="crosshair">+</div>';
@@ -75,7 +80,8 @@ function apply(actions: TutorialAction[]) {
     else if (action.type === "arena") {
       arena = action.arena;
       if (arena === "kill") placeKillTargets(world);
-      else if (arena === "drop") placeSampleDrop(world);
+      else if (arena === "drop") placeSampleDrop(world, controls.input.yaw);
+      else if (arena === "health") prepareHealthDrill(world);
       else resetTargets(world);
     }
   }
@@ -127,6 +133,7 @@ document.addEventListener("visibilitychange", () => {
 });
 window.addEventListener("keydown", (e) => {
   if (e.code === "Escape") $("pause").click();
+  if (e.code === "KeyH" && run && started && !paused) medkitKey = true;
 });
 window.addEventListener("resize", () => placeControls(layout));
 window.addEventListener("message", (event) => {
@@ -140,11 +147,11 @@ window.addEventListener("message", (event) => {
   placeControls(layout);
   const config = event.data.config ?? {},
     preferences = { ...fresh(), ...config.preferences } as Save;
-  world = createTrainingWorld(
+  const weapons =
     config.weapons?.length === 2
       ? (config.weapons as Weapon[])
-      : STARTERS.slice(0, 2),
-  );
+      : STARTERS.slice(0, 2);
+  world = run ? createTutorialWorld(weapons) : createTrainingWorld(weapons);
   controls.sensitivity = preferences.sensitivity;
   controls.fireSensitivity =
     preferences.fireSensitivity ?? preferences.sensitivity;
@@ -189,15 +196,33 @@ function frame(now: number) {
   if (active) {
     accumulator += dt;
     while (accumulator >= 0.05) {
-      if (run) stepTutorial(world, controls.read(), arena);
-      else stepTraining(world, controls.read());
+      if (run) {
+        const input = controls.read();
+        input.revive ||= medkitKey;
+        medkitKey = false;
+        stepTutorial(world, input, arena);
+      } else stepTraining(world, controls.read());
       accumulator -= 0.05;
     }
     if (run) apply(run.observe(world, controls.input.yaw, dt));
   } else accumulator = 0;
   const p = world.players[0];
   if (run && started) {
-    $("training-stats").textContent = run.text(device);
+    // 体力の手順では、自動回復と救急箱の効果が見えるよう体力を併記する。
+    $("training-stats").textContent =
+      run.text(device) +
+      (arena === "health"
+        ? `　体力 ${Math.ceil(p.hp)} / ${Math.round(maxHp(world))}`
+        : "");
+    // 本編ソロと同じ救急箱ボタン（配置は「蘇生」と同じ枠）。1回の訓練で1回。
+    const kit = world.tutorialKit,
+      med = $("revive") as HTMLButtonElement;
+    med.disabled = !kit?.medkit || p.hp <= 0 || p.hp >= maxHp(world);
+    med.innerHTML = `<span>救急箱</span><small>${kit?.medkit ? "1 / H" : "使用済み"}</small>`;
+    med.setAttribute(
+      "aria-label",
+      kit?.medkit ? "救急箱で全快" : "救急箱 使用済み",
+    );
     $("tutorial-count").textContent =
       run.number > 0 ? `${run.number} / ${run.total}` : "報酬なし · 失敗なし";
     $("tutorial-skip").hidden = !run.canSkip;
@@ -225,6 +250,9 @@ function frame(now: number) {
   );
 }
 requestAnimationFrame(frame);
+if (import.meta.env.DEV && run)
+  // 実ブラウザ確認用（開発ビルドだけ）: 手順の経過秒を進めて「この手順を飛ばす」を出す。
+  Object.defineProperty(window, "__tutorialRun", { value: run });
 if (import.meta.env.DEV)
   Object.defineProperty(window, "__training", {
     get: () => {
@@ -236,6 +264,11 @@ if (import.meta.env.DEV)
         lower: trooper?.lowerMode,
         aimProgress: trooper?.aimProgress,
         loaded: !!trooper,
+        step: run?.step.id,
+        arena,
+        drops: world.drops.map((d) => ({ id: d.id, x: d.x, z: d.z })),
+        pending: world.pending.training?.length ?? 0,
+        kit: world.tutorialKit && { ...world.tutorialKit },
       };
     },
   });

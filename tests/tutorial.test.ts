@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { Input } from "../src/shared/game";
 import { TARGETS } from "../src/shared/training";
+import { maxHp, useMedkit } from "../src/shared/solo-progression";
 import {
+  HEALTH_DRILL_HP,
   SAMPLE_DROP_ID,
   TUTORIAL_KILL_TARGETS,
   TUTORIAL_PLAYER,
@@ -9,12 +11,14 @@ import {
   createTutorialWorld,
   placeKillTargets,
   placeSampleDrop,
+  prepareHealthDrill,
   stepTutorial,
 } from "../src/shared/tutorial";
 import {
   HIT_GOAL,
   KILL_GOAL,
   LOOK_GOAL_DEG,
+  MEDKIT_SHOW_S,
   MOVE_GOAL_M,
   NUDGE_AFTER_S,
   SKIP_AFTER_S,
@@ -89,6 +93,7 @@ function apply(
     if (action.type === "arena") {
       if (action.arena === "kill") placeKillTargets(w);
       else if (action.arena === "drop") placeSampleDrop(w);
+      else if (action.arena === "health") prepareHealthDrill(w);
     }
   return a;
 }
@@ -189,12 +194,19 @@ describe("tutorial run (W3)", () => {
     run.observe(w, 0, lineSeconds("tut-drop-rule") + 0.1);
     expect(run.step.id).toBe("T10");
   });
-  it("plays both health lines in turn and advances by itself", () => {
+  it("plays both health lines in turn and advances by itself after the medkit", () => {
     const { run, w } = runTo(10);
     expect(run.manual).toBe("next");
     const second = run.observe(w, 0, lineSeconds("tut-recover") + 0.4);
     expect(said(second)).toEqual(["tut-medkit"]);
-    const end = run.observe(w, 0, lineSeconds("tut-medkit") + 1);
+    // 救急箱を使うまでは、台詞が終わっても自動では進まない（「次へ」は出たまま）。
+    expect(said(run.observe(w, 0, lineSeconds("tut-medkit") + 1))).toEqual([]);
+    expect(run.step.id).toBe("T10");
+    expect(run.manual).toBe("next");
+    stepTutorial(w, { ...idle(), revive: true }, "health");
+    expect(w.tutorialKit?.medkit).toBe(false);
+    expect(said(run.observe(w, 0, 0.1))).toEqual([]);
+    const end = run.observe(w, 0, MEDKIT_SHOW_S);
     expect(said(end)).toEqual(["tut-complete"]);
     expect(end.some((a) => a.type === "complete")).toBe(true);
     expect(run.step.id).toBe("T11");
@@ -238,6 +250,96 @@ describe("tutorial run (W3)", () => {
     const { run } = runTo(3);
     expect(said(run.quit())).toEqual(["tut-skip"]);
     expect(run.quit()).toEqual([]);
+  });
+  it("T9: the sample weapon survives the first tick after T8 and is collected by walking to it", () => {
+    // 不具合1（2026-11-15）: T8 で標的を倒した後に見本を置くと、最初の tick の
+    // 練習標的リセット（resetTargets）がドロップまで消していた。
+    for (const killed of [true, false]) {
+      const { run, w } = runTo(8);
+      run.observe(w, 0, 0.1);
+      if (killed) {
+        for (const e of w.enemies) e.hp = 0;
+        stepTutorial(w, idle(), "kill");
+        expect(w.enemies).toHaveLength(0);
+      }
+      apply(run, w, skipNow(run));
+      expect(run.step.id).toBe("T9");
+      for (let i = 0; i < 5; i++) stepTutorial(w, idle(), "drop");
+      expect(w.drops.map((d) => d.id)).toEqual([SAMPLE_DROP_ID]);
+      expect(w.enemies).toHaveLength(TARGETS.length);
+      run.observe(w, 0, 0.1);
+      // 兵士が見本の武器へ歩いて近づくだけで回収でき、手順が達成になる。
+      let picked: TutorialAction[] = [];
+      for (let i = 0; i < 200 && w.drops.length; i++) {
+        const p = w.players[0],
+          d = w.drops[0];
+        const yaw = Math.atan2(d.x - p.x, -(d.z - p.z));
+        stepTutorial(w, { ...idle(), mz: 1, yaw }, "drop");
+        picked = run.observe(w, yaw, 0.05);
+        if (said(picked).length) break;
+      }
+      expect(w.drops).toEqual([]);
+      expect(w.pending[TUTORIAL_PLAYER]).toHaveLength(1);
+      expect(said(picked)).toContain("tut-drop-rule");
+      expect(w.rewards).toEqual({});
+    }
+  });
+  it("T9: places the sample in view, inside the range and clear of the targets", () => {
+    const w = createTutorialWorld();
+    const p = w.players[0];
+    const spots = [
+      { x: 0, z: 16, yaw: 0 },
+      { x: 0, z: 12, yaw: 0 }, // 正面に練習標的（0, 6）がある
+      { x: 20, z: -44, yaw: Math.PI / 2 }, // 壁際の隅で壁を向いている
+      { x: -10, z: 0, yaw: Math.PI },
+    ];
+    for (const s of spots) {
+      p.x = s.x;
+      p.z = s.z;
+      placeSampleDrop(w, s.yaw);
+      const d = w.drops[0];
+      expect(w.drops).toHaveLength(1);
+      expect(Math.abs(d.x)).toBeLessThanOrEqual(20);
+      expect(d.z).toBeGreaterThanOrEqual(-44);
+      expect(d.z).toBeLessThanOrEqual(20);
+      // 回収半径（3m）より遠いので、近づく操作が必要。
+      expect(Math.hypot(d.x - p.x, d.z - p.z)).toBeGreaterThan(3);
+      for (const e of w.enemies)
+        expect(Math.hypot(e.x - d.x, e.z - d.z)).toBeGreaterThanOrEqual(2.5);
+    }
+    // 開けた場所では、向いている方向の正面に置く。
+    p.x = 0;
+    p.z = 16;
+    placeSampleDrop(w, 0);
+    expect(w.drops[0].x).toBeCloseTo(0);
+    expect(w.drops[0].z).toBeLessThan(p.z);
+  });
+  it("T10: the medkit works in training like solo (once, full heal) and regen stops at half", () => {
+    const { run, w } = runTo(10);
+    expect(run.step.arena).toBe("health");
+    const p = w.players[0];
+    const max = maxHp(w);
+    expect(p.hp).toBeCloseTo(max * HEALTH_DRILL_HP);
+    expect(w.tutorialKit).toEqual({ medkit: true });
+    // 時間がたつと半分まで自動回復（半分を超えない）。
+    for (let i = 0; i < 20 * 40; i++) stepTutorial(w, idle(), "health");
+    expect(p.hp).toBeCloseTo(max * 0.5);
+    // 救急箱ボタン（入力の revive）で全回復。1回だけ。
+    stepTutorial(w, { ...idle(), revive: true }, "health");
+    expect(p.hp).toBe(max);
+    expect(w.tutorialKit?.medkit).toBe(false);
+    p.hp = max * 0.3;
+    stepTutorial(w, { ...idle(), revive: true }, "health");
+    expect(p.hp).toBeLessThan(max * 0.5);
+    expect(useMedkit(w, w.tutorialKit)).toBe(false);
+    // 本編ソロ用の状態（w.solo）は作らない。
+    expect(w.solo).toBeUndefined();
+  });
+  it("T10: the medkit cannot be used at full health and is not spent", () => {
+    const w = createTutorialWorld();
+    stepTutorial(w, { ...idle(), revive: true }, "practice");
+    expect(w.tutorialKit?.medkit).toBe(true);
+    expect(w.players[0].hp).toBe(maxHp(w));
   });
   it("shows touch and PC instructions separately", () => {
     const { run } = runTo(3);
