@@ -6,6 +6,7 @@
  * 保証: 報酬・未確定戦利品・ドロップを外へ持ち出さない。保存データには触れない。
  */
 import { step, spawn, type Input } from "./game";
+import { initSolo, maxHp, useMedkit } from "./solo-progression";
 import { STARTERS, type Weapon } from "./defs";
 import { TARGETS, createTrainingWorld, resetTargets } from "./training";
 
@@ -22,7 +23,7 @@ const KILL_SPOTS = [
 ];
 
 export type TutorialWorld = ReturnType<typeof createTrainingWorld>;
-export type TutorialArena = "practice" | "kill" | "drop";
+export type TutorialArena = "practice" | "kill" | "drop" | "health";
 
 export function createTutorialWorld(weapons: Weapon[] = STARTERS.slice(0, 2)) {
   return createTrainingWorld(weapons);
@@ -44,20 +45,34 @@ export function placeKillTargets(w: TutorialWorld) {
 const clamp = (v: number, min: number, max: number) =>
   Math.max(min, Math.min(max, v));
 /** T9: 兵士の近く（訓練場の壁の内側）に見本の武器を1個だけ置く（持ち帰れない）。 */
-export function placeSampleDrop(w: TutorialWorld) {
+export function placeSampleDrop(w: TutorialWorld, yaw = 0) {
+  // 回収品を標的で隠さない。T9では固定標的の復元も行わない。
+  w.enemies = [];
+  w.projectiles = [];
   const p = w.players[0];
+  // 壁際でも正面に6mの余地を確保し、視線の先・回収半径の外に置く。
+  p.x = clamp(p.x, -15, 15);
+  p.z = clamp(p.z, -38, 14);
   const weapon: Weapon = { ...STARTERS[0], id: SAMPLE_DROP_ID };
   w.pending[TUTORIAL_PLAYER] = [];
   w.drops = [
     {
       type: "weapon",
       id: SAMPLE_DROP_ID,
-      x: clamp(p.x, -18, 18),
-      z: clamp(p.z - 6, -40, 18),
+      x: p.x + Math.sin(yaw) * 6,
+      z: p.z - Math.cos(yaw) * 6,
       owner: TUTORIAL_PLAYER,
       weapon,
     },
   ];
+}
+
+/** T10: 本編と同じソロの自然回復・救急箱を使う。報酬・進行は訓練のまま。 */
+export function prepareTutorialHealth(w: TutorialWorld) {
+  resetTargets(w);
+  initSolo(w, 1, "normal", false, { hp: 0, aim: 0, move: 0, swap: 0 });
+  w.players[0].hp = maxHp(w) / 4;
+  w.players[0].safe = 0;
 }
 
 /** 訓練の1tick。arena で標的とドロップの扱いだけを変える。 */
@@ -67,6 +82,7 @@ export function stepTutorial(
   arena: TutorialArena,
   dt = 0.05,
 ) {
+  if (arena === "health" && input.revive) useMedkit(w);
   step(w, { [TUTORIAL_PLAYER]: input }, dt);
   // 報酬は常に空。ドロップは見本の1個だけを残す（撃破で落ちた物は消す）。
   w.rewards = {};
@@ -75,7 +91,11 @@ export function stepTutorial(
   // 回収の数え上げは drop の間だけ。ほかの場面では未確定戦利品を持たない。
   if (arena !== "drop") w.pending[TUTORIAL_PLAYER] = [];
   // 練習用の固定標的は、撃たれても元に戻す（既存の訓練射撃場と同じ）。
-  if (arena !== "kill" && w.enemies.length !== TARGETS.length) resetTargets(w);
+  if (
+    (arena === "practice" || arena === "health") &&
+    w.enemies.length !== TARGETS.length
+  )
+    resetTargets(w);
 }
 
 /** 訓練を抜けるときに、戦利品が残っていないことを保証する。 */

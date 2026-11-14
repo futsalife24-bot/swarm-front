@@ -1,3 +1,4 @@
+import { mountControlVoiceVolume } from "./control-voice-volume";
 import {
   diagnosticBuild,
   networkDiagnosticsEnabled,
@@ -148,6 +149,11 @@ export class FrontSettings {
       };
       root.querySelector(".front-settings-grid")!.append(download);
     }
+    mountControlVoiceVolume(
+      root.querySelector("#front-setting-seVolume")!.closest("label")!,
+      this.sound,
+      status,
+    );
     if (allowDownloads) {
       const trace = document.createElement("button");
       trace.type = "button";

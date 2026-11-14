@@ -1,3 +1,4 @@
+import { loadControlVoiceVolume } from "./control-voice-volume";
 import { backgroundMusic } from "./bgm";
 import { CombatAudio } from "./combat-audio";
 import {
@@ -75,6 +76,8 @@ const clampVolume = (v: number) =>
 export class Sound {
   context: AudioContext | undefined;
   private master?: GainNode;
+  private controlMaster?: GainNode;
+  private controlLevel?: number;
   private level = 0.35;
   private musicLevel = 1;
   private effectsLevel = 1;
@@ -97,13 +100,13 @@ export class Sound {
   private announcer = new ControlAnnouncer();
   /** 基礎訓練の間は兵士の掛け声を止める（tutorial-proposal §8-1 の3）。 */
   soldierVoiceEnabled = true;
-  /** 管制AI音声。SE と同じ master を通るので音量は SE に追随する。 */
+  /** 管制AI音声。全体音量と専用の倍率を通り、SE音量から独立する。 */
   readonly controlVoice = new ControlVoiceQueue(
     {
       ready: (path) =>
-        !!this.master &&
+        !!this.controlMaster &&
         this.context?.state === "running" &&
-        this.effectsVolume > 0 &&
+        this.controlOutputVolume > 0 &&
         !document.hidden &&
         this.buffers.has(`control:${path}`),
       start: (path, onEnded) => this.startControl(path, onEnded),
@@ -123,7 +126,19 @@ export class Sound {
   get effectsVolume() {
     return this.level * this.effectsLevel;
   }
+  get controlVoiceVolume() {
+    return this.controlLevel ?? 1;
+  }
+  set controlVoiceVolume(value: number) {
+    this.controlLevel = clampVolume(value);
+    this.syncVolumes();
+  }
+  get controlOutputVolume() {
+    return this.level * this.controlVoiceVolume;
+  }
   setVolumes(volume: number, bgm = 1, se = 1) {
+    // 初回だけ旧SE倍率を既定にする。以後のSE変更には追随させない。
+    this.controlLevel ??= loadControlVoiceVolume(clampVolume(se));
     this.level = clampVolume(volume);
     this.musicLevel = clampVolume(bgm);
     this.effectsLevel = clampVolume(se);
@@ -137,7 +152,14 @@ export class Sound {
         this.context.currentTime,
         0.015,
       );
-    if (this.effectsVolume === 0) this.stop();
+    if (this.controlMaster && this.context)
+      this.controlMaster.gain.setTargetAtTime(
+        this.controlOutputVolume,
+        this.context.currentTime,
+        0.015,
+      );
+    if (this.effectsVolume === 0) this.stop(true);
+    if (this.controlOutputVolume === 0) this.controlVoice.stop();
   }
   constructor(
     /** 管制AIの声の取得元（設定でダウンロードしたパック）。テストで差し替える。 */
@@ -210,6 +232,8 @@ export class Sound {
         };
         this.master = this.context.createGain();
         this.master.gain.value = this.effectsVolume;
+        this.controlMaster = this.context.createGain();
+        this.controlMaster.gain.value = this.controlOutputVolume;
         const compressor = this.context.createDynamicsCompressor();
         compressor.threshold.value = -12;
         compressor.knee.value = 12;
@@ -219,6 +243,7 @@ export class Sound {
         // Leave headroom for short transients before the compressor reacts.
         const headroom = this.context.createGain();
         headroom.gain.value = 0.6;
+        this.controlMaster.connect(compressor);
         this.master
           .connect(compressor)
           .connect(headroom)
@@ -332,7 +357,8 @@ export class Sound {
   private startControl(path: string, onEnded: () => void) {
     const c = this.context,
       buffer = this.buffers.get(`control:${path}`);
-    if (!c || !buffer || !this.master) throw Error("control voice not ready");
+    if (!c || !buffer || !this.controlMaster)
+      throw Error("control voice not ready");
     // 発話は同時に1本: 管制AIが話し始めたら兵士の掛け声を止める。
     this.speech?.stop();
     this.speech = undefined;
@@ -340,7 +366,7 @@ export class Sound {
       gain = c.createGain();
     source.buffer = buffer;
     gain.gain.value = 0.95;
-    source.connect(gain).connect(this.master);
+    source.connect(gain).connect(this.controlMaster);
     this.controlSources.add(source);
     source.onended = () => {
       this.controlSources.delete(source);

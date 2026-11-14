@@ -1834,7 +1834,8 @@ function showHome(initialized: boolean) {
   bind("home-settings", settingsUI);
   bind("home-tutorial", () =>
     openTutorialGuide(dialog, {
-      training: () => startTraining(home),
+      training: () =>
+        startTraining(() => (initialized ? home() : showHome(false))),
       replayGuides: () => {
         resetGuides();
         forgetShownGuides();

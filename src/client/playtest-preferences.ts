@@ -1,3 +1,4 @@
+import { mountControlVoiceVolume } from "./control-voice-volume";
 import {
   defaultEnvironmentPreferences,
   loadEnvironmentPreferences,
@@ -64,6 +65,11 @@ export function createPlaytestPreferences(
       body.innerHTML = `<p class="settings-status" role="status"></p><div class="settings-content settings-columns"><section id="settings-preferences" aria-labelledby="preferences-heading"><h3 id="preferences-heading">環境設定</h3>${range("sensitivity", "視点感度")}${range("fireSensitivity", "射撃ボタンの視点感度")}<label class="setting-row"><span class="setting-name">ジャイロ</span><span class="setting-control"><button id="pt-gyro" role="switch" aria-checked="${value.gyroEnabled}">${value.gyroEnabled ? "オン" : "オフ"}</button></span></label>${range("gyroSensitivity", "ジャイロ感度")}${range("volume", "全体音量", 0, 1, 0.05)}${range("bgmVolume", "BGM音量", 0, 1, 0.05)}${range("seVolume", "SE音量", 0, 1, 0.05)}<label class="setting-row"><span class="setting-name">描画品質</span><span class="setting-control"><select data-preference="quality"><option value="1">標準</option><option value="0.65">軽量</option></select></span></label><label class="setting-row"><span class="setting-name">描画上限</span><span class="setting-control"><select data-preference="frameRate" aria-label="描画上限"><option value="60">60fps（なめらか）</option><option value="30">30fps（省電力）</option></select></span></label><label class="setting-row"><span class="setting-name">画面演出</span><span class="setting-control"><button id="pt-reduced-motion" role="switch" aria-label="動きを抑える" aria-checked="${getMenuReducedMotion()}">${getMenuReducedMotion() ? "動きを抑える：オン" : "動きを抑える：オフ"}</button></span></label><label class="setting-row"><span class="setting-name">ミニマップ</span><span class="setting-control"><select data-preference="mapRotates"><option value="false">北を上に固定</option><option value="true">視点に合わせて回す</option></select></span></label><label class="setting-row"><span class="setting-name">ダメージ表示</span><span class="setting-control"><select data-preference="damageNumbers"><option value="self">自分のみ</option><option value="all">味方も表示</option><option value="off">表示しない</option></select></span></label><button id="pt-layout">操作ボタンの配置</button></section><section id="settings-save" aria-labelledby="save-heading"><h3 id="save-heading">メニュー</h3></section></div>`;
       const status = d.querySelector<HTMLElement>(".settings-status")!;
       status.textContent = loadError || "変更はこの端末に自動保存されます。";
+      mountControlVoiceVolume(
+        d.querySelector('[data-preference="seVolume"]')!.closest("label")!,
+        sound,
+        status,
+      );
       const savePanel = d.querySelector("#settings-save")!;
       // Preserve the existing save export and development-only test entry handlers.
       for (const element of existing) {

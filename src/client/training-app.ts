@@ -20,6 +20,7 @@ import {
   clearTutorialLoot,
   placeKillTargets,
   placeSampleDrop,
+  prepareTutorialHealth,
   stepTutorial,
   type TutorialArena,
 } from "../shared/tutorial";
@@ -31,6 +32,7 @@ import {
   type TutorialDevice,
 } from "./tutorial-run";
 import { WEAPONS, stats, STARTERS, type Weapon } from "../shared/defs";
+import { maxHp, useMedkit } from "../shared/solo-progression";
 import { retireEvents } from "../shared/game";
 import { fresh, type Save } from "./save";
 import { updateCooldowns } from "./hud";
@@ -75,7 +77,8 @@ function apply(actions: TutorialAction[]) {
     else if (action.type === "arena") {
       arena = action.arena;
       if (arena === "kill") placeKillTargets(world);
-      else if (arena === "drop") placeSampleDrop(world);
+      else if (arena === "drop") placeSampleDrop(world, controls.input.yaw);
+      else if (arena === "health") prepareTutorialHealth(world);
       else resetTargets(world);
     }
   }
@@ -110,6 +113,15 @@ $("training-start").onclick = () => {
   // T0「訓練を始める」。音の再生もここで有効になる。
   if (run && !run.started) apply(run.begin());
 };
+// 蘇生の長押し入力と違い、救急箱は短いタップも1回の操作として受ける。
+const medkit = () => {
+  if (run?.step.id === "T10" && started && !paused && !document.hidden)
+    useMedkit(world);
+};
+$("revive").addEventListener("pointerdown", medkit);
+$("revive").addEventListener("click", (e) => {
+  if (e.detail === 0) medkit();
+});
 $("pause").onclick = () => {
   paused = true;
   controls.reset();
@@ -126,6 +138,7 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden && started) $("pause").click();
 });
 window.addEventListener("keydown", (e) => {
+  if (e.code === "KeyH") medkit();
   if (e.code === "Escape") $("pause").click();
 });
 window.addEventListener("resize", () => placeControls(layout));
@@ -197,7 +210,11 @@ function frame(now: number) {
   } else accumulator = 0;
   const p = world.players[0];
   if (run && started) {
-    $("training-stats").textContent = run.text(device);
+    $("training-stats").textContent =
+      run.text(device) +
+      (run.step.id === "T10"
+        ? `　HP ${Math.ceil(p.hp)} / ${maxHp(world)}`
+        : "");
     $("tutorial-count").textContent =
       run.number > 0 ? `${run.number} / ${run.total}` : "報酬なし · 失敗なし";
     $("tutorial-skip").hidden = !run.canSkip;
@@ -207,6 +224,17 @@ function frame(now: number) {
     $("training-stats").textContent =
       `${WEAPONS[p.weapons[p.slot].kind].name}　${p.ammo[p.slot]} / ${stats(p.weapons[p.slot]).mag}　${p.reload > 0 ? "装填中" : "固定標的に射撃"}`;
   updateCooldowns(world, "training", true);
+  if (run) {
+    const med = $("revive") as HTMLButtonElement;
+    med.hidden = run.step.id !== "T10";
+    med.disabled =
+      !active || !world.solo?.medkit || p.hp <= 0 || p.hp >= maxHp(world);
+    med.innerHTML = `<span>救急箱</span><small>${world.solo?.medkit ? "1 / H" : "使用済み"}</small>`;
+    med.setAttribute(
+      "aria-label",
+      world.solo?.medkit ? "救急箱で全快" : "救急箱 使用済み",
+    );
+  }
   sound.update(world, "training", controls.input.yaw, active);
   view.render(
     world,
