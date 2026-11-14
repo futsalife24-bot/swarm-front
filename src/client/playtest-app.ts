@@ -1769,7 +1769,7 @@ function showHome(initialized: boolean) {
   });
   if (canInstallApp()) bind("install", () => installApp());
   // 起動して最初のホームはタイトル名、以降は「出撃待機中」を案内する。
-  void sound.say(homeVoiced ? "home" : "title");
+  const homeVoice = homeVoiced ? "home" : "title";
   homeVoiced = true;
   const enter = (after: () => void) =>
     initialized
@@ -1880,6 +1880,15 @@ function showHome(initialized: boolean) {
     bind("pt-developer-exit", () => exitDeveloperMode());
   }
   mountTitleMotion(ui);
+  const entry = document.querySelector(".title-entry");
+  if (homeVoice === "title" && entry) {
+    // 入口の背後で字幕が消えたり、操作前の音声制限で台詞が落ちたりしないようにする。
+    entry.addEventListener(
+      "swarm-title-ready",
+      () => void sound.say(homeVoice),
+      { once: true },
+    );
+  } else void sound.say(homeVoice);
 }
 
 function gear() {

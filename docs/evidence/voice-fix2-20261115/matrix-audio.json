@@ -1,0 +1,115 @@
+{
+  "mode": "audio",
+  "errors": [],
+  "scenes": [
+    {
+      "scene": "coop-entry",
+      "caption": [
+        "管制AI｜装備を確認したら、出撃しましょう。"
+      ],
+      "log": [
+        {
+          "id": "gear-ready",
+          "text": "管制AI｜装備を確認したら、出撃しましょう。"
+        }
+      ],
+      "audio": []
+    },
+    {
+      "scene": "coop",
+      "caption": [
+        "管制AI｜隊員が合流しました。"
+      ],
+      "log": [
+        {
+          "id": "gear-ready",
+          "text": "管制AI｜装備を確認したら、出撃しましょう。"
+        },
+        {
+          "id": "tut-lobby",
+          "text": "管制AI｜協力ロビーです。装備を確認して、準備完了を押してください。全員の準備が整うと、部隊長が出撃を開始します。"
+        },
+        {
+          "id": "coop-connected",
+          "text": "管制AI｜協力ロビーに接続しました。"
+        },
+        {
+          "id": "coop-member-join",
+          "text": "管制AI｜隊員が合流しました。"
+        }
+      ],
+      "audio": [
+        {
+          "duration": 0.035020833333333334,
+          "time": 2764.800000011921
+        },
+        {
+          "duration": 9.84,
+          "time": 2862.600000023842
+        }
+      ]
+    },
+    {
+      "scene": "coop-battle",
+      "caption": [
+        "管制AI｜進撃作戦、開始。出撃してください。"
+      ],
+      "log": [
+        {
+          "id": "gear-ready",
+          "text": "管制AI｜装備を確認したら、出撃しましょう。"
+        },
+        {
+          "id": "tut-lobby",
+          "text": "管制AI｜協力ロビーです。装備を確認して、準備完了を押してください。全員の準備が整うと、部隊長が出撃を開始します。"
+        },
+        {
+          "id": "coop-connected",
+          "text": "管制AI｜協力ロビーに接続しました。"
+        },
+        {
+          "id": "coop-member-join",
+          "text": "管制AI｜隊員が合流しました。"
+        },
+        {
+          "id": "coop-all-ready",
+          "text": "管制AI｜全員の準備が整いました。"
+        },
+        {
+          "id": "coop-begin",
+          "text": "管制AI｜全員で出撃します。"
+        },
+        {
+          "id": "loading",
+          "text": "管制AI｜戦場を準備中です。"
+        },
+        {
+          "id": "adv-sortie",
+          "text": "管制AI｜進撃作戦、開始。出撃してください。"
+        }
+      ],
+      "audio": [
+        {
+          "duration": 0.035020833333333334,
+          "time": 2764.800000011921
+        },
+        {
+          "duration": 9.84,
+          "time": 2862.600000023842
+        },
+        {
+          "duration": 2.24,
+          "time": 26095.5
+        },
+        {
+          "duration": 0.075,
+          "time": 26664.30000001192
+        },
+        {
+          "duration": 3.68,
+          "time": 29752.30000001192
+        }
+      ]
+    }
+  ]
+}

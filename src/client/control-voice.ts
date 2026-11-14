@@ -198,6 +198,7 @@ interface Pending {
 
 export class ControlVoiceQueue {
   voice: ControlVoiceId;
+  enabled = true;
   mode: ControlVoiceMode = "solo";
   private playing?: { line: ControlVoiceLine; stop: () => void };
   private pending?: Pending;
@@ -207,15 +208,20 @@ export class ControlVoiceQueue {
     private readonly backend: ControlVoiceBackend,
     options: {
       voice?: ControlVoiceId;
+      enabled?: boolean;
+      caption?: (line: ControlVoiceLine, audible: boolean) => void;
       now?: () => number;
       /** 台詞定義の参照先（既定は定義表）。 */
       lines?: (id: string) => ControlVoiceLine | undefined;
     } = {},
   ) {
+    this.enabled = options.enabled ?? true;
+    this.caption = options.caption;
     this.voice = options.voice ?? DEFAULT_CONTROL_VOICE;
     this.now = options.now ?? (() => performance.now());
     this.lookup = options.lines ?? controlVoiceLine;
   }
+  private readonly caption?: (line: ControlVoiceLine, audible: boolean) => void;
   get current() {
     return this.playing?.line.id;
   }
@@ -226,7 +232,7 @@ export class ControlVoiceQueue {
     return controlVoicePath(line, this.voice);
   }
   /** 台詞IDで再生を要求する。結果は字幕だけにするかの判断に使える。 */
-  request(id: string): ControlVoiceResult {
+  request(id: string, allowAudio = true): ControlVoiceResult {
     const line = this.lookup(id);
     if (!line) return "unknown";
     if (line.blocked) return "disabled";
@@ -234,7 +240,10 @@ export class ControlVoiceQueue {
     if (!lineMatchesMode(line, this.mode)) return "filtered";
     if (this.playing?.line.id === id || this.pending?.line.id === id)
       return "duplicate";
-    if (!this.backend.ready(this.path(line))) return "unavailable";
+    if (!allowAudio || !this.enabled || !this.backend.ready(this.path(line))) {
+      this.caption?.(line, false);
+      return "unavailable";
+    }
     this.expire();
     const current = this.playing?.line;
     if (!current) return this.begin(line);
@@ -250,6 +259,7 @@ export class ControlVoiceQueue {
       this.pending = { line, until: this.now() + GUIDE_WAIT_MS };
       return "queued";
     }
+    this.caption?.(line, false);
     return "dropped";
   }
   /** 待ち時間切れの初回ガイドを捨てる。毎フレーム呼んでもよい。 */
@@ -263,8 +273,10 @@ export class ControlVoiceQueue {
     this.halt();
   }
   private expire() {
-    if (this.pending && this.now() > this.pending.until)
+    if (this.pending && this.now() > this.pending.until) {
+      this.caption?.(this.pending.line, false);
       this.pending = undefined;
+    }
   }
   private halt() {
     const playing = this.playing;
@@ -283,8 +295,10 @@ export class ControlVoiceQueue {
       });
     } catch {
       if (this.playing === entry) this.playing = undefined;
+      this.caption?.(line, false);
       return "unavailable";
     }
+    this.caption?.(line, this.playing === entry);
     return this.playing === entry ? "playing" : "dropped";
   }
   private next() {
@@ -293,7 +307,10 @@ export class ControlVoiceQueue {
     this.pending = undefined;
     if (!pending) return;
     if (!lineMatchesMode(pending.line, this.mode)) return;
-    if (!this.backend.ready(this.path(pending.line))) return;
+    if (!this.enabled || !this.backend.ready(this.path(pending.line))) {
+      this.caption?.(pending.line, false);
+      return;
+    }
     this.begin(pending.line);
   }
 }

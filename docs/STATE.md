@@ -1,3 +1,7 @@
+# 管制AIボイス設定・字幕の第2弾を実装・公開準備（2026-11-15）
+
+最新main `8fd172f0` から新規 `codex/voice-fix2-20261115` / `../swarm-voice-fix2-20261115` を作成。選択行の強調、削除撤去、ボイスなし、保存済みの試聴、字幕3状態と共通描画、タイトルの発話タイミングを修正。ヨウコは選択/試聴不可のまま。ガチャ/支給ボックス/既存セーブ/第1弾/除外台詞/2層構成/G18は不変。全181/1861、型・format・build・dry-run成功、最終CSS後の全件追認も成功。実Chromeで音声あり/未DL/ボイスなしの全シーン代表イベント、実ローカルWorkerの1人協力戦も確認した。詳細・スクショ・仮称/導線等の要確認は [impl-status](impl-status-20261114.md#第2弾管制aiボイス設定と全シーン字幕2026-11-15)。次は通常PR merge、既存Worker公開と配信/UI確認、公開記録と指定outboxの更新。元rootと他worktreeは保持。
+
 # 基礎訓練の回収・救急箱と管制AI独立音量を公開（2026-11-15）
 
 新規 `codex/tutorial-fix-fresh-20261115` / `../swarm-tutorial-fix-fresh-20261115` で実装し、[PR #337](https://github.com/futsalife24-bot/swarm-front/pull/337) を通常merge。公開ソースmain `433f13c5`、既存Worker Version `b5c4892c-d72f-418c-8e7b-e673ecc49de1`。T9の標的復元による見本消去を修正し、T10を本編の救急箱・自然回復へ接続、進行開始前の訓練終了時のタイトル復帰も修正。設定にSEと独立した管制AI音量を追加。型・180ファイル1849テスト・format・build・Worker dry-run成功。公開30ファイル一致/health正常、実Chromeで回収・救急箱・修了/復帰、横2サイズの音量保存/再読込、音声パックDL/保持/削除が成功、画面例外0。原因・新保存キー・証拠・実機等の未確認は [impl-status](impl-status-20261114.md)。

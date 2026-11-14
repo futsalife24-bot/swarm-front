@@ -1,3 +1,4 @@
+import { openControlVoiceMenu } from "./control-voice-menu";
 import { mountControlVoiceVolume } from "./control-voice-volume";
 import {
   diagnosticBuild,
@@ -149,6 +150,11 @@ export class FrontSettings {
       };
       root.querySelector(".front-settings-grid")!.append(download);
     }
+    const captions = document.createElement("button");
+    captions.type = "button";
+    captions.textContent = "管制AIボイス・字幕";
+    captions.onclick = () => openControlVoiceMenu(undefined, this.sound);
+    root.querySelector(".front-settings-grid")!.append(captions);
     mountControlVoiceVolume(
       root.querySelector("#front-setting-seVolume")!.closest("label")!,
       this.sound,
