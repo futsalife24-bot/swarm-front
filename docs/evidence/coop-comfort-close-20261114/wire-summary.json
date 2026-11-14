@@ -1,0 +1,210 @@
+{
+  "source": "eb65297747dca36dfc42c994114a7e285913b21d",
+  "trials": [
+    {
+      "version": "object",
+      "projectiles": 100,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 100
+      },
+      "maxFrame": 61376,
+      "minimumMargin": 4160,
+      "allComplete": true,
+      "notices": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "closes": [
+        [],
+        [],
+        [],
+        []
+      ],
+      "errors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "reconnect": null
+    },
+    {
+      "version": "object",
+      "projectiles": 400,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 400
+      },
+      "maxFrame": 137,
+      "minimumMargin": 65399,
+      "allComplete": true,
+      "notices": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "closes": [
+        [
+          4000
+        ],
+        [
+          4000
+        ],
+        [
+          4000
+        ],
+        [
+          4000
+        ]
+      ],
+      "errors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "reconnect": {
+        "samePlayer": true,
+        "enemies": 97,
+        "projectiles": 400,
+        "errors": []
+      }
+    },
+    {
+      "version": "v1",
+      "projectiles": 100,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 100
+      },
+      "maxFrame": 60465,
+      "minimumMargin": 5071,
+      "allComplete": true,
+      "notices": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "closes": [
+        [],
+        [],
+        [],
+        []
+      ],
+      "errors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "reconnect": null
+    },
+    {
+      "version": "v1",
+      "projectiles": 400,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 400
+      },
+      "maxFrame": 61423,
+      "minimumMargin": 4113,
+      "allComplete": true,
+      "notices": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "closes": [
+        [],
+        [],
+        [],
+        []
+      ],
+      "errors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "reconnect": null
+    },
+    {
+      "version": "modern",
+      "projectiles": 100,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 100
+      },
+      "maxFrame": 57687,
+      "minimumMargin": 7849,
+      "allComplete": true,
+      "notices": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "closes": [
+        [],
+        [],
+        [],
+        []
+      ],
+      "errors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "reconnect": null
+    },
+    {
+      "version": "modern",
+      "projectiles": 400,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 400
+      },
+      "maxFrame": 60232,
+      "minimumMargin": 5304,
+      "allComplete": true,
+      "notices": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "closes": [
+        [],
+        [],
+        [],
+        []
+      ],
+      "errors": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "reconnect": null
+    }
+  ]
+}
