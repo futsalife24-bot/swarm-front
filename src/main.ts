@@ -55,6 +55,14 @@ import { homeMarkup } from "./client/home-screen";
 import { navigateMenu } from "./client/menu-route";
 import { mountScreenTransitions } from "./client/screen-transition";
 import { showOperationCue, cancelOperationCue } from "./client/operation-cue";
+import { ensureTutorialFlags } from "./client/tutorial-flags";
+import {
+  BuddyGuideWatch,
+  CoopGuideWatch,
+  GuideCaption,
+  completeFirstGuide,
+  showFirstGuide,
+} from "./client/first-guides";
 import { openDeveloperLogin } from "./client/developer-access";
 import { STAGES, MAPS, mapFor, stageFor } from "./shared/stages";
 import { recordCoopEncounters } from "./client/progression-coop";
@@ -515,6 +523,12 @@ let releaseResultWeaponActions = () => {};
 /** ロビーの人数・準備完了の前回値（声の合図の変化検出用）。 */
 let lobbyVoice: { present: number; canStart: boolean } | undefined;
 let disconnectVoiced = false;
+/** 協力の初回ガイド（G2・G3・G16・G17）。1行の案内は HUD・ロビーの状態欄に出す。 */
+const battleCaption = new GuideCaption(),
+  lobbyCaption = new GuideCaption(),
+  buddyWatch = new BuddyGuideWatch(),
+  coopWatch = new CoopGuideWatch();
+const showBattleCaption = (text: string) => battleCaption.show(text);
 function setScreen(name: string) {
   releaseResultWeaponActions();
   activeBuddyMenu?.destroy();
@@ -526,6 +540,9 @@ function setScreen(name: string) {
     if (name === "battle") {
       showOperationCue("adv-sortie", { key: `${world?.run}:sortie` });
       sound.announce("adv-sortie", `${world?.run}:sortie`);
+      // G2（協力）: 最初の戦闘開始。
+      if (mode === "coop")
+        showFirstGuide("battle-multi", sound, showBattleCaption);
     } else if (name === "stage-clear") {
       showOperationCue("adv-complete", { key: `${world?.run}:complete` });
       sound.announce("adv-complete", `${world?.run}:complete`);
@@ -534,6 +551,7 @@ function setScreen(name: string) {
       sound.announce("adv-failed", `${world.run}:failed`);
     } else if (name === "gear") void sound.say("gear-ready");
     if (name !== "lobby") lobbyVoice = undefined;
+    if (name !== "battle") battleCaption.clear();
   }
   backgroundMusic().setScreen(name, world?.phase === "victory", world);
   queueMicrotask(() =>
@@ -1249,6 +1267,11 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
         controls.input.yaw,
         w.phase === "battle" && screen === "battle" && !paused,
       );
+      if (mode === "coop") {
+        const inBattle = screen === "battle" && !paused;
+        buddyWatch.update(w, myId, inBattle, sound, showBattleCaption);
+        coopWatch.update(w, myId, inBattle, sound, showBattleCaption);
+      }
       if (w.phase === "battle") {
         if (
           screen !== "battle" &&
@@ -1347,7 +1370,12 @@ function lobby() {
     if (canStart && !lobbyVoice.canStart) sound.announce("coop-all-ready");
   }
   if (online) lobbyVoice = { present: present.length, canStart };
-  ui.innerHTML = `<section class="panel lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1></div><div class="lobby-share"><button id="share">招待リンクを共有</button><span id="invite-feedback" role="status"></span></div><span>${present.length} / 4 人</span><button id="leave-lobby">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃ステージ"><div class="eyebrow">OPERATION ${String(stage.id).padStart(2, "0")}</div><h2>${esc(MAPS[stage.map].name)}</h2><strong>${esc(stage.name)}</strong><label>ホストが選択<select id="lobby-stage" ${!online || !isHost ? "disabled" : ""}>${stageOptions()}</select></label><div class="mission-facts"><span>${stage.waves.length} WAVES</span><span>道中ドロップ ${Math.round(stage.dropRate * 100)}%</span></div><p>${esc(stage.brief)}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : isHost ? "隊員の準備完了を待っています" : "ホストの出撃を待っています"}</p><button id="back">出撃準備・装備変更</button><button class="primary" id="begin" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
+  // G16: 協力ロビーに初めて入った。自分の準備完了で既読。
+  showFirstGuide("lobby", sound, (text) => lobbyCaption.show(text, 15));
+  if (members.find((m) => m.id === network?.id)?.ready)
+    completeFirstGuide("lobby");
+  const guideText = lobbyCaption.current;
+  ui.innerHTML = `<section class="panel lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1></div><div class="lobby-share"><button id="share">招待リンクを共有</button><span id="invite-feedback" role="status"></span></div><span>${present.length} / 4 人</span><button id="leave-lobby">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃ステージ"><div class="eyebrow">OPERATION ${String(stage.id).padStart(2, "0")}</div><h2>${esc(MAPS[stage.map].name)}</h2><strong>${esc(stage.name)}</strong><label>ホストが選択<select id="lobby-stage" ${!online || !isHost ? "disabled" : ""}>${stageOptions()}</select></label><div class="mission-facts"><span>${stage.waves.length} WAVES</span><span>道中ドロップ ${Math.round(stage.dropRate * 100)}%</span></div><p>${esc(stage.brief)}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : isHost ? "隊員の準備完了を待っています" : "ホストの出撃を待っています"}${guideText ? `<small>${esc(guideText)}</small>` : ""}</p><button id="back">出撃準備・装備変更</button><button class="primary" id="begin" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
     { length: 4 },
     (_, i) => {
       const m = members[i];
@@ -2025,10 +2053,13 @@ function updateFrame(now: number) {
       hudAt = now;
       const p = world.players.find((p) => p.id === myId);
       if (p) {
+        const caption = battleCaption.current;
         hud.innerHTML = hudMarkup(
           world,
           myId,
-          status + (showFps ? ` · ${Math.round(view.fps)}FPS` : ""),
+          status +
+            (caption ? ` · ${caption}` : "") +
+            (showFps ? ` · ${Math.round(view.fps)}FPS` : ""),
         );
         updateCooldowns(world, myId);
       }
@@ -2134,6 +2165,12 @@ if ("serviceWorker" in navigator)
   void navigator.serviceWorker
     .register(`${import.meta.env.BASE_URL}sw.js`)
     .catch(() => {});
+try {
+  // 既存のプレイヤーには初回ガイドを自動で出さない（判断点5）。
+  ensureTutorialFlags(!!loadProgress("normal"));
+} catch {
+  /* 保存を読めない端末でも、案内は起動中だけの記録で動く。 */
+}
 if (
   inviteCode() ||
   loadNetworkSession() ||

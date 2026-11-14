@@ -69,6 +69,8 @@ import { mountTitleMotion } from "./title-motion";
 import { openOperationPicker } from "./operation-picker";
 import { navigateMenu } from "./menu-route";
 import { showOperationCue, cancelOperationCue } from "./operation-cue";
+import { ensureTutorialFlags } from "./tutorial-flags";
+import { completeFirstGuide, showFirstGuide } from "./first-guides";
 import { operationCueForResult } from "./operation-cue-assets";
 import { frontResultTitle } from "./front-result-title";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
@@ -268,6 +270,9 @@ function notice(text: string, seconds = 3) {
   $("rebuild-notice").hidden = false;
   noticeUntil = performance.now() + seconds * 1000;
 }
+/** 生存側の初回ガイド（G2・G11〜G14・G16）。1行の案内は既存の通知欄に出す（止めない）。 */
+const guide = (key: Parameters<typeof showFirstGuide>[0]) =>
+  showFirstGuide(key, sound, (text) => notice(text, 6));
 function home() {
   cancelOperationCue();
   document.body.classList.remove("playtest");
@@ -517,6 +522,8 @@ function weaponPrep(coop: boolean) {
       prep();
     };
   }
+  // G11: 生存戦の出撃準備を初めて開いた。
+  if (mode === "survival") guide("survival");
   menuTerrain(
     $("ui").querySelector(".mission-select"),
     ["survival", "defense", "daily"].indexOf(mode),
@@ -989,6 +996,10 @@ function paintLobby() {
             : "ホストの出撃を待っています";
   document.body.classList.remove("playtest");
   document.body.dataset.screen = "lobby";
+  // G16: 協力ロビーに初めて入った。自分の準備完了で既読。
+  guide("lobby");
+  if (!net.preparing && members.find((m) => m.id === net.id)?.ready)
+    completeFirstGuide("lobby");
   $("ui").innerHTML =
     `<section class="panel lobby front-lobby front-unified-lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1><div class="lobby-room"><small class="lobby-room-name">${esc(net.roomName)}</small><span class="lobby-room-id">部屋ID <code id="front-room-password">${esc(net.roomId || "接続中")}</code><button id="front-copy-password" aria-label="部屋IDをコピー" title="部屋IDをコピー" ${net.roomId ? "" : "disabled"}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button></span></div></div><div class="lobby-share"><button id="front-copy" ${net.roomId ? "" : "disabled"}>招待リンクを共有</button></div><span>${present.length} / 4 人</span><button id="front-leave">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃情報"><div class="eyebrow">SURVIVAL</div><h2>${esc(modeNames[net.mode])}</h2><p>${net.mode === "survival" ? "出撃から60分で帰還・保存猶予2分。" : "協力して作戦に挑みます。"}</p><p class="front-room-access fine">${esc(access.detail)}${net.roomListed === true ? " 直接招待する場合は部屋IDまたはリンクを共有できます。" : ""}</p><div class="lobby-actions"><p class="status" role="status">${esc(lobbyStatus)}</p><button id="front-edit-loadout" ${online ? "" : "disabled"}>${net.mode === "survival" ? "カードデッキ編成" : "出撃準備・装備変更"}</button><button class="primary" id="front-start" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
       { length: 4 },
@@ -1152,6 +1163,7 @@ function request(offer: NonNullable<FrontRunView["offer"]>) {
   };
 }
 function choose(cardId: FrontUpgradeId) {
+  completeFirstGuide("card");
   if (
     !info?.offer ||
     frontLevelUpActive(info, now()) ||
@@ -1313,6 +1325,13 @@ function paintOverlay() {
     ui.innerHTML = frontLevelUpMarkup();
     sound.announce("levelup", `${world.run}:levelup:${info.picks}`);
   } else if (info.phase === "selection" && offer) {
+    // G12: 初めてのカード3択。G13: 融合が初めて候補に出た。
+    if (
+      !guide("card") &&
+      info.growthVersion === 3 &&
+      offer.cardIds.some((card) => isFrontFusion(card))
+    )
+      guide("fusion");
     ui.innerHTML = `<section class="pause-card rebuild-panel rebuild-selection"><header><button id="front-choice-owned" aria-haspopup="dialog">現在の強化 ${info.growthVersion === 3 ? `${Object.values(info.levels).filter((n) => n > 0).length}/6枠` : `${info.picks}/${info.maxPicks}`}</button><h1 class="front-choice-title">強化を選べ</h1><div class="rebuild-selection-actions">${info.selectionDeadline !== null ? '<span id="front-countdown"></span>' : ""}${offer.kind === "additional" ? `<button id="rebuild-reroll" ${info.canReroll ? "" : "disabled"}>再抽選 残り${info.rerollsRemaining}</button>` : ""}</div></header><div class="rebuild-cards">${offer.cardIds
       .map((card) =>
         frontUpgradeCardMarkup(info!, card, import.meta.env.BASE_URL),
@@ -1392,6 +1411,9 @@ function paintOverlay() {
             : "adv-sortie",
         `${world.run}:sortie`,
       );
+      // G2（協力の最初の戦闘）と G14（防衛戦の最初の出撃）。
+      if (network) guide("battle-multi");
+      else if (mode === "defense") guide("defense");
     }
   }
 }
@@ -1745,7 +1767,8 @@ installLandscapeGuard(() => {
 startWithSaveWriter(async () => {
   installCloudSync();
   try {
-    loadProgress("normal", localStorage);
+    // 既存のプレイヤーには初回ガイドを自動で出さない（判断点5）。
+    ensureTutorialFlags(!!loadProgress("normal", localStorage));
   } catch {
     campaignBootError =
       "攻略の保存を読み込めません。元データは保持しています。";

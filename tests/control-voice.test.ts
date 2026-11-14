@@ -103,6 +103,13 @@ describe("control voice line table", () => {
     expect(controlVoiceLine("tut-enemy-info")?.blocked).toBe("unimplemented");
     expect(controlVoiceIdsForScene("battle")).not.toContain("anomaly-harrow");
   });
+  it("loads only the training lines for the basic training", () => {
+    const ids = controlVoiceIdsForScene("training");
+    expect(ids).toContain("tut-intro");
+    expect(ids).toContain("tut-skip");
+    expect(ids).not.toContain("tut-offer");
+    expect(ids).toHaveLength(19);
+  });
   it("ships an audio file for every playable line in each recorded voice", () => {
     const root = path.resolve("public");
     for (const line of CONTROL_VOICE_LINES) {

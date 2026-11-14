@@ -13,7 +13,7 @@ const sections = [
       ],
       [
         "基地",
-        "武器の比較・整理、アクセサリの作成・装備・合成、兵士の育成を行います。工房は工事中です。",
+        "武器の比較・整理、アクセサリの作成・装備・合成、兵士の育成、バディの編成、補給ポッド、生存カードの確認を行います。工房は工事中です。",
       ],
       [
         "エネミーレポート",
@@ -47,7 +47,7 @@ const sections = [
     entries: [
       [
         "1. 出撃を準備",
-        "タイトルの「ソロで出撃準備」から、ステージと装備を選びます。操作が気になるときは「設定・操作」を確認しましょう。",
+        "タイトルの「ソロ：進撃 または 生存」から作戦を選び、ステージと装備を選びます。操作が気になるときは「設定・操作」を確認しましょう。",
       ],
       [
         "2. 戦場に挑戦",
@@ -59,26 +59,48 @@ const sections = [
       ],
       [
         "4. 基地で準備を整える",
-        "武器の整理や育成をして、次のステージや難易度へ挑戦します。仲間と遊ぶときはタイトルの「協力プレイ」へ進みましょう。",
+        "武器の整理や育成をして、次のステージや難易度へ挑戦します。仲間と遊ぶときはタイトルの「協力：進撃 または 生存」へ進みましょう。",
       ],
     ],
   },
 ];
 
+export interface TutorialGuideActions {
+  /** 「基礎訓練を始める」（何度でも。修了は解放・報酬に影響しない）。 */
+  training: () => void;
+  /** 「初回ガイドをもう一度表示」。 */
+  replayGuides: () => void;
+}
+
 /** Read-only title guide; opening it never initializes or changes progression. */
 export function openTutorialGuide(
   openDialog: (title: string, content: string) => HTMLDialogElement,
+  actions?: TutorialGuideActions,
 ) {
   const d = openDialog(
     "チュートリアル",
-    sections
-      .map(
-        (section, i) =>
-          `<section id="tutorial-panel-${i}" role="tabpanel" aria-labelledby="tutorial-tab-${i}" tabindex="0" ${i ? "hidden" : ""}><div class="tutorial-entries">${section.entries.map(([title, body]) => `<section><h3>${title}</h3><p>${body}</p></section>`).join("")}</div></section>`,
-      )
-      .join(""),
+    (actions
+      ? '<div class="tutorial-actions"><button type="button" class="primary" id="tutorial-training">基礎訓練を始める</button><button type="button" id="tutorial-replay">初回ガイドをもう一度表示</button><small id="tutorial-replay-status" role="status"></small></div>'
+      : "") +
+      sections
+        .map(
+          (section, i) =>
+            `<section id="tutorial-panel-${i}" role="tabpanel" aria-labelledby="tutorial-tab-${i}" tabindex="0" ${i ? "hidden" : ""}><div class="tutorial-entries">${section.entries.map(([title, body]) => `<section><h3>${title}</h3><p>${body}</p></section>`).join("")}</div></section>`,
+        )
+        .join(""),
   );
   d.classList.add("tutorial-guide");
+  if (actions) {
+    d.querySelector<HTMLButtonElement>("#tutorial-training")!.onclick = () => {
+      d.close();
+      actions.training();
+    };
+    d.querySelector<HTMLButtonElement>("#tutorial-replay")!.onclick = () => {
+      actions.replayGuides();
+      d.querySelector("#tutorial-replay-status")!.textContent =
+        "各画面を初めて開いたときの案内を、もう一度表示します。";
+    };
+  }
   const body = d.querySelector<HTMLElement>(".menu-dialog-body")!;
   const tabs = document.createElement("div");
   tabs.className = "tutorial-tabs";

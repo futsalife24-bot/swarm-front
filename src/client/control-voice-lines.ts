@@ -1176,7 +1176,10 @@ const BRIEF = rows(
 );
 
 export const TUTORIAL_VOICE_LINES: readonly ControlVoiceLine[] = [
-  ...TRAINING,
+  // 誘い（tut-offer）はホームで1本だけ取得するため、訓練の一括読み込みには含めない。
+  ...TRAINING.map((line) =>
+    line.id === "tut-offer" ? { ...line, scene: "guide" as const } : line,
+  ),
   ...GUIDE,
 ];
 /** 管制AIセットの147行（voice-proposal の管制AI・女性の全行）。 */

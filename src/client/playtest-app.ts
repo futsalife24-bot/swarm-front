@@ -58,6 +58,20 @@ import { showOperationCue, cancelOperationCue } from "./operation-cue";
 import { mountTitleMotion, trackTitleAction } from "./title-motion";
 import { openTutorialGuide } from "./tutorial-guide";
 import { watchSupplyVoice } from "./supply-voice";
+import { openBasicTraining } from "./tutorial-launch";
+import {
+  ensureTutorialFlags,
+  hasSeen,
+  markSeen,
+  resetGuides,
+} from "./tutorial-flags";
+import {
+  BuddyGuideWatch,
+  GuideCaption,
+  completeFirstGuide,
+  forgetShownGuides,
+  showFirstGuide,
+} from "./first-guides";
 import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
 import { hudMarkup, updateCooldowns } from "./hud";
@@ -335,6 +349,69 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
     });
   }
 }
+/** 戦闘中の初回ガイドの1行（HUD の状態欄に一定時間だけ出す。戦闘は止めない）。 */
+const battleCaption = new GuideCaption();
+/** 画面の初回ガイド（G1・G5・G6・G9・G10）。1行の案内は既存の状態欄に出す。 */
+function guide(key: Parameters<typeof showFirstGuide>[0]) {
+  if (developerMode || sampleMenus) return false;
+  return showFirstGuide(key, sound, (text) => {
+    const node = ui.querySelector(".pt-status");
+    if (node && !notice) node.textContent = text;
+  });
+}
+const buddyWatch = new BuddyGuideWatch();
+/** G3: バディを連れた最初の戦闘の開始10秒後。固有スキルの初発動か戦闘終了で既読。 */
+function buddyGuide(w: World) {
+  if (developerMode) return;
+  buddyWatch.update(w, "solo", screen === "battle", sound, (text) =>
+    battleCaption.show(text),
+  );
+}
+/** 基礎訓練を開く（タイトル・初回の誘いから）。訓練は報酬なし・保存なし。 */
+function startTraining(after: () => void) {
+  sound.controlVoice.stop();
+  let weapons: unknown;
+  try {
+    weapons = soldier(save).equipped.map((id) =>
+      save.inventory.find((w) => w.id === id)!,
+    );
+  } catch {
+    weapons = undefined;
+  }
+  openBasicTraining({
+    layout,
+    config: () => ({
+      preferences: preferences.snapshot(),
+      weapons,
+      solo: true,
+    }),
+    onExit: () => after(),
+  });
+}
+/** 新しい進行で初めて「ソロ → 進撃」に入るときの誘い（1回だけ・断れる）。 */
+function offerTraining(next: () => void) {
+  if (developerMode || hasSeen("offer")) {
+    next();
+    return;
+  }
+  markSeen("offer");
+  const d = dialog(
+    "基礎訓練",
+    '<p>操作をひととおり確認できます（約3分・報酬なし）。あとからタイトルの「チュートリアル」で受けることもできます。</p><button id="pt-offer-training" class="primary">基礎訓練を受ける</button><button id="pt-offer-later">あとで</button>',
+  );
+  void sound.say("tut-offer");
+  let chosen = false;
+  d.querySelector<HTMLButtonElement>("#pt-offer-training")!.onclick = () => {
+    chosen = true;
+    d.close();
+    startTraining(next);
+  };
+  d.querySelector<HTMLButtonElement>("#pt-offer-later")!.onclick = () =>
+    d.close();
+  d.addEventListener("close", () => {
+    if (!chosen) next();
+  });
+}
 function tutorial(id: string, title: string, body: string) {
   if (developerMode || save.tutorials.includes(id)) return;
   const n = structuredClone(save);
@@ -344,6 +421,8 @@ function tutorial(id: string, title: string, body: string) {
       title,
       `<p>${esc(body)}</p><button id="pt-tutorial-skip">スキップして続ける</button>`,
     );
+    // G2（ソロ）: 既存の「戦闘の基本」に管制AIの声を重ねる。
+    if (id === "combat") void sound.say("tutorial-combat");
     d.querySelector<HTMLButtonElement>("#pt-tutorial-skip")!.onclick = () =>
       d.close();
   });
@@ -707,6 +786,7 @@ function result() {
   bind("pt-result-retry", gear);
   // 敗北は作戦キュー adv-failed の声が先に鳴るため、勝利の時だけ案内する。
   if (r.win) sound.announce("result-win", `${r.run}:result`);
+  if (r.win) guide("result");
 }
 function report() {
   modalCount++;
@@ -1141,6 +1221,7 @@ function frame(now: number) {
         p.swapCd > 0 ? "切替中" : "",
         s.branchReached ? "クリアで分岐解放" : "",
         warn <= 10 ? `増援まで ${Math.ceil(warn)}秒` : "",
+        battleCaption.current,
       ]
         .filter(Boolean)
         .join(" · "),
@@ -1153,6 +1234,7 @@ function frame(now: number) {
     );
     if (screen === "battle" && !world.defense && warn > 0 && warn <= 10)
       sound.announce("wave-incoming", `${world.run}:incoming:${world.wave}`);
+    buddyGuide(world);
     updateCooldowns(world, "solo", true);
     const med = $("revive") as HTMLButtonElement;
     med.disabled = !s.medkit || p.hp <= 0 || p.hp >= maxHp(world);
@@ -1485,6 +1567,9 @@ function setScreen(next: string) {
   });
   if (document.pointerLockElement) document.exitPointerLock();
   if (next !== "gear") gearOrganizing = false;
+  if (next !== "battle") battleCaption.clear();
+  if (screen === "buddy" && save?.buddies?.starterChosen)
+    completeFirstGuide("buddy-menu");
   if (next !== "armory") armoryKind = null;
   screen = next;
   document.body.dataset.screen =
@@ -1571,6 +1656,8 @@ function loadMode(next: SaveMode) {
       forgetPendingResult();
       notice = "未保存だった戦果を復元しました。";
     }
+    // 既存のプレイヤーには訓練の誘いと初回ガイドを自動で出さない（判断点5）。
+    if (mode === "normal") ensureTutorialFlags(!!found);
     if (!found) {
       onboard();
       return;
@@ -1666,7 +1753,7 @@ function showHome(initialized: boolean) {
   bind("solo", () => {
     void sound.say("pick-operation");
     openOperationPicker("solo", {
-      advance: () => enter(gear),
+      advance: () => enter(() => offerTraining(gear)),
       survival: () => {
         navigateMenu(import.meta.env.BASE_URL + "front?solo=1");
       },
@@ -1699,7 +1786,15 @@ function showHome(initialized: boolean) {
     });
   bind("open-bestiary", () => enter(report));
   bind("home-settings", settingsUI);
-  bind("home-tutorial", () => openTutorialGuide(dialog));
+  bind("home-tutorial", () =>
+    openTutorialGuide(dialog, {
+      training: () => startTraining(home),
+      replayGuides: () => {
+        resetGuides();
+        forgetShownGuides();
+      },
+    }),
+  );
   bind("coop", () => {
     void sound.say("pick-operation");
     openOperationPicker("coop", {
@@ -1777,6 +1872,7 @@ function gear() {
     gear();
   };
   bind("pt-start", () => void launch());
+  guide("gear");
   if (sampleMenus) {
     ($("pt-start") as HTMLButtonElement).disabled = true;
     $("pt-start").textContent = "サンプル表示中";
@@ -2087,6 +2183,7 @@ function base() {
   bind("pt-base-survival", () =>
     navigateMenu(import.meta.env.BASE_URL + "front?cards=1"),
   );
+  guide("base");
 }
 function supply() {
   if (!developerMode && mode !== "normal") return;
@@ -2097,6 +2194,7 @@ function supply() {
   );
   void sound.prepareControlScene("supply");
   releaseSupplyVoice = watchSupplyVoice((id) => sound.announce(id));
+  guide("supply");
   if (developerMode) {
     activeSupplyMenu = mountSupplyPreview(
       ui.querySelector(".pt-supply")!,
@@ -2127,6 +2225,9 @@ function buddy() {
     () => screen === "battle",
     sound,
   );
+  // G10: 最初の1体が未選択のときだけ。最初の1体を選んだら既読。
+  if (save.buddies?.starterChosen) completeFirstGuide("buddy-menu");
+  else guide("buddy-menu");
 }
 function armory() {
   setScreen("armory");
