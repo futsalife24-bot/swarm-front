@@ -150,11 +150,11 @@ export class FrontSettings {
       };
       root.querySelector(".front-settings-grid")!.append(download);
     }
-    const captions = document.createElement("button");
-    captions.type = "button";
-    captions.textContent = "管制AIボイス・字幕";
-    captions.onclick = () => openControlVoiceMenu(undefined, this.sound);
-    root.querySelector(".front-settings-grid")!.append(captions);
+    const voice = document.createElement("button");
+    voice.type = "button";
+    voice.textContent = "管制AIボイス";
+    voice.onclick = () => openControlVoiceMenu(undefined, this.sound);
+    root.querySelector(".front-settings-grid")!.append(voice);
     mountControlVoiceVolume(
       root.querySelector("#front-setting-seVolume")!.closest("label")!,
       this.sound,

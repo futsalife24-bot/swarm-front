@@ -1882,7 +1882,7 @@ function showHome(initialized: boolean) {
   mountTitleMotion(ui);
   const entry = document.querySelector(".title-entry");
   if (homeVoice === "title" && entry) {
-    // 入口の背後で字幕が消えたり、操作前の音声制限で台詞が落ちたりしないようにする。
+    // 操作前の音声制限で台詞が落ちないよう、入口を通ってから発話する。
     entry.addEventListener(
       "swarm-title-ready",
       () => void sound.say(homeVoice),
