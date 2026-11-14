@@ -1,0 +1,36 @@
+[
+  {
+    "delay": 0,
+    "result": "playing",
+    "elapsed": 114.69999998807907,
+    "second": "queued",
+    "waiting": "tut-base",
+    "events": [
+      {
+        "at": 618.1999999880791,
+        "duration": 3.36
+      },
+      {
+        "at": 630.5,
+        "duration": 8
+      }
+    ],
+    "trigger": 630.3999999761581,
+    "contextsSame": true
+  },
+  {
+    "delay": 1800,
+    "result": "unavailable",
+    "elapsed": 1509,
+    "second": "queued",
+    "waiting": "tut-base",
+    "events": [
+      {
+        "at": 3738,
+        "duration": 8
+      }
+    ],
+    "trigger": 3738,
+    "contextsSame": true
+  }
+]

@@ -16,7 +16,6 @@ import {
   voiceForSet,
   ControlVoiceQueue,
   DEFAULT_CONTROL_VOICE,
-  GUIDE_WAIT_MS,
   controlVoicePath,
   lineMatchesMode,
   loadControlVoice,
@@ -193,86 +192,71 @@ describe("control voice selection and paths", () => {
 });
 
 describe("control voice queue", () => {
-  it("plays one line at a time and holds only the latest tutorial line", () => {
-    const { q, started, end } = queue();
-    expect(q.request("tut-ack-1")).toBe("playing");
-    expect(q.request("tut-look")).toBe("queued");
-    expect(q.request("tut-fire")).toBe("queued");
-    expect(q.waiting).toBe("tut-fire");
-    end("tut-ack-1");
-    expect(started).toEqual(["tut-ack-1", "tut-fire"]);
-    expect(q.current).toBe("tut-fire");
-  });
-  it("drops acknowledgements while busy and suppresses duplicates", () => {
-    const { q } = queue();
-    q.request("tut-move");
-    expect(q.request("tut-ack-2")).toBe("dropped");
-    expect(q.request("tut-move")).toBe("duplicate");
-    q.request("tut-look");
-    expect(q.request("tut-look")).toBe("duplicate");
-  });
-  it("lets a guide wait at most 5 seconds for the current line", () => {
-    const { q, started, end, advance } = queue();
-    q.request("tut-intro");
-    expect(q.request("tut-base")).toBe("queued");
-    advance(GUIDE_WAIT_MS + 1);
-    end("tut-intro");
-    expect(started).toEqual(["tut-intro"]);
-    expect(q.current).toBeUndefined();
-    q.request("tut-intro");
-    q.request("tut-base");
-    advance(GUIDE_WAIT_MS - 1);
-    end("tut-intro");
-    expect(q.current).toBe("tut-base");
-  });
-  it("expires a waiting guide on tick", () => {
-    const { q, advance } = queue();
-    q.request("tut-intro");
-    q.request("tut-supply");
-    advance(GUIDE_WAIT_MS + 1);
-    q.tick();
+  it("分類を問わず新しい台詞が即座に古い台詞を止める", () => {
+    const { q, started, stopped, end } = queue();
+    for (const id of [
+      "tut-intro",
+      "tut-base",
+      "tut-ack-1",
+      "wave-incoming",
+      "home",
+      "tut-look",
+    ])
+      expect(q.request(id)).toBe("playing");
+    expect(stopped).toEqual(started.slice(0, -1));
     expect(q.waiting).toBeUndefined();
-  });
-  it("lets warnings interrupt tutorial lines but never the reverse", () => {
-    const t = backend();
-    const alert = {
-      id: "alert",
-      set: "control" as const,
-      category: "announce" as const,
-      scene: "battle" as const,
-      adopted: true,
-      trigger: "test",
-      text: "警告",
-      tag: "common" as const,
-      priority: "warning" as const,
-      production: "required" as const,
-    };
-    const announce = {
-      ...alert,
-      id: "announce",
-      priority: "announce" as const,
-    };
-    const q = new ControlVoiceQueue(t.b, {
-      lines: (id) =>
-        id === "alert"
-          ? alert
-          : id === "announce"
-            ? announce
-            : controlVoiceLine(id),
-    });
-    q.request("tut-move");
-    expect(q.request("alert")).toBe("playing");
-    expect(t.stopped).toEqual(["tut-move"]);
-    expect(q.request("tut-look")).toBe("queued");
-    expect(q.request("tut-ack-1")).toBe("dropped");
-    expect(q.current).toBe("alert");
-    t.end("alert");
+    end("tut-intro");
     expect(q.current).toBe("tut-look");
-    // 通常アナウンスは割り込まない。
-    expect(q.request("announce")).toBe("dropped");
-    t.end("tut-look");
-    q.request("announce");
-    expect(q.request("alert")).toBe("dropped");
+  });
+  it("同じ台詞の二重・直後の連続再生を抑える", () => {
+    const { q, end, advance } = queue();
+    expect(q.request("tut-move")).toBe("playing");
+    expect(q.request("tut-move")).toBe("duplicate");
+    end("tut-move");
+    expect(q.request("tut-move")).toBe("duplicate");
+    advance(251);
+    expect(q.request("tut-move")).toBe("playing");
+  });
+  it("準備完了が逆順でも最後の要求だけを鳴らす", async () => {
+    const t = backend();
+    const ready = new Set<string>();
+    const done = new Map<string, () => void>();
+    const q = new ControlVoiceQueue({
+      ...t.b,
+      ready: (path) => ready.has(path.split("/").pop()!),
+      prepare: (line) =>
+        new Promise<void>((resolve) =>
+          done.set(line.id, () => {
+            ready.add(line.id);
+            resolve();
+          }),
+        ),
+    });
+    q.request("tut-intro");
+    q.request("home");
+    expect(q.request("home")).toBe("duplicate");
+    done.get("home")!();
+    await Promise.resolve();
+    done.get("tut-intro")!();
+    await Promise.resolve();
+    expect(t.started).toEqual(["home"]);
+    expect(q.current).toBe("home");
+  });
+  it("明示停止は準備中の遅延再生も取り消す", async () => {
+    const t = backend();
+    let ready = false;
+    let done!: () => void;
+    const q = new ControlVoiceQueue({
+      ...t.b,
+      ready: () => ready,
+      prepare: () => new Promise<void>((resolve) => (done = resolve)),
+    });
+    q.request("home");
+    q.stop();
+    ready = true;
+    done();
+    await Promise.resolve();
+    expect(t.started).toEqual([]);
   });
   it("filters lines by mode and skips disabled or unknown ids", () => {
     const { q, started } = queue();
@@ -308,9 +292,9 @@ describe("control voice queue", () => {
     q.request("tut-move");
     q.request("tut-look");
     q.stop();
-    expect(stopped).toEqual(["tut-move"]);
+    expect(stopped).toEqual(["tut-move", "tut-look"]);
     end("tut-move");
-    expect(started).toEqual(["tut-move"]);
+    expect(started).toEqual(["tut-move", "tut-look"]);
     expect(q.current).toBeUndefined();
   });
 });

@@ -1,17 +1,7 @@
-/**
- * 管制AI音声の再生基盤（W0）。
- * 再生の決まりは docs/tutorial-proposal-20261113.md §8-1:
- * - 発話は同時に1本。
- * - 基礎訓練の説明（tutorial）は、再生中なら最新の1本だけ待たせる。
- * - 警告系（warning）は tutorial / ack / guide に割り込める。逆はしない。
- * - 初回ガイド（guide）は、再生中なら鳴り終わりを最大5秒待ち、だめなら声を諦める。
- * 実ファイルが無い・読み込み前・SE音量0のときは "unavailable" を返すだけで例外にしない
- * （画面テキストだけで進められるようにするため、音声の終了を進行条件にしない）。
- */
+/** 管制AIは分類を問わず最新の要求1本を優先し、準備完了も世代で照合する。 */
 import {
   controlVoiceLine,
   type ControlVoiceLine,
-  type ControlVoicePriority,
   type ControlVoiceSet,
 } from "./control-voice-lines";
 
@@ -40,8 +30,6 @@ export const CONTROL_VOICE_SET_VOICES: Record<
 };
 /** 選択中の声が収録されていないセットで使う声。null なら代替せず無音にする。 */
 export const CONTROL_VOICE_FALLBACK: ControlVoiceId | null = "hiromi";
-/** 初回ガイドが前の台詞の鳴り終わりを待つ上限。 */
-export const GUIDE_WAIT_MS = 5000;
 
 /** そのセットで実際に鳴らす声。収録が無く代替も無ければ undefined。 */
 export function voiceForSet(
@@ -180,20 +168,10 @@ export type ControlVoiceResult =
 export interface ControlVoiceBackend {
   /** 再生できる状態か（バッファ読み込み済み・音量0でない・コンテキスト稼働中）。 */
   ready(path: string): boolean;
+  /** 保存済み音声だけを準備する。新しい要求が来れば結果は採用しない。 */
+  prepare?(line: ControlVoiceLine, voice: ControlVoiceId): Promise<void>;
   /** 再生を始め、止める関数を返す。終わったら onEnded を1回呼ぶ。 */
   start(path: string, onEnded: () => void): () => void;
-}
-
-const INTERRUPTIBLE: ReadonlySet<ControlVoicePriority> = new Set([
-  "tutorial",
-  "ack",
-  "guide",
-]);
-
-interface Pending {
-  line: ControlVoiceLine;
-  /** この時刻を過ぎたら諦める（tutorial は無期限）。 */
-  until: number;
 }
 
 export class ControlVoiceQueue {
@@ -201,7 +179,9 @@ export class ControlVoiceQueue {
   enabled = true;
   mode: ControlVoiceMode = "solo";
   private playing?: { line: ControlVoiceLine; stop: () => void };
-  private pending?: Pending;
+  private pending?: { line: ControlVoiceLine };
+  private generation = 0;
+  private recent?: { id: string; at: number };
   private readonly now: () => number;
   private readonly lookup: (id: string) => ControlVoiceLine | undefined;
   constructor(
@@ -235,42 +215,42 @@ export class ControlVoiceQueue {
     if (line.blocked) return "disabled";
     if (!line.adopted) return "unadopted";
     if (!lineMatchesMode(line, this.mode)) return "filtered";
-    if (this.playing?.line.id === id || this.pending?.line.id === id)
+    if (
+      this.playing?.line.id === id ||
+      this.pending?.line.id === id ||
+      (this.recent?.id === id && this.now() - this.recent.at < 250)
+    )
       return "duplicate";
-    if (!allowAudio || !this.enabled || !this.backend.ready(this.path(line))) {
-      return "unavailable";
-    }
-    this.expire();
-    const current = this.playing?.line;
-    if (!current) return this.begin(line);
-    if (line.priority === "warning" && INTERRUPTIBLE.has(current.priority)) {
-      this.halt();
-      return this.begin(line);
-    }
-    if (line.priority === "tutorial") {
-      this.pending = { line, until: Infinity };
-      return "queued";
-    }
-    if (line.priority === "guide") {
-      this.pending = { line, until: this.now() + GUIDE_WAIT_MS };
-      return "queued";
-    }
-    return "dropped";
+    if (!allowAudio || !this.enabled) return "unavailable";
+    this.stop();
+    if (this.backend.ready(this.path(line))) return this.begin(line);
+    if (!this.backend.prepare) return "unavailable";
+    const generation = this.generation;
+    this.pending = { line };
+    void this.backend
+      .prepare(line, this.voice)
+      .then(() => {
+        if (generation !== this.generation) return;
+        this.pending = undefined;
+        if (
+          this.enabled &&
+          lineMatchesMode(line, this.mode) &&
+          this.backend.ready(this.path(line))
+        )
+          this.begin(line);
+      })
+      .catch(() => {
+        if (generation === this.generation) this.pending = undefined;
+      });
+    return "queued";
   }
-  /** 待ち時間切れの初回ガイドを捨てる。毎フレーム呼んでもよい。 */
-  tick() {
-    this.expire();
-    if (!this.playing) this.next();
-  }
-  /** 一時停止・画面を隠す・SE音量0などで、再生中と待ちをすべて止める。 */
+  /** 非同期の準備完了で再生するため、フレーム待ちは不要。 */
+  tick() {}
+  /** 明示的な停止・非表示・無音化では準備待ちも取り消す。画面遷移では呼ばない。 */
   stop() {
+    this.generation++;
     this.pending = undefined;
     this.halt();
-  }
-  private expire() {
-    if (this.pending && this.now() > this.pending.until) {
-      this.pending = undefined;
-    }
   }
   private halt() {
     const playing = this.playing;
@@ -278,6 +258,7 @@ export class ControlVoiceQueue {
     playing?.stop();
   }
   private begin(line: ControlVoiceLine): ControlVoiceResult {
+    this.recent = { id: line.id, at: this.now() };
     let stop = () => {};
     const entry = { line, stop: () => stop() };
     this.playing = entry;
@@ -285,23 +266,11 @@ export class ControlVoiceQueue {
       stop = this.backend.start(this.path(line), () => {
         if (this.playing !== entry) return;
         this.playing = undefined;
-        this.next();
       });
     } catch {
       if (this.playing === entry) this.playing = undefined;
       return "unavailable";
     }
     return this.playing === entry ? "playing" : "dropped";
-  }
-  private next() {
-    this.expire();
-    const pending = this.pending;
-    this.pending = undefined;
-    if (!pending) return;
-    if (!lineMatchesMode(pending.line, this.mode)) return;
-    if (!this.enabled || !this.backend.ready(this.path(pending.line))) {
-      return;
-    }
-    this.begin(pending.line);
   }
 }

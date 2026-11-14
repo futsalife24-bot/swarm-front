@@ -1,4 +1,9 @@
 import {
+  loadControlVoiceRate,
+  saveControlVoiceRate,
+  type ControlVoiceRate,
+} from "./control-voice-rate";
+import {
   CONTROL_VOICE_ENABLED_KEY,
   loadVoiceEnabled,
 } from "./control-voice-enabled";
@@ -106,6 +111,8 @@ export class Sound {
   /** 基礎訓練の間は兵士の掛け声を止める（tutorial-proposal §8-1 の3）。 */
   soldierVoiceEnabled = true;
   /** 管制AI音声。全体音量と専用の倍率を通り、SE音量から独立する。 */
+  private controlRate = loadControlVoiceRate();
+  private controlPreparing = new Map<string, Promise<void>>();
   private previewGeneration = 0;
   private previewStop?: () => void;
   readonly controlVoice = new ControlVoiceQueue(
@@ -116,7 +123,14 @@ export class Sound {
         this.controlOutputVolume > 0 &&
         !document.hidden &&
         this.buffers.has(`control:${path}`),
-      start: (path, onEnded) => this.startControl(path, onEnded),
+      prepare: (line, voice) => {
+        this.stopControlPreview();
+        return this.prepareControlVoice([line.id], voice);
+      },
+      start: (path, onEnded) => {
+        this.stopControlPreview();
+        return this.startControl(path, onEnded);
+      },
     },
     {
       voice: loadControlVoice(),
@@ -135,6 +149,15 @@ export class Sound {
   }
   get effectsVolume() {
     return this.level * this.effectsLevel;
+  }
+  get controlVoiceRate() {
+    return this.controlRate;
+  }
+  setControlVoiceRate(rate: ControlVoiceRate) {
+    if (rate !== 1 && rate !== 1.3) return;
+    this.controlRate = rate;
+    saveControlVoiceRate(rate);
+    for (const source of this.controlSources) source.playbackRate.value = rate;
   }
   get controlVoiceVolume() {
     return this.controlLevel ?? 1;
@@ -271,16 +294,21 @@ export class Sound {
   async load(): Promise<void> {
     if (!this.context) return;
     if (this.decoding) {
-      // 展開中に追加された声（パックから読んだ台詞など）も、待たせた側で展開する。
+      // 展開中に追加されたSEも、待たせた側で展開する。
       await this.decoding;
-      if ([...this.bytes.keys()].every((key) => this.buffers.has(key))) return;
+      if (
+        [...this.bytes.keys()].every(
+          (key) => key.startsWith("control:") || this.buffers.has(key),
+        )
+      )
+        return;
       return this.load();
     }
     this.decoding = (async () => {
       await this.preload();
       await Promise.all(
         [...this.bytes].map(async ([key, bytes]) => {
-          if (this.buffers.has(key)) return;
+          if (key.startsWith("control:") || this.buffers.has(key)) return;
           try {
             this.buffers.set(
               key,
@@ -362,17 +390,32 @@ export class Sound {
         if (!line || !playableLine(line)) return;
         const path = controlVoicePath(line, voice),
           key = `control:${path}`;
-        if (this.buffers.has(key) || this.bytes.has(key)) return;
-        try {
-          const bytes = await this.packs.clip(path);
-          if (bytes) this.bytes.set(key, bytes);
-        } catch {
-          /* 読めない保存は無音のまま。進行は止めない。 */
+        if (this.buffers.has(key)) return;
+        let preparing = this.controlPreparing.get(key);
+        if (!preparing) {
+          preparing = (async () => {
+            try {
+              const bytes =
+                this.bytes.get(key) ?? (await this.packs.clip(path));
+              if (!bytes) return;
+              this.bytes.set(key, bytes);
+              const context = this.context;
+              if (!context) return;
+              if (context.state !== "running") await context.resume();
+              const buffer = await context.decodeAudioData(bytes.slice(0));
+              // パック変更中に準備を始めた旧クリップは採用しない。
+              if (this.bytes.get(key) === bytes) this.buffers.set(key, buffer);
+            } catch {
+              /* 未DL・保存/デコード失敗は無音。ゲーム進行は止めない。 */
+            }
+          })().finally(() => this.controlPreparing.delete(key));
+          this.controlPreparing.set(key, preparing);
         }
+        await preparing;
       }),
     );
-    await this.load();
   }
+
   private announced: string[] = [];
   /**
    * 読み込み済みの1本を鳴らす。key を渡すと同じ key では二度鳴らさない
@@ -390,24 +433,8 @@ export class Sound {
   prepareControlScene(scene: ControlVoiceScene) {
     return this.prepareControlVoice(controlVoiceIdsForScene(scene));
   }
-  /**
-   * 1本を準備して鳴らす。waitMs 以内に用意できなければ声は諦める。
-   * 音声の終了や成否を進行条件にしないため、結果は参考情報としてだけ返す。
-   */
-  async say(id: string, waitMs = 1500) {
-    const line = controlVoiceLine(id);
-    if (!line || !playableLine(line)) return "disabled" as const;
-    const started = performance.now();
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const ready = await Promise.race([
-      this.prepareControlVoice([id]).then(() => true),
-      new Promise<false>((resolve) => {
-        timer = setTimeout(() => resolve(false), waitMs);
-      }),
-    ]);
-    clearTimeout(timer);
-    if (!ready || performance.now() - started > waitMs)
-      return this.controlVoice.request(id, false);
+  /** 準備待ちを含め要求時の順序で扱い、SE読込や前の台詞の終了を待たない。 */
+  async say(id: string, _waitMs = 1500) {
     return this.controlVoice.request(id);
   }
   private startControl(path: string, onEnded: () => void) {
@@ -421,6 +448,7 @@ export class Sound {
     const source = c.createBufferSource(),
       gain = c.createGain();
     source.buffer = buffer;
+    source.playbackRate.value = this.controlRate;
     gain.gain.value = 0.95;
     source.connect(gain).connect(this.controlMaster);
     this.controlSources.add(source);

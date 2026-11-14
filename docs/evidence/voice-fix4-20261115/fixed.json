@@ -1,0 +1,46 @@
+[
+  {
+    "delay": 0,
+    "result": "queued",
+    "elapsed": 22.100000023841858,
+    "second": "playing",
+    "events": [
+      {
+        "at": 741.6999999880791,
+        "duration": 3.36
+      },
+      {
+        "at": 843.8999999761581,
+        "duration": 8
+      },
+      {
+        "at": 844,
+        "duration": 8.32
+      }
+    ],
+    "trigger": 843.7999999523163,
+    "contextsSame": true
+  },
+  {
+    "delay": 1800,
+    "result": "queued",
+    "elapsed": 6,
+    "second": "playing",
+    "events": [
+      {
+        "at": 2096.899999976158,
+        "duration": 3.36
+      },
+      {
+        "at": 2222.7999999523163,
+        "duration": 8
+      },
+      {
+        "at": 2222.899999976158,
+        "duration": 8.32
+      }
+    ],
+    "trigger": 2222.7999999523163,
+    "contextsSame": true
+  }
+]
