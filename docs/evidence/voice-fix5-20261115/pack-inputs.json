@@ -1,0 +1,492 @@
+{
+  "received": [
+    {
+      "file": "voice-buddy-oriha-v1/retreat.wav",
+      "bytes": 268206,
+      "sha256": "9ee85edd0d6dc665a1bae4c35bd2d4c4712bb56839c48cc9d7461f1959b09a6f",
+      "same": true
+    },
+    {
+      "file": "voice-buddy-tatara-v1/retreat.wav",
+      "bytes": 282318,
+      "sha256": "2ee3ef32d1d796ec2dc5ad5da1b6e7796fec54ef6554058f5181a646e316dceb",
+      "same": true
+    },
+    {
+      "file": "voice-buddy-tobari-v1/retreat.wav",
+      "bytes": 282318,
+      "sha256": "c09ea05f9998cd675dc6a9e4cfb64fca70645582cf280e949ddf27c4cdefae23",
+      "same": true
+    },
+    {
+      "file": "voice-buddy-yosuga-v1/retreat.wav",
+      "bytes": 268206,
+      "sha256": "17fcdbf1f623341e77dbe913b9ea4635c0864d9d66d47d644eb5c4288adf40da",
+      "same": true
+    },
+    {
+      "file": "voice-captain-v1/empty-var.wav",
+      "bytes": 211758,
+      "sha256": "c2ffe81bfa9146ceaaecd94ccb98eef0625c55f1c4247ae1a48ef19f1df70ef4",
+      "same": true
+    },
+    {
+      "file": "voice-captain-v1/empty.wav",
+      "bytes": 211758,
+      "sha256": "0c57b6ad72a959120bfa109d888557221ddf93c8c27c1891327dedb0a2502857",
+      "same": true
+    },
+    {
+      "file": "voice-captain-v1/retire-order.wav",
+      "bytes": 232926,
+      "sha256": "efbf9ed14f2fd6267d7ca4806df151c70a867a1497b19663f899e929f4e55b50",
+      "same": true
+    },
+    {
+      "file": "voice-captain-v1/warning.wav",
+      "bytes": 211758,
+      "sha256": "ce592eae233afa8d47f3f52aae64d2108e51bdbe45c9aaab5a757012efae0259",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/anomaly-calyx.wav",
+      "bytes": 190590,
+      "sha256": "59247211ce37d21d73b11436d01b55e743f08cb63cd6e835aad6ae5543a36c90",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/boss-detected.wav",
+      "bytes": 282318,
+      "sha256": "ea4df48b425caf88f6afcfbd64a60debbd38dabe6fd765c7ad5876f76c40a366",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/final-large.wav",
+      "bytes": 218814,
+      "sha256": "0602f99c13dd19b3df248de2e73f564471ace8064ef96dc6fd6629d8b55b1393",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/guide-step-1.wav",
+      "bytes": 875022,
+      "sha256": "40a816125483a39cdb0466baa415027a5df505b4f0c6c64aeb6ba2f1fcb85588",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/loading.wav",
+      "bytes": 197646,
+      "sha256": "6aa26d110dc974bf9a53ca93c512dd6bee189ab6b23ac9e682b50df5cf5bf161",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/retire-ack.wav",
+      "bytes": 338766,
+      "sha256": "85e00bc412426de939e26143861d2c6e80739c37acfe4f1f181f805e462ab2e6",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-grenade.wav",
+      "bytes": 84750,
+      "sha256": "35778c0a21b3d56415d02955e3d41dbe1a63c2a9dffa6dd54aaa2056d10b5d70",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-heavy.wav",
+      "bytes": 84750,
+      "sha256": "c0aea9f1ae6f6a3ff74af985e0500a62feef82b33017cc25bfea396b5443c8b3",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-kick.wav",
+      "bytes": 98862,
+      "sha256": "5dcf277f70498b57b3b9f305741dc8cbdb87f506f05e75ce1b7cbb4da1279596",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-laser.wav",
+      "bytes": 77694,
+      "sha256": "cd8c8d570b54b2aeddbf7e209cf3dc2a9684f72d384ed2638ff43c9a2bec7467",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-medic.wav",
+      "bytes": 84750,
+      "sha256": "77f1afa5e50dcc2b433ff2f6e1e87af836ece243fab81dc26406abb4fcfbe58e",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-rifle.wav",
+      "bytes": 84750,
+      "sha256": "17a1d73686ea53daf77cfa8e45c701ae27f7a518018700002fb438d4cdbafe2a",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-rocket.wav",
+      "bytes": 91806,
+      "sha256": "4d83c107179272b55b453d502f82af58a4f29e85fc06b3c38dc40052a19f7801",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-shotgun.wav",
+      "bytes": 91806,
+      "sha256": "e015273b38319e947ba946b1f90a4a74d928e2414505d5a3f964b9e0b6f92f15",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-slug.wav",
+      "bytes": 91806,
+      "sha256": "53363e5c31638b7f49dc2a7e71324936afbb69b579acb643d6c70fccc1d592c0",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-smg.wav",
+      "bytes": 77694,
+      "sha256": "fd36139f32824586dbc5bff2235b2798ce539fb9086612a4e6d1e753aac29cf7",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-sniper.wav",
+      "bytes": 98862,
+      "sha256": "192d8a2a2d21d7aaa74d829647480b7d448f2a1f06dcc7f466f04e720fa4cb48",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiromi-v1/weapon-sticky.wav",
+      "bytes": 84750,
+      "sha256": "affe629cb074149039f973f762feadf8d89d4bad928b76a4c35d8716e1f6036a",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/anomaly-calyx.wav",
+      "bytes": 183534,
+      "sha256": "ffaeee350ef2299fb249690966389bb05cd3022a4cc4451d2df1b39feb3ce2f3",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/boss-detected.wav",
+      "bytes": 289374,
+      "sha256": "235182d5241eaf9710a385a5e340d9cd276ae4fce7d31562d1e211c521cdd2c8",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/final-large.wav",
+      "bytes": 225870,
+      "sha256": "6fa689e210ef1493f6133c5f3a8f5692d46a005629048afdaf0b040203755d96",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/guide-step-1.wav",
+      "bytes": 825630,
+      "sha256": "50f7be971bee1e1e8b9999e1ed08c7fe84089d1f2c60b7a9cb8f569ef308b6e8",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/loading.wav",
+      "bytes": 204702,
+      "sha256": "99acc0bcaa80d69da21d9142ccc8d0514e95ca0034bbd8c87cca97a95a56adf5",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/retire-ack.wav",
+      "bytes": 324654,
+      "sha256": "15528825877a1fcfd1716ca45849f1b3a0c1ddfc8c46a6e119b085d7074fad81",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-grenade.wav",
+      "bytes": 84750,
+      "sha256": "0c896594b99e36bc8f26003a3fc84bb5530613f2c248a9ab03e3be2b7d5379ce",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-heavy.wav",
+      "bytes": 77694,
+      "sha256": "35be568f594fc4bc933e25c56ce91687a72bbf80bc074fba91d2245d0b7cf847",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-kick.wav",
+      "bytes": 91806,
+      "sha256": "73d1f77d7acaae35dd9bc7b1319057dc495b762b0b0b66b0e397db2d89a80228",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-laser.wav",
+      "bytes": 77694,
+      "sha256": "2c29f6af54840f5f9e6c2b609eb1427fb8be7a54f53f954dda923f3de2daff93",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-medic.wav",
+      "bytes": 84750,
+      "sha256": "df88ac8de352ec9f5f8b95d8f9d2db53e471547494a27e1df9bb0ace1114fb6d",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-rifle.wav",
+      "bytes": 84750,
+      "sha256": "68c251a97ab208a87fa2354bb97e53257c19f15825c8ceee0122467a1d04e606",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-rocket.wav",
+      "bytes": 91806,
+      "sha256": "453099a6c09d97237f345a2cbb661f38be6577eb8bd4dec005084fa449c00e5d",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-shotgun.wav",
+      "bytes": 91806,
+      "sha256": "3be1dd2dc8b121c8269403b3c440fc57eb5fd297ded44f4f5cebfa1566fea61e",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-slug.wav",
+      "bytes": 91806,
+      "sha256": "230d04d709a1cbdf14259f5228688c4e258b05616dfcc3da3f427a4609c2a267",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-smg.wav",
+      "bytes": 77694,
+      "sha256": "e467d020ca950a570240582f5b448fadbebe8ccaac2a6d0ec5ad0b206cd9b58c",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-sniper.wav",
+      "bytes": 98862,
+      "sha256": "ab88ef3d3b024d3371cdae637303530cdbc521acc521d27d31fb6b1a997f0287",
+      "same": true
+    },
+    {
+      "file": "voice-control-hiyori-v1/weapon-sticky.wav",
+      "bytes": 84750,
+      "sha256": "f52d6127c1dedc033d0fc1c37eb2785c3c29a9dc2bf2d3482d2c6c4631dc037a",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/anomaly-calyx.wav",
+      "bytes": 183534,
+      "sha256": "2d739ad859d30937c98a1a419dad20604c02e58fe4d18a2feddedadc3564cb8f",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/boss-detected.wav",
+      "bytes": 296430,
+      "sha256": "b3a75e5d117b2a3af2e99a37fe1896081e45a8a8788ee859e7b795bcf88ded2a",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/final-large.wav",
+      "bytes": 232926,
+      "sha256": "6cb5e48826778210be5773f68994d77b0da01d2a0c41486021d64c3fbb14f5f7",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/guide-step-1.wav",
+      "bytes": 924414,
+      "sha256": "65b8690cd99fd9551685ef6dc9e575054e9c2cba26db715dc1236eb8e79ed2a6",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/loading.wav",
+      "bytes": 204702,
+      "sha256": "90338110e84b7b70b64f51849afa198c3551a89db04e20d5ca51e87ae998bef4",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/retire-ack.wav",
+      "bytes": 345822,
+      "sha256": "033343fb9e08bf52edbdcd822ab88d24b462efab793865ba34b08f2f58c07cee",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-grenade.wav",
+      "bytes": 84750,
+      "sha256": "8c21a44abc51742a19693105f3b7d61a3ea94bccf33d033ff95b3264ed4be343",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-heavy.wav",
+      "bytes": 77694,
+      "sha256": "5c6fdf41c9648c568e4906b008a0ef037fdfdd4fff1356a2bff9ad2971adc45e",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-kick.wav",
+      "bytes": 91806,
+      "sha256": "c0fa35a0296a9840236e578a1b1b1dd09b0f8ce5b77ca9ff993125cf3c5020ea",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-laser.wav",
+      "bytes": 84750,
+      "sha256": "e7713eda3d498eb910ebdb7211d14f8a52030c23b97049f93c9fe7b808cc03d6",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-medic.wav",
+      "bytes": 91806,
+      "sha256": "2ada5885266a13b9cb560ffadc961110536bafd2e9f14162b9a8feb62aec9d61",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-rifle.wav",
+      "bytes": 84750,
+      "sha256": "c5ec55357a12499c7e6af4cfa461dd2c2452c26eea8ab1c59e9e4386df3d4176",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-rocket.wav",
+      "bytes": 91806,
+      "sha256": "d3a87daca83e2ae8a1fa97c46db5bca1261d5d3072491d17032e02f515594676",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-shotgun.wav",
+      "bytes": 91806,
+      "sha256": "ed20567d1fe192d0c437e8a92f5efc33c528b14b09c05af570a38354620f0a3f",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-slug.wav",
+      "bytes": 84750,
+      "sha256": "9ea6f5671058c6c382d579f3b0291d4590a01510189f4714386ac7d6aaecab60",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-smg.wav",
+      "bytes": 77694,
+      "sha256": "b1b7ccb4be9aaeb2dd6c3117e4fb212df4e382fc2e8a07527b765a085b550fb1",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-sniper.wav",
+      "bytes": 98862,
+      "sha256": "085fbc00616e7165bd5712eeabb5fbd500684a996bb162774f4ed261a2f27d22",
+      "same": true
+    },
+    {
+      "file": "voice-control-yoko-v1/weapon-sticky.wav",
+      "bytes": 84750,
+      "sha256": "cebd924703ed60bf04e19d9739c2873c8a73debe23cc69d02dcebef6039d9a0f",
+      "same": true
+    },
+    {
+      "file": "voice-soldier-akio-v1/empty-var.wav",
+      "bytes": 232926,
+      "sha256": "d1e09aee06186a2a55abe9e79227d1a6f5767374f77b282e63bef5b426c355b2",
+      "same": true
+    },
+    {
+      "file": "voice-soldier-akio-v1/empty.wav",
+      "bytes": 239982,
+      "sha256": "84f01ef93a6fafcae3c3a52cba1ab7ea81989f5daa91744789a375c1d748620c",
+      "same": true
+    },
+    {
+      "file": "voice-soldier-akio-v1/warning.wav",
+      "bytes": 225870,
+      "sha256": "907799af2374636167e012f5fd9a435c310e4888bd3e0bd1223491034ab9c509",
+      "same": true
+    },
+    {
+      "file": "voice-soldier-ryunosuke-v1/empty-var.wav",
+      "bytes": 211758,
+      "sha256": "293d585fce345c021751fec6869009234b08440c3f0f782bf996c4ab47916089",
+      "same": true
+    },
+    {
+      "file": "voice-soldier-ryunosuke-v1/empty.wav",
+      "bytes": 239982,
+      "sha256": "bd710f419346231ead266ce6988ff44e6f9fdce97c50446b333819058f99c961",
+      "same": true
+    },
+    {
+      "file": "voice-soldier-ryunosuke-v1/warning.wav",
+      "bytes": 225870,
+      "sha256": "20b235783253f3bb2c598606b6ddb3670f34f44e79c6d2beb8050cd7ff0dea82",
+      "same": true
+    }
+  ],
+  "packs": [
+    {
+      "voice": "hiromi",
+      "changed": [
+        "voice-control-hiromi-v1/boss-detected",
+        "voice-control-hiromi-v1/final-large",
+        "voice-control-hiromi-v1/guide-step-1",
+        "voice-control-hiromi-v1/loading",
+        "voice-control-hiromi-v1/weapon-grenade",
+        "voice-control-hiromi-v1/weapon-heavy",
+        "voice-control-hiromi-v1/weapon-kick",
+        "voice-control-hiromi-v1/weapon-laser",
+        "voice-control-hiromi-v1/weapon-medic",
+        "voice-control-hiromi-v1/weapon-rifle",
+        "voice-control-hiromi-v1/weapon-rocket",
+        "voice-control-hiromi-v1/weapon-shotgun",
+        "voice-control-hiromi-v1/weapon-slug",
+        "voice-control-hiromi-v1/weapon-smg",
+        "voice-control-hiromi-v1/weapon-sniper",
+        "voice-control-hiromi-v1/weapon-sticky"
+      ],
+      "added": [
+        "voice-control-hiromi-v1/anomaly-calyx",
+        "voice-control-hiromi-v1/retire-ack"
+      ],
+      "removed": []
+    },
+    {
+      "voice": "hiyori",
+      "changed": [
+        "voice-control-hiyori-v1/boss-detected",
+        "voice-control-hiyori-v1/final-large",
+        "voice-control-hiyori-v1/guide-step-1",
+        "voice-control-hiyori-v1/loading",
+        "voice-control-hiyori-v1/weapon-grenade",
+        "voice-control-hiyori-v1/weapon-heavy",
+        "voice-control-hiyori-v1/weapon-kick",
+        "voice-control-hiyori-v1/weapon-laser",
+        "voice-control-hiyori-v1/weapon-medic",
+        "voice-control-hiyori-v1/weapon-rifle",
+        "voice-control-hiyori-v1/weapon-rocket",
+        "voice-control-hiyori-v1/weapon-shotgun",
+        "voice-control-hiyori-v1/weapon-slug",
+        "voice-control-hiyori-v1/weapon-smg",
+        "voice-control-hiyori-v1/weapon-sniper",
+        "voice-control-hiyori-v1/weapon-sticky"
+      ],
+      "added": [
+        "voice-control-hiyori-v1/retire-ack",
+        "voice-control-hiyori-v1/anomaly-calyx"
+      ],
+      "removed": []
+    },
+    {
+      "voice": "yoko",
+      "changed": [
+        "voice-control-yoko-v1/boss-detected",
+        "voice-control-yoko-v1/final-large",
+        "voice-control-yoko-v1/guide-step-1",
+        "voice-control-yoko-v1/loading",
+        "voice-control-yoko-v1/weapon-grenade",
+        "voice-control-yoko-v1/weapon-heavy",
+        "voice-control-yoko-v1/weapon-kick",
+        "voice-control-yoko-v1/weapon-laser",
+        "voice-control-yoko-v1/weapon-medic",
+        "voice-control-yoko-v1/weapon-rifle",
+        "voice-control-yoko-v1/weapon-rocket",
+        "voice-control-yoko-v1/weapon-shotgun",
+        "voice-control-yoko-v1/weapon-slug",
+        "voice-control-yoko-v1/weapon-smg",
+        "voice-control-yoko-v1/weapon-sniper",
+        "voice-control-yoko-v1/weapon-sticky"
+      ],
+      "added": [
+        "voice-control-yoko-v1/retire-ack",
+        "voice-control-yoko-v1/anomaly-calyx"
+      ],
+      "removed": []
+    }
+  ]
+}

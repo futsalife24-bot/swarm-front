@@ -83,7 +83,7 @@ describe("voice packs shipped for optional download", () => {
     // ヒロミのパックにはチュートリアル34本を含める。
     expect(CONTROL_VOICE_PACKS[0].sets["voice-tutorial-hiromi-v1"]).toBe(34);
   });
-  it("contains every playable line and none of the blocked ones", () => {
+  it("contains every playable line; recorded CALYX stays blocked", () => {
     const indexes = new Map(
       CONTROL_VOICE_PACKS.map((p) => [
         p.voice,
@@ -94,7 +94,10 @@ describe("voice packs shipped for optional download", () => {
       for (const voice of CONTROL_VOICE_SET_VOICES[line.set]) {
         const key = controlVoicePath(line, voice);
         const has = indexes.get(voice)!.has(key);
-        if (line.blocked === "abolished" || line.blocked === "on-hold")
+        if (line.id === "anomaly-calyx") {
+          expect(has, key).toBe(true);
+          expect(playableLine(line)).toBe(false);
+        } else if (line.blocked === "abolished" || line.blocked === "on-hold")
           expect(has, key).toBe(false);
         else expect(has, key).toBe(true);
       }
@@ -220,6 +223,7 @@ describe("Sound reads control voice from downloaded packs", () => {
       onstatechange: (() => void) | null = null;
       createGain = node;
       createDynamicsCompressor = node;
+      createMediaElementSource = node;
       createBufferSource() {
         const source = {
           ...node(),
@@ -241,6 +245,20 @@ describe("Sound reads control voice from downloaded packs", () => {
         bytes: bytes.byteLength,
       });
     }
+    vi.stubGlobal(
+      "Audio",
+      class {
+        playbackRate = 1;
+        preservesPitch = true;
+        onended = null;
+        async play() {
+          started.push(this);
+        }
+        pause() {}
+        load() {}
+        removeAttribute() {}
+      },
+    );
     vi.stubGlobal("AudioContext", FakeContext);
     const { Sound } = await import("../src/client/audio");
     const { ControlVoicePacks: Packs } =

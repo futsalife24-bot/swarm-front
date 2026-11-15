@@ -9,9 +9,10 @@ vi.mock("../src/client/bgm", () => ({
   backgroundMusic: () => ({ volume: 1, unlock() {} }),
 }));
 let sources: {
-  playbackRate: { value: number };
+  playbackRate: number;
+  preservesPitch: boolean;
   start: ReturnType<typeof vi.fn>;
-  stop: ReturnType<typeof vi.fn>;
+  pause: ReturnType<typeof vi.fn>;
   onended?: () => void;
 }[];
 const node = () => ({
@@ -32,6 +33,24 @@ beforeEach(() => {
     () => new Promise<void>(() => {}),
   );
   vi.stubGlobal(
+    "Audio",
+    class {
+      playbackRate = 1;
+      preservesPitch = false;
+      start = vi.fn();
+      play = vi.fn(async () => {
+        this.start();
+      });
+      pause = vi.fn();
+      removeAttribute() {}
+      load() {}
+      onended?: () => void;
+      constructor() {
+        sources.push(this);
+      }
+    },
+  );
+  vi.stubGlobal(
     "AudioContext",
     class {
       state = "running";
@@ -41,17 +60,7 @@ beforeEach(() => {
       createDynamicsCompressor = node;
       resume = async () => {};
       decodeAudioData = vi.fn(async () => ({ duration: 3 }));
-      createBufferSource() {
-        const source = {
-          ...node(),
-          playbackRate: { value: 1 },
-          start: vi.fn(),
-          stop: vi.fn(() => source.onended?.()),
-          onended: undefined as undefined | (() => void),
-        };
-        sources.push(source);
-        return source;
-      }
+      createMediaElementSource = node;
     },
   );
 });
@@ -67,6 +76,22 @@ function sound(clip = async () => new ArrayBuffer(4)) {
   } as unknown as ControlVoicePacks);
 }
 describe("管制AIの準備と再生", () => {
+  it("割込みと終了で音声を止め、Blob URLを1回だけ解放する", async () => {
+    const revoke = vi.spyOn(URL, "revokeObjectURL");
+    const s = sound();
+    s.unlock();
+    await s.prepareControlVoice(["home", "retire-ack"]);
+    s.controlVoice.request("home");
+    const old = sources[0];
+    s.controlVoice.request("retire-ack");
+    expect(old.pause).toHaveBeenCalledTimes(1);
+    expect(revoke).toHaveBeenCalledTimes(1);
+    expect(s.controlVoice.current).toBe("retire-ack");
+    sources[1].onended?.();
+    s.controlVoice.stop();
+    expect(s.controlVoice.current).toBeUndefined();
+    expect(revoke).toHaveBeenCalledTimes(2);
+  });
   it("SEが永久に未完了でも管制AIは開始し、準備の重複をまとめる", async () => {
     const clip = vi.fn(async () => new ArrayBuffer(4));
     const s = sound(clip);
@@ -108,13 +133,14 @@ describe("管制AIの準備と再生", () => {
     s.unlock();
     await s.prepareControlVoice(["home"]);
     s.controlVoice.request("home");
-    expect(sources[0].playbackRate.value).toBe(1.3);
+    expect(sources[0].playbackRate).toBe(1.3);
+    expect(sources[0].preservesPitch).toBe(true);
     s.setControlVoiceRate(1);
-    expect(sources[0].playbackRate.value).toBe(1);
+    expect(sources[0].playbackRate).toBe(1);
     await s.previewControlVoice("hiromi");
-    expect(sources.at(-1)?.playbackRate.value).toBe(1);
+    expect(sources.at(-1)?.playbackRate).toBe(1);
     s.setControlVoiceRate(1.3);
-    expect(sources.at(-1)?.playbackRate.value).toBe(1.3);
+    expect(sources.at(-1)?.playbackRate).toBe(1.3);
     expect(
       new Sound({ subscribe: () => () => {} } as unknown as ControlVoicePacks)
         .controlVoiceRate,

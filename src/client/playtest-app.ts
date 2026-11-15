@@ -483,6 +483,8 @@ function pause() {
       () => {
         d.close();
         screen === "collection" ? endCollection() : defeat();
+        // 結果画面の敗北案内より後で要求し、最新の撤退確認を優先する。
+        void sound.say("retire-ack");
       },
     );
   };

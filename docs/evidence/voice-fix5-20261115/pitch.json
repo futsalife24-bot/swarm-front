@@ -1,0 +1,127 @@
+{
+  "browser": "157.0.8103.51",
+  "measurements": [
+    {
+      "kind": "tone",
+      "rate": 1,
+      "preservesPitch": true,
+      "elapsedMs": 3183.199999988079,
+      "sampleRate": 48000,
+      "frames": 147456,
+      "voicedWindows": 149,
+      "medianHz": 220.1834862385321,
+      "p10Hz": 220.1834862385321,
+      "p90Hz": 220.1834862385321
+    },
+    {
+      "kind": "tone",
+      "rate": 1.3,
+      "preservesPitch": true,
+      "elapsedMs": 2283.800000011921,
+      "sampleRate": 48000,
+      "frames": 114688,
+      "voicedWindows": 114,
+      "medianHz": 220.1834862385321,
+      "p10Hz": 220.1834862385321,
+      "p90Hz": 220.1834862385321
+    },
+    {
+      "kind": "tone-unpreserved",
+      "rate": 1,
+      "preservesPitch": false,
+      "elapsedMs": 2998.5,
+      "sampleRate": 48000,
+      "frames": 147456,
+      "voicedWindows": 150,
+      "medianHz": 220.1834862385321,
+      "p10Hz": 220.1834862385321,
+      "p90Hz": 220.1834862385321
+    },
+    {
+      "kind": "tone-unpreserved",
+      "rate": 1.3,
+      "preservesPitch": false,
+      "elapsedMs": 2317.899999976158,
+      "sampleRate": 48000,
+      "frames": 116736,
+      "voicedWindows": 116,
+      "medianHz": 285.7142857142857,
+      "p10Hz": 285.7142857142857,
+      "p90Hz": 285.7142857142857
+    },
+    {
+      "kind": "preview",
+      "rate": 1,
+      "preservesPitch": true,
+      "elapsedMs": 3356.300000011921,
+      "sampleRate": 48000,
+      "frames": 165888,
+      "voicedWindows": 65,
+      "medianHz": 275.86206896551727,
+      "p10Hz": 202.53164556962025,
+      "p90Hz": 338.0281690140845
+    },
+    {
+      "kind": "preview",
+      "rate": 1.3,
+      "preservesPitch": true,
+      "elapsedMs": 2582.5,
+      "sampleRate": 48000,
+      "frames": 126976,
+      "voicedWindows": 55,
+      "medianHz": 274.2857142857143,
+      "p10Hz": 215.24663677130044,
+      "p90Hz": 328.7671232876712
+    },
+    {
+      "kind": "retire-ack",
+      "rate": 1,
+      "preservesPitch": true,
+      "elapsedMs": 3843.300000011921,
+      "sampleRate": 48000,
+      "frames": 186368,
+      "voicedWindows": 90,
+      "medianHz": 271.1864406779661,
+      "p10Hz": 224.29906542056074,
+      "p90Hz": 322.1476510067114
+    },
+    {
+      "kind": "retire-ack",
+      "rate": 1.3,
+      "preservesPitch": true,
+      "elapsedMs": 2936.5,
+      "sampleRate": 48000,
+      "frames": 145408,
+      "voicedWindows": 72,
+      "medianHz": 271.1864406779661,
+      "p10Hz": 223.25581395348837,
+      "p90Hz": 317.88079470198676
+    },
+    {
+      "kind": "tut-intro",
+      "rate": 1,
+      "preservesPitch": true,
+      "elapsedMs": 7995.799999952316,
+      "sampleRate": 48000,
+      "frames": 387072,
+      "voicedWindows": 209,
+      "medianHz": 260.8695652173913,
+      "p10Hz": 204.25531914893617,
+      "p90Hz": 360.90225563909775
+    },
+    {
+      "kind": "tut-intro",
+      "rate": 1.3,
+      "preservesPitch": true,
+      "elapsedMs": 6123.300000011921,
+      "sampleRate": 48000,
+      "frames": 296960,
+      "voicedWindows": 162,
+      "medianHz": 262.2950819672131,
+      "p10Hz": 205.12820512820514,
+      "p90Hz": 360.90225563909775
+    }
+  ],
+  "errors": [],
+  "passed": true
+}
