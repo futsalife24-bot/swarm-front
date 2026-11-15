@@ -398,3 +398,28 @@
 - 最終公開版でも実Chromeの **8条件成功・画面例外0**。[最終公開画面結果](evidence/voice-fix4-20261115/published-final/result.json)。タイトル→ソロ→進撃→確定を前の声が終わる前に進め、古い2本を停止し最新を開始、**同時発話max1・最終入力から87.6ms**。通常/1.3倍試聴、再読込保持、ボイスなし、字幕なし/旧always残存、ヨウコロック、横844×390/568×320、準備待ちを挟まない訓練開始時の初回音声も成功。音声開始/停止の観測であり、人間の実聴確認とは別。
 - 第4弾の実装・根因記録・自己検証・通常main反映・push・既存Worker再公開・公開実確認を完了。公開記録のみを `codex/voice-fix4-final-record-20261115` から通常PRへ保存する。指定outbox `C:/Users/futsa/bibi-bridge/outbox/20261115-fix4-status.md` に結果サマリを保存する。
 - 未確認: 実スマホ/iOS・人間の実聴品質・全台詞/分岐・多人数インターネット戦。未DL/保存削除/非表示等で音声が利用できない条件は意図どおり無音とし、字幕を復活させない。物理デコードやOSの音声出力時間を全端末でゼロ保証したという報告ではない。追加承認待ちはない。
+
+
+# 第5弾：ピッチ保持・撮り直しパック・任意撤退（2026-11-15）
+
+## 対象・根因・判断
+
+- 本人指定 `C:/Users/futsa/bibi-bridge/inbox/impl-brief-fix5-20261115.md` を全文確認。最新origin/main `353582993c4a33fe8de23b4c468ea9f23f659718` から新規 `codex/voice-fix5-20261115` / `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-voice-fix5-20261115` を作成。元root・他worktreeの既存差分は保護。
+- 高音化の原因は `Sound.startControl` が `AudioBufferSourceNode.playbackRate=1.3` でサンプル速度ごと変更していたこと。管制AIの通常・訓練・試聴が共用するこの入口だけを `HTMLAudioElement.preservesPitch=true` のタイムストレッチへ変更し、MediaElementAudioSourceNodeから従来の専用音量・コンプレッサーへ接続。最新要求優先・1本制限・停止・自然終了処理を維持し、終了/割込/再生失敗時は接続とBlob URLを一度だけ解放する。再生中の速度切替にも対応。SE/BGM/兵士の速度経路と設定キーは維持。
+- 根拠仕様: https://html.spec.whatwg.org/multipage/media.html#dom-media-preservespitch 。実装上のtrue設定だけで完了判定せず、実Chromeが出した音声信号を録音・測定する。
+- 受信manifestの全68 WAVを `assets-src/<受信セット名>/` へ保存し、SHA-256で全件の同一性確認。管制AIは各18件（既存16件差替＋保留CALYXの原本追加＋retire-ack新規）。従来のMP3/44.1kHz/mono/64kbps、SFVP v1形式でパック版をv2に上げて再構築。パック内の従来クリップはmanifest対象16件以外バイト同一、欠落0。旧パックは保護、新カタログだけv2参照となり端末の旧版は再DLが必要。
+- 新パック: ヒロミ147本/6,131,283 bytes、ヒヨリ113本/4,325,809 bytes、ヨウコ113本/4,613,975 bytes。ヒロミは訓練34本を含む。CALYXは収録のみ、識別名の保留フラグは変更なし。ゲーム内表示文は変更しない。
+- `retire-ack` はcontrol/announce/battle、required/adopted、commonタグ、announce優先度。既存result-win/loseに合わせ、solo/multiどちらでも正しい文面としてcommon。現在の最新要求優先方式で他の声へ割り込める。
+- 進撃/日替わり防衛/回収中はリタイアの確認ボタンに接続し、結果遷移で出る既存案内より後から要求。キャンセル・自然敗北・全滅の経路には追加しない。生存側は途中退出確定後と任意帰還成功runの結果音声へ接続し、自動帰還・死亡の結果案内と区別。保存や報酬判定には作用しない。
+- 隊長retire-order・バディ4件と兵士撮り直し9件は、既存WAV原本の保管規則に合わせ `assets-src/voice-captain-v1/`、`voice-buddy-*-v1/`、`voice-soldier-*-v1/` へ配置。現行兵士は別セット（voice-fenrir/young-soldier）、バディ/隊長の受信セット名に対応した再生経路は存在しない。**配置済み・配線は経路実装時**。新しい掛け声再生系は作らず、公開の管制AIパックへ兵士等を混在させない。
+- ガチャ、ログイン初期値、支給ボックス、既存保存の互換/キー、brief-*不採用、保留識別名不採用、訓練2層/G18無効、ヨウコロック、字幕なしを維持。PROJECT_CONTEXTの「今回の導入作業」の禁止は過去の入口文書導入の限定条件であり、今回は本人の明示したmain反映/push/公開指示を適用。
+- 担当Codex単独。実モデルID/推論設定は取得不可で未確認。独立Chat監査は通常タスク方針に従い追加せず、自己レビュー・CI/保護と既存Worker公開手順を維持。
+
+## 検証と公開
+
+測定・実画面・全件検証・公開の確定結果を以下へ追記する。証拠と再現手順は [第5弾証拠](evidence/voice-fix5-20261115/README.md)。未確認は実スマホ/iOS・人間の実聴品質・全台詞/分岐・多人数インターネット戦。
+
+- 型・書式・全182ファイル1858テスト成功（checks/tests-final.txt）。実Chrome157.0.8103.51の信号測定合格。220Hzは通常/1.3倍とも220.18Hz、保持なし比較は285.71Hz。試聴275.86→274.29Hz、撤退271.19→271.19Hz、訓練260.87→262.30Hz。録音時間比は1.282〜1.306。最終コードで全件確認を継続し、公開は別段階として記録する。
+
+- 最終コードe4f14026で全182ファイル1858テスト成功（277.52秒、checks/tests-complete.txt）。型/書式/55.76秒の本番build/既存Worker dry-run成功。完成ビルドの実Chrome10条件が成功、進撃と生存退出の実再生Blobはretire-ackのMP3とSHA一致、キャンセル無音・字幕なし、同時発話max1・最新発話27.3ms。844×390/568×320と訓練の画像を主担当が確認。生存60秒の任意帰還は配線/型と既存テストで照合、当該操作の実画面は未実施。
+- PR https://github.com/futsalife24-bot/swarm-front/pull/346 。GitHub mainはprotected=false、対象commitのstatus/workflow0件を実取得。保護や設定は変更せず通常PRから反映する。

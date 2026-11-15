@@ -1,0 +1,104 @@
+{
+  "base": "http://127.0.0.1:5207/",
+  "checks": [
+    "未DLは無音、字幕設定と導線なし、ヨウコの全操作不可",
+    "通常が既定、1.3倍速を試聴へ適用",
+    "保存済みの日本語サンプル試聴、ボイスなし選択保持、字幕なし",
+    "パック保存済みでもボイスなしは無音、再読込保持、横2サイズはみ出しなし",
+    "再読込後も速度保持、通常発話も1.3倍速",
+    "タイトルから作戦選択・進撃へ連続操作、最新台詞を再生",
+    "実戦の任意撤退は確定後に音声開始、キャンセルは発話なし、字幕なし",
+    "生存側の任意退出でもretire-ackの実バイト一致、キャンセル無音",
+    "TAP START前の発話なし、入力後の既存タイトル発話維持、旧alwaysでも字幕なし",
+    "基礎訓練の初回案内を保持、訓練iframeにも字幕なし"
+  ],
+  "errors": [],
+  "previewDurations": [
+    {
+      "src": "blob:http://127.0.0.1:5207/99d6935a-e4b7-4df5-9fe4-c2922229d6cc",
+      "rate": 1,
+      "preservesPitch": true,
+      "at": 4860.799999952316
+    },
+    {
+      "src": "blob:http://127.0.0.1:5207/e11d6ad2-8a7b-4417-b5d2-7ec840587f37",
+      "rate": 1.3,
+      "preservesPitch": true,
+      "at": 4981
+    }
+  ],
+  "rapid": {
+    "voices": [
+      {
+        "src": "blob:http://127.0.0.1:5207/62623092-10fb-4012-af4b-45de1adb2a39",
+        "rate": 1.3,
+        "preservesPitch": true,
+        "at": 2175.800000011921
+      },
+      {
+        "src": "blob:http://127.0.0.1:5207/e3a18092-14a9-42e0-a959-c4363ef5e9d8",
+        "rate": 1.3,
+        "preservesPitch": true,
+        "at": 2870.899999976158
+      },
+      {
+        "src": "blob:http://127.0.0.1:5207/e1da7f8e-8226-45dd-88fb-a28898994e98",
+        "rate": 1.3,
+        "preservesPitch": true,
+        "at": 4243.899999976158
+      }
+    ],
+    "stops": [
+      2851.199999988079,
+      4224.699999988079
+    ],
+    "maxLive": 1,
+    "clicks": [
+      {
+        "at": 1032.800000011921
+      },
+      {
+        "at": 2850.099999964237
+      },
+      {
+        "id": "advance",
+        "at": 3521.599999964237
+      },
+      {
+        "id": "pt-confirm",
+        "at": 4216.599999964237
+      }
+    ],
+    "lastStartAfterClickMs": 27.30000001192093
+  },
+  "retireVoices": [
+    {
+      "src": "blob:http://127.0.0.1:5207/9e3b8df7-c8d5-4768-a42d-cbba01914c08",
+      "rate": 1.3,
+      "preservesPitch": true,
+      "at": 29955.5
+    },
+    {
+      "src": "blob:http://127.0.0.1:5207/f9bb142e-e347-4991-b1c1-ff590e96d2c5",
+      "rate": 1.3,
+      "preservesPitch": true,
+      "at": 29964
+    }
+  ],
+  "retireHash": "c5caadbd0f4e03ee4f45d23bdfb049c66b4c010ea218c828836515452c684d36",
+  "frontRetireHash": "c5caadbd0f4e03ee4f45d23bdfb049c66b4c010ea218c828836515452c684d36",
+  "trainingVoices": [
+    {
+      "src": "blob:http://127.0.0.1:5207/9b1df70c-a72f-4a6e-8da6-5c7b37c6e5d4",
+      "rate": 1.3,
+      "preservesPitch": true,
+      "at": 1736.3999999761581
+    }
+  ],
+  "saved": {
+    "swarm-front-control-voice-enabled-v1": "true",
+    "swarm-front-control-voice-v1": "hiromi",
+    "swarm-front-control-voice-rate-v1": "1.3",
+    "swarm-front-control-captions-v1": "always"
+  }
+}

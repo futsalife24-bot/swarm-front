@@ -193,6 +193,8 @@ let status = "",
   awardedRun = "",
   preparedGeneration = -1;
 let connectionFatal = "";
+// 任意帰還だけ結果の声を差し替える。自然終了や保存データには作用しない。
+let retiredRun = "";
 let rewardError = false;
 let rewardStatus: FrontRewardStatus | undefined;
 let lastHud = "";
@@ -1299,12 +1301,14 @@ function paintOverlay() {
     $("front-leave-confirm").onclick = () => {
       exitDialog.close();
       leave();
+      void sound.say("retire-ack");
     };
     if (localRun?.fusion && localRun.mode === "survival" && world.time >= 60) {
       const back = document.createElement("button");
       back.textContent = "帰還して戦果を保存";
       back.onclick = () => {
         if (localRun && returnFrontRun(localRun)) {
+          retiredRun = localRun.world.run;
           resumeRebuildUi(gate, false);
           setView();
           overlayKey = "";
@@ -1640,7 +1644,10 @@ function frame(time: number) {
         info.phase,
       );
       showOperationCue(resultCue, { key: `${world.run}:result` });
-      sound.announce(resultCue, `${world.run}:result`);
+      sound.announce(
+        retiredRun === world.run ? "retire-ack" : resultCue,
+        `${world.run}:result`,
+      );
       awardedRun = world.run;
       rewardError = rewardStatus.error;
       rewardText = rewardStatus.text;

@@ -1,0 +1,59 @@
+
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-voice-fix5-20261115
+
+ ❯ tests/control-voice-packs.test.ts (10 tests | 2 failed) 1311ms
+   ❯ voice packs shipped for optional download (4)
+     × contains every playable line and none of the blocked ones 79ms
+   ❯ Sound reads control voice from downloaded packs (1)
+     × falls back to silence, plays after download, and stops after removal 1047ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/control-voice-packs.test.ts > voice packs shipped for optional download > contains every playable line and none of the blocked ones
+AssertionError: voice-control-hiromi-v1/anomaly-calyx: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ tests/control-voice-packs.test.ts:98:28
+     96|         const has = indexes.get(voice)!.has(key);
+     97|         if (line.id === "anomaly-calyx") {
+     98|           expect(has, key).toBe(true);
+       |                            ^
+     99|           expect(playableLine(line)).toBe(false);
+    100|         } else if (line.blocked === "abolished" || line.blocked === "o…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/control-voice-packs.test.ts > Sound reads control voice from downloaded packs > falls back to silence, plays after download, and stops after removal
+AssertionError: expected 'unavailable' to be 'playing' // Object.is equality
+
+Expected: "playing"
+Received: "unavailable"
+
+ ❯ tests/control-voice-packs.test.ts:266:53
+    265|     expect(sound.controlVoice.voice).toBe("hiromi");
+    266|     // 未ダウンロード: 無音。例外にしない。通信もしない。
+    267|     await sound.prepareControlVoice(["tut-intro"]);
+       |                  ^
+    268|     expect(sound.controlVoice.request("tut-intro")).toBe("queued");
+    269|     await vi.waitFor(() => expect(sound.controlVoice.waiting).toBeUnde…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 181 passed (182)
+      Tests  2 failed | 1855 passed (1857)
+   Start at  11:25:42
+   Duration  332.09s (tests 68%, import 28%, transform 3%)
+
+     Import  429 modules were evaluated 595 times · 84.22s total, 28% of tracked time
+             ~23.50s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation

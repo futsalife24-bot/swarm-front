@@ -106,7 +106,7 @@ export class Sound {
   private speechRun = "";
   private speechOwner = "";
   private active = false;
-  private controlSources = new Set<AudioBufferSourceNode>();
+  private controlSources = new Set<HTMLAudioElement>();
   private announcer = new ControlAnnouncer();
   /** 基礎訓練の間は兵士の掛け声を止める（tutorial-proposal §8-1 の3）。 */
   soldierVoiceEnabled = true;
@@ -157,7 +157,7 @@ export class Sound {
     if (rate !== 1 && rate !== 1.3) return;
     this.controlRate = rate;
     saveControlVoiceRate(rate);
-    for (const source of this.controlSources) source.playbackRate.value = rate;
+    for (const source of this.controlSources) source.playbackRate = rate;
   }
   get controlVoiceVolume() {
     return this.controlLevel ?? 1;
@@ -439,34 +439,36 @@ export class Sound {
   }
   private startControl(path: string, onEnded: () => void) {
     const c = this.context,
-      buffer = this.buffers.get(`control:${path}`);
-    if (!c || !buffer || !this.controlMaster)
+      bytes = this.bytes.get(`control:${path}`);
+    if (!c || !bytes || !this.controlMaster)
       throw Error("control voice not ready");
     // 発話は同時に1本: 管制AIが話し始めたら兵士の掛け声を止める。
     this.speech?.stop();
     this.speech = undefined;
-    const source = c.createBufferSource(),
+    // MediaElement のタイムストレッチでピッチを保持。SE/兵士の再生系は変更しない。
+    const url = URL.createObjectURL(new Blob([bytes], { type: "audio/mpeg" })),
+      audio = new Audio(url),
+      source = c.createMediaElementSource(audio),
       gain = c.createGain();
-    source.buffer = buffer;
-    source.playbackRate.value = this.controlRate;
+    audio.preservesPitch = true;
+    audio.playbackRate = this.controlRate;
     gain.gain.value = 0.95;
     source.connect(gain).connect(this.controlMaster);
-    this.controlSources.add(source);
-    source.onended = () => {
-      this.controlSources.delete(source);
+    this.controlSources.add(audio);
+    const finish = () => {
+      if (!this.controlSources.delete(audio)) return;
+      audio.onended = audio.onerror = null;
+      audio.pause();
+      audio.removeAttribute("src");
+      audio.load();
       source.disconnect();
       gain.disconnect();
+      URL.revokeObjectURL(url);
       onEnded();
     };
-    source.start();
-    return () => {
-      if (!this.controlSources.has(source)) return;
-      try {
-        source.stop();
-      } catch {
-        /* already stopped */
-      }
-    };
+    audio.onended = audio.onerror = finish;
+    void audio.play().catch(finish);
+    return finish;
   }
   stop(combatOnly = false) {
     this.resetSpeech();
