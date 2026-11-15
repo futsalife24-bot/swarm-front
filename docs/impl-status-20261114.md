@@ -443,3 +443,7 @@
 - 照合の完全一覧: [checklist.json](evidence/voice-fix6-20261115/checklist.json)。検証・公開結果は以下の公開記録に追記する。
 
 - 初回全テストは182ファイル中181成功、1864件中1863成功。失敗1件は上記の未収録敵名の保留解除によるもの。保留を復元して全件を再実行。開発サーバーの初回ページ要求はタイムアウトし、ビルド済みpreviewへ変更して実Chrome検証成功。ブラウザ検証スクリプトのhome音源照合は再生開始前の参照が原因で一度失敗し、開始待ちを明示して解消。製品の追加変更なし。
+
+- 採用TRUEのまま既存再生保留を維持した10件: anomaly-harrow, anomaly-calyx, anomaly-bastion, anomaly-volley, anomaly-leaper, anomaly-pleat, anomaly-prism, anomaly-ray, anomaly-foundry, anomaly-catena。calyx以外の9件は原本・既存パックとも未収録。新規収録やパック変更は本依頼に含めず、未収録を推測音声で補っていない。
+
+- 最終自己検証: npm run typecheck / npm run format:check / npm test（182ファイル・1864件すべて成功）/ npm run build / npm run server:build:production成功。実Chromeのbuilt-finalは6速度のピッチ保持指定・保存再読込、タイトル無音、日本語homeの実バイト照合、横844×390/568×320、字幕なし、ヨウコロックが成功、画面例外0。独立監査は通常タスクの最新方針どおり未実施。GitHub側はworkflowファイルなし、実装HEADのstatus一覧も空であり、CI合格と呼んでいない。
