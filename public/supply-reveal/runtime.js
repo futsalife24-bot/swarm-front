@@ -1,7 +1,8 @@
-import { createDropReveal, STOP_HOLD_MS } from './core.js';
+import { createDropReveal, STOP_HOLD_MS, validate } from './core.js';
 import { install, reset as resetFx, set as setFx, setBuddyArt } from './kakutei-fx.js';
 import { CLIPS } from './reference-scenes.js';
-import { chooseEffect } from './effect-selection.js';
+import { choosePlan } from './effect-selection.js';
+import { signalLayers, signalCues } from './signal-timeline.js';
 
 const clamp = (x) => Math.max(0, Math.min(1, x));
 const tier = (r) => r.type === 'buddy' ? 5 : r.type === 'shard' ? 0 : ({ N: 1, R: 2, SR: 3, SSR: 4 })[r.rarity] ?? -1;
@@ -16,20 +17,22 @@ export function createSupplyReveal(host, options = {}) {
   let fxNumber = 0, model = null, result = null, caption = null, raf = 0, last = 0;
   let muted = false, reduced = core.state().reduced, fast = core.state().fast, cleanupFx = null, heldPointer = false;
   let skipping = false, cracks = [], lastCrackAt = 0;
+  let plan = null, extraCues = [];
   const confirmedCuts = new Set();
   const ready = Promise.all([core.ready, install(core, o.assetBase || new URL('./assets/', import.meta.url).href, () => reduced)]).then(([, cleanup]) => { if (closed) cleanup(); else cleanupFx = cleanup; });
   const visual = (p, sec, tap = false) => {
     const u = p.d ? clamp(sec / p.d) : 1;
     const state = p.fx ? p.fx(sec, u) : { id: null };
-    const s = { ...state, caption: o.captions && fxNumber ? caption.caption : '', sub: o.captions && fxNumber ? caption.sub : '', gold: !!p.gold, notap: !!p.notap, right: !!caption?.right };
+    const s = { ...state, caption: o.captions && fxNumber ? caption?.caption || '' : '', sub: o.captions && fxNumber ? caption?.sub || '' : '', gold: !!p.gold, notap: !!p.notap, right: !!caption?.right };
     if (reduced && s.p) {
       // 下限の色と形は保持し、揺れ・粒子・通信ノイズだけ抑える。
       if (s.id === 'jack') s.p = { ...s.p, g: 0, w: s.p.w };
       if (s.id === 'gold' || s.id === 'presage') s.p = { ...s.p, a: 0 };
     }
-    setFx(s);
     const t = p.a + (p.b - p.a) * u;
     const A = p.refStart === undefined ? presentationClock : p.refStart + (p.d ? sec * p.refDuration / p.d : sec);
+    const layers = skipping ? [] : signalLayers(plan, model, t, A);
+    setFx({ ...s, gold: !!s.gold || (plan?.phases[0] === 1 && t <= model.tLaunch + 0.5), layers: [...layers, ...(s.id ? [s] : [])] });
     core.seek(t, A - t, tap);
   };
   const cue = (c) => { if (!muted) core.playCue(c); o.onEvent?.({ type: 'cue', id: c.id }); };
@@ -40,6 +43,8 @@ export function createSupplyReveal(host, options = {}) {
     if (p.wait) {
       if (queued && (p.wait === 'pod' || p.wait === 'promo') && !(fxNumber === 4 && p.fx)) { queued = false; advance(); return; }
       waiting = p.wait; waitSince = performance.now(); queued = false;
+      if (p.wait === 'launch' && plan?.phases[0] === 'signature') cue({ id: 'sig-signature', vol: 0.55 });
+      if (p.wait === 'launch' && plan?.phases[0] === 'response') cue({ id: 'sig-scan', vol: 0.4 });
       core.root.querySelector('.gx-tap').textContent = p.wait === 'fracture' ? `タップして画面を割る ${cracks.length}/3` : 'TAP';
       o.onEvent?.({ type: p.wait === 'final' ? 'final' : 'stop', kind: p.wait, t: p.a });
     }
@@ -58,7 +63,14 @@ export function createSupplyReveal(host, options = {}) {
     raf = requestAnimationFrame(tick);
     const dt = Math.min(0.05, Math.max(0, (now - last) / 1000)) * (fast ? 2 : 1); last = now;
     if (!active) return;
-    if (waiting) { const prev = elapsed; elapsed += dt; presentationClock += dt; for (const c of current()?.cues || []) if (c.at > 0 && prev < c.at && c.at <= elapsed) cue(c); render(); return; }
+    if (waiting) {
+      const prev = elapsed, prevA = presentationClock; elapsed += dt; presentationClock += dt;
+      for (const c of current()?.cues || []) if (c.at > 0 && prev < c.at && c.at <= elapsed) cue(c);
+      if (waiting === 'launch' && plan?.phases[0] === 'response') {
+        for (let k = Math.floor(prevA / 1.15); k <= Math.floor(presentationClock / 1.15); k++) if (prevA < k * 1.15 + 0.23 && presentationClock >= k * 1.15 + 0.23) cue({ id: 'sig-heartbeat', vol: 0.42 });
+      }
+      render(); return;
+    }
     let remain = dt;
     while (remain > 0 && !waiting) {
       const p = current(); if (!p) break;
@@ -66,7 +78,7 @@ export function createSupplyReveal(host, options = {}) {
       const prev = elapsed; elapsed += step; presentationClock += step; remain -= step;
       if (p.snd && !muted && p.b > p.a) {
         const a = p.a + (p.b - p.a) * prev / p.d, b = p.a + (p.b - p.a) * elapsed / p.d;
-        for (const c of model.cues) if (cueIn(c, a, b)) cue(c);
+        for (const c of [...model.cues, ...extraCues]) if (cueIn(c, a, b)) cue(c);
       }
       for (const c of p.cues || []) if (c.at > 0 && prev < c.at && c.at <= elapsed) cue(c);
       if (elapsed >= p.d - 1e-6) advance();
@@ -99,6 +111,13 @@ export function createSupplyReveal(host, options = {}) {
     if (endpoint) out.push(waitPart(endpoint, seg.fx ? () => seg.fx(seg.d, 1) : null, seg));
   };
   const makeParts = (m, n) => {
+    if (typeof n === 'string') {
+      if (!m.multi && ['delayed', 'skeleton'].includes(n)) {
+        const p = m.pods[plan.targets[2]], t = p.beats[0].t0;
+        return makeParts({ ...m, stops: [...m.stops, { t, kind: 'pod', i: p.i }].sort((a, b) => a.t - b.t) }, 0);
+      }
+      n = 0;
+    }
     const stops = m.stops, out = [];
     if (!n) {
       let at = 0;
@@ -106,11 +125,11 @@ export function createSupplyReveal(host, options = {}) {
       return out;
     }
     const clip = CLIPS[n - 1], M = sceneModel(m);
-    const target = n === 4 ? m.pods.find((p) => p.tier >= 3)
+    const target = n === 4 ? m.pods.find((p) => p.tier >= 4)
       : n === 10 ? m.pods.find((p) => p.tier === 5)
       : [5, 6, 7, 8, 9].includes(n) ? m.pods.find((p) => p.tier === 4) : null;
     if (target) {
-      const proxy = n === 4 ? { ...target, tier: 3 } : target;
+      const proxy = target;
       M.pods = [proxy, ...m.pods.filter((p) => p !== target)];
       if (n === 4) M.pods = m.pods.map((p) => p === target ? proxy : p);
     }
@@ -198,17 +217,25 @@ export function createSupplyReveal(host, options = {}) {
       await ready;
       resetFx();
       muted = !!cfg.silent;
-      await core.play(results, { manual: true, silent: muted });
+      const values = validate(results), tiers = values.map(tier);
+      const initialTiers = cfg.initialTiers || tiers.map((v) => 1 + Math.floor(Math.random() * Math.max(1, v)));
+      if (!cfg.initialTiers && tiers.length === 10 && tiers[9] === 3 && initialTiers[9] === 1) initialTiers[9] = 2;
+      if (!cfg.initialTiers && cfg.effects && tiers.length === 10 && tiers[9] >= 4 && initialTiers[9] === 1) initialTiers[9] = 2;
+      plan = choosePlan({ tiers, multi: tiers.length === 10, initialTiers }, cfg.effects, Math.random, !!cfg.previewSingleEffects, cfg.signalCandidates);
+      core.setSignalPlan(plan);
+      await core.play(results, { manual: true, silent: muted, initialTiers: plan.initialTiers });
       model = core.model(); result = results;
       skipping = false; cracks = []; lastCrackAt = 0; confirmedCuts.clear();
-      fxNumber = chooseEffect(model, cfg.effects, Math.random, !!cfg.previewSingleEffects && !model.multi);
+      fxNumber = plan.phases[2] || 0;
       setBuddyArt(fxNumber === 10 ? model.pods.find((p) => p.tier === 5)?.r.art : null);
       caption = fxNumber ? CLIPS[fxNumber - 1] : null;
       parts = makeParts(model, fxNumber); pos = 0; elapsed = 0; presentationClock = 0; waiting = null; queued = false; active = true;
+      extraCues = signalCues(plan, model);
+      core.root.dataset.signalPlan = JSON.stringify(plan);
       if (parts.length) enter(parts[0]);
       render(); last = performance.now(); cancelAnimationFrame(raf);
       if (!cfg.manual) raf = requestAnimationFrame(tick);
-      o.onEvent?.({ type: 'play', n: model.n, effect: fxNumber });
+      o.onEvent?.({ type: 'play', n: model.n, effect: fxNumber, plan });
     },
     tap(point) {
       if (!active || waiting === 'final') return;
@@ -235,6 +262,7 @@ export function createSupplyReveal(host, options = {}) {
     skip() {
       if (!active || waiting === 'final') return;
       if (skipping) return; // 獲得確認は再度スキップしても飛ばさない。
+      core.stopCues();
       const remaining = model.cuts.filter((c) => !confirmedCuts.has(c.p.i));
       if (remaining.length) {
         skipping = true; queued = false;
@@ -247,13 +275,13 @@ export function createSupplyReveal(host, options = {}) {
       cue({ id: 'done' });
       o.onEvent?.({ type: 'final', t: end, skipped: true });
     },
-    close() { if (!active) return; active = false; cancelAnimationFrame(raf); setFx(null); core.close(); },
+    close() { if (!active) return; active = false; cancelAnimationFrame(raf); core.stopCues(); setFx(null); core.close(); },
     destroy() { if (closed) return; api.close(); closed = true; cleanupFx?.(); root.removeEventListener('pointerdown', onPointer); root.removeEventListener('click', onClick, true); window.removeEventListener('pointerup', onRelease); window.removeEventListener('pointercancel', onRelease); window.removeEventListener('keydown', onKey); core.destroy(); },
-    setFast(v) { fast = !!v; core.setFast(fast); },
-    setReduced(v) { reduced = !!v; core.setReduced(reduced); if (active) { const old = current(), fr = old?.d ? elapsed / old.d : 0; model = core.model(); parts = skipping ? skippedParts(parts.filter((p) => p.skipCut !== undefined).map((p) => p.skipCut)) : makeParts(model, fxNumber); pos = Math.min(pos, parts.length - 1); elapsed = (current()?.d || 0) * fr; render(); } },
+    setFast(v) { core.stopCues(); fast = !!v; core.setFast(fast); },
+    setReduced(v) { reduced = !!v; core.setReduced(reduced); if (active) { const old = current(), fr = old?.d ? elapsed / old.d : 0; model = core.model(); extraCues = signalCues(plan, model); parts = skipping ? skippedParts(parts.filter((p) => p.skipCut !== undefined).map((p) => p.skipCut)) : makeParts(model, fxNumber); pos = Math.min(pos, parts.length - 1); elapsed = (current()?.d || 0) * fr; render(); } },
     setSound(v) { core.setSound(v); },
-    seek(t, idle = 0, tap = false, fx = null) { setFx(fx); core.seek(t, idle, tap); },
-    state() { return { active, effect: fxNumber, waiting, part: pos, skipping, cracks: cracks.length, t: current() ? current().a + (current().b - current().a) * (current().d ? elapsed / current().d : 1) : 0, reduced, fast }; },
+    seek(t, idle = 0, tap = false, fx = null) { const layers = signalLayers(plan, model, t, t + idle); setFx(fx || { layers, gold: plan?.phases[0] === 1 && t <= model.tLaunch + 0.5 }); core.seek(t, idle, tap); },
+    state() { return { active, effect: plan?.phases.find((id) => id && id !== 'last-default') || 0, plan, waiting, part: pos, skipping, cracks: cracks.length, t: current() ? current().a + (current().b - current().a) * (current().d ? elapsed / current().d : 1) : 0, reduced, fast }; },
     model() { return model; },
     timeline() { return parts.map((p) => ({ a: p.a, b: p.b, d: p.d, refStart: p.refStart, refDuration: p.refDuration, wait: p.wait || null, gold: !!p.gold, fx: p.fx?.(p.d * 0.5, 0.5)?.id || null, cues: (p.cues || []).map((c) => ({ at: c.at, id: c.id })), snd: !!p.snd })); },
     root: core.root,

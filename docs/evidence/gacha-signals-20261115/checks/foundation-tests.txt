@@ -1,0 +1,8 @@
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-gacha-signals-20261115
+
+
+ Test Files  1 passed (1)
+      Tests  22 passed (22)
+   Start at  23:19:36
+   Duration  340ms (import 60%, transform 27%, tests 12%, worker 2%)

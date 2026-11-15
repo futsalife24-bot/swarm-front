@@ -1,0 +1,306 @@
+{
+  "checked": 14,
+  "options": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "9",
+    "10",
+    "response",
+    "signature",
+    "heartbeat",
+    "multilock",
+    "sonic",
+    "reverse",
+    "reverseSeal",
+    "lamp",
+    "landing",
+    "delayed",
+    "skeleton"
+  ],
+  "rows": [
+    {
+      "id": "response",
+      "count": 1,
+      "width": 844,
+      "height": 390,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 0,
+      "keyboard": 1,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "response",
+      "count": 10,
+      "width": 640,
+      "height": 360,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 1,
+      "keyboard": 0,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "signature",
+      "count": 1,
+      "width": 844,
+      "height": 390,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 1,
+      "keyboard": 0,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "signature",
+      "count": 10,
+      "width": 640,
+      "height": 360,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 0,
+      "keyboard": 1,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "heartbeat",
+      "count": 1,
+      "width": 844,
+      "height": 390,
+      "phases": [
+        0,
+        "heartbeat",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 0,
+      "keyboard": 1,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "heartbeat",
+      "count": 10,
+      "width": 640,
+      "height": 360,
+      "phases": [
+        0,
+        "heartbeat",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 1,
+      "keyboard": 0,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "lamp",
+      "count": 1,
+      "width": 844,
+      "height": 390,
+      "phases": [
+        "lamp",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 1,
+      "keyboard": 0,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "lamp",
+      "count": 10,
+      "width": 640,
+      "height": 360,
+      "phases": [
+        "lamp",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 0,
+      "keyboard": 1,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "sonic",
+      "count": 1,
+      "width": 844,
+      "height": 390,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 0,
+      "keyboard": 1,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "sonic",
+      "count": 10,
+      "width": 640,
+      "height": 360,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "confirmations": 1,
+      "pointer": 1,
+      "keyboard": 0,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "delayed",
+      "count": 1,
+      "width": 844,
+      "height": 390,
+      "phases": [
+        0,
+        0,
+        "delayed"
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "confirmations": 1,
+      "pointer": 1,
+      "keyboard": 0,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "delayed",
+      "count": 10,
+      "width": 640,
+      "height": 360,
+      "phases": [
+        0,
+        0,
+        "delayed"
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "confirmations": 1,
+      "pointer": 0,
+      "keyboard": 1,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "skeleton",
+      "count": 1,
+      "width": 844,
+      "height": 390,
+      "phases": [
+        0,
+        0,
+        "skeleton"
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "confirmations": 1,
+      "pointer": 0,
+      "keyboard": 1,
+      "localStorageUnchanged": true
+    },
+    {
+      "id": "skeleton",
+      "count": 10,
+      "width": 640,
+      "height": 360,
+      "phases": [
+        0,
+        0,
+        "skeleton"
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "confirmations": 1,
+      "pointer": 1,
+      "keyboard": 0,
+      "localStorageUnchanged": true
+    }
+  ],
+  "apiWrites": [],
+  "errors": []
+}

@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-11-15T14:35:19.152Z",
+  "subscriptionRead": {
+    "http": 403,
+    "success": false,
+    "errors": [
+      {
+        "code": 10000,
+        "message": "Authentication error"
+      }
+    ]
+  },
+  "usage": {
+    "http": 200,
+    "data": [
+      {
+        "sum": {
+          "errors": 0,
+          "requests": 341,
+          "subrequests": 377
+        }
+      }
+    ]
+  },
+  "note": "既存アカウントの読み取りだけ。認証/契約/権限/公開設定の変更なし。契約読取不可をFree確認成功とは扱わない。"
+}

@@ -2,6 +2,8 @@ import { getMenuReducedMotion } from "./menu-effects";
 import { loadSupplyReveal, type Reveal } from "./supply-presentation";
 import {
   SUPPLY_EFFECT_NAMES,
+  SUPPLY_SIGNAL_NAMES,
+  SUPPLY_PREVIEW_EFFECTS,
   selectedSupplyPreview,
   randomSupplyPreview,
 } from "./supply-preview-data";
@@ -15,11 +17,11 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
     reveal: Reveal | null = null;
   host.innerHTML = `<section class="supply-preview">
     <p>1連・10連の演出確認です。補給券の消費・報酬の取得・進行の保存はありません。</p>
-    <div class="supply-preview-controls"><label>回数<select data-supply-preview-count aria-label="確認する回数"><option value="10">10連</option><option value="1">1連</option></select></label><label>演出を選ぶ<select id="supply-preview-effect" data-supply-preview-select aria-label="確認する確定演出">${SUPPLY_EFFECT_NAMES.map((name, i) => `<option value="${i + 1}">${i + 1}. ${name}</option>`).join("")}</select></label>
+    <div class="supply-preview-controls"><label>回数<select data-supply-preview-count aria-label="確認する回数"><option value="10">10連</option><option value="1">1連</option></select></label><label>演出を選ぶ<select id="supply-preview-effect" data-supply-preview-select aria-label="確認する確定演出">${SUPPLY_PREVIEW_EFFECTS.map(({ id, name }) => `<option value="${id}">${name}</option>`).join("")}</select></label>
     <button type="button" data-supply-preview-play>選択した演出で再生</button>
     <button type="button" data-supply-preview-random>ランダムで再生</button></div>
     <p data-supply-preview-note role="status" aria-live="polite">選択時は演出に必要な結果を用意します。ランダム時は選んだ回数の通常の確率・保証・演出選択です。</p>
-    <small>タップ・長押し・スキップ・2倍速・動き減を確認できます。結果一覧の「次へ」で繰り返し再生できます。</small>
+    <small>タップ・スキップ・2倍速・動き減を確認できます。結果一覧の「次へ」で繰り返し再生できます。</small>
     <p data-supply-preview-effect="" class="supply-preview-result"></p>
   </section>`;
   const note = host.querySelector<HTMLElement>("[data-supply-preview-note]")!;
@@ -31,7 +33,7 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
     busy = false;
     buttons.forEach((b) => (b.disabled = false));
   };
-  const play = async (effect?: number) => {
+  const play = async (effect?: number | string) => {
     if (busy || closed) return;
     busy = true;
     buttons.forEach((b) => (b.disabled = true));
@@ -44,7 +46,14 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
       const results =
         effect === undefined
           ? randomSupplyPreview(Math.random, count)
-          : selectedSupplyPreview(effect, count);
+          : selectedSupplyPreview(
+              typeof effect === "string"
+                ? ["response", "signature", "heartbeat"].includes(effect)
+                  ? 10
+                  : 1
+                : effect,
+              count,
+            );
       const module = await loadSupplyReveal();
       if (closed) return;
       reveal?.destroy();
@@ -87,8 +96,12 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
       );
       if (closed) return;
       const actual = reveal.state().effect;
+      const actualName =
+        typeof actual === "string"
+          ? SUPPLY_SIGNAL_NAMES[actual]
+          : SUPPLY_EFFECT_NAMES[actual - 1];
       result.dataset.supplyPreviewEffect = String(actual);
-      result.textContent = `前回の${effect === undefined ? "ランダム" : "選択"}再生：${actual ? `${actual}. ${SUPPLY_EFFECT_NAMES[actual - 1]}` : "通常演出"}（取得なし）`;
+      result.textContent = `前回の${effect === undefined ? "ランダム" : "選択"}再生：${actual ? actualName || String(actual) : "通常演出"}（取得なし）`;
       note.textContent = "再生中です。";
     } catch (error) {
       reveal?.destroy();
@@ -101,12 +114,10 @@ export function mountSupplyPreview(host: HTMLElement, getVolume: () => number) {
   };
   host.querySelector<HTMLButtonElement>("[data-supply-preview-play]")!.onclick =
     () => {
-      void play(
-        Number(
-          host.querySelector<HTMLSelectElement>("[data-supply-preview-select]")!
-            .value,
-        ),
-      );
+      const selected = host.querySelector<HTMLSelectElement>(
+        "[data-supply-preview-select]",
+      )!.value;
+      void play(/^\d+$/.test(selected) ? Number(selected) : selected);
     };
   host.querySelector<HTMLButtonElement>(
     "[data-supply-preview-random]",

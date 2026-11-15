@@ -520,6 +520,39 @@ const ADOPT = { ...CINEMA, ...Object.fromEntries(OPEN_IDS.map((id) => [id, HEAVY
   pop: () => fin(crateOpen(0), 0.49, 1.0, 6000),
   pop_r: () => fin(crateOpen(1), 0.5, 1.0, 6000),
 };
+// 新規BUDDY合図。低いソナー・柔らかい応答・二拍を専用化する。
+Object.assign(DEF, {
+  'sig-scan': () => { const b = buf(0.18); noise(b, 0, 0.13, 0.12, { hi0: 1600, lo0: 500, dec: 16 }); return fin(b, 0.2, 1, 3600); },
+  'sig-response': () => { const b = buf(0.55); sine(b, 0, 0.38, 260, 420, 0.35, { att: 0.02, dec: 8 }); reso(b, 0.06, 0.25, 480, 700, 2, 0.08, { dec: 10 }); return fin(b, 0.38, 1, 4000); },
+  'sig-signature': () => { const b = buf(0.7); reso(b, 0, 0.18, 550, 800, 2, 0.08); sine(b, 0.14, 0.25, 330, 330, 0.3, { att: 0.025, dec: 12 }); sine(b, 0.34, 0.28, 495, 495, 0.25, { att: 0.02, dec: 12 }); return fin(b, 0.35, 1, 4000); },
+  'sig-heartbeat': () => { const b = buf(0.65); for (const [t, a] of [[0, 0.6], [0.28, 0.4]]) { sine(b, t, 0.18, 105, 70, a, { att: 0.012, dec: 22 }); sine(b, t + 0.02, 0.22, 360, 340, a * 0.16, { att: 0.015, dec: 16 }); } return fin(b, 0.45, 1, 3600); },
+});
+Object.assign(DEF, {
+  'sig-lamp': () => { const b = buf(0.38); modal(b, 0, 185, 0.15, PLATE, { len: 0.3, hi: 3200, ex: 0.08, att: 0.005 }); return fin(b, 0.18, 1, 3600); },
+});
+Object.assign(DEF, {
+  'sig-sonic': () => { const b = buf(0.5); thump(b, 0, 0.34, 155, 55, 14, 0.12, 0.5); noise(b, 0, 0.18, 0.2, { hi0: 1500, hi1: 450, lo0: 150, lo1: 80, dec: 18 }); return fin(b, 0.55, 1, 3900); },
+});
+Object.assign(DEF, {
+  'sig-delayed': () => { const b = buf(0.6); thump(b, 0, 0.3, 140, 65, 15, 0.1, 0.45); modal(b, 0.005, 190, 0.42, PLATE, { len: 0.5, hi: 3800, dmul: 3, ex: 0.2 }); return fin(b, 0.5, 1, 4200); },
+});
+Object.assign(DEF, {
+  'sig-multilock': () => { const b = buf(0.42); latch(b, 0, 0.5, 330); growl(b, 0.02, 0.25, 75, 0.13, { dec: 14, f1: 55 }); return fin(b, 0.45, 1, 4200); },
+});
+Object.assign(DEF, {
+  'sig-landing-rail': () => { const b = buf(0.5); noise(b, 0, 0.36, 0.16, { hi0: 1600, hi1: 600, lo0: 200, dec: 4 }); growl(b, 0, 0.36, 95, 0.18, { f1: 62, dec: 4 }); return fin(b, 0.32, 1, 4000); },
+  'sig-landing-lock': () => { const b = buf(0.65); latch(b, 0, 0.48, 210); thump(b, 0.005, 0.45, 110, 45, 10, 0.12, 0.5); return fin(b, 0.5, 1, 4200); },
+});
+Object.assign(DEF, {
+  'sig-reverse': () => { const b = buf(0.55); reso(b, 0, 0.22, 1050, 450, 2, 0.12); for (let i = 0; i < 3; i++) latch(b, 0.07 * i, 0.12, 390 - i * 60); modal(b, 0.23, 160, 0.28, PLATE, { len: 0.26, hi: 3500, dmul: 5 }); return fin(b, 0.38, 1, 4000); },
+});
+Object.assign(DEF, {
+  'sig-reverseSeal': () => { const b = buf(0.6); reso(b, 0, 0.25, 500, 850, 2, 0.14); modal(b, 0.2, 260, 0.27, PLATE, { len: 0.32, hi: 3600, dmul: 4, ex: 0.15 }); return fin(b, 0.35, 1, 4000); },
+});
+Object.assign(DEF, {
+  'sig-skeleton-slide': () => { const b = buf(0.4); noise(b, 0, 0.33, 0.2, { hi0: 1300, hi1: 750, lo0: 200, lo1: 280, att: 0.02, dec: 4 }); growl(b, 0, 0.3, 88, 0.16, { f1: 100, dec: 5 }); return fin(b, 0.32, 1, 3800); },
+  'sig-skeleton-lock': () => { const b = buf(0.55); latch(b, 0, 0.5, 280); modal(b, 0.01, 145, 0.3, PLATE, { len: 0.4, dmul: 5, hi: 3800 }); return fin(b, 0.48, 1, 4200); },
+});
 const STYLES = { balance: {}, heavy: HEAVY, deep: DEEP, metal: METAL, cinema: CINEMA, adopt: ADOPT };
 export const STYLE_NAMES = { balance: '標準（打鍵音＋金管）', heavy: '重厚（ティンパニ・銅鑼・低い金管）', deep: '深い電子音（808系の重低音・シンセ）', metal: '金属と太鼓（膜・金属板・低い鐘）', cinema: '映画の衝撃音（うなり・上昇音・重い衝撃）', adopt: '採用版（開封は重厚、それ以外は映画の衝撃音）' };
 // 既定は採用版（2026-11-11）。以前の既定は重厚
@@ -548,7 +581,7 @@ export function mix(cues, dur) {
 // ブラウザ用：最初の操作で音を有効にし、合図ごとに鳴らす
 export function createPlayer(st = DEFAULT_STYLE) {
   if (!STYLES[st]) st = DEFAULT_STYLE;
-  let ctx = null, out = null, muted = false, worker = null, volume = 1; const bufs = new Map(), raw = new Map();
+  let ctx = null, out = null, muted = false, worker = null, volume = 1; const bufs = new Map(), raw = new Map(), sources = new Set();
   const get = (id) => { if (!bufs.has(id)) { const [l, r] = raw.get(id) || render(id, st), ab = ctx.createBuffer(2, l.length, SR); ab.copyToChannel(l, 0); ab.copyToChannel(r, 1); bufs.set(id, ab); } return bufs.get(id); };
   return {
     // 波形の計算は重い音で約1秒かかる。演出の途中で画面が止まらないよう、入口を開いた時点で別スレッドに計算させておく。
@@ -557,9 +590,10 @@ export function createPlayer(st = DEFAULT_STYLE) {
     get warmed() { return raw.size; },
     unlock() { if (!ctx) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false; ctx = new AC(); const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -10; comp.ratio.value = 6; comp.attack.value = 0.003; comp.release.value = 0.2; out = ctx.createGain(); out.gain.value = 0.9 * volume; out.connect(comp); comp.connect(ctx.destination); } if (ctx.state === 'suspended') ctx.resume(); return true; },
     async prime(ids = IDS) { if (!ctx) return; for (const id of ids) { if (raw.has(id)) get(id); await new Promise((r) => setTimeout(r, 0)); } },
-    play(c) { if (!ctx || muted || !DEF[c.id]) return; const s = ctx.createBufferSource(); s.buffer = get(c.id); s.playbackRate.value = c.rate || 1; const g = ctx.createGain(); g.gain.value = c.vol ?? 1; let node = g; if (ctx.createStereoPanner) { const p = ctx.createStereoPanner(); p.pan.value = c.pan || 0; g.connect(p); node = p; } s.connect(g); node.connect(out); s.start(); },
-    setMuted(v) { muted = !!v; }, get muted() { return muted; }, get ready() { return !!ctx; },
+    play(c) { if (!ctx || muted || !DEF[c.id]) return; const s = ctx.createBufferSource(); s.buffer = get(c.id); s.playbackRate.value = c.rate || 1; const g = ctx.createGain(); g.gain.value = c.vol ?? 1; let node = g; if (ctx.createStereoPanner) { const p = ctx.createStereoPanner(); p.pan.value = c.pan || 0; g.connect(p); node = p; } s.connect(g); node.connect(out); sources.add(s); s.onended = () => { sources.delete(s); s.disconnect(); g.disconnect(); if (node !== g) node.disconnect(); }; s.start(); },
+    stop() { for (const s of sources) { try { s.stop(); } catch {} } sources.clear(); },
+    setMuted(v) { muted = !!v; if (muted) this.stop(); }, get muted() { return muted; }, get ready() { return !!ctx; },
     setVolume(v) { volume = Math.max(0, Math.min(1, Number(v) || 0)); if (out) out.gain.value = 0.9 * volume; },
-    dispose() { worker?.terminate(); worker = null; out?.disconnect(); if (ctx) void ctx.close().catch(() => {}); ctx = out = null; bufs.clear(); raw.clear(); },
+    dispose() { this.stop(); worker?.terminate(); worker = null; out?.disconnect(); if (ctx) void ctx.close().catch(() => {}); ctx = out = null; bufs.clear(); raw.clear(); },
   };
 }

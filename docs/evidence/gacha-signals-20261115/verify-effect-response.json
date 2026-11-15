@@ -1,0 +1,85 @@
+{
+  "mode": "effect-response",
+  "checked": 4,
+  "rows": [
+    {
+      "name": "response-ten",
+      "request": "response",
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.64,
+      "layerFound": true
+    },
+    {
+      "name": "response-ten-reduced",
+      "request": "response",
+      "fixture": "ten-buddy",
+      "reduced": true,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.56,
+      "layerFound": true
+    },
+    {
+      "name": "response-single",
+      "request": "response",
+      "fixture": "single-buddy",
+      "reduced": false,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.64,
+      "layerFound": true
+    },
+    {
+      "name": "response-single-reduced",
+      "request": "response",
+      "fixture": "single-buddy",
+      "reduced": true,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.56,
+      "layerFound": true
+    }
+  ],
+  "live": [],
+  "cleanup": {
+    "confirmStillNeeded": true,
+    "roots": 0,
+    "caps": 0
+  },
+  "errors": []
+}

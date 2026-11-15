@@ -254,8 +254,23 @@ function createRenderer(cv, imgs) {
     ctx.save(); ctx.translate(x + jx, gy + oy + jy); ctx.scale(sx * sc, sy * sc);
     const iw = img.naturalWidth, ih = img.naturalHeight, tk = seg(t, since, since + 0.18), prev = lv >= 2 ? levelAt(p, t).from : 1;
     const layers = [[img, 1]]; if (prev >= 2 && tk < 1) layers.push([tinted(img, LV_COL[prev]), TINT_A[prev] * (1 - tk)]); if (lv >= 2) layers.push([tinted(img, col), TINT_A[lv] * tk]);
-    const part = (s0, s1, alpha) => { for (const [im, a] of layers) { if (a * alpha <= 0.004) continue; ctx.globalAlpha = a * alpha; ctx.drawImage(im, 0, ih * s0, iw, ih * (s1 - s0), -w / 2, -h * (1 - s0), w, h * (s1 - s0)); } ctx.globalAlpha = 1; };
-    if (ba > 0) part(SEAM, 1, ba);
+    const part = (s0, s1, alpha, left = 0, right = 1, dx = 0) => { for (const [im, a] of layers) { if (a * alpha <= 0.004) continue; ctx.globalAlpha = a * alpha; ctx.drawImage(im, iw * left, ih * s0, iw * (right - left), ih * (s1 - s0), -w / 2 + w * left + dx, -h * (1 - s0), w * (right - left), h * (s1 - s0)); } ctx.globalAlpha = 1; };
+    const skeleton = m.signalPlan?.phases[2] === 'skeleton' && m.signalPlan.targets[2] === p.i && t > p.beats[0].t0 + 1e-5;
+    const panel = skeleton ? (m.reduced ? 1 : seg(t, p.beats[0].t0, p.beats[0].t0 + 0.34, E.out3)) : 0;
+    if (ba > 0 && skeleton) {
+      // 元の色付き画像を切り分けて側板を実際に移動。隙間の奥だけに金の構造を出す。
+      ctx.save(); ctx.globalAlpha = ba; ctx.fillStyle = '#29251b';
+      ctx.fillRect(-w * 0.49, -h * (1 - SEAM), w * 0.98, h * (1 - SEAM));
+      ctx.strokeStyle = '#ffc94d'; ctx.lineWidth = w * 0.045;
+      for (const sign of [-1, 1]) {
+        ctx.beginPath(); ctx.moveTo(sign * w * 0.38, -h * 0.73); ctx.lineTo(sign * w * 0.38, -h * 0.12);
+        ctx.moveTo(sign * w * 0.25, -h * 0.7); ctx.lineTo(sign * w * 0.46, -h * 0.25); ctx.stroke();
+      }
+      ctx.restore();
+      part(SEAM, 1, ba, 0.16, 0.84);
+      part(SEAM, 1, ba, 0, 0.16, -w * 0.12 * panel);
+      part(SEAM, 1, ba, 0.84, 1, w * 0.12 * panel);
+    } else if (ba > 0) part(SEAM, 1, ba);
     const lidA = opened ? 1 - (p.wave ? seg(oa, 0.08, 0.38) : seg(oa, 0.2, 0.55)) : 1;
     if (lidA > 0) { ctx.save(); if (opened) { const dir = p.i % 2 ? 1 : -1, lift = p.wave ? 0.55 : 1; ctx.translate(dir * oa * 150 * k * lift, -(900 * oa - 900 * oa * oa) * k * lift); ctx.translate(0, -h * (1 - SEAM / 2)); ctx.rotate(dir * oa * 5.5); ctx.translate(0, h * (1 - SEAM / 2)); }
       part(0, SEAM, lidA); ctx.restore(); }
@@ -288,8 +303,7 @@ function createRenderer(cv, imgs) {
     const promo = (ts, to, big) => { const a = t - ts; if (a < 0 || a > 0.8) return; const nc = LV_COL[to];
       ring(x, cy, w * (0.5 + 2.3 * big * E.out3(a / 0.45)), nc, 1 - a / 0.45, 6 * k * (1 - a / 0.45) + 1, 0.8);
       dot(nc, x, cy, w * (1.7 + 1.6 * a) * big, 0.85 * Math.exp(-a * 7));
-      if (big >= 1 && mo === 1 && a < 0.55) { // 昇格の瞬間、段階の文字が大きく抜ける（「+」は「それ以上」の意味）
-        const s = 0.7 + 1.5 * E.out3(a / 0.55); ctx.save(); ctx.translate(x, cy); ctx.scale(s, s); ctx.font = `italic 700 ${Math.round(118 * k)}px "GX Rajdhani", sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = rgba(nc, 0.6 * (1 - a / 0.55)); ctx.fillText(to === 5 ? 'BUDDY' : TIER_NAME[to] + '+', 0, 0); ctx.restore(); }
+
       burst(to * 31 + p.i, Math.round((18 + 10 * (to - 1)) * big * mo), a, { x, y: cy, col: nc, alt: '#ffffff', sp: [140 * k, 600 * k], ang: [0, TAU], g: 320 * k, life: [0.3, 0.75], size: 5.5 * k, drag: 3 });
       pillar(x, gy - h * 0.7, 9 * k * (1 + to * 0.45) * Math.exp(-a * 8) * big, nc, Math.exp(-a * 7)); };
     for (const b of p.beats) promo(b.t1, b.to, 1);
@@ -329,7 +343,10 @@ function createRenderer(cv, imgs) {
     const B = m.tLaunch; if (t < B + 0.7) { // 射出の合図：投下地点の標的。タップすると衝撃の輪が広がる
       const a = seg(t, 0, B * 0.8) * (1 - seg(t, B + 0.05, B + 0.45)), cx = VW / 2, gy0 = m.multi ? 268 : 306, pu = 0.5 + 0.5 * Math.sin(A * 4.5); add();
       for (let i = 0; i < 3; i++) { const u = (A * 0.55 + i / 3) % 1; ring(cx, gy0, 70 + 230 * u, NEUTRAL, a * 0.55 * (1 - u), 2, 0.3); }
-      ctx.save(); ctx.translate(cx, gy0); ctx.scale(1, 0.3); ctx.strokeStyle = rgba('#e6fbff', 0.8 * a); ctx.lineWidth = 2.2; ctx.setLineDash([22, 12]); ctx.lineDashOffset = -A * 50; ctx.beginPath(); ctx.arc(0, 0, 120 + 8 * pu, 0, TAU); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+      ctx.save(); ctx.translate(cx, gy0); ctx.scale(1, 0.3); ctx.strokeStyle = rgba('#e6fbff', 0.8 * a); ctx.lineWidth = 2.2; ctx.setLineDash([22, 12]); // 逆転照準は既存の外周そのものを反転し、噛合位置で留める。
+      const reversing = m.signalPlan?.phases[0] === 'reverse';
+      ctx.lineDashOffset = reversing ? (red ? 24 : A < B * 0.28 ? -A * 50 : -B * 0.28 * 50 + Math.min(A - B * 0.28, B * 0.64) * 90) : -A * 50;
+      ctx.beginPath(); ctx.arc(0, 0, 120 + 8 * pu, 0, TAU); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
       dot(NEUTRAL, cx, gy0, 150 + 30 * pu, 0.35 * a); ctx.fillStyle = rgba(NEUTRAL, 0.35 * a); ctx.fillRect(cx - 1, -PAD, 2, gy0 + PAD);
       const la = t - B; if (la >= 0 && la < 0.7) { ring(cx, gy0, 80 + 620 * E.out3(la / 0.7), '#ffffff', 0.9 * (1 - la / 0.7), 8 * (1 - la / 0.7) + 1, 0.3); dot('#e6fbff', cx, gy0 - 40, 260, 0.6 * Math.exp(-la * 6)); pillar(cx, gy0, 30 * Math.exp(-la * 5), NEUTRAL, Math.exp(-la * 4)); }
       over(); }
@@ -413,7 +430,7 @@ export function createDropReveal(host, opts = {}) {
   const el = { cv: $('.gx-cv'), stage: $('.gx-stage'), world: $('.gx-world'), omen: $('.gx-omen'), omenT: $('.gx-omen span'), cap: $('.gx-cap'), card: $('.gx-card'), cut: $('.gx-cut'), list: $('.gx-list'), status: $('.gx-status'), label: $('.gx-title b'), tap: $('.gx-tap'), actions: $('.gx-actions'), launch: $('.gx-launch') };
   const mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
   let reduced = o.reduced ?? !!(mq && mq.matches), fast = !!o.fast, results = null, model = null, minis = [], tiles = [], ren = null, imgs = null;
-  let T = 0, idle = 0, stopIdx = 0, waiting = null, cueIdx = 0, raf = 0, lastNow = 0, lastTap = 0, curCut = null, live = false, queued = false, predecoded = [], onDraw = null;
+  let T = 0, idle = 0, stopIdx = 0, waiting = null, cueIdx = 0, raf = 0, lastNow = 0, lastTap = 0, curCut = null, live = false, queued = false, predecoded = [], onDraw = null, signalPlan = null;
   const player = createPlayer(o.sfxStyle); // 音の傾向：'heavy'（重厚・既定）/ 'deep'（深い電子音）/ 'balance'（標準）
   player.setVolume(o.volume ?? 1);
   if (o.sound && o.warm !== false) player.warm();
@@ -423,7 +440,7 @@ export function createDropReveal(host, opts = {}) {
   const fillInfo = (box, r, tier) => { $('.gx-rar', box).textContent = rarText(tier); $('.gx-name', box).textContent = nameOf(r); $('.gx-name', box).classList.toggle('gx-long', nameOf(r).length > 14); $('.gx-sub', box).textContent = subOf(r) + (tier === 5 ? (r.new ? '　新しいバディが合流' : '　バディが合流') : ''); $('.gx-stars', box).innerHTML = starsHTML(starCount(tier), tier); box.querySelectorAll('img').forEach((im) => { im.src = artOf(r, o.assetBase); }); box.style.setProperty('--art', `url("${artOf(r, o.assetBase)}")`); box.dataset.tier = TIER_KEY[tier]; box.dataset.type = r.type; $('.gx-new', box).hidden = !r.new; };
 
   function mount() {
-    model = build(results, reduced); root.dataset.mode = model.multi ? 'multi' : 'single'; el.label.textContent = `${o.label} ×${model.n}`;
+    model = build(results, reduced); model.signalPlan = signalPlan; root.dataset.mode = model.multi ? 'multi' : 'single'; el.label.textContent = `${o.label} ×${model.n}`;
     el.world.innerHTML = model.multi ? model.pods.map((p) => `<div class="gx-mini" data-tier="${TIER_KEY[p.tier]}"><img alt="" src="${esc(artOf(p.r, o.assetBase))}"><b>${esc(p.tier === 0 ? '×' + p.r.amount : rarText(p.tier))}</b></div>`).join('') : '';
     minis = [...el.world.querySelectorAll('.gx-mini')];
     el.list.innerHTML = model.multi ? model.pods.map((p) => `<div class="gx-tile" data-index="${p.i}" data-tier="${TIER_KEY[p.tier]}" data-type="${p.r.type}"${p.r.type !== 'shard' ? ' role="button" tabindex="0" aria-label="' + esc(nameOf(p.r)) + 'の詳細"' : ''}><img alt="" src="${esc(artOf(p.r, o.assetBase))}"><b>${esc(rarText(p.tier) || '素材')}</b><span${nameOf(p.r).length > 16 ? ' class="gx-long"' : ''}>${esc(nameOf(p.r))}</span>${p.r.new ? '<i>NEW</i>' : ''}</div>`).join('') : '';
@@ -451,7 +468,11 @@ export function createDropReveal(host, opts = {}) {
     op(el.omen, 0);
     // 射出の合図（タップで投下）
     const B = m.tLaunch, lk = seg(t, B * 0.3, B, E.out3) * (1 - seg(t, B, B + 0.18)); op(el.launch, lk); set(el.launch, 'visibility', lk > 0 ? 'visible' : 'hidden');
-    if (lk > 0) tf(el.launch, `translate(-50%,-50%) scale(${(t < B ? 0.85 + 0.15 * lk + (reduced ? 0 : 0.035 * Math.sin(A * 4.5)) : 1 + 0.6 * seg(t, B, B + 0.18, E.out3)).toFixed(3)})`);
+    const flip = m.signalPlan?.phases[0] === 'reverseSeal' && !reduced ? seg(A, B * 0.2, B * 0.96) * TAU : 0;
+    const back = Math.cos(flip) < 0;
+    el.launch.querySelector('b').style.visibility = back ? 'hidden' : '';
+    el.launch.querySelector('small').style.visibility = back ? 'hidden' : '';
+    if (lk > 0) tf(el.launch, `translate(-50%,-50%) scale(${(t < B ? 0.85 + 0.15 * lk + (reduced ? 0 : 0.035 * Math.sin(A * 4.5)) : 1 + 0.6 * seg(t, B, B + 0.18, E.out3)).toFixed(3)}) perspective(650px) rotateY(${flip}rad)`);
     root.classList.toggle('gx-launching', t <= B + 1e-6);
     if (!m.multi) { // 1連の受領カード
       if (el.card.hasAttribute('role')) el.card.tabIndex = t >= m.tEnd ? 0 : -1;
@@ -509,7 +530,7 @@ export function createDropReveal(host, opts = {}) {
   }
   const api = {
     ready,
-    async play(arr, po = {}) { results = validate(arr).map((r) => ({ ...r, initialTier: 1 + Math.floor(Math.random() * Math.max(1, tierOf(r))) })); await ready; root.hidden = false; live = true; mount(); layout(); T = po.atEnd ? model.tEnd : 0; idle = 0; stopIdx = po.atEnd ? model.stops.length - 1 : 0; waiting = null; queued = false; cueIdx = po.atEnd ? model.cues.length : 0;
+    async play(arr, po = {}) { results = validate(arr).map((r, i) => ({ ...r, initialTier: po.initialTiers?.[i] ?? 1 + Math.floor(Math.random() * Math.max(1, tierOf(r))) })); await ready; root.hidden = false; live = true; mount(); layout(); T = po.atEnd ? model.tEnd : 0; idle = 0; stopIdx = po.atEnd ? model.stops.length - 1 : 0; waiting = null; queued = false; cueIdx = po.atEnd ? model.cues.length : 0;
       if (o.sound && !po.silent) { player.unlock(); player.prime(); } cancelAnimationFrame(raf); lastNow = performance.now(); if (!po.manual) raf = requestAnimationFrame(tick); else frame(T, T); o.onEvent({ type: 'play', n: model.n }); },
     replay() { if (results) return api.play(results); },
     tap() { const now = performance.now(); if (!live || !model || now - lastTap < TAP_GAP_MS) return; lastTap = now;
@@ -527,6 +548,8 @@ export function createDropReveal(host, opts = {}) {
     // 検証・録画用：時刻 t の1コマを描く（idle は停止点で止まっている間の経過）
     seek(t, idleSec = 0, showTap = false) { T = t; idle = idleSec; frame(t, t + idleSec, showTap); },
     setOnDraw(fn) { onDraw = fn || null; },
+    stopCues() { player.stop(); },
+    setSignalPlan(value) { signalPlan = value; if (model) model.signalPlan = value; },
     root,
     playCue(c) { if (o.sound) { player.unlock(); player.play(c); } },
     model: () => model, state: () => ({ t: T, waiting: waiting && waiting.kind, stopIdx, reduced, fast }), layout,
