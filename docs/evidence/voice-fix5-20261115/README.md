@@ -25,3 +25,7 @@ Chrome 157.0.8103.51、passed=True。
 - 画面確認の再調査: `screen-transition.ts` のsplit-shutterが550msの間入力を保護する。初回案内へ400ms後に押した「あとで」が保護に吸収され、装備画面へ進めない試行があった。検証器で画面の案内表示後に既存演出の終了を待つよう修正し、保護コードは変更していない。初回buildはCドライブ空き不足ENOSPCで失敗。今回生成したdistだけをD:/Codex-builds/swarm-voice-fix5-20261115へ移し、元パスにjunctionを作り、TEMP/TMPも今回専用D領域へ指定して再build成功。他worktreeや既存データは削除せず保護。
 
 - 完成ビルドのbuilt/result.jsonは10条件成功/例外0、進撃/生存の撤退音源SHA一致。built/の設定・撤退結果・訓練画像を主担当が確認。最終全件はchecks/tests-complete.txt（182/1858成功）。失敗したUI出力はD:/Codex-builds/swarm-fix5-failed-checksへ退避し、成功画像と混同しない。生存60秒後の任意帰還はコード照合のみで実画面未実施。
+
+## 公開確定値
+
+公開ソースmain861b94cb、Worker e5a9f122-be53-4513-a0cc-7f49d76bae78（100%）。公開33件一致/health正常、published/result.jsonは10条件/例外0。進撃/生存の撤退音源SHA一致、最新発話30.1ms、同時発話max1。型/全1858件/書式/build/dry-run成功。記録だけのPRは製品再デプロイ不要。

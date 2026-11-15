@@ -1,0 +1,42 @@
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+🌀 Building list of assets...
+✨ Read 607 files from the assets directory C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-voice-fix5-20261115\dist
+🌀 Starting asset upload...
+🌀 Found 17 new or modified static assets to upload. Proceeding with upload...
++ /assets/weapon-sharing-BG3ojCar.js
++ /assets/room-access-CGZuVfur.js
++ /assets/game-select-C6WDfVe6.js
++ /assets/playtest-app-CsI1aZx0.js
++ /assets/weapon-workshop-ui-L82v1QyO.js
++ /assets/voice-packs/control-voice-yoko-v2.bin
++ /front.html
++ /assets/training-app-SGUaEYik.js
++ /asset-download-manifest.json
++ /assets/front-BweJiuDY.js
++ /assets/hud-DtRLhXGs.js
++ /assets/voice-packs/control-voice-hiromi-v2.bin
++ /index.html
++ /assets/legacy-D58m-Y6o.js
++ /assets/main-BzKGAm8r.js
++ /assets/cloud-save-DoMbcQav.js
++ /assets/voice-packs/control-voice-hiyori-v2.bin
+Uploaded 5 of 17 assets
+Uploaded 11 of 17 assets
+Uploaded 17 of 17 assets
+✨ Success! Uploaded 17 files (541 already uploaded) (3.69 sec)
+
+Total Upload: 538.54 KiB / gzip: 137.74 KiB
+Worker Startup Time: 336 ms
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+env.TURNSTILE_SITE_KEY ("0x4AAAAAAEqP4GMKnl-xNQKK")      Environment Variable
+
+Uploaded swarm-front (9.57 sec)
+Deployed swarm-front triggers (0.82 sec)
+  https://swarm-front.melosalife-24.workers.dev
+Current Version ID: e5a9f122-be53-4513-a0cc-7f49d76bae78
