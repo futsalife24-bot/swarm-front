@@ -1,0 +1,48 @@
+{
+  "base": "http://127.0.0.1:5208/",
+  "checks": [
+    "6速度の実試聴・ピッチ保持指定・保存と再読込、DL済みタイトルは無音",
+    "試聴は日本語homeクリップの実バイトと一致",
+    "横2サイズ・ボイスなし保持・旧字幕alwaysでも字幕なし・ヨウコロック"
+  ],
+  "errors": [],
+  "speeds": [
+    {
+      "src": "blob:http://127.0.0.1:5208/1057cb02-ec6a-41e1-a4af-5c39532a11da",
+      "rate": 1,
+      "preservesPitch": true,
+      "at": 9596.300000011921
+    },
+    {
+      "src": "blob:http://127.0.0.1:5208/27477068-0834-4de7-858f-fb7e5493968f",
+      "rate": 1.1,
+      "preservesPitch": true,
+      "at": 5473.199999988079
+    },
+    {
+      "src": "blob:http://127.0.0.1:5208/8c4882d7-bc44-4088-ab7d-0d7274faa5fe",
+      "rate": 1.2,
+      "preservesPitch": true,
+      "at": 4841.100000023842
+    },
+    {
+      "src": "blob:http://127.0.0.1:5208/1b325240-6091-4b83-b546-c16964994949",
+      "rate": 1.3,
+      "preservesPitch": true,
+      "at": 5188.299999952316
+    },
+    {
+      "src": "blob:http://127.0.0.1:5208/355aeaeb-92c7-4f85-a3d7-f4c3ed71c31c",
+      "rate": 1.4,
+      "preservesPitch": true,
+      "at": 4941
+    },
+    {
+      "src": "blob:http://127.0.0.1:5208/38be335f-e8ae-4462-84d2-7fc211762d15",
+      "rate": 1.5,
+      "preservesPitch": true,
+      "at": 4956.199999988079
+    }
+  ],
+  "previewHash": "aced93995c3e0fdf5a37f30a7a2dc31df071e920c8c66d8cb3473b4b8a3bbf0c"
+}

@@ -1,4 +1,7 @@
-import { type ControlVoiceRate } from "./control-voice-rate";
+import {
+  CONTROL_VOICE_RATES,
+  type ControlVoiceRate,
+} from "./control-voice-rate";
 /** 設定 → 管制AIボイス: 声の選択・ダウンロード・試聴。 */
 import { loadVoiceEnabled } from "./control-voice-enabled";
 import { formatDownloadBytes } from "./asset-download";
@@ -50,11 +53,17 @@ export function openControlVoiceMenu(
 ) {
   const d = menuDialog(
     "管制AIボイス",
-    '<p class="cv-intro">声は端末に保存して使います。未ダウンロードの声は再生されません。</p><label class="cv-rate">再生速度 <select aria-label="管制AIの再生速度"><option value="1">通常（1.0倍）</option><option value="1.3">1.3倍速</option></select></label><div class="cv-list" role="radiogroup" aria-label="使う声"></div><p class="cv-status" role="status" aria-live="polite"></p><small class="cv-note">保存先はこのブラウザです。端末の空き容量が少ないと自動で消えることがあります。チュートリアルの音声はヒロミの声で再生します。</small>',
+    '<p class="cv-intro">声は端末に保存して使います。未ダウンロードの声は再生されません。</p><label class="cv-rate">再生速度 <select aria-label="管制AIの再生速度"></select></label><div class="cv-list" role="radiogroup" aria-label="使う声"></div><p class="cv-status" role="status" aria-live="polite"></p><small class="cv-note">保存先はこのブラウザです。端末の空き容量が少ないと自動で消えることがあります。チュートリアルの音声はヒロミの声で再生します。</small>',
     "SETTINGS / VOICE",
   );
   d.classList.add("cv-dialog");
   const rate = d.querySelector<HTMLSelectElement>(".cv-rate select")!;
+  for (const value of CONTROL_VOICE_RATES) {
+    const option = document.createElement("option");
+    option.value = String(value);
+    option.textContent = value === 1 ? "通常（1.0倍）" : value + "倍速";
+    rate.append(option);
+  }
   rate.value = String(host.controlVoiceRate);
   rate.onchange = () =>
     host.setControlVoiceRate(Number(rate.value) as ControlVoiceRate);

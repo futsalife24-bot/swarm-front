@@ -1,5 +1,6 @@
 import {
   loadControlVoiceRate,
+  isControlVoiceRate,
   saveControlVoiceRate,
   type ControlVoiceRate,
 } from "./control-voice-rate";
@@ -154,7 +155,7 @@ export class Sound {
     return this.controlRate;
   }
   setControlVoiceRate(rate: ControlVoiceRate) {
-    if (rate !== 1 && rate !== 1.3) return;
+    if (!isControlVoiceRate(rate)) return;
     this.controlRate = rate;
     saveControlVoiceRate(rate);
     for (const source of this.controlSources) source.playbackRate = rate;

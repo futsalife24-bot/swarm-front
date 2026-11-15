@@ -430,3 +430,20 @@
 - 公開33ファイルのSHA一致、ソースSHA埋込一致、health正常。公開実Chromeの10条件がすべて成功・画面例外0。進撃リタイア/生存途中退出は実際のAudio Blobがretire-ackと同一、キャンセル無音、同時発話max1、最新音声30.1ms。速度の保存・試聴・通常・訓練、字幕なし/旧always残存、ボイスなし、ヨウコロック、横2サイズも確認。published/の画像を主担当が確認。[公開結果](evidence/voice-fix5-20261115/release-result.json)。
 - 公開コードは自己検証した実装e4f14026と同一。型/全182ファイル1858テスト/書式/build/dry-run成功。公開記録のみを専用release branchから通常PRへ反映する。元root/他worktree/別worktreeで保持中のローカルmainは変更しない。
 - 未確認: 実スマホ/iOS・人間の実聴品質・全台詞/全分岐・生存60秒任意帰還の実画面・多人数インターネット戦。隊長/バディ等の未接続セットは配置済み・配線は経路実装時。追加承認待ちなし。今回の実装・必要自己検証・main反映/push・既存Worker公開・配信確認は完了。
+
+
+## 2026-11-15 第6弾: 速度6択・採用確定・タイトル読み上げ停止
+
+- 依頼正本: C:/Users/futsa/bibi-bridge/inbox/impl-brief-fix6-20261115.md。最新main 682a614dc6b056d219bf3847cd3066f14b130ec0から新規worktree C:/Users/futsa/swarm-voice-fix6-fresh-20261115、branch codex/voice-fix6-fresh-20261115で着手。元rootの既存差分と他worktreeを保護。同名の既存 C:/Users/futsa/swarm-fix6-20261115 は開始時から locked initializing で存在し、今回作成したものではないため変更・削除しない。
+- 速度は1.0/1.1/1.2/1.3/1.4/1.5倍。既存キー swarm-front-control-voice-rate-v1 と数値文字列を維持し、保存済み1.3は1.3として復元。既定1.0、不正値は1.0。通常発話・試聴の既存HTMLAudioElement/preservesPitch経路に適用。SE・兵士・バディの再生処理は変更なし。
+- 本人確定121行はTRUE58/FALSE63と照合。未定義IDは0。anomaly識別名10行の既存on-holdは維持。解除を試すと全テストのパック完全性検査がanomaly-harrow未収録で失敗した。実素材一覧でも9識別名は未収録、calyxだけ収録済み。依頼は採用フラグの照合で音声追加・保留解除の指示ではないため、採用TRUEと再生保留を分離し既存保留を維持する。FALSEは既存ControlVoiceQueueのadopted判定と場面別読み込みに従い停止。素材・パックは無変更。
+- チェックリスト外61行（すべて既存値を維持）: tut-offer=true, tut-intro=true, tut-move=true, tut-look=true, tut-fire=true, tut-reload=true, tut-swap=true, tut-dodge=true, tut-jump=true, tut-kill=true, tut-drop=true, tut-drop-rule=true, tut-recover=true, tut-medkit=true, tut-complete=true, tut-ack-1=true, tut-ack-2=true, tut-ack-3=true, tut-nudge=true, tut-skip=true, tut-gear=true, tut-battle-multi=true, tut-buddy-battle=true, tut-base=true, tut-supply=true, tut-buddy-menu=true, tut-survival=true, tut-card=true, tut-fusion=true, tut-defense=true, tut-lobby=true, tut-loot-multi=true, tut-revive=true, tut-enemy-info=true (unimplemented), retire-ack=true, brief-01=false (abolished), brief-02=false (abolished), brief-03=false (abolished), brief-04=false (abolished), brief-05=false (abolished), brief-06=false (abolished), brief-07=false (abolished), brief-08=false (abolished), brief-09=false (abolished), brief-10=false (abolished), brief-11=false (abolished), brief-12=false (abolished), brief-13=false (abolished), brief-14=false (abolished), brief-15=false (abolished), brief-16=false (abolished), brief-17=false (abolished), brief-18=false (abolished), brief-19=false (abolished), brief-20=false (abolished), brief-21=false (abolished), brief-22=false (abolished), brief-23=false (abolished), brief-24=false (abolished), brief-25=false (abolished), brief-15a=false (abolished)。
+- titleは採用TRUEを維持。ただし採用はタイトルでの英語読みの許可ではないという本人の明示決定を優先し、showHomeの初回title/再訪homeの自動発話を削除。TAP START後もタイトルで読み上げない。日本語homeの明示試聴はaudio.tsの既存経路を維持。
+- 禁止領域、字幕撤去、訓練2層、G18無効、brief除外、ヨウコロックは維持。実モデルID・推論設定は取得不可のため未確認。子エージェントなし。
+- 照合の完全一覧: [checklist.json](evidence/voice-fix6-20261115/checklist.json)。検証・公開結果は以下の公開記録に追記する。
+
+- 初回全テストは182ファイル中181成功、1864件中1863成功。失敗1件は上記の未収録敵名の保留解除によるもの。保留を復元して全件を再実行。開発サーバーの初回ページ要求はタイムアウトし、ビルド済みpreviewへ変更して実Chrome検証成功。ブラウザ検証スクリプトのhome音源照合は再生開始前の参照が原因で一度失敗し、開始待ちを明示して解消。製品の追加変更なし。
+
+- 採用TRUEのまま既存再生保留を維持した10件: anomaly-harrow, anomaly-calyx, anomaly-bastion, anomaly-volley, anomaly-leaper, anomaly-pleat, anomaly-prism, anomaly-ray, anomaly-foundry, anomaly-catena。calyx以外の9件は原本・既存パックとも未収録。新規収録やパック変更は本依頼に含めず、未収録を推測音声で補っていない。
+
+- 最終自己検証: npm run typecheck / npm run format:check / npm test（182ファイル・1864件すべて成功）/ npm run build / npm run server:build:production成功。実Chromeのbuilt-finalは6速度のピッチ保持指定・保存再読込、タイトル無音、日本語homeの実バイト照合、横844×390/568×320、字幕なし、ヨウコロックが成功、画面例外0。独立監査は通常タスクの最新方針どおり未実施。GitHub側はworkflowファイルなし、実装HEADのstatus一覧も空であり、CI合格と呼んでいない。

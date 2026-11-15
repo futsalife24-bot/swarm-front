@@ -1,0 +1,178 @@
+
+> swarm-front@0.1.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-voice-fix6-fresh-20261115
+
+··········································stdout | tests/stages.test.ts > stage 1 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST1: 50.8s / 32 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 2 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST2: 61.2s / 44 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 3 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST3: 97.8s / 74 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 4 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST4: 103.5s / 49 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 5 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST5: 105.1s / 81 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 6 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST6: 79.3s / 63 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 7 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST7: 136.7s / 106 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 8 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST8: 161.3s / 85 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 9 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST9: 134.5s / 98 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 10 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST10: 185.6s / 112 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 11 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST11: 121.6s / 68 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 12 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST12: 203.0s / 176 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 13 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST13: 178.5s / 129 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 14 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST14: 170.9s / 123 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 15 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST15: 90.7s / 58 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 16 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST16: 145.2s / 70 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 17 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST17: 112.8s / 64 kills / HP 81.0
+
+·stdout | tests/stages.test.ts > stage 18 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST18: 141.1s / 70 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 19 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST19: 133.2s / 71 kills / HP 105.6
+
+·stdout | tests/stages.test.ts > stage 20 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST20: 138.0s / 49 kills / HP 80.4
+
+·stdout | tests/stages.test.ts > stage 21 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST21: 146.5s / 105 kills / HP 128.3
+
+·stdout | tests/stages.test.ts > stage 22 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST22: 119.6s / 64 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 23 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST23: 162.8s / 114 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 24 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST24: 190.3s / 100 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > stage 25 completes within the time limit using legal endgame gear and ordinary inputs
+Clear ST25: 189.5s / 94 kills / HP 160.0
+
+·stdout | tests/stages.test.ts > twenty-five stages increase combat pressure and reward quality within legal weapon bounds
+Stage rarity percentages [{"stage":1,"tiers":[78.092,19.048,2.79,0.07],"drop":4},{"stage":2,"tiers":[76.642,20.204,3.076,0.078],"drop":4.473684210526316},{"stage":3,"tiers":[75.256,21.212,3.448,0.084],"drop":4.947368421052632},{"stage":4,"tiers":[73.624,22.444,3.844,0.088],"drop":5.421052631578947},{"stage":5,"tiers":[71.916,23.764,4.198,0.122],"drop":5.894736842105263},{"stage":6,"tiers":[70.136,25.14,4.58,0.144],"drop":6.368421052631579},{"stage":7,"tiers":[67.994,26.69,5.154,0.162],"drop":6.842105263157894},{"stage":8,"tiers":[65.912,28.156,5.754,0.178],"drop":7.315789473684211},{"stage":9,"tiers":[63.76,29.64,6.374,0.226],"drop":7.7894736842105265},{"stage":10,"tiers":[61.392,31.268,7.058,0.282],"drop":8.263157894736842},{"stage":11,"tiers":[58.716,32.996,7.95,0.338],"drop":8.736842105263158},{"stage":12,"tiers":[55.92,35.016,8.67,0.394],"drop":9.210526315789473},{"stage":13,"tiers":[53.082,36.548,9.874,0.496],"drop":9.68421052631579},{"stage":14,"tiers":[49.836,38.574,11.052,0.538],"drop":10.157894736842104},{"stage":15,"tiers":[46.548,40.386,12.47,0.596],"drop":10.63157894736842},{"stage":16,"tiers":[42.966,42.256,14.062,0.716],"drop":11.105263157894738},{"stage":17,"tiers":[39.218,43.972,15.958,0.852],"drop":11.578947368421053},{"stage":18,"tiers":[35.248,45.588,18.106,1.058],"drop":12.052631578947368},{"stage":19,"tiers":[31.498,46.772,20.502,1.228],"drop":12.526315789473683},{"stage":20,"tiers":[27.618,47.608,23.25,1.524],"drop":13},{"stage":21,"tiers":[27.618,47.608,23.25,1.524],"drop":13},{"stage":22,"tiers":[27.618,47.608,23.25,1.524],"drop":13},{"stage":23,"tiers":[27.618,47.608,23.25,1.524],"drop":13},{"stage":24,"tiers":[27.618,47.608,23.25,1.524],"drop":13},{"stage":25,"tiers":[27.618,47.608,23.25,1.524],"drop":13}]
+
+································stdout | tests/catena-omega.test.ts > 現行全マップの配置・形状を検査し、発動候補の支持面と座標を確認
+現行25作戦の初期配置でΩ可能 11
+
+···········································································stdout | tests/front-survival-measure.test.ts > 5分の通常Input操作計測 seed=7
+survival-input-measure (scripted pilot, not human play) {"seed":7,"phase":"combat","combatTime":300,"firstXpAt":15.250000000000082,"picks":16,"firstFusion":98.89999999999652,"maxEnemies":32,"kills":663,"collectedXp":1336,"uncollectedXp":80,"hpLost":79,"hp":168,"deathAt":null,"milestones":[{"minute":1,"picks":4,"xp":98,"enemies":2,"hp":160},{"minute":3,"picks":10,"xp":647,"enemies":13,"hp":160},{"minute":5,"picks":16,"xp":1336,"enemies":18,"hp":168}],"levels":{"blast-core":3,"armor-piercer":3,"armor":1,"fusion-counter":3}}
+
+·stdout | tests/front-survival-measure.test.ts > 5分の通常Input操作計測 seed=47
+survival-input-measure (scripted pilot, not human play) {"seed":47,"phase":"combat","combatTime":300,"firstXpAt":13.450000000000056,"picks":19,"firstFusion":97.5499999999966,"maxEnemies":41,"kills":650,"collectedXp":1357,"uncollectedXp":36,"hpLost":169,"hp":153,"deathAt":null,"milestones":[{"minute":1,"picks":4,"xp":96,"enemies":1,"hp":160},{"minute":3,"picks":13,"xp":686,"enemies":17,"hp":192},{"minute":5,"picks":19,"xp":1357,"enemies":36,"hp":153}],"levels":{"blast-core":3,"armor":4,"magazine":3,"fusion-counter":3}}
+
+·stdout | tests/front-survival-measure.test.ts > 5分の通常Input操作計測 seed=814
+survival-input-measure (scripted pilot, not human play) {"seed":814,"phase":"combat","combatTime":300,"firstXpAt":22.80000000000019,"picks":18,"firstFusion":91.49999999999694,"maxEnemies":33,"kills":672,"collectedXp":1362,"uncollectedXp":58,"hpLost":142,"hp":192,"deathAt":null,"milestones":[{"minute":1,"picks":5,"xp":142,"enemies":1,"hp":160},{"minute":3,"picks":11,"xp":652,"enemies":23,"hp":168},{"minute":5,"picks":18,"xp":1362,"enemies":10,"hp":192}],"levels":{"blast-core":3,"armor-piercer":2,"armor":4,"fusion-counter":3}}
+
+··········stdout | tests/coop-performance.test.ts > measures the authoritative three-player simulation without changing combat
+{"simulationMedianMs":1.2768999999998414,"simulationP95Ms":3.2700999999997293}
+
+··········stdout | tests/game.test.ts > authoritative combat > solo starter pilot completes the real mission without stat/time cheats
+{"mission":"victory","seconds":54.249999999999055,"kills":32,"hp":160,"position":[-7.393266464002391,25.12373275723995],"enemies":[{"kind":"crawler","x":-24.44000000000023,"z":73.80443795843478,"hp":-10.499999999999986}],"maxEnemies":8,"simulationMs":285.20050000000015}
+
+····················································stderr | tests/bastion.test.ts > BASTION integration > does not download the model until a BASTION is actually in the battle
+BASTION model unavailable; using fallback [TypeError: fetch failed] {
+  [cause]: Error: bad port
+      at makeNetworkError (node:internal/deps/undici/undici:11806:35)
+      at mainFetch (node:internal/deps/undici/undici:13189:22)
+      at fetching (node:internal/deps/undici/undici:13176:7)
+      at fetch (node:internal/deps/undici/undici:13040:20)
+      at fetch (node:internal/deps/undici/undici:17708:10)
+      at fetch (node:internal/bootstrap/web/exposed-window-or-worker:83:12)
+      at FileLoader.load (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/three/build/three.core.js:44628:3)
+      at GLTFLoader.load (file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/three/examples/jsm/loaders/GLTFLoader.js:319:10)
+      at file:///C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/node_modules/three/build/three.core.js:44367:10
+      at new Promise (<anonymous>)
+}
+
+·······························································x·············································stdout | tests/rebuild-run.test.ts > P1a spawns and ordinary-input playability sample > measures a deterministic normal-input run without changing HP, clock, enemy stats or XP
+P1a normal-input sample (not a human-fun or mobile-performance verdict) {"seed":4520,"phase":"victory","combatTime":374.5500000000067,"firstEffectAt":2.1000000000000005,"evolutionAt":75,"evolvedCombatTime":299.5500000000067,"picks":7,"xpAtFinalResupply":419,"kills":203,"maxEnemies":4,"maxChain":2,"hp":192}
+
+······························································································stdout | tests/state-delta.test.ts > ACK済み基準の状態差分 > 実ゲーム生成器のプレイヤー移動でv2の通信量を測り、v1と同じ状態へ復元する
+{"playerFullBytes":46540,"playerV1Bytes":2113,"playerV2Bytes":187}
+
+stdout | tests/state-delta.test.ts > ACK済み基準の状態差分 > 実ゲームを20step進めた全状態でv1/v2を復元し、同じACK順の合計通信量を測る
+{"playerSteps":20,"oldBytes":517549,"newBytes":479031,"deltas":20}
+
+·····stdout | tests/state-delta.test.ts > ACK済み基準の状態差分 > 実データ生成器の96敵・PLEAT48・4人・160オーブ・400弾を可逆に縮小する
+{"tupleFullBytes":65441,"deltaBytes":24931,"ratio":0.38096911722009136}
+
+················································stdout | tests/state-tuples.test.ts > 丸め後の状態tuple > 96敵・PLEAT48・4人・160オーブ・400弾で敵を省略せず容量内（装備cache=false）
+{"tupleBytes":65463,"equipmentCached":false,"enemies":96,"orbs":160,"projectiles":400,"events":67}
+{"tupleBytes":65463,"equipmentCached":false,"enemies":96,"orbs":160,"projectiles":400,"events":67}
+{"tupleBytes":65463,"equipmentCached":false,"enemies":96,"orbs":160,"projectiles":400,"events":67}
+{"tupleBytes":65463,"equipmentCached":false,"enemies":96,"orbs":160,"projectiles":400,"events":67}
+
+····stdout | tests/state-tuples.test.ts > 丸め後の状態tuple > 96敵・PLEAT48・4人・160オーブ・400弾で敵を省略せず容量内（装備cache=true）
+{"tupleBytes":65503,"equipmentCached":true,"enemies":96,"orbs":160,"projectiles":400,"events":74}
+{"tupleBytes":65503,"equipmentCached":true,"enemies":96,"orbs":160,"projectiles":400,"events":74}
+{"tupleBytes":65503,"equipmentCached":true,"enemies":96,"orbs":160,"projectiles":400,"events":74}
+{"tupleBytes":65503,"equipmentCached":true,"enemies":96,"orbs":160,"projectiles":400,"events":74}
+
+···················································································································································stdout | tests/pleat-authority.test.ts > PLEAT authoritative world integration > sends 40 solved four-foot poses below 64KiB and measures real-map 20Hz work
+{"pleatAuthority40":{"packetBytes":29890,"medianMs":1.2232000000000198,"p95Ms":1.720700000000079,"maxMs":2.8641999999999825}}
+
+·························································································································································································································································································································································································································································································································································································································································································································································································································································································································································································································································································································································································································································
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/control-voice-packs.test.ts > voice packs shipped for optional download > contains every playable line; recorded CALYX stays blocked
+AssertionError: voice-control-hiromi-v1/anomaly-harrow: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ tests/control-voice-packs.test.ts:102:31
+    100|         } else if (line.blocked === "abolished" || line.blocked === "o…
+    101|           expect(has, key).toBe(false);
+    102|         else expect(has, key).toBe(true);
+       |                               ^
+    103|       }
+    104|     // 再生候補の台詞はMP3（フレーム同期で始まる）として収録されている。
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 181 passed (182)
+      Tests  1 failed | 1863 passed (1864)
+   Start at  19:10:04
+   Duration  336.10s (tests 67%, import 29%, transform 4%)
+
+     Import  429 modules were evaluated 585 times · 87.34s total, 29% of tracked time
+             ~23.29s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
