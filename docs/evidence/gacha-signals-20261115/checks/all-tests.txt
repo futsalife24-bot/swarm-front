@@ -1,0 +1,17 @@
+
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-gacha-signals-20261115
+
+
+ Test Files  184 passed (184)
+      Tests  1907 passed (1907)
+   Start at  23:23:03
+   Duration  276.70s (tests 69%, import 28%, transform 3%)
+
+     Import  433 modules were evaluated 609 times · 70.39s total, 28% of tracked time
+             ~20.34s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+

@@ -1,0 +1,180 @@
+{
+  "mode": "effect-sonic",
+  "viewport": [
+    844,
+    390
+  ],
+  "checked": 4,
+  "rows": [
+    {
+      "name": "sonic-ten",
+      "request": "sonic",
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ],
+      "sampleTime": 1.69,
+      "firstSampleTime": 1.6000000000000003,
+      "tailTime": null,
+      "idle": 0.25,
+      "layerFound": true
+    },
+    {
+      "name": "sonic-ten-reduced",
+      "request": "sonic",
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ],
+      "sampleTime": 1.03,
+      "firstSampleTime": 1.0399999999999998,
+      "tailTime": null,
+      "idle": 0.25,
+      "layerFound": true
+    },
+    {
+      "name": "sonic-single",
+      "request": "sonic",
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 1.54,
+      "firstSampleTime": 1.36,
+      "tailTime": null,
+      "idle": 0.25,
+      "layerFound": true
+    },
+    {
+      "name": "sonic-single-reduced",
+      "request": "sonic",
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 0.9400000000000002,
+      "firstSampleTime": 0.9599999999999999,
+      "tailTime": null,
+      "idle": 0.25,
+      "layerFound": true
+    }
+  ],
+  "live": [],
+  "cleanup": {
+    "confirmStillNeeded": true,
+    "roots": 0,
+    "caps": 0
+  },
+  "errors": [],
+  "combinations": {
+    "単発SSR": {
+      "total": 288,
+      "accepted": 14,
+      "rejected": 274,
+      "multiAccepted": 0,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 138,
+        "複数局面の条件を満たしません": 136
+      }
+    },
+    "単発BUDDY": {
+      "total": 288,
+      "accepted": 200,
+      "rejected": 88,
+      "multiAccepted": 184,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 88
+      }
+    },
+    "10連SSR1": {
+      "total": 288,
+      "accepted": 14,
+      "rejected": 274,
+      "multiAccepted": 0,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 138,
+        "複数局面の条件を満たしません": 136
+      }
+    },
+    "10連SSR複数": {
+      "total": 288,
+      "accepted": 150,
+      "rejected": 138,
+      "multiAccepted": 136,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 138
+      }
+    },
+    "10連BUDDY最後SR": {
+      "total": 288,
+      "accepted": 200,
+      "rejected": 88,
+      "multiAccepted": 184,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 88
+      }
+    },
+    "10連最後SSRデフォルト": {
+      "total": 288,
+      "accepted": 30,
+      "rejected": 258,
+      "multiAccepted": 29,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 18,
+        "最後枠の合図と衝突します": 240
+      }
+    },
+    "10連最後SSRのみデフォルト": {
+      "total": 288,
+      "accepted": 1,
+      "rejected": 287,
+      "multiAccepted": 0,
+      "badTargets": 0,
+      "reasons": {
+        "複数局面の条件を満たしません": 29,
+        "確定演出と結果の下限が一致しません": 18,
+        "最後枠の合図と衝突します": 240
+      }
+    }
+  },
+  "fixtureNote": "旧PRESETS10の最終枠にはSR未満があるため、実検査では最後枠をSR/SSRの固定結果へ置換した。旧fixture不整合は今回の実装失敗に数えない。",
+  "samplingNote": "初回のsonic中央値カットは輪の出現前だった。firstSampleTimeを保持し、sonicはtLand+0.04へ変更。heartbeatはtLand+0.4の札と、降下94%の尾を別撮影。"
+}

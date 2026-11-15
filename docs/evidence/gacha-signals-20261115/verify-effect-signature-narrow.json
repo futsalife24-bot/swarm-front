@@ -1,0 +1,171 @@
+{
+  "mode": "effect-signature-narrow",
+  "viewport": [
+    640,
+    360
+  ],
+  "checked": 4,
+  "rows": [
+    {
+      "name": "signature-ten",
+      "request": "signature",
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "idle": 1,
+      "layerFound": true
+    },
+    {
+      "name": "signature-ten-reduced",
+      "request": "signature",
+      "fixture": "ten-buddy",
+      "reduced": true,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "idle": 1,
+      "layerFound": true
+    },
+    {
+      "name": "signature-single",
+      "request": "signature",
+      "fixture": "single-buddy",
+      "reduced": false,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "idle": 1,
+      "layerFound": true
+    },
+    {
+      "name": "signature-single-reduced",
+      "request": "signature",
+      "fixture": "single-buddy",
+      "reduced": true,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "idle": 1,
+      "layerFound": true
+    }
+  ],
+  "live": [],
+  "cleanup": {
+    "confirmStillNeeded": true,
+    "roots": 0,
+    "caps": 0
+  },
+  "errors": [],
+  "combinations": {
+    "単発SSR": {
+      "total": 288,
+      "accepted": 14,
+      "rejected": 274,
+      "multiAccepted": 0,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 138,
+        "複数局面の条件を満たしません": 136
+      }
+    },
+    "単発BUDDY": {
+      "total": 288,
+      "accepted": 200,
+      "rejected": 88,
+      "multiAccepted": 184,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 88
+      }
+    },
+    "10連SSR1": {
+      "total": 288,
+      "accepted": 14,
+      "rejected": 274,
+      "multiAccepted": 0,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 138,
+        "複数局面の条件を満たしません": 136
+      }
+    },
+    "10連SSR複数": {
+      "total": 288,
+      "accepted": 150,
+      "rejected": 138,
+      "multiAccepted": 136,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 138
+      }
+    },
+    "10連BUDDY最後SR": {
+      "total": 288,
+      "accepted": 200,
+      "rejected": 88,
+      "multiAccepted": 184,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 88
+      }
+    },
+    "10連最後SSRデフォルト": {
+      "total": 288,
+      "accepted": 30,
+      "rejected": 258,
+      "multiAccepted": 29,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 18,
+        "最後枠の合図と衝突します": 240
+      }
+    },
+    "10連最後SSRのみデフォルト": {
+      "total": 288,
+      "accepted": 1,
+      "rejected": 287,
+      "multiAccepted": 0,
+      "badTargets": 0,
+      "reasons": {
+        "複数局面の条件を満たしません": 29,
+        "確定演出と結果の下限が一致しません": 18,
+        "最後枠の合図と衝突します": 240
+      }
+    }
+  },
+  "fixtureNote": "旧PRESETS10の最終枠にはSR未満があるため、実検査では最後枠をSR/SSRの固定結果へ置換した。旧fixture不整合は今回の実装失敗に数えない。"
+}

@@ -21,6 +21,32 @@ export const SUPPLY_EFFECT_NAMES = [
   "通信ジャック",
 ] as const;
 
+/** 本編の採用済み表示だけを確認画面へ並べる。旧番号のfixture APIは保持する。 */
+export const SUPPLY_SIGNAL_NAMES: Record<string, string> = {
+  response: "応答信号",
+  signature: "相棒の先行サイン",
+  heartbeat: "心拍の軌跡",
+  multilock: "多重ロックオン",
+  sonic: "音速の輪",
+  reverse: "逆転照準",
+  reverseSeal: "裏面の金章",
+  lamp: "無言の特装灯",
+  landing: "重装着陸架",
+  delayed: "遅れて響く認証音",
+  skeleton: "側面展開・金の骨格",
+};
+export const SUPPLY_PREVIEW_EFFECTS = [
+  ...SUPPLY_EFFECT_NAMES.flatMap((name, i) =>
+    [1, 2, 3, 4, 9, 10].includes(i + 1)
+      ? [{ id: (i + 1) as number | string, name }]
+      : [],
+  ),
+  ...Object.entries(SUPPLY_SIGNAL_NAMES).map(([id, name]) => ({
+    id: id as number | string,
+    name,
+  })),
+];
+
 /** 選択した下限を満たす使い捨ての結果。取得処理へは渡さない。 */
 export function selectedSupplyPreview(effect: number, count: 1 | 10 = 10) {
   if (!Number.isInteger(effect) || effect < 1 || effect > 10)

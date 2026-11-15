@@ -1,6 +1,7 @@
 // 確定演出10案の「実装イメージ」用の試作レイヤー（2026-11-11）。
 // 本体の演出（gacha.js）の上に、案ごとの描画を重ねるだけ。時間軸・結果・操作には組み込んでいない。
 // kakutei-preview.mjs が場面ごとに set() で状態を渡し、seek() のたびに draw() が呼ばれる。
+import { drawSignal } from './signal-draw.js';
 const H = 390, TAU = Math.PI * 2;
 const GOLD = '#ffc94d', PURPLE = '#b28cff', TEAL = '#6fffd2', NEUTRAL = '#57c7d4';
 const c01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x), out3 = (x) => 1 - (1 - c01(x)) ** 3;
@@ -58,15 +59,15 @@ const FX = {
     for (let i = 0; i < 26; i++) { const u = ((p.a * (0.35 + 0.4 * hash(i, 1))) + hash(i, 2)) % 1; glow(g, p.x + (hash(i, 3) - 0.5) * 320, p.gy - u * 150 + (hash(i, 9) - 0.5) * 30, 4 + 5 * hash(i, 4), GOLD, fade * (1 - u) * c01(p.a * 3)); } // 割れ目から立ちのぼる光
     over(g);
   },
-  // 4 目印の先読み：次に開けるポッドの▼と輪が紫に変わり、火花が散る
+  // 4 目印の先読み：次に開けるポッドの▼と輪が金に変わり、火花が散る
   presage(g, I, p) {
     world(g, I); add(g); const w = p.h * 1.073, kk = p.h / 168, cy = p.gy - p.h * 0.5, pu = 0.5 + 0.5 * Math.sin(I.A * 7), k = p.k;
-    glow(g, p.x, cy, w * (1.5 + 0.2 * pu), PURPLE, 0.55 * k);
-    g.save(); g.translate(p.x, p.gy - 2 * kk); g.scale(1, 0.3); g.strokeStyle = rgba('#e9dcff', 0.95 * k); g.lineWidth = 4 * kk + 1; g.setLineDash([16 * kk, 10 * kk]); g.lineDashOffset = -I.A * 110; g.beginPath(); g.arc(0, 0, w * (0.82 + 0.06 * pu), 0, TAU); g.stroke(); g.setLineDash([]); g.lineWidth = 2; g.strokeStyle = rgba(PURPLE, 0.8 * k); g.beginPath(); g.arc(0, 0, w * 1.05, 0, TAU); g.stroke(); g.restore();
-    over(g); const ay = p.gy - p.h - 20 * kk - 9 * kk * pu; g.fillStyle = rgba('#d9c4ff', k); g.strokeStyle = rgba('#3a1f6e', k); g.lineWidth = 2; g.beginPath(); g.moveTo(p.x - 17 * kk, ay - 17 * kk); g.lineTo(p.x + 17 * kk, ay - 17 * kk); g.lineTo(p.x, ay + 4 * kk); g.closePath(); g.fill(); g.stroke(); add(g);
-    if (p.a >= 0 && p.a < 0.6) { ring(g, p.x, cy, w * (0.4 + 1.6 * out3(p.a / 0.5)), PURPLE, 1 - p.a / 0.5, 5 * (1 - p.a / 0.5) + 1, 0.8);
-      for (let i = 0; i < 20; i++) { const an = hash(i, 1) * TAU, sp = 90 + 220 * hash(i, 2), d = (1 - Math.exp(-4 * p.a)) / 4; glow(g, p.x + Math.cos(an) * sp * d, cy + Math.sin(an) * sp * d + 150 * p.a * p.a, 6, i % 3 ? PURPLE : '#ffffff', (1 - p.a / 0.6) ** 1.3); } }
-    for (let i = 0; i < 8; i++) { const u = ((I.A * 0.8) + hash(i, 5)) % 1, an = hash(i, 6) * TAU; glow(g, p.x + Math.cos(an) * w * 0.8, p.gy - 4 - u * p.h * 1.1, 4, PURPLE, k * (1 - u)); }
+    glow(g, p.x, cy, w * (1.5 + 0.2 * pu), GOLD, 0.55 * k);
+    g.save(); g.translate(p.x, p.gy - 2 * kk); g.scale(1, 0.3); g.strokeStyle = rgba('#fff2c0', 0.95 * k); g.lineWidth = 4 * kk + 1; g.setLineDash([16 * kk, 10 * kk]); g.lineDashOffset = -I.A * 110; g.beginPath(); g.arc(0, 0, w * (0.82 + 0.06 * pu), 0, TAU); g.stroke(); g.setLineDash([]); g.lineWidth = 2; g.strokeStyle = rgba(GOLD, 0.8 * k); g.beginPath(); g.arc(0, 0, w * 1.05, 0, TAU); g.stroke(); g.restore();
+    over(g); const ay = p.gy - p.h - 20 * kk - 9 * kk * pu; g.fillStyle = rgba('#ffc94d', k); g.strokeStyle = rgba('#4a3000', k); g.lineWidth = 2; g.beginPath(); g.moveTo(p.x - 17 * kk, ay - 17 * kk); g.lineTo(p.x + 17 * kk, ay - 17 * kk); g.lineTo(p.x, ay + 4 * kk); g.closePath(); g.fill(); g.stroke(); add(g);
+    if (p.a >= 0 && p.a < 0.6) { ring(g, p.x, cy, w * (0.4 + 1.6 * out3(p.a / 0.5)), GOLD, 1 - p.a / 0.5, 5 * (1 - p.a / 0.5) + 1, 0.8);
+      for (let i = 0; i < 20; i++) { const an = hash(i, 1) * TAU, sp = 90 + 220 * hash(i, 2), d = (1 - Math.exp(-4 * p.a)) / 4; glow(g, p.x + Math.cos(an) * sp * d, cy + Math.sin(an) * sp * d + 150 * p.a * p.a, 6, i % 3 ? GOLD : '#ffffff', (1 - p.a / 0.6) ** 1.3); } }
+    for (let i = 0; i < 8; i++) { const u = ((I.A * 0.8) + hash(i, 5)) % 1, an = hash(i, 6) * TAU; glow(g, p.x + Math.cos(an) * w * 0.8, p.gy - 4 - u * p.h * 1.1, 4, GOLD, k * (1 - u)); }
     over(g);
   },
   // 5 飛び級昇格：稲光とともに一気に金へ
@@ -174,7 +175,15 @@ export async function install(reveal, assetBase, isReduced = () => false) {
     await new Promise((r) => { silhouette.onload = silhouette.onerror = r; });
     if (silhouette.naturalWidth && silhouette.naturalHeight) buddyArts.set(art, silhouette);
   }));
-  reveal.setOnDraw((g, I) => { if (st && st.id && FX[st.id] && (st.id === 'crack' ? I.phase === 'beforePods' : I.phase === 'afterPods')) FX[st.id](g, isReduced() ? { ...I, A: 0 } : I, st.p || {}); });
+  reveal.setOnDraw((g, I) => {
+    for (const layer of st?.layers || (st ? [st] : [])) {
+      g.save();
+      if (!drawSignal(g, I, layer) && layer.id && FX[layer.id] && (layer.id === 'crack' ? I.phase === 'beforePods' : I.phase === 'afterPods')) {
+        FX[layer.id](g, isReduced() ? { ...I, A: 0 } : I, Number.isFinite(layer.p?.x) ? { ...layer.p, x: layer.p.x - 422 + I.VW / 2 } : layer.p || {});
+      }
+      g.restore();
+    }
+  });
   return () => { reveal.setOnDraw(null); set(null); cap?.remove(); s.remove(); cap = null; delete targetRoot.dataset.jackArt; delete targetRoot.dataset.jackLine; delete targetRoot.dataset.jackReply; targetRoot = null; buddy = null; buddyLines = COMMON_LINES; buddyArts.clear(); };
 }
 export function setBuddyArt(art) {

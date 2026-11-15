@@ -1,3 +1,9 @@
+## 2026-11-15 ガチャ合図を実装・公開準備
+
+第7弾main 7bf67664から新規worktree C:/Users/futsa/swarm-gacha-signals-20261115 / codex/gacha-signals-20261115。本人採用11案と既存4のSSR以上/金色への修正を表示専用で実装。局面各0/1、最後枠デフォルト色の②占有、複数局面条件と対象箱を再生前に凍結。確率/天井/レア度/課金/保存/server/sharedは無変更。
+
+全1907テスト、補給88テスト、型/書式、実Chrome72条件＋狭幅32条件＋実確認UI14回/保存不変/書込0、新音14の音声信号/消音/停止/破棄が成功。main反映・build・公開はこの時点では準備中。実機見た目/実聴は本人確認。詳細 [実装記録](impl-status-20261114.md)、[証拠](evidence/gacha-signals-20261115/README.md)。元root/他worktreeは保持。公開後に通常記録PRを反映し、今回作成したworktreeだけ削除する。
+
 ## 2026-11-15 第7弾の音声復帰修正を公開完了
 
 最新main ee462c5d（第6弾PR #348/#349取り込み後）から新規worktree C:/Users/futsa/swarm-audio-fix7-20261115 / codex/audio-fix7-20261115で実装。BGM/管制AI・SEのAudioContextの復帰処理不足を修正。visible/pageshow/focusと最初の操作で再開し、ブラウザの再生拒否は最新の1本だけ再試行する。旧台詞・非表示・無音・ボイスなし・終了済み要素は復活させない。既存仕様/保存/禁止領域は維持。

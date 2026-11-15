@@ -8,7 +8,7 @@ export interface Reveal {
   ready: Promise<unknown>;
   play(results: object[], options?: object): Promise<void>;
   destroy(): void;
-  state(): { waiting: string | null; effect: number };
+  state(): { waiting: string | null; effect: number | string };
 }
 let styleReady: Promise<void> | undefined;
 function revealStyle() {

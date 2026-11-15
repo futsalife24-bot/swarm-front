@@ -1,0 +1,266 @@
+{
+  "mode": "foundation",
+  "checked": 15,
+  "rows": [
+    {
+      "name": "1-ten",
+      "request": 1,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        1,
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "name": "1-reduced",
+      "request": 1,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        1,
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "name": "2-ten",
+      "request": 2,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        2,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "name": "2-reduced",
+      "request": 2,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        2,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "name": "3-ten",
+      "request": 3,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        3,
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ]
+    },
+    {
+      "name": "3-reduced",
+      "request": 3,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        3,
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ]
+    },
+    {
+      "name": "4-ten",
+      "request": 4,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        4
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ]
+    },
+    {
+      "name": "4-reduced",
+      "request": 4,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        4
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ]
+    },
+    {
+      "name": "9-ten",
+      "request": 9,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        9
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ]
+    },
+    {
+      "name": "9-reduced",
+      "request": 9,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        9
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ]
+    },
+    {
+      "name": "10-ten",
+      "request": 10,
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        10
+      ],
+      "targets": [
+        null,
+        null,
+        2
+      ]
+    },
+    {
+      "name": "10-reduced",
+      "request": 10,
+      "fixture": "ten-buddy",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        10
+      ],
+      "targets": [
+        null,
+        null,
+        2
+      ]
+    },
+    {
+      "name": "old-three",
+      "request": [
+        1,
+        2,
+        10
+      ],
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        1,
+        2,
+        10
+      ],
+      "targets": [
+        null,
+        null,
+        2
+      ]
+    },
+    {
+      "name": "old-two-ssr",
+      "request": [
+        1,
+        3,
+        9
+      ],
+      "fixture": "ten-two",
+      "reduced": false,
+      "phases": [
+        1,
+        3,
+        9
+      ],
+      "targets": [
+        null,
+        5,
+        5
+      ]
+    },
+    {
+      "name": "last-default",
+      "phases": [
+        0,
+        "last-default",
+        0
+      ],
+      "implicitLast": true,
+      "conflict": true
+    }
+  ],
+  "live": [
+    {
+      "request": [
+        1,
+        2,
+        10
+      ],
+      "final": true,
+      "taps": 60,
+      "ms": 20073
+    }
+  ],
+  "cleanup": {
+    "confirmStillNeeded": true,
+    "roots": 0,
+    "caps": 0
+  },
+  "errors": []
+}
