@@ -172,6 +172,52 @@ describe("media preview lifetime", () => {
 });
 
 describe("scene music while previewing", () => {
+  it.each(["visibilitychange", "pageshow", "focus"])(
+    "%sで中断した音量用contextと同じ曲・再生位置を復旧する",
+    async (event) => {
+      const context = {
+        state: "running",
+        currentTime: 1,
+        destination: {},
+        createGain: () => ({
+          gain: { value: 1, setTargetAtTime() {} },
+          connect() {},
+        }),
+        createMediaElementSource: () => ({ connect() {} }),
+        resume: vi.fn(async () => {
+          context.state = "running";
+        }),
+      };
+      const create = vi.fn(function () {
+        return context;
+      });
+      vi.stubGlobal("AudioContext", create);
+      const bgm = new BackgroundMusic();
+      // 初回操作前のfocusは再生もcontext作成もしない。
+      window.dispatchEvent(new Event("focus"));
+      expect(create).not.toHaveBeenCalled();
+      bgm.setScreen("title");
+      bgm.unlock();
+      await tick();
+      const src = media.src;
+      doc.hidden = true;
+      context.state = "suspended";
+      doc.dispatchEvent(new Event("visibilitychange"));
+      expect(context.resume).not.toHaveBeenCalled();
+      expect(media.paused).toBe(true);
+      doc.hidden = false;
+      (event === "visibilitychange" ? doc : window).dispatchEvent(
+        new Event(event),
+      );
+      await tick();
+      expect(context.resume).toHaveBeenCalledTimes(1);
+      expect(context.state).toBe("running");
+      expect(media.paused).toBe(false);
+      expect(media.src).toBe(src);
+      expect(media.currentTime).toBe(12);
+      expect(create).toHaveBeenCalledTimes(1);
+    },
+  );
   it("preserves the scene source and position, respecting multiple owners", async () => {
     const bgm = new BackgroundMusic();
     bgm.setScreen("title");

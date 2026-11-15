@@ -1,3 +1,9 @@
+## 2026-11-15 第7弾の自己検証完了・公開準備
+
+最新main ee462c5d（第6弾PR #348/#349取り込み後）から新規worktree C:/Users/futsa/swarm-audio-fix7-20261115 / codex/audio-fix7-20261115で実装。BGM/管制AI・SEのAudioContextの復帰処理不足を修正。visible/pageshow/focusと最初の操作で再開し、ブラウザの再生拒否は最新の1本だけ再試行する。旧台詞・非表示・無音・ボイスなし・終了済み要素は復活させない。既存仕様/保存/禁止領域は維持。
+
+型/書式/全183ファイル1885テスト/build/production dry-run成功。実Chromeの中断注入と実タブfocus復帰・文字タップ・進撃選択・音声信号を確認。第6弾の速度6択/ピッチ保持指定/保存/タイトル無音/字幕なし等も成功。自然なAndroid中断とdocument.hiddenの変化・人間の実聴は未確認。詳細 [impl-status](impl-status-20261114.md)、[証拠](evidence/audio-fix7-20261115/README.md)。次は通常PRのmain反映→既存Worker公開→配信確認→公開記録反映→今回worktree削除。元root/他worktreeは保持。指定outboxにも状態を記録。
+
 ## 2026-11-15 第6弾を公開完了
 
 PR #348を通常merge。公開ソースmain f0321f91aec9a7fb16df5594629f574aa2566973、既存Worker Version 482dd4a3-9c53-4c8d-a48a-6c769decfe5c（100%）。merge後main build/dry-run成功。公開33ファイルのSHAとソース版が一致、health正常。公開実Chromeでも6速度/preservesPitch/保存復元/タイトル無音/home音源バイト一致/横2サイズ/字幕なし/ヨウコロック成功、画面例外0。型・書式・全182ファイル1864テスト成功。

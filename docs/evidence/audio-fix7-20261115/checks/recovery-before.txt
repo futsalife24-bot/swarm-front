@@ -1,0 +1,76 @@
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-audio-fix7-20261115
+
+ ❯ tests/front-audio-recovery.test.ts (13 tests | 9 failed) 9239ms
+   ❯ 別アプリから戻ったときの管制AI音声 (13)
+     × visibilitychangeで既存AudioContextを再開する 1045ms
+     × pageshowで既存AudioContextを再開する 1003ms
+     × focusで既存AudioContextを再開する 1010ms
+     × pointerdownで既存AudioContextを再開する 1013ms
+     × touchendで既存AudioContextを再開する 1014ms
+     × clickで既存AudioContextを再開する 1018ms
+     × keydownで既存AudioContextを再開する 1011ms
+     × NotAllowedErrorの現リクエストを次の操作で一度だけ再生する 1014ms
+     × OSに要素だけpauseされた場合はfocusで現要素を再生する 1009ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/front-audio-recovery.test.ts > 別アプリから戻ったときの管制AI音声 > visibilitychangeで既存AudioContextを再開する
+ FAIL  tests/front-audio-recovery.test.ts > 別アプリから戻ったときの管制AI音声 > pageshowで既存AudioContextを再開する
+ FAIL  tests/front-audio-recovery.test.ts > 別アプリから戻ったときの管制AI音声 > focusで既存AudioContextを再開する
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ tests/front-audio-recovery.test.ts:126:51
+    124|     context.onstatechange?.();
+    125|     (target === "document" ? doc : win).dispatchEvent(new Event(event)…
+    126|     await vi.waitFor(() => expect(context.resume).toHaveBeenCalledTime…
+       |                                                   ^
+    127|     expect(context.state).toBe("running");
+    128|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/front-audio-recovery.test.ts > 別アプリから戻ったときの管制AI音声 > pointerdownで既存AudioContextを再開する
+ FAIL  tests/front-audio-recovery.test.ts > 別アプリから戻ったときの管制AI音声 > touchendで既存AudioContextを再開する
+ FAIL  tests/front-audio-recovery.test.ts > 別アプリから戻ったときの管制AI音声 > clickで既存AudioContextを再開する
+ FAIL  tests/front-audio-recovery.test.ts > 別アプリから戻ったときの管制AI音声 > keydownで既存AudioContextを再開する
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ tests/front-audio-recovery.test.ts:137:51
+    135|     context.onstatechange?.();
+    136|     doc.dispatchEvent(new Event(event));
+    137|     await vi.waitFor(() => expect(context.resume).toHaveBeenCalledTime…
+       |                                                   ^
+    138|     expect(context.state).toBe("running");
+    139|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/front-audio-recovery.test.ts > 別アプリから戻ったときの管制AI音声 > NotAllowedErrorの現リクエストを次の操作で一度だけ再生する
+AssertionError: expected "vi.fn()" to be called 2 times, but got 1 times
+ ❯ tests/front-audio-recovery.test.ts:167:52
+    165|     expect(sources[0].paused).toBe(true);
+    166|     doc.dispatchEvent(new Event("pointerdown"));
+    167|     await vi.waitFor(() => expect(sources[0].play).toHaveBeenCalledTim…
+       |                                                    ^
+    168|     expect(sources[0].paused).toBe(false);
+    169|     expect(s.controlVoice.current).toBe("home");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/front-audio-recovery.test.ts > 別アプリから戻ったときの管制AI音声 > OSに要素だけpauseされた場合はfocusで現要素を再生する
+AssertionError: expected "vi.fn()" to be called 2 times, but got 1 times
+ ❯ tests/front-audio-recovery.test.ts:197:52
+    195|     sources[0].paused = true;
+    196|     win.dispatchEvent(new Event("focus"));
+    197|     await vi.waitFor(() => expect(sources[0].play).toHaveBeenCalledTim…
+       |                                                    ^
+    198|     expect(sources[0].paused).toBe(false);
+    199|     expect(s.controlVoice.current).toBe("home");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 4 passed (13)
+   Start at  22:11:01
+   Duration  15.78s (tests 71%, import 20%, transform 7%, worker 2%)
+

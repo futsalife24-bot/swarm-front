@@ -1,0 +1,12 @@
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-audio-fix7-20261115
+
+
+ Test Files  5 passed (5)
+      Tests  63 passed (63)
+   Start at  22:13:18
+   Duration  5.92s (import 72%, transform 23%, tests 4%, worker 1%)
+
+    Isolate  5 workers spawned · ~189ms startup each (spawn + environment, per file)
+             at least ~755ms faster with isolate: false — reuses workers across files instead of one per file
+

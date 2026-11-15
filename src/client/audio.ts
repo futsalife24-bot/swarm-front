@@ -107,7 +107,7 @@ export class Sound {
   private speechRun = "";
   private speechOwner = "";
   private active = false;
-  private controlSources = new Set<HTMLAudioElement>();
+  private controlSources = new Map<HTMLAudioElement, () => void>();
   private announcer = new ControlAnnouncer();
   /** 基礎訓練の間は兵士の掛け声を止める（tutorial-proposal §8-1 の3）。 */
   soldierVoiceEnabled = true;
@@ -158,7 +158,7 @@ export class Sound {
     if (!isControlVoiceRate(rate)) return;
     this.controlRate = rate;
     saveControlVoiceRate(rate);
-    for (const source of this.controlSources) source.playbackRate = rate;
+    for (const source of this.controlSources.keys()) source.playbackRate = rate;
   }
   get controlVoiceVolume() {
     return this.controlLevel ?? 1;
@@ -215,8 +215,29 @@ export class Sound {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         this.stop();
-      }
+      } else this.restore();
     });
+    if (typeof window !== "undefined") {
+      window.addEventListener("pageshow", () => this.restore());
+      window.addEventListener("focus", () => this.restore());
+    }
+    // 自動再開を拒否する端末でも、画面遷移なしの最初の操作で復旧する。
+    for (const event of ["pointerdown", "touchend", "click", "keydown"])
+      document.addEventListener(event, () => this.restore(), true);
+  }
+  private restore() {
+    const context = this.context;
+    if (!context || context.state === "closed" || document.hidden) return;
+    const retry = () => {
+      if (document.hidden || context.state !== "running") return;
+      for (const play of this.controlSources.values()) play();
+    };
+    if (context.state === "running") retry();
+    else
+      void context
+        .resume()
+        .then(retry)
+        .catch(() => {});
   }
   preload() {
     if (this.loading) return this.loading;
@@ -455,7 +476,6 @@ export class Sound {
     audio.playbackRate = this.controlRate;
     gain.gain.value = 0.95;
     source.connect(gain).connect(this.controlMaster);
-    this.controlSources.add(audio);
     const finish = () => {
       if (!this.controlSources.delete(audio)) return;
       audio.onended = audio.onerror = null;
@@ -468,7 +488,19 @@ export class Sound {
       onEnded();
     };
     audio.onended = audio.onerror = finish;
-    void audio.play().catch(finish);
+    const play = () => {
+      if (audio.paused === false || audio.ended) return;
+      void audio.play().catch((error: unknown) => {
+        // 自動再生の制約だけは、最新の1本を次の操作まで保持する。
+        // 割込み・非表示・無音化はfinish経由で破棄され、復活しない。
+        if (!(
+          error instanceof DOMException && error.name === "NotAllowedError"
+        ))
+          finish();
+      });
+    };
+    this.controlSources.set(audio, play);
+    play();
     return finish;
   }
   stop(combatOnly = false) {
