@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Sound } from "../src/client/audio";
 import {
   loadControlVoiceRate,
+  CONTROL_VOICE_RATES,
   CONTROL_VOICE_RATE_KEY,
 } from "../src/client/control-voice-rate";
 import type { ControlVoicePacks } from "../src/client/control-voice-packs";
@@ -147,6 +148,29 @@ describe("管制AIの準備と再生", () => {
     ).toBe(1.3);
     expect(s.effectsVolume).toBe(0.35);
   });
+  it.each(CONTROL_VOICE_RATES)(
+    "速度%sの保存復元・通常発話・試聴はピッチを保持する",
+    async (rate) => {
+      const stored = new Map<string, string>();
+      vi.stubGlobal("localStorage", {
+        getItem: (k: string) => stored.get(k) ?? null,
+        setItem: (k: string, v: string) => stored.set(k, v),
+      });
+      const s = sound();
+      s.unlock();
+      s.setControlVoiceRate(rate);
+      expect(loadControlVoiceRate()).toBe(rate);
+      expect(stored.get(CONTROL_VOICE_RATE_KEY)).toBe(String(rate));
+      await s.prepareControlVoice(["home"]);
+      s.controlVoice.request("home");
+      expect(sources.at(-1)?.playbackRate).toBe(rate);
+      expect(sources.at(-1)?.preservesPitch).toBe(true);
+      await s.previewControlVoice("hiromi");
+      expect(sources.at(-1)?.playbackRate).toBe(rate);
+      expect(sources.at(-1)?.preservesPitch).toBe(true);
+      expect(s.effectsVolume).toBe(0.35);
+    },
+  );
   it("不正な速度・保存拒否は通常速度で安全に開始する", () => {
     for (const raw of [null, "0", "2", "false", "{", '"1.3"']) {
       vi.stubGlobal("localStorage", { getItem: () => raw });

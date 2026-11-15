@@ -80,9 +80,147 @@ describe("control voice line table", () => {
       expect(line.trigger.length).toBeGreaterThan(0);
     }
   });
-  it("adopts required and recommended control lines by default", () => {
-    for (const line of CONTROL_SET_LINES)
+  it("本人の121行確定値と一致し未掲載行を維持する", () => {
+    const yes = [
+      "adv-sortie",
+      "adv-complete",
+      "adv-failed",
+      "srv-sortie",
+      "srv-extract",
+      "srv-ended",
+      "def-sortie",
+      "daily-sortie",
+      "daily-victory",
+      "daily-destroyed",
+      "daily-ended",
+      "wave-clear",
+      "wave-incoming",
+      "boss-detected",
+      "stage-clear",
+      "result-win",
+      "result-lose",
+      "hp-danger",
+      "ally-down",
+      "self-down",
+      "revived",
+      "anomaly-new",
+      "anomaly-harrow",
+      "anomaly-calyx",
+      "anomaly-bastion",
+      "anomaly-volley",
+      "anomaly-leaper",
+      "anomaly-pleat",
+      "anomaly-prism",
+      "anomaly-ray",
+      "anomaly-foundry",
+      "anomaly-catena",
+      "levelup",
+      "treasure",
+      "boss-reward",
+      "final-large",
+      "base-under-attack",
+      "return-save",
+      "supply-request",
+      "supply-launch",
+      "supply-descend",
+      "supply-detect",
+      "supply-confirmed",
+      "supply-sr",
+      "coop-connected",
+      "coop-member-join",
+      "coop-member-left",
+      "coop-all-ready",
+      "coop-begin",
+      "coop-disconnect",
+      "coop-resync",
+      "coop-closed",
+      "title",
+      "home",
+      "pick-operation",
+      "gear-ready",
+      "loading",
+      "tutorial-combat",
+    ];
+    const no = [
+      "wave-final",
+      "medkit",
+      "branch-ready",
+      "resume-run",
+      "time-warning",
+      "return-soon",
+      "spawn-warning",
+      "squad-choosing",
+      "supply-analyze",
+      "supply-open",
+      "supply-complete",
+      "supply-ssr",
+      "supply-buddy",
+      "supply-buddy-new",
+      "supply-buddy-join",
+      "supply-resume",
+      "coop-invited",
+      "coop-waiting",
+      "equip-changed",
+      "armory-full",
+      "weekly-ready",
+      "daily-done",
+      "settings-saved",
+      "buddy-skill-ready",
+      "buddy-breakthrough",
+      "tutorial-growth",
+      "tutorial-accessory",
+      "guide-step-1",
+      "guide-step-2",
+      "guide-step-3",
+      "guide-step-4",
+      "weapon-rifle",
+      "weapon-smg",
+      "weapon-shotgun",
+      "weapon-slug",
+      "weapon-rocket",
+      "weapon-heavy",
+      "weapon-sniper",
+      "weapon-grenade",
+      "weapon-sticky",
+      "weapon-laser",
+      "weapon-kick",
+      "weapon-medic",
+      "report-harrow-form",
+      "report-harrow-attack",
+      "report-calyx-form",
+      "report-calyx-attack",
+      "report-bastion-form",
+      "report-bastion-attack",
+      "report-volley-form",
+      "report-volley-attack",
+      "report-leaper-form",
+      "report-leaper-attack",
+      "report-pleat-form",
+      "report-pleat-attack",
+      "report-prism-form",
+      "report-prism-attack",
+      "report-ray-form",
+      "report-ray-attack",
+      "report-foundry-form",
+      "report-foundry-attack",
+      "report-catena-form",
+      "report-catena-attack",
+    ];
+    expect(yes).toHaveLength(58);
+    expect(no).toHaveLength(63);
+    for (const id of yes) expect(controlVoiceLine(id)?.adopted, id).toBe(true);
+    for (const id of no) {
+      expect(controlVoiceLine(id)?.adopted, id).toBe(false);
+      const { q, started } = queue();
+      q.mode = controlVoiceLine(id)?.tag === "multi" ? "multi" : "solo";
+      expect(q.request(id), id).toBe("unadopted");
+      expect(started).toEqual([]);
+    }
+    for (const line of CONTROL_SET_LINES.filter(
+      (l) => !yes.includes(l.id) && !no.includes(l.id),
+    ))
       expect(line.adopted).toBe(line.production !== "optional");
+    expect(playableLine(controlVoiceLine("retire-ack")!)).toBe(true);
     expect(TUTORIAL_VOICE_LINES.every((l) => l.adopted)).toBe(true);
   });
   it("uses the adopted tut-reload wording", () => {
@@ -90,7 +228,7 @@ describe("control voice line table", () => {
       "弾切れになると、自動で装填が始まります。装填ボタンで、好きなときに装填することもできます。一度、装填してください。",
     );
   });
-  it("blocks brief-* and anomaly names, keeps anomaly-new and G18 disabled", () => {
+  it("brief除外とG18無効を維持し採用された敵名を解放する", () => {
     const briefs = CONTROL_SET_LINES.filter((l) => l.id.startsWith("brief-"));
     expect(briefs).toHaveLength(26);
     expect(briefs.every((l) => l.blocked === "abolished")).toBe(true);
@@ -98,10 +236,10 @@ describe("control voice line table", () => {
       (l) => l.id.startsWith("anomaly-") && l.id !== "anomaly-new",
     );
     expect(names).toHaveLength(10);
-    expect(names.every((l) => l.blocked === "on-hold")).toBe(true);
+    expect(names.every(playableLine)).toBe(true);
     expect(playableLine(controlVoiceLine("anomaly-new")!)).toBe(true);
     expect(controlVoiceLine("tut-enemy-info")?.blocked).toBe("unimplemented");
-    expect(controlVoiceIdsForScene("battle")).not.toContain("anomaly-harrow");
+    expect(controlVoiceIdsForScene("battle")).toContain("anomaly-harrow");
   });
   it("loads only the training lines for the basic training", () => {
     const ids = controlVoiceIdsForScene("training");
@@ -267,10 +405,10 @@ describe("control voice queue", () => {
     expect(q.request("tut-revive")).toBe("playing");
     expect(q.request("tut-enemy-info")).toBe("disabled");
     expect(q.request("brief-01")).toBe("disabled");
-    expect(q.request("anomaly-harrow")).toBe("disabled");
+    expect(q.request("anomaly-harrow")).toBe("playing");
     expect(q.request("weapon-rifle")).toBe("unadopted");
     expect(q.request("no-such-line")).toBe("unknown");
-    expect(started).toEqual(["tut-revive"]);
+    expect(started).toEqual(["tut-revive", "anomaly-harrow"]);
   });
   it("treats missing audio files as unavailable without throwing", () => {
     const { q, started, end } = queue(["tut-look"]);
