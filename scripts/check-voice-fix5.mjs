@@ -228,19 +228,26 @@ try {
     r.rapid.lastStartAfterClickMs >= 0 && r.rapid.lastStartAfterClickMs < 500,
   );
   r.checks.push("タイトルから作戦選択・進撃へ連続操作、最新台詞を再生");
-  await q("#pt-offer-later, #pt-start").first().waitFor();
-  if (await q("#pt-offer-later").count()) await q("#pt-offer-later").click();
+  await q("#pt-offer-later").waitFor();
+  await settle();
+  await q("#pt-offer-later").click();
+  await settle();
   await q("#pt-start").click();
   await q("#pt-enter").waitFor({ timeout: 60000 });
   await q("#pt-enter").click();
   if (await q("#pt-tutorial-skip").count())
     await q("#pt-tutorial-skip").click();
+  await settle();
   await q("#pause").click();
+  await settle();
   const beforeCancel = await p.evaluate(() => window.voiceStarts.length);
   await q("#pt-retire").click();
+  await settle();
   await q("#pt-cancel").click();
+  await settle();
   assert.equal(await p.evaluate(() => window.voiceStarts.length), beforeCancel);
   await q("#pt-retire").click();
+  await settle();
   await q("#pt-confirm").click();
   await p.waitForTimeout(700);
   assert.ok((await q("body").innerText()).includes("敗北"));
@@ -277,19 +284,25 @@ try {
   await p.goto(new URL("front?solo=1", base).href, {
     waitUntil: "domcontentloaded",
   });
+  await settle();
   await q("#front-launch").click();
   await q("[data-card]").first().waitFor({ timeout: 60000 });
   await q("[data-card]").first().click();
   await p.waitForTimeout(700);
+  await settle();
   await q("#pause").click();
+  await settle();
   await q("#front-leave").click();
+  await settle();
   const beforeFrontCancel = await p.evaluate(() => window.voiceStarts.length);
   await q("#front-leave-cancel").click();
+  await settle();
   assert.equal(
     await p.evaluate(() => window.voiceStarts.length),
     beforeFrontCancel,
   );
   await q("#front-leave").click();
+  await settle();
   await q("#front-leave-confirm").click();
   await p.waitForTimeout(700);
   r.frontRetireHash = await p.evaluate(() =>
