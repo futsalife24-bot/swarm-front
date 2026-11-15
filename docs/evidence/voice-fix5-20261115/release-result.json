@@ -1,0 +1,19 @@
+{
+  "source": "861b94cbfd8ac04d8115cd77610a61f485438b32",
+  "implementationPR": "https://github.com/futsalife24-bot/swarm-front/pull/346",
+  "workerVersion": "e5a9f122-be53-4513-a0cc-7f49d76bae78",
+  "trafficPercent": 100,
+  "matchedFiles": 33,
+  "sourceEmbedded": true,
+  "health": {
+    "ok": true,
+    "transport": "websocket",
+    "authority": "durable-object"
+  },
+  "browserChecks": 10,
+  "pageErrors": [],
+  "maxLive": 1,
+  "latestVoiceMs": 30.099999964237213,
+  "retireHash": "c5caadbd0f4e03ee4f45d23bdfb049c66b4c010ea218c828836515452c684d36",
+  "frontRetireHash": "c5caadbd0f4e03ee4f45d23bdfb049c66b4c010ea218c828836515452c684d36"
+}

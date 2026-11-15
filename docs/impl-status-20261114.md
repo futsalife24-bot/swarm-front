@@ -423,3 +423,10 @@
 
 - 最終コードe4f14026で全182ファイル1858テスト成功（277.52秒、checks/tests-complete.txt）。型/書式/55.76秒の本番build/既存Worker dry-run成功。完成ビルドの実Chrome10条件が成功、進撃と生存退出の実再生Blobはretire-ackのMP3とSHA一致、キャンセル無音・字幕なし、同時発話max1・最新発話27.3ms。844×390/568×320と訓練の画像を主担当が確認。生存60秒の任意帰還は配線/型と既存テストで照合、当該操作の実画面は未実施。
 - PR https://github.com/futsalife24-bot/swarm-front/pull/346 。GitHub mainはprotected=false、対象commitのstatus/workflow0件を実取得。保護や設定は変更せず通常PRから反映する。
+
+## 第5弾の公開完了
+
+- PR #346を通常merge、公開ソースmain `861b94cbfd8ac04d8115cd77610a61f485438b32`。merge後HEADから本番build/既存Worker dry-runを実施し、Worker Version `e5a9f122-be53-4513-a0cc-7f49d76bae78` へ公開。deployments statusで100%配信を確認。保護・契約・権限の変更、管理者バイパスなし。
+- 公開33ファイルのSHA一致、ソースSHA埋込一致、health正常。公開実Chromeの10条件がすべて成功・画面例外0。進撃リタイア/生存途中退出は実際のAudio Blobがretire-ackと同一、キャンセル無音、同時発話max1、最新音声30.1ms。速度の保存・試聴・通常・訓練、字幕なし/旧always残存、ボイスなし、ヨウコロック、横2サイズも確認。published/の画像を主担当が確認。[公開結果](evidence/voice-fix5-20261115/release-result.json)。
+- 公開コードは自己検証した実装e4f14026と同一。型/全182ファイル1858テスト/書式/build/dry-run成功。公開記録のみを専用release branchから通常PRへ反映する。元root/他worktree/別worktreeで保持中のローカルmainは変更しない。
+- 未確認: 実スマホ/iOS・人間の実聴品質・全台詞/全分岐・生存60秒任意帰還の実画面・多人数インターネット戦。隊長/バディ等の未接続セットは配置済み・配線は経路実装時。追加承認待ちなし。今回の実装・必要自己検証・main反映/push・既存Worker公開・配信確認は完了。
