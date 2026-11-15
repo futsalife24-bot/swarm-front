@@ -39,7 +39,7 @@ dist/assets/preload-helper-CQ-icceF.js       202.73 kB │ gzip:  73.40 kB
 dist/assets/weapon-workshop-ui-CB4kg5Jl.js   495.18 kB │ gzip: 175.28 kB
 dist/assets/hud-DtRLhXGs.js                  937.36 kB │ gzip: 262.62 kB
 
-[plugin builtin:vite-reporter] 
+[plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
