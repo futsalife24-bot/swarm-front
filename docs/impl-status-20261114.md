@@ -447,3 +447,9 @@
 - 採用TRUEのまま既存再生保留を維持した10件: anomaly-harrow, anomaly-calyx, anomaly-bastion, anomaly-volley, anomaly-leaper, anomaly-pleat, anomaly-prism, anomaly-ray, anomaly-foundry, anomaly-catena。calyx以外の9件は原本・既存パックとも未収録。新規収録やパック変更は本依頼に含めず、未収録を推測音声で補っていない。
 
 - 最終自己検証: npm run typecheck / npm run format:check / npm test（182ファイル・1864件すべて成功）/ npm run build / npm run server:build:production成功。実Chromeのbuilt-finalは6速度のピッチ保持指定・保存再読込、タイトル無音、日本語homeの実バイト照合、横844×390/568×320、字幕なし、ヨウコロックが成功、画面例外0。独立監査は通常タスクの最新方針どおり未実施。GitHub側はworkflowファイルなし、実装HEADのstatus一覧も空であり、CI合格と呼んでいない。
+
+### 第6弾の公開結果
+
+PR #348を通常merge。公開ソースmain f0321f91aec9a7fb16df5594629f574aa2566973、既存Worker Version 482dd4a3-9c53-4c8d-a48a-6c769decfe5c（100%）。merge後main build/dry-run成功。公開33ファイルのSHAとソース版が一致、health正常。公開実Chromeでも6速度/preservesPitch/保存復元/タイトル無音/home音源バイト一致/横2サイズ/字幕なし/ヨウコロック成功、画面例外0。型・書式・全182ファイル1864テスト成功。
+
+公開: https://swarm-front.melosalife-24.workers.dev/ 。実装PR: https://github.com/futsalife24-bot/swarm-front/pull/348 。公開記録はこの後の記録専用PRでmainへ保存。実スマホ/iOS・人間の実聴・全台詞/分岐・多人数戦は未確認。今回作成したworktreeは記録のmain取り込み・clean確認後に削除し、結果outboxで実施を確定する。開始前から存在したlocked initializingの別worktreeと元rootの差分は保護。
