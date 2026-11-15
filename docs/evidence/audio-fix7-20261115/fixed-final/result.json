@@ -1,0 +1,1829 @@
+{
+  "base": "http://127.0.0.1:5218/",
+  "browser": "157.0.8103.51",
+  "before": false,
+  "checks": [
+    "中断を注入した実タブ復帰で両AudioContextが自動再開",
+    "画面遷移なしのタップと次の試聴で音声出力を確認",
+    "本人の観察に沿い進撃選択ボタンでも中断から復旧することを確認"
+  ],
+  "errors": [],
+  "initial": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 7.24
+      },
+      {
+        "state": "running",
+        "time": 7.08
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 7.16,
+        "state": "running",
+        "rms": 0.11604516434244778
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "paused": false,
+        "time": 0.333787,
+        "state": "running",
+        "rms": 0.10683409734667879
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 8295
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "rate": 1,
+        "pitch": true,
+        "at": 16004.900000035763
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 169.20000004768372
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 672.4000000357628
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1476.9000000357628
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7821.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8304.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9094.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9096.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10199.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10221.900000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 10859.600000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10862.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10863.900000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 10867.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10911.900000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10912.600000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 12679.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12680.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12681.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 12681.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12735.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12735.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 14574.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14574.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 14574.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 14574.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14701.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 15954.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 15954.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 15954.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 15968.200000047684
+      }
+    ]
+  },
+  "hidden": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 8.032
+      },
+      {
+        "state": "running",
+        "time": 7.872
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 7.952,
+        "state": "running",
+        "rms": 0.08340413630461012
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "paused": false,
+        "time": 1.102948,
+        "state": "running",
+        "rms": 0.1410897281380053
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 8295
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "rate": 1,
+        "pitch": true,
+        "at": 16004.900000035763
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 169.20000004768372
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 672.4000000357628
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1476.9000000357628
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7821.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8304.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9094.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9096.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10199.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10221.900000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 10859.600000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10862.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10863.900000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 10867.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10911.900000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10912.600000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 12679.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12680.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12681.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 12681.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12735.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12735.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 14574.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14574.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 14574.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 14574.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14701.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 15954.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 15954.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 15954.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 15968.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 16473.30000001192
+      }
+    ]
+  },
+  "nativeHiddenObserved": false,
+  "plainReturn": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 9.650666666666666
+      },
+      {
+        "state": "running",
+        "time": 9.490666666666666
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 9.570667,
+        "state": "running",
+        "rms": 0.09305922708213075
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "paused": false,
+        "time": 2.722474,
+        "state": "running",
+        "rms": 0.1291729668401386
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 8295
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "rate": 1,
+        "pitch": true,
+        "at": 16004.900000035763
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 169.20000004768372
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 672.4000000357628
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1476.9000000357628
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7821.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8304.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9094.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9096.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10199.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10221.900000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 10859.600000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10862.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10863.900000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 10867.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10911.900000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10912.600000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 12679.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12680.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12681.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 12681.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12735.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12735.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 14574.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14574.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 14574.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 14574.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14701.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 15954.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 15954.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 15954.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 15968.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 16473.30000001192
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 17223.700000047684
+      }
+    ]
+  },
+  "suspended": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "suspended",
+        "time": 13.290666666666667
+      },
+      {
+        "state": "suspended",
+        "time": 13.141333333333334
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 13.210667,
+        "state": "suspended",
+        "rms": 0.06086305816857193
+      },
+      {
+        "src": "",
+        "paused": true,
+        "time": 0,
+        "state": "suspended",
+        "rms": 0
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 8295
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "rate": 1,
+        "pitch": true,
+        "at": 16004.900000035763
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 169.20000004768372
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 672.4000000357628
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1476.9000000357628
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7821.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8304.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9094.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9096.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10199.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10221.900000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 10859.600000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10862.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10863.900000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 10867.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10911.900000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10912.600000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 12679.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12680.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12681.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 12681.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12735.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12735.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 14574.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14574.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 14574.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 14574.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14701.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 15954.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 15954.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 15954.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 15968.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 16473.30000001192
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 17223.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 21522
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 22402.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 22402.30000001192
+      }
+    ]
+  },
+  "interruptedReturn": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 14.450666666666667
+      },
+      {
+        "state": "running",
+        "time": 14.541333333333334
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 14.370667,
+        "state": "running",
+        "rms": 0.028415092753319222
+      },
+      {
+        "src": "",
+        "paused": true,
+        "time": 0,
+        "state": "running",
+        "rms": 0
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 8295
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "rate": 1,
+        "pitch": true,
+        "at": 16004.900000035763
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 169.20000004768372
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 672.4000000357628
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1476.9000000357628
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7821.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8304.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9094.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9096.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10199.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10221.900000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 10859.600000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10862.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10863.900000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 10867.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10911.900000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10912.600000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 12679.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12680.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12681.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 12681.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12735.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12735.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 14574.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14574.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 14574.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 14574.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14701.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 15954.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 15954.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 15954.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 15968.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 16473.30000001192
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 17223.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 21522
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 22402.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 22402.30000001192
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 24613.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 24903.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 24920.80000001192
+      }
+    ]
+  },
+  "firstTap": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 16
+      },
+      {
+        "state": "running",
+        "time": 16.290666666666667
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 15.92,
+        "state": "running",
+        "rms": 0.06636691063457414
+      },
+      {
+        "src": "",
+        "paused": true,
+        "time": 0,
+        "state": "running",
+        "rms": 0
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 8295
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "rate": 1,
+        "pitch": true,
+        "at": 16004.900000035763
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 169.20000004768372
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 672.4000000357628
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1476.9000000357628
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7821.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8304.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9094.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9096.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10199.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10221.900000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 10859.600000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10862.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10863.900000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 10867.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10911.900000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10912.600000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 12679.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12680.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12681.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 12681.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12735.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12735.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 14574.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14574.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 14574.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 14574.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14701.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 15954.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 15954.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 15954.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 15968.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 16473.30000001192
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 17223.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 21522
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 22402.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 22402.30000001192
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 24613.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 24903.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 24920.80000001192
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 27240.700000047684
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 27244
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 31968
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 31968.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 32004.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 32231.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 32257.900000035763
+      }
+    ]
+  },
+  "voiceAfterReturn": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 16.6
+      },
+      {
+        "state": "running",
+        "time": 16.890666666666668
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 16.52,
+        "state": "running",
+        "rms": 0.06715251611232136
+      },
+      {
+        "src": "",
+        "paused": true,
+        "time": 0,
+        "state": "running",
+        "rms": 0
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/b4f9b916-f1bc-4994-978c-4772caf90d72",
+        "paused": false,
+        "time": 0.333787,
+        "state": "running",
+        "rms": 0.10683409734667879
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 8295
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/054384c3-d171-4be5-9e74-026ff4a4fa97",
+        "rate": 1,
+        "pitch": true,
+        "at": 16004.900000035763
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/b4f9b916-f1bc-4994-978c-4772caf90d72",
+        "rate": 1,
+        "pitch": true,
+        "at": 33283.700000047684
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 169.20000004768372
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 672.4000000357628
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1476.9000000357628
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7821.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8304.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9094.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9096.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10199.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10221.900000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 10859.600000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10862.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10863.900000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 10867.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10911.900000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10912.600000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 12679.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12680.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12681.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 12681.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 12735.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 12735.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 14574.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14574.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 14574.600000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 14574.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 14701.700000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 15954.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 15954.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 15954.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 15968.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 16473.30000001192
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 17223.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 21522
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 22402.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 22402.30000001192
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 24613.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 24903.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 24920.80000001192
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 27240.700000047684
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 27244
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 31968
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 31968.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 32004.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 32231.30000001192
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 32257.900000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 33252.60000002384
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 33252.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 33252.90000003576
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 33253.30000001192
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 33264
+      }
+    ]
+  },
+  "advanceButton": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 2.6
+      },
+      {
+        "state": "running",
+        "time": 2.6
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 2.56,
+        "state": "running",
+        "rms": 0.055328650745846156
+      },
+      {
+        "src": "",
+        "paused": true,
+        "time": 0,
+        "state": "running",
+        "rms": 0
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 3845.5
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/0f00e39b-690f-4833-b735-4e0df430fe47",
+        "rate": 1,
+        "pitch": true,
+        "at": 5755.899999976158
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 192.5999999642372
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 936.5999999642372
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1404.3999999761581
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 3763.2999999523163
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 3846.599999964237
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3921.599999964237
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3923.199999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4995.199999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4998.099999964237
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5488.899999976158
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5489.599999964237
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5526.799999952316
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5527.299999952316
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 6277.199999988079
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 6277.199999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6354.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6355.199999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6355.399999976158
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6355.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6359.699999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6360.099999964237
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6372.699999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6372.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6373.399999976158
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 6519
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 6525
+      }
+    ]
+  },
+  "ok": true
+}

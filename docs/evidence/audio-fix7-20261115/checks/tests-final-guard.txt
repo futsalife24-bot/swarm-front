@@ -1,0 +1,15 @@
+
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-audio-fix7-20261115
+
+
+ Test Files  183 passed (183)
+      Tests  1885 passed (1885)
+   Start at  22:29:24
+   Duration  581.17s (tests 84%, import 14%, transform 2%)
+
+    Isolate  183 workers spawned · ~153ms startup each (spawn + environment, per file)
+             at least ~27.87s faster with isolate: false — reuses workers across files instead of one per file

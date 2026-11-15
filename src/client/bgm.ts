@@ -81,9 +81,15 @@ export class BackgroundMusic {
         this.sync();
       }
     });
-    document.addEventListener("visibilitychange", () => this.sync());
+    const restore = () => {
+      // play() だけでは、音量用AudioContextの中断は解除されない。
+      if (this.unlocked && !document.hidden) this.output.unlock();
+      this.sync();
+    };
+    document.addEventListener("visibilitychange", restore);
     window.addEventListener("pagehide", () => this.player.pause());
-    window.addEventListener("pageshow", () => this.sync());
+    window.addEventListener("pageshow", restore);
+    window.addEventListener("focus", restore);
     document.addEventListener("pointerdown", () => this.unlock(), true);
     document.addEventListener("touchend", () => this.unlock(), true);
     document.addEventListener("click", () => this.unlock(), true);

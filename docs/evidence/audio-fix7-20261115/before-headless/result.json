@@ -1,0 +1,402 @@
+{
+  "base": "http://127.0.0.1:5218/",
+  "browser": "157.0.8103.51",
+  "before": true,
+  "checks": [],
+  "errors": [],
+  "initial": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 4.872
+      },
+      {
+        "state": "running",
+        "time": 4.8
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 4.752,
+        "state": "running",
+        "rms": 0.0953909422337134
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/9a6f1223-a18e-4ef4-9f27-3759450e4f06",
+        "paused": false,
+        "time": 0.351202,
+        "state": "running",
+        "rms": 0.17605547617005676
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 1952.5999999642372
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/9a6f1223-a18e-4ef4-9f27-3759450e4f06",
+        "rate": 1,
+        "pitch": true,
+        "at": 7126.899999976158
+      }
+    ],
+    "events": [
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 409.89999997615814
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 687.7999999523163
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 1719.2999999523163
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 1956.0999999642372
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 2703.399999976158
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 2705.399999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 3697.2999999523163
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 3705.7999999523163
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4028
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4030.2999999523163
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4031.2999999523163
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4032.199999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4087.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4088.199999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5391.299999952316
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5391.899999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5392.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5393.799999952316
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5447.799999952316
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5448
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6707.299999952316
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6707.599999964237
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6708.199999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6708.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6737.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7106.299999952316
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7106.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7107.199999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7118.899999976158
+      }
+    ]
+  },
+  "hidden": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 5.261333333333333
+      },
+      {
+        "state": "running",
+        "time": 5.192
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 5.141333,
+        "state": "running",
+        "rms": 0.17084348527540894
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/9a6f1223-a18e-4ef4-9f27-3759450e4f06",
+        "paused": false,
+        "time": 0.743039,
+        "state": "running",
+        "rms": 0.02646898541732845
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5218/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 1952.5999999642372
+      },
+      {
+        "src": "blob:http://127.0.0.1:5218/9a6f1223-a18e-4ef4-9f27-3759450e4f06",
+        "rate": 1,
+        "pitch": true,
+        "at": 7126.899999976158
+      }
+    ],
+    "events": [
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 409.89999997615814
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 687.7999999523163
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 1719.2999999523163
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 1956.0999999642372
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 2703.399999976158
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 2705.399999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 3697.2999999523163
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 3705.7999999523163
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4028
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4030.2999999523163
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4031.2999999523163
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4032.199999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4087.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4088.199999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5391.299999952316
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5391.899999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5392.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5393.799999952316
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5447.799999952316
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5448
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6707.299999952316
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6707.599999964237
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6708.199999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6708.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6737.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7106.299999952316
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7106.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7107.199999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7118.899999976158
+      }
+    ]
+  },
+  "failure": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nfalse !== true\n\n    at file:///C:/Users/futsa/swarm-audio-fix7-20261115/scripts/check-audio-fix7.mjs:138:10",
+  "dialogs": [
+    {
+      "className": "menu-dialog",
+      "open": true,
+      "text": "SWARM FRONT設定閉じる ×変更はこの端末に自動保存されます。環境設定視点感度1射撃ボタンの視点感度1ジャイロオフジャイロ感度1全体音量35%BGM音量100%SE音量100%管制AI音量100%描画品質標準軽量描画上限60fps（なめらか）30fps（省電力）画面演出動きを抑える：オフミニマップ北を上に固定視点に合わせて回すダメージ表示自分のみ味方も表示表示しない操作ボタンの配置メニュープレイヤー名：未登録変更データを事前ダウンロード管制AIボイスサウンドテストPVを見る音量 描画 標準軽量現在の保存を書き出すクラウド引き継ぎ管理者モード末尾まで表示しました · 上に戻る ↑"
+    },
+    {
+      "className": "menu-dialog cv-dialog",
+      "open": true,
+      "text": "SETTINGS / VOICE管制AIボイス閉じる ×声は端末に保存して使います。未ダウンロードの声は再生されません。再生速度 通常（1.0倍）1.1倍速1.2倍速1.3倍速1.4倍速1.5倍速ボイスなしヒロミ · 選択中既定の声・基礎訓練の音声を含む6.1 MB保存済み試聴ヒヨリ支給ボックスで受け取ると使えます4.3 MB未解放試聴ヨウコ今後の配布で解放4.6 MB未解放試聴ヒロミのサンプルを再生しています。保存先はこのブラウザです。端末の空き容量が少ないと自動で消えることがあります。チュートリアルの音声はヒロミの声で再生します。続きは上下にスクロール ↕"
+    }
+  ]
+}

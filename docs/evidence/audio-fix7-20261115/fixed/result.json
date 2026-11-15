@@ -1,0 +1,1652 @@
+{
+  "base": "http://127.0.0.1:5219/",
+  "browser": "157.0.8103.51",
+  "before": false,
+  "checks": [
+    "中断を注入した実タブ復帰で両AudioContextが自動再開",
+    "画面遷移なしのタップと次の試聴で音声出力を確認"
+  ],
+  "errors": [],
+  "initial": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 4.581333333333333
+      },
+      {
+        "state": "running",
+        "time": 4.432
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 4.501333,
+        "state": "running",
+        "rms": 0.07145944479585378
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "paused": false,
+        "time": 0.333787,
+        "state": "running",
+        "rms": 0.10683409734667879
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 2840.400000035763
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "rate": 1,
+        "pitch": true,
+        "at": 7750.200000047684
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 237.5
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 802.8000000119209
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1182.6000000238419
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 2596.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 2846.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3549.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3552.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4638.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4642.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4825.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4826.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4827.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4828
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4857.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4857.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6082.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6082.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6083
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6083.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6125.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6125.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7317.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7317.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7317.700000047684
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7318.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7362.400000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7715.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7716.300000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7716.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7731.100000023842
+      }
+    ]
+  },
+  "hidden": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 5.112
+      },
+      {
+        "state": "running",
+        "time": 4.96
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 5.030146,
+        "state": "running",
+        "rms": 0.19748305684038048
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "paused": false,
+        "time": 0.860171,
+        "state": "running",
+        "rms": 0.12399862431703909
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 2840.400000035763
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "rate": 1,
+        "pitch": true,
+        "at": 7750.200000047684
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 237.5
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 802.8000000119209
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1182.6000000238419
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 2596.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 2846.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3549.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3552.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4638.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4642.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4825.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4826.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4827.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4828
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4857.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4857.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6082.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6082.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6083
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6083.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6125.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6125.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7317.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7317.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7317.700000047684
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7318.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7362.400000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7715.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7716.300000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7716.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7731.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8202.800000011921
+      }
+    ]
+  },
+  "nativeHiddenObserved": false,
+  "plainReturn": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 5.501333333333333
+      },
+      {
+        "state": "running",
+        "time": 5.352
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 5.421333,
+        "state": "running",
+        "rms": 0.16766724168901212
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "paused": false,
+        "time": 1.253756,
+        "state": "running",
+        "rms": 0.10198252956678054
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 2840.400000035763
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "rate": 1,
+        "pitch": true,
+        "at": 7750.200000047684
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 237.5
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 802.8000000119209
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1182.6000000238419
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 2596.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 2846.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3549.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3552.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4638.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4642.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4825.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4826.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4827.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4828
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4857.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4857.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6082.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6082.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6083
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6083.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6125.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6125.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7317.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7317.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7317.700000047684
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7318.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7362.400000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7715.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7716.300000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7716.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7731.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8202.800000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8642.700000047684
+      }
+    ]
+  },
+  "suspended": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "suspended",
+        "time": 5.76
+      },
+      {
+        "state": "suspended",
+        "time": 5.610666666666667
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 5.68,
+        "state": "suspended",
+        "rms": 0.10288555937179443
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "paused": false,
+        "time": 1.5122,
+        "state": "suspended",
+        "rms": 0.00491110065683253
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 2840.400000035763
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "rate": 1,
+        "pitch": true,
+        "at": 7750.200000047684
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 237.5
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 802.8000000119209
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1182.6000000238419
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 2596.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 2846.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3549.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3552.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4638.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4642.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4825.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4826.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4827.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4828
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4857.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4857.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6082.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6082.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6083
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6083.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6125.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6125.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7317.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7317.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7317.700000047684
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7318.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7362.400000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7715.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7716.300000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7716.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7731.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8202.800000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8642.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9031.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9274.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9274.400000035763
+      }
+    ]
+  },
+  "interruptedReturn": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 6.010666666666666
+      },
+      {
+        "state": "running",
+        "time": 5.9013333333333335
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 5.930667,
+        "state": "running",
+        "rms": 0.17363155165735564
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "paused": false,
+        "time": 1.802449,
+        "state": "running",
+        "rms": 0.005573410787347351
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 2840.400000035763
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "rate": 1,
+        "pitch": true,
+        "at": 7750.200000047684
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 237.5
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 802.8000000119209
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1182.6000000238419
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 2596.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 2846.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3549.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3552.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4638.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4642.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4825.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4826.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4827.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4828
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4857.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4857.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6082.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6082.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6083
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6083.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6125.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6125.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7317.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7317.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7317.700000047684
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7318.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7362.400000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7715.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7716.300000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7716.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7731.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8202.800000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8642.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9031.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9274.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9274.400000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9300.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9446.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9446.300000011921
+      }
+    ]
+  },
+  "firstTap": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 6.1706666666666665
+      },
+      {
+        "state": "running",
+        "time": 6.112
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 6.090667,
+        "state": "running",
+        "rms": 0.09115734159997302
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "paused": false,
+        "time": 2.011429,
+        "state": "running",
+        "rms": 0.062461432351056355
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 2840.400000035763
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "rate": 1,
+        "pitch": true,
+        "at": 7750.200000047684
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 237.5
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 802.8000000119209
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1182.6000000238419
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 2596.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 2846.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3549.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3552.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4638.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4642.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4825.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4826.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4827.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4828
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4857.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4857.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6082.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6082.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6083
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6083.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6125.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6125.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7317.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7317.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7317.700000047684
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7318.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7362.400000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7715.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7716.300000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7716.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7731.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8202.800000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8642.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9031.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9274.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9274.400000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9300.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9446.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9446.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9745.400000035763
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9745.400000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 9815.900000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9816
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 9816.600000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9915.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9917.200000047684
+      }
+    ]
+  },
+  "voiceAfterReturn": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 6.592
+      },
+      {
+        "state": "running",
+        "time": 6.530666666666667
+      }
+    ],
+    "media": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 6.512,
+        "state": "running",
+        "rms": 0.1278431745523002
+      },
+      {
+        "src": "",
+        "paused": true,
+        "time": 0,
+        "state": "running",
+        "rms": 0
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/9f1175cd-ad10-41ae-a417-dfca444309ca",
+        "paused": false,
+        "time": 0.333787,
+        "state": "running",
+        "rms": 0.10683409734667879
+      }
+    ],
+    "starts": [
+      {
+        "src": "http://127.0.0.1:5219/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 2840.400000035763
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/822ea5f4-ae73-4ca5-a50d-33ea37e33858",
+        "rate": 1,
+        "pitch": true,
+        "at": 7750.200000047684
+      },
+      {
+        "src": "blob:http://127.0.0.1:5219/9f1175cd-ad10-41ae-a417-dfca444309ca",
+        "rate": 1,
+        "pitch": true,
+        "at": 10174.800000011921
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 237.5
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 802.8000000119209
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 1182.6000000238419
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 2596.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 2846.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3549.2000000476837
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 3552.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4638.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4642.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4825.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4826.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4827.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4828
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4857.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4857.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 6082.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6082.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6083
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 6083.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 6125.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 6125.800000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7317.200000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7317.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7317.700000047684
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7318.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7362.400000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7715.700000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7716.300000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7716.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7731.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8202.800000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8642.700000047684
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9031.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9274.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9274.400000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9300.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9446.200000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9446.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9745.400000035763
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 9745.400000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 9815.900000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9816
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 9816.600000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9915.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 9917.200000047684
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 10156.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10156.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10157.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 10157.600000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10169.5
+      }
+    ]
+  },
+  "ok": true
+}

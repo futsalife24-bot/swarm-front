@@ -453,3 +453,21 @@
 PR #348を通常merge。公開ソースmain f0321f91aec9a7fb16df5594629f574aa2566973、既存Worker Version 482dd4a3-9c53-4c8d-a48a-6c769decfe5c（100%）。merge後main build/dry-run成功。公開33ファイルのSHAとソース版が一致、health正常。公開実Chromeでも6速度/preservesPitch/保存復元/タイトル無音/home音源バイト一致/横2サイズ/字幕なし/ヨウコロック成功、画面例外0。型・書式・全182ファイル1864テスト成功。
 
 公開: https://swarm-front.melosalife-24.workers.dev/ 。実装PR: https://github.com/futsalife24-bot/swarm-front/pull/348 。公開記録はこの後の記録専用PRでmainへ保存。実スマホ/iOS・人間の実聴・全台詞/分岐・多人数戦は未確認。今回作成したworktreeは記録のmain取り込み・clean確認後に削除し、結果outboxで実施を確定する。開始前から存在したlocked initializingの別worktreeと元rootの差分は保護。
+
+## 2026-11-15 第7弾：別アプリからの復帰後のBGM・管制AI
+
+- 依頼正本 `C:/Users/futsa/bibi-bridge/inbox/fix7-brief-20261115.md` を全文確認。第6弾の実装PR #348・公開記録PR #349のmerge後、最新main `ee462c5d2155e19dcdc4560103164b09897d6704` から新規 `C:/Users/futsa/swarm-audio-fix7-20261115` / `codex/audio-fix7-20261115` で開始。元rootの別件の未保存変更・他worktreeは保持。PROJECT_CONTEXTの過去の入口導入時の禁止は今回の明示されたmain反映・公開・作業ツリー削除指示を制限しない。
+- **確定した不具合経路**: BGMのvisibilitychange/pageshowはHTMLAudioElementのplayだけを再試行し、MediaVolumeが持つ別AudioContextをresumeしない。Soundはhidden時のstopだけで復帰処理がなく、既に準備済みの管制AIとSEの共通AudioContextがsuspended/interruptedから戻らない。管制AIはready、SEはplayのrunning条件で止まる。さらにHTMLAudioElement.playのNotAllowedErrorは音声を破棄しており、次の操作で同じ最新要求を再試行する経路もなかった。
+- **実測**: 元mainの実Chrome157.0.8103.51でBGM用・Sound用の実contextをsuspendし、別タブからfocus復帰すると5.890666秒/5.8秒のまま、両方suspendedで停止。通常切替だけの対照ではrunningを維持。修正版は同条件で5.76/5.610666秒→6.010666/5.901333秒へ進み両方running、BGMと次の管制AIの実信号を確認。RMSだけでは停止前の残留値を拾うため、状態・context時刻の進行・mediaの再生状態も照合した。[手順・ログ・計測](evidence/audio-fix7-20261115/README.md)。
+- **本人の低確度の観察の検証**: 元mainでも、中断後に進撃選択ボタンを押すと復旧することを実Chromeで確認した。一方、画面遷移のない説明文へのタップでも復旧した。root版の既存click→Sound.unlock/BGM.unlock経路と一致し、特定の画面遷移だけの効果とは断定しない。生存ボタンそのもの・本人Androidでの同一現象は未確認。
+- **修正**: BGMは初回unlock後のみvisible/pageshow/focusで出力contextをresumeし、曲・再生位置・音量・プレビュー停止権を保持。Soundは同イベントとcaptureのpointerdown/touchend/click/keydownで既存contextだけ再開し、OSに要素だけpauseされた現音声も再試行する。NotAllowedErrorのみ現要求1本を保持し、次操作で再生。新要求・非表示・ボイスなし・音量0・通常終了は旧要素を一回だけ解放し、遅れたresumeの完了で古い台詞を復活させない。終了通知待ちの要素も再始動しない。pollingやOS中断を強制解除する無限再試行は追加しない。
+- **維持した仕様**: 第4〜6弾の最新要求優先、同時1本、ピッチ保持、1.0/1.1/1.2/1.3/1.4/1.5倍、独立音量、ボイスなし・未DL無音、タイトル英語読みなし、字幕なし・ヨウコロック。音声パック/素材・SE速度・保存キーの意味・ガチャ/天井/券/レア度/課金・ログイン初期値・支給ボックス・brief除外・訓練2層/G18無効は無変更。
+- **検証範囲の制限**: 実タブのfocus/blurは取得したが、本環境では通常Playwright・focus模擬解除・独立Chrome/noDefaults接続ともdocument.hiddenがfalseのまま。OSが自然に中断するAndroid実機の再現を成功扱いしていない。visibilitychange/pageshow/interrupted/NotAllowedError/非同期競合は回帰テストで確認。Chromeのユーザー操作が必要な制約では最初のタップ等で再試行する。SEも同じcontext状態に依存するコード条件は確認したが、本人の実機でSEまで停止したかは未確認。Android Chrome/WebView/iOSと人間の実聴は本人による最終確認が必要。
+- 担当: 主担当の実モデルID/effortは取得不可で未確認。補助gpt-6-sol/medium指定でボイス経路の読み取りと復旧テストのみ（実ランタイム表示は未確認）。通常タスク方針に従い独立Chat監査は未実施。自己レビュー・型・全テスト・書式・build・既存Worker dry-run・PR/保護を維持。
+
+### 第7弾の自己検証・公開の確定結果
+
+- 最終型チェック・書式・git diff --check成功。全183ファイル **1,885テストすべて成功**（581.17秒、checks/tests-final-guard.txt）。初回全件も1884件成功し、その後の終了済み要素ガード追加に伴って全件を再実行した。製品のテスト失敗はなし。
+- 最終ローカルbuildと既存Workerのproduction dry-run成功（607静的ファイル）。既存の500KB超チャンク警告は残る。実Chromeのfixed-finalは中断注入→実タブfocus復帰の自動再開、文字タップ、進撃選択、BGM/管制AI信号、画面例外0。既存第6弾検査のspec-regressionも6速度・ピッチ保持指定・保存復元・タイトル無音・日本語homeの実バイト照合・横2サイズ・ボイスなし/字幕なし/ヨウコロックが成功。
+- 公開前の既存OAuthは通常のWranglerで更新し対象アカウントを照合。UTC当日13:21時点の全Workers 287 requests・errors 0・314 subrequestsを取得。契約APIは既存権限で403のため未取得、docs/FREE-TIER.mdにある11月13日の本人の無料プラン回答を引き継ぎ、新規費用・契約/権限変更なし。
+- main反映・公開の確定値は公開後に追記する。
