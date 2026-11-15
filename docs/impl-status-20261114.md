@@ -470,4 +470,7 @@ PR #348を通常merge。公開ソースmain f0321f91aec9a7fb16df5594629f574aa256
 - 最終型チェック・書式・git diff --check成功。全183ファイル **1,885テストすべて成功**（581.17秒、checks/tests-final-guard.txt）。初回全件も1884件成功し、その後の終了済み要素ガード追加に伴って全件を再実行した。製品のテスト失敗はなし。
 - 最終ローカルbuildと既存Workerのproduction dry-run成功（607静的ファイル）。既存の500KB超チャンク警告は残る。実Chromeのfixed-finalは中断注入→実タブfocus復帰の自動再開、文字タップ、進撃選択、BGM/管制AI信号、画面例外0。既存第6弾検査のspec-regressionも6速度・ピッチ保持指定・保存復元・タイトル無音・日本語homeの実バイト照合・横2サイズ・ボイスなし/字幕なし/ヨウコロックが成功。
 - 公開前の既存OAuthは通常のWranglerで更新し対象アカウントを照合。UTC当日13:21時点の全Workers 287 requests・errors 0・314 subrequestsを取得。契約APIは既存権限で403のため未取得、docs/FREE-TIER.mdにある11月13日の本人の無料プラン回答を引き継ぎ、新規費用・契約/権限変更なし。
-- main反映・公開の確定値は公開後に追記する。
+- [PR #350](https://github.com/futsalife24-bot/swarm-front/pull/350) を通常merge。実装head b2775c7da9ff091b1ed89966e863c8f8e46b0eddと公開ソースmain **d321b808d25d77e5e28dbb2d61afc29057cdb4fd** のtreeが一致。GitHubのstatus/workflow一覧はともに0件で、CI合格とは扱わず、通常API mergeが成功。保護/Hook/権限の変更や管理者バイパスなし。
+- merge後mainから本番build/production dry-runを再実行し、既存swarm-front Worker Version **2fd363c4-1d94-4cd1-990c-79fef1a5662d（100%）** へ公開。公開先 https://swarm-front.melosalife-24.workers.dev/ 。HTML/JS/CSS/音声パック全33ファイルのSHA-256とソースSHA埋込が一致し、/api/health 200/ok true。[配信照合](evidence/audio-fix7-20261115/published-files.json)、[公開版数](evidence/audio-fix7-20261115/checks/deployment-status.txt)。
+- 公開実Chromeのpublishedも全3条件成功・画面例外0。実context中断→実タブfocus復帰の自動再開と時刻進行、BGM/次の試聴の実信号、画面遷移なしの文字タップ・進撃選択の復旧を確認。主担当が公開画面を確認。document.hiddenの自然な変化・Android/iOS・実聴の未確認範囲は上記のまま維持。
+- 実装・必要自己検証・main反映・push・既存Worker公開・公開版照合は完了。公開記録だけを通常PRでmainへ保存し、取り込み/ローカルmainとorigin/main/リモートmainの一致/cleanを確認して今回作成したworktreeを削除する。最終main・削除実施は指定outboxへ確定記録する。元root・既存locked worktree・他担当成果は保持。

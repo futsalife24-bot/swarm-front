@@ -36,3 +36,7 @@ visible/pageshow/focusで既存contextを再開し、操作時はcaptureで再�
 Chromeのユーザー操作制約の根拠: https://developer.chrome.com/blog/autoplay/ 。これはAndroidで今回の原因を実測した証拠ではない。
 
 担当: 主担当の実モデルID/effortは取得不可で未確認。補助はgpt-6-sol/medium指定、調査と復帰テストのみ（実ランタイム表示は未確認）。独立Chat監査は通常タスクの現行方針に従い未実施。
+
+## 公開結果
+
+PR #350を通常merge。公開ソースmain d321b808d25d77e5e28dbb2d61afc29057cdb4fd、Worker Version 2fd363c4-1d94-4cd1-990c-79fef1a5662d（100%）。merge後build/dry-run成功、公開33ファイルとソース版一致・health正常。published/result.jsonは公開実Chromeの最終3条件成功・例外0。非表示化・実機・実聴の制限は変更なし。ログは内容を保持して末尾空白を整形し、公開版数ログの作成者メールは伏せた。
