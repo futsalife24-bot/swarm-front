@@ -6,4 +6,3 @@
       Tests  22 passed (22)
    Start at  23:19:36
    Duration  340ms (import 60%, transform 27%, tests 12%, worker 2%)
-

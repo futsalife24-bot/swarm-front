@@ -39,7 +39,7 @@ dist/assets/preload-helper-CQ-icceF.js       202.73 kB │ gzip:  73.40 kB
 dist/assets/weapon-workshop-ui-DD8YIRrr.js   495.18 kB │ gzip: 175.29 kB
 dist/assets/hud-3jOA8hvg.js                  939.92 kB │ gzip: 263.37 kB
 
-[plugin builtin:vite-reporter] 
+[plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
@@ -55,4 +55,3 @@ Additional hook time came from the hooks below and from hooks under 1s.
   - vite:css transform (42 calls)
   - vite:build-html transform (2 calls)
 See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
-
