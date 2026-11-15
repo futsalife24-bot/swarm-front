@@ -12,3 +12,5 @@
 固定結果は旧PRESETS10に含まれるSR未満の最終枠をSR/SSRへ置換し、本番の10連保証に整合させた。sonic初回カットは輪出現前だったため、代表時刻をtLand+0.04へ修正（JSONのfirstSampleTime参照）。heartbeatは札と降下尾を分けて取得。reverseSealは通常の完成形と裏面正対を取得。初期色/対象/局面はplanで凍結し、結果と合わない組合せは拒否する。
 
 実機の見た目・実聴の最終確認は本人が行う。自動検査はその完了を意味しない。Android/iOS自然中断、全端末/長時間動作、人間の音量評価は未確認。
+
+公開ソース: ee2ff437cb8e37deaf405f3db016db1e34289e97、Worker: aad47ce7-d9d8-4970-81b1-2a796733005b（100%）。`scripts/check-gacha-signals-published.mjs <公開ソースSHA>` は配信118ファイル/health/ソース埋込、公開モジュールの固定結果4組×横2サイズ=8条件を検査。`published/`を参照。通常抽選・券消費・受領は実行しない。

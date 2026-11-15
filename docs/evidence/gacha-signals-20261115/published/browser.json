@@ -1,0 +1,236 @@
+{
+  "source": "ee2ff437cb8e37deaf405f3db016db1e34289e97",
+  "cases": [
+    {
+      "name": "buddy",
+      "width": 844,
+      "height": 390,
+      "plan": {
+        "phases": [
+          "signature",
+          "heartbeat",
+          10
+        ],
+        "targets": [
+          null,
+          0,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "unchanged": true,
+      "saveUnchanged": true,
+      "visible": true
+    },
+    {
+      "name": "reverseSeal",
+      "width": 844,
+      "height": 390,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "unchanged": true,
+      "saveUnchanged": true,
+      "visible": true
+    },
+    {
+      "name": "skeleton",
+      "width": 844,
+      "height": 390,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "unchanged": true,
+      "saveUnchanged": true,
+      "visible": true
+    },
+    {
+      "name": "mixed",
+      "width": 844,
+      "height": 390,
+      "plan": {
+        "phases": [
+          "reverse",
+          "landing",
+          "delayed"
+        ],
+        "targets": [
+          null,
+          0,
+          0
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "unchanged": true,
+      "saveUnchanged": true,
+      "visible": true
+    },
+    {
+      "name": "buddy",
+      "width": 640,
+      "height": 360,
+      "plan": {
+        "phases": [
+          "signature",
+          "heartbeat",
+          10
+        ],
+        "targets": [
+          null,
+          0,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "unchanged": true,
+      "saveUnchanged": true,
+      "visible": true
+    },
+    {
+      "name": "reverseSeal",
+      "width": 640,
+      "height": 360,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "unchanged": true,
+      "saveUnchanged": true,
+      "visible": true
+    },
+    {
+      "name": "skeleton",
+      "width": 640,
+      "height": 360,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "unchanged": true,
+      "saveUnchanged": true,
+      "visible": true
+    },
+    {
+      "name": "mixed",
+      "width": 640,
+      "height": 360,
+      "plan": {
+        "phases": [
+          "reverse",
+          "landing",
+          "delayed"
+        ],
+        "targets": [
+          null,
+          0,
+          0
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "unchanged": true,
+      "saveUnchanged": true,
+      "visible": true
+    }
+  ],
+  "errors": [],
+  "writes": [],
+  "scope": "公開静的モジュールの固定結果再生。実機・実聴と有償/通常抽選の実行はしていない。"
+}

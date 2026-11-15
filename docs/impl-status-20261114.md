@@ -498,3 +498,12 @@ PR #348を通常merge。公開ソースmain f0321f91aec9a7fb16df5594629f574aa256
 
 - 実装commit 42e26170からbuild/既存Worker production dry-run成功。既存のchunkサイズとビルド所要時間の警告は残るがエラーなし。追加の単発delayed/skeleton個別停止点も通常/動き減で存在確認。実確認UIはEnter7回/タップ7回で獲得確認→次へを検証し14回すべて成功。
 - 公開前の既存OAuth認証成功、既存アカウント一致。契約APIは既存権限で403のため最新Free確認成功とはしていない（従来の本人Free前提を維持、契約/権限/公開先は変更しない）。正規GraphQL読取で当日UTC00:00〜14:35:19のアカウント全体341 requests / 0 errors / 377 subrequestsを確認。資格情報をログへ出さず、契約読取の拒否を別経路で回避していない。
+
+### ガチャ合図の公開・配信確認
+
+- [PR #352](https://github.com/futsalife24-bot/swarm-front/pull/352)を通常merge。実装head 0a8ecbb5704328c92b92ef038be1aae3cb305d30とmain **ee2ff437cb8e37deaf405f3db016db1e34289e97** のtreeが一致。status/workflow一覧は0件（CI合格とは表現しない）。通常API mergeで成功し、Hook/保護/権限変更や管理者バイパスなし。
+- merge後mainからbuild/production dry-runを再実行し、既存swarm-front Worker Version **aad47ce7-d9d8-4970-81b1-2a796733005b（100%）**へ公開。公開先 https://swarm-front.melosalife-24.workers.dev/ 。既存契約/アカウント/公開先を維持し、新規サービス/費用設定なし。
+- 公開のHTML/JS/CSS/音声パックと補給モジュール全 **118ファイルがSHA-256一致**、ソースSHA埋込一致、/api/health正常。公開静的文書を入口に、公開モジュールを直接取得して固定結果4組×844/640の **8条件成功**。結果/保存不変、API等の書込0、画面例外0。主担当が公開BUDDY単発と側面展開10連640の画像を目視。通常抽選/券消費/報酬取得を実行した検査ではない。
+- 証拠: [公開照合](evidence/gacha-signals-20261115/published/delivery.json)、[公開ブラウザー](evidence/gacha-signals-20261115/published/browser.json)、checks/deploy.txt / deployment-status.txt。再現: node scripts/check-gacha-signals-published.mjs ee2ff437cb8e37deaf405f3db016db1e34289e97。
+- 今回の実装・必要自己検証・main反映/push・既存Worker公開・公開版照合は完了。公開記録を通常PRでmainへ保存し、local main/origin/main/remote mainの一致とcleanを確認して今回の作業ツリーだけ削除する。削除の実施結果・最終mainは C:/Users/futsa/bibi-bridge/outbox/20261115-gacha-signals-status.md へ確定する。元root/他worktreeの変更は保持。
+- 未確認: 実スマホ/タブレットの見た目と人間の実聴、全端末の自然中断/長時間利用。本人の最終確認事項として残す。主担当の実モデルID/effortは取得不可で未確認、補助はgpt-6-sol/medium指定（実ランタイム未確認）。独立Chat監査は通常方針に従い追加していない。

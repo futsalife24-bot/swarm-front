@@ -1,0 +1,48 @@
+
+ ⛅️ wrangler 4.129.0 (update available 4.162.0)
+───────────────────────────────────────────────
+🌀 Building list of assets...
+✨ Read 609 files from the assets directory C:\Users\futsa\swarm-gacha-signals-20261115\dist
+🌀 Starting asset upload...
+🌀 Found 23 new or modified static assets to upload. Proceeding with upload...
++ /supply-reveal/README.md
++ /index.html
++ /assets/room-access-CdN133jd.js
++ /supply-reveal/signal-draw.js
++ /assets/game-select-BXvrNjzU.js
++ /assets/main-BvFFTjyz.js
++ /assets/playtest-app-DaEsIGVa.js
++ /assets/runtime-BsJE8nyD.js
++ /supply-reveal/signal-timeline.js
++ /supply-reveal/reference-scenes.js
++ /supply-reveal/verify.mjs
++ /supply-reveal/runtime.js
++ /asset-download-manifest.json
++ /supply-reveal/core.js
++ /assets/front-B68y4AsJ.js
++ /assets/weapon-workshop-ui-DD8YIRrr.js
++ /front.html
++ /supply-reveal/effect-selection.js
++ /assets/legacy-DeWvqSqZ.js
++ /supply-reveal/kakutei-fx.js
++ /supply-reveal/sfx.js
++ /assets/sfx-worker-BikEsEkF.js
++ /assets/cloud-save-Dd9rCL7o.js
+Uploaded 8 of 23 assets
+Uploaded 15 of 23 assets
+Uploaded 23 of 23 assets
+✨ Success! Uploaded 23 files (537 already uploaded) (1.30 sec)
+
+Total Upload: 538.54 KiB / gzip: 137.74 KiB
+Worker Startup Time: 463 ms
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+env.TURNSTILE_SITE_KEY ("0x4AAAAAAEqP4GMKnl-xNQKK")      Environment Variable
+
+Uploaded swarm-front (7.83 sec)
+Deployed swarm-front triggers (0.92 sec)
+  https://swarm-front.melosalife-24.workers.dev
+Current Version ID: aad47ce7-d9d8-4970-81b1-2a796733005b
