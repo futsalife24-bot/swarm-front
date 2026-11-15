@@ -1,0 +1,1829 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev/",
+  "browser": "157.0.8103.51",
+  "before": false,
+  "checks": [
+    "中断を注入した実タブ復帰で両AudioContextが自動再開",
+    "画面遷移なしのタップと次の試聴で音声出力を確認",
+    "本人の観察に沿い進撃選択ボタンでも中断から復旧することを確認"
+  ],
+  "errors": [],
+  "initial": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 4.981333333333334
+      },
+      {
+        "state": "running",
+        "time": 4.872
+      }
+    ],
+    "media": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 4.468552,
+        "state": "running",
+        "rms": 0.06502727816294859
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "paused": false,
+        "time": 0.352983,
+        "state": "running",
+        "rms": 0.18297124127644498
+      }
+    ],
+    "starts": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 4059.300000011921
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "rate": 1,
+        "pitch": true,
+        "at": 9336.399999976158
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 877.6999999880791
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 1392.3999999761581
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 2601.100000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 3758.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4062.100000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4725.600000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4726.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5858.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5859.899999976158
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5968.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5969.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5969.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5970.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5991.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5991.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7223.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7223.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7223.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7223.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 8376.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8377.100000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8377.899999976158
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8379.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8396.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 9308.199999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9308.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 9309.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9320.100000023842
+      }
+    ]
+  },
+  "hidden": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 5.381333333333333
+      },
+      {
+        "state": "running",
+        "time": 5.272
+      }
+    ],
+    "media": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 4.869333,
+        "state": "running",
+        "rms": 0.11297605055565899
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "paused": false,
+        "time": 0.754649,
+        "state": "running",
+        "rms": 0.023809845481997296
+      }
+    ],
+    "starts": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 4059.300000011921
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "rate": 1,
+        "pitch": true,
+        "at": 9336.399999976158
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 877.6999999880791
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 1392.3999999761581
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 2601.100000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 3758.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4062.100000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4725.600000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4726.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5858.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5859.899999976158
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5968.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5969.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5969.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5970.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5991.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5991.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7223.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7223.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7223.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7223.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 8376.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8377.100000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8377.899999976158
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8379.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8396.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 9308.199999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9308.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 9309.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9320.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9738
+      }
+    ]
+  },
+  "nativeHiddenObserved": false,
+  "plainReturn": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 5.8
+      },
+      {
+        "state": "running",
+        "time": 5.690666666666667
+      }
+    ],
+    "media": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 5.287951,
+        "state": "running",
+        "rms": 0.17418686568524616
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "paused": false,
+        "time": 1.172251,
+        "state": "running",
+        "rms": 0.05187386358402802
+      }
+    ],
+    "starts": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 4059.300000011921
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "rate": 1,
+        "pitch": true,
+        "at": 9336.399999976158
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 877.6999999880791
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 1392.3999999761581
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 2601.100000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 3758.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4062.100000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4725.600000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4726.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5858.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5859.899999976158
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5968.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5969.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5969.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5970.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5991.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5991.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7223.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7223.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7223.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7223.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 8376.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8377.100000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8377.899999976158
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8379.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8396.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 9308.199999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9308.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 9309.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9320.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9738
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10126.800000011921
+      }
+    ]
+  },
+  "suspended": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "suspended",
+        "time": 6.032
+      },
+      {
+        "state": "suspended",
+        "time": 5.92
+      }
+    ],
+    "media": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 5.52,
+        "state": "suspended",
+        "rms": 0.10128906188797146
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "paused": false,
+        "time": 1.401905,
+        "state": "suspended",
+        "rms": 0.00895617139006915
+      }
+    ],
+    "starts": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 4059.300000011921
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "rate": 1,
+        "pitch": true,
+        "at": 9336.399999976158
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 877.6999999880791
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 1392.3999999761581
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 2601.100000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 3758.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4062.100000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4725.600000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4726.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5858.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5859.899999976158
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5968.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5969.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5969.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5970.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5991.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5991.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7223.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7223.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7223.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7223.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 8376.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8377.100000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8377.899999976158
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8379.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8396.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 9308.199999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9308.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 9309.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9320.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9738
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10126.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10527.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 10744.899999976158
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 10745
+      }
+    ]
+  },
+  "interruptedReturn": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 6.261333333333333
+      },
+      {
+        "state": "running",
+        "time": 6.210666666666667
+      }
+    ],
+    "media": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 5.749333,
+        "state": "running",
+        "rms": 0.1004023874536065
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "paused": false,
+        "time": 1.692154,
+        "state": "running",
+        "rms": 0.0029408991867151935
+      }
+    ],
+    "starts": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 4059.300000011921
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "rate": 1,
+        "pitch": true,
+        "at": 9336.399999976158
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 877.6999999880791
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 1392.3999999761581
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 2601.100000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 3758.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4062.100000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4725.600000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4726.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5858.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5859.899999976158
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5968.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5969.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5969.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5970.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5991.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5991.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7223.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7223.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7223.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7223.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 8376.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8377.100000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8377.899999976158
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8379.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8396.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 9308.199999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9308.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 9309.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9320.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9738
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10126.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10527.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 10744.899999976158
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 10745
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10787.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 10935.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 10937.300000011921
+      }
+    ]
+  },
+  "firstTap": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 6.381333333333333
+      },
+      {
+        "state": "running",
+        "time": 6.410666666666667
+      }
+    ],
+    "media": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 5.868443,
+        "state": "running",
+        "rms": 0.1869032561908128
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "paused": false,
+        "time": 1.891293,
+        "state": "running",
+        "rms": 0.046845165606280235
+      }
+    ],
+    "starts": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 4059.300000011921
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "rate": 1,
+        "pitch": true,
+        "at": 9336.399999976158
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 877.6999999880791
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 1392.3999999761581
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 2601.100000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 3758.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4062.100000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4725.600000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4726.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5858.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5859.899999976158
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5968.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5969.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5969.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5970.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5991.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5991.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7223.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7223.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7223.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7223.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 8376.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8377.100000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8377.899999976158
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8379.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8396.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 9308.199999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9308.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 9309.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9320.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9738
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10126.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10527.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 10744.899999976158
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 10745
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10787.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 10935.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 10937.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 11255.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 11255.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 11366.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 11367.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 11368.899999976158
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 11496.399999976158
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 11498.899999976158
+      }
+    ]
+  },
+  "voiceAfterReturn": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 6.84
+      },
+      {
+        "state": "running",
+        "time": 6.872
+      }
+    ],
+    "media": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 6.328,
+        "state": "running",
+        "rms": 0.15120589137391574
+      },
+      {
+        "src": "",
+        "paused": true,
+        "time": 0,
+        "state": "running",
+        "rms": 0
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/9f8bbe20-c2a4-43c8-b1e1-81b3cac551f1",
+        "paused": false,
+        "time": 0.322177,
+        "state": "running",
+        "rms": 0.08490312400082194
+      }
+    ],
+    "starts": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 4059.300000011921
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/021246a8-8b37-4b6e-babf-b4d610490eed",
+        "rate": 1,
+        "pitch": true,
+        "at": 9336.399999976158
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/9f8bbe20-c2a4-43c8-b1e1-81b3cac551f1",
+        "rate": 1,
+        "pitch": true,
+        "at": 11772.699999988079
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 877.6999999880791
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 1392.3999999761581
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 2601.100000023842
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 3758.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4062.100000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4725.600000023842
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4726.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5858.300000011921
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5859.899999976158
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 5968.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5969.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5969.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 5970.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 5991.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 5991.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 7223.5
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7223.600000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7223.699999988079
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 7223.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 7238.699999988079
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 8376.699999988079
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8377.100000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 8377.899999976158
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 8379.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 8396.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 9308.199999988079
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 9308.5
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 9309.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9320.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 9738
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10126.800000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 10527.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 10744.899999976158
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 10745
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 10787.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 10935.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 10937.300000011921
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 11255.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 11255.5
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 11366.399999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 11367.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 11368.899999976158
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 11496.399999976158
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 11498.899999976158
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 11753.899999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 11753.899999976158
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 11754.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 11754.399999976158
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 11770.699999988079
+      }
+    ]
+  },
+  "advanceButton": {
+    "hidden": false,
+    "contexts": [
+      {
+        "state": "running",
+        "time": 2.48
+      },
+      {
+        "state": "running",
+        "time": 2.44
+      }
+    ],
+    "media": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "track": "title",
+        "paused": false,
+        "time": 2.338667,
+        "state": "running",
+        "rms": 0.03430486589593896
+      },
+      {
+        "src": "",
+        "paused": true,
+        "time": 0,
+        "state": "running",
+        "rms": 0
+      }
+    ],
+    "starts": [
+      {
+        "src": "https://swarm-front.melosalife-24.workers.dev/assets/audio/bgm-v1/title.mp3",
+        "rate": 1,
+        "pitch": true,
+        "at": 2109
+      },
+      {
+        "src": "blob:https://swarm-front.melosalife-24.workers.dev/2b7f0698-227e-4a3c-9c63-5833feca232f",
+        "rate": 1,
+        "pitch": true,
+        "at": 3647.600000023842
+      }
+    ],
+    "events": [
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 150.70000004768372
+      },
+      {
+        "event": "pageshow",
+        "hidden": false,
+        "at": 535.6000000238419
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 843.1000000238419
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 2076.100000023842
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 2110.400000035763
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 2236.5
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 2238.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 3430.2000000476837
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 3436.300000011921
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 3526.400000035763
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 3528.7000000476837
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 3553.400000035763
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 3554.5
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 4242.900000035763
+      },
+      {
+        "event": "statechange",
+        "state": "suspended",
+        "at": 4242.900000035763
+      },
+      {
+        "event": "pointerdown",
+        "hidden": false,
+        "at": 4312.100000023842
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4312.5
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4312.800000011921
+      },
+      {
+        "event": "click",
+        "hidden": false,
+        "at": 4313.300000011921
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4319.100000023842
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4319.900000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4332.200000047684
+      },
+      {
+        "event": "focus",
+        "hidden": false,
+        "at": 4332.400000035763
+      },
+      {
+        "event": "blur",
+        "hidden": false,
+        "at": 4332.900000035763
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4382.700000047684
+      },
+      {
+        "event": "statechange",
+        "state": "running",
+        "at": 4383.800000011921
+      }
+    ]
+  },
+  "ok": true
+}

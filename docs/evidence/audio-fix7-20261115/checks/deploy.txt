@@ -1,0 +1,39 @@
+
+ ⛅️ wrangler 4.129.0 (update available 4.162.0)
+───────────────────────────────────────────────
+🌀 Building list of assets...
+✨ Read 607 files from the assets directory C:\Users\futsa\swarm-audio-fix7-20261115\dist
+🌀 Starting asset upload...
+🌀 Found 14 new or modified static assets to upload. Proceeding with upload...
++ /assets/weapon-sharing-DaaxEGod.js
++ /assets/room-access-DbZcAe8o.js
++ /assets/game-select-CHRGYQrl.js
++ /assets/playtest-app-IeMmWibe.js
++ /assets/weapon-workshop-ui-Bkwy1DBE.js
++ /front.html
++ /assets/training-app-B5GlNUcO.js
++ /asset-download-manifest.json
++ /assets/front-BLgMWhBO.js
++ /assets/hud-3jOA8hvg.js
++ /index.html
++ /assets/legacy-C07Pwxnr.js
++ /assets/main-B-4bAldT.js
++ /assets/cloud-save-D1crKr_B.js
+Uploaded 5 of 14 assets
+Uploaded 10 of 14 assets
+Uploaded 14 of 14 assets
+✨ Success! Uploaded 14 files (544 already uploaded) (1.86 sec)
+
+Total Upload: 538.54 KiB / gzip: 137.74 KiB
+Worker Startup Time: 331 ms
+Your Worker has access to the following bindings:
+Binding                                                  Resource
+env.ROOMS (Room)                                         Durable Object
+env.GATE (Gate)                                          Durable Object
+env.PROJECT_HUB (project-hub)                            Worker
+env.TURNSTILE_SITE_KEY ("0x4AAAAAAEqP4GMKnl-xNQKK")      Environment Variable
+
+Uploaded swarm-front (10.27 sec)
+Deployed swarm-front triggers (0.84 sec)
+  https://swarm-front.melosalife-24.workers.dev
+Current Version ID: 2fd363c4-1d94-4cd1-990c-79fef1a5662d
