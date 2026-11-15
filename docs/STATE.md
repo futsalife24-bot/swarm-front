@@ -1,3 +1,11 @@
+## 2026-11-15 ガチャ新規合図を公開完了
+
+本人ブリーフに従い、新規11案と既存4のSSR以上対象/金色修正を表示専用で実装。[PR #352](https://github.com/futsalife24-bot/swarm-front/pull/352)を通常merge、main ee2ff437から再build/dry-runし、既存Worker Version aad47ce7-d9d8-4970-81b1-2a796733005b（100%）へ公開。公開118ファイル/ソースSHA一致、health正常、公開固定結果8条件・書込0/例外0。
+
+全1907テスト、補給88テスト、型/書式/build/dry-run、実Chrome72条件＋狭幅32条件＋実確認UI14回、組合せ2016通り、新音14の音声信号/消音/停止/破棄が成功。局面各0/1・最後枠②占有・複数局面条件を計画で固定。確率/天井/レア度/課金/保存/server/sharedは無変更。実機の見た目/実聴は本人の最終確認事項。[判断と公開記録](impl-status-20261114.md)、[証拠](evidence/gacha-signals-20261115/README.md)。
+
+作業場所 C:/Users/futsa/swarm-gacha-signals-20261115。公開記録の通常main反映後、main一致/cleanを確認して今回作業ツリーのみ削除し、指定outboxへ最終main・削除結果を確定する。元root/他worktreeは保護。契約APIは既存権限で403のため最新Free取得成功とはせず、既存契約/公開先は無変更。
+
 ## 2026-11-15 ガチャ合図を実装・公開準備
 
 第7弾main 7bf67664から新規worktree C:/Users/futsa/swarm-gacha-signals-20261115 / codex/gacha-signals-20261115。本人採用11案と既存4のSSR以上/金色への修正を表示専用で実装。局面各0/1、最後枠デフォルト色の②占有、複数局面条件と対象箱を再生前に凍結。確率/天井/レア度/課金/保存/server/sharedは無変更。
