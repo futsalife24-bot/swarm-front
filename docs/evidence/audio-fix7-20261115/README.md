@@ -40,3 +40,5 @@ Chromeのユーザー操作制約の根拠: https://developer.chrome.com/blog/au
 ## 公開結果
 
 PR #350を通常merge。公開ソースmain d321b808d25d77e5e28dbb2d61afc29057cdb4fd、Worker Version 2fd363c4-1d94-4cd1-990c-79fef1a5662d（100%）。merge後build/dry-run成功、公開33ファイルとソース版一致・health正常。published/result.jsonは公開実Chromeの最終3条件成功・例外0。非表示化・実機・実聴の制限は変更なし。ログは内容を保持して末尾空白を整形し、公開版数ログの作成者メールは伏せた。
+
+published/settings.pngは背景だけが写ったため、設定画面の目視合格根拠には使わない。別の既存第6弾検査を公開URLでも実施し、published-spec-regression/で6速度の試聴/保存復元/ピッチ保持指定・日本語homeのバイト一致・タイトル無音・横2サイズ・ボイスなし/字幕なし/ヨウコロックを確認、例外0。主担当は同フォルダーの設定画像とpublished/advance.pngを確認した。
