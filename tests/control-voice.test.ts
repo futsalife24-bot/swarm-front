@@ -228,7 +228,7 @@ describe("control voice line table", () => {
       "弾切れになると、自動で装填が始まります。装填ボタンで、好きなときに装填することもできます。一度、装填してください。",
     );
   });
-  it("brief除外とG18無効を維持し採用された敵名を解放する", () => {
+  it("brief除外とG18無効・敵名の既存保留を維持する", () => {
     const briefs = CONTROL_SET_LINES.filter((l) => l.id.startsWith("brief-"));
     expect(briefs).toHaveLength(26);
     expect(briefs.every((l) => l.blocked === "abolished")).toBe(true);
@@ -236,10 +236,10 @@ describe("control voice line table", () => {
       (l) => l.id.startsWith("anomaly-") && l.id !== "anomaly-new",
     );
     expect(names).toHaveLength(10);
-    expect(names.every(playableLine)).toBe(true);
+    expect(names.every((l) => l.adopted && l.blocked === "on-hold")).toBe(true);
     expect(playableLine(controlVoiceLine("anomaly-new")!)).toBe(true);
     expect(controlVoiceLine("tut-enemy-info")?.blocked).toBe("unimplemented");
-    expect(controlVoiceIdsForScene("battle")).toContain("anomaly-harrow");
+    expect(controlVoiceIdsForScene("battle")).not.toContain("anomaly-harrow");
   });
   it("loads only the training lines for the basic training", () => {
     const ids = controlVoiceIdsForScene("training");
@@ -405,10 +405,10 @@ describe("control voice queue", () => {
     expect(q.request("tut-revive")).toBe("playing");
     expect(q.request("tut-enemy-info")).toBe("disabled");
     expect(q.request("brief-01")).toBe("disabled");
-    expect(q.request("anomaly-harrow")).toBe("playing");
+    expect(q.request("anomaly-harrow")).toBe("disabled");
     expect(q.request("weapon-rifle")).toBe("unadopted");
     expect(q.request("no-such-line")).toBe("unknown");
-    expect(started).toEqual(["tut-revive", "anomaly-harrow"]);
+    expect(started).toEqual(["tut-revive"]);
   });
   it("treats missing audio files as unavailable without throwing", () => {
     const { q, started, end } = queue(["tut-look"]);

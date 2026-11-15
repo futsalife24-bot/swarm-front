@@ -158,6 +158,7 @@ try {
     )
     .digest("hex");
   await q('[data-voice="hiromi"] [data-cv-action="preview"]').click();
+  await p.waitForFunction(() => window.voiceStarts.length > 0);
   r.previewHash = await p.evaluate(() =>
     window.voiceBlobs.get(window.voiceStarts.at(-1).src),
   );

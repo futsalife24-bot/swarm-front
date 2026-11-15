@@ -359,7 +359,7 @@ const GUIDE = rows(
 
 // ─── 管制AI147行（voice-proposal §4。セット voice-control-*） ───
 
-/** 4-1 戦闘アナウンス（46行）。anomaly-<名前> の識別名10行は2026-11-15の本人チェックで採用確定。 */
+/** 4-1 戦闘アナウンス（46行）。anomaly-<名前> の識別名10行は採用確定。既存の再生保留は収録・配線確認まで維持。 */
 const ANNOUNCE = rows(
   "control",
   "announce",
@@ -623,6 +623,10 @@ const ANNOUNCE = rows(
       "solo",
     ],
   ],
+  {
+    blocked: (id) =>
+      id.startsWith("anomaly-") && id !== "anomaly-new" ? "on-hold" : undefined,
+  },
 );
 
 /** 4-2 補給（14行）。 */
