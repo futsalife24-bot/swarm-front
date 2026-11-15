@@ -1,6 +1,8 @@
-## 2026-11-15 第4弾・管制AI再生改善の自己検証完了（公開準備）
+## 2026-11-15 第4弾・管制AI再生改善を公開完了
 
-最新main 2bd3e703から新規 `codex/voice-fix4-20261115` / `../swarm-voice-fix4-20261115` で実装。SE読込に巻き込まれる1.5秒期限切れと旧終了待ちを実測し、専用準備・要求時点の最新優先・逆順完了の破棄へ修正。通常/1.3倍速設定を独立保存し、字幕なし・ヨウコロック・禁止範囲を維持。型/全182ファイル1857テスト/format/build/本番dry-run成功、実Chrome8条件・重複max1・連続操作の最終音声117.4ms・訓練初回再生を確認。詳細は [impl-status](impl-status-20261114.md) と [証拠](evidence/voice-fix4-20261115/README.md)。通常PR/main反映→既存Worker公開→公開実確認・記録が残る。元root/他worktree/ローカルmainは保持。
+第3弾後の最新mainから新規worktree `../swarm-voice-fix4-20261115` で実装。SE読込に巻き込まれる期限切れを実測して専用準備へ分離し、全分類で最新要求を優先、逆順の準備完了と長い台詞の終了直後の連続再生も抑止。通常/1.3倍速を独立保存し試聴にも適用。字幕なし・ヨウコロックと禁止範囲を維持、第1〜3弾の再実施なし。
+
+PR343/344を通常merge、最終公開ソース `8723c99d693ecfcce1f340a070fc47c8ccfd9c54`、既存Worker Version `6c47277c-33a7-4c64-a457-4c8b6f7fb061`。型/全182ファイル1857テスト/format/merge後build/本番dry-run成功。公開30ファイル一致・health正常、公開実Chrome8条件成功/例外0、連続画面操作の最新音声87.6ms・同時発話max1・訓練初回/速度保存も確認。根因/判断/再現方法/未確認は [impl-status](impl-status-20261114.md) と [証拠](evidence/voice-fix4-20261115/README.md)。実スマホ/iOS・人間の実聴・全分岐/多人数戦は未確認。元root/他worktree/他worktree保持のローカルmainを保護。記録のみの通常PRを保存し、専用worktree HEADとorigin/mainを同期する。
 
 # 第3弾：試聴差し替え・管制AI字幕撤去を公開（2026-11-15）
 

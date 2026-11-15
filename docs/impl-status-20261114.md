@@ -388,3 +388,13 @@
 - [PR #343](https://github.com/futsalife24-bot/swarm-front/pull/343) を通常mergeし、初回公開ソースは `f5aaf140f9d150c6ba0fbed3809a24d3faca00d7`。既存Worker Version `bcd8929e-ce7f-4ede-bc12-c05437f50742` へ公開した。mainとの差分なしから再build、本番dry-runとdeployが成功。30配信ファイルSHA一致・ソースSHA埋込一致・health 200/ok true、公開実Chrome8条件成功/画面例外0（最後の発話93.1ms、同時発話max1、訓練の初回も1.3倍）。保護変更/管理者バイパスなし、GitHub status/workflowは0件。
 - 最終自己レビューで、追加した250ms連続抑止の基準時刻が開始時刻だけでは長い台詞の終了直後に効かないことを確認。自然終了時にも時刻を更新する1行を追加し、8秒経過後に終了させてから同じ台詞を直ちに要求するテストへ強化した。初回公開を最終完了とは扱わず、型/関連22件成功後に全件再実行・通常PR・最終再公開を進める。SE/声/保存形式に追加変更なし。
 - buildの既存の500KB超chunkと `new URL('./assets/', import.meta.url)` 警告は修正前後で共通。実際に失敗したチェックを合格扱いしていない。
+
+## 最終版のmain反映・再公開・公開実確認（完了）
+
+- 最終の製品補正 `9b5f82a17f3bf40f4b4895e7e70f0962aff72623` を [PR #344](https://github.com/futsalife24-bot/swarm-front/pull/344) で通常merge。**最終公開ソースmain `8723c99d693ecfcce1f340a070fc47c8ccfd9c54`**。実装とmerge後のツリー差分なし。GitHub status/workflowは0件、mergeableを確認し、保護変更・管理者バイパスなし。PR343が基本実装、PR344が自然終了直後の連続抑止と初回公開記録で、いずれも第4弾のみ。
+- 最終全件は **182ファイル / 1,857テスト成功・終了コード0・469.69秒**。[最終全件ログ](evidence/voice-fix4-20261115/checks/tests-final.txt)。型・関連22件・書式成功後、merge後mainから再build→本番dry-run→deployもすべて終了コード0。
+- 既存Worker `swarm-front` の **最終Worker Version `6c47277c-33a7-4c64-a457-4c8b6f7fb061`** へ公開。公開先 https://swarm-front.melosalife-24.workers.dev/ 。[最終deployログ](evidence/voice-fix4-20261115/checks/deploy-final.txt)。初回Versionは前節の履歴であり、現在値は本節。
+- 公開トップ/front HTML・全生成JS/CSS・3音声パックの **30ファイルSHA-256一致**、最終公開ソースSHAの埋込一致、`/api/health` 200/ok true。[最終配信照合](evidence/voice-fix4-20261115/published-files.json)。
+- 最終公開版でも実Chromeの **8条件成功・画面例外0**。[最終公開画面結果](evidence/voice-fix4-20261115/published-final/result.json)。タイトル→ソロ→進撃→確定を前の声が終わる前に進め、古い2本を停止し最新を開始、**同時発話max1・最終入力から87.6ms**。通常/1.3倍試聴、再読込保持、ボイスなし、字幕なし/旧always残存、ヨウコロック、横844×390/568×320、準備待ちを挟まない訓練開始時の初回音声も成功。音声開始/停止の観測であり、人間の実聴確認とは別。
+- 第4弾の実装・根因記録・自己検証・通常main反映・push・既存Worker再公開・公開実確認を完了。公開記録のみを `codex/voice-fix4-final-record-20261115` から通常PRへ保存する。指定outbox `C:/Users/futsa/bibi-bridge/outbox/20261115-fix4-status.md` に結果サマリを保存する。
+- 未確認: 実スマホ/iOS・人間の実聴品質・全台詞/分岐・多人数インターネット戦。未DL/保存削除/非表示等で音声が利用できない条件は意図どおり無音とし、字幕を復活させない。物理デコードやOSの音声出力時間を全端末でゼロ保証したという報告ではない。追加承認待ちはない。
