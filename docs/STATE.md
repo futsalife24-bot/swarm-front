@@ -1,3 +1,7 @@
+## 2026-11-16 エネミーレポート識別名を配線・公開準備中
+
+本人ブリーフに基づき全10種/30枠を棚卸し。CALYXの3声だけ受領済み「カリクス」原本/現行v2パックを確認し、既存Soundキューへ配線。未収録9種/27本は生成せず不足報告。solo判明済みのみ、同一項目連打で再発話なし、選択変更/閉じる/試聴で停止、未DL/ボイスなし/？？？で無音。report-*不採用とレポート本文/開示条件は維持。タイトル入口の音声口未初期化を実Chromeで発見し既存unlock呼出で修正。型/書式・初回全1918テスト/修正後関連56テスト成功。最終全件・実Chrome7条件を確認中。PR/main/既存Worker公開と後片付けはこれから。[棚卸し・検証記録](evidence/enemy-report-idname-20261116/README.md)。今回専用 C:/Users/futsa/swarm-enemy-report-idname-20261116、元root/他worktreeを保護。実モデルID/effort未確認、委任なし。
+
 ## 2026-11-16 協力プレイ配置は公開済み・後片付けのみツール制限
 
 PR357/358を通常merge。公開ソース35a8eca4・Worker Version 28850f2a-bb7b-4a8f-a734-6591cd0ce49e。全1907テスト等成功、公開28ファイルSHA/ソース一致・health正常、公開実Chrome2サイズ/両タブのスクロール0・非重複・整列・例外0を確認。指定outboxの状態ファイルと画像3ファイルを保存済み。公開記録後main 9c2bcead25640fd3ff54c24b3183b902f9331e83で専用HEAD/origin/remote一致・clean・両PRの取り込みを確認。[証拠](evidence/coop-ui-tidy-20261116/README.md)。

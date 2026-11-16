@@ -359,7 +359,7 @@ const GUIDE = rows(
 
 // ─── 管制AI147行（voice-proposal §4。セット voice-control-*） ───
 
-/** 4-1 戦闘アナウンス（46行）。anomaly-<名前> の識別名10行は採用確定。既存の再生保留は収録・配線確認まで維持。 */
+/** 4-1 戦闘アナウンス。識別名は採用済み。収録済みCALYXだけレポートへ配線し、未収録9種は保留。 */
 const ANNOUNCE = rows(
   "control",
   "announce",
@@ -533,7 +533,7 @@ const ANNOUNCE = rows(
       R,
     ],
     ["anomaly-harrow", "初遭遇の告知（HARROW）", "識別名、ハロウ。", P],
-    ["anomaly-calyx", "初遭遇の告知（CALYX）", "識別名、ケイリクス。", P],
+    ["anomaly-calyx", "エネミーレポートでCALYXを表示", "識別名、カリクス。", P],
     ["anomaly-bastion", "初遭遇の告知（BASTION）", "識別名、バスティオン。", P],
     [
       "anomaly-volley",
@@ -625,7 +625,11 @@ const ANNOUNCE = rows(
   ],
   {
     blocked: (id) =>
-      id.startsWith("anomaly-") && id !== "anomaly-new" ? "on-hold" : undefined,
+      id.startsWith("anomaly-") &&
+      id !== "anomaly-new" &&
+      id !== "anomaly-calyx"
+        ? "on-hold"
+        : undefined,
   },
 );
 
@@ -1328,6 +1332,7 @@ export const CONTROL_SET_LINES: readonly ControlVoiceLine[] = [
   ...BRIEF,
 ].map((line) => ({
   ...line,
+  scene: line.id === "anomaly-calyx" ? "menu" : line.scene,
   adopted: CHECKLIST_ADOPTED.has(line.id)
     ? true
     : CHECKLIST_REJECTED.has(line.id)

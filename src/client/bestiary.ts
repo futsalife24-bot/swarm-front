@@ -12,6 +12,10 @@ import { createEnemyViewer } from "./enemy-viewer";
 import type { HoundClip } from "./hound-motion";
 import { hasEncounterFilm, showEncounterFilm } from "./encounter-film";
 import { ANOMALY_VOICE_PROFILES, ANOMALY_VOICE_PATH } from "./anomaly-voice";
+import {
+  reportIdentification,
+  type ReportVoice,
+} from "./report-identification";
 
 type EnemyType = "生物型" | "異構型" | "機構型";
 const entries: Record<EnemyReportId, [EnemyType, string, string]> = {
@@ -72,9 +76,11 @@ export function openBestiary(
     encounters?: Record<string, "solo" | "coop">;
     onClose?: () => void;
     voiceVolume?: number;
+    controlVoice?: ReportVoice;
   } = {},
 ) {
   const access = (key: string) => options.encounters?.[key];
+  const identification = reportIdentification(options.controlVoice);
   const dialog = document.createElement("dialog");
   dialog.className = "bestiary";
   dialog.setAttribute("aria-labelledby", "bestiary-title");
@@ -194,6 +200,7 @@ export function openBestiary(
   function select(key: EnemyReportId) {
     stopVoice();
     const state = access(key);
+    identification.select(key, state);
     harrowPicker.hidden = key !== "harrow" || state !== "solo";
     harrowPicker.value = "";
     const name = ENEMY_REPORT_NAMES[key];
@@ -259,6 +266,7 @@ export function openBestiary(
         description.textContent = ANOMALY_VOICE_PROFILES[profile].description;
         let variant = 0;
         button.onclick = () => {
+          identification.stop();
           stopVoice();
           resetLabels();
           const request = ++playback;
@@ -289,6 +297,7 @@ export function openBestiary(
   dialog.querySelector<HTMLButtonElement>("#report-close")!.onclick = () =>
     dialog.close();
   dialog.addEventListener("close", () => {
+    identification.stop();
     stopVoice();
     voicePlayer.removeAttribute("src");
     voiceOutput.dispose();

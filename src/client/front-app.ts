@@ -322,7 +322,7 @@ function home() {
   $("open-armory").onclick = () =>
     navigateMenu(import.meta.env.BASE_URL + "?base=1");
   $("open-bestiary").onclick = () =>
-    openFrontBestiary(progressStorage, sound.effectsVolume);
+    openFrontBestiary(progressStorage, sound.effectsVolume, sound);
   $("home-settings").onclick = () => menuSettings(home);
   $("home-tutorial").textContent = "操作ガイド";
   $("home-tutorial").onclick = () =>

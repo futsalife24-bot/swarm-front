@@ -797,6 +797,7 @@ function report() {
   controls.enabled = false;
   openBestiary({
     voiceVolume: sound.effectsVolume,
+    controlVoice: sound,
     encounters: save.encounters,
     onClose: () => {
       modalCount--;
