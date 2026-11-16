@@ -1,0 +1,11 @@
+{
+  "voice": "yoko",
+  "mode": "solo",
+  "clipHash": "87e51563327d2037dc7dac960918c62bfd3f77b60a45d1c070ae00b1b872020f",
+  "starts": 3,
+  "maxLive": 1,
+  "network": [
+    "https://swarm-front.melosalife-24.workers.dev/assets/voice-packs/control-voice-yoko-v2.bin"
+  ],
+  "errors": []
+}

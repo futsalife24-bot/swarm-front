@@ -1,6 +1,10 @@
-## 2026-11-16 エネミーレポート識別名を配線・公開準備中
+## 2026-11-16 エネミーレポート識別名・公開完了
 
-本人ブリーフに基づき全10種/30枠を棚卸し。CALYXの3声だけ受領済み「カリクス」原本/現行v2パックを確認し、既存Soundキューへ配線。未収録9種/27本は生成せず不足報告。solo判明済みのみ、同一項目連打で再発話なし、選択変更/閉じる/試聴で停止、未DL/ボイスなし/？？？で無音。report-*不採用とレポート本文/開示条件は維持。タイトル入口の音声口未初期化を実Chromeで発見し既存unlock呼出で修正。最終全185ファイル1918テスト・関連56テスト・型/書式/build/production dry-run・実Chrome7条件成功。3声のMP3一致、同時発話最大1、停止/無音/保存不変を確認。PR360作成済み、main/既存Worker公開と後片付けはこれから。[棚卸し・検証記録](evidence/enemy-report-idname-20261116/README.md)。今回専用 C:/Users/futsa/swarm-enemy-report-idname-20261116、元root/他worktreeを保護。実モデルID/effort未確認、委任なし。
+本人ブリーフに従い全10種/30枠を棚卸しし、受領済み「カリクス」3声だけ既存Soundキューへ配線。未収録9種/27本は生成せず指定outboxへ不足一覧を記録。solo開示済みのみ1回、未DL/ボイスなし/？？？で無音、report-*不採用と表示/判明条件を維持。[PR360](https://github.com/futsalife24-bot/swarm-front/pull/360)を通常merge、ソースmain f90bc19aから再build/production dry-run後に既存Worker Version 60232c88-c4e6-4550-902d-5e39bc1170b4へ公開。配信35ファイルSHA/ソース版一致・health正常。
+
+全185ファイル1918テスト、関連56テスト、型/書式/build成功。公開実Chromeはモード別新規起動で7条件すべて成功、3声のMP3一致、同時発話最大1、停止/無音/保存不変/例外0。全モードを同一Chromeで巡回する検証はunknown選択が不成立となり根因未特定、失敗と個別起動成功を分けて記録。[棚卸し・配線・全実ログ・公開証拠](evidence/enemy-report-idname-20261116/README.md)。実スマホ/人間の実聴は未確認。通常方針で独立Chat監査なし、実モデルID/effort未確認、委任なし。
+
+公開記録のmain反映後、専用HEAD/origin/remote一致・clean・実装/記録の取り込みを確認して今回の C:/Users/futsa/swarm-enemy-report-idname-20261116 だけを削除する。元root/別worktree/既存差分を保護。最終mainと削除の確定結果は指定 C:/Users/futsa/bibi-bridge/outbox/20261116-enemy-report-idname-status.md に記録する。ローカルmainは別worktreeが使用中のため動かさず専用HEADで照合。
 
 ## 2026-11-16 協力プレイ配置は公開済み・後片付けのみツール制限
 

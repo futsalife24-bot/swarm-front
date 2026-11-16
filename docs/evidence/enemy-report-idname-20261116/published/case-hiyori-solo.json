@@ -1,0 +1,11 @@
+{
+  "voice": "hiyori",
+  "mode": "solo",
+  "clipHash": "a5a0fb3bbea05f89a203a24fa6e9f21c0fa05398c4c8594f72cb18fac1bcdb23",
+  "starts": 3,
+  "maxLive": 1,
+  "network": [
+    "https://swarm-front.melosalife-24.workers.dev/assets/voice-packs/control-voice-hiyori-v2.bin"
+  ],
+  "errors": []
+}

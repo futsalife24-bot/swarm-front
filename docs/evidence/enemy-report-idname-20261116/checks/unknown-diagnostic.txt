@@ -1,0 +1,2 @@
+{"mode":"unknown","errors":[],"button":{"html":"<button type=\"button\" data-enemy=\"calyx\" aria-pressed=\"true\"><span class=\"eyebrow\">09</span><span><strong>？？？</strong><small>未遭遇</small></span><span aria-hidden=\"true\">›</span></button>","click":"function","disabled":false,"inert":false},"dialogs":[{"class":"bestiary","open":true,"text":"ANOMALOUS STRUCTURESエネミーレポートタイトルへ戻る10種の敵 · 一覧は上下にスクロール ↕01？？？未遭遇›02？？？未遭遇›03？？？未遭遇›04？？？未遭遇›05？？？未遭遇›06？？？未遭遇›07？？？未遭遇›08？？？未遭遇›09？？？未遭遇›10？？？未遭遇›3D S"}]}
+{"passed":true,"cases":1}

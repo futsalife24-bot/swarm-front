@@ -1,6 +1,6 @@
 # エネミーレポート識別名読み上げの状態（2026-11-16）
 
-実装・自己検証完了。PR360作成済み。merge・公開・後片付けはこれから。
+実装PR360を通常mergeし、既存Workerへの公開と配信照合が完了。公開実Chrome7条件も成功。公開記録のmain反映・後片付けを実施中。
 
 ## 棚卸し
 
@@ -58,10 +58,14 @@ CALYXだけ既存anomaly-calyxの保留を解除し、レポート表示用menu�
 
 ## PR・merge・deploy
 
-実装PR: https://github.com/futsalife24-bot/swarm-front/pull/360 。製品commit 8a237363a5725214a0665b9cec62ae48054b61f0。merge・deployはこれから。
+実装PR: https://github.com/futsalife24-bot/swarm-front/pull/360 。製品commit 8a237363a5725214a0665b9cec62ae48054b61f0。通常merge済み、公開ソースmain f90bc19a0ec1684aa3e96c74f21205ff8a2b7280。merge後ソースから再build/production dry-run成功後、既存Worker swarm-front / https://swarm-front.melosalife-24.workers.dev/ へ公開。Version 60232c88-c4e6-4550-902d-5e39bc1170b4。公開35ファイルのHTTP200/SHA一致、JS内の公開ソースSHA一致、api/health 200/okを確認。GitHub commit status/workflow runは0件で、CI成功と読み替えずmergeable=trueを確認し保護を迂回せず通常merge。公開実Chrome7条件もモード別新規起動で成功。公開記録のmain反映と後片付けを実施中。
 
 ## 作業場所・後片付け
 
 GitHub: https://github.com/futsalife24-bot/swarm-front 。今回作業場所: C:/Users/futsa/swarm-enemy-report-idname-20261116 。branch codex/enemy-report-idname-20261116、base 17f094ae4927a6cf35f391614cfedf12dd6cee4f。元rootと他worktreeの既存差分は保護。main取り込み確認/clean確認後、今回作業場所だけを削除予定。
 
 主担当の実モデルID/推論設定は未確認、委任なし。
+
+公開後の追加確認: 公開版の3声solo/coop/未遭遇/パック未保存/ボイスなし7条件すべて成功。3声の再生Blobは選択声のパック内MP3とSHA一致、最大同時発話1、自然終了/別項目/閉じるの停止・重複抑止・無音条件・字幕0・画面例外0・保存不変を確認。`published/results.json`、条件別の成功ログ/JSONと画像に保存。
+
+検証制約: 同一Chromeで全モードの独立contextを続けて作るまとめ検査は、unknownの選択が不成立となり、待機を追加しても未成功。即時DOM判定だけが原因という当初の見立ては確定できず、根因は未特定。同じ失敗の再実行を止め、各モードを新規Chrome起動に分けた検証で全7条件を確認した。未遭遇CALYXはEnter操作でaria-pressed=true、表示？？？、音声0を実確認。まとめ検査の失敗を全件成功へ読み替えていない。検証器だけにREPORT_CASEの条件指定/選択待機/条件別結果保存を追加、製品変更なし。実スマホ/人間の実聴は未確認。

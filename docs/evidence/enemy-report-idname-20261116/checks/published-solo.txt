@@ -1,0 +1,4 @@
+{"completed":true,"voice":"hiromi","mode":"solo"}
+{"completed":true,"voice":"hiyori","mode":"solo"}
+{"completed":true,"voice":"yoko","mode":"solo"}
+{"passed":true,"cases":3}

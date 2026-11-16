@@ -1,0 +1,11 @@
+{
+  "voice": "hiromi",
+  "mode": "solo",
+  "clipHash": "4f45770bd0757ca54b9c34c0a72cc88e9181b9af4a3d85e88017c0ecfc3b5445",
+  "starts": 3,
+  "maxLive": 1,
+  "network": [
+    "https://swarm-front.melosalife-24.workers.dev/assets/voice-packs/control-voice-hiromi-v2.bin"
+  ],
+  "errors": []
+}
