@@ -1,0 +1,12 @@
+{"voice":"hiromi","mode":"solo","trace":{"starts":[],"queue":[{"id":"anomaly-calyx","result":"queued","voice":"hiromi","enabled":true}],"name":"状に広がって周囲を覆う様子が観察されています。移動方法灰緑に赤茶の斑が混じる丸い蕾。三本の曲線の根を支えに、兵士側へ傾いたコマのように回転し、その周囲を回ります。五枚の花弁の奥に花粉嚢を隠しています。"},"errors":[]}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.waitForFunction: Timeout 60000ms exceeded.
+    at C:\Users\futsa\swarm-enemy-report-idname-20261116\scripts\check-report-identification.mjs:164:15 {
+  log: [],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

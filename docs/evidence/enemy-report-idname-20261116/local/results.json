@@ -1,0 +1,77 @@
+{
+  "base": "http://127.0.0.1:5216/",
+  "passed": true,
+  "results": [
+    {
+      "voice": "hiromi",
+      "mode": "solo",
+      "clipHash": "4f45770bd0757ca54b9c34c0a72cc88e9181b9af4a3d85e88017c0ecfc3b5445",
+      "starts": 3,
+      "maxLive": 1,
+      "network": [
+        "http://127.0.0.1:5216/assets/voice-packs/control-voice-hiromi-v2.bin"
+      ],
+      "errors": []
+    },
+    {
+      "voice": "hiyori",
+      "mode": "solo",
+      "clipHash": "a5a0fb3bbea05f89a203a24fa6e9f21c0fa05398c4c8594f72cb18fac1bcdb23",
+      "starts": 3,
+      "maxLive": 1,
+      "network": [
+        "http://127.0.0.1:5216/assets/voice-packs/control-voice-hiyori-v2.bin"
+      ],
+      "errors": []
+    },
+    {
+      "voice": "yoko",
+      "mode": "solo",
+      "clipHash": "87e51563327d2037dc7dac960918c62bfd3f77b60a45d1c070ae00b1b872020f",
+      "starts": 3,
+      "maxLive": 1,
+      "network": [
+        "http://127.0.0.1:5216/assets/voice-packs/control-voice-yoko-v2.bin"
+      ],
+      "errors": []
+    },
+    {
+      "voice": "hiromi",
+      "mode": "coop",
+      "starts": 0,
+      "maxLive": 0,
+      "network": [
+        "http://127.0.0.1:5216/assets/voice-packs/control-voice-hiromi-v2.bin"
+      ],
+      "errors": []
+    },
+    {
+      "voice": "hiromi",
+      "mode": "unknown",
+      "starts": 0,
+      "maxLive": 0,
+      "network": [
+        "http://127.0.0.1:5216/assets/voice-packs/control-voice-hiromi-v2.bin"
+      ],
+      "errors": []
+    },
+    {
+      "voice": "hiromi",
+      "mode": "missing",
+      "starts": 0,
+      "maxLive": 0,
+      "network": [],
+      "errors": []
+    },
+    {
+      "voice": "hiromi",
+      "mode": "disabled",
+      "starts": 0,
+      "maxLive": 0,
+      "network": [
+        "http://127.0.0.1:5216/assets/voice-packs/control-voice-hiromi-v2.bin"
+      ],
+      "errors": []
+    }
+  ]
+}

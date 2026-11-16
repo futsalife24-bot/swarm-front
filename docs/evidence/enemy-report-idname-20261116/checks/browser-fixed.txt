@@ -1,0 +1,21 @@
+{"voice":"hiromi","mode":"solo","trace":{"starts":[{"url":"blob:http://127.0.0.1:5216/9b23cf44-1b21-4468-be96-20748cb99721","loop":false}],"queue":[{"id":"anomaly-calyx","result":"queued","voice":"hiromi","enabled":true}],"name":"状に広がって周囲を覆う様子が観察されています。移動方法灰緑に赤茶の斑が混じる丸い蕾。三本の曲線の根を支えに、兵士側へ傾いたコマのように回転し、その周囲を回ります。五枚の花弁の奥に花粉嚢を隠しています。"},"errors":[]}
+{"voice":"hiyori","mode":"solo","trace":{"starts":[{"url":"blob:http://127.0.0.1:5216/f8bbc559-304d-48f7-aa5f-03a263e8ccf0","loop":false}],"queue":[{"id":"anomaly-calyx","result":"queued","voice":"hiyori","enabled":true}],"name":"状に広がって周囲を覆う様子が観察されています。移動方法灰緑に赤茶の斑が混じる丸い蕾。三本の曲線の根を支えに、兵士側へ傾いたコマのように回転し、その周囲を回ります。五枚の花弁の奥に花粉嚢を隠しています。"},"errors":[]}
+{"voice":"yoko","mode":"solo","trace":{"starts":[{"url":"blob:http://127.0.0.1:5216/a8de65e4-bc2a-4e3e-9f72-54e054a262b2","loop":false}],"queue":[{"id":"anomaly-calyx","result":"queued","voice":"yoko","enabled":true}],"name":"状に広がって周囲を覆う様子が観察されています。移動方法灰緑に赤茶の斑が混じる丸い蕾。三本の曲線の根を支えに、兵士側へ傾いたコマのように回転し、その周囲を回ります。五枚の花弁の奥に花粉嚢を隠しています。"},"errors":[]}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'PLEAT' !== 'CALYX'
+
+    at file:///C:/Users/futsa/swarm-enemy-report-idname-20261116/scripts/check-report-identification.mjs:167:12 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'PLEAT',
+  expected: 'CALYX',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -135,6 +135,7 @@ try {
     }
     await p.getByText("TAP START", { exact: true }).click();
     await q("#open-bestiary").waitFor();
+    await q(".title-entry").waitFor({ state: "detached" });
     await p.waitForTimeout(700);
     // 既存home発話をレポート側の集計から分離する。
     await p.evaluate(() => {
@@ -145,7 +146,16 @@ try {
       localStorage.getItem("swarm-front-shared-progress-v3"),
     );
     await q("#open-bestiary").click();
+    await p.waitForFunction(
+      () => document.querySelector("dialog.bestiary")?.open,
+    );
+    await p.waitForTimeout(300);
     await q('[data-enemy="calyx"]').click();
+    if (mode === "unknown") await q('[data-enemy="calyx"]').press("Enter");
+    assert.equal(
+      await q("[data-enemy][aria-pressed=true]").getAttribute("data-enemy"),
+      "calyx",
+    );
     const speaking = mode === "solo";
     if (speaking) await p.waitForFunction(() => window.starts.length === 1);
     else await p.waitForTimeout(350);

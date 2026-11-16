@@ -1,0 +1,5 @@
+
+> swarm-front@0.1.0 test
+> vitest run --reporter=json --outputFile=C:/Users/futsa/bibi-bridge/outbox/enemy-report-idname-tests-final-20261116.json
+
+JSON report written to C:/Users/futsa/bibi-bridge/outbox/enemy-report-idname-tests-final-20261116.json
