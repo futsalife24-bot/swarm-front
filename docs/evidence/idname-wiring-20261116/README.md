@@ -31,4 +31,8 @@ report-identification.tsに保存キーcrawler/ant/spider/spitter/boss/hornet/ba
 
 ## 公開と後片付け
 
-PR・merge・本番公開・配信照合・main取り込み確認後のcleanな今回worktree削除は未完了。結果確定後に追記する。
+実装PR https://github.com/futsalife24-bot/swarm-front/pull/362 を通常merge済み。実装commit df9bec2c2e1bdb4d89eeb920d9b78003e5062375、公開ソースmain f1c70e09fcbf8013719dac60e1f51f15a1c36e45。検証済み実装とのソース差分なし。merge後mainからnpm run buildとnpm run server:build:production成功後、既存Worker swarm-front / https://swarm-front.melosalife-24.workers.dev/ へ公開。Version 1e0d2ded-d50c-4837-8a5a-d5ce960d2260、100%配信。
+
+公開36ファイルのHTTP200/SHA一致（v3全3パック含む）、JS埋込ソースSHA一致、api/health 200/okを確認。公開実Chrome9条件（3声solo＋6種の無音）が全件成功。全10種×3声の実MP3照合/playing/自然終了、連打/終了後の重複抑止、選択変更/閉じる停止、同時発話最大1、字幕0、例外0、保存不変、fixture以外のパック通信0。published/results.jsonと条件別JSON/画像、checks/chrome-*-published.txtに保存。ローカル確認と同じChrome 157.0.8103.51の隔離context、serviceWorkersを停止した検証fixtureを使用。実スマホ/人間の実聴は未確認。
+
+GitHub commit status/workflow runは0件。CI合格とは読み替えず、mergeable=trueと対象headを確認して通常mergeした。Hook/保護/権限設定の変更・迂回なし。公開記録のmain取り込みとcleanな今回worktree削除の最終結果は、本人指定の C:/Users/futsa/bibi-bridge/outbox/20261116-idname-wiring-status.md に記録する。元root/他worktree/共有依存は保持。今回node_modulesは実ディレクトリ、Junction作成なし。local mainは別worktreeで使用中のため触らず、今回専用HEADとorigin/main・remote mainの一致を確認して後片付けする。
