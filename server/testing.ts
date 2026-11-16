@@ -17,6 +17,7 @@ import { enemySize } from "../src/shared/enemy-size";
 import { populateDenseWireWorld } from "../scripts/state-wire-fixture";
 import { comfortFixture } from "../scripts/coop-comfort-fixture";
 import production, { Room, Gate } from "./worker";
+import { cloudHash, sqlVaultStorage } from "./player-vault";
 import { frontDedicatedSurvivalThreshold } from "../src/shared/front-run";
 import {
   FRONT_ELEMENT_IDS,
@@ -36,7 +37,33 @@ import {
 export { Gate };
 export class TestGate extends Gate {
   override async fetch(req: Request) {
-    if (new URL(req.url).pathname === "/stats") {
+    const testPath = new URL(req.url).pathname;
+    // F-17 H-2 verification: read or preset the authenticated daily counter.
+    if (testPath === "/rate-stats")
+      return Response.json(
+        (await this.ctx.storage.get("cloud-rate")) ?? { total: 0 },
+      );
+    if (testPath === "/rate-set" && req.method === "POST") {
+      await this.ctx.storage.put("cloud-rate", await req.json());
+      return Response.json({ ok: true });
+    }
+    // Seed a pre-F-17 device-generated supply account (no longer creatable).
+    if (testPath === "/legacy-supply-seed" && req.method === "POST") {
+      const seed = (await req.json()) as {
+        token: string;
+        tickets: number;
+        day: string;
+      };
+      await sqlVaultStorage(this.ctx.storage).put("supply", {
+        credential: await cloudHash(seed.token),
+        tickets: seed.tickets,
+        day: seed.day,
+        pending: null,
+        acked: [],
+      });
+      return Response.json({ ok: true });
+    }
+    if (testPath === "/stats") {
       const state = await this.ctx.storage.get<{
         total: number;
         connections?: number;
@@ -735,6 +762,42 @@ export default {
       const headers = new Headers(req.headers);
       headers.set("CF-Connecting-IP", `integration-${testClient}`);
       req = new Request(req, { headers });
+    }
+    // Supply/cloud limit checks: simulate distinct client addresses (incl. IPv6).
+    const testAddress = req.headers.get("X-Test-Address");
+    if (
+      testAddress &&
+      /^[0-9a-f:.]{2,45}$/i.test(testAddress) &&
+      (u.pathname.startsWith("/api/supply/") ||
+        u.pathname.startsWith("/api/cloud/"))
+    ) {
+      const headers = new Headers(req.headers);
+      headers.set("CF-Connecting-IP", testAddress);
+      req = new Request(req, { headers });
+    }
+    const legacySeed = /^\/legacy-supply-fixture\/([a-f0-9]{32})$/.exec(
+      u.pathname,
+    );
+    if (legacySeed && req.method === "POST")
+      return env.GATE.get(env.GATE.idFromName("supply/" + legacySeed[1])).fetch(
+        new Request("https://internal/legacy-supply-seed", {
+          method: "POST",
+          body: await req.text(),
+        }),
+      );
+    const rateFixture = /^\/rate-fixture\/(supply|cloud)$/.exec(u.pathname);
+    if (rateFixture) {
+      const counter = env.GATE.get(
+        env.GATE.idFromName(`${rateFixture[1]}-admission`),
+      );
+      return req.method === "POST"
+        ? counter.fetch(
+            new Request("https://internal/rate-set", {
+              method: "POST",
+              body: await req.text(),
+            }),
+          )
+        : counter.fetch(new Request("https://internal/rate-stats"));
     }
     if (u.pathname === "/admission-stats")
       return env.GATE.get(env.GATE.idFromName("admission")).fetch(

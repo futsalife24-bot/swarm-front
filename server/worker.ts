@@ -53,10 +53,15 @@ import {
   playerVault,
   sqlVaultStorage,
   cloudAdmission,
-  cloudRateLimit,
+  cloudRateCount,
   cloudBody,
+  cloudHash,
   cloudReply,
+  clientAddress,
+  authenticatedResponse,
+  vaultSupplyGrant,
   validCloudSave,
+  PER_ADDRESS_PER_MINUTE,
 } from "./player-vault";
 import { supplyVault } from "./supply-vault";
 import { DurableObject } from "cloudflare:workers";
@@ -160,6 +165,33 @@ interface Saved {
 }
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const secret = () => crypto.randomUUID().replaceAll("-", "");
+/*
+ * Supply/cloud request limits (F-17 H-2), in this order:
+ * 1. Per-address window at the Worker entry (IPv6 grouped per /64), held by a
+ *    per-address object, so one client cannot spend anyone else's allowance.
+ * 2. The account object checks the credential.
+ * 3. Only authenticated requests increase the shared daily counter. Reaching
+ *    it stops creation only (cloudAdmission); authenticated play continues.
+ */
+const clientIp = (req: Request) =>
+  req.headers.get("CF-Connecting-IP") ?? "local";
+async function addressLimit(env: Env, scope: string, req: Request) {
+  const key = await cloudHash(clientAddress(clientIp(req)));
+  const res = await env.GATE.get(
+    env.GATE.idFromName(`rate-address/${scope}/${key}`),
+  ).fetch(new Request("https://internal/rate-address"));
+  return res.ok ? null : res;
+}
+async function countAuthenticated(env: Env, counter: string, res: Response) {
+  if (!authenticatedResponse(res.status)) return;
+  try {
+    await env.GATE.get(env.GATE.idFromName(counter)).fetch(
+      new Request("https://internal/cloud-rate-count", { method: "POST" }),
+    );
+  } catch {
+    // The account already committed; a lost count must not fail the request.
+  }
+}
 export default {
   async fetch(req: Request, env: Env) {
     const u = new URL(req.url);
@@ -263,41 +295,46 @@ export default {
       )
         return cloudReply({ error: "接続元と操作を確認してください" }, 403);
       try {
+        // `cloud/<vault ID>` = vault-bound account (vault token); a bare ID is
+        // a legacy device account, which can only be used or migrated.
         const match =
-          /^\/supply\/([a-f0-9]{32})\/(initialize|status|daily|draw|ack)$/.exec(
+          /^\/supply\/(?:(cloud)\/)?([a-f0-9]{32})\/(initialize|status|daily|draw|ack|migrate)$/.exec(
             path,
           );
-        if (!match || (req.method === "GET") !== (match[2] === "status"))
+        if (
+          !match ||
+          (req.method === "GET") !== (match[3] === "status") ||
+          (match[1] === "cloud" && match[3] === "migrate")
+        )
           return cloudReply({ error: "見つかりません" }, 404);
-        const rate = await env.GATE.get(
-          env.GATE.idFromName("supply-admission"),
-        ).fetch(
-          new Request("https://internal/cloud-rate", {
-            headers: {
-              "CF-Connecting-IP":
-                req.headers.get("CF-Connecting-IP") ?? "local",
-            },
-          }),
-        );
-        if (!rate.ok) return rate;
+        const limited = await addressLimit(env, "supply", req);
+        if (limited) return limited;
         const payload =
           req.method === "POST"
             ? JSON.stringify(await cloudBody(req))
             : undefined;
-        return await env.GATE.get(
-          env.GATE.idFromName("supply/" + match[1]),
+        const res = await env.GATE.get(
+          env.GATE.idFromName(
+            (match[1] ? "supply-cloud/" : "supply/") + match[2],
+          ),
         ).fetch(
-          new Request("https://internal/supply/" + match[2], {
-            method: req.method,
-            headers: {
-              Authorization: req.headers.get("Authorization") ?? "",
-              "Content-Type": "application/json",
-              "CF-Connecting-IP":
-                req.headers.get("CF-Connecting-IP") ?? "local",
+          new Request(
+            match[1]
+              ? `https://internal/supply-cloud/${match[2]}/${match[3]}`
+              : `https://internal/supply/${match[2]}/${match[3]}`,
+            {
+              method: req.method,
+              headers: {
+                Authorization: req.headers.get("Authorization") ?? "",
+                "Content-Type": "application/json",
+                "CF-Connecting-IP": clientIp(req),
+              },
+              ...(payload === undefined ? {} : { body: payload }),
             },
-            ...(payload === undefined ? {} : { body: payload }),
-          }),
+          ),
         );
+        await countAuthenticated(env, "supply-admission", res);
+        return res;
       } catch {
         return cloudReply({ error: "補給を処理できませんでした" }, 400);
       }
@@ -310,6 +347,8 @@ export default {
         return cloudReply({ error: "接続元と操作を確認してください" }, 403);
       try {
         if (path === "/cloud/create" && req.method === "POST") {
+          const limited = await addressLimit(env, "cloud", req);
+          if (limited) return limited;
           const allowed = await env.GATE.get(
             env.GATE.idFromName("cloud-admission"),
           ).fetch(
@@ -348,22 +387,13 @@ export default {
           /^\/cloud\/([a-f0-9]{32})\/(save|daily|weekly|delete)$/.exec(path);
         if (!match || (req.method === "GET" && match[2] !== "save"))
           return cloudReply({ error: "見つかりません" }, 404);
-        const admission = await env.GATE.get(
-          env.GATE.idFromName("cloud-admission"),
-        ).fetch(
-          new Request("https://internal/cloud-rate", {
-            headers: {
-              "CF-Connecting-IP":
-                req.headers.get("CF-Connecting-IP") ?? "local",
-            },
-          }),
-        );
-        if (!admission.ok) return admission;
+        const limited = await addressLimit(env, "cloud", req);
+        if (limited) return limited;
         const payload =
           req.method === "POST"
             ? JSON.stringify(await cloudBody(req))
             : undefined;
-        return await env.GATE.get(
+        const res = await env.GATE.get(
           env.GATE.idFromName("cloud/" + match[1]),
         ).fetch(
           new Request("https://internal/cloud/" + match[2], {
@@ -375,6 +405,8 @@ export default {
             ...(payload === undefined ? {} : { body: payload }),
           }),
         );
+        await countAuthenticated(env, "cloud-admission", res);
+        return res;
       } catch {
         return cloudReply(
           {
@@ -623,6 +655,7 @@ export default {
 export class Gate extends DurableObject<Env> {
   private analyticsClients = new Map<string, { at: number; count: number }>();
   private directoryQueries = new Map<string, { at: number; count: number }>();
+  private addressWindow = { window: 0, count: 0 };
   async fetch(req: Request) {
     const internal = new URL(req.url).pathname;
     if (internal === "/app-analytics-export")
@@ -655,31 +688,99 @@ export class Gate extends DurableObject<Env> {
       return this.ctx.blockConcurrencyWhile(() =>
         cloudAdmission(req, this.ctx.storage),
       );
-    if (internal === "/cloud-rate")
+    if (internal === "/cloud-rate-count")
       return this.ctx.blockConcurrencyWhile(() =>
-        cloudRateLimit(req, this.ctx.storage),
+        cloudRateCount(this.ctx.storage),
       );
-    if (internal.startsWith("/supply/"))
-      return this.ctx.blockConcurrencyWhile(async () => {
-        const storage = sqlVaultStorage(this.ctx.storage);
-        if (
-          internal === "/supply/initialize" &&
-          !(await storage.get("supply"))
-        ) {
-          const admission = await this.env.GATE.get(
-            this.env.GATE.idFromName("supply-admission"),
-          ).fetch(
-            new Request("https://internal/cloud-admission", {
-              headers: {
-                "CF-Connecting-IP":
-                  req.headers.get("CF-Connecting-IP") ?? "local",
-              },
-            }),
-          );
-          if (!admission.ok) return admission;
-        }
-        return supplyVault(req, storage);
-      });
+    if (internal === "/rate-address") {
+      // One object per address key: an in-memory minute window, no storage
+      // writes. A flooding client keeps its object alive, so the count holds.
+      const window = Math.floor(Date.now() / 60000);
+      if (this.addressWindow.window !== window)
+        this.addressWindow = { window, count: 0 };
+      if (++this.addressWindow.count > PER_ADDRESS_PER_MINUTE)
+        return cloudReply(
+          { error: "同期回数の上限です。端末の進行は保存されています" },
+          429,
+        );
+      return cloudReply({ ok: true });
+    }
+    if (internal === "/cloud-supply-grant")
+      return this.ctx.blockConcurrencyWhile(() =>
+        vaultSupplyGrant(req, sqlVaultStorage(this.ctx.storage)),
+      );
+    const legacySupply = /^\/supply\/([a-f0-9]{32})\/[a-z]+$/.exec(internal);
+    if (legacySupply)
+      return this.ctx.blockConcurrencyWhile(() =>
+        supplyVault(
+          req,
+          sqlVaultStorage(this.ctx.storage),
+          Date.now(),
+          undefined,
+          {
+            legacyId: legacySupply[1],
+            migrate: (vault, transfer) =>
+              this.env.GATE.get(
+                this.env.GATE.idFromName("supply-cloud/" + vault.id),
+              ).fetch(
+                new Request(
+                  `https://internal/supply-cloud/${vault.id}/absorb`,
+                  {
+                    method: "POST",
+                    headers: {
+                      Authorization: "Bearer " + vault.token,
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(transfer),
+                  },
+                ),
+              ),
+          },
+        ),
+      );
+    const cloudSupply = /^\/supply-cloud\/([a-f0-9]{32})\/[a-z]+$/.exec(
+      internal,
+    );
+    if (cloudSupply)
+      return this.ctx.blockConcurrencyWhile(() =>
+        supplyVault(
+          req,
+          sqlVaultStorage(this.ctx.storage),
+          Date.now(),
+          undefined,
+          {
+            open: async (claim) => {
+              const granted = await this.env.GATE.get(
+                this.env.GATE.idFromName("cloud/" + cloudSupply[1]),
+              ).fetch(
+                new Request("https://internal/cloud-supply-grant", {
+                  method: "POST",
+                  headers: {
+                    Authorization: req.headers.get("Authorization") ?? "",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ claim }),
+                }),
+              );
+              if (!granted.ok) return granted;
+              const result = (await granted.json()) as { grant: boolean };
+              // Only a brand-new vault account passes creation admission; a
+              // migrating legacy player already has an account.
+              if (claim === "cloud") {
+                const admission = await this.env.GATE.get(
+                  this.env.GATE.idFromName("supply-admission"),
+                ).fetch(
+                  new Request("https://internal/cloud-admission", {
+                    headers: { "CF-Connecting-IP": clientIp(req) },
+                  }),
+                );
+                if (!admission.ok) return admission;
+              }
+              return { grant: result.grant === true };
+            },
+          },
+        ),
+      );
     if (internal === "/cloud-initialize" || internal.startsWith("/cloud/"))
       return this.ctx.blockConcurrencyWhile(() =>
         playerVault(

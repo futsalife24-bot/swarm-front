@@ -2,10 +2,14 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 const origin=process.env.SUPPLY_SITE || 'http://127.0.0.1:8796';
 const out=process.env.SUPPLY_OUTPUT || 'docs/evidence/supply-kakutei-20261111';
-const secret=()=>crypto.randomUUID().replaceAll('-','');
-const id=secret(),token=secret()+secret(),first=crypto.randomUUID(),other=crypto.randomUUID();
+const first=crypto.randomUUID(),other=crypto.randomUUID();
+// F-17 H-1: 補給口座はサーバー発行のクラウド保存（保管庫ID・トークン）に紐づく。
+const save={version:2,mode:'normal',missions:{},inventory:[],pending:[],soldiers:[],receipts:[],coins:0,points:0,materials:0,powder:0,serial:0};
+const created=await fetch(`${origin}/api/cloud/create`,{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify({save})});
+assert.equal(created.status,200);
+const [,id,token]=(await created.json()).code.split('-');
 const call=async(action,body,overrides={})=>{
-  const response=await fetch(`${origin}/api/supply/${id}/${action}`,{
+  const response=await fetch(`${origin}/api/supply/cloud/${id}/${action}`,{
     method:body===undefined?'GET':'POST',
     headers:{Authorization:'Bearer '+token,Origin:origin,'Content-Type':'application/json',...overrides},
     ...(body===undefined?{}:{body:JSON.stringify(body)}),

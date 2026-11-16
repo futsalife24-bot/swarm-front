@@ -24,7 +24,16 @@ try {
     await tap('[data-bd="starter-pick"][data-id="tatara"]');
     await tap('[data-bd="starter-confirm"]');
     await tap('#pt-base');await tap('#pt-base-supply');
+    // F-17 H-1: 補給券はクラウド保存に紐づく。未作成なら作成ボタンだけを案内する。
+    await expect(page.locator('[data-supply-cloud]')).toBeVisible();
+    await expect(page.locator('[data-supply-draw="10"]')).toBeDisabled();
+    await expect(page.locator('[data-supply-count]')).toHaveText('未作成');
+    await page.waitForFunction(()=>!document.querySelector('.split-shutter,.menu-route-shutter'));
+    await page.waitForTimeout(400);
+    await page.screenshot({path:`${out}/${width}-cloud-required.png`});
+    await tap('[data-supply-cloud]');
     await expect(page.locator('[data-supply-count]')).toHaveText('10枚');
+    await expect(page.locator('[data-supply-cloud]')).toBeHidden();
     await page.screenshot({path:`${out}/${width}-menu.png`});
     await tap('[data-supply-draw="10"]');
     await expect(page.locator('.gx-root')).toBeVisible();

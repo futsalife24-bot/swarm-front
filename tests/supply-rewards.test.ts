@@ -11,6 +11,8 @@ import {
   validSupplyReceipt,
   type SupplyReceipt,
 } from "../src/shared/supply-contract";
+import { createSupplyService } from "../src/client/supply-service";
+import { memoryLocal, supplyWorld } from "./supply-harness";
 
 const requestId = "11111111-1111-4111-8111-111111111111";
 const weapon = (i: number) =>
@@ -124,6 +126,35 @@ describe("サーバー確定した補給の受領", () => {
         receipt([{ type: "shard", amount: 10 }]),
       ),
     ).toThrow();
+  });
+
+  it("同じセーブへ別口座の初回10連の受領を重ねられない（F-17 H-1）", async () => {
+    const world = supplyWorld();
+    const code = await world.createVault();
+    let save = freshProgress("normal");
+    save.buddies = chooseStarterBuddy(freshBuddyProgress(), "tatara");
+    const local = memoryLocal();
+    const first = createSupplyService(local, world.request, () => code);
+    expect((await first.status()).tickets).toBe(10);
+    const ten = (await first.draw(10)).pending!;
+    save = applySupplyReceipt(save, ten);
+    await first.acknowledge(ten.requestId);
+    const receipts = save.receipts.filter((id) => id.startsWith("supply:"));
+    expect(receipts).toHaveLength(1);
+    const snapshot = JSON.stringify(save);
+    // 補給接続情報を消して別口座として作り直し、同じセーブへ重ねようとする。
+    local.values.clear();
+    const hex = () => crypto.randomUUID().replaceAll("-", "");
+    local.setItem(
+      "swarm-front-supply-link-v1",
+      JSON.stringify({ id: hex(), token: hex() + hex() }),
+    );
+    const second = createSupplyService(local, world.request, () => code);
+    expect((await second.status()).tickets).toBe(0);
+    await expect(second.draw(10)).rejects.toThrow("足りません");
+    // 既に受け取った受領の再送も同じセーブへ二重に入らない。
+    expect(applySupplyReceipt(save, ten)).toBe(save);
+    expect(JSON.stringify(save)).toBe(snapshot);
   });
 
   it("旧画面・古いバックアップの上書きで受領記録を失わせない", () => {

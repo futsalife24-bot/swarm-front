@@ -1,44 +1,30 @@
 import { describe, expect, it } from "vitest";
 import { createSupplyService } from "../src/client/supply-service";
-import { supplyVault } from "../server/supply-vault";
+import { memoryLocal, supplyWorld } from "./supply-harness";
 
-function setup() {
-  const values = new Map<string, string>();
-  const local = {
-    getItem: (k: string) => values.get(k) ?? null,
-    setItem: (k: string, v: string) => {
-      values.set(k, v);
-    },
-  };
-  let row: unknown,
-    calls = 0;
+async function setup() {
+  const world = supplyWorld();
+  const code = await world.createVault();
+  const local = memoryLocal();
+  let calls = 0;
   let lose = "";
-  const storage = {
-    async get<T>() {
-      return structuredClone(row) as T | undefined;
-    },
-    async put(_key: string, value: unknown) {
-      row = structuredClone(value);
-    },
-  };
   const request = (async (url: string, init: RequestInit) => {
     calls++;
-    const response = await supplyVault(
-      new Request(new URL(url, "https://game.example"), init),
-      storage,
-      Date.parse("2026-11-11T00:00:00Z"),
-      () => 0.2,
-    );
-    if (url.endsWith(lose) && lose) {
+    const response = await world.request(url, init);
+    if (lose && String(url).endsWith(lose)) {
       lose = "";
       throw Error("応答だけを喪失");
     }
     return response;
   }) as typeof fetch;
   return {
-    service: createSupplyService(local, request),
+    world,
+    code,
     local,
     request,
+    service: createSupplyService(local, request, () => code),
+    restart: (cloud: string | null = code) =>
+      createSupplyService(local, request, () => cloud),
     lose(action: string) {
       lose = action;
     },
@@ -50,20 +36,19 @@ function setup() {
 
 describe("補給の通信・端末保存の回復", () => {
   it("初期化応答を失っても同じ口座・10枚へ復帰する", async () => {
-    const p = setup();
+    const p = await setup();
     p.lose("initialize");
     await expect(p.service.status()).rejects.toThrow("応答");
-    const restarted = createSupplyService(p.local, p.request);
-    expect((await restarted.status()).tickets).toBe(10);
+    expect((await p.restart().status()).tickets).toBe(10);
   });
 
   it("抽選確定後の応答喪失でも同じ要求ID・同じ残高へ戻る", async () => {
-    const p = setup();
+    const p = await setup();
     await p.service.status();
     p.lose("draw");
     await expect(p.service.draw(10)).rejects.toThrow("応答");
     const id = p.service.pendingRequest()!.requestId;
-    const restarted = createSupplyService(p.local, p.request);
+    const restarted = p.restart();
     const recovered = await restarted.status();
     expect(recovered.pending!.requestId).toBe(id);
     expect(recovered.tickets).toBe(0);
@@ -72,7 +57,7 @@ describe("補給の通信・端末保存の回復", () => {
   });
 
   it("受領確認の応答だけを失っても新しい抽選として再消費しない", async () => {
-    const p = setup();
+    const p = await setup();
     await p.service.status();
     const draw = await p.service.draw(1);
     p.lose("ack");
@@ -87,17 +72,149 @@ describe("補給の通信・端末保存の回復", () => {
   });
 
   it("識別情報を保存できない端末はサーバー口座を作らない", async () => {
-    const p = setup();
+    const p = await setup();
     const service = createSupplyService(
       {
         getItem: () => null,
         setItem: () => {
           throw Error("保存失敗");
         },
+        removeItem: () => {},
       },
       p.request,
+      () => p.code,
     );
     await expect(service.status()).rejects.toThrow("保存失敗");
     expect(p.calls).toBe(0);
+  });
+
+  it("クラウド保存がなければ口座を作らず作成を案内する", async () => {
+    const p = await setup();
+    const service = p.restart(null);
+    await expect(service.status()).rejects.toMatchObject({
+      cloudRequired: true,
+    });
+    expect(service.pendingRequest()).toBeUndefined();
+    expect(p.calls).toBe(0);
+  });
+});
+
+describe("初回10枚はクラウド保存1つにつき1回（F-17 H-1）", () => {
+  it("補給の接続情報だけを消して作り直しても初回付与が入らない", async () => {
+    const p = await setup();
+    expect((await p.service.status()).tickets).toBe(10);
+    const ten = await p.service.draw(10);
+    await p.service.acknowledge(ten.pending!.requestId);
+    // 端末側の補給接続情報をすべて消し、旧方式の新しい口座も偽造して作り直す。
+    p.local.values.clear();
+    const hex = () => crypto.randomUUID().replaceAll("-", "");
+    p.local.setItem(
+      "swarm-front-supply-link-v1",
+      JSON.stringify({ id: hex(), token: hex() + hex() }),
+    );
+    const again = await p.restart().status();
+    expect(again.tickets).toBe(0);
+    expect(p.local.getItem("swarm-front-supply-link-v1")).toBeNull();
+    // 別の端末・空の端末から同じクラウド保存へ接続しても同じ残高。
+    const other = createSupplyService(memoryLocal(), p.request, () => p.code);
+    expect((await other.status()).tickets).toBe(0);
+    await expect(other.draw(10)).rejects.toThrow("足りません");
+    expect(p.world.vaultRow(p.code)!.supplyGrant).toBe("cloud");
+  });
+
+  it("旧方式の口座はサーバーで新規作成できない", async () => {
+    const world = supplyWorld();
+    const hex = () => crypto.randomUUID().replaceAll("-", "");
+    const res = await world.request(`/api/supply/${hex()}/initialize`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + hex() + hex(),
+        "Content-Type": "application/json",
+      },
+      body: "{}",
+    });
+    expect(res.status).toBe(401);
+    expect(await res.json()).toMatchObject({ retired: true });
+  });
+
+  it("保管庫の資格がない補給口座は作れない", async () => {
+    const world = supplyWorld();
+    const code = await world.createVault();
+    const [, id] = code.split("-");
+    const hex = () => crypto.randomUUID().replaceAll("-", "");
+    for (const target of [id, hex()]) {
+      const res = await world.request(
+        `/api/supply/cloud/${target}/initialize`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + hex() + hex(),
+            "Content-Type": "application/json",
+          },
+          body: "{}",
+        },
+      );
+      expect(res.status).toBe(401);
+    }
+    expect(world.vaultRow(code)!.supplyGrant).toBeUndefined();
+  });
+
+  it("既存口座は残高を保ったまま1回だけ移行し、二重に初回付与しない", async () => {
+    const world = supplyWorld();
+    const legacy = await world.legacyAccount(7, "2026-11-10");
+    const local = memoryLocal();
+    local.setItem("swarm-front-supply-link-v1", JSON.stringify(legacy));
+    // クラウド保存の作成前は旧口座のまま使える（日次1枚も従来どおり）。
+    let code: string | null = null;
+    const service = createSupplyService(local, world.request, () => code);
+    expect((await service.status()).tickets).toBe(8);
+    code = await world.createVault();
+    expect((await service.status()).tickets).toBe(8);
+    expect(local.getItem("swarm-front-supply-link-v1")).toBeNull();
+    expect(world.vaultRow(code)!.supplyGrant).toBe(`legacy:${legacy.id}`);
+    // 旧口座は凍結され、再送しても残高は増えない。
+    local.setItem("swarm-front-supply-link-v1", JSON.stringify(legacy));
+    expect((await service.status()).tickets).toBe(8);
+    local.values.clear();
+    expect((await service.status()).tickets).toBe(8);
+    const old = await world.request(`/api/supply/${legacy.id}/draw`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + legacy.token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        requestId: crypto.randomUUID(),
+        count: 1,
+      }),
+    });
+    expect(old.status).toBe(409);
+  });
+
+  it("旧口座の未受領の補給は受領してから移行する", async () => {
+    const world = supplyWorld();
+    const legacy = await world.legacyAccount(10);
+    const local = memoryLocal();
+    local.setItem("swarm-front-supply-link-v1", JSON.stringify(legacy));
+    let code: string | null = null;
+    const service = createSupplyService(local, world.request, () => code);
+    await service.status();
+    const draw = await service.draw(1);
+    code = await world.createVault();
+    const waiting = await service.status();
+    expect(waiting.pending!.requestId).toBe(draw.pending!.requestId);
+    expect(local.getItem("swarm-front-supply-link-v1")).not.toBeNull();
+    await service.acknowledge(draw.pending!.requestId);
+    expect((await service.status()).tickets).toBe(9);
+    expect(local.getItem("swarm-front-supply-link-v1")).toBeNull();
+  });
+
+  it("対象外: クラウド保存自体を削除して作り直すと新しい保管庫として付与される", async () => {
+    // 本人決定（2026-11-17）で許容した範囲。クラウドセーブも失うため防がない。
+    const p = await setup();
+    await p.service.status();
+    await p.world.deleteVault(p.code);
+    const next = await p.world.createVault();
+    expect((await p.restart(next).status()).tickets).toBe(10);
   });
 });
