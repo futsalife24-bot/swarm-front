@@ -1,3 +1,7 @@
+## 2026-11-16 協力プレイ募集画面の配置整理・公開準備
+
+本人ブリーフに従い、製品は coop-lobby.css のみ変更。左右の見出し・入力・操作を揃え、認証欄を通常サイズのまま左端合わせし、短い横画面の余白を整理した。作成・参加・認証・フリーマッチング・ゲーム処理は無変更。全184ファイル1907テスト、型・書式、実装commit後build/production dry-run成功。実Chromeの1280×720/844×390・両タブでスクロール0・位置/幅/高さ・非重複・例外0を確認。PR・通常merge・既存Worker公開へ進む。[証拠と再現手順](evidence/coop-ui-tidy-20261116/README.md)。今回の専用worktree C:/Users/futsa/swarm-coop-ui-tidy-20261116。元root・別worktreeの差分は保護。
+
 ## 2026-11-16 ガチャ金マークは本番公開済み・後片付けのみツール制限
 
 PR354/355は通常merge済み、公開ソースfe734b3d・Worker a69ec47a-4ee1-4a96-8925-3eff9a1df720（100%）。公開119ファイル一致/health正常/公開実Chrome64条件成功。1907テスト・補給88テスト等の成功と各箇所の採否は下記と[証拠](evidence/gacha-marks-20261116/README.md)。main/local/origin/remote一致・clean・実装/記録の取り込みを確認した。
