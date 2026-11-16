@@ -1,6 +1,6 @@
-## 2026-11-16 協力プレイ募集画面の配置整理・公開準備
+## 2026-11-16 協力プレイ募集画面の配置整理・公開完了
 
-本人ブリーフに従い、製品は coop-lobby.css のみ変更。左右の見出し・入力・操作を揃え、認証欄を通常サイズのまま左端合わせし、短い横画面の余白を整理した。作成・参加・認証・フリーマッチング・ゲーム処理は無変更。全184ファイル1907テスト、型・書式、実装commit後build/production dry-run成功。実Chromeの1280×720/844×390・両タブでスクロール0・位置/幅/高さ・非重複・例外0を確認。PR・通常merge・既存Worker公開へ進む。[証拠と再現手順](evidence/coop-ui-tidy-20261116/README.md)。今回の専用worktree C:/Users/futsa/swarm-coop-ui-tidy-20261116。元root・別worktreeの差分は保護。
+本人ブリーフに従い製品は coop-lobby.css のみ変更。左右の見出し・入力・操作を揃え、認証欄を通常サイズのまま左端合わせ、短い横画面の余白を整理。ゲーム・作成/参加・認証・フリーマッチング処理は無変更。[実装PR357](https://github.com/futsalife24-bot/swarm-front/pull/357)を通常mergeし、公開ソースmain 35a8eca4f62f0cbc9d1023cb13e6cdb4ff979253から再build/dry-run後、既存Worker Version 28850f2a-bb7b-4a8f-a734-6591cd0ce49eへ公開。配信28ファイルSHAとソース一致・health正常。公開実Chromeの1280×720/844×390・両タブでスクロール0・整列・非重複・画面例外0を確認。全184ファイル1907テスト・型・書式・ビルド成功。[証拠・画像・実ログ](evidence/coop-ui-tidy-20261116/README.md)。指定outboxへ状態ファイルと変更前/後3画像を保存。実スマホ・認証合格・多人数実戦は今回未実施。公開記録のmain反映・clean/取り込み確認後、今回の C:/Users/futsa/swarm-coop-ui-tidy-20261116 だけを削除し、outboxへ確定結果を記録する。元root・別worktreeは保護。
 
 ## 2026-11-16 ガチャ金マークは本番公開済み・後片付けのみツール制限
 
