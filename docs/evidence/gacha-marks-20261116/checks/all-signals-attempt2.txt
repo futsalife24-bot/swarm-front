@@ -1,0 +1,8 @@
+file:///C:/Users/futsa/swarm-gacha-marks-20261116/public/supply-reveal/verify.mjs:262
+    if (!result.final) throw Error(`ライブ再生未完了: ${JSON.stringify(result)}`);
+                             ^
+
+Error: ライブ再生未完了: {"request":["signature","heartbeat",10],"final":false,"taps":61,"ms":20062}
+    at file:///C:/Users/futsa/swarm-gacha-marks-20261116/public/supply-reveal/verify.mjs:262:30
+
+Node.js v24.19.0

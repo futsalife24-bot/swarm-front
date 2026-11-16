@@ -64,7 +64,7 @@ const FX = {
     world(g, I); add(g); const w = p.h * 1.073, kk = p.h / 168, cy = p.gy - p.h * 0.5, pu = 0.5 + 0.5 * Math.sin(I.A * 7), k = p.k;
     glow(g, p.x, cy, w * (1.5 + 0.2 * pu), GOLD, 0.55 * k);
     g.save(); g.translate(p.x, p.gy - 2 * kk); g.scale(1, 0.3); g.strokeStyle = rgba('#fff2c0', 0.95 * k); g.lineWidth = 4 * kk + 1; g.setLineDash([16 * kk, 10 * kk]); g.lineDashOffset = -I.A * 110; g.beginPath(); g.arc(0, 0, w * (0.82 + 0.06 * pu), 0, TAU); g.stroke(); g.setLineDash([]); g.lineWidth = 2; g.strokeStyle = rgba(GOLD, 0.8 * k); g.beginPath(); g.arc(0, 0, w * 1.05, 0, TAU); g.stroke(); g.restore();
-    over(g); const ay = p.gy - p.h - 20 * kk - 9 * kk * pu; g.fillStyle = rgba('#ffc94d', k); g.strokeStyle = rgba('#4a3000', k); g.lineWidth = 2; g.beginPath(); g.moveTo(p.x - 17 * kk, ay - 17 * kk); g.lineTo(p.x + 17 * kk, ay - 17 * kk); g.lineTo(p.x, ay + 4 * kk); g.closePath(); g.fill(); g.stroke(); add(g);
+    // 箱の外に浮く金ベタの矢印だけを取り外す。輪・粒子・音は残す。
     if (p.a >= 0 && p.a < 0.6) { ring(g, p.x, cy, w * (0.4 + 1.6 * out3(p.a / 0.5)), GOLD, 1 - p.a / 0.5, 5 * (1 - p.a / 0.5) + 1, 0.8);
       for (let i = 0; i < 20; i++) { const an = hash(i, 1) * TAU, sp = 90 + 220 * hash(i, 2), d = (1 - Math.exp(-4 * p.a)) / 4; glow(g, p.x + Math.cos(an) * sp * d, cy + Math.sin(an) * sp * d + 150 * p.a * p.a, 6, i % 3 ? GOLD : '#ffffff', (1 - p.a / 0.6) ** 1.3); } }
     for (let i = 0; i < 8; i++) { const u = ((I.A * 0.8) + hash(i, 5)) % 1, an = hash(i, 6) * TAU; glow(g, p.x + Math.cos(an) * w * 0.8, p.gy - 4 - u * p.h * 1.1, 4, GOLD, k * (1 - u)); }

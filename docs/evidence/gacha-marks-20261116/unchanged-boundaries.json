@@ -1,0 +1,60 @@
+{
+  "base": "d94b51f50947a8ac88551087acc3e852262368ce",
+  "normalization": "Git blobフィルター/LF。Windows作業コピーのCRLF差はコード変更と区別。",
+  "rows": [
+    {
+      "path": "public/supply-reveal/effect-selection.js",
+      "before": "615dade434f85dda7308808e48a426ed549ffdbf",
+      "after": "615dade434f85dda7308808e48a426ed549ffdbf",
+      "equal": true
+    },
+    {
+      "path": "public/supply-reveal/signal-timeline.js",
+      "before": "cb034ee458ed6b2378a7009714df1b988670f4ac",
+      "after": "cb034ee458ed6b2378a7009714df1b988670f4ac",
+      "equal": true
+    },
+    {
+      "path": "public/supply-reveal/reference-scenes.js",
+      "before": "ad0adc62f0ed4ac8026a36d6efaf6e8ab02480f9",
+      "after": "ad0adc62f0ed4ac8026a36d6efaf6e8ab02480f9",
+      "equal": true
+    },
+    {
+      "path": "public/supply-reveal/runtime.js",
+      "before": "150f43f20c05b195427743c963b86df74d6a565b",
+      "after": "150f43f20c05b195427743c963b86df74d6a565b",
+      "equal": true
+    },
+    {
+      "path": "public/supply-reveal/sfx.js",
+      "before": "3f31753c8663a4ad72eb98d0164bb74d7192c7c7",
+      "after": "3f31753c8663a4ad72eb98d0164bb74d7192c7c7",
+      "equal": true
+    },
+    {
+      "path": "src/client/supply-service.ts",
+      "before": "a4c3f7726740bcace713bcd629baa4bb7d5af2b3",
+      "after": "a4c3f7726740bcace713bcd629baa4bb7d5af2b3",
+      "equal": true
+    },
+    {
+      "path": "src/client/supply-rewards.ts",
+      "before": "356b126ba5d5980ab864e784bdcea029db0d1e81",
+      "after": "356b126ba5d5980ab864e784bdcea029db0d1e81",
+      "equal": true
+    },
+    {
+      "path": "src/client/supply-menu.ts",
+      "before": "299f296888540dec7908d6296f4b5757021605a6",
+      "after": "299f296888540dec7908d6296f4b5757021605a6",
+      "equal": true
+    },
+    {
+      "path": "core.js:tierOf/validate/buildModel/levelAt/chargeAt",
+      "before": "79b8cc410a68c23d71ef8dc189cdd19a00d08fcdb09b099748ea34630efe0427",
+      "after": "79b8cc410a68c23d71ef8dc189cdd19a00d08fcdb09b099748ea34630efe0427",
+      "equal": true
+    }
+  ]
+}

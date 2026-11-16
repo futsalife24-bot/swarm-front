@@ -1,0 +1,17 @@
+
+> swarm-front@0.1.0 test:supply
+> vitest run --config=vitest.supply.config.ts
+
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-gacha-marks-20261116
+
+
+ Test Files  11 passed (11)
+      Tests  88 passed (88)
+   Start at  11:03:39
+   Duration  13.16s (import 67%, transform 17%, tests 16%, worker 1%)
+
+     Import  89 modules were evaluated 143 times · 7.58s total, 67% of tracked time
+             ~2.86s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+

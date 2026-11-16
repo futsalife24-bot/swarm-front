@@ -1,3 +1,9 @@
+## 2026-11-16 ガチャの金マークを箱面の投影へ改修・公開準備
+
+本人ブリーフ `gacha-mark-redesign-brief-20261116.md` に従い、最新main d94b51f5から専用worktree `C:/Users/futsa/swarm-gacha-marks-20261116` / `codex/gacha-marks-20261116`。delayed/skeletonの章を箱の金属陰影・パース・揺れに沿う青緑の細線投影へ置換。金は短い検査線のみ。箱に沿わせられない射出章/金角ブラケット/着陸架章/逆転中央章/反転札の裏と完了章/既存4の金矢印を取り外し、他の動きとSEは維持。内部の太い金構造線も中立金属と青緑細線へ変更。確率/結果/天井/保存/条件/局面/runtime/SE定義は無変更（Gitblobとモデル計算部分の一致を確認）。お試しサイトは同期しない。
+
+全184ファイル1907テスト、補給88テスト、型/書式、変更前後の実Chrome各64条件成功。旧ライブ検査20秒境界で2試行失敗し、既存BUDDY組合せの理論最短19.09秒/旧成功20.093秒と照合。検証だけをタイムライン由来の上限と5秒無進捗検出へ修正し、全72条件/2016組合せ・実時間タップ3組・スキップ/破棄が成功。BUDDY20.273秒でfinalへ到達し無進捗なし。公開確定値は後続記録で更新する。[判断・各箇所の結果・証拠](evidence/gacha-marks-20261116/README.md)。元root/他worktreeは保持。通常タスク方針に従い独立Chat監査は未実施。PR→通常merge→merge後build/dry-run→既存Worker公開/配信確認→記録PR→main一致/clean確認→今回worktree削除を行い、指定outboxへ結果を保存する。
+
 ## 2026-11-15 ガチャ新規合図を公開完了
 
 本人ブリーフに従い、新規11案と既存4のSSR以上対象/金色修正を表示専用で実装。[PR #352](https://github.com/futsalife24-bot/swarm-front/pull/352)を通常merge、main ee2ff437から再build/dry-runし、既存Worker Version aad47ce7-d9d8-4970-81b1-2a796733005b（100%）へ公開。公開118ファイル/ソースSHA一致、health正常、公開固定結果8条件・書込0/例外0。
