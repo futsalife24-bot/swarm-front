@@ -34,3 +34,10 @@
 公開記録のmain取り込みとcleanを確認後、今回のworktreeだけを削除する。元rootや他worktreeは削除しない。実スマホ、多人数実戦、Turnstileの認証合格・部屋作成は今回の表示確認では未実施。
 
 最終main/取り込み確認と削除の確定結果は指定outboxの状態ファイルに記載する。ローカルmainは既存の別worktreeが使用しているため触らず、今回の専用HEADをorigin/mainへ同期して確認する。
+
+## 後片付けの制限
+
+公開記録PR358も通常mergeし、main `9c2bcead25640fd3ff54c24b3183b902f9331e83` で専用HEAD/origin/remoteの一致、clean、実装/記録commitの祖先一致を確認した。今回worktreeのnode_modulesが元rootの共有依存を参照するJunctionであることを読み取り確認後、リンクだけの削除を試みたが、自動承認レビューが `Remove-Item -LiteralPath 'C:\Users\futsa\swarm-coop-ui-tidy-20261116\node_modules' -Force` を実行前に `blocked by policy` として拒否した。詳細理由なし。別機構へ迂回せず、リンクと今回worktreeを保持した。
+
+停止理由: 今回用Junctionの削除が自動承認レビューに拒否され、共有依存を保護した作業ツリーの片付けができない。
+再開条件: 正式なツール経路で今回リンクの削除が許可される、または本人がリンクだけを除去したことを確認できること。その後にmain取り込み/cleanを再確認して今回worktreeだけを削除し、指定outboxの状態ファイルを更新する。公開済みの製品に残件はなく、再公開は不要。

@@ -1,3 +1,10 @@
+## 2026-11-16 協力プレイ配置は公開済み・後片付けのみツール制限
+
+PR357/358を通常merge。公開ソース35a8eca4・Worker Version 28850f2a-bb7b-4a8f-a734-6591cd0ce49e。全1907テスト等成功、公開28ファイルSHA/ソース一致・health正常、公開実Chrome2サイズ/両タブのスクロール0・非重複・整列・例外0を確認。指定outboxの状態ファイルと画像3ファイルを保存済み。公開記録後main 9c2bcead25640fd3ff54c24b3183b902f9331e83で専用HEAD/origin/remote一致・clean・両PRの取り込みを確認。[証拠](evidence/coop-ui-tidy-20261116/README.md)。
+
+停止理由: 自動承認レビューが今回用node_modules Junctionの削除を実行前に blocked by policy で拒否。詳細理由なし。別機構へ迂回せず、C:/Users/futsa/swarm-coop-ui-tidy-20261116 とリンクを保持。元root/他worktree/共有依存は保護。
+再開条件: 正式なツール経路で今回リンクの削除が許可される、または本人がリンクだけを除去したことを確認できること。その後にmain取り込み/cleanを確認して今回worktreeだけを削除し、C:/Users/futsa/bibi-bridge/outbox/20261116-coop-ui-tidy-status.md を更新。本番の再公開は不要。
+
 ## 2026-11-16 協力プレイ募集画面の配置整理・公開完了
 
 本人ブリーフに従い製品は coop-lobby.css のみ変更。左右の見出し・入力・操作を揃え、認証欄を通常サイズのまま左端合わせ、短い横画面の余白を整理。ゲーム・作成/参加・認証・フリーマッチング処理は無変更。[実装PR357](https://github.com/futsalife24-bot/swarm-front/pull/357)を通常mergeし、公開ソースmain 35a8eca4f62f0cbc9d1023cb13e6cdb4ff979253から再build/dry-run後、既存Worker Version 28850f2a-bb7b-4a8f-a734-6591cd0ce49eへ公開。配信28ファイルSHAとソース一致・health正常。公開実Chromeの1280×720/844×390・両タブでスクロール0・整列・非重複・画面例外0を確認。全184ファイル1907テスト・型・書式・ビルド成功。[証拠・画像・実ログ](evidence/coop-ui-tidy-20261116/README.md)。指定outboxへ状態ファイルと変更前/後3画像を保存。実スマホ・認証合格・多人数実戦は今回未実施。公開記録のmain反映・clean/取り込み確認後、今回の C:/Users/futsa/swarm-coop-ui-tidy-20261116 だけを削除し、outboxへ確定結果を記録する。元root・別worktreeは保護。
