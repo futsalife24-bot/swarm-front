@@ -21,12 +21,16 @@
 
 ## 公開と成果物
 
-PR・通常merge・既存Worker公開・配信SHA照合・公開後実画面確認はこの時点では準備済み、実施結果を追記する。
+[実装PR #357](https://github.com/futsalife24-bot/swarm-front/pull/357) を通常merge。公開ソースmain `35a8eca4f62f0cbc9d1023cb13e6cdb4ff979253` から再build/production dry-runが成功し、既存Worker `swarm-front` / https://swarm-front.melosalife-24.workers.dev/ に公開した。Version `28850f2a-bb7b-4a8f-a734-6591cd0ce49e`。新規サービス・契約・認証設定・移行の変更なし。
+
+配信HTML/JS/CSS/Service Workerの28ファイルがHTTP200・SHA一致し、配信JSのソースSHA埋込一致と `/api/health` の正常応答を確認。`delivery.json`。公開後の実Chromeでも4条件すべてスクロール0・整列・非重複・画面例外0で成功し、認証ウィジェットを省略せず撮影/目視した。`published-measurements.json` と同ディレクトリの画像。認証の合格は未検証。GitHubのcommit statusとworkflow runは0件で、CI成功とは読み替えず、mergeable=trueを確認して通常mergeした。主要コマンドの実ログは `checks/`。
 
 指定outboxは `C:/Users/futsa/bibi-bridge/outbox/`。
 
 - `20261116-coop-ui-before.png`: 変更前の1280×720と844×390を原寸で並べた比較画像。
-- `20261116-coop-ui-after-1280.png` / `20261116-coop-ui-after-mobile.png`: 公開後の実配信画面から取得予定。
+- `20261116-coop-ui-after-1280.png` / `20261116-coop-ui-after-mobile.png`: 公開後の実配信画面から取得済み。候補CSSの注入なし。
 - `20261116-coop-ui-tidy-status.md`: 公開識別子・最終main・後片付けの確定結果を記載する。
 
 公開記録のmain取り込みとcleanを確認後、今回のworktreeだけを削除する。元rootや他worktreeは削除しない。実スマホ、多人数実戦、Turnstileの認証合格・部屋作成は今回の表示確認では未実施。
+
+最終main/取り込み確認と削除の確定結果は指定outboxの状態ファイルに記載する。ローカルmainは既存の別worktreeが使用しているため触らず、今回の専用HEADをorigin/mainへ同期して確認する。
