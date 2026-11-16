@@ -53,3 +53,12 @@ GitHub: https://github.com/futsalife24-bot/swarm-front 。専用作業場所: `C
 - GitHub照会ではPR354のcommit statusとworkflow runはいずれも0件。CI成功と読み替えず、mergeable=trueを確認して通常mergeした（保護の迂回なし）。
 - outboxの変更後画像は公開版から取得した射出/全箱着地後の一覧/先読みタップ拡大/側板展開タップ拡大。変更前3場面も保存。変更前の箱一覧カットは投下途中、変更後は着地後の追加カットで、同時刻の比較はrepoのbefore/after/landing-10-844-normal.pngを使う。
 - 公開記録を通常PRからmainへ反映後、main/local/origin/remote一致・clean・実装/記録の取り込みを確認して今回の専用worktreeだけ削除する。最終main・削除結果は指定outboxへ確定する。元rootと既存他worktreeを保護。
+
+## 後片付けの制限（2026-11-16）
+
+実装PR354と公開記録PR355のmerge、公開ソース/Worker/配信確認は完了。記録後main `4dac1fa742214579a344b32afbed955082d444c0` でlocal/origin/remote一致・cleanと実装/記録の祖先一致を確認した。
+
+今回のworktree内の `C:/Users/futsa/swarm-gacha-marks-20261116/node_modules` は元rootのnode_modulesを指すJunctionであることを読取確認した。共有依存を保護するためリンクだけを除去しようとしたが、自動承認レビューが確認込みのPowerShellと固定パス単独の `Remove-Item -LiteralPath 'C:\Users\futsa\swarm-gacha-marks-20261116\node_modules' -Force` の両方を `blocked by policy` として実行前に拒否した。詳細理由は返されていない。別の削除機構で迂回せず停止したため、リンクも今回のworktreeも残っている。共有依存/元root/他worktreeには削除操作をしていない。
+
+停止理由: 今回用Junctionの削除がツールの自動承認レビューに拒否され、作業ツリーの安全な後片付けを完了できない。
+再開条件: 正式なツール経路で当該リンクの削除が許可されること、または本人がリンクだけを除去したことを確認できること。その後にmain取り込み/cleanを再確認し、今回worktreeだけを通常のgit worktree removeで削除して指定outboxを更新する。
