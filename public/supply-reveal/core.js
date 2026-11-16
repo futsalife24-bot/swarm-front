@@ -1,6 +1,7 @@
 // 補給ポッド演出（作り込み版）。確定済みの結果配列を再生するだけの表示専用モジュール。
 // 抽選・確率・券の消費・保存は行わない。予兆は「下限」だけを示し、結果の段階を超えない。
 import { createPlayer, CHARGE, fastId } from './sfx.js';
+import { drawCrateStencil } from './crate-stencil.js';
 
 export const TIER_NAME = ['武装片', 'N', 'R', 'SR', 'SSR', 'バディ'];
 const TIER_KEY = ['shard', 'n', 'r', 'sr', 'ssr', 'buddy'];
@@ -258,10 +259,12 @@ function createRenderer(cv, imgs) {
     const skeleton = m.signalPlan?.phases[2] === 'skeleton' && m.signalPlan.targets[2] === p.i && t > p.beats[0].t0 + 1e-5;
     const panel = skeleton ? (m.reduced ? 1 : seg(t, p.beats[0].t0, p.beats[0].t0 + 0.34, E.out3)) : 0;
     if (ba > 0 && skeleton) {
-      // 元の色付き画像を切り分けて側板を実際に移動。隙間の奥だけに金の構造を出す。
-      ctx.save(); ctx.globalAlpha = ba; ctx.fillStyle = '#29251b';
+      // 元の色付き画像を切り分けて側板を実際に移動。隙間の奥は陰影付きの金属と細い投影線。
+      ctx.save(); ctx.globalAlpha = ba;
+      const metal = ctx.createLinearGradient(-w * 0.49, 0, w * 0.49, 0);
+      metal.addColorStop(0, '#111c22'); metal.addColorStop(0.45, '#35464b'); metal.addColorStop(1, '#101a20'); ctx.fillStyle = metal;
       ctx.fillRect(-w * 0.49, -h * (1 - SEAM), w * 0.98, h * (1 - SEAM));
-      ctx.strokeStyle = '#ffc94d'; ctx.lineWidth = w * 0.045;
+      ctx.strokeStyle = 'rgba(111,255,210,.6)'; ctx.lineWidth = 1.1 * k;
       for (const sign of [-1, 1]) {
         ctx.beginPath(); ctx.moveTo(sign * w * 0.38, -h * 0.73); ctx.lineTo(sign * w * 0.38, -h * 0.12);
         ctx.moveTo(sign * w * 0.25, -h * 0.7); ctx.lineTo(sign * w * 0.46, -h * 0.25); ctx.stroke();
@@ -271,6 +274,13 @@ function createRenderer(cv, imgs) {
       part(SEAM, 1, ba, 0, 0.16, -w * 0.12 * panel);
       part(SEAM, 1, ba, 0.84, 1, w * 0.12 * panel);
     } else if (ba > 0) part(SEAM, 1, ba);
+    // 合図の開始/終了は既存と同じ。箱本体と変形・カメラ・陰影を共有し、開封時は残さない。
+    const tagCue = m.signalPlan?.phases[2], tagStart = p.beats[0]?.t0;
+    if (ba > 0 && !opened && m.signalPlan?.targets[2] === p.i
+      && ['delayed', 'skeleton'].includes(tagCue) && t > tagStart) {
+      const tagProgress = m.reduced ? 1 : seg(t, tagStart, tagStart + (tagCue === 'delayed' ? 0.24 : 0.34));
+      ctx.save(); ctx.globalAlpha = ba; drawCrateStencil(ctx, w, h, tagProgress); ctx.restore();
+    }
     const lidA = opened ? 1 - (p.wave ? seg(oa, 0.08, 0.38) : seg(oa, 0.2, 0.55)) : 1;
     if (lidA > 0) { ctx.save(); if (opened) { const dir = p.i % 2 ? 1 : -1, lift = p.wave ? 0.55 : 1; ctx.translate(dir * oa * 150 * k * lift, -(900 * oa - 900 * oa * oa) * k * lift); ctx.translate(0, -h * (1 - SEAM / 2)); ctx.rotate(dir * oa * 5.5); ctx.translate(0, h * (1 - SEAM / 2)); }
       part(0, SEAM, lidA); ctx.restore(); }

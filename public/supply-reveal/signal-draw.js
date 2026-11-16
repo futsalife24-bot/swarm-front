@@ -138,35 +138,18 @@ function heartbeat(g, I, q) {
 
 function lamp(g, I, p) {
   if (I.phase !== 'afterPods') return;
-  screen(g, I);
-  const w = 80, h = 82;
-  const x = Math.min(I.VW - w - 16, I.VW / 2 + (I.VW < 700 ? 112 : 148));
-  const y = 161;
-  // 射出表示の端に固定した金属窓。待機中は常灯で変化させない。
-  g.fillStyle = '#17242a'; g.strokeStyle = '#87959a'; g.lineWidth = 2;
-  g.beginPath(); g.roundRect(x, y, w, h, 6); g.fill(); g.stroke();
-  g.fillStyle = '#392a0b'; g.fillRect(x + 7, y + 7, w - 14, h - 14);
-  g.strokeStyle = '#ffc94d'; g.lineWidth = 2.5;
-  g.strokeRect(x + 7, y + 7, w - 14, h - 14);
-  const cx = x + w / 2, cy = y + 36, r = 24;
-  g.fillStyle = '#ffc94d'; g.shadowColor = '#ffc94d'; g.shadowBlur = 9;
-  g.beginPath();
-  for (let i = 0; i < 6; i++) {
-    const a = -Math.PI / 2 + i * TAU / 6;
-    if (i) g.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
-    else g.moveTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
-  }
-  g.closePath(); g.fill(); g.shadowBlur = 0;
-  // 中央と上下の抜きで通常の六角ランプから区別する。
-  g.fillStyle = '#392a0b';
-  g.beginPath(); g.moveTo(cx, cy - 14); g.lineTo(cx + 13, cy);
-  g.lineTo(cx, cy + 14); g.lineTo(cx - 13, cy); g.closePath(); g.fill();
-  g.fillRect(cx - 3, cy - 25, 6, 9); g.fillRect(cx - 3, cy + 16, 6, 9);
+  // 箱がまだ無い局面の金プレートと章は取り外す。投下照準の灯・射出時の走査は残す。
+  world(g, I);
+  const x = I.VW / 2, y = I.m.multi ? 268 : 306;
+  g.strokeStyle = 'rgba(111,255,210,.72)'; g.lineWidth = 1.2;
+  g.beginPath(); g.ellipse(x, y, 58, 17, 0, -2.8, -0.35); g.stroke();
   if (!I.m.reduced && p.launched && p.release < 0.42) {
     const a = 1 - p.release / 0.42;
-    g.strokeStyle = `rgba(255,248,211,${a})`; g.lineWidth = 3;
-    g.beginPath(); g.moveTo(x + 8 + 60 * out(p.release / 0.42), y + 6);
-    g.lineTo(x + 8 + 60 * out(p.release / 0.42), y + h - 6); g.stroke();
+    g.save(); g.beginPath(); g.ellipse(x, y, 58, 17, 0, 0, TAU); g.clip();
+    g.strokeStyle = `rgba(216,255,246,${a})`; g.lineWidth = 2;
+    const sx = x - 58 + 116 * out(p.release / 0.42);
+    g.beginPath(); g.moveTo(sx, y - 17); g.lineTo(sx, y + 17); g.stroke();
+    g.restore();
   }
 }
 
@@ -193,62 +176,31 @@ function sonic(g, I, q) {
   }
 }
 
-function delayed(g, I, q) {
-  if (I.phase !== 'afterPods') return;
-  const p = I.m.pods[q.index];
-  if (!p || I.t >= p.tOpen) return;
-  world(g, I);
-  const x = I.VW / 2 + p.x, k = p.h / 168;
-  const badgeX = x + p.h * 0.33, badgeY = p.gy - p.h * 0.58;
-  const progress = clamp(q.age / 0.24);
-  const lineX = x + p.h * 0.04, lineY = badgeY + 19 * k;
-  g.strokeStyle = '#ffc94d'; g.lineWidth = 2.6 * k; g.lineCap = 'round';
-  g.beginPath(); g.moveTo(lineX, lineY);
-  g.lineTo(lineX + (badgeX - lineX) * progress, lineY); g.stroke();
-  if (progress < 1) return;
-  const r = 19 * k;
-  g.fillStyle = 'rgba(25,20,10,.9)'; g.strokeStyle = '#ffc94d'; g.lineWidth = 2.5 * k;
-  g.beginPath();
-  for (let i = 0; i < 6; i++) {
-    const a = -Math.PI / 2 + i * TAU / 6;
-    if (i) g.lineTo(badgeX + Math.cos(a) * r, badgeY + Math.sin(a) * r);
-    else g.moveTo(badgeX + Math.cos(a) * r, badgeY + Math.sin(a) * r);
-  }
-  g.closePath(); g.fill(); g.stroke();
-  g.fillStyle = '#ffc94d';
-  g.beginPath(); g.moveTo(badgeX, badgeY - r * 0.53);
-  g.lineTo(badgeX + r * 0.48, badgeY);
-  g.lineTo(badgeX, badgeY + r * 0.53);
-  g.lineTo(badgeX - r * 0.48, badgeY); g.closePath(); g.fill();
-  // 切欠きの形を灯や他のSSR合図と共通にする。
-  g.fillStyle = 'rgba(25,20,10,.9)';
-  g.fillRect(badgeX - 2 * k, badgeY - r - 1, 4 * k, 6 * k);
-  g.fillRect(badgeX - 2 * k, badgeY + r - 5 * k, 4 * k, 6 * k);
-}
+// delayed / skeleton のタグは core.js の箱面へ直接投影する。
 
 function multilock(g, I, q) {
   if (I.phase !== 'afterPods') return;
   world(g, I);
   const cx = I.VW / 2, cy = I.m.multi ? 268 : 306;
   const done = I.m.reduced || q.age >= I.m.tLaunch * 0.92;
+  // 金の四隅ブラケットは取り外す。既存照準と同じ地面のパースで三段の収束を残す。
+  g.translate(cx, cy); g.scale(1, 0.3);
   for (let i = 0; i < 3; i++) {
     const start = I.m.tLaunch * [0.13, 0.4, 0.7][i];
     const end = I.m.tLaunch * [0.36, 0.64, 0.92][i];
     const progress = I.m.reduced ? 1 : clamp((q.age - start) / (end - start));
     if (!progress) continue;
     const r = [90, 105, 120][i], gap = (1 - out(progress)) * 280;
-    g.strokeStyle = done ? '#ffc94d' : '#f4fdff';
-    g.lineWidth = i === 2 ? 3.8 : 2.7;
-    g.lineCap = 'square';
-    for (const sx of [-1, 1]) for (const sy of [-1, 1]) {
-      const x = cx + sx * (r + gap), y = cy + sy * (r * 0.55 + gap * 0.5);
-      g.beginPath(); g.moveTo(x - sx * 22, y);
-      g.lineTo(x, y); g.lineTo(x, y - sy * 16); g.stroke();
+    g.strokeStyle = done ? 'rgba(111,255,210,.76)' : 'rgba(225,255,249,.65)';
+    g.lineWidth = 1.4; g.lineCap = 'butt';
+    for (let j = 0; j < 4; j++) {
+      const a = j * Math.PI / 2;
+      g.beginPath(); g.arc(0, 0, r + gap, a - 0.12, a + 0.12); g.stroke();
     }
   }
   if (done) {
-    g.strokeStyle = 'rgba(255,201,77,.8)'; g.lineWidth = 1.8;
-    g.beginPath(); g.ellipse(cx, cy, 73, 41, 0, 0, TAU); g.stroke();
+    g.strokeStyle = 'rgba(111,255,210,.52)'; g.lineWidth = 1.2;
+    g.beginPath(); g.arc(0, 0, 73, 0, TAU); g.stroke();
   }
 }
 
@@ -274,7 +226,7 @@ function landing(g, I, q) {
     g.fillStyle = '#202c30'; g.fillRect(x - (w * 0.48 + 44 * k * deploy), gy - 4 * k + sink,
       w * 0.96 + 88 * k * deploy, 12 * k);
   } else if (I.phase === 'afterPods' && q.landed >= 0) {
-    g.strokeStyle = '#ffc94d'; g.lineWidth = 4 * k; g.lineCap = 'round';
+    g.strokeStyle = 'rgba(111,255,210,.75)'; g.lineWidth = 1.3 * k; g.lineCap = 'butt';
     for (const side of [-1, 1]) {
       const bx = x + side * (w * 0.53 + 8 * k);
       g.beginPath(); g.moveTo(bx, gy - 12 * k);
@@ -282,19 +234,7 @@ function landing(g, I, q) {
       g.beginPath(); g.moveTo(bx, gy - 14 * k);
       g.lineTo(x + side * w * 0.29, gy - 14 * k); g.stroke();
     }
-    // 支柱内部から露出する特装章。箱の塗りは変更しない。
-    if (impact > 0.35) {
-      const bx = x, by = gy + 13 * k, r = 14 * k;
-      g.fillStyle = '#352708'; g.strokeStyle = '#ffc94d'; g.lineWidth = 2.2 * k;
-      g.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const a = -Math.PI / 2 + i * TAU / 6;
-        if (i) g.lineTo(bx + Math.cos(a) * r, by + Math.sin(a) * r);
-        else g.moveTo(bx + Math.cos(a) * r, by + Math.sin(a) * r);
-      }
-      g.closePath(); g.fill(); g.stroke();
-      g.fillStyle = '#ffc94d'; g.fillRect(bx - 4 * k, by - 4 * k, 8 * k, 8 * k);
-    }
+    // 中央の特装章は箱にも支柱にも沿わないため取り外した。
     if (!I.m.reduced && q.landed < 0.38) {
       g.fillStyle = `rgba(192,178,138,${0.3 * (1 - q.landed / 0.38)})`;
       for (const side of [-1, 1]) for (let i = 0; i < 3; i++) {
@@ -314,8 +254,8 @@ function reverse(g, I, q) {
   if (!progress || alpha <= 0) return;
   g.globalAlpha = alpha;
   // 内周の切り欠きだけを外周の反転区間へ同期する。外周はcoreが実際に逆転させる。
-  g.strokeStyle = progress >= 1 ? '#ffc94d' : '#e5f4f5';
-  g.lineWidth = 3;
+  g.strokeStyle = progress >= 1 ? 'rgba(111,255,210,.82)' : '#e5f4f5';
+  g.lineWidth = 1.3;
   const r = 62;
   for (let i = 0; i < 4; i++) {
     const angle = i * Math.PI / 2 + (1 - progress) * 0.35;
@@ -324,21 +264,7 @@ function reverse(g, I, q) {
     g.beginPath(); g.moveTo(-8, -4); g.lineTo(0, 0); g.lineTo(-8, 4); g.stroke();
     g.restore();
   }
-  if (progress < 1) return;
-  const rBadge = 21;
-  g.fillStyle = 'rgba(24,22,12,.88)'; g.strokeStyle = '#ffc94d'; g.lineWidth = 2.5;
-  g.beginPath();
-  for (let i = 0; i < 6; i++) {
-    const a = -Math.PI / 2 + i * TAU / 6;
-    if (i) g.lineTo(x + Math.cos(a) * rBadge, y + Math.sin(a) * rBadge);
-    else g.moveTo(x + Math.cos(a) * rBadge, y + Math.sin(a) * rBadge);
-  }
-  g.closePath(); g.fill(); g.stroke();
-  g.fillStyle = '#ffc94d';
-  g.beginPath(); g.moveTo(x, y - 11); g.lineTo(x + 10, y);
-  g.lineTo(x, y + 11); g.lineTo(x - 10, y); g.closePath(); g.fill();
-  g.fillStyle = 'rgba(24,22,12,.88)';
-  g.fillRect(x - 3, y - 22, 6, 8); g.fillRect(x - 3, y + 14, 6, 8);
+  // 中央の六角章は取り外す。反転する内周と外周・SEは維持する。
 }
 
 function reverseSeal(g, I, q) {
@@ -354,21 +280,10 @@ function reverseSeal(g, I, q) {
     // DOM表示面と同じ縦軸角度。Canvas板はその背後からせり出す。
     const width = 235 * Math.max(0.08, Math.abs(Math.cos(angle)));
     const left = cx - width / 2;
-    g.fillStyle = back ? '#3b3018' : '#253239';
-    g.strokeStyle = back ? '#ffc94d' : '#9eabb0'; g.lineWidth = 2;
+    g.fillStyle = '#172a30';
+    g.strokeStyle = back ? 'rgba(111,255,210,.7)' : '#9eabb0'; g.lineWidth = 1.2;
     g.beginPath(); g.roundRect(left, cy - 42, width, 82, 5); g.fill(); g.stroke();
     if (back && width > 52) {
-      const r = 27;
-      g.fillStyle = '#ffc94d'; g.strokeStyle = '#fff1bd'; g.lineWidth = 1.5;
-      g.beginPath();
-      for (let i = 0; i < 6; i++) {
-        const a = -Math.PI / 2 + i * TAU / 6;
-        if (i) g.lineTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
-        else g.moveTo(cx + Math.cos(a) * r, cy + Math.sin(a) * r);
-      }
-      g.closePath(); g.fill(); g.stroke();
-      g.fillStyle = '#3b3018'; g.fillRect(cx - 3, cy - r - 2, 6, 9);
-      g.fillRect(cx - 3, cy + r - 7, 6, 9);
       // 裏面が正対する時だけ斜めの反射が一度通る。
       const flash = 1 - clamp(Math.abs(q.age / B - 0.58) / 0.1);
       if (flash > 0) {
@@ -380,49 +295,10 @@ function reverseSeal(g, I, q) {
       }
     }
   }
-  if (I.m.reduced || progress >= 1) {
-    const x = Math.min(I.VW - 39, cx + (I.VW < 700 ? 125 : 146));
-    const y = 190, r = 18;
-    g.fillStyle = '#33280f'; g.strokeStyle = '#ffc94d'; g.lineWidth = 2;
-    g.beginPath();
-    for (let i = 0; i < 6; i++) {
-      const a = -Math.PI / 2 + i * TAU / 6;
-      if (i) g.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
-      else g.moveTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
-    }
-    g.closePath(); g.fill(); g.stroke();
-    g.fillStyle = '#ffc94d'; g.fillRect(x - 5, y - 5, 10, 10);
-    g.fillStyle = '#33280f'; g.fillRect(x - 2, y - r - 1, 4, 6);
-    g.fillRect(x - 2, y + r - 5, 4, 6);
-  }
+  // 完了時の小六角章も取り外す。
 }
 
-function skeleton(g, I, q) {
-  if (I.phase !== 'afterPods') return;
-  const p = I.m.pods[q.index];
-  if (!p || I.t >= p.tOpen) return;
-  const progress = I.m.reduced ? 1 : clamp(q.age / 0.34);
-  if (progress <= 0) return;
-  world(g, I);
-  const x = I.VW / 2 + p.x, y = p.gy - p.h * 0.57, k = p.h / 168;
-  const r = 23 * k;
-  // coreが実画像の側板を分割・スライドする。ここでは露出した骨格の章だけ固定する。
-  g.globalAlpha = progress;
-  g.fillStyle = '#2f250e'; g.strokeStyle = '#ffc94d'; g.lineWidth = 2.8 * k;
-  g.beginPath();
-  for (let i = 0; i < 6; i++) {
-    const a = -Math.PI / 2 + i * TAU / 6;
-    if (i) g.lineTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
-    else g.moveTo(x + Math.cos(a) * r, y + Math.sin(a) * r);
-  }
-  g.closePath(); g.fill(); g.stroke();
-  g.fillStyle = '#ffc94d';
-  g.beginPath(); g.moveTo(x, y - 11 * k); g.lineTo(x + 10 * k, y);
-  g.lineTo(x, y + 11 * k); g.lineTo(x - 10 * k, y); g.closePath(); g.fill();
-  g.fillStyle = '#2f250e';
-  g.fillRect(x - 2.5 * k, y - r - 1, 5 * k, 8 * k);
-  g.fillRect(x - 2.5 * k, y + r - 7 * k, 5 * k, 8 * k);
-}
+// skeleton の投影も側板と同じ箱ローカル座標で描く。
 
 export function drawSignal(g, I, layer) {
   if (!['response', 'signature', 'heartbeat', 'lamp', 'sonic', 'delayed', 'multilock', 'landing', 'reverse', 'reverseSeal', 'skeleton'].includes(layer?.id)) return false;
@@ -433,12 +309,11 @@ export function drawSignal(g, I, layer) {
     else if (layer.id === 'heartbeat') heartbeat(g, I, layer.p);
     else if (layer.id === 'lamp') lamp(g, I, layer.p);
     else if (layer.id === 'sonic') sonic(g, I, layer.p);
-    else if (layer.id === 'delayed') delayed(g, I, layer.p);
     else if (layer.id === 'multilock') multilock(g, I, layer.p);
     else if (layer.id === 'landing') landing(g, I, layer.p);
     else if (layer.id === 'reverse') reverse(g, I, layer.p);
     else if (layer.id === 'reverseSeal') reverseSeal(g, I, layer.p);
-    else skeleton(g, I, layer.p);
+    // delayed / skeleton は箱面の描画で処理済み。
   } finally { g.restore(); }
   return true;
 }

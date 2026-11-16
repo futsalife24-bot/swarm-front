@@ -7,7 +7,8 @@ import { ADOPTED, choosePlan, phaseOf, validatePlan } from './effect-selection.j
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(dir, '../..');
-const evidence = path.join(root, 'docs/evidence/gacha-signals-20261115');
+const evidenceAt = process.argv.indexOf('--evidence');
+const evidence = path.resolve(root, evidenceAt < 0 ? 'docs/evidence/gacha-signals-20261115' : process.argv[evidenceAt + 1]);
 const foundation = process.argv.includes('--foundation');
 const narrow = process.argv.includes('--narrow');
 if (narrow && foundation) throw Error('--narrow と --foundation は併用できません');
@@ -241,20 +242,29 @@ try {
   ];
   for (const request of liveCases) {
     const result = await page.evaluate(async ({ request, foundation }) => {
-      const { PRESETS10 } = await import('/core.js');
+      const { PRESETS10, STOP_HOLD_MS } = await import('/core.js');
       const api = window.gachaCheck, values = structuredClone(PRESETS10['バディ＋SSR＋SR']);
       values[9] = { type: 'weapon', rarity: 'SR', name: '検査用SR' };
       const initialTiers = values.map(() => 1); initialTiers[9] = 2;
       api.setFast(true); api.setReduced(false);
       await api.play(values, { effects: request, initialTiers, silent: true,
         signalCandidates: foundation ? [1, 2, 3, 4, 9, 10] : undefined });
-      const start = performance.now(); let taps = 0;
-      while (api.state().waiting !== 'final' && performance.now() - start < 20000) {
+      // 2倍速の実再生時間＋タップ禁止時間から待機上限を決める。旧20秒は正常完走実績20.093秒より短い。
+      const timeline = api.timeline();
+      const motionMs = timeline.reduce((sum, part) => sum + part.d * 500, 0);
+      const holdMs = timeline.reduce((sum, part) => sum + (STOP_HOLD_MS[part.wait] || 0), 0);
+      const pollMs = timeline.filter((part) => part.wait).length * 90;
+      const limitMs = Math.min(45000, Math.max(30000, Math.ceil((motionMs + holdMs + pollMs + 10000) / 1000) * 1000));
+      const start = performance.now(); let taps = 0, progressAt = start, previous = api.state(), stalled = false;
+      while (api.state().waiting !== 'final' && performance.now() - start < limitMs) {
+        const state = api.state();
+        if (state.part !== previous.part || state.t !== previous.t) { progressAt = performance.now(); previous = state; }
+        if (performance.now() - progressAt > 5000) { stalled = true; break; }
         if (api.state().waiting && api.state().waiting !== 'fracture') { api.tap(); taps++; }
         await new Promise((resolve) => setTimeout(resolve, 90));
       }
       const result = { request, final: api.state().waiting === 'final',
-        taps, ms: Math.round(performance.now() - start) };
+        taps, ms: Math.round(performance.now() - start), motionMs, holdMs, limitMs, stalled };
       api.close();
       return result;
     }, { request, foundation });
