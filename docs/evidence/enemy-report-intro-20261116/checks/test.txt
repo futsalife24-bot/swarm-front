@@ -1,0 +1,5 @@
+
+> swarm-front@0.1.0 test
+> vitest run --pool=threads --reporter=json --outputFile=docs/evidence/enemy-report-intro-20261116/checks/tests-summary.json
+
+JSON report written to C:/Users/futsa/swarm-enemy-report-intro-20261116/docs/evidence/enemy-report-intro-20261116/checks/tests-summary.json

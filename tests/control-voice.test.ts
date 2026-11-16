@@ -64,17 +64,17 @@ describe("control voice line table", () => {
       production("optional"),
     ]).toEqual([24, 7, 3]);
   });
-  it("registers all 148 control lines with unique ids", () => {
-    expect(CONTROL_SET_LINES).toHaveLength(148);
-    expect(CONTROL_VOICE_LINES).toHaveLength(182);
-    expect(new Set(CONTROL_VOICE_LINES.map((l) => l.id)).size).toBe(182);
+  it("registers all 149 control lines with unique ids", () => {
+    expect(CONTROL_SET_LINES).toHaveLength(149);
+    expect(CONTROL_VOICE_LINES).toHaveLength(183);
+    expect(new Set(CONTROL_VOICE_LINES.map((l) => l.id)).size).toBe(183);
     const category = (c: string) =>
       CONTROL_SET_LINES.filter((l) => l.category === c).length;
     expect(
       ["announce", "supply", "coop", "system", "weapon", "report", "brief"].map(
         category,
       ),
-    ).toEqual([47, 14, 10, 19, 12, 20, 26]);
+    ).toEqual([47, 14, 10, 20, 12, 20, 26]);
     for (const line of CONTROL_VOICE_LINES) {
       expect(line.text.length).toBeGreaterThan(0);
       expect(line.trigger.length).toBeGreaterThan(0);

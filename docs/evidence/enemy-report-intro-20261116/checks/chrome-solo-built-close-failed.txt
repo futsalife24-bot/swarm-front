@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.waitFor: Timeout 60000ms exceeded.
+Call log:
+  - waiting for locator(':light(.bestiary)') to be detached
+    121 × locator resolved to visible <dialog open="" class="bestiary" aria-labelledby="bestiary-title">…</dialog>
+
+    at C:\Users\futsa\swarm-enemy-report-intro-20261116\scripts\check-report-identification.mjs:262:26 {
+  log: [
+    "  - waiting for locator(':light(.bestiary)') to be detached",
+    '    121 × locator resolved to visible <dialog open="" class="bestiary" aria-labelledby="bestiary-title">…</dialog>'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

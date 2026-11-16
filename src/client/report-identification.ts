@@ -20,7 +20,15 @@ export const REPORT_IDENTIFICATION_CLIPS: Record<EnemyReportId, string> = {
 /** 一覧の再描画や同じ項目の連打では繰り返さず、別項目への移動で次の表示とする。 */
 export function reportIdentification(voice?: ReportVoice) {
   let selected: EnemyReportId | undefined;
+  let entered = false;
   return {
+    enter() {
+      if (entered) return;
+      entered = true;
+      voice?.controlVoice.stop();
+      voice?.unlock();
+      voice?.announce("enemy-report-intro");
+    },
     select(key: EnemyReportId, state?: "solo" | "coop") {
       if (key === selected) return;
       selected = key;

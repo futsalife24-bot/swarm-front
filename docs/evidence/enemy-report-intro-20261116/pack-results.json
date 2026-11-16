@@ -1,0 +1,2107 @@
+[
+  {
+    "voice": "hiromi",
+    "pack": "control-voice-hiromi-v4.bin",
+    "format": 1,
+    "codec": "mp3",
+    "bitrate": "64kbps",
+    "version": 4,
+    "before": 156,
+    "after": 157,
+    "added": [
+      {
+        "key": "voice-control-hiromi-v1/enemy-report-intro",
+        "offset": 841299,
+        "length": 71470,
+        "sha256": "19181a8fd379ae4656237dbb3149028b4f76b61c2e1d64238fccc7db31c26f59"
+      }
+    ],
+    "unchanged": 156,
+    "sourceSha256": "85ad2818f488367db9908d0b27222ff76c7b511ab0ab0152ee20d82e1464b8e0",
+    "bytes": 6367802,
+    "sha256": "a2db860c863a06627f7383d69fe3574adc739026df092b1f1444ccbfe1bc6dd8",
+    "manifest": {
+      "format": 1,
+      "voice": "hiromi",
+      "version": 4,
+      "codec": "mp3",
+      "clips": [
+        {
+          "key": "voice-control-hiromi-v1/adv-complete",
+          "offset": 0,
+          "length": 33853
+        },
+        {
+          "key": "voice-control-hiromi-v1/adv-failed",
+          "offset": 33853,
+          "length": 28629
+        },
+        {
+          "key": "voice-control-hiromi-v1/adv-sortie",
+          "offset": 62482,
+          "length": 29883
+        },
+        {
+          "key": "voice-control-hiromi-v1/ally-down",
+          "offset": 92365,
+          "length": 24240
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-bastion",
+          "offset": 116605,
+          "length": 18389
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-calyx",
+          "offset": 134994,
+          "length": 17762
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-catena",
+          "offset": 152756,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-foundry",
+          "offset": 169264,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-harrow",
+          "offset": 190160,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-leaper",
+          "offset": 207295,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-new",
+          "offset": 228191,
+          "length": 34480
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-pleat",
+          "offset": 262671,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-prism",
+          "offset": 279179,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-ray",
+          "offset": 296314,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiromi-v1/anomaly-volley",
+          "offset": 312822,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiromi-v1/armory-full",
+          "offset": 333092,
+          "length": 30510
+        },
+        {
+          "key": "voice-control-hiromi-v1/base-under-attack",
+          "offset": 363602,
+          "length": 17762
+        },
+        {
+          "key": "voice-control-hiromi-v1/boss-detected",
+          "offset": 381364,
+          "length": 26121
+        },
+        {
+          "key": "voice-control-hiromi-v1/boss-reward",
+          "offset": 407485,
+          "length": 26121
+        },
+        {
+          "key": "voice-control-hiromi-v1/branch-ready",
+          "offset": 433606,
+          "length": 22359
+        },
+        {
+          "key": "voice-control-hiromi-v1/buddy-breakthrough",
+          "offset": 455965,
+          "length": 14000
+        },
+        {
+          "key": "voice-control-hiromi-v1/buddy-skill-ready",
+          "offset": 469965,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-all-ready",
+          "offset": 490235,
+          "length": 18389
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-begin",
+          "offset": 508624,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-closed",
+          "offset": 523878,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-connected",
+          "offset": 539759,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-disconnect",
+          "offset": 558775,
+          "length": 28002
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-invited",
+          "offset": 586777,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-member-join",
+          "offset": 602031,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-member-left",
+          "offset": 617285,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-resync",
+          "offset": 637555,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiromi-v1/coop-waiting",
+          "offset": 656571,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiromi-v1/daily-destroyed",
+          "offset": 676841,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiromi-v1/daily-done",
+          "offset": 692095,
+          "length": 44720
+        },
+        {
+          "key": "voice-control-hiromi-v1/daily-ended",
+          "offset": 736815,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-hiromi-v1/daily-sortie",
+          "offset": 753950,
+          "length": 40750
+        },
+        {
+          "key": "voice-control-hiromi-v1/daily-victory",
+          "offset": 794700,
+          "length": 14627
+        },
+        {
+          "key": "voice-control-hiromi-v1/def-sortie",
+          "offset": 809327,
+          "length": 31972
+        },
+        {
+          "key": "voice-control-hiromi-v1/enemy-report-intro",
+          "offset": 841299,
+          "length": 71470
+        },
+        {
+          "key": "voice-control-hiromi-v1/equip-changed",
+          "offset": 912769,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiromi-v1/final-large",
+          "offset": 928023,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiromi-v1/gear-ready",
+          "offset": 948293,
+          "length": 22359
+        },
+        {
+          "key": "voice-control-hiromi-v1/guide-step-1",
+          "offset": 970652,
+          "length": 79829
+        },
+        {
+          "key": "voice-control-hiromi-v1/guide-step-2",
+          "offset": 1050481,
+          "length": 79829
+        },
+        {
+          "key": "voice-control-hiromi-v1/guide-step-3",
+          "offset": 1130310,
+          "length": 61230
+        },
+        {
+          "key": "voice-control-hiromi-v1/guide-step-4",
+          "offset": 1191540,
+          "length": 74813
+        },
+        {
+          "key": "voice-control-hiromi-v1/home",
+          "offset": 1266353,
+          "length": 27375
+        },
+        {
+          "key": "voice-control-hiromi-v1/hp-danger",
+          "offset": 1293728,
+          "length": 21732
+        },
+        {
+          "key": "voice-control-hiromi-v1/levelup",
+          "offset": 1315460,
+          "length": 29256
+        },
+        {
+          "key": "voice-control-hiromi-v1/loading",
+          "offset": 1344716,
+          "length": 18389
+        },
+        {
+          "key": "voice-control-hiromi-v1/medkit",
+          "offset": 1363105,
+          "length": 31136
+        },
+        {
+          "key": "voice-control-hiromi-v1/pick-operation",
+          "offset": 1394241,
+          "length": 33226
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-bastion-attack",
+          "offset": 1427467,
+          "length": 226532
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-bastion-form",
+          "offset": 1653999,
+          "length": 193723
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-calyx-attack",
+          "offset": 1847722,
+          "length": 99682
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-calyx-form",
+          "offset": 1947404,
+          "length": 125386
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-catena-attack",
+          "offset": 2072790,
+          "length": 227159
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-catena-form",
+          "offset": 2299949,
+          "length": 136880
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-foundry-attack",
+          "offset": 2436829,
+          "length": 108668
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-foundry-form",
+          "offset": 2545497,
+          "length": 65827
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-harrow-attack",
+          "offset": 2611324,
+          "length": 206052
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-harrow-form",
+          "offset": 2817376,
+          "length": 152763
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-leaper-attack",
+          "offset": 2970139,
+          "length": 27375
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-leaper-form",
+          "offset": 2997514,
+          "length": 38869
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-pleat-attack",
+          "offset": 3036383,
+          "length": 67081
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-pleat-form",
+          "offset": 3103464,
+          "length": 108668
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-prism-attack",
+          "offset": 3212132,
+          "length": 36361
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-prism-form",
+          "offset": 3248493,
+          "length": 59349
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-ray-attack",
+          "offset": 3307842,
+          "length": 73559
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-ray-form",
+          "offset": 3381401,
+          "length": 83172
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-volley-attack",
+          "offset": 3464573,
+          "length": 47228
+        },
+        {
+          "key": "voice-control-hiromi-v1/report-volley-form",
+          "offset": 3511801,
+          "length": 48482
+        },
+        {
+          "key": "voice-control-hiromi-v1/result-lose",
+          "offset": 3560283,
+          "length": 24867
+        },
+        {
+          "key": "voice-control-hiromi-v1/result-win",
+          "offset": 3585150,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-hiromi-v1/resume-run",
+          "offset": 3601031,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiromi-v1/retire-ack",
+          "offset": 3621301,
+          "length": 31136
+        },
+        {
+          "key": "voice-control-hiromi-v1/return-save",
+          "offset": 3652437,
+          "length": 24867
+        },
+        {
+          "key": "voice-control-hiromi-v1/return-soon",
+          "offset": 3677304,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiromi-v1/revived",
+          "offset": 3697574,
+          "length": 23613
+        },
+        {
+          "key": "voice-control-hiromi-v1/self-down",
+          "offset": 3721187,
+          "length": 27375
+        },
+        {
+          "key": "voice-control-hiromi-v1/settings-saved",
+          "offset": 3748562,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiromi-v1/spawn-warning",
+          "offset": 3763816,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiromi-v1/squad-choosing",
+          "offset": 3782832,
+          "length": 17762
+        },
+        {
+          "key": "voice-control-hiromi-v1/srv-ended",
+          "offset": 3800594,
+          "length": 25494
+        },
+        {
+          "key": "voice-control-hiromi-v1/srv-extract",
+          "offset": 3826088,
+          "length": 26121
+        },
+        {
+          "key": "voice-control-hiromi-v1/srv-sortie",
+          "offset": 3852209,
+          "length": 37615
+        },
+        {
+          "key": "voice-control-hiromi-v1/stage-clear",
+          "offset": 3889824,
+          "length": 35107
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-analyze",
+          "offset": 3924931,
+          "length": 10656
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-buddy-join",
+          "offset": 3935587,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-buddy-new",
+          "offset": 3947706,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-buddy",
+          "offset": 3963587,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-complete",
+          "offset": 3980095,
+          "length": 26121
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-confirmed",
+          "offset": 4006216,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-descend",
+          "offset": 4014992,
+          "length": 17762
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-detect",
+          "offset": 4032754,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-launch",
+          "offset": 4044873,
+          "length": 9403
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-open",
+          "offset": 4054276,
+          "length": 10030
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-request",
+          "offset": 4064306,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-resume",
+          "offset": 4080814,
+          "length": 26121
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-sr",
+          "offset": 4106935,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-hiromi-v1/supply-ssr",
+          "offset": 4119054,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiromi-v1/time-warning",
+          "offset": 4135562,
+          "length": 21732
+        },
+        {
+          "key": "voice-control-hiromi-v1/title",
+          "offset": 4157294,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-hiromi-v1/treasure",
+          "offset": 4169413,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiromi-v1/tutorial-accessory",
+          "offset": 4189683,
+          "length": 120789
+        },
+        {
+          "key": "voice-control-hiromi-v1/tutorial-combat",
+          "offset": 4310472,
+          "length": 50363
+        },
+        {
+          "key": "voice-control-hiromi-v1/tutorial-growth",
+          "offset": 4360835,
+          "length": 111176
+        },
+        {
+          "key": "voice-control-hiromi-v1/wave-clear",
+          "offset": 4472011,
+          "length": 28629
+        },
+        {
+          "key": "voice-control-hiromi-v1/wave-final",
+          "offset": 4500640,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-hiromi-v1/wave-incoming",
+          "offset": 4512759,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-grenade",
+          "offset": 4533029,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-heavy",
+          "offset": 4541178,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-kick",
+          "offset": 4549327,
+          "length": 9403
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-laser",
+          "offset": 4558730,
+          "length": 7522
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-medic",
+          "offset": 4566252,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-rifle",
+          "offset": 4574401,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-rocket",
+          "offset": 4582550,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-shotgun",
+          "offset": 4591326,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-slug",
+          "offset": 4600102,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-smg",
+          "offset": 4608878,
+          "length": 7522
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-sniper",
+          "offset": 4616400,
+          "length": 9403
+        },
+        {
+          "key": "voice-control-hiromi-v1/weapon-sticky",
+          "offset": 4625803,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiromi-v1/weekly-ready",
+          "offset": 4633952,
+          "length": 22359
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-ack-1",
+          "offset": 4656311,
+          "length": 11492
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-ack-2",
+          "offset": 4667803,
+          "length": 9403
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-ack-3",
+          "offset": 4677206,
+          "length": 11492
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-base",
+          "offset": 4688698,
+          "length": 67081
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-battle-multi",
+          "offset": 4755779,
+          "length": 50363
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-buddy-battle",
+          "offset": 4806142,
+          "length": 86307
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-buddy-menu",
+          "offset": 4892449,
+          "length": 69589
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-card",
+          "offset": 4962038,
+          "length": 56214
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-complete",
+          "offset": 5018252,
+          "length": 53706
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-defense",
+          "offset": 5071958,
+          "length": 64573
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-dodge",
+          "offset": 5136531,
+          "length": 69589
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-drop-rule",
+          "offset": 5206120,
+          "length": 66454
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-drop",
+          "offset": 5272574,
+          "length": 77321
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-enemy-info",
+          "offset": 5349895,
+          "length": 36361
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-fire",
+          "offset": 5386256,
+          "length": 52452
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-fusion",
+          "offset": 5438708,
+          "length": 44093
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-gear",
+          "offset": 5482801,
+          "length": 53706
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-intro",
+          "offset": 5536507,
+          "length": 64573
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-jump",
+          "offset": 5601080,
+          "length": 27375
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-kill",
+          "offset": 5628455,
+          "length": 44093
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-lobby",
+          "offset": 5672548,
+          "length": 79202
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-look",
+          "offset": 5751750,
+          "length": 31972
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-loot-multi",
+          "offset": 5783722,
+          "length": 44093
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-medkit",
+          "offset": 5827815,
+          "length": 61230
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-move",
+          "offset": 5889045,
+          "length": 42212
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-nudge",
+          "offset": 5931257,
+          "length": 28002
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-offer",
+          "offset": 5959259,
+          "length": 55587
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-recover",
+          "offset": 6014846,
+          "length": 42839
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-reload",
+          "offset": 6057685,
+          "length": 79202
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-revive",
+          "offset": 6136887,
+          "length": 47228
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-skip",
+          "offset": 6184115,
+          "length": 14627
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-supply",
+          "offset": 6198742,
+          "length": 48482
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-survival",
+          "offset": 6247224,
+          "length": 65200
+        },
+        {
+          "key": "voice-tutorial-hiromi-v1/tut-swap",
+          "offset": 6312424,
+          "length": 42839
+        }
+      ]
+    }
+  },
+  {
+    "voice": "hiyori",
+    "pack": "control-voice-hiyori-v4.bin",
+    "format": 1,
+    "codec": "mp3",
+    "bitrate": "64kbps",
+    "version": 4,
+    "before": 122,
+    "after": 123,
+    "added": [
+      {
+        "key": "voice-control-hiyori-v1/enemy-report-intro",
+        "offset": 824788,
+        "length": 69589,
+        "sha256": "f9becc923bf7a2793d858453486f2988a213fe2df51287a941d03ead57bfdbd2"
+      }
+    ],
+    "unchanged": 122,
+    "sourceSha256": "276929f76825446cfb9fcfc93a4b4b65fb3c2a0ff0021ff029190504ab6c371f",
+    "bytes": 4556685,
+    "sha256": "3a06dd92fefb6cccbac8453429b1bb2518302f2964f9ab79237efe6908d61460",
+    "manifest": {
+      "format": 1,
+      "voice": "hiyori",
+      "version": 4,
+      "codec": "mp3",
+      "clips": [
+        {
+          "key": "voice-control-hiyori-v1/adv-complete",
+          "offset": 0,
+          "length": 31972
+        },
+        {
+          "key": "voice-control-hiyori-v1/adv-failed",
+          "offset": 31972,
+          "length": 29256
+        },
+        {
+          "key": "voice-control-hiyori-v1/adv-sortie",
+          "offset": 61228,
+          "length": 30510
+        },
+        {
+          "key": "voice-control-hiyori-v1/ally-down",
+          "offset": 91738,
+          "length": 25494
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-bastion",
+          "offset": 117232,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-calyx",
+          "offset": 134367,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-catena",
+          "offset": 151502,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-foundry",
+          "offset": 168010,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-harrow",
+          "offset": 188906,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-leaper",
+          "offset": 205414,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-new",
+          "offset": 226310,
+          "length": 33853
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-pleat",
+          "offset": 260163,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-prism",
+          "offset": 277298,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-ray",
+          "offset": 294433,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiyori-v1/anomaly-volley",
+          "offset": 309687,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiyori-v1/armory-full",
+          "offset": 328703,
+          "length": 30510
+        },
+        {
+          "key": "voice-control-hiyori-v1/base-under-attack",
+          "offset": 359213,
+          "length": 18389
+        },
+        {
+          "key": "voice-control-hiyori-v1/boss-detected",
+          "offset": 377602,
+          "length": 26748
+        },
+        {
+          "key": "voice-control-hiyori-v1/boss-reward",
+          "offset": 404350,
+          "length": 26121
+        },
+        {
+          "key": "voice-control-hiyori-v1/branch-ready",
+          "offset": 430471,
+          "length": 21732
+        },
+        {
+          "key": "voice-control-hiyori-v1/buddy-breakthrough",
+          "offset": 452203,
+          "length": 13373
+        },
+        {
+          "key": "voice-control-hiyori-v1/buddy-skill-ready",
+          "offset": 465576,
+          "length": 18389
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-all-ready",
+          "offset": 483965,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-begin",
+          "offset": 502981,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-closed",
+          "offset": 518235,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-connected",
+          "offset": 533489,
+          "length": 17762
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-disconnect",
+          "offset": 551251,
+          "length": 27375
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-invited",
+          "offset": 578626,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-member-join",
+          "offset": 593880,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-member-left",
+          "offset": 609134,
+          "length": 19643
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-resync",
+          "offset": 628777,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiyori-v1/coop-waiting",
+          "offset": 647793,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiyori-v1/daily-destroyed",
+          "offset": 666809,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiyori-v1/daily-done",
+          "offset": 682063,
+          "length": 43466
+        },
+        {
+          "key": "voice-control-hiyori-v1/daily-ended",
+          "offset": 725529,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiyori-v1/daily-sortie",
+          "offset": 740783,
+          "length": 38242
+        },
+        {
+          "key": "voice-control-hiyori-v1/daily-victory",
+          "offset": 779025,
+          "length": 14627
+        },
+        {
+          "key": "voice-control-hiyori-v1/def-sortie",
+          "offset": 793652,
+          "length": 31136
+        },
+        {
+          "key": "voice-control-hiyori-v1/enemy-report-intro",
+          "offset": 824788,
+          "length": 69589
+        },
+        {
+          "key": "voice-control-hiyori-v1/equip-changed",
+          "offset": 894377,
+          "length": 14627
+        },
+        {
+          "key": "voice-control-hiyori-v1/final-large",
+          "offset": 909004,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-hiyori-v1/gear-ready",
+          "offset": 929900,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiyori-v1/guide-step-1",
+          "offset": 950170,
+          "length": 75440
+        },
+        {
+          "key": "voice-control-hiyori-v1/guide-step-2",
+          "offset": 1025610,
+          "length": 76067
+        },
+        {
+          "key": "voice-control-hiyori-v1/guide-step-3",
+          "offset": 1101677,
+          "length": 62692
+        },
+        {
+          "key": "voice-control-hiyori-v1/guide-step-4",
+          "offset": 1164369,
+          "length": 72096
+        },
+        {
+          "key": "voice-control-hiyori-v1/home",
+          "offset": 1236465,
+          "length": 28629
+        },
+        {
+          "key": "voice-control-hiyori-v1/hp-danger",
+          "offset": 1265094,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-hiyori-v1/levelup",
+          "offset": 1285990,
+          "length": 28002
+        },
+        {
+          "key": "voice-control-hiyori-v1/loading",
+          "offset": 1313992,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiyori-v1/medkit",
+          "offset": 1333008,
+          "length": 30510
+        },
+        {
+          "key": "voice-control-hiyori-v1/pick-operation",
+          "offset": 1363518,
+          "length": 31972
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-bastion-attack",
+          "offset": 1395490,
+          "length": 218800
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-bastion-form",
+          "offset": 1614290,
+          "length": 185572
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-calyx-attack",
+          "offset": 1799862,
+          "length": 95920
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-calyx-form",
+          "offset": 1895782,
+          "length": 120789
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-catena-attack",
+          "offset": 2016571,
+          "length": 225696
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-catena-form",
+          "offset": 2242267,
+          "length": 133536
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-foundry-attack",
+          "offset": 2375803,
+          "length": 106160
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-foundry-form",
+          "offset": 2481963,
+          "length": 63946
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-harrow-attack",
+          "offset": 2545909,
+          "length": 202709
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-harrow-form",
+          "offset": 2748618,
+          "length": 147120
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-leaper-attack",
+          "offset": 2895738,
+          "length": 26121
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-leaper-form",
+          "offset": 2921859,
+          "length": 37615
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-pleat-attack",
+          "offset": 2959474,
+          "length": 64573
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-pleat-form",
+          "offset": 3024047,
+          "length": 108668
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-prism-attack",
+          "offset": 3132715,
+          "length": 34480
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-prism-form",
+          "offset": 3167195,
+          "length": 59349
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-ray-attack",
+          "offset": 3226544,
+          "length": 72096
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-ray-form",
+          "offset": 3298640,
+          "length": 80456
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-volley-attack",
+          "offset": 3379096,
+          "length": 44720
+        },
+        {
+          "key": "voice-control-hiyori-v1/report-volley-form",
+          "offset": 3423816,
+          "length": 47855
+        },
+        {
+          "key": "voice-control-hiyori-v1/result-lose",
+          "offset": 3471671,
+          "length": 25494
+        },
+        {
+          "key": "voice-control-hiyori-v1/result-win",
+          "offset": 3497165,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-hiyori-v1/resume-run",
+          "offset": 3513046,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiyori-v1/retire-ack",
+          "offset": 3533316,
+          "length": 29883
+        },
+        {
+          "key": "voice-control-hiyori-v1/return-save",
+          "offset": 3563199,
+          "length": 25494
+        },
+        {
+          "key": "voice-control-hiyori-v1/return-soon",
+          "offset": 3588693,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiyori-v1/revived",
+          "offset": 3607709,
+          "length": 22986
+        },
+        {
+          "key": "voice-control-hiyori-v1/self-down",
+          "offset": 3630695,
+          "length": 28002
+        },
+        {
+          "key": "voice-control-hiyori-v1/settings-saved",
+          "offset": 3658697,
+          "length": 15254
+        },
+        {
+          "key": "voice-control-hiyori-v1/spawn-warning",
+          "offset": 3673951,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-hiyori-v1/squad-choosing",
+          "offset": 3692967,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-hiyori-v1/srv-ended",
+          "offset": 3710102,
+          "length": 23613
+        },
+        {
+          "key": "voice-control-hiyori-v1/srv-extract",
+          "offset": 3733715,
+          "length": 25494
+        },
+        {
+          "key": "voice-control-hiyori-v1/srv-sortie",
+          "offset": 3759209,
+          "length": 35734
+        },
+        {
+          "key": "voice-control-hiyori-v1/stage-clear",
+          "offset": 3794943,
+          "length": 31136
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-analyze",
+          "offset": 3826079,
+          "length": 11492
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-buddy-join",
+          "offset": 3837571,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-buddy-new",
+          "offset": 3849690,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-buddy",
+          "offset": 3866198,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-complete",
+          "offset": 3882706,
+          "length": 26748
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-confirmed",
+          "offset": 3909454,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-descend",
+          "offset": 3918230,
+          "length": 17762
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-detect",
+          "offset": 3935992,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-launch",
+          "offset": 3948111,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-open",
+          "offset": 3956260,
+          "length": 10030
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-request",
+          "offset": 3966290,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-resume",
+          "offset": 3982798,
+          "length": 25494
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-sr",
+          "offset": 4008292,
+          "length": 11492
+        },
+        {
+          "key": "voice-control-hiyori-v1/supply-ssr",
+          "offset": 4019784,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-hiyori-v1/time-warning",
+          "offset": 4035665,
+          "length": 21732
+        },
+        {
+          "key": "voice-control-hiyori-v1/title",
+          "offset": 4057397,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-hiyori-v1/treasure",
+          "offset": 4069516,
+          "length": 19643
+        },
+        {
+          "key": "voice-control-hiyori-v1/tutorial-accessory",
+          "offset": 4089159,
+          "length": 121416
+        },
+        {
+          "key": "voice-control-hiyori-v1/tutorial-combat",
+          "offset": 4210575,
+          "length": 48482
+        },
+        {
+          "key": "voice-control-hiyori-v1/tutorial-growth",
+          "offset": 4259057,
+          "length": 107414
+        },
+        {
+          "key": "voice-control-hiyori-v1/wave-clear",
+          "offset": 4366471,
+          "length": 27375
+        },
+        {
+          "key": "voice-control-hiyori-v1/wave-final",
+          "offset": 4393846,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-hiyori-v1/wave-incoming",
+          "offset": 4405965,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-grenade",
+          "offset": 4426235,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-heavy",
+          "offset": 4434384,
+          "length": 7522
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-kick",
+          "offset": 4441906,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-laser",
+          "offset": 4450682,
+          "length": 7522
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-medic",
+          "offset": 4458204,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-rifle",
+          "offset": 4466353,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-rocket",
+          "offset": 4474502,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-shotgun",
+          "offset": 4483278,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-slug",
+          "offset": 4492054,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-smg",
+          "offset": 4500830,
+          "length": 7522
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-sniper",
+          "offset": 4508352,
+          "length": 9403
+        },
+        {
+          "key": "voice-control-hiyori-v1/weapon-sticky",
+          "offset": 4517755,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-hiyori-v1/weekly-ready",
+          "offset": 4525904,
+          "length": 20896
+        }
+      ]
+    }
+  },
+  {
+    "voice": "yoko",
+    "pack": "control-voice-yoko-v4.bin",
+    "format": 1,
+    "codec": "mp3",
+    "bitrate": "64kbps",
+    "version": 4,
+    "before": 122,
+    "after": 123,
+    "added": [
+      {
+        "key": "voice-control-yoko-v1/enemy-report-intro",
+        "offset": 860943,
+        "length": 74186,
+        "sha256": "83baa6db2a0f13b63ae750ddae71120a6048d00a8b3b30d6a520cf161db5f492"
+      }
+    ],
+    "unchanged": 122,
+    "sourceSha256": "648d680983f8e4e82f7e955aa19289a44d8afff7bef46fe2369b000cce247100",
+    "bytes": 4855697,
+    "sha256": "8107adfaf8b0323e9a68bff8ba4e2c190f4a343de18bb971cf6820408709ae64",
+    "manifest": {
+      "format": 1,
+      "voice": "yoko",
+      "version": 4,
+      "codec": "mp3",
+      "clips": [
+        {
+          "key": "voice-control-yoko-v1/adv-complete",
+          "offset": 0,
+          "length": 33853
+        },
+        {
+          "key": "voice-control-yoko-v1/adv-failed",
+          "offset": 33853,
+          "length": 30510
+        },
+        {
+          "key": "voice-control-yoko-v1/adv-sortie",
+          "offset": 64363,
+          "length": 29883
+        },
+        {
+          "key": "voice-control-yoko-v1/ally-down",
+          "offset": 94246,
+          "length": 24240
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-bastion",
+          "offset": 118486,
+          "length": 18389
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-calyx",
+          "offset": 136875,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-catena",
+          "offset": 154010,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-foundry",
+          "offset": 171145,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-harrow",
+          "offset": 192041,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-leaper",
+          "offset": 209176,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-new",
+          "offset": 230072,
+          "length": 35734
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-pleat",
+          "offset": 265806,
+          "length": 17762
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-prism",
+          "offset": 283568,
+          "length": 17762
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-ray",
+          "offset": 301330,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-yoko-v1/anomaly-volley",
+          "offset": 317211,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-yoko-v1/armory-full",
+          "offset": 338107,
+          "length": 31972
+        },
+        {
+          "key": "voice-control-yoko-v1/base-under-attack",
+          "offset": 370079,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-yoko-v1/boss-detected",
+          "offset": 389095,
+          "length": 27375
+        },
+        {
+          "key": "voice-control-yoko-v1/boss-reward",
+          "offset": 416470,
+          "length": 27375
+        },
+        {
+          "key": "voice-control-yoko-v1/branch-ready",
+          "offset": 443845,
+          "length": 22359
+        },
+        {
+          "key": "voice-control-yoko-v1/buddy-breakthrough",
+          "offset": 466204,
+          "length": 14627
+        },
+        {
+          "key": "voice-control-yoko-v1/buddy-skill-ready",
+          "offset": 480831,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-all-ready",
+          "offset": 501101,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-begin",
+          "offset": 520117,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-closed",
+          "offset": 535998,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-connected",
+          "offset": 552506,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-disconnect",
+          "offset": 571522,
+          "length": 29256
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-invited",
+          "offset": 600778,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-member-join",
+          "offset": 616659,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-member-left",
+          "offset": 632540,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-resync",
+          "offset": 652810,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-yoko-v1/coop-waiting",
+          "offset": 673080,
+          "length": 20270
+        },
+        {
+          "key": "voice-control-yoko-v1/daily-destroyed",
+          "offset": 693350,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-yoko-v1/daily-done",
+          "offset": 709231,
+          "length": 45974
+        },
+        {
+          "key": "voice-control-yoko-v1/daily-ended",
+          "offset": 755205,
+          "length": 17762
+        },
+        {
+          "key": "voice-control-yoko-v1/daily-sortie",
+          "offset": 772967,
+          "length": 39496
+        },
+        {
+          "key": "voice-control-yoko-v1/daily-victory",
+          "offset": 812463,
+          "length": 14627
+        },
+        {
+          "key": "voice-control-yoko-v1/def-sortie",
+          "offset": 827090,
+          "length": 33853
+        },
+        {
+          "key": "voice-control-yoko-v1/enemy-report-intro",
+          "offset": 860943,
+          "length": 74186
+        },
+        {
+          "key": "voice-control-yoko-v1/equip-changed",
+          "offset": 935129,
+          "length": 14627
+        },
+        {
+          "key": "voice-control-yoko-v1/final-large",
+          "offset": 949756,
+          "length": 21732
+        },
+        {
+          "key": "voice-control-yoko-v1/gear-ready",
+          "offset": 971488,
+          "length": 22986
+        },
+        {
+          "key": "voice-control-yoko-v1/guide-step-1",
+          "offset": 994474,
+          "length": 84426
+        },
+        {
+          "key": "voice-control-yoko-v1/guide-step-2",
+          "offset": 1078900,
+          "length": 82336
+        },
+        {
+          "key": "voice-control-yoko-v1/guide-step-3",
+          "offset": 1161236,
+          "length": 65827
+        },
+        {
+          "key": "voice-control-yoko-v1/guide-step-4",
+          "offset": 1227063,
+          "length": 78575
+        },
+        {
+          "key": "voice-control-yoko-v1/home",
+          "offset": 1305638,
+          "length": 28629
+        },
+        {
+          "key": "voice-control-yoko-v1/hp-danger",
+          "offset": 1334267,
+          "length": 21732
+        },
+        {
+          "key": "voice-control-yoko-v1/levelup",
+          "offset": 1355999,
+          "length": 29883
+        },
+        {
+          "key": "voice-control-yoko-v1/loading",
+          "offset": 1385882,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-yoko-v1/medkit",
+          "offset": 1404898,
+          "length": 32599
+        },
+        {
+          "key": "voice-control-yoko-v1/pick-operation",
+          "offset": 1437497,
+          "length": 32599
+        },
+        {
+          "key": "voice-control-yoko-v1/report-bastion-attack",
+          "offset": 1470096,
+          "length": 241161
+        },
+        {
+          "key": "voice-control-yoko-v1/report-bastion-form",
+          "offset": 1711257,
+          "length": 197066
+        },
+        {
+          "key": "voice-control-yoko-v1/report-calyx-attack",
+          "offset": 1908323,
+          "length": 106160
+        },
+        {
+          "key": "voice-control-yoko-v1/report-calyx-form",
+          "offset": 2014483,
+          "length": 129775
+        },
+        {
+          "key": "voice-control-yoko-v1/report-catena-attack",
+          "offset": 2144258,
+          "length": 242415
+        },
+        {
+          "key": "voice-control-yoko-v1/report-catena-form",
+          "offset": 2386673,
+          "length": 143776
+        },
+        {
+          "key": "voice-control-yoko-v1/report-foundry-attack",
+          "offset": 2530449,
+          "length": 114519
+        },
+        {
+          "key": "voice-control-yoko-v1/report-foundry-form",
+          "offset": 2644968,
+          "length": 67708
+        },
+        {
+          "key": "voice-control-yoko-v1/report-harrow-attack",
+          "offset": 2712676,
+          "length": 218800
+        },
+        {
+          "key": "voice-control-yoko-v1/report-harrow-form",
+          "offset": 2931476,
+          "length": 157987
+        },
+        {
+          "key": "voice-control-yoko-v1/report-leaper-attack",
+          "offset": 3089463,
+          "length": 28629
+        },
+        {
+          "key": "voice-control-yoko-v1/report-leaper-form",
+          "offset": 3118092,
+          "length": 40750
+        },
+        {
+          "key": "voice-control-yoko-v1/report-pleat-attack",
+          "offset": 3158842,
+          "length": 70843
+        },
+        {
+          "key": "voice-control-yoko-v1/report-pleat-form",
+          "offset": 3229685,
+          "length": 113892
+        },
+        {
+          "key": "voice-control-yoko-v1/report-prism-attack",
+          "offset": 3343577,
+          "length": 38242
+        },
+        {
+          "key": "voice-control-yoko-v1/report-prism-form",
+          "offset": 3381819,
+          "length": 65200
+        },
+        {
+          "key": "voice-control-yoko-v1/report-ray-attack",
+          "offset": 3447019,
+          "length": 77321
+        },
+        {
+          "key": "voice-control-yoko-v1/report-ray-form",
+          "offset": 3524340,
+          "length": 86307
+        },
+        {
+          "key": "voice-control-yoko-v1/report-volley-attack",
+          "offset": 3610647,
+          "length": 48482
+        },
+        {
+          "key": "voice-control-yoko-v1/report-volley-form",
+          "offset": 3659129,
+          "length": 50363
+        },
+        {
+          "key": "voice-control-yoko-v1/result-lose",
+          "offset": 3709492,
+          "length": 26121
+        },
+        {
+          "key": "voice-control-yoko-v1/result-win",
+          "offset": 3735613,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-yoko-v1/resume-run",
+          "offset": 3752121,
+          "length": 21732
+        },
+        {
+          "key": "voice-control-yoko-v1/retire-ack",
+          "offset": 3773853,
+          "length": 31972
+        },
+        {
+          "key": "voice-control-yoko-v1/return-save",
+          "offset": 3805825,
+          "length": 26748
+        },
+        {
+          "key": "voice-control-yoko-v1/return-soon",
+          "offset": 3832573,
+          "length": 20896
+        },
+        {
+          "key": "voice-control-yoko-v1/revived",
+          "offset": 3853469,
+          "length": 23613
+        },
+        {
+          "key": "voice-control-yoko-v1/self-down",
+          "offset": 3877082,
+          "length": 28629
+        },
+        {
+          "key": "voice-control-yoko-v1/settings-saved",
+          "offset": 3905711,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-yoko-v1/spawn-warning",
+          "offset": 3922219,
+          "length": 21732
+        },
+        {
+          "key": "voice-control-yoko-v1/squad-choosing",
+          "offset": 3943951,
+          "length": 18389
+        },
+        {
+          "key": "voice-control-yoko-v1/srv-ended",
+          "offset": 3962340,
+          "length": 25494
+        },
+        {
+          "key": "voice-control-yoko-v1/srv-extract",
+          "offset": 3987834,
+          "length": 27375
+        },
+        {
+          "key": "voice-control-yoko-v1/srv-sortie",
+          "offset": 4015209,
+          "length": 36988
+        },
+        {
+          "key": "voice-control-yoko-v1/stage-clear",
+          "offset": 4052197,
+          "length": 35107
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-analyze",
+          "offset": 4087304,
+          "length": 10656
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-buddy-join",
+          "offset": 4097960,
+          "length": 11492
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-buddy-new",
+          "offset": 4109452,
+          "length": 15881
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-buddy",
+          "offset": 4125333,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-complete",
+          "offset": 4142468,
+          "length": 28629
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-confirmed",
+          "offset": 4171097,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-descend",
+          "offset": 4179873,
+          "length": 19016
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-detect",
+          "offset": 4198889,
+          "length": 12746
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-launch",
+          "offset": 4211635,
+          "length": 10030
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-open",
+          "offset": 4221665,
+          "length": 11492
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-request",
+          "offset": 4233157,
+          "length": 17135
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-resume",
+          "offset": 4250292,
+          "length": 28002
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-sr",
+          "offset": 4278294,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-yoko-v1/supply-ssr",
+          "offset": 4290413,
+          "length": 16508
+        },
+        {
+          "key": "voice-control-yoko-v1/time-warning",
+          "offset": 4306921,
+          "length": 22359
+        },
+        {
+          "key": "voice-control-yoko-v1/title",
+          "offset": 4329280,
+          "length": 12119
+        },
+        {
+          "key": "voice-control-yoko-v1/treasure",
+          "offset": 4341399,
+          "length": 21732
+        },
+        {
+          "key": "voice-control-yoko-v1/tutorial-accessory",
+          "offset": 4363131,
+          "length": 130402
+        },
+        {
+          "key": "voice-control-yoko-v1/tutorial-combat",
+          "offset": 4493533,
+          "length": 53079
+        },
+        {
+          "key": "voice-control-yoko-v1/tutorial-growth",
+          "offset": 4546612,
+          "length": 112430
+        },
+        {
+          "key": "voice-control-yoko-v1/wave-clear",
+          "offset": 4659042,
+          "length": 29256
+        },
+        {
+          "key": "voice-control-yoko-v1/wave-final",
+          "offset": 4688298,
+          "length": 12746
+        },
+        {
+          "key": "voice-control-yoko-v1/wave-incoming",
+          "offset": 4701044,
+          "length": 22359
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-grenade",
+          "offset": 4723403,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-heavy",
+          "offset": 4731552,
+          "length": 7522
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-kick",
+          "offset": 4739074,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-laser",
+          "offset": 4747850,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-medic",
+          "offset": 4755999,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-rifle",
+          "offset": 4764775,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-rocket",
+          "offset": 4772924,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-shotgun",
+          "offset": 4781700,
+          "length": 8776
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-slug",
+          "offset": 4790476,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-smg",
+          "offset": 4798625,
+          "length": 7522
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-sniper",
+          "offset": 4806147,
+          "length": 9403
+        },
+        {
+          "key": "voice-control-yoko-v1/weapon-sticky",
+          "offset": 4815550,
+          "length": 8149
+        },
+        {
+          "key": "voice-control-yoko-v1/weekly-ready",
+          "offset": 4823699,
+          "length": 22359
+        }
+      ]
+    }
+  }
+]

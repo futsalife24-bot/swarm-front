@@ -1,0 +1,24 @@
+{
+  "voice": "hiromi",
+  "mode": "disabled",
+  "intro": {
+    "included": true,
+    "sha256": "19181a8fd379ae4656237dbb3149028b4f76b61c2e1d64238fccc7db31c26f59",
+    "played": false,
+    "transitions": 3,
+    "guidance": true,
+    "unselected": true,
+    "stopped": true
+  },
+  "clipHashes": [],
+  "starts": 0,
+  "maxLive": 0,
+  "playing": 0,
+  "ended": 0,
+  "rejected": [],
+  "chromeVersion": "157.0.8103.51",
+  "network": [
+    "http://127.0.0.1:5216/assets/voice-packs/control-voice-hiromi-v4.bin"
+  ],
+  "errors": []
+}
