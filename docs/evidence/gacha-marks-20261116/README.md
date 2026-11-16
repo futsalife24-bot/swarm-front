@@ -1,6 +1,6 @@
 # ガチャの金マーク改修（2026-11-16）
 
-依頼: `C:/Users/futsa/bibi-bridge/inbox/gacha-mark-redesign-brief-20261116.md`。
+依頼: [本人ブリーフ](../../gacha-mark-redesign-brief-20261116.md)（受領元: `C:/Users/futsa/bibi-bridge/inbox/gacha-mark-redesign-brief-20261116.md`）。
 開始main: `d94b51f50947a8ac88551087acc3e852262368ce`。
 GitHub: https://github.com/futsalife24-bot/swarm-front 。専用作業場所: `C:/Users/futsa/swarm-gacha-marks-20261116`。
 
@@ -43,3 +43,13 @@ GitHub: https://github.com/futsalife24-bot/swarm-front 。専用作業場所: `C
 全演出の最終結果: 72条件・2016組合せ（結果下限不正0）、3組の実時間タップ完走、スキップ確認と破棄/残留0が成功。BUDDY20.273秒、他18.451/18.708秒でfinalへ到達し、無進捗なし。ゲーム側への変更による時間短縮はしていない。`all-signals/verify-all.json` と `checks/all-signals.txt`。
 
 実装commit後のbuild/production dry-runも成功。既存の500kB超chunkとVite plugin所要時間の警告は残る。新規依存/サービス/契約/権限/移行は追加していない。
+
+## 公開確認の確定結果
+
+- 実装PR [#354](https://github.com/futsalife24-bot/swarm-front/pull/354) を通常merge。公開ソースmain `fe734b3da13806207f00ef6c35c5fd6e4e2fd8e6` からbuild/production dry-runを再実行して成功。
+- 既存Worker `swarm-front` / https://swarm-front.melosalife-24.workers.dev/ 、Version `a69ec47a-4ee1-4a96-8925-3eff9a1df720`（100%）。旧版 `aad47ce7-d9d8-4970-81b1-2a796733005b`。契約/サービス/権限/移行は無変更。
+- 公開119ファイルはすべてHTTP200・SHA一致。新規crate-stencil.jsも含む。ビルドソースSHAの埋込一致とhealth.okを確認。`published/delivery.json`。
+- 公開静的モジュールの実Chrome64条件と反転裏面/箱一覧も確認し、結果/plan/保存不変、API書込0、画面例外0、破棄後残留0。主担当が公開スクリーンショットの箱面投影と全箱一覧を確認。`published/report.json`。
+- GitHub照会ではPR354のcommit statusとworkflow runはいずれも0件。CI成功と読み替えず、mergeable=trueを確認して通常mergeした（保護の迂回なし）。
+- outboxの変更後画像は公開版から取得した射出/全箱着地後の一覧/先読みタップ拡大/側板展開タップ拡大。変更前3場面も保存。変更前の箱一覧カットは投下途中、変更後は着地後の追加カットで、同時刻の比較はrepoのbefore/after/landing-10-844-normal.pngを使う。
+- 公開記録を通常PRからmainへ反映後、main/local/origin/remote一致・clean・実装/記録の取り込みを確認して今回の専用worktreeだけ削除する。最終main・削除結果は指定outboxへ確定する。元rootと既存他worktreeを保護。

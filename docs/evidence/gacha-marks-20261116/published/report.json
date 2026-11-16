@@ -1,0 +1,2603 @@
+{
+  "stage": "published",
+  "source": "fe734b3da13806207f00ef6c35c5fd6e4e2fd8e6",
+  "deliveryFiles": 119,
+  "cases": 64,
+  "rows": [
+    {
+      "name": "lamp-1-844-normal",
+      "cue": "lamp",
+      "count": 1,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "lamp",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "lamp-1-844-reduced",
+      "cue": "lamp",
+      "count": 1,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "lamp",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "lamp-10-844-normal",
+      "cue": "lamp",
+      "count": 10,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "lamp",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "lamp-10-844-reduced",
+      "cue": "lamp",
+      "count": 10,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "lamp",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "delayed-1-844-normal",
+      "cue": "delayed",
+      "count": 1,
+      "reduced": false,
+      "time": 2.34,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "delayed"
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "delayed-1-844-reduced",
+      "cue": "delayed",
+      "count": 1,
+      "reduced": true,
+      "time": 1.604,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "delayed"
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "delayed-10-844-normal",
+      "cue": "delayed",
+      "count": 10,
+      "reduced": false,
+      "time": 9.290000000000001,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "delayed"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "delayed-10-844-reduced",
+      "cue": "delayed",
+      "count": 10,
+      "reduced": true,
+      "time": 7.213999999999999,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "delayed"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "multilock-1-844-normal",
+      "cue": "multilock",
+      "count": 1,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "multilock",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "multilock-1-844-reduced",
+      "cue": "multilock",
+      "count": 1,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "multilock",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "multilock-10-844-normal",
+      "cue": "multilock",
+      "count": 10,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "multilock",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "multilock-10-844-reduced",
+      "cue": "multilock",
+      "count": 10,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "multilock",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "landing-1-844-normal",
+      "cue": "landing",
+      "count": 1,
+      "reduced": false,
+      "time": 1.7,
+      "phase": 1,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          "landing",
+          0
+        ],
+        "targets": [
+          null,
+          0,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "landing-1-844-reduced",
+      "cue": "landing",
+      "count": 1,
+      "reduced": true,
+      "time": 1.1,
+      "phase": 1,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          "landing",
+          0
+        ],
+        "targets": [
+          null,
+          0,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "landing-10-844-normal",
+      "cue": "landing",
+      "count": 10,
+      "reduced": false,
+      "time": 1.8499999999999999,
+      "phase": 1,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          "landing",
+          0
+        ],
+        "targets": [
+          null,
+          5,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "landing-10-844-reduced",
+      "cue": "landing",
+      "count": 10,
+      "reduced": true,
+      "time": 1.19,
+      "phase": 1,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          "landing",
+          0
+        ],
+        "targets": [
+          null,
+          5,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverse-1-844-normal",
+      "cue": "reverse",
+      "count": 1,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverse",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverse-1-844-reduced",
+      "cue": "reverse",
+      "count": 1,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverse",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverse-10-844-normal",
+      "cue": "reverse",
+      "count": 10,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverse",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverse-10-844-reduced",
+      "cue": "reverse",
+      "count": 10,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverse",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverseSeal-1-844-normal",
+      "cue": "reverseSeal",
+      "count": 1,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverseSeal-1-844-reduced",
+      "cue": "reverseSeal",
+      "count": 1,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverseSeal-10-844-normal",
+      "cue": "reverseSeal",
+      "count": 10,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverseSeal-10-844-reduced",
+      "cue": "reverseSeal",
+      "count": 10,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "skeleton-1-844-normal",
+      "cue": "skeleton",
+      "count": 1,
+      "reduced": false,
+      "time": 2.34,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "skeleton-1-844-reduced",
+      "cue": "skeleton",
+      "count": 1,
+      "reduced": true,
+      "time": 1.604,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "skeleton-10-844-normal",
+      "cue": "skeleton",
+      "count": 10,
+      "reduced": false,
+      "time": 9.290000000000001,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "skeleton-10-844-reduced",
+      "cue": "skeleton",
+      "count": 10,
+      "reduced": true,
+      "time": 7.213999999999999,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "4-1-844-normal",
+      "cue": 4,
+      "count": 1,
+      "reduced": false,
+      "time": 2.34,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          4
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "4-1-844-reduced",
+      "cue": 4,
+      "count": 1,
+      "reduced": true,
+      "time": 1.604,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          4
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "4-10-844-normal",
+      "cue": 4,
+      "count": 10,
+      "reduced": false,
+      "time": 9.290000000000001,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          4
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "4-10-844-reduced",
+      "cue": 4,
+      "count": 10,
+      "reduced": true,
+      "time": 7.213999999999999,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          4
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "lamp-1-640-normal",
+      "cue": "lamp",
+      "count": 1,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "lamp",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "lamp-1-640-reduced",
+      "cue": "lamp",
+      "count": 1,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "lamp",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "lamp-10-640-normal",
+      "cue": "lamp",
+      "count": 10,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "lamp",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "lamp-10-640-reduced",
+      "cue": "lamp",
+      "count": 10,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "lamp",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "delayed-1-640-normal",
+      "cue": "delayed",
+      "count": 1,
+      "reduced": false,
+      "time": 2.34,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "delayed"
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "delayed-1-640-reduced",
+      "cue": "delayed",
+      "count": 1,
+      "reduced": true,
+      "time": 1.604,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "delayed"
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "delayed-10-640-normal",
+      "cue": "delayed",
+      "count": 10,
+      "reduced": false,
+      "time": 9.290000000000001,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "delayed"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "delayed-10-640-reduced",
+      "cue": "delayed",
+      "count": 10,
+      "reduced": true,
+      "time": 7.213999999999999,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "delayed"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "multilock-1-640-normal",
+      "cue": "multilock",
+      "count": 1,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "multilock",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "multilock-1-640-reduced",
+      "cue": "multilock",
+      "count": 1,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "multilock",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "multilock-10-640-normal",
+      "cue": "multilock",
+      "count": 10,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "multilock",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "multilock-10-640-reduced",
+      "cue": "multilock",
+      "count": 10,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "multilock",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "landing-1-640-normal",
+      "cue": "landing",
+      "count": 1,
+      "reduced": false,
+      "time": 1.7,
+      "phase": 1,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          "landing",
+          0
+        ],
+        "targets": [
+          null,
+          0,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "landing-1-640-reduced",
+      "cue": "landing",
+      "count": 1,
+      "reduced": true,
+      "time": 1.1,
+      "phase": 1,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          "landing",
+          0
+        ],
+        "targets": [
+          null,
+          0,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "landing-10-640-normal",
+      "cue": "landing",
+      "count": 10,
+      "reduced": false,
+      "time": 1.8499999999999999,
+      "phase": 1,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          "landing",
+          0
+        ],
+        "targets": [
+          null,
+          5,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "landing-10-640-reduced",
+      "cue": "landing",
+      "count": 10,
+      "reduced": true,
+      "time": 1.19,
+      "phase": 1,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          "landing",
+          0
+        ],
+        "targets": [
+          null,
+          5,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverse-1-640-normal",
+      "cue": "reverse",
+      "count": 1,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverse",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverse-1-640-reduced",
+      "cue": "reverse",
+      "count": 1,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverse",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverse-10-640-normal",
+      "cue": "reverse",
+      "count": 10,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverse",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverse-10-640-reduced",
+      "cue": "reverse",
+      "count": 10,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverse",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverseSeal-1-640-normal",
+      "cue": "reverseSeal",
+      "count": 1,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverseSeal-1-640-reduced",
+      "cue": "reverseSeal",
+      "count": 1,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverseSeal-10-640-normal",
+      "cue": "reverseSeal",
+      "count": 10,
+      "reduced": false,
+      "time": 0.55,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "reverseSeal-10-640-reduced",
+      "cue": "reverseSeal",
+      "count": 10,
+      "reduced": true,
+      "time": 0.33,
+      "phase": 0,
+      "target": null,
+      "plan": {
+        "phases": [
+          "reverseSeal",
+          0,
+          0
+        ],
+        "targets": [
+          null,
+          null,
+          null
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "skeleton-1-640-normal",
+      "cue": "skeleton",
+      "count": 1,
+      "reduced": false,
+      "time": 2.34,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "skeleton-1-640-reduced",
+      "cue": "skeleton",
+      "count": 1,
+      "reduced": true,
+      "time": 1.604,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "skeleton-10-640-normal",
+      "cue": "skeleton",
+      "count": 10,
+      "reduced": false,
+      "time": 9.290000000000001,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "skeleton-10-640-reduced",
+      "cue": "skeleton",
+      "count": 10,
+      "reduced": true,
+      "time": 7.213999999999999,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          "skeleton"
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "4-1-640-normal",
+      "cue": 4,
+      "count": 1,
+      "reduced": false,
+      "time": 2.34,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          4
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "4-1-640-reduced",
+      "cue": 4,
+      "count": 1,
+      "reduced": true,
+      "time": 1.604,
+      "phase": 2,
+      "target": 0,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          4
+        ],
+        "targets": [
+          null,
+          null,
+          0
+        ],
+        "initialTiers": [
+          1
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "4-10-640-normal",
+      "cue": 4,
+      "count": 10,
+      "reduced": false,
+      "time": 9.290000000000001,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          4
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    },
+    {
+      "name": "4-10-640-reduced",
+      "cue": 4,
+      "count": 10,
+      "reduced": true,
+      "time": 7.213999999999999,
+      "phase": 2,
+      "target": 5,
+      "plan": {
+        "phases": [
+          0,
+          0,
+          4
+        ],
+        "targets": [
+          null,
+          null,
+          5
+        ],
+        "initialTiers": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          2
+        ],
+        "implicitLast": false
+      },
+      "planValid": true,
+      "layerFound": true,
+      "resultSame": true,
+      "planSame": true,
+      "storageSame": true,
+      "visible": true,
+      "cleanup": {
+        "roots": 0,
+        "caps": 0,
+        "storageSame": true
+      }
+    }
+  ],
+  "errors": [],
+  "writes": [],
+  "scope": "Chrome固定結果。通常抽選・報酬受領・保存/API書込なし。見た目の最終判定は画像で確認。"
+}
