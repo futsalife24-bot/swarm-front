@@ -44,7 +44,9 @@ try {
     ["hiromi", "unknown"],
     ["hiromi", "missing"],
     ["hiromi", "disabled"],
-  ]) {
+  ].filter(
+    ([, mode]) => !process.env.REPORT_CASE || process.env.REPORT_CASE === mode,
+  )) {
     const context = await browser.newContext({
       viewport: { width: 844, height: 390 },
       serviceWorkers: "block",
@@ -152,6 +154,12 @@ try {
     await p.waitForTimeout(300);
     await q('[data-enemy="calyx"]').click();
     if (mode === "unknown") await q('[data-enemy="calyx"]').press("Enter");
+    await p.waitForFunction(
+      () =>
+        document
+          .querySelector('[data-enemy="calyx"]')
+          ?.getAttribute("aria-pressed") === "true",
+    );
     assert.equal(
       await q("[data-enemy][aria-pressed=true]").getAttribute("data-enemy"),
       "calyx",
@@ -240,6 +248,11 @@ try {
       network,
       errors,
     });
+    await writeFile(
+      `${out}/case-${voice}-${mode}.json`,
+      JSON.stringify(results.at(-1), null, 2) + "\n",
+    );
+    console.log(JSON.stringify({ completed: true, voice, mode }));
     await context.close();
   }
   await writeFile(
