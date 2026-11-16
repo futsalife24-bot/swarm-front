@@ -1,0 +1,8 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev/",
+  "voice": "hiromi",
+  "previewStopsControlVoice": true,
+  "navigatedAway": true,
+  "errors": [],
+  "chromeVersion": "157.0.8103.51"
+}
