@@ -1,0 +1,164 @@
+[
+  {
+    "file": "assets-src/voice-control-hiromi-v1/anomaly-bastion.wav",
+    "sha256": "db16d71de56e2a9434ba6275383c4653b5d4fda700b961849c301ac775d8f506",
+    "bytes": 197646,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiromi-v1/anomaly-catena.wav",
+    "sha256": "09a5cb80c80a864e77687a93c1f7166e505c5fd160996b99d4aedba259c768e1",
+    "bytes": 176478,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiromi-v1/anomaly-foundry.wav",
+    "sha256": "86aee67257d66155ba55228a038d904451f9a83b9ce1176d753385b711093dc9",
+    "bytes": 225870,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiromi-v1/anomaly-harrow.wav",
+    "sha256": "f5c76541cd47ae188cfa0900e9a4027056844b19387da2d966fb308d16c2db58",
+    "bytes": 183534,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiromi-v1/anomaly-leaper.wav",
+    "sha256": "06452153c87f6548d0d39d3d08ca93b1cf4f1f6e7a6e0f003507982bbaa3c628",
+    "bytes": 225870,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiromi-v1/anomaly-pleat.wav",
+    "sha256": "ba04a96a16113c35920507f9b79d4e3957f2b6ededd3ffa49d3ee4a6353419ad",
+    "bytes": 176478,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiromi-v1/anomaly-prism.wav",
+    "sha256": "d566f819d6e11713f4ed403558edce98aea7bda3c0adda9179df9379a6923f9f",
+    "bytes": 183534,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiromi-v1/anomaly-ray.wav",
+    "sha256": "91d6cff44d975698a20c5b75b2b62bf1d5e7d0e4be024afdfac2601e2d7e1290",
+    "bytes": 176478,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiromi-v1/anomaly-volley.wav",
+    "sha256": "7ffa85eb52cf4e1b1b9f96c9df55f2cc6c1c3e589daa5c734c59e8b6048662bf",
+    "bytes": 218814,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiyori-v1/anomaly-bastion.wav",
+    "sha256": "14bd14ca73487e7cff9c1858c339c5b2556fe6ff884f7642e35e0837042b09ba",
+    "bytes": 183534,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiyori-v1/anomaly-catena.wav",
+    "sha256": "523461e04224d1ed3d66e255ece83d9073582f83b1f279b8767ba9f5b3632d12",
+    "bytes": 176478,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiyori-v1/anomaly-foundry.wav",
+    "sha256": "664414bb14c5729d64ab2564e8f4273fbde41105509e218424f0f95ddefb2371",
+    "bytes": 225870,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiyori-v1/anomaly-harrow.wav",
+    "sha256": "71b2c774f789a4d5f03871722d3067379bd5183b3cea6368d20a7f4efa6cb627",
+    "bytes": 176478,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiyori-v1/anomaly-leaper.wav",
+    "sha256": "1d46d5e42976c5cb1e9cc2e1d0d34a64f73e37fcea800d36f451070a7f4530bd",
+    "bytes": 225870,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiyori-v1/anomaly-pleat.wav",
+    "sha256": "5ac6766259a4671e8f5f31760d30dc0fe1300143f985f4315e2d7794ca07530c",
+    "bytes": 183534,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiyori-v1/anomaly-prism.wav",
+    "sha256": "c8b6e5b00b6bfbcc5d5ccefe128a4a8554c207cc98bbb03721a9fe462cafdbfe",
+    "bytes": 183534,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiyori-v1/anomaly-ray.wav",
+    "sha256": "2ea04bcbd699d7bff621c33b3c7fc4b651473f0beb34850a5568d77b166bb467",
+    "bytes": 162366,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-hiyori-v1/anomaly-volley.wav",
+    "sha256": "72e62c14697b56c4e4850b75caf1b1fe9351b9dab218d43733671c73dd3be856",
+    "bytes": 204702,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-yoko-v1/anomaly-bastion.wav",
+    "sha256": "a7b50704c2775b580a139b790399d05b9c7561616b91f01193ea511cc969b4df",
+    "bytes": 197646,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-yoko-v1/anomaly-catena.wav",
+    "sha256": "0b35d94e26e039c1ecf396c641521f3a86bacbde228f5bade189cc25afdc5460",
+    "bytes": 183534,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-yoko-v1/anomaly-foundry.wav",
+    "sha256": "5f86251e3eb1a33553c1fd39a8fd6d75c2c553f35deba2c5adfb7ac51b6f59d6",
+    "bytes": 225870,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-yoko-v1/anomaly-harrow.wav",
+    "sha256": "8c5ca563c990475295729569814c17c39ea258ad4e20b6ddd7cc2d6995238e17",
+    "bytes": 183534,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-yoko-v1/anomaly-leaper.wav",
+    "sha256": "9fd7740d2b67671f7b5dd589b28c6f5b61f587e2de25eb293ac43e8f026b5881",
+    "bytes": 225870,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-yoko-v1/anomaly-pleat.wav",
+    "sha256": "1829cb6154b6990718d3d3b35abe9c7fcd494029b427ab73ab25d9cd5b5f7dc3",
+    "bytes": 190590,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-yoko-v1/anomaly-prism.wav",
+    "sha256": "e29464709d5b18c64ea13f2b5aaeb063a6109bab7676cfa0e5a100ac676f8c4b",
+    "bytes": 190590,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-yoko-v1/anomaly-ray.wav",
+    "sha256": "896b8a59afd95bff5c5917a7b3dc8a20c361e0da6c354d8ffbd28cc0c4ce5f83",
+    "bytes": 169422,
+    "same": true
+  },
+  {
+    "file": "assets-src/voice-control-yoko-v1/anomaly-volley.wav",
+    "sha256": "d0a84526521a781372f330c463b2a478e1a4bac4611e5b9462ad897dac699056",
+    "bytes": 225870,
+    "same": true
+  }
+]

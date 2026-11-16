@@ -228,7 +228,7 @@ describe("control voice line table", () => {
       "弾切れになると、自動で装填が始まります。装填ボタンで、好きなときに装填することもできます。一度、装填してください。",
     );
   });
-  it("brief除外とG18無効を維持し、識別名は収録済みCALYXだけレポートで有効にする", () => {
+  it("brief除外とG18無効を維持し、識別名全10種はレポートで有効にする", () => {
     const briefs = CONTROL_SET_LINES.filter((l) => l.id.startsWith("brief-"));
     expect(briefs).toHaveLength(26);
     expect(briefs.every((l) => l.blocked === "abolished")).toBe(true);
@@ -237,7 +237,15 @@ describe("control voice line table", () => {
     );
     expect(names).toHaveLength(10);
     expect(names.every((l) => l.adopted)).toBe(true);
-    expect(names.filter((l) => l.blocked === "on-hold")).toHaveLength(9);
+    expect(names.every((l) => !l.blocked && l.scene === "menu")).toBe(true);
+    for (const line of names) {
+      expect(playableLine(line)).toBe(true);
+      expect(controlVoiceIdsForScene("menu")).toContain(line.id);
+      expect(controlVoiceIdsForScene("battle")).not.toContain(line.id);
+    }
+    const reports = CONTROL_SET_LINES.filter((l) => l.id.startsWith("report-"));
+    expect(reports).toHaveLength(20);
+    expect(reports.every((l) => !l.adopted && !playableLine(l))).toBe(true);
     expect(playableLine(controlVoiceLine("anomaly-calyx")!)).toBe(true);
     expect(controlVoiceLine("anomaly-calyx")?.text).toBe("識別名、カリクス。");
     expect(controlVoiceIdsForScene("battle")).not.toContain("anomaly-calyx");
@@ -410,7 +418,7 @@ describe("control voice queue", () => {
     expect(q.request("tut-revive")).toBe("playing");
     expect(q.request("tut-enemy-info")).toBe("disabled");
     expect(q.request("brief-01")).toBe("disabled");
-    expect(q.request("anomaly-harrow")).toBe("disabled");
+    expect(q.request("report-harrow-form")).toBe("unadopted");
     expect(q.request("weapon-rifle")).toBe("unadopted");
     expect(q.request("no-such-line")).toBe("unknown");
     expect(started).toEqual(["tut-revive"]);
