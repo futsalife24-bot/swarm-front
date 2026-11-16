@@ -1,0 +1,16 @@
+
+> swarm-front@0.1.0 test
+> vitest run tests/front-report-identification.test.ts tests/front-report-access.test.ts tests/control-voice.test.ts tests/control-voice-packs.test.ts tests/front-control-voice-playback.test.ts
+
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-enemy-report-idname-20261116
+
+
+ Test Files  5 passed (5)
+      Tests  56 passed (56)
+   Start at  15:06:38
+   Duration  3.66s (import 47%, tests 39%, transform 13%, worker 1%)
+
+    Isolate  5 workers spawned · ~97ms startup each (spawn + environment, per file)
+             at least ~387ms faster with isolate: false — reuses workers across files instead of one per file
+

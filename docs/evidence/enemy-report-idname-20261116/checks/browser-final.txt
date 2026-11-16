@@ -1,0 +1,8 @@
+{"voice":"hiromi","mode":"solo","selected":"calyx"}
+{"voice":"hiyori","mode":"solo","selected":"calyx"}
+{"voice":"yoko","mode":"solo","selected":"calyx"}
+{"voice":"hiromi","mode":"coop","selected":"calyx"}
+{"voice":"hiromi","mode":"unknown","selected":"crawler"}
+{"voice":"hiromi","mode":"missing","selected":"calyx"}
+{"voice":"hiromi","mode":"disabled","selected":"calyx"}
+{"passed":true,"cases":7}
