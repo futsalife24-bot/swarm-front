@@ -52,7 +52,7 @@ try{
   await page.goto(origin+'/?base=1',{waitUntil:'domcontentloaded'});await title(page);await page.locator('#pt-confirm').waitFor({state:'visible'});await tap(page,'#pt-confirm');
   if(!await page.locator('#pt-base-buddy').count())await tap(page,'#pt-base');await page.locator('#pt-base-buddy').waitFor();await tap(page,'#pt-base-buddy');
   await tap(page,'[data-bd="starter-pick"][data-id="tatara"]');await tap(page,'[data-bd="starter-confirm"]');await tap(page,'#pt-base');await tap(page,'#pt-base-supply');
-  await page.locator('[data-supply-count]').filter({hasText:'10枚'}).waitFor();await tap(page,'[data-supply-draw="10"]');
+  await tap(page,'[data-supply-cloud]');await page.locator('[data-supply-count]').filter({hasText:'10枚'}).waitFor();await tap(page,'[data-supply-draw="10"]');
   const rows=await results(page);await page.screenshot({path:`${out}/normal-${viewport.width}.png`});
   await tap(page,'.gx-actions [data-id="close"]');await page.locator('[data-supply-feedback]').filter({hasText:'補給を受領しました。'}).waitFor();assert.deepEqual(errors,[]);
   all.push({mode:'normal-local-worker',viewport,rows,errors});await context.close();

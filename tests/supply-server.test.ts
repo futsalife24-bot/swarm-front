@@ -4,7 +4,14 @@ import { KINDS } from "../src/shared/defs";
 import { validNewWeapon } from "../src/shared/progression";
 import { validSupplyReceipt } from "../src/shared/supply-contract";
 import { drawSupply, SUPPLY_RULES } from "../src/shared/supply-policy";
-import { supplyVault, type SupplyStorage } from "../server/supply-vault";
+import {
+  supplyVault,
+  type SupplyAccess,
+  type SupplyStorage,
+} from "../server/supply-vault";
+
+// 保管庫の資格確認済み・初回付与可として口座を開く（保管庫側の判定は別テスト）。
+const OPEN: SupplyAccess = { open: async () => ({ grant: true }) };
 
 const TOKEN = "a".repeat(64);
 const OTHER = "b".repeat(64);
@@ -45,6 +52,7 @@ async function call(
   token = TOKEN,
   method = "POST",
   rng = () => 0.2,
+  access: SupplyAccess = OPEN,
 ) {
   const req = new Request(`https://internal/supply/${action}`, {
     method,
@@ -54,7 +62,7 @@ async function call(
     },
     ...(method === "POST" ? { body: JSON.stringify(body) } : {}),
   });
-  const response = await supplyVault(req, storage, now, rng);
+  const response = await supplyVault(req, storage, now, rng, access);
   return {
     status: response.status,
     body: (await response.json()) as Record<string, any>,
@@ -185,6 +193,76 @@ describe("補給券の権威保存", () => {
       ).status,
     ).toBe(401);
     expect(db.row).toEqual(baseline);
+  });
+
+  it("保管庫が付与済みなら0枚で開き、旧口座は新規作成しない", async () => {
+    const db = memory();
+    const used: SupplyAccess = { open: async () => ({ grant: false }) };
+    const opened = await call(
+      db.storage,
+      "initialize",
+      {},
+      DAY1,
+      TOKEN,
+      "POST",
+      undefined,
+      used,
+    );
+    expect(opened.body).toMatchObject({ tickets: 0, pending: null });
+    const legacy = memory();
+    const refused = await call(
+      legacy.storage,
+      "initialize",
+      {},
+      DAY1,
+      TOKEN,
+      "POST",
+      undefined,
+      {},
+    );
+    expect(refused.status).toBe(401);
+    expect(refused.body.retired).toBe(true);
+    expect(legacy.writes).toBe(0);
+    // 保管庫が資格を拒否した場合はその応答を返し、口座を作らない。
+    const denied = memory();
+    const rejected = await call(
+      denied.storage,
+      "initialize",
+      {},
+      DAY1,
+      TOKEN,
+      "POST",
+      undefined,
+      { open: async () => Response.json({ error: "x" }, { status: 401 }) },
+    );
+    expect(rejected.status).toBe(401);
+    expect(denied.writes).toBe(0);
+  });
+
+  it("旧口座の残高移行は同じ旧IDにつき1回だけ合算し、日次を再開しない", async () => {
+    const db = memory();
+    await call(db.storage, "initialize");
+    const legacy = "c".repeat(32);
+    const absorb = (tickets: number, day = "2026-11-10") =>
+      call(db.storage, "absorb", { legacy, tickets, day });
+    expect((await absorb(4)).body).toMatchObject({
+      tickets: 14,
+      day: "2026-11-11",
+    });
+    expect((await absorb(4)).body.tickets).toBe(14);
+    expect((await absorb(-1)).status).toBe(400);
+    expect((await call(db.storage, "daily")).body.tickets).toBe(14);
+    expect(
+      (
+        await call(
+          db.storage,
+          "absorb",
+          { legacy: "d".repeat(32), tickets: 1, day: "2026-11-11" },
+          DAY1,
+          OTHER,
+        )
+      ).status,
+    ).toBe(401);
   });
 
   it("保存失敗時は券消費も受領書も確定しない", async () => {

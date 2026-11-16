@@ -8,7 +8,8 @@ import {
   type SupplyReceipt,
   type SupplySnapshot,
 } from "../shared/supply-contract";
-import { createSupplyService } from "./supply-service";
+import { createSupplyService, type SupplyError } from "./supply-service";
+import { createCloudSave } from "./cloud-save";
 import { applySupplyReceipt } from "./supply-rewards";
 import { getMenuReducedMotion } from "./menu-effects";
 import {
@@ -31,15 +32,16 @@ export function mountSupplyMenu(
   let snapshot: SupplySnapshot | null = null;
   let busy = false,
     closed = false,
+    needsCloud = false,
     reveal: Reveal | null = null;
   host.innerHTML = `<div class="supply-menu">
     <section><p>補給券 <strong class="supply-count" data-supply-count>確認中…</strong></p>
-      <div class="supply-actions"><button type="button" data-supply-draw="1" disabled>1回 · 1枚</button><button type="button" data-supply-draw="10" disabled>10連 · 10枚</button><button type="button" data-supply-recover hidden>前回の補給を再開</button><button type="button" data-supply-refresh>再確認</button></div>
+      <div class="supply-actions"><button type="button" data-supply-draw="1" disabled>1回 · 1枚</button><button type="button" data-supply-draw="10" disabled>10連 · 10枚</button><button type="button" data-supply-recover hidden>前回の補給を再開</button><button type="button" data-supply-cloud hidden>クラウド保存を作成</button><button type="button" data-supply-refresh>再確認</button></div>
       <p class="supply-guarantee">10連は最後の1個がSR以上確定</p>
       <p class="supply-feedback" data-supply-feedback role="status" aria-live="polite"></p>
       <button type="button" data-supply-starter hidden>初回バディを選ぶ</button>
       <small>無料の補給券です。初回10枚、翌日から日本時間で1日1枚。受け取らなかった日分の繰越はありません。バディ招集券とは別です。</small>
-      <small>補給券はこの端末の補給接続情報に紐づきます。通信できるときに利用できます。ブラウザーのデータを消すと接続情報も失われます。</small>
+      <small>補給券はクラウド保存（引き継ぎコード）に紐づき、初回10枚はクラウド保存1つにつき1回です。通信できるときに利用できます。クラウド保存を削除すると補給券も引き継げません。</small>
     </section>
     <section><h2>排出内容・確率</h2><table class="supply-rates"><thead><tr><th>通常1枠</th><th>確率</th></tr></thead><tbody>
       <tr><td>N武器</td><td>45%</td></tr><tr><td>R武器</td><td>30%</td></tr><tr><td>SR武器</td><td>15%</td></tr><tr><td>SSR武器</td><td>4%</td></tr><tr><td>バディ</td><td>1%</td></tr><tr><td>武装片10個</td><td>5%</td></tr>
@@ -68,7 +70,9 @@ export function mountSupplyMenu(
     const hasStarter = !!getSave().buddies?.starterChosen;
     $("[data-supply-count]").textContent = snapshot
       ? `${snapshot.tickets}枚`
-      : "確認中…";
+      : needsCloud
+        ? "未作成"
+        : "確認中…";
     host
       .querySelectorAll<HTMLButtonElement>("[data-supply-draw]")
       .forEach((button) => {
@@ -84,6 +88,9 @@ export function mountSupplyMenu(
     recover.hidden = !snapshot?.pending && !pending;
     recover.disabled = busy;
     $<HTMLButtonElement>("[data-supply-refresh]").disabled = busy;
+    const cloud = $<HTMLButtonElement>("[data-supply-cloud]");
+    cloud.hidden = !needsCloud;
+    cloud.disabled = busy;
     $("[data-supply-starter]").hidden = hasStarter;
   };
   const present = async (receipt: SupplyReceipt) => {
@@ -149,12 +156,14 @@ export function mountSupplyMenu(
     update();
     try {
       snapshot = await service.status();
+      needsCloud = false;
       feedback(
         snapshot.pending
           ? "前回の確定した補給を再開できます。"
           : "補給券を確認しました。",
       );
     } catch (error) {
+      needsCloud = (error as SupplyError).cloudRequired === true;
       feedback((error as Error).message);
     } finally {
       busy = false;
@@ -208,6 +217,21 @@ export function mountSupplyMenu(
     );
   $("[data-supply-recover]").onclick = () => void recover();
   $("[data-supply-refresh]").onclick = () => void refresh();
+  $("[data-supply-cloud]").onclick = async () => {
+    if (busy || closed) return;
+    busy = true;
+    feedback("クラウド保存を作成しています…");
+    update();
+    try {
+      await createCloudSave();
+      busy = false;
+      await refresh();
+    } catch (error) {
+      busy = false;
+      feedback((error as Error).message);
+      update();
+    }
+  };
   $("[data-supply-starter]").onclick = chooseStarter;
   void refresh();
   return {

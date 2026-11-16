@@ -182,6 +182,11 @@ try {
       await q("#pt-base-supply").click();
       await settle();
     }
+    // F-17 H-1: 補給券はクラウド保存に紐づく。未作成ならここで作成する。
+    if (await q("[data-supply-cloud]:visible").count()) {
+      await q("[data-supply-cloud]").click();
+      await q('[data-supply-draw="1"]:enabled').waitFor();
+    }
     if (await q("[data-supply-recover]:visible").count())
       await q("[data-supply-recover]").click();
     else await q('[data-supply-draw="1"]').click();
