@@ -1,0 +1,8 @@
+{
+  "base": "http://127.0.0.1:5216/",
+  "voice": "hiromi",
+  "previewStopsControlVoice": true,
+  "navigatedAway": true,
+  "errors": [],
+  "chromeVersion": "157.0.8103.51"
+}

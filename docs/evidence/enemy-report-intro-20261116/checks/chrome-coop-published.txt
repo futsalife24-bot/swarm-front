@@ -1,0 +1,12 @@
+{"voice":"hiromi","mode":"coop","selecting":"crawler","selected":"crawler"}
+{"voice":"hiromi","mode":"coop","selecting":"ant","selected":"ant"}
+{"voice":"hiromi","mode":"coop","selecting":"spider","selected":"spider"}
+{"voice":"hiromi","mode":"coop","selecting":"spitter","selected":"spitter"}
+{"voice":"hiromi","mode":"coop","selecting":"boss","selected":"boss"}
+{"voice":"hiromi","mode":"coop","selecting":"hornet","selected":"hornet"}
+{"voice":"hiromi","mode":"coop","selecting":"bastion","selected":"bastion"}
+{"voice":"hiromi","mode":"coop","selecting":"worm","selected":"worm"}
+{"voice":"hiromi","mode":"coop","selecting":"calyx","selected":"calyx"}
+{"voice":"hiromi","mode":"coop","selecting":"harrow","selected":"harrow"}
+{"completed":true,"voice":"hiromi","mode":"coop"}
+{"passed":true,"cases":1}

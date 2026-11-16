@@ -1,8 +1,10 @@
-## 2026-11-16 エネミーレポート導入と無選択表示・公開準備
+## 2026-11-16 エネミーレポート導入と無選択表示を公開
 
 本人ブリーフに従い受領3 WAVを原本同一で追加、既存SFVP v1/MP3 64kbpsで3声v4へ更新。実パック目次でenemy-report-introの収録を確認、ヒロミ156→157/ヒヨリ122→123/ヨウコ122→123、旧400クリップ同一。旧v3利用者はv4再DLが必要。無選択で全文案内を表示、遷移時だけ既存ControlVoiceQueueで導入、選択/閉じる停止と既存開示/識別名/report-*不採用を維持。
 
-全185ファイル1,925テスト、型/書式/diff/build成功。ローカル本番形式buildの実Chrome9条件で導入/全文案内/無選択/全10種×3声/無音6条件/停止/保存不変/字幕0/例外0を確認。[詳細と証拠](evidence/enemy-report-intro-20261116/README.md)。実スマホ/人間の実聴は未実施。通常方針で独立監査なし、実モデルID/effort未確認、委任なし。実装PR→通常merge→既存Worker公開→公開実Chrome→記録PR取り込み→cleanな今回worktree削除を進める。元root/別worktreeを保護。
+全185ファイル1,925テスト、型/書式/diff/merge後build/production dry-run成功。ローカル本番形式buildと公開実Chrome各9条件が成功。3声×全10種の実MP3一致/導入単発/停止/常設案内/無音/開示/保存不変/字幕0/例外0を確認。[詳細と証拠](evidence/enemy-report-intro-20261116/README.md)。実スマホ/人間の実聴は未実施。通常方針で独立監査なし、実モデルID/effort未確認、委任なし。
+
+実装PR364を通常merge、公開ソースmain cd0b7c3c23a4039e3ae93bad5212b73fd4b245d4。既存Worker Version 62713a92-8419-44f5-8fb9-2eaf93e33355（100%）、公開30ファイル/SHA/ソース版一致・health正常。公開記録のmain取り込みと今回worktree削除の確定結果は本人指定 C:/Users/futsa/bibi-bridge/outbox/20261116-enemy-report-intro-status.md を参照。元root/他worktree/共有依存を保持。今回依存は実ディレクトリ、Junctionなし。local mainは別worktree使用中のため動かさず、専用HEAD/origin/remote mainを照合して後片付けする。
 
 ## 2026-11-16 識別名27本追加・全10種配線を公開
 

@@ -35,6 +35,14 @@ npm test全185ファイル/1,925テスト成功、型・書式・diff・build成
 
 ## 公開と後片付け
 
-実装PRと公開記録PRの通常merge、merge後mainからのbuild/production dry-run、既存Worker swarm-frontへのdeploy、配信SHA/healthと公開実Chromeの再検証を行う。確定結果をこの節へ追記する。
+実装PR https://github.com/futsalife24-bot/swarm-front/pull/364 を通常merge。実装4a5d07590e501d3c5c730c1ba2b32834513480c1、ログ空白整理後の対象48cdcabcd7b37de716fad8df79dfff3c85a8ee80、公開ソースmain cd0b7c3c23a4039e3ae93bad5212b73fd4b245d4。検証済み実装と製品ソース差分なし。merge後mainからbuild/production dry-runとも終了コード0。
+
+既存Worker swarm-front / https://swarm-front.melosalife-24.workers.dev/ へ公開。Version 62713a92-8419-44f5-8fb9-2eaf93e33355、100%配信。公開30ファイル（v4全3パックを含む）HTTP200/ローカルbuildとSHA一致、JS埋込ソースSHA一致、api/health 200/okを確認。delivery.json と checks/deploy.txt・deployment-status.txt が証拠。
+
+公開実Chrome9条件も全件成功。全10種×3声の実MP3/playing/自然終了、導入の1回再生/再描画抑止/選択と閉じる停止、常設全文案内/無選択、未保存/ボイスなし/旧v3のみの導入無音、6種の条件で識別名無音と既存開示、字幕0/例外0/保存不変/余分な取得0を確認。published/results.json と条件別JSON/画像を保存。ローカル/公開ともChrome 157.0.8103.51、serviceWorkersを停止した隔離contextのfixture。実PWAや実デバイス/人間の聴取を検証済みとはしない。
+
+追加のローカル/公開実Chromeで、識別名の実playingイベント内に敵の声試聴を開始し、管制AI発話が同時発話1→0となり試聴へ切り替わることを確認。同じアプリへの遷移後にレポートDOM/旧管制音声が残らないことと例外0も確認。各 preview-navigation.json と checks/chrome-preview-*.txt に保存。追加検査の失敗は、短い識別名が自然終了した後の検査タイミング、about:blankでfixtureがlocalStorageへ触れたエラー、新画面の無関係なaudio/dialogまで数えた過大な検査が原因。実playingに合わせた操作・同一オリジン遷移・レポートだけの検査へ修正し、製品の失敗と混同せず旧ログも保持。
+
+GitHubのcommit status/workflow runは0件で、CI合格とは読み替えない。mergeable=trueと対象headを確認して通常merge。Hook/保護/権限の変更・迂回なし。
 公開記録の取り込み後、専用HEAD/origin/main/remote mainの一致・clean・両PR取り込みを確認して今回worktreeだけを削除する。未コミット差分があれば削除しない。依存は実ディレクトリでJunctionなし。local mainは他worktree使用中のため動かさない。
 最終main・Worker Version・削除の確定結果は本人指定 C:/Users/futsa/bibi-bridge/outbox/20261116-enemy-report-intro-status.md に記録する。
