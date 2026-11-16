@@ -1,3 +1,4 @@
+import { ENEMY_REPORT_INTRO_TEXT } from "./control-voice-lines";
 import { MediaVolume } from "./media-volume";
 import { backgroundMusic } from "./bgm";
 import { menuAnalyze } from "./menu-effects";
@@ -99,7 +100,7 @@ export function openBestiary(
     },
   ).join(
     "",
-  )}</nav><section class="report-detail" aria-label="選択した敵の解説"><div class="specimen"><div class="specimen-label eyebrow">3D SPECIMEN</div><div class="enemy-viewport"></div><p class="viewer-hint">ドラッグで回転 · ピンチ / ホイールで拡大</p></div><article class="enemy-description" tabindex="0" aria-label="敵の解説。上下にスクロールできます" aria-live="polite"></article></section></div>`;
+  )}</nav><section class="report-detail report-unselected" aria-label="選択した敵の解説"><div class="specimen"><div class="specimen-label eyebrow">3D SPECIMEN</div><div class="enemy-viewport"></div><p class="viewer-hint">ドラッグで回転 · ピンチ / ホイールで拡大</p></div><article class="enemy-description" tabindex="0" aria-label="敵の解説。上下にスクロールできます" aria-live="polite"></article></section></div>`;
   document.body.append(dialog);
   showModalAfterFullscreen(dialog);
   backgroundMusic().setReport(true);
@@ -198,6 +199,9 @@ export function openBestiary(
     viewport.style.filter = access(key) === "coop" ? "brightness(0)" : "";
   };
   function select(key: EnemyReportId) {
+    dialog
+      .querySelector(".report-detail")!
+      .classList.remove("report-unselected");
     stopVoice();
     const state = access(key);
     identification.select(key, state);
@@ -308,5 +312,6 @@ export function openBestiary(
     backgroundMusic().setReport(false);
     options.onClose?.();
   });
-  select("crawler");
+  article.textContent = ENEMY_REPORT_INTRO_TEXT;
+  identification.enter();
 }

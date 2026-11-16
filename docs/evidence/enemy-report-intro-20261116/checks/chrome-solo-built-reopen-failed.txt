@@ -1,0 +1,15 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.textContent: Timeout 60000ms exceeded.
+Call log:
+  - waiting for locator(':light(.enemy-description)')
+
+    at checkEmpty (C:\Users\futsa\swarm-enemy-report-intro-20261116\scripts\check-report-identification.mjs:187:50)
+    at async file:///C:/Users/futsa/swarm-enemy-report-intro-20261116/scripts/check-report-identification.mjs:257:5 {
+  log: [ "  - waiting for locator(':light(.enemy-description)')" ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0

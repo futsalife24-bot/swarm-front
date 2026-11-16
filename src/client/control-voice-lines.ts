@@ -731,13 +731,22 @@ const COOP = rows(
   ],
 );
 
-/** 4-4 システム・メニュー（19行）。 */
+/** 4-4 システム・メニュー（20行）。 */
+export const ENEMY_REPORT_INTRO_TEXT =
+  "ここはエネミーレポートです。会敵したANOMALYのデータを照会できます。左のメニューからANOMALYを選択してください。";
+
 const SYSTEM = rows(
   "control",
   "system",
   "menu",
   { tag: "common", priority: "announce" },
   [
+    [
+      "enemy-report-intro",
+      "エネミーレポートへ遷移",
+      ENEMY_REPORT_INTRO_TEXT,
+      P,
+    ],
     ["title", "タイトル画面", "スウォーム・フロント。", P],
     [
       "home",
@@ -1318,7 +1327,7 @@ const CHECKLIST_REJECTED = new Set([
   "report-catena-attack",
 ]);
 
-/** 管制AIセットの147行（voice-proposal の管制AI・女性の全行）。 */
+/** 管制AIセットの149行（voice-proposal の管制AI・女性の全行）。 */
 export const CONTROL_SET_LINES: readonly ControlVoiceLine[] = [
   ...ANNOUNCE,
   ...SUPPLY,

@@ -301,3 +301,11 @@
     font-size: 18px;
   }
 }
+
+.report-detail.report-unselected {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+.report-unselected .specimen {
+  display: none;
+}

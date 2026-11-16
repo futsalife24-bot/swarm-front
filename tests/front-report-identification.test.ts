@@ -34,6 +34,33 @@ function fixture(
 
 describe("エネミーレポートの識別名", () => {
   it.each(["hiromi", "hiyori", "yoko"] as const)(
+    "%sの導入は遷移ごとに一度だけ、選択で停止して識別名へ切り替える",
+    (voice) => {
+      const { report, start, announce } = fixture(voice);
+      report.enter();
+      report.enter();
+      expect(start.mock.calls[0][0]).toBe(
+        `voice-control-${voice}-v1/enemy-report-intro`,
+      );
+      expect(announce).toHaveBeenCalledTimes(1);
+      report.select("calyx", "solo");
+      expect(start.mock.results[0].value).toHaveBeenCalledTimes(1);
+      report.enter();
+      expect(announce.mock.calls.map(([id]) => id)).toEqual([
+        "enemy-report-intro",
+        "anomaly-calyx",
+      ]);
+    },
+  );
+  it.each([
+    [false, true],
+    [true, false],
+  ])("導入も未保存/無効では無音", (ready, enabled) => {
+    const { report, start } = fixture("hiromi", ready, enabled);
+    report.enter();
+    expect(start).not.toHaveBeenCalled();
+  });
+  it.each(["hiromi", "hiyori", "yoko"] as const)(
     "選択した%sのCALYXを一度だけ要求する",
     (voice) => {
       const { report, start, announce } = fixture(voice);
@@ -109,7 +136,7 @@ describe("エネミーレポートの識別名", () => {
         announce: (id) => queue.request(id),
         unlock: vi.fn(),
       });
-      report.select("calyx", "solo");
+      report.enter();
       if (action === "select") report.select("harrow", "coop");
       else report.stop();
       ready = true;
