@@ -3,7 +3,10 @@ import {
   ControlVoiceQueue,
   type ControlVoiceId,
 } from "../src/client/control-voice";
-import { reportIdentification } from "../src/client/report-identification";
+import {
+  reportIdentification,
+  REPORT_IDENTIFICATION_CLIPS,
+} from "../src/client/report-identification";
 import { ENEMY_REPORT_ORDER } from "../src/shared/enemy-report-order";
 
 function fixture(
@@ -53,20 +56,38 @@ describe("エネミーレポートの識別名", () => {
       expect(start).not.toHaveBeenCalled();
     },
   );
-  it("未収録9種では無音となり前の発話を止める", () => {
-    const { report, start, announce } = fixture();
-    report.select("calyx", "solo");
-    for (const key of ENEMY_REPORT_ORDER.filter((key) => key !== "calyx"))
-      report.select(key, "solo");
-    expect(announce).toHaveBeenCalledTimes(1);
-    expect(start.mock.results[0].value).toHaveBeenCalledTimes(1);
-  });
+  it.each(["hiromi", "hiyori", "yoko"] as const)(
+    "%sで全10種の識別名を選択ごとに一度再生し、前の発話を止める",
+    (voice) => {
+      const { report, start, announce } = fixture(voice);
+      expect(Object.keys(REPORT_IDENTIFICATION_CLIPS).sort()).toEqual(
+        [...ENEMY_REPORT_ORDER].sort(),
+      );
+      for (const key of ENEMY_REPORT_ORDER) {
+        report.select(key, "solo");
+        report.select(key, "solo");
+      }
+      expect(announce.mock.calls.map(([id]) => id)).toEqual(
+        ENEMY_REPORT_ORDER.map((key) => REPORT_IDENTIFICATION_CLIPS[key]),
+      );
+      expect(start.mock.calls.map(([path]) => path)).toEqual(
+        ENEMY_REPORT_ORDER.map(
+          (key) =>
+            `voice-control-${voice}-v1/${REPORT_IDENTIFICATION_CLIPS[key]}`,
+        ),
+      );
+      for (const result of start.mock.results.slice(0, -1))
+        expect(result.value).toHaveBeenCalledTimes(1);
+      report.stop();
+      expect(start.mock.results.at(-1)!.value).toHaveBeenCalledTimes(1);
+    },
+  );
   it.each([
     [false, true],
     [true, false],
   ])("パック未保存/ボイスなしでは再生しない", (ready, enabled) => {
     const { report, start } = fixture("hiromi", ready, enabled);
-    report.select("calyx", "solo");
+    for (const key of ENEMY_REPORT_ORDER) report.select(key, "solo");
     expect(start).not.toHaveBeenCalled();
   });
   it.each(["select", "close"])(

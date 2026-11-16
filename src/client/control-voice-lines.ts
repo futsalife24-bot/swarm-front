@@ -359,7 +359,7 @@ const GUIDE = rows(
 
 // ─── 管制AI147行（voice-proposal §4。セット voice-control-*） ───
 
-/** 4-1 戦闘アナウンス。識別名は採用済み。収録済みCALYXだけレポートへ配線し、未収録9種は保留。 */
+/** 4-1 戦闘アナウンス。識別名10種は収録済み・レポート項目選択で再生する。 */
 const ANNOUNCE = rows(
   "control",
   "announce",
@@ -532,31 +532,36 @@ const ANNOUNCE = rows(
       "新たなアノマリーを確認。エネミーレポートに記録しました。",
       R,
     ],
-    ["anomaly-harrow", "初遭遇の告知（HARROW）", "識別名、ハロウ。", P],
+    ["anomaly-harrow", "エネミーレポートでHARROWを表示", "識別名、ハロウ。", P],
     ["anomaly-calyx", "エネミーレポートでCALYXを表示", "識別名、カリクス。", P],
-    ["anomaly-bastion", "初遭遇の告知（BASTION）", "識別名、バスティオン。", P],
+    [
+      "anomaly-bastion",
+      "エネミーレポートでBASTIONを表示",
+      "識別名、バスティオン。",
+      P,
+    ],
     [
       "anomaly-volley",
-      "初遭遇の告知（HOUND / VOLLEY）",
+      "エネミーレポートでHOUND / VOLLEYを表示",
       "識別名、ハウンド・ボレー。",
       P,
     ],
     [
       "anomaly-leaper",
-      "初遭遇の告知（HOUND / LEAPER）",
+      "エネミーレポートでHOUND / LEAPERを表示",
       "識別名、ハウンド・リーパー。",
       P,
     ],
-    ["anomaly-pleat", "初遭遇の告知（PLEAT）", "識別名、プリート。", P],
-    ["anomaly-prism", "初遭遇の告知（PRISM）", "識別名、プリズム。", P],
-    ["anomaly-ray", "初遭遇の告知（RAY）", "識別名、レイ。", P],
+    ["anomaly-pleat", "エネミーレポートでPLEATを表示", "識別名、プリート。", P],
+    ["anomaly-prism", "エネミーレポートでPRISMを表示", "識別名、プリズム。", P],
+    ["anomaly-ray", "エネミーレポートでRAYを表示", "識別名、レイ。", P],
     [
       "anomaly-foundry",
-      "初遭遇の告知（FOUNDRY ZERO）",
+      "エネミーレポートでFOUNDRY ZEROを表示",
       "識別名、ファウンドリー・ゼロ。",
       P,
     ],
-    ["anomaly-catena", "初遭遇の告知（CATENA）", "識別名、カテナ。", P],
+    ["anomaly-catena", "エネミーレポートでCATENAを表示", "識別名、カテナ。", P],
     [
       "levelup",
       "生存「レベルアップ／強化カードを選択」",
@@ -623,14 +628,6 @@ const ANNOUNCE = rows(
       "solo",
     ],
   ],
-  {
-    blocked: (id) =>
-      id.startsWith("anomaly-") &&
-      id !== "anomaly-new" &&
-      id !== "anomaly-calyx"
-        ? "on-hold"
-        : undefined,
-  },
 );
 
 /** 4-2 補給（14行）。 */
@@ -1332,7 +1329,10 @@ export const CONTROL_SET_LINES: readonly ControlVoiceLine[] = [
   ...BRIEF,
 ].map((line) => ({
   ...line,
-  scene: line.id === "anomaly-calyx" ? "menu" : line.scene,
+  scene:
+    line.id.startsWith("anomaly-") && line.id !== "anomaly-new"
+      ? "menu"
+      : line.scene,
   adopted: CHECKLIST_ADOPTED.has(line.id)
     ? true
     : CHECKLIST_REJECTED.has(line.id)

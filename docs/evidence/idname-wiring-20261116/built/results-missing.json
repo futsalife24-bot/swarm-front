@@ -1,0 +1,19 @@
+{
+  "base": "http://127.0.0.1:5217/",
+  "passed": true,
+  "results": [
+    {
+      "voice": "hiromi",
+      "mode": "missing",
+      "clipHashes": [],
+      "starts": 0,
+      "maxLive": 0,
+      "playing": 0,
+      "ended": 0,
+      "rejected": [],
+      "chromeVersion": "157.0.8103.51",
+      "network": [],
+      "errors": []
+    }
+  ]
+}

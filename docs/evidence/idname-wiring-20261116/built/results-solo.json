@@ -1,0 +1,192 @@
+{
+  "base": "http://127.0.0.1:5217/",
+  "passed": true,
+  "results": [
+    {
+      "voice": "hiromi",
+      "mode": "solo",
+      "clipHashes": [
+        {
+          "key": "crawler",
+          "id": "anomaly-pleat",
+          "sha256": "d128c77a19d0dbc211b6d26ea20f680451a9e20572a6e7fd9396aa07be3b4a52"
+        },
+        {
+          "key": "ant",
+          "id": "anomaly-volley",
+          "sha256": "677a2faa6d77a5b6061953354c283653d58d79473fa6917a8799a00c7e18ec3f"
+        },
+        {
+          "key": "spider",
+          "id": "anomaly-leaper",
+          "sha256": "bf2d936ec2b3e1c3ba25815d6c0c1dbc72c574d3414b8b1a6ace5d414b3dd060"
+        },
+        {
+          "key": "spitter",
+          "id": "anomaly-prism",
+          "sha256": "50246c16e5db4c162e8c8b7a244b4a1a20f3aa182a25c43f3c5a78ccf30c5960"
+        },
+        {
+          "key": "boss",
+          "id": "anomaly-foundry",
+          "sha256": "02d34c3b8b3cdfd04dd64690225bbb7ec1887637b68f80b460ea40f85807bdbb"
+        },
+        {
+          "key": "hornet",
+          "id": "anomaly-ray",
+          "sha256": "9f47704a6305a194f9ae672523c37d22cf3b50ab204a48f9b98543ce96b3d753"
+        },
+        {
+          "key": "bastion",
+          "id": "anomaly-bastion",
+          "sha256": "6e6b25e37e5974e2b00f1ede5c8eb52c4eb7debe4e6bd43279ba7d09bb8fae94"
+        },
+        {
+          "key": "worm",
+          "id": "anomaly-catena",
+          "sha256": "972fd3b58e6dcfe860b911a985d8ab0d5774bdcff9a4f3801b11f1949b53b6c2"
+        },
+        {
+          "key": "calyx",
+          "id": "anomaly-calyx",
+          "sha256": "4f45770bd0757ca54b9c34c0a72cc88e9181b9af4a3d85e88017c0ecfc3b5445"
+        },
+        {
+          "key": "harrow",
+          "id": "anomaly-harrow",
+          "sha256": "7d6502aaa5fa2658503f597edbdf1ab9ade3b67648875d3c0caa184edc26cdb7"
+        }
+      ],
+      "starts": 12,
+      "maxLive": 1,
+      "network": [
+        "http://127.0.0.1:5217/assets/voice-packs/control-voice-hiromi-v3.bin"
+      ],
+      "errors": []
+    },
+    {
+      "voice": "hiyori",
+      "mode": "solo",
+      "clipHashes": [
+        {
+          "key": "crawler",
+          "id": "anomaly-pleat",
+          "sha256": "300f0746d551bac3a9be32e39657e3c5477d9a066c5bfa2334957eba9aff245b"
+        },
+        {
+          "key": "ant",
+          "id": "anomaly-volley",
+          "sha256": "94b8a22bb8b4c84307b40bf98e74c89ff068ce1d881a4e7ee4163c3adc9366ff"
+        },
+        {
+          "key": "spider",
+          "id": "anomaly-leaper",
+          "sha256": "06ac47b4ae1453851899ec311e728d33270d8bfa09fff5b91c07d39c089f38a3"
+        },
+        {
+          "key": "spitter",
+          "id": "anomaly-prism",
+          "sha256": "0025f937f5d7a022db9e98e7db245e8c08bb81d5bfab2cf48ab86eccb8420184"
+        },
+        {
+          "key": "boss",
+          "id": "anomaly-foundry",
+          "sha256": "21fadb7e872c429cc5433df8ccfb233b09ef1dc05ba668639188560d7f30b523"
+        },
+        {
+          "key": "hornet",
+          "id": "anomaly-ray",
+          "sha256": "7ca278b5d24131f62c0b7d0434fdd708bf66f936747cc5c3b0fab0a46d5ec3a7"
+        },
+        {
+          "key": "bastion",
+          "id": "anomaly-bastion",
+          "sha256": "02b1c343c2089cc82b13cab7556272152179d1e58ce9e23656a4186f295c03e8"
+        },
+        {
+          "key": "worm",
+          "id": "anomaly-catena",
+          "sha256": "f0e8751b91ea1b1a59e19a98b9ff5332ad5cbffecbaa9da251586cb5f128cb5d"
+        },
+        {
+          "key": "calyx",
+          "id": "anomaly-calyx",
+          "sha256": "a5a0fb3bbea05f89a203a24fa6e9f21c0fa05398c4c8594f72cb18fac1bcdb23"
+        },
+        {
+          "key": "harrow",
+          "id": "anomaly-harrow",
+          "sha256": "8c85d1f11a605026b6450b6e685a9b068b5960224075d26bf93d00dd6063a297"
+        }
+      ],
+      "starts": 12,
+      "maxLive": 1,
+      "network": [
+        "http://127.0.0.1:5217/assets/voice-packs/control-voice-hiyori-v3.bin"
+      ],
+      "errors": []
+    },
+    {
+      "voice": "yoko",
+      "mode": "solo",
+      "clipHashes": [
+        {
+          "key": "crawler",
+          "id": "anomaly-pleat",
+          "sha256": "723794080573a01f49d85380ce66707dbbd35af0aa2e4260d1b43ab43a59aa2d"
+        },
+        {
+          "key": "ant",
+          "id": "anomaly-volley",
+          "sha256": "2f8db781a6884d1372998f35a49b3272e3ab53af660f572c142fdc7f7926385e"
+        },
+        {
+          "key": "spider",
+          "id": "anomaly-leaper",
+          "sha256": "f5ae989fa0512db4a242dbd7ff3f395bbd8507936e1f2909824f8383bf48501c"
+        },
+        {
+          "key": "spitter",
+          "id": "anomaly-prism",
+          "sha256": "94edc2b33365ee0220b8b28786bcfccb36efe5923fb7fc42ecffebe504c5ad37"
+        },
+        {
+          "key": "boss",
+          "id": "anomaly-foundry",
+          "sha256": "1a4edfaec8daab96261ab09c0056a3bd7b090572cd26e835b5b4ab67c505a81b"
+        },
+        {
+          "key": "hornet",
+          "id": "anomaly-ray",
+          "sha256": "5bc8483cfbc7d2c2e43d211475e34cd834c864611164568049b0b869eac88d65"
+        },
+        {
+          "key": "bastion",
+          "id": "anomaly-bastion",
+          "sha256": "08ab175ba4f541e55fe02a9b16d4b04806d4854e0b541b8696588c0282938a68"
+        },
+        {
+          "key": "worm",
+          "id": "anomaly-catena",
+          "sha256": "74a1cf93b0a72f307138de02cd50df7be7e81dcf2b591888febfb89d4c2015c0"
+        },
+        {
+          "key": "calyx",
+          "id": "anomaly-calyx",
+          "sha256": "87e51563327d2037dc7dac960918c62bfd3f77b60a45d1c070ae00b1b872020f"
+        },
+        {
+          "key": "harrow",
+          "id": "anomaly-harrow",
+          "sha256": "c20a0f25ec142a1112173be49e0ef80fa6eb42ee892b10fba64b3cb049c06751"
+        }
+      ],
+      "starts": 12,
+      "maxLive": 1,
+      "network": [
+        "http://127.0.0.1:5217/assets/voice-packs/control-voice-yoko-v3.bin"
+      ],
+      "errors": []
+    }
+  ]
+}

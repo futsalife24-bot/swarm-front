@@ -3,11 +3,18 @@ import type { Sound } from "./audio";
 
 export type ReportVoice = Pick<Sound, "announce" | "controlVoice" | "unlock">;
 
-/** 棚卸し済みの識別名だけ。残る9種は3声とも未収録（音声を生成しない）。 */
-export const REPORT_IDENTIFICATION_CLIPS: Partial<
-  Record<EnemyReportId, string>
-> = {
+/** 全10種・3声の収録済み識別名。保存キーと音声IDの対応を固定する。 */
+export const REPORT_IDENTIFICATION_CLIPS: Record<EnemyReportId, string> = {
+  crawler: "anomaly-pleat",
+  ant: "anomaly-volley",
+  spider: "anomaly-leaper",
+  spitter: "anomaly-prism",
+  boss: "anomaly-foundry",
+  hornet: "anomaly-ray",
+  bastion: "anomaly-bastion",
+  worm: "anomaly-catena",
   calyx: "anomaly-calyx",
+  harrow: "anomaly-harrow",
 };
 
 /** 一覧の再描画や同じ項目の連打では繰り返さず、別項目への移動で次の表示とする。 */

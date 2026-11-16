@@ -1,0 +1,5 @@
+
+> swarm-front@0.1.0 test
+> vitest run --reporter=json --outputFile=docs/evidence/idname-wiring-20261116/checks/tests-summary.json
+
+JSON report written to C:/Users/futsa/swarm-idname-wiring-20261116/docs/evidence/idname-wiring-20261116/checks/tests-summary.json

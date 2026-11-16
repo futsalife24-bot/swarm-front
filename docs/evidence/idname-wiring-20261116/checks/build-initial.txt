@@ -1,0 +1,54 @@
+vite v8.2.2 building client environment for production...
+transforming...
+
+new URL('./assets/', import.meta.url) doesn't exist at build time, it will remain unchanged to be resolved at runtime. If this is intended, you can use the /* @vite-ignore */ comment to suppress this warning.
+✓ 332 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/asset-download-manifest.json              0.05 kB │ gzip:   0.06 kB
+dist/front.html                                4.88 kB │ gzip:   1.98 kB
+dist/index.html                                5.43 kB │ gzip:   2.04 kB
+dist/assets/sfx-worker-BikEsEkF.js            78.51 kB
+dist/assets/pixelfx-battle-CK0H9ElO.png      270.80 kB
+dist/assets/legacy-CPbai1ZT.css                0.25 kB │ gzip:   0.13 kB
+dist/assets/main-BOIn8V8d.css                  1.31 kB │ gzip:   0.66 kB
+dist/assets/preload-helper-BUUOzIBn.css        2.94 kB │ gzip:   1.17 kB
+dist/assets/room-access-DzHR7jRh.css           8.64 kB │ gzip:   2.13 kB
+dist/assets/cloud-save-Dr74CZLK.css           10.77 kB │ gzip:   2.67 kB
+dist/assets/game-select-C-P1GfeG.css          20.47 kB │ gzip:   5.25 kB
+dist/assets/playtest-app-B6XTpZG7.css         20.48 kB │ gzip:   5.03 kB
+dist/assets/weapon-workshop-ui-nOIftC5r.css   37.53 kB │ gzip:   8.33 kB
+dist/assets/front-BthREkfP.css                48.03 kB │ gzip:  10.85 kB
+dist/assets/hud-DbXcu7yw.css                 109.54 kB │ gzip:  22.41 kB
+dist/assets/zoom-guard-CYxqEXnM.js             0.38 kB │ gzip:   0.21 kB
+dist/assets/weapon-sharing-B4egrqlL.js         4.77 kB │ gzip:   2.55 kB
+dist/assets/room-access-BtXZ6cvj.js            9.35 kB │ gzip:   3.85 kB
+dist/assets/training-app-D_G9ltF7.js          12.85 kB │ gzip:   5.27 kB
+dist/assets/legacy-DGmoZGKv.js                18.04 kB │ gzip:   6.85 kB
+dist/assets/game-select-D4galFli.js           36.86 kB │ gzip:  13.80 kB
+dist/assets/main-CTKVpnqU.js                  58.12 kB │ gzip:  20.49 kB
+dist/assets/playtest-app-DpxTb6H1.js         112.71 kB │ gzip:  41.07 kB
+dist/assets/front-D76Zez_q.js                131.55 kB │ gzip:  45.16 kB
+dist/assets/cloud-save-C4zYB7BO.js           145.31 kB │ gzip:  51.66 kB
+dist/assets/runtime-VlS_FuT6.js              168.96 kB │ gzip:  65.95 kB
+dist/assets/preload-helper-CQ-icceF.js       202.73 kB │ gzip:  73.40 kB
+dist/assets/weapon-workshop-ui-DZwywFkX.js   495.65 kB │ gzip: 175.46 kB
+dist/assets/hud-DeRVez8O.js                  940.03 kB │ gzip: 263.37 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 17.50s
+[PLUGIN_TIMINGS] Plugin hooks ran for 17.5s. The build took 17.4s. Hooks such as `closeBundle` run after the build ends, so hook time can be more than build time.
+The slowest hooks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - swarm-current-asset-download-manifest writeBundle (56%, 9.8s, 1 call)
+  - vite:build-html transform (17%, 2.9s, 2 calls)
+  - vite:prepare-out-dir renderStart (12%, 2.2s, 1 call)
+  - vite:css-post renderChunk (12%, 2.1s, 14 calls)
+Additional hook time came from the hooks below and from hooks under 1s.
+1 hook is listed without a time. Its calls overlapped, so the time inside one call includes work from other calls. To find its cost, profile the build with `node --cpu-prof`:
+  - vite:css transform (42 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+

@@ -1,0 +1,71 @@
+[
+  {
+    "voice": "hiromi",
+    "version": 3,
+    "previousVersion": 2,
+    "bytes": 6296247,
+    "clips": 156,
+    "sha256": "d15190360b1ecbcb180adcc12890732a96ebf1fcdb44fc0f8394e7f603592338",
+    "added": [
+      "voice-control-hiromi-v1/anomaly-bastion",
+      "voice-control-hiromi-v1/anomaly-catena",
+      "voice-control-hiromi-v1/anomaly-foundry",
+      "voice-control-hiromi-v1/anomaly-harrow",
+      "voice-control-hiromi-v1/anomaly-leaper",
+      "voice-control-hiromi-v1/anomaly-pleat",
+      "voice-control-hiromi-v1/anomaly-prism",
+      "voice-control-hiromi-v1/anomaly-ray",
+      "voice-control-hiromi-v1/anomaly-volley"
+    ],
+    "deleted": [],
+    "changedExisting": [],
+    "existingIdentical": 147,
+    "redownloadRequired": true
+  },
+  {
+    "voice": "hiyori",
+    "version": 3,
+    "previousVersion": 2,
+    "bytes": 4487011,
+    "clips": 122,
+    "sha256": "423a79c769dab7d3842f7baed70d1de8d8401251a6c978382a62488eff798e99",
+    "added": [
+      "voice-control-hiyori-v1/anomaly-bastion",
+      "voice-control-hiyori-v1/anomaly-catena",
+      "voice-control-hiyori-v1/anomaly-foundry",
+      "voice-control-hiyori-v1/anomaly-harrow",
+      "voice-control-hiyori-v1/anomaly-leaper",
+      "voice-control-hiyori-v1/anomaly-pleat",
+      "voice-control-hiyori-v1/anomaly-prism",
+      "voice-control-hiyori-v1/anomaly-ray",
+      "voice-control-hiyori-v1/anomaly-volley"
+    ],
+    "deleted": [],
+    "changedExisting": [],
+    "existingIdentical": 113,
+    "redownloadRequired": true
+  },
+  {
+    "voice": "yoko",
+    "version": 3,
+    "previousVersion": 2,
+    "bytes": 4781429,
+    "clips": 122,
+    "sha256": "98d6cfad84bde48b07395dc2dd045b82c17d29187a4a40debbedcf185893b62f",
+    "added": [
+      "voice-control-yoko-v1/anomaly-bastion",
+      "voice-control-yoko-v1/anomaly-catena",
+      "voice-control-yoko-v1/anomaly-foundry",
+      "voice-control-yoko-v1/anomaly-harrow",
+      "voice-control-yoko-v1/anomaly-leaper",
+      "voice-control-yoko-v1/anomaly-pleat",
+      "voice-control-yoko-v1/anomaly-prism",
+      "voice-control-yoko-v1/anomaly-ray",
+      "voice-control-yoko-v1/anomaly-volley"
+    ],
+    "deleted": [],
+    "changedExisting": [],
+    "existingIdentical": 113,
+    "redownloadRequired": true
+  }
+]

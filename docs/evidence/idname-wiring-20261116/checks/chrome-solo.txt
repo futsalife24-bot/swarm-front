@@ -1,0 +1,16 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.goto: Timeout 90000ms exceeded.
+Call log:
+  - navigating to "http://127.0.0.1:5216/front.html", waiting until "domcontentloaded"
+
+    at C:\Users\futsa\swarm-idname-wiring-20261116\scripts\check-report-identification.mjs:31:14 {
+  log: [
+    '  - navigating to "http://127.0.0.1:5216/front.html", waiting until "domcontentloaded"'
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.19.0
