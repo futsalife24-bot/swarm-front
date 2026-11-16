@@ -41,3 +41,5 @@ GitHub: https://github.com/futsalife24-bot/swarm-front 。専用作業場所: `C
 検証側の調査: BUDDY組合せのmotion30.2秒を2倍速で15.1秒、停止hold合計3.99秒、理論最短19.09秒。旧成功実績20.093秒に対し20秒固定上限が不足した。`verify.mjs`だけをタイムラインのmotion/hold/pollから30〜45秒の有限上限を算出し、5秒無進捗を失敗にする形へ修正。final到達・plan/結果/保存不変・破棄後残留の合否基準は維持する。
 
 全演出の最終結果: 72条件・2016組合せ（結果下限不正0）、3組の実時間タップ完走、スキップ確認と破棄/残留0が成功。BUDDY20.273秒、他18.451/18.708秒でfinalへ到達し、無進捗なし。ゲーム側への変更による時間短縮はしていない。`all-signals/verify-all.json` と `checks/all-signals.txt`。
+
+実装commit後のbuild/production dry-runも成功。既存の500kB超chunkとVite plugin所要時間の警告は残る。新規依存/サービス/契約/権限/移行は追加していない。
