@@ -80,8 +80,11 @@ describe("voice packs shipped for optional download", () => {
       // Workers の静的配信の1ファイル上限（25MiB）より十分小さい。
       expect(pack.bytes).toBeLessThan(10 * 1024 * 1024);
     }
-    // ヒロミのパックにはチュートリアル34本を含める。
-    expect(CONTROL_VOICE_PACKS[0].sets["voice-tutorial-hiromi-v1"]).toBe(34);
+    // 武器強化案内10本は全声、従来のチュートリアル34本はヒロミに収録。
+    for (const { voice, sets } of CONTROL_VOICE_PACKS)
+      expect(sets[`voice-tutorial-${voice}-v1`]).toBe(
+        voice === "hiromi" ? 44 : 10,
+      );
   });
   it("contains every playable line including the recorded CALYX identification", () => {
     const indexes = new Map(
@@ -93,7 +96,7 @@ describe("voice packs shipped for optional download", () => {
     for (const line of CONTROL_VOICE_LINES)
       for (const voice of CONTROL_VOICE_SET_VOICES[line.set]) {
         const key = controlVoicePath(line, voice);
-        const has = indexes.get(voice)!.has(key);
+        const has = indexes.get(packVoiceOfKey(key)!)!.has(key);
         if (line.id === "anomaly-calyx") {
           expect(has, key).toBe(true);
           expect(playableLine(line)).toBe(true);

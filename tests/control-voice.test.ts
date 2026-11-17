@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { ARMORY_TOUR } from "../src/client/armory-tour-steps";
 import {
   CONTROL_SET_LINES,
   CONTROL_VOICE_LINES,
@@ -8,6 +9,7 @@ import {
   playableLine,
 } from "../src/client/control-voice-lines";
 import {
+  CONTROL_VOICES,
   CONTROL_VOICE_STORAGE_KEY,
   CONTROL_VOICE_UNLOCK_KEY,
   isControlVoiceUnlocked,
@@ -48,13 +50,13 @@ function queue(missing: string[] = []) {
 }
 
 describe("control voice line table", () => {
-  it("holds the 34 tutorial lines with tags as data", () => {
-    expect(TUTORIAL_VOICE_LINES).toHaveLength(34);
-    expect(new Set(TUTORIAL_VOICE_LINES.map((l) => l.id)).size).toBe(34);
+  it("holds the 44 tutorial lines with tags as data", () => {
+    expect(TUTORIAL_VOICE_LINES).toHaveLength(44);
+    expect(new Set(TUTORIAL_VOICE_LINES.map((l) => l.id)).size).toBe(44);
     const count = (tag: string) =>
       TUTORIAL_VOICE_LINES.filter((l) => l.tag === tag).length;
     expect([count("common"), count("solo"), count("multi")]).toEqual([
-      28, 2, 4,
+      38, 2, 4,
     ]);
     const production = (p: string) =>
       TUTORIAL_VOICE_LINES.filter((l) => l.production === p).length;
@@ -62,7 +64,7 @@ describe("control voice line table", () => {
       production("required"),
       production("recommended"),
       production("optional"),
-    ]).toEqual([24, 7, 3]);
+    ]).toEqual([34, 7, 3]);
   });
   it("registers all 149 control lines with unique ids", () => {
     expect(CONTROL_SET_LINES).toHaveLength(149);
@@ -314,22 +316,29 @@ describe("control voice selection and paths", () => {
       "voice-control-yoko-v1/wave-clear",
     );
   });
-  it("falls back to Hiromi for the tutorial set (provisional, data-driven)", () => {
-    expect(controlVoicePath(controlVoiceLine("tut-intro")!, "yoko")).toBe(
-      "voice-tutorial-hiromi-v1/tut-intro",
-    );
-    expect(voiceForSet("tutorial", "hiyori")).toBe("hiromi");
-    expect(voiceForSet("control", "hiyori")).toBe("hiyori");
-    // 代替を外せば字幕だけになる。収録が増えれば選んだ声で鳴る。
-    expect(voiceForSet("tutorial", "hiyori", undefined, null)).toBe(undefined);
-    expect(
-      voiceForSet(
-        "tutorial",
-        "hiyori",
-        { tutorial: ["hiromi", "hiyori"], control: [] },
-        null,
-      ),
-    ).toBe("hiyori");
+  it("uses the selected voice for each armory tour step and preserves the fallback for older tutorials", () => {
+    for (const voice of CONTROL_VOICES) {
+      expect(voiceForSet("tutorial", voice)).toBe(voice);
+      expect(voiceForSet("control", voice)).toBe(voice);
+      expect(controlVoicePath(controlVoiceLine("tut-intro")!, voice)).toBe(
+        "voice-tutorial-hiromi-v1/tut-intro",
+      );
+
+      const { q, started } = queue();
+      q.voice = voice;
+      for (const [id, text] of ARMORY_TOUR) {
+        const line = controlVoiceLine(id)!;
+        expect(line.text).toBe(text);
+        expect(line.set).toBe("tutorial");
+        expect(q.path(line)).toBe(`voice-tutorial-${voice}-v1/${id}`);
+        expect(q.request(id)).toBe("playing");
+      }
+      expect(started).toEqual(ARMORY_TOUR.map(([id]) => id));
+    }
+
+    const limited = { tutorial: ["hiromi"] as const, control: [] };
+    expect(voiceForSet("tutorial", "hiyori", limited)).toBe("hiromi");
+    expect(voiceForSet("tutorial", "hiyori", limited, null)).toBeUndefined();
   });
   it("filters solo and multi lines by entry route", () => {
     const medkit = controlVoiceLine("tut-medkit")!,

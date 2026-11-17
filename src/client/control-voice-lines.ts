@@ -2,9 +2,13 @@
  * 管制AI音声の台詞定義表。
  * 正本:
  * - チュートリアル34本: docs/tutorial-proposal-20261113.md §6（ID・トリガー・文面・タグ・制作優先度）
+ * - 武器強化の実画面案内10本: armory-tour-steps.ts
  * - 管制AI147行: docs/voice-proposal-20261113.md §4-1〜4-5・4-8・4-9
  * 文面は収録台詞の正本。タグ・再生優先度・採用フラグ・止めている理由は、コードではなくこの表のデータで持つ。
  */
+
+import { ARMORY_TOUR } from "./armory-tour-steps";
+import type { ControlVoiceId } from "./control-voice";
 
 /** 音声セット。フォルダは `voice-<set>-<voice>-v<version>/`。 */
 export type ControlVoiceSet = "tutorial" | "control";
@@ -54,6 +58,8 @@ export interface ControlVoiceLine {
   set: ControlVoiceSet;
   category: ControlVoiceCategory;
   scene: ControlVoiceScene;
+  /** セット内で収録済みの声が限られる場合だけ指定する。 */
+  voices?: readonly ControlVoiceId[];
   /** 鳴らすきっかけ（提案書のトリガー列の要約）。 */
   trigger: string;
   /** 収録台詞。 */
@@ -1193,12 +1199,29 @@ const BRIEF = rows(
   { blocked: () => "abolished" },
 );
 
+const ARMORY_TOUR_LINES = rows(
+  "tutorial",
+  "guide",
+  "guide",
+  { tag: "common", priority: "guide" },
+  ARMORY_TOUR.map(([id, text], index) => [
+    id,
+    `武器強化の実画面案内 ${index + 1}`,
+    text,
+    R,
+  ]),
+);
+
+const TUTORIAL_HIROMI_ONLY = ["hiromi"] as const;
 export const TUTORIAL_VOICE_LINES: readonly ControlVoiceLine[] = [
   // 誘い（tut-offer）はホームで1本だけ取得するため、訓練の一括読み込みには含めない。
-  ...TRAINING.map((line) =>
-    line.id === "tut-offer" ? { ...line, scene: "guide" as const } : line,
-  ),
-  ...GUIDE,
+  ...TRAINING.map((line) => ({
+    ...line,
+    scene: line.id === "tut-offer" ? ("guide" as const) : line.scene,
+    voices: TUTORIAL_HIROMI_ONLY,
+  })),
+  ...GUIDE.map((line) => ({ ...line, voices: TUTORIAL_HIROMI_ONLY })),
+  ...ARMORY_TOUR_LINES,
 ];
 /** 2026-11-15 本人確定チェックリスト。未掲載行の既存値は維持する。 */
 const CHECKLIST_ADOPTED = new Set([
