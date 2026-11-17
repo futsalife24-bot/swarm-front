@@ -43,3 +43,5 @@
 既存依存を使い、ローカル専用 `.dev.vars` は秘密値を表示せず `node scripts/setup-local.mjs` で準備。`npx wrangler dev --local --config wrangler.test.jsonc --ip 127.0.0.1 --port 8796 --persist-to .wrangler/coop-smooth` を別プロセスで起動後、`node scripts/check-coop-smooth-live.mjs`。5186/8796/5198が他作業で使用中なら占有者を止めず、検証側のポートを調整する。画面測定は `node scripts/check-viewport-resize.mjs`。生成出力はGit除外のdist-validation以下。
 
 主担当の実モデルID/effortは未確認。画面担当へ `gpt-6-sol` / `medium` を指定（実行側設定の独立確認は未実施）、主担当が差分・測定JSON・画像・負の対照を確認。独立Chat監査ではない。
+
+草稿PR: https://github.com/futsalife24-bot/swarm-front/pull/369 。製品変更7c6389c7、記録整理720fa329でcommit後build成功。最終の文書PR参照追記は製品変更なし。
