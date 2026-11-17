@@ -16,6 +16,7 @@ export interface SupplyReceipt {
 }
 
 export interface SupplySnapshot {
+  credited?: { past: number; recent: number };
   tickets: number;
   day: string;
   pending: SupplyReceipt | null;
@@ -61,3 +62,12 @@ export function validSupplyReceipt(value: unknown): value is SupplyReceipt {
 
 export const supplyReceiptKey = (receipt: SupplyReceipt) =>
   `supply:${receipt.requestId}`;
+
+export function validSupplyCredit(value: unknown): boolean {
+  if (value === undefined) return true;
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const credit = value as { past?: number; recent?: number };
+  return [credit.past, credit.recent].every(
+    (n) => typeof n === "number" && Number.isSafeInteger(n) && n >= 0,
+  );
+}

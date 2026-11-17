@@ -60,6 +60,7 @@ import {
   clientAddress,
   authenticatedResponse,
   vaultSupplyGrant,
+  vaultSupplyProgress,
   validCloudSave,
   PER_ADDRESS_PER_MINUTE,
 } from "./player-vault";
@@ -709,6 +710,10 @@ export class Gate extends DurableObject<Env> {
       return this.ctx.blockConcurrencyWhile(() =>
         vaultSupplyGrant(req, sqlVaultStorage(this.ctx.storage)),
       );
+    if (internal === "/cloud-supply-progress")
+      return this.ctx.blockConcurrencyWhile(() =>
+        vaultSupplyProgress(req, sqlVaultStorage(this.ctx.storage)),
+      );
     const legacySupply = /^\/supply\/([a-f0-9]{32})\/[a-z]+$/.exec(internal);
     if (legacySupply)
       return this.ctx.blockConcurrencyWhile(() =>
@@ -749,6 +754,19 @@ export class Gate extends DurableObject<Env> {
           Date.now(),
           undefined,
           {
+            progress: async () => {
+              const response = await this.env.GATE.get(
+                this.env.GATE.idFromName("cloud/" + cloudSupply[1]),
+              ).fetch(
+                new Request("https://internal/cloud-supply-progress", {
+                  headers: {
+                    Authorization: req.headers.get("Authorization") ?? "",
+                  },
+                }),
+              );
+              if (!response.ok) return response;
+              return (await response.json()) as import("../src/shared/supply-grants").SupplyProgress;
+            },
             open: async (claim) => {
               const granted = await this.env.GATE.get(
                 this.env.GATE.idFromName("cloud/" + cloudSupply[1]),

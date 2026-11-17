@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "report": [
+    {
+      "width": 844,
+      "height": 390,
+      "result": true,
+      "weekly": true,
+      "pastCredit": true,
+      "noDuplicate": true,
+      "errors": []
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "result": true,
+      "weekly": true,
+      "pastCredit": true,
+      "noDuplicate": true,
+      "errors": []
+    }
+  ],
+  "method": "Synthetic local battle save via production save functions; real local Worker cloud/supply HTTP. Dev UI routed to that Worker; no response mocks."
+}

@@ -160,6 +160,6 @@ it("帰還報酬に専用武器を保存せず、既存の報酬Lvを維持す�
   run.world.players[0].kills = 1;
   expect(returnFrontRun(run)).toBe(true);
   expect(run.world.rewards.player).toHaveLength(1);
-  expect(run.world.rewards.player[0].level).toBe(9);
+  expect(run.world.rewards.player[0].level).toBe(1);
   expect(run.world.rewards.player.some(isFrontSurvivalWeapon)).toBe(false);
 });

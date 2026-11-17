@@ -41,6 +41,7 @@ export interface SoloProgression {
   plannedKills: number;
   collection: number;
   acquired: number;
+  powderCollected: number;
 }
 export const maxHp = (w: World) =>
   w.rebuild?.maxHp ?? (w.solo ? 160 * (1 + 0.1 * w.solo.levels.hp) : 160);
@@ -78,6 +79,7 @@ export function initSolo(
     plannedKills: 0,
     collection: 0,
     acquired: 0,
+    powderCollected: 0,
   };
 }
 export function soloBeginWave(w: World) {
@@ -197,31 +199,35 @@ export function soloDrop(w: World, e: Enemy) {
   const s = w.solo!,
     weaponRoll = random(w),
     healRoll = random(w);
+  const full =
+    (w.pending[w.players[0].id]?.length ?? 0) +
+      w.drops.filter((d) => (d.type ?? "weapon") === "weapon").length >=
+    3;
   for (const [type, chance] of [
-    ["weapon", weaponRoll < 0.05],
+    [full && !w.defense ? "powder" : "weapon", weaponRoll < 0.05],
     ["heal", healRoll < 0.02],
   ] as const) {
     if (
       !chance ||
-      (type === "weapon" &&
-        (w.pending[w.players[0].id]?.length ?? 0) +
-          w.drops.filter((d) => (d.type ?? "weapon") === "weapon").length >=
-          3) ||
-      w.drops.filter((d) => (d.type ?? "weapon") === type).length >= 10
+      (type === "weapon" && full) ||
+      (type === "heal" && w.drops.filter((d) => d.type === "heal").length >= 10)
     )
       continue;
     const angle = random(w) * Math.PI * 2,
       to = dropPosition(w, e, angle),
       id = `${w.run}-drop-${++w.serial}`;
-    const weapon = rollWeapon(
-      id,
-      s.stage,
-      s.difficulty,
-      s.test,
-      s.acquired++,
-      () => random(w),
-      "solo",
-    );
+    const weapon =
+      type === "powder"
+        ? w.players[0].weapons[0]
+        : rollWeapon(
+            id,
+            s.stage,
+            s.difficulty,
+            s.test,
+            s.acquired++,
+            () => random(w),
+            "solo",
+          );
     w.drops.push({
       id,
       owner: w.players[0].id,
@@ -253,9 +259,22 @@ export function collectSolo(w: World, p: Player) {
               ? ACCESSORY_VALUES.healing[w.solo.accessory.rarity]
               : 0.2),
       );
+    } else if (d.type === "powder") {
+      w.solo!.powderCollected++;
     } else if (w.pending[p.id].length < 3) w.pending[p.id].push(d.weapon);
     w.drops = w.drops.filter((x) => x !== d);
   }
+}
+/** Win-only sweep after the collection timer or the finish button. */
+export function collectRemainingSolo(w: World) {
+  if (!w.solo || w.phase !== "victory") return;
+  const p = w.players[0];
+  for (const d of w.drops.filter((d) => d.owner === p.id)) {
+    if (d.type === "powder") w.solo.powderCollected++;
+    else if (d.type !== "heal" && w.pending[p.id].length < 3)
+      w.pending[p.id].push(d.weapon);
+  }
+  w.drops = w.drops.filter((d) => d.owner !== p.id || d.type === "heal");
 }
 export function dropAt(w: World, d: Drop) {
   const age = w.time + (w.solo?.collection ?? 0) - (d.born ?? -100),

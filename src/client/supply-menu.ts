@@ -1,3 +1,5 @@
+import { SUPPLY_RULES } from "../shared/supply-policy";
+import { SUPPLY_GRANTS } from "../shared/supply-grants";
 import {
   loadProgress,
   persistProgress,
@@ -38,14 +40,29 @@ export function mountSupplyMenu(
     <section><p>補給券 <strong class="supply-count" data-supply-count>確認中…</strong></p>
       <div class="supply-actions"><button type="button" data-supply-draw="1" disabled>1回 · 1枚</button><button type="button" data-supply-draw="10" disabled>10連 · 10枚</button><button type="button" data-supply-recover hidden>前回の補給を再開</button><button type="button" data-supply-cloud hidden>クラウド保存を作成</button><button type="button" data-supply-refresh>再確認</button></div>
       <p class="supply-guarantee">10連は最後の1個がSR以上確定</p>
+      <p data-supply-credit role="status" hidden></p>
       <p class="supply-feedback" data-supply-feedback role="status" aria-live="polite"></p>
       <button type="button" data-supply-starter hidden>初回バディを選ぶ</button>
-      <small>無料の補給券です。初回10枚、翌日から日本時間で1日1枚。受け取らなかった日分の繰越はありません。バディ招集券とは別です。</small>
+      <small>無料の補給券です。初回${SUPPLY_RULES.initialTickets}枚（クラウド保存1つに1回）。以後は初回クリア${SUPPLY_GRANTS.firstClear}枚・星②③各${SUPPLY_GRANTS.star}枚・最高到達各${SUPPLY_GRANTS.frontStage}枚・週${SUPPLY_GRANTS.weeklyClearCap}回までのクリア各${SUPPLY_GRANTS.weeklyClear}枚・その日の最初のクリア${SUPPLY_GRANTS.dailyFirstClear}枚・週間ミッションで入手。日次配布はありません。バディ招集券とは別です。</small>
       <small>補給券はクラウド保存（引き継ぎコード）に紐づき、初回10枚はクラウド保存1つにつき1回です。通信できるときに利用できます。クラウド保存を削除すると補給券も引き継げません。</small>
     </section>
     <section><h2>排出内容・確率</h2><table class="supply-rates"><thead><tr><th>通常1枠</th><th>確率</th></tr></thead><tbody>
-      <tr><td>N武器</td><td>45%</td></tr><tr><td>R武器</td><td>30%</td></tr><tr><td>SR武器</td><td>15%</td></tr><tr><td>SSR武器</td><td>4%</td></tr><tr><td>バディ</td><td>1%</td></tr><tr><td>武装片10個</td><td>5%</td></tr>
-      </tbody></table><small>10連は最後の1個がSR以上確定。通常抽選で対象が0個なら最後の1枠がSR75%／SSR20%／バディ5%になります。SR以上の1個を最後に配置します。武器はLv1でLRは対象外。同じ区分内は均等です。</small>
+      ${Object.entries(SUPPLY_RULES.weights)
+        .map(
+          ([key, weight]) =>
+            `<tr><td>${key === "buddy" ? "バディ" : key === "shard" ? `武装片${SUPPLY_RULES.shardAmount}個` : `${key}武器`}</td><td>${Number((weight * 100).toFixed(1))}%</td></tr>`,
+        )
+        .join("")}
+      </tbody></table><small>10連は最後の1個がSR以上確定。通常抽選で対象が0個なら最後の1枠が${Object.entries(
+        SUPPLY_RULES.guaranteeWeights,
+      )
+        .map(
+          ([key, weight]) =>
+            `${key === "buddy" ? "バディ" : key}${weight * 100}%`,
+        )
+        .join(
+          "／",
+        )}になります。SR以上の1個を最後に配置します。武器はLv1でLRは対象外。同じ区分内は均等です。</small>
       <small>所持済みバディは突破素材1個になります。確定演出やタップ・長押し・スキップで抽選結果は変わりません。</small>
     </section></div>`;
   const $ = <T extends HTMLElement>(selector: string) =>
@@ -66,6 +83,11 @@ export function mountSupplyMenu(
         .forEach((b) => (b.disabled = true));
       feedback((error as Error).message);
       return;
+    }
+    const credit = $("[data-supply-credit]");
+    if (snapshot?.credited?.past) {
+      credit.hidden = false;
+      credit.textContent = `過去の達成分 +${snapshot.credited.past}枚`;
     }
     const hasStarter = !!getSave().buddies?.starterChosen;
     $("[data-supply-count]").textContent = snapshot

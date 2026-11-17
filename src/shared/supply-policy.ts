@@ -14,11 +14,18 @@ import {
 
 export const SUPPLY_RULES = {
   initialTickets: 10,
-  dailyTickets: 1,
+  dailyTickets: 0,
   singleCost: 1,
   tenCost: 10,
   shardAmount: 10,
-  weights: { N: 0.45, R: 0.3, SR: 0.15, SSR: 0.04, buddy: 0.01, shard: 0.05 },
+  weights: {
+    N: 0.469,
+    R: 0.312,
+    SR: 0.15,
+    SSR: 0.015,
+    buddy: 0.004,
+    shard: 0.05,
+  },
   guaranteeWeights: { SR: 0.75, SSR: 0.2, buddy: 0.05 },
 } as const;
 

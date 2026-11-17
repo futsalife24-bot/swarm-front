@@ -4,6 +4,7 @@ import {
   cloudHash,
   playerVault,
   vaultSupplyGrant,
+  vaultSupplyProgress,
 } from "../server/player-vault";
 import { supplyVault, type SupplyAccess } from "../server/supply-vault";
 import { freshProgress } from "../src/client/progression-save";
@@ -39,6 +40,16 @@ export function supplyWorld(
       body: JSON.stringify(body),
     });
   const cloudAccess = (vaultId: string, auth: string): SupplyAccess => ({
+    progress: async () => {
+      const response = await vaultSupplyProgress(
+        new Request("https://internal/cloud-supply-progress", {
+          headers: { Authorization: auth },
+        }),
+        store("cloud/" + vaultId),
+      );
+      if (!response.ok) return response;
+      return (await response.json()) as import("../src/shared/supply-grants").SupplyProgress;
+    },
     open: async (claim) => {
       const granted = await vaultSupplyGrant(
         post("https://internal/cloud-supply-grant", auth, { claim }),

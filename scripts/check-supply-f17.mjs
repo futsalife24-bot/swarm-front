@@ -40,11 +40,13 @@ const call = async (path, { body, token, ip = `10.${run}.0.1` } = {}) => {
 };
 const total = async (scope) =>
   (await (await fetch(`${origin}/rate-fixture/${scope}`)).json()).total ?? 0;
-const preset = (scope, value) =>
-  fetch(`${origin}/rate-fixture/${scope}`, {
-    method: "POST",
-    body: JSON.stringify(value),
+const preset = async (scope, value) => {
+  const response = await fetch(`${origin}/rate-fixture/${scope}`, {
+    method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(value),
   });
+  assert.equal(response.status,200);
+  await response.json();
+};
 const createVault = async () => {
   const created = await call("/api/cloud/create", {
     body: { save },

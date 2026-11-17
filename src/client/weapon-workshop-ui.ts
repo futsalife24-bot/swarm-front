@@ -10,6 +10,9 @@ import {
   modificationCost,
   convertWeapon,
   modifyWeapon,
+  ARMORY_LEVEL_LIMIT,
+  levelUpCost,
+  levelUpWeapon,
 } from "./weapon-workshop";
 import {
   loadProgress,
@@ -53,8 +56,10 @@ export function openWeaponWorkshop(
       target = (Object.keys(WEAPONS) as Kind[]).find((k) => k !== w.kind)!;
     let converted: ProgressSave | undefined,
       modified: ProgressSave | undefined,
+      leveled: ProgressSave | undefined,
       conversionError = "",
-      modError = "";
+      modError = "",
+      levelError = "";
     try {
       converted = convertWeapon(save, id, target);
     } catch (e) {
@@ -65,6 +70,15 @@ export function openWeaponWorkshop(
     } catch (e) {
       modError = (e as Error).message;
     }
+    try {
+      leveled = levelUpWeapon(save, id);
+    } catch (e) {
+      levelError = (e as Error).message;
+    }
+    const nextDamage =
+      weaponLevel(w) < ARMORY_LEVEL_LIMIT
+        ? stats({ ...w, level: weaponLevel(w) + 1 }).damage.toFixed(1)
+        : "—";
     const metrics = (next?: ProgressSave) => {
       const item = next?.inventory.find((item) => item.id === id) ?? w,
         d = stats(item);
@@ -95,7 +109,10 @@ export function openWeaponWorkshop(
       )
       .join(
         "",
-      )}</select></label><p>${metrics(modified)}</p><small>火力・弾速は最大10段階、1段階+5%。装填数は約10%・最低1発ずつ、重ロケット3／ロケット4／擲弾系5／その他10段階。変換先の上限超過分は休眠保存。ラン内の強化・融合は持ち越しません。</small><button id="workshop-modify" ${modified ? "" : "disabled"}>武装片 ${modificationCost(w, key)}で改造</button><p>${esc(modError)}</p></section></div><p id="workshop-status" role="status">${esc(notice)}</p></section>`;
+      )}</select></label><p>${metrics(modified)}</p><small>火力・弾速は最大10段階、1段階+5%。装填数は約10%・最低1発ずつ、重ロケット3／ロケット4／擲弾系5／その他10段階。変換先の上限超過分は休眠保存。ラン内の強化・融合は持ち越しません。</small><button id="workshop-modify" ${modified ? "" : "disabled"}>武装片 ${modificationCost(w, key)}で改造</button><p>${esc(modError)}</p></section><section class="workshop-level"><h2>レベル強化</h2><p>Lv${weaponLevel(w)} → ${weaponLevel(w) >= ARMORY_LEVEL_LIMIT ? "上限" : `Lv${weaponLevel(w) + 1}`}</p><p>火力 ${stats(w).damage.toFixed(1)} → ${nextDamage}</p><p>必要素材：武装片 ${weaponLevel(w) >= ARMORY_LEVEL_LIMIT ? "—" : levelUpCost(w)} / 所持 ${save.powder}</p><button id="workshop-level" ${leveled ? "" : "disabled"}>Lvを1上げる</button><p>${esc(levelError)}</p></section></div><p id="workshop-status" role="status">${esc(notice)}</p></section>`;
+    root
+      .querySelector(".workshop-actions")!
+      .prepend(root.querySelector(".workshop-level")!);
     const $ = (selector: string) =>
       root.querySelector<HTMLButtonElement>(selector)!;
     $("#workshop-back").onclick = back;
@@ -112,7 +129,7 @@ export function openWeaponWorkshop(
       draw();
     };
     const confirm = (candidate: ProgressSave, action: string) => {
-      if (busy || root.querySelector("dialog")) return;
+      if (busy || root.querySelector("dialog[open]")) return;
       const dialog = document.createElement("dialog");
       dialog.className = "workshop-confirm";
       const destination = candidate.inventory.find((item) => item.id === id)!;
@@ -152,6 +169,9 @@ export function openWeaponWorkshop(
     };
     $("#workshop-modify").onclick = () => {
       if (modified) confirm(modified, "改造");
+    };
+    $("#workshop-level").onclick = () => {
+      if (leveled) confirm(leveled, "レベル強化");
     };
     menuAssemble(root, root.querySelector(".workshop-actions"));
   }

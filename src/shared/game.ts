@@ -330,7 +330,7 @@ export interface Event {
   owner?: string;
 }
 export interface Drop {
-  type?: "weapon" | "heal";
+  type?: "weapon" | "heal" | "powder";
   born?: number;
   fromX?: number;
   fromZ?: number;
@@ -513,7 +513,7 @@ export function loot(w: World): Weapon {
   return {
     id: `${w.run}-${++w.serial}`,
     kind,
-    level: Math.min(60, w.stage ?? 1),
+    level: 1,
     // LR is never drawn: it is what a top-grade roll becomes when it also
     // carries an effect, so the tier means "this one landed everything".
     rarity: grade >= LR_QUALITY && effect !== "none" ? 3 : rarity,

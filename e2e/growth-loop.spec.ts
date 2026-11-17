@@ -66,8 +66,14 @@ test("weapon workshop confirms atomic cost and ignores double processing", async
   await page.locator("#front-base").click();
   await page.getByRole("button", { name: "武器工房", exact: true }).click();
   await expect(page.locator(".weapon-workshop")).toBeVisible();
+  await expect(page.locator(".split-shutter, .menu-route-shutter")).toHaveCount(
+    0,
+  );
   await page.locator("#workshop-modify").click();
   await expect(page.locator("dialog")).toContainText("武装片 100 → 97");
+  await expect(page.locator(".split-shutter, .menu-route-shutter")).toHaveCount(
+    0,
+  );
   await page
     .locator("dialog [data-commit]")
     .evaluate((b: HTMLButtonElement) => {
@@ -79,6 +85,9 @@ test("weapon workshop confirms atomic cost and ignores double processing", async
   );
   expect(saved.powder).toBe(97);
   expect(saved.inventory[0].mods.damage).toBe(1);
+  await expect(page.locator(".split-shutter, .menu-route-shutter")).toHaveCount(
+    0,
+  );
   await page.locator("#workshop-kind").selectOption("rocket");
   await page.locator("#workshop-convert").click();
   await page.locator("dialog [data-commit]").click();
@@ -88,14 +97,79 @@ test("weapon workshop confirms atomic cost and ignores double processing", async
   expect(transformed.inventory[0].id).toBe(saved.inventory[0].id);
   expect(transformed.inventory[0].mods.damage).toBe(1);
   expect(transformed.soldiers[0].equipped).toEqual(saved.soldiers[0].equipped);
-  await expect(page.locator(".weapon-workshop")).toHaveCSS("opacity", "1");
+  await expect(page.locator(".split-shutter, .menu-route-shutter")).toHaveCount(
+    0,
+  );
+  await expect(page.locator(".weapon-workshop").first()).toHaveCSS(
+    "opacity",
+    "1",
+  );
   await page.screenshot({
     path: "docs/evidence/swarm-growth-loop-20261012/workshop-844.png",
   });
-  await page.reload();
+  await page.reload({ waitUntil: "domcontentloaded" });
   await page.locator("#front-base").click();
+  await expect(page.locator(".split-shutter, .menu-route-shutter")).toHaveCount(
+    0,
+  );
   await page.getByRole("button", { name: "武器工房", exact: true }).click();
   await expect(page.locator(".weapon-workshop")).toContainText("火力 1/10");
+});
+
+test("weapon workshop upgrades one level, persists it, and blocks shortage", async ({
+  page,
+}) => {
+  await page.goto("/front?solo=1", { waitUntil: "domcontentloaded" });
+  await expect(page.locator(".front-prep")).toBeVisible();
+  await page.evaluate(() => {
+    const key = "swarm-front-shared-progress-v3";
+    const save = JSON.parse(localStorage.getItem(key)!);
+    save.powder = 4;
+    localStorage.setItem(key, JSON.stringify(save));
+  });
+  await page.locator("#front-base").click();
+  await page.getByRole("button", { name: "武器工房", exact: true }).click();
+  await expect(page.locator(".workshop-level")).toContainText("Lv1 → Lv2");
+  await expect(page.locator(".workshop-level")).toContainText(
+    "武装片 4 / 所持 4",
+  );
+  await expect(page.locator(".split-shutter, .menu-route-shutter")).toHaveCount(
+    0,
+  );
+  await page.screenshot({
+    path: "dist-validation/weapon-workshop-level-844.png",
+  });
+  await page.locator("#workshop-level").click();
+  await expect(page.locator("dialog[open]")).toContainText("武装片 4 → 0");
+  await expect(page.locator(".split-shutter, .menu-route-shutter")).toHaveCount(
+    0,
+  );
+  await page.locator("dialog [data-commit]").click();
+  await expect(page.locator("dialog[open]")).toHaveCount(0);
+  await expect(page.locator(".split-shutter, .menu-route-shutter")).toHaveCount(
+    0,
+  );
+  await expect(page.locator(".workshop-level").first()).toContainText(
+    "Lv2 → Lv3",
+  );
+  await expect(page.locator("#workshop-level").first()).toBeDisabled();
+  await page.reload({ waitUntil: "domcontentloaded" });
+  await page.locator("#front-base").click();
+  await expect(page.locator(".split-shutter, .menu-route-shutter")).toHaveCount(
+    0,
+  );
+  await page.getByRole("button", { name: "武器工房", exact: true }).click();
+  await expect(page.locator(".workshop-level")).toContainText("Lv2 → Lv3");
+  const saved = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("swarm-front-shared-progress-v3")!),
+  );
+  expect(saved.inventory[0].level).toBe(2);
+  expect(saved.powder).toBe(0);
+  await page.setViewportSize({ width: 640, height: 360 });
+  await expect(page.locator(".workshop-level")).toBeVisible();
+  await page.screenshot({
+    path: "dist-validation/weapon-workshop-level-640.png",
+  });
 });
 
 test("optional operation cues can be skipped and interrupted with a static fallback", async ({

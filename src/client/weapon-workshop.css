@@ -16,6 +16,20 @@
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+.workshop-level {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+}
+.workshop-level h2 {
+  flex-basis: 100%;
+}
+.workshop-level p,
+.workshop-level button {
+  margin: 0;
+}
 .workshop-actions section {
   border: 1px solid #57978766;
   border-radius: 10px;
