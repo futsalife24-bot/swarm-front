@@ -1,3 +1,9 @@
+## 2026-11-17 協力プレイの敵補間と描画範囲復元（草稿PR、未merge/未公開）
+
+本人依頼でorigin/main bce1d032から `codex/coop-smooth-20261117` / `C:/Users/futsa/swarm-coop-smooth-20261117` を作成。100ms配信を最新位置への指数平滑化だけで表示していたため、協力の敵表示だけに150ms補間・100ms上限外挿を追加。自キャラ入力/予測・権威戦闘は変更なし。GPU準備中のresize後に古いviewportを復元する競合も修正。[原因・検証・未確認](evidence/coop-smooth-20261117/README.md)。
+
+全197ファイル2025件・型/build成功、実Chrome9サイズ/DPR条件合格。旧コードのviewport回帰失敗と修正版合格、実ローカルWorker2人・片道143ms・ゲスト描画15秒（各85状態、例外/GLエラー0）を確認。友達の実端末の原因同一性、爆発時RTT上昇の根因、人間の体感は未確認。既存E2Eは今回対象外。本人指定で草稿PRまで、merge・デプロイは行わない。指定結果 `C:/Users/futsa/bibi-bridge/outbox/swarm-coop-smooth-status.md`。
+
 ## 2026-11-17 PR367 本人承認による公開完了
 
 本人の公開指示で草稿PR367をReadyに変更して通常merge。公開ソースmainは52dfe8873beab55fab4b7e3bda1ab83099688bb5、対象3b3812c0の取り込みを確認。mainの単体全195ファイル2018件（517.24秒）、型チェック、build、production dry-run成功後に既存Workerへ公開。既存E2E未合格は本人指定により今回公開の判定対象外、再実行なし。

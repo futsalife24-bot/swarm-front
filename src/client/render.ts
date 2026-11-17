@@ -1,3 +1,4 @@
+import { FrontEnemyMotion } from "./front-enemy-motion";
 import { BuddyVisuals } from "./buddy-visuals";
 import { CalyxEffects } from "./calyx-effects";
 import { BastionView } from "./bastion-view";
@@ -309,6 +310,7 @@ export class Renderer {
   enemyGlbDebug = new Map<string, import("./enemy-glb-debug").EnemyGlbDebug>();
   houndDebug?: import("./hound-glb-debug").HoundGlbDebug;
   private houndVisualInputs: import("./hound-motion").HoundVisualInput[] = [];
+  readonly enemyMotion = new FrontEnemyMotion();
   scene = new T.Scene();
   camera = new T.PerspectiveCamera(NORMAL_FOV, 1, 0.1, 1200);
   readonly drone = DroneCamera.fromLocation();
@@ -1186,15 +1188,18 @@ export class Renderer {
       let hi = 0;
       let ri = 0,
         bodyCount = 0;
+      this.enemyMotion.beginFrame(performance.now());
       for (const [kind, mesh] of this.enemies) {
         let n = 0;
-        for (const e of w.enemies.filter((e) => e.kind === kind)) {
+        for (const authority of w.enemies.filter((e) => e.kind === kind)) {
+          const e = this.enemyMotion.sample(authority);
           const key = String(e.id),
             v = this.visual.get(key) ?? new T.Vector3(e.x, e.y, e.z);
           const moving = Math.hypot(v.x - e.x, v.z - e.z) > 0.015;
           const previousHoundX = v.x,
             previousHoundZ = v.z;
-          v.lerp(new T.Vector3(e.x, e.y, e.z), 1 - Math.exp(-dt * 12));
+          if (this.enemyMotion.enabled) v.set(e.x, e.y, e.z);
+          else v.lerp(new T.Vector3(e.x, e.y, e.z), 1 - Math.exp(-dt * 12));
           if (kind === "bastion" && this.bastion.ready) {
             v.y = e.y;
             this.visual.set(key, v);
@@ -1223,10 +1228,13 @@ export class Renderer {
                   const position =
                     this.visual.get(segmentKey) ??
                     new T.Vector3(segment.x, segment.y, segment.z);
-                  position.lerp(
-                    new T.Vector3(segment.x, segment.y, segment.z),
-                    1 - Math.exp(-dt * 12),
-                  );
+                  if (this.enemyMotion.enabled)
+                    position.set(segment.x, segment.y, segment.z);
+                  else
+                    position.lerp(
+                      new T.Vector3(segment.x, segment.y, segment.z),
+                      1 - Math.exp(-dt * 12),
+                    );
                   position.y = segment.y;
                   if (snapOmega) position.set(segment.x, segment.y, segment.z);
                   this.visual.set(segmentKey, position);
@@ -1424,10 +1432,13 @@ export class Renderer {
               const position =
                 this.visual.get(segmentKey) ??
                 new T.Vector3(segment.x, segment.y, segment.z);
-              position.lerp(
-                new T.Vector3(segment.x, segment.y, segment.z),
-                1 - Math.exp(-dt * 12),
-              );
+              if (this.enemyMotion.enabled)
+                position.set(segment.x, segment.y, segment.z);
+              else
+                position.lerp(
+                  new T.Vector3(segment.x, segment.y, segment.z),
+                  1 - Math.exp(-dt * 12),
+                );
               this.visual.set(segmentKey, position);
               const angle = Math.atan2(
                 previous.x - segment.x,
