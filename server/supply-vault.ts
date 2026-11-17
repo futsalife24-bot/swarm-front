@@ -1,3 +1,7 @@
+import {
+  supplyMilestones,
+  type SupplyProgress,
+} from "../src/shared/supply-grants";
 import { japanDay } from "../src/shared/calendar";
 import { drawSupply, SUPPLY_RULES } from "../src/shared/supply-policy";
 import {
@@ -41,6 +45,8 @@ interface SupplyState {
   migratedTo?: string;
   /** Vault account: legacy account IDs already merged (idempotent migration). */
   absorbed?: string[];
+  granted?: string[];
+  collected?: number;
 }
 
 export interface SupplyTransfer {
@@ -50,6 +56,7 @@ export interface SupplyTransfer {
 }
 
 export interface SupplyAccess {
+  progress?: () => Promise<SupplyProgress | Response>;
   /**
    * Vault-bound account only. Verifies the vault credential and consumes the
    * vault's initial grant for `claim`. Absent for legacy accounts, which can
@@ -215,12 +222,39 @@ export async function supplyVault(
     if (!bodyIs(body, [])) return cloudReply({ error: "指定が不正です" }, 400);
     if (state.day > day)
       return cloudReply({ error: "日付を確認してください" }, 409);
-    if (state.day < day) {
+    let credited: SupplySnapshot["credited"];
+    if (access.progress) {
+      const progress = await access.progress();
+      if (progress instanceof Response) return progress;
+      if (
+        !Number.isSafeInteger(progress.earned) ||
+        progress.earned < 0 ||
+        !progress.missions ||
+        typeof progress.missions !== "object" ||
+        Array.isArray(progress.missions)
+      )
+        return cloudReply({ error: "進行記録を確認できません" }, 502);
+      const granted = new Set(state.granted ?? []);
+      const fresh = supplyMilestones(progress.missions).filter(
+        (g) => !granted.has(g.id),
+      );
+      const past = fresh.reduce((sum, g) => sum + g.tickets, 0);
+      const recent = Math.max(0, progress.earned - (state.collected ?? 0));
+      for (const grant of fresh) granted.add(grant.id);
+      if (past || recent || state.day < day) {
+        state.granted = [...granted];
+        state.collected = Math.max(state.collected ?? 0, progress.earned);
+        state.tickets += past + recent;
+        state.day = day;
+        await storage.put("supply", state);
+      }
+      credited = { past, recent };
+    } else if (state.day < day) {
       state.day = day;
       state.tickets += SUPPLY_RULES.dailyTickets;
       await storage.put("supply", state);
     }
-    return cloudReply(snapshot());
+    return cloudReply({ ...snapshot(), ...(credited ? { credited } : {}) });
   }
   if (action === "draw") {
     if (

@@ -1,0 +1,39 @@
+{
+  "sourceHead": "071320645edeb982e5972417837a924d061d7892",
+  "unit": {
+    "files": 195,
+    "tests": 2005,
+    "passed": true,
+    "seconds": 483.93
+  },
+  "saveRegression": {
+    "files": 10,
+    "tests": 147,
+    "passed": true
+  },
+  "focusedRegression": {
+    "files": 5,
+    "tests": 52,
+    "passed": true
+  },
+  "workshopE2E": {
+    "tests": 2,
+    "passed": true
+  },
+  "typecheck": true,
+  "build": true,
+  "workerDryRun": true,
+  "format": true,
+  "http": {
+    "f17": 7,
+    "supply": 4,
+    "progress": 5
+  },
+  "fullE2E": {
+    "passed": false,
+    "status": "旧画面動線を待つ既存テストで失敗し同原因の反復を中断",
+    "plannedTests": 132
+  },
+  "merged": false,
+  "deployed": false
+}

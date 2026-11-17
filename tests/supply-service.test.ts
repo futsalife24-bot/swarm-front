@@ -164,19 +164,19 @@ describe("初回10枚はクラウド保存1つにつき1回（F-17 H-1）", () =
     const legacy = await world.legacyAccount(7, "2026-11-10");
     const local = memoryLocal();
     local.setItem("swarm-front-supply-link-v1", JSON.stringify(legacy));
-    // クラウド保存の作成前は旧口座のまま使える（日次1枚も従来どおり）。
+    // クラウド保存の作成前は旧口座のまま使える（日次配布は廃止）。
     let code: string | null = null;
     const service = createSupplyService(local, world.request, () => code);
-    expect((await service.status()).tickets).toBe(8);
+    expect((await service.status()).tickets).toBe(7);
     code = await world.createVault();
-    expect((await service.status()).tickets).toBe(8);
+    expect((await service.status()).tickets).toBe(7);
     expect(local.getItem("swarm-front-supply-link-v1")).toBeNull();
     expect(world.vaultRow(code)!.supplyGrant).toBe(`legacy:${legacy.id}`);
     // 旧口座は凍結され、再送しても残高は増えない。
     local.setItem("swarm-front-supply-link-v1", JSON.stringify(legacy));
-    expect((await service.status()).tickets).toBe(8);
+    expect((await service.status()).tickets).toBe(7);
     local.values.clear();
-    expect((await service.status()).tickets).toBe(8);
+    expect((await service.status()).tickets).toBe(7);
     const old = await world.request(`/api/supply/${legacy.id}/draw`, {
       method: "POST",
       headers: {
@@ -216,5 +216,25 @@ describe("初回10枚はクラウド保存1つにつき1回（F-17 H-1）", () =
     await p.world.deleteVault(p.code);
     const next = await p.world.createVault();
     expect((await p.restart(next).status()).tickets).toBe(10);
+  });
+});
+
+it("旧口座を移行した保管庫でも過去達成を一度だけ集計しcreditedを渡す", async () => {
+  const world = supplyWorld();
+  const { freshProgress } = await import("../src/client/progression-save");
+  const save = freshProgress("normal");
+  save.missions = { "1:normal": [true, true, true] };
+  const code = await world.createVault(save);
+  const legacy = await world.legacyAccount(7);
+  const local = memoryLocal();
+  local.setItem("swarm-front-supply-link-v1", JSON.stringify(legacy));
+  const service = createSupplyService(local, world.request, () => code);
+  expect(await service.status()).toMatchObject({
+    tickets: 14,
+    credited: { past: 7, recent: 0 },
+  });
+  expect(await service.status()).toMatchObject({
+    tickets: 14,
+    credited: { past: 0, recent: 0 },
   });
 });

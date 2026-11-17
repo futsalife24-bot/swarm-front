@@ -65,6 +65,24 @@ const spoils = (run = "run") => ({
 });
 
 describe("permanent growth loop", () => {
+  it("accepts both new Lv1 and unsaved old survival rewards", () => {
+    for (const level of [1, 4]) {
+      const store = storage();
+      const run = `compat-${level}`;
+      expect(
+        queueFrontCampaignReward(store, run, 125, {
+          weapons: [{ ...weapon(run), level }],
+          kills: 31,
+          clearedStage: 3,
+        }),
+      ).toBeGreaterThan(0);
+      expect(
+        loadProgress("normal", store)?.inventory.some(
+          (item) => item.id === `${run}-survival-0-0`,
+        ),
+      ).toBe(true);
+    }
+  });
   it("connects one ST1 clear, survival extraction and an affordable first modification", () => {
     const store = storage(),
       base = freshProgress("normal");

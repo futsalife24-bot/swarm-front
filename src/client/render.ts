@@ -332,6 +332,7 @@ export class Renderer {
   projectiles: T.InstancedMesh;
   drops: T.InstancedMesh;
   healDrops: T.InstancedMesh;
+  powderDrops: T.InstancedMesh;
   rings: T.InstancedMesh;
   private terrainWarnings = new TerrainWarnings();
   private omegaWarning = new OmegaWarning();
@@ -628,8 +629,14 @@ export class Renderer {
       this.drops.material,
       24,
     );
-    this.healDrops.count = this.drops.count = 0;
+    this.powderDrops = new T.InstancedMesh(
+      dropGeometry("powder"),
+      this.drops.material,
+      128,
+    );
+    this.healDrops.count = this.drops.count = this.powderDrops.count = 0;
     this.scene.add(this.healDrops);
+    this.scene.add(this.powderDrops);
     this.rings = new T.InstancedMesh(
       new T.RingGeometry(0.9, 1, 192, 4),
       new T.MeshBasicMaterial({
@@ -1684,10 +1691,21 @@ export class Renderer {
       if (this.projectiles.instanceColor)
         this.projectiles.instanceColor.needsUpdate = true;
       let weaponCount = 0,
-        healCount = 0;
+        healCount = 0,
+        powderCount = 0;
       for (const d of w.drops.filter((d) => d.owner === id)) {
-        const mesh = d.type === "heal" ? this.healDrops : this.drops;
-        const i = d.type === "heal" ? healCount++ : weaponCount++;
+        const mesh =
+          d.type === "heal"
+            ? this.healDrops
+            : d.type === "powder"
+              ? this.powderDrops
+              : this.drops;
+        const i =
+          d.type === "heal"
+            ? healCount++
+            : d.type === "powder"
+              ? powderCount++
+              : weaponCount++;
         if (i >= mesh.instanceMatrix.count) continue;
         const pos = w.solo ? dropAt(w, d) : { x: d.x, z: d.z, jump: 0 };
         this.instance(
@@ -1711,8 +1729,13 @@ export class Renderer {
         healCount,
         this.healDrops.instanceMatrix.count,
       );
+      this.powderDrops.count = Math.min(
+        powderCount,
+        this.powderDrops.instanceMatrix.count,
+      );
       syncDynamicInstances(this.drops);
       syncDynamicInstances(this.healDrops);
+      syncDynamicInstances(this.powderDrops);
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
         const shooter = e.owner ? this.players.get(e.owner) : undefined;
@@ -1800,9 +1823,9 @@ export class Renderer {
         this.houndWarnings.count =
         this.rings.count =
         this.healDrops.count =
-        this.drops.count =
-        this.projectiles.count =
+        this.powderDrops.count =
           0;
+      this.drops.count = this.projectiles.count = 0;
       this.camera.position.set(8, 5.5, 30);
       this.camera.lookAt(-4, 2, -20);
     }

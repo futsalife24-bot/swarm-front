@@ -1,5 +1,6 @@
 import {
   validSupplyReceipt,
+  validSupplyCredit,
   supplyRequestId,
   type SupplySnapshot,
 } from "../shared/supply-contract";
@@ -139,6 +140,8 @@ export function createSupplyService(
       (data.pending !== null && !validSupplyReceipt(data.pending))
     )
       throw Error("補給の確定結果を読めません。再試行してください");
+    if (!validSupplyCredit(data.credited))
+      throw Error("補給の付与内容を確認できません");
     return data as SupplySnapshot;
   };
   const clearAck = (target: Account, state: SupplySnapshot) => {

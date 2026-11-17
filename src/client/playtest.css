@@ -1029,3 +1029,9 @@ body .pt-view-options button {
   padding: 12px;
   font-size: 24px;
 }
+
+.pt-result .pt-reward-notes {
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 1.45;
+}

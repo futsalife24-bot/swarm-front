@@ -87,7 +87,8 @@ function validSpoils(value: SurvivalSpoils) {
       (w) =>
         validNewWeapon(w) &&
         !w.testData &&
-        weaponLevel(w) === Math.min(60, 1 + value.clearedStage),
+        (weaponLevel(w) === 1 ||
+          weaponLevel(w) === Math.min(60, 1 + value.clearedStage)),
     )
   );
 }

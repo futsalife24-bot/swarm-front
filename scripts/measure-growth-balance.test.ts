@@ -16,6 +16,9 @@ import {
   stepFrontRun,
 } from "../src/shared/front-run";
 import { pilot } from "../tests/bot";
+import { normalSaveId } from "../src/shared/campaign";
+import { initSolo } from "../src/shared/solo-progression";
+import { rollWeapon } from "../src/shared/progression";
 
 // A repeatable input-only pilot comparison, not an estimate of human win rates.
 it("measures progression and party size with legal inputs", () => {
@@ -151,3 +154,118 @@ it("measures progression and party size with legal inputs", () => {
     JSON.stringify({ seconds, rows }, null, 2) + "\n",
   );
 }, 900000);
+
+it.skipIf(process.env.BALANCE_DROP_COMPARISON !== "1")(
+  "compares old stage-level and new level-one campaign combat",
+  () => {
+    const rows: {
+      stage: number;
+      difficulty: string;
+      level: number;
+      seed: number;
+      seconds: number;
+      result: string;
+      kills: number;
+    }[] = [];
+    const seeds = (process.env.BALANCE_SEEDS ?? "814,723,331,902")
+      .split(",")
+      .map(Number);
+    for (const stage of [12, 25])
+      for (const difficulty of ["normal", "medium"] as const)
+        for (const seed of seeds)
+          for (const level of [stage, 1]) {
+            const id = normalSaveId(stage);
+            let equipmentSeed = seed;
+            const rng = () =>
+              (equipmentSeed =
+                (Math.imul(equipmentSeed, 1664525) + 1013904223) >>> 0) /
+              4294967296;
+            const equipment = [0, 1].map((index) => ({
+              ...rollWeapon(
+                `balance-${stage}-${difficulty}-${seed}-${index}`,
+                id,
+                difficulty,
+                false,
+                index,
+                rng,
+                "solo",
+              ),
+              level,
+            }));
+            const world = createWorld(
+              `drop-balance-${stage}-${difficulty}-${seed}-${level}`,
+              seed,
+              id,
+            );
+            initSolo(world, id, difficulty, false, {
+              hp: 5,
+              aim: 5,
+              move: 5,
+              swap: 5,
+            });
+            addPlayer(world, "solo", equipment);
+            start(world);
+            const limit = 600;
+            let ticks = 0;
+            while (
+              world.phase === "battle" &&
+              world.time < limit &&
+              ticks++ < limit * 20
+            ) {
+              const input = pilot(world, "solo");
+              input.yaw = angle(input.yaw);
+              input.pitch = clampPitch(input.pitch);
+              expect(validInput(input)).toBe(true);
+              step(world, { solo: input }, 0.05);
+            }
+            rows.push({
+              stage,
+              difficulty,
+              level,
+              seed,
+              seconds: +world.time.toFixed(2),
+              result: world.phase,
+              kills: world.totalKills,
+            });
+          }
+    const summary = [12, 25].flatMap((stage) =>
+      (["normal", "medium"] as const).flatMap((difficulty) =>
+        [stage, 1].map((level) => {
+          const part = rows.filter(
+            (row) =>
+              row.stage === stage &&
+              row.difficulty === difficulty &&
+              row.level === level,
+          );
+          return {
+            stage,
+            difficulty,
+            level,
+            meanSeconds: +(
+              part.reduce((sum, row) => sum + row.seconds, 0) / part.length
+            ).toFixed(2),
+            defeatRate:
+              part.filter((row) => row.result !== "victory").length /
+              part.length,
+          };
+        }),
+      ),
+    );
+    mkdirSync("docs/evidence/gacha-balance-20261117", { recursive: true });
+    writeFileSync(
+      "docs/evidence/gacha-balance-20261117/combat-level-comparison.json",
+      JSON.stringify(
+        {
+          methodology:
+            "Deterministic input bot; not human win rates. Same rolled weapons and seeds in each old/new pair; levels 5 skills; 600-second cap. Timeout counts as nonvictory.",
+          rows,
+          summary,
+        },
+        null,
+        2,
+      ) + "\n",
+    );
+    expect(rows).toHaveLength(seeds.length * 8);
+  },
+  900000,
+);

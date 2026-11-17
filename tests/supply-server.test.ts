@@ -70,7 +70,7 @@ async function call(
 }
 
 describe("補給券の権威保存", () => {
-  it("初回10枚、同一資格の再試行、別資格拒否、JST日跨ぎで1枚のみ", async () => {
+  it("初回10枚、同一資格の再試行、別資格拒否、JST日跨ぎで追加なし", async () => {
     const db = memory();
     expect((await call(db.storage, "initialize")).body).toMatchObject({
       tickets: 10,
@@ -87,12 +87,12 @@ describe("補給券の権威保存", () => {
     ).toBe(10);
     expect((await call(db.storage, "daily", {}, DAY1)).body.tickets).toBe(10);
     expect((await call(db.storage, "daily", {}, DAY2)).body).toMatchObject({
-      tickets: 11,
+      tickets: 10,
       day: "2026-11-12",
     });
     expect(
       (await call(db.storage, "daily", {}, DAY2 + 2 * 86400000)).body.tickets,
-    ).toBe(12);
+    ).toBe(10);
     expect((await call(db.storage, "daily", {}, DAY1)).status).toBe(409);
     expect(db.writes).toBe(3);
   });
@@ -128,7 +128,13 @@ describe("補給券の権威保存", () => {
     expect(
       (await call(db.storage, "draw", { requestId: ID2, count: 10 })).status,
     ).toBe(409);
-    expect((await call(db.storage, "daily", {}, DAY2)).body.tickets).toBe(10);
+    expect((await call(db.storage, "daily", {}, DAY2)).body.tickets).toBe(9);
+    await call(
+      db.storage,
+      "absorb",
+      { legacy: "f".repeat(32), tickets: 1, day: "2026-11-12" },
+      DAY2,
+    );
     const ten = await call(
       db.storage,
       "draw",
@@ -289,8 +295,8 @@ describe("抽選方針", () => {
       [0.1, "weapon", 0],
       [0.5, "weapon", 1],
       [0.8, "weapon", 2],
-      [0.92, "weapon", 3],
-      [0.945, "buddy", -1],
+      [0.94, "weapon", 3],
+      [0.948, "buddy", -1],
       [0.99, "shard", -1],
     ] as const;
     for (const [value, type, rarity] of categories) {
@@ -314,7 +320,7 @@ describe("抽選方針", () => {
     expect(kinds).toEqual(new Set(KINDS));
     const buddies = new Set<string>();
     for (let i = 0; i < BUDDY_IDS.length; i++) {
-      const draws = [0.945, (i + 0.5) / BUDDY_IDS.length];
+      const draws = [0.948, (i + 0.5) / BUDDY_IDS.length];
       const result = drawSupply(1, ID1, DAY1, () => draws.shift() ?? 0.4)
         .rewards[0];
       if (result.type === "buddy") buddies.add(result.buddyId);

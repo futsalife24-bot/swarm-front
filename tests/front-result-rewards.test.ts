@@ -95,7 +95,7 @@ it("任意帰還の本人報酬・宝箱を表示し、保存済の額と武器�
   expect(result.progress).toBe("功績 +100");
   expect(result.weapons).toHaveLength(3);
   expect(
-    result.weapons.every((w) => w.state === "stored" && w.weapon.level === 6),
+    result.weapons.every((w) => w.state === "stored" && w.weapon.level === 1),
   ).toBe(true);
   expect(result.error).toBe(false);
 });

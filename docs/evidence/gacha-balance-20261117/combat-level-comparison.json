@@ -1,0 +1,351 @@
+{
+  "methodology": "Deterministic input bot; not human win rates. Same rolled weapons and seeds in each old/new pair; levels 5 skills; 600-second cap. Timeout counts as nonvictory.",
+  "rows": [
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 12,
+      "seed": 814,
+      "seconds": 178.1,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 1,
+      "seed": 814,
+      "seconds": 183.95,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 12,
+      "seed": 723,
+      "seconds": 163.7,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 1,
+      "seed": 723,
+      "seconds": 172.1,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 12,
+      "seed": 331,
+      "seconds": 306.2,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 1,
+      "seed": 331,
+      "seconds": 313.85,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 12,
+      "seed": 902,
+      "seconds": 183.2,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 1,
+      "seed": 902,
+      "seconds": 187.5,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 12,
+      "seed": 814,
+      "seconds": 178.1,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 1,
+      "seed": 814,
+      "seconds": 183.15,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 12,
+      "seed": 723,
+      "seconds": 159.05,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 1,
+      "seed": 723,
+      "seconds": 167.8,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 12,
+      "seed": 331,
+      "seconds": 293.95,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 1,
+      "seed": 331,
+      "seconds": 300.55,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 12,
+      "seed": 902,
+      "seconds": 183.2,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 1,
+      "seed": 902,
+      "seconds": 190.6,
+      "result": "victory",
+      "kills": 176
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 25,
+      "seed": 814,
+      "seconds": 40.45,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 1,
+      "seed": 814,
+      "seconds": 40.45,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 25,
+      "seed": 723,
+      "seconds": 44.6,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 1,
+      "seed": 723,
+      "seconds": 39.65,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 25,
+      "seed": 331,
+      "seconds": 70.55,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 1,
+      "seed": 331,
+      "seconds": 70.55,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 25,
+      "seed": 902,
+      "seconds": 42.05,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 1,
+      "seed": 902,
+      "seconds": 42.05,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 25,
+      "seed": 814,
+      "seconds": 40.45,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 1,
+      "seed": 814,
+      "seconds": 40.45,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 25,
+      "seed": 723,
+      "seconds": 35.6,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 1,
+      "seed": 723,
+      "seconds": 40.55,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 25,
+      "seed": 331,
+      "seconds": 70.55,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 1,
+      "seed": 331,
+      "seconds": 79.55,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 25,
+      "seed": 902,
+      "seconds": 42.05,
+      "result": "victory",
+      "kills": 32
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 1,
+      "seed": 902,
+      "seconds": 42.05,
+      "result": "victory",
+      "kills": 32
+    }
+  ],
+  "summary": [
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 12,
+      "meanSeconds": 207.8,
+      "defeatRate": 0
+    },
+    {
+      "stage": 12,
+      "difficulty": "normal",
+      "level": 1,
+      "meanSeconds": 214.35,
+      "defeatRate": 0
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 12,
+      "meanSeconds": 203.57,
+      "defeatRate": 0
+    },
+    {
+      "stage": 12,
+      "difficulty": "medium",
+      "level": 1,
+      "meanSeconds": 210.53,
+      "defeatRate": 0
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 25,
+      "meanSeconds": 49.41,
+      "defeatRate": 0
+    },
+    {
+      "stage": 25,
+      "difficulty": "normal",
+      "level": 1,
+      "meanSeconds": 48.17,
+      "defeatRate": 0
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 25,
+      "meanSeconds": 47.16,
+      "defeatRate": 0
+    },
+    {
+      "stage": 25,
+      "difficulty": "medium",
+      "level": 1,
+      "meanSeconds": 50.65,
+      "defeatRate": 0
+    }
+  ]
+}

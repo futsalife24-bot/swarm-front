@@ -1,3 +1,7 @@
+import {
+  SUPPLY_GRANTS,
+  weeklySupplyTickets,
+} from "../src/shared/supply-grants";
 import { japanDay, japanWeek } from "../src/shared/calendar";
 import { preservesGrowthSave } from "../src/shared/growth-save-guard";
 import { validBuddyProgress } from "../src/shared/buddy-progression";
@@ -105,6 +109,8 @@ interface Vault {
    * Survives saves; disappears only with the whole vault (see supply-vault.ts).
    */
   supplyGrant?: string;
+  supplyEarned?: number;
+  supplyClearDay?: string;
 }
 interface VaultStorage {
   get<T>(key: string): Promise<T | undefined>;
@@ -198,14 +204,28 @@ export async function playerVault(
       coins: number;
       weekly?: WeeklyProgress;
     } & Record<string, unknown>;
-    for (const run of (pending ?? []) as string[])
+    let earned = 0,
+      clearDay: string | undefined;
+    for (const run of (pending ?? []) as string[]) {
+      const before =
+        initial.weekly?.week === week ? initial.weekly.campaign.length : 0;
       initial = recordWeekly(initial, "campaign", run, now);
+      if ((initial.weekly?.campaign.length ?? 0) > before) {
+        earned += SUPPLY_GRANTS.weeklyClear;
+        if (clearDay !== japanDay(now)) {
+          earned += SUPPLY_GRANTS.dailyFirstClear;
+          clearDay = japanDay(now);
+        }
+      }
+    }
     initial.weeklyPending = [];
     state = {
       credential,
       version: 1,
       updatedAt: now,
       save: initial,
+      supplyEarned: earned,
+      supplyClearDay: clearDay,
       lastMutation: "",
     };
     await storage.put("vault", state);
@@ -289,11 +309,18 @@ export async function playerVault(
       );
     if (typeof body.id !== "string")
       return cloudReply({ error: "ミッションを選んでください" }, 400);
+    const previousClaimed =
+      (state.save.weekly as WeeklyProgress | undefined)?.week === japanWeek(now)
+        ? (state.save.weekly as WeeklyProgress).claimed.includes(body.id)
+        : false;
     state.save = claimWeekly(
       state.save as { coins: number; weekly?: WeeklyProgress },
       body.id,
       now,
     );
+    if (!previousClaimed)
+      state.supplyEarned =
+        (state.supplyEarned ?? 0) + weeklySupplyTickets(body.id);
     state.version++;
     state.protectedVersion = state.version;
     state.updatedAt = now;
@@ -372,8 +399,21 @@ export async function playerVault(
     weekly?: WeeklyProgress;
   } & Record<string, unknown>;
   for (const run of (pending ?? []) as string[]) {
-    if (!(state.save.receipts as unknown[]).includes(run))
+    if (!(state.save.receipts as unknown[]).includes(run)) {
+      const before =
+        incoming.weekly?.week === japanWeek(now)
+          ? incoming.weekly.campaign.length
+          : 0;
       incoming = recordWeekly(incoming, "campaign", run, now);
+      if ((incoming.weekly?.campaign.length ?? 0) > before) {
+        state.supplyEarned =
+          (state.supplyEarned ?? 0) + SUPPLY_GRANTS.weeklyClear;
+        if (state.supplyClearDay !== japanDay(now)) {
+          state.supplyEarned += SUPPLY_GRANTS.dailyFirstClear;
+          state.supplyClearDay = japanDay(now);
+        }
+      }
+    }
   }
   incoming.weeklyPending = [];
   const defenseChanged =
@@ -516,3 +556,17 @@ export async function cloudRateCount(
 /** Whether an account response proves the credential was accepted. */
 export const authenticatedResponse = (status: number) =>
   status !== 401 && status !== 429 && status < 500;
+
+/** Internal only; no public route is exposed. */
+export async function vaultSupplyProgress(req: Request, storage: VaultStorage) {
+  const token = req.headers.get("Authorization")?.replace(/^Bearer /, "") ?? "";
+  if (!/^[a-f0-9]{64}$/.test(token))
+    return cloudReply({ error: "引き継ぎコードを確認してください" }, 401);
+  const state = await storage.get<Vault>("vault");
+  if (!state || state.credential !== (await cloudHash(token)))
+    return cloudReply({ error: "引き継ぎコードを確認してください" }, 401);
+  return cloudReply({
+    earned: state.supplyEarned ?? 0,
+    missions: state.save.missions,
+  });
+}

@@ -1,3 +1,5 @@
+import { nextStageDropChange } from "../shared/drop-progression";
+import { SUPPLY_GRANTS } from "../shared/supply-grants";
 import {
   createBuddyBattleState,
   equipBattleBuddy,
@@ -144,6 +146,7 @@ import {
   useMedkit,
   reviveSolo,
   collectionStep,
+  collectRemainingSolo,
 } from "../shared/solo-progression";
 import {
   SKILLS,
@@ -478,7 +481,7 @@ function pause() {
     confirmAction(
       "リタイア",
       screen === "collection"
-        ? "<p>未回収品を残して結果へ進みます。</p>"
+        ? "<p>未回収の戦利品を自動回収して結果へ進みます。</p>"
         : "<p>敗北として進捗コインを受け取ります。未確定武器は失います。</p>",
       () => {
         d.close();
@@ -623,6 +626,7 @@ function victory() {
       missions,
       weapons: items,
       collected: w.pending.solo.length,
+      powderCollected: s.powderCollected,
     },
     () => random(w),
   );
@@ -637,16 +641,7 @@ function victory() {
     hud.hidden = false;
     $("minimap").hidden = false;
     $("pause").hidden = false;
-    bind("pt-end-collection", () => {
-      const left = w.drops.filter((d) => d.type !== "heal").length;
-      if (left)
-        confirmAction(
-          "回収を切り上げる",
-          `<p>未回収武器 ${left}個を残して結果へ進みます。</p>`,
-          endCollection,
-        );
-      else endCollection();
-    });
+    bind("pt-end-collection", endCollection);
   });
 }
 async function openDailyDefense() {
@@ -755,8 +750,22 @@ function finishDaily(interrupted = false) {
 }
 function endCollection() {
   if (!save.result) return;
+  let collected = save;
+  if (world?.solo) {
+    collectRemainingSolo(world);
+    const known = new Set(save.result.weapons.map((w) => w.id));
+    const items = (world.pending.solo as NewWeapon[]).filter(
+      (w) => !known.has(w.id),
+    );
+    const powder = Math.max(
+      0,
+      (world.solo.powderCollected ?? 0) - (save.result.powderCollected ?? 0),
+    );
+    if (items.length || powder)
+      collected = appendCollected(save, items, powder);
+  }
   commit(
-    prepareChoice(save, () => (world ? random(world) : Math.random())),
+    prepareChoice(collected, () => (world ? random(world) : Math.random())),
     choice,
   );
 }
@@ -778,10 +787,25 @@ function result() {
   world = null;
   header(
     r.win ? "戦果" : "敗北",
-    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span>${resourceFrame("coins", r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins, "gain")}</div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? `${resourceFrame("coins", 500, "gain")}＋武器3個` : `${resourceFrame("points", 3, "gain")}${r.stage <= 4 && r.difficulty === "normal" ? resourceFrame("materials", 1, "gain") : ""}`}</p>` : ""}<button id="pt-result-retry" class="primary">装備変更・再出撃</button><button id="pt-result-home">ホームへ</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
+    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span>${resourceFrame("coins", r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins, "gain")}${resourceFrame("powder", r.powder ?? 0, "gain")}</div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? `${resourceFrame("coins", 500, "gain")}＋武器3個` : `${resourceFrame("points", 3, "gain")}${r.stage <= 4 && r.difficulty === "normal" ? resourceFrame("materials", 1, "gain") : ""}`}</p>` : ""}<button id="pt-result-retry" class="primary">装備変更・再出撃</button><button id="pt-result-home">ホームへ</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
     false,
   );
   bindList("result");
+  if (r.win) {
+    const estimate = r.supplyEstimate;
+    const fixed = estimate
+      ? estimate.first + estimate.stars + estimate.front
+      : 0;
+    const change = r.first ? nextStageDropChange(r.stage, r.difficulty) : null;
+    ui.querySelector(".pt-summary")!.insertAdjacentHTML(
+      "beforeend",
+      `<span class="pt-ticket-estimate">補給券 最大+${fixed + SUPPLY_GRANTS.weeklyClear + SUPPLY_GRANTS.dailyFirstClear}枚（見込み）</span>`,
+    );
+    ui.querySelector(".pt-result > section")!.insertAdjacentHTML(
+      "afterbegin",
+      `<p class="pt-reward-notes">${estimate ? `初回 ${estimate.first}／星 ${estimate.stars}／最高到達 ${estimate.front}／` : ""}週${SUPPLY_GRANTS.weeklyClearCap}回までのクリア +${SUPPLY_GRANTS.weeklyClear}／当日の初クリア +${SUPPLY_GRANTS.dailyFirstClear}（週上限内・当日未受領時）<br>${transferCode() ? "クラウド同期後に補給へ反映" : "クラウド保存を作ると受け取れます"}${change ? `<br>${esc(change)}` : ""}</p>`,
+    );
+  }
   $("pt-result-retry").insertAdjacentHTML(
     "beforebegin",
     survivalBreakthroughRewardMarkup(save, r),
@@ -1233,11 +1257,17 @@ function frame(now: number) {
     } else if (world.phase === "victory") victory();
     else if (world.players[0].hp <= 0) defeatChoice();
   } else if (active && world && screen === "collection") {
-    const before = world.pending.solo.length;
+    const before = world.pending.solo.length,
+      beforePowder = world.solo!.powderCollected ?? 0;
     collectionStep(world, controls.read(), dt);
-    if (world.pending.solo.length > before)
+    const powder = (world.solo!.powderCollected ?? 0) - beforePowder;
+    if (world.pending.solo.length > before || powder)
       commit(
-        appendCollected(save, world.pending.solo.slice(before) as NewWeapon[]),
+        appendCollected(
+          save,
+          world.pending.solo.slice(before) as NewWeapon[],
+          powder,
+        ),
       );
     if (world.solo!.collection >= 10 && !saving) endCollection();
   } else accumulator = 0;
@@ -1255,6 +1285,7 @@ function frame(now: number) {
       [
         p.swapCd > 0 ? "切替中" : "",
         s.branchReached ? "クリアで分岐解放" : "",
+        s.powderCollected ? `武装片 +${s.powderCollected}（勝利時）` : "",
         warn <= 10 ? `増援まで ${Math.ceil(warn)}秒` : "",
         battleCaption.current,
       ]
@@ -2399,7 +2430,7 @@ function detail(w: StoredWeapon, context: string, redraw?: () => void) {
   ) {
     const workshop = document.createElement("button");
     workshop.type = "button";
-    workshop.textContent = "変換・恒久改造";
+    workshop.textContent = "レベル強化・変換・改造";
     workshop.onclick = () => {
       d.close();
       openWeaponWorkshop(
