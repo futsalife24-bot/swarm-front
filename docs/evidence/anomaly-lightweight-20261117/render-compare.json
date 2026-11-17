@@ -1,0 +1,207 @@
+{
+  "results": [
+    {
+      "tag": "harrow_motion_v14-Idle-close",
+      "meanAbs": 0.1516,
+      "max": 29,
+      "pixelsOver8Pct": 0.0451,
+      "trianglesBefore": 100537,
+      "trianglesAfter": 100537,
+      "callsBefore": 22,
+      "callsAfter": 22
+    },
+    {
+      "tag": "harrow_motion_v14-Idle-game",
+      "meanAbs": 0.0097,
+      "max": 8,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 100537,
+      "trianglesAfter": 100537,
+      "callsBefore": 22,
+      "callsAfter": 22
+    },
+    {
+      "tag": "harrow_motion_v14-Attack-close",
+      "meanAbs": 0.1497,
+      "max": 34,
+      "pixelsOver8Pct": 0.0492,
+      "trianglesBefore": 100537,
+      "trianglesAfter": 100537,
+      "callsBefore": 22,
+      "callsAfter": 22
+    },
+    {
+      "tag": "harrow_motion_v14-Attack-game",
+      "meanAbs": 0.0099,
+      "max": 7,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 100537,
+      "trianglesAfter": 100537,
+      "callsBefore": 22,
+      "callsAfter": 22
+    },
+    {
+      "tag": "harrow_motion_v14-Flight-close",
+      "meanAbs": 0.1507,
+      "max": 39,
+      "pixelsOver8Pct": 0.0482,
+      "trianglesBefore": 100537,
+      "trianglesAfter": 100537,
+      "callsBefore": 22,
+      "callsAfter": 22
+    },
+    {
+      "tag": "harrow_motion_v14-Flight-game",
+      "meanAbs": 0.0099,
+      "max": 10,
+      "pixelsOver8Pct": 0.0002,
+      "trianglesBefore": 100537,
+      "trianglesAfter": 100537,
+      "callsBefore": 22,
+      "callsAfter": 22
+    },
+    {
+      "tag": "leaper_motion_v3-Idle-close",
+      "meanAbs": 0.0007,
+      "max": 49,
+      "pixelsOver8Pct": 0.0017,
+      "trianglesBefore": 12716,
+      "trianglesAfter": 12716,
+      "callsBefore": 4,
+      "callsAfter": 4
+    },
+    {
+      "tag": "leaper_motion_v3-Idle-game",
+      "meanAbs": 0,
+      "max": 0,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 12716,
+      "trianglesAfter": 12716,
+      "callsBefore": 4,
+      "callsAfter": 4
+    },
+    {
+      "tag": "leaper_motion_v3-Leap-close",
+      "meanAbs": 0.0002,
+      "max": 21,
+      "pixelsOver8Pct": 0.001,
+      "trianglesBefore": 12716,
+      "trianglesAfter": 12716,
+      "callsBefore": 4,
+      "callsAfter": 4
+    },
+    {
+      "tag": "leaper_motion_v3-Leap-game",
+      "meanAbs": 0.0004,
+      "max": 53,
+      "pixelsOver8Pct": 0.001,
+      "trianglesBefore": 12716,
+      "trianglesAfter": 12716,
+      "callsBefore": 4,
+      "callsAfter": 4
+    },
+    {
+      "tag": "pleat_motion_v5-Idle-close",
+      "meanAbs": 0,
+      "max": 0,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 11304,
+      "trianglesAfter": 11304,
+      "callsBefore": 4,
+      "callsAfter": 4
+    },
+    {
+      "tag": "pleat_motion_v5-Idle-game",
+      "meanAbs": 0.0006,
+      "max": 40,
+      "pixelsOver8Pct": 0.0017,
+      "trianglesBefore": 11304,
+      "trianglesAfter": 11304,
+      "callsBefore": 4,
+      "callsAfter": 4
+    },
+    {
+      "tag": "pleat_motion_v5-Lunge-close",
+      "meanAbs": 0.0007,
+      "max": 42,
+      "pixelsOver8Pct": 0.0017,
+      "trianglesBefore": 11304,
+      "trianglesAfter": 11304,
+      "callsBefore": 4,
+      "callsAfter": 4
+    },
+    {
+      "tag": "pleat_motion_v5-Lunge-game",
+      "meanAbs": 0,
+      "max": 0,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 11304,
+      "trianglesAfter": 11304,
+      "callsBefore": 4,
+      "callsAfter": 4
+    },
+    {
+      "tag": "foundry_zero_motion_v1-Idle-close",
+      "meanAbs": 0,
+      "max": 0,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 18680,
+      "trianglesAfter": 18680,
+      "callsBefore": 5,
+      "callsAfter": 5
+    },
+    {
+      "tag": "foundry_zero_motion_v1-Idle-game",
+      "meanAbs": 0,
+      "max": 0,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 18680,
+      "trianglesAfter": 18680,
+      "callsBefore": 5,
+      "callsAfter": 5
+    },
+    {
+      "tag": "foundry_zero_motion_v1-Attack-close",
+      "meanAbs": 0,
+      "max": 0,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 18680,
+      "trianglesAfter": 18680,
+      "callsBefore": 5,
+      "callsAfter": 5
+    },
+    {
+      "tag": "foundry_zero_motion_v1-Attack-game",
+      "meanAbs": 0,
+      "max": 0,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 18680,
+      "trianglesAfter": 18680,
+      "callsBefore": 5,
+      "callsAfter": 5
+    },
+    {
+      "tag": "foundry_zero_mechanical_legs_v2-static-close",
+      "meanAbs": 0,
+      "max": 0,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 36152,
+      "trianglesAfter": 36152,
+      "callsBefore": 418,
+      "callsAfter": 418
+    },
+    {
+      "tag": "foundry_zero_mechanical_legs_v2-static-game",
+      "meanAbs": 0,
+      "max": 0,
+      "pixelsOver8Pct": 0,
+      "trianglesBefore": 36152,
+      "trianglesAfter": 36152,
+      "callsBefore": 448,
+      "callsAfter": 448
+    }
+  ],
+  "errors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+}

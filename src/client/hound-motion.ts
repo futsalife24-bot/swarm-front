@@ -1,5 +1,5 @@
 import * as T from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { enemyGltfLoader } from "./enemy-gltf-loader";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { leaperReportClip } from "./leaper-report-clip";
 import { enemyIdleClip } from "./enemy-idle-clip";
@@ -65,7 +65,7 @@ export function loadEnemyMotion(
 ): Promise<HoundMotionAsset> {
   const key = name + (report ? "_report" : "");
   if (cached.has(key)) return cached.get(key)!;
-  const request = new GLTFLoader()
+  const request = enemyGltfLoader()
     .loadAsync(
       // The service worker caches by URL. Version HARROW's path with its asset.
       `${import.meta.env.BASE_URL}${ENEMY_MOTION_FILES[name]}`,

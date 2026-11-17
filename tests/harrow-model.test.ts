@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { HARROW, harrowMissileOrigins } from "../src/shared/harrow";
 import {
   HARROW_FLIGHT_CYCLE,
@@ -23,10 +24,12 @@ async function model() {
   const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
   // CPU geometry/animation checks only: Node has no image decoder. Actual 4K
   // texture decoding and rendering are verified separately in the browser.
-  const loader = new GLTFLoader().register(() => ({
-    name: "HEADLESS_GEOMETRY_ONLY",
-    loadTexture: async () => new T.Texture(),
-  }));
+  const loader = new GLTFLoader()
+    .setMeshoptDecoder(MeshoptDecoder)
+    .register(() => ({
+      name: "HEADLESS_GEOMETRY_ONLY",
+      loadTexture: async () => new T.Texture(),
+    }));
   return loader.parseAsync(
     bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
     "",

@@ -1,0 +1,46 @@
+{
+  "note": "Re-encoded runtime enemy GLBs. Scene graph, skeleton, vertex data and animation keys decode byte-identical to the source (verified by scripts/optimize-enemy-glb.mjs); HARROW baseColor textures are downscaled to 2048 with render comparison in this directory.",
+  "tool": "scripts/optimize-enemy-glb.mjs",
+  "files": [
+    {
+      "file": "public/assets/enemies/harrow_motion_v14.glb",
+      "sourceSha256": "0385b7c0198d47125a0779544726787c6076bc7213bd61382221eb0c6592d5ae",
+      "sha256": "4f0b88f87f62f643ede1c8cac6ad6080c91d69558226f93634811019e59a7f30",
+      "sourceBytes": 14151632,
+      "bytes": 4363496,
+      "method": "baseColor JPEG 4096->2048 (mozjpeg q92) + lossless EXT_meshopt_compression"
+    },
+    {
+      "file": "public/assets/enemies/leaper_motion_v3.glb",
+      "sourceSha256": "7a57499b4e7ab82c9fe23155f6731d95213a4fb29835eaecf905e9cd939c38e3",
+      "sha256": "167059c9a0a2be60e3bd1a257798fd281478945d503190bd01121dd0ebbdfa0e",
+      "sourceBytes": 3802608,
+      "bytes": 2001812,
+      "method": "PNG->lossless WebP (EXT_texture_webp, pixel-exact) + lossless EXT_meshopt_compression"
+    },
+    {
+      "file": "public/assets/enemies/pleat_motion_v5.glb",
+      "sourceSha256": "891dfa187cb1c0d54b92a47af962e693984ff9ba04198e5a3b7b95e763a8b018",
+      "sha256": "193fe91b5e5ce3c83d26b7798b23b8d358b9d5fddde18e356e16668c9cfbdf42",
+      "sourceBytes": 4394424,
+      "bytes": 2282868,
+      "method": "PNG->lossless WebP (EXT_texture_webp, pixel-exact) + lossless EXT_meshopt_compression"
+    },
+    {
+      "file": "public/assets/enemies/foundry_zero_motion_v1.glb",
+      "sourceSha256": "a8e3b2921fac1000e30642227c4d5deb697f46777c7c5a5d85eb5fca892887cf",
+      "sha256": "84d8c85b01e6284b4009a015f7ced2190bbc5e315733b02b9ffd28ae5df64d06",
+      "sourceBytes": 1885412,
+      "bytes": 749420,
+      "method": "lossless EXT_meshopt_compression"
+    },
+    {
+      "file": "public/assets/enemies/foundry_zero_mechanical_legs_v2.glb",
+      "sourceSha256": "cefb976551d55167ba6b2ecf7ec9c7144105d890a85cb1c5335e24db90c275ab",
+      "sha256": "d6d0ad241d4292506421d0699b50b47a15de97879cecc11a6cb867cde68e752e",
+      "sourceBytes": 1787652,
+      "bytes": 1401884,
+      "method": "lossless EXT_meshopt_compression"
+    }
+  ]
+}
