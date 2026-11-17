@@ -2,7 +2,7 @@
 
 本人の公開指示で草稿PR367をReadyに変更して通常merge。公開ソースmainは52dfe8873beab55fab4b7e3bda1ab83099688bb5、対象3b3812c0の取り込みを確認。mainの単体全195ファイル2018件（517.24秒）、型チェック、build、production dry-run成功後に既存Workerへ公開。既存E2E未合格は本人指定により今回公開の判定対象外、再実行なし。
 
-Worker Version: 7e719a8d-9207-4831-86f6-8026a2dd339e。公開URL https://swarm-front.melosalife-24.workers.dev/ はHTTP200、health正常、27配信ファイルSHAと埋め込みソース版が公開buildと一致。実Chromeでタイトル・作戦本部の表示を確認。補給の新しい日次配布なし文言は配信JSに存在。実スマホと本番での強化確定操作は未実施。
+Worker Version: 7e719a8d-9207-4831-86f6-8026a2dd339e。公開URL https://swarm-front.melosalife-24.workers.dev/ はHTTP200、health正常、27配信ファイルSHAと埋め込みソース版が公開buildと一致。実Chromeでタイトル・作戦本部の表示を確認。補給の新しい日次配布なし文言は配信JSに存在。補給画面への追加自動確認は#pt-base-supply待機とbodyの複数要素取得で失敗し、新仕様の実画面と強化確定操作は未確認。実スマホも未実施。
 
 指定outbox C:/Users/futsa/bibi-bridge/outbox/swarm-gacha-deploy-status.md に最終main・公開・後片付けの確定結果を記録。今回worktree/branchだけをclean確認後に削除し、他worktreeと既存差分は保持する。通常方針で独立Chat監査なし、実モデルID/推論設定未確認、委任なし。
 ## 2026-11-17 武器庫のレア度別レベル上限（草稿PR367、未merge/未公開）
