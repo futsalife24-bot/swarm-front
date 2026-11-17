@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ja"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>残響線｜SWARM FRONT</title>
+<style>
+html,body{margin:0;height:100%;background:#121b1b;color:#f4dfbb}body{display:grid;place-items:center}canvas{width:min(100vw,235.29vh);height:auto;display:block}button{position:fixed;bottom:5%;font:600 1rem "Yu Gothic",sans-serif;color:inherit;background:#22312f;border:1px solid #ac987a;padding:.65em 1.8em;cursor:pointer}button[hidden]{display:none}
+</style>
+<script type="importmap">{"imports":{"three":"/three/build/three.module.js","three/addons/":"/three/examples/jsm/"}}</script>
+<canvas aria-label="残響線　本編"></canvas><button disabled>読込中</button>
+<script type="module">
+import './film.mjs';
+const button=document.querySelector('button');
+if(new URLSearchParams(location.search).has('capture')) button.hidden=true;
+else {
+  button.disabled=false;button.textContent='再生';window.film.draw(36.8);
+  const audio=new Audio('/score.wav');
+  button.addEventListener('click',async()=>{
+    audio.currentTime=0;
+    try{await audio.play();}catch{button.textContent='音声を再読み込み';return;}
+    button.hidden=true;
+    const loop=()=>{window.film.draw(Math.min(audio.currentTime,40));if(!audio.ended)requestAnimationFrame(loop);else{button.textContent='もう一度見る';button.hidden=false;}};
+    loop();
+  });
+}
+</script></html>
