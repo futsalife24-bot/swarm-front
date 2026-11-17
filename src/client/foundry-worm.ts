@@ -1,6 +1,6 @@
 import { enemySize } from "../shared/enemy-size";
 import * as T from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { enemyGltfLoader } from "./enemy-gltf-loader";
 import type { Enemy } from "../shared/game";
 import type { WormNode } from "../shared/worm";
 import {
@@ -285,7 +285,7 @@ export class FoundryWormView {
 
   static async load(url: string): Promise<FoundryWormView> {
     if (!url.trim()) throw new TypeError("FOUNDRY ZERO asset URL is required");
-    const { scene } = await new GLTFLoader().loadAsync(url);
+    const { scene } = await enemyGltfLoader().loadAsync(url);
     const resources = ownedResources(scene);
     try {
       return new FoundryWormView(scene, resources);

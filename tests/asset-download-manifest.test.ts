@@ -266,7 +266,7 @@ describe("事前保存manifestの生成", () => {
       common.some((url: string) => /swarm-soldier\.glb\?v=[a-f0-9]+/.test(url)),
     ).toBe(true);
     expect(common).toContain(
-      "assets/enemies/foundry_zero_mechanical_legs_v2.glb",
+      "assets/enemies/foundry_zero_mechanical_legs_v2.glb?rev=d6d0ad241d429250",
     );
     expect(
       common.some((url: string) =>

@@ -25,6 +25,17 @@ const manifest = {
 };
 const hash = (file: string) =>
   createHash("sha256").update(readFileSync(file)).digest("hex");
+// Films recorded before a documented re-encode stay valid only for the exact
+// re-encoded bytes listed with their source hash (geometry/motion identical).
+const reencoded: { file: string; sourceSha256: string; sha256: string }[] =
+  read("docs/evidence/anomaly-lightweight-20261117/reencode.json").files;
+const recordedHash = (file: string) => {
+  const current = hash(file);
+  return (
+    reencoded.find((r) => r.file === file && r.sha256 === current)
+      ?.sourceSha256 ?? current
+  );
+};
 
 it("every report film matches the shipped model, name and encoded video", () => {
   expect(manifest.rows.map((row: { key: string }) => row.key)).toEqual(
@@ -42,7 +53,7 @@ it("every report film matches the shipped model, name and encoded video", () => 
     expect(row.name, key).toBe(ENEMY_REPORT_NAMES[key]);
     expect(row.assets, key).toContainEqual({
       file: modelFile,
-      sha256: hash(modelFile),
+      sha256: recordedHash(modelFile),
     });
     expect(row.sha256, key).toBe(hash(row.file));
     expect("public/" + ENCOUNTER_FILM_FILES[key].split("?")[0], key).toBe(
@@ -56,5 +67,13 @@ it("every report film matches the shipped model, name and encoded video", () => 
     expect(row.fps).toBe(30);
     expect(row.capture).toBe("webcodecs-vp9-frames");
     expect(row.frameCount).toBe((key === "harrow" ? 20 : 11) * 30);
+  }
+});
+
+it("versioned enemy model URLs carry the shipped file's sha256 prefix", () => {
+  for (const url of [...Object.values(ENEMY_MOTION_FILES), FOUNDRY_WORM_FILE]) {
+    const [path, query] = url.split("?");
+    const rev = new URLSearchParams(query ?? "").get("rev");
+    if (rev) expect(hash("public/" + path).startsWith(rev), url).toBe(true);
   }
 });

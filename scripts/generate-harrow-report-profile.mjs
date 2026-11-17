@@ -4,6 +4,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { build } from "esbuild";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { clone as cloneSkeleton } from "three/addons/utils/SkeletonUtils.js";
 
 const assetPath = fileURLToPath(
@@ -15,7 +16,7 @@ const outputPath = fileURLToPath(
 const bytes = readFileSync(assetPath);
 const sha256 = createHash("sha256").update(bytes).digest("hex");
 // Geometry and bones suffice; Node does not decode the embedded 4K textures.
-const loader = new GLTFLoader().register(() => ({
+const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).register(() => ({
   name: "HEADLESS_GEOMETRY_ONLY",
   loadTexture: async () => new T.Texture(),
 }));

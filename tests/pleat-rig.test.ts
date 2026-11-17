@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import {
   HoundMotionBatch,
   type HoundMotionAsset,
@@ -19,10 +20,13 @@ beforeAll(async () => {
   const bytes = readFileSync("public/assets/enemies/pleat_motion_v5.glb");
   // Decode the actual rig, mesh attributes and inverse binds. Texture pixels are
   // irrelevant to skinning and need a browser image decoder, so stub only those.
-  const loader = new GLTFLoader().register(() => ({
-    name: "TestTextureDecoder",
-    loadTexture: () => Promise.resolve(new T.Texture()),
-  }));
+  const loader = new GLTFLoader()
+    .setMeshoptDecoder(MeshoptDecoder)
+    .register(() => ({
+      // Replaces the built-in EXT_texture_webp handler, which runs before others.
+      name: "EXT_texture_webp",
+      loadTexture: () => Promise.resolve(new T.Texture()),
+    }));
   const gltf = await loader.parseAsync(
     bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
     "",
