@@ -192,9 +192,17 @@ body[data-screen="title"] #ui button:focus-visible {
     display: none;
   }
 }
-@media (orientation: landscape) and (max-height: 400px) {
+@media (orientation: landscape) and (max-height: 600px) {
+  /* Keep the labels clear of the fixed back and menu buttons at the screen edges. */
+  body[data-screen="title"] #ui .title > .eyebrow {
+    margin-inline-start: 60px;
+  }
   body[data-screen="title"] #ui .command-heading {
-    display: none;
+    display: flex;
+  }
+  body[data-screen="title"] #ui .command-heading .connection-dot {
+    margin-inline-end: 44px;
+    white-space: nowrap;
   }
 }
 @media (orientation: landscape) and (max-height: 360px) {
