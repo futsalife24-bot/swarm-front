@@ -1,3 +1,4 @@
+import { guardMenuExit } from "./menu-navigation";
 import {
   arena,
   ensureScopeControls,
@@ -205,6 +206,15 @@ export function openLayoutEditor(
     window.removeEventListener("resize", draw);
     onExit();
   };
+  guardMenuExit(el("layout-cancel").closest("section")!, (proceed) => {
+    if (
+      JSON.stringify(draft) !== JSON.stringify(current) &&
+      !window.confirm("配置の変更を破棄して移動しますか？")
+    )
+      return;
+    window.removeEventListener("resize", draw);
+    proceed();
+  });
   el("layout-cancel").onclick = close;
   el("layout-save").onclick = () => {
     try {

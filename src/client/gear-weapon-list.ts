@@ -8,6 +8,7 @@ import {
   weaponTier,
   weaponStatVariance,
 } from "../shared/progression";
+import { armoryLevelLimit } from "./weapon-workshop";
 import { weaponLevel } from "../shared/weapon-growth";
 import { weaponProtected, type ProgressSave } from "./progression-save";
 
@@ -66,7 +67,7 @@ export function gearWeaponRows(
     const d = stats(w),
       slot = equipped.indexOf(w.id),
       pending = save.pending.some((item) => item.id === w.id);
-    return `<div class="pt-weapon-row ${slot >= 0 ? "is-equipped" : ""} ${selected ? "is-selected-slot" : ""}" data-row="${esc(w.id)}" style="--weapon-tier:${tiers[weaponTier(w)]}"><div class="pt-identity">${organizing ? `<input type="checkbox" data-check="${esc(w.id)}" aria-label="${esc(d.name)}を解体対象に選択" ${checked.has(w.id) ? "checked" : ""} ${weaponProtected(save, w.id) ? "disabled" : ""}>` : ""}<button data-detail="${esc(w.id)}" aria-label="${esc(d.name)} ${weaponGrade(w)}${pending ? " 超過・整理待ち" : ""}${slot >= 0 ? " 装備" + (slot + 1) : ""} 詳細"><small class="gear-rarity pt-grade-${weaponTier(w)}">${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b>${slot >= 0 ? `<span class="gear-equipped" title="装備${slot + 1}">E${slot + 1}</span>` : pending ? '<span class="gear-equipped" title="超過・整理待ち" aria-label="超過・整理待ち">!</span>' : ""}</button></div>${statCells(w)}<button data-lock="${esc(w.id)}" aria-label="${esc(d.name)}のロック" aria-pressed="${save.locks.includes(w.id)}">${lockMarkup(save.locks.includes(w.id))}</button></div>`;
+    return `<div class="pt-weapon-row ${slot >= 0 ? "is-equipped" : ""} ${selected ? "is-selected-slot" : ""}" data-row="${esc(w.id)}" style="--weapon-tier:${tiers[weaponTier(w)]}"><div class="pt-identity">${organizing ? `<input type="checkbox" data-check="${esc(w.id)}" aria-label="${esc(d.name)}を解体対象に選択" ${checked.has(w.id) ? "checked" : ""} ${weaponProtected(save, w.id) ? "disabled" : ""}>` : ""}<button data-detail="${esc(w.id)}" aria-label="${esc(d.name)} ${weaponGrade(w)}${pending ? " 超過・整理待ち" : ""}${slot >= 0 ? " 装備" + (slot + 1) : ""} 詳細"><small class="gear-rarity pt-grade-${weaponTier(w)}">${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b><span class="gear-level">Lv${weaponLevel(w)}/${armoryLevelLimit(w)}</span>${slot >= 0 ? `<span class="gear-equipped" title="装備${slot + 1}">E${slot + 1}</span>` : pending ? '<span class="gear-equipped" title="超過・整理待ち" aria-label="超過・整理待ち">!</span>' : ""}</button></div>${statCells(w)}<button data-lock="${esc(w.id)}" aria-label="${esc(d.name)}のロック" aria-pressed="${save.locks.includes(w.id)}">${lockMarkup(save.locks.includes(w.id))}</button></div>`;
   };
   return `<div class="pt-weapon-list gear-weapon-list ${organizing ? "is-organizing" : ""}" aria-label="所持武器">${listHead("ロック")}${items.map((w) => renderRow(w)).join("")}</div>`;
 }
@@ -106,7 +107,7 @@ export function gearReadOnlyRows(
   return `<div class="pt-weapon-list gear-weapon-list is-read-only" aria-label="${esc(label)}">${listHead(stateHead)}${items
     .map(({ weapon: w, state }) => {
       const name = WEAPONS[w.kind].name;
-      const identity = `<small class="gear-rarity pt-grade-${weaponTier(w)}">${weaponGrade(w)}</small><b>${esc(name)}</b><span class="gear-level">Lv${weaponLevel(w)}</span>`;
+      const identity = `<small class="gear-rarity pt-grade-${weaponTier(w)}">${weaponGrade(w)}</small><b>${esc(name)}</b><span class="gear-level">Lv${weaponLevel(w)}/${armoryLevelLimit(w)}</span>`;
       const locked = actions?.locks.includes(w.id) ?? false;
       return `<div class="pt-weapon-row" data-row="${esc(w.id)}" data-state="${esc(state.key)}" style="--weapon-tier:${tiers[weaponTier(w)]}"><div class="pt-identity">${actions ? `<button data-detail="${esc(w.id)}" aria-label="${esc(name)} 詳細">${identity}</button>` : `<span class="gear-row-name">${identity}</span>`}</div>${statCells(w)}${actions ? `<button data-lock="${esc(w.id)}" aria-label="${esc(name)}のロック" aria-pressed="${locked}" title="${esc(state.title)}" ${state.key === "unsaved" ? "disabled" : ""}>${lockMarkup(locked)}</button>` : `<span class="gear-row-state" data-state="${esc(state.key)}" title="${esc(state.title)}">${esc(state.label)}</span>`}</div>`;
     })

@@ -121,7 +121,7 @@ export class FrontSettings {
     allowDownloads = false,
   ) {
     this.opened = true;
-    document.body.dataset.screen = "battle";
+    document.body.dataset.screen = allowDownloads ? "settings" : "battle";
     const p = this.preferences;
     const ranges = [
       ["sensitivity", "視点感度"],

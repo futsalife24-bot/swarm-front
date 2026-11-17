@@ -15,7 +15,33 @@ export const modificationCost = (w: StoredWeapon, key: WeaponMod) =>
 export const armoryLevelLimit = (w: StoredWeapon) =>
   [10, 20, 30, 40, 50][weaponTier(w)];
 export const levelUpCost = (w: StoredWeapon) => 2 + weaponLevel(w) * 2;
-export function levelUpWeapon(s: ProgressSave, id: string) {
+export function levelPlan(
+  w: StoredWeapon,
+  powder: number,
+  target = weaponLevel(w) + 1,
+) {
+  const current = weaponLevel(w);
+  const limit = armoryLevelLimit(w);
+  let maximum = current;
+  let spent = 0;
+  let total = 0;
+  while (maximum < limit) {
+    const cost = levelUpCost({ ...w, level: maximum });
+    if (cost > powder - spent) break;
+    maximum++;
+    spent += cost;
+    if (maximum <= target) total = spent;
+  }
+  return {
+    current,
+    limit,
+    maximum,
+    target: Math.min(maximum, Math.max(current, target)),
+    total,
+  };
+}
+
+export function levelUpWeapon(s: ProgressSave, id: string, target?: number) {
   const n = structuredClone(s);
   const w = n.inventory.find((item) => item.id === id);
   if (!w) throw Error("強化対象の所持武器が見つかりません。");
@@ -23,10 +49,17 @@ export function levelUpWeapon(s: ProgressSave, id: string) {
     throw Error(
       `この武器は強化上限 Lv${armoryLevelLimit(w)}に到達しています。`,
     );
-  const cost = levelUpCost(w);
-  if (n.powder < cost) throw Error("武装片が不足しています。");
-  n.powder -= cost;
-  w.level = weaponLevel(w) + 1;
+  const goal = target ?? weaponLevel(w) + 1;
+  if (
+    !Number.isInteger(goal) ||
+    goal <= weaponLevel(w) ||
+    goal > armoryLevelLimit(w)
+  )
+    throw Error("目標レベルが強化範囲外です。");
+  const plan = levelPlan(w, n.powder, goal);
+  if (plan.target !== goal) throw Error("武装片が不足しています。");
+  n.powder -= plan.total;
+  w.level = goal;
   validateProgress(n);
   return n;
 }

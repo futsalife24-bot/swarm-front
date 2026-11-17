@@ -98,7 +98,7 @@ for (const [width, height] of [
       '[data-pick="0"]',
       '[data-pick="1"]',
       "#launch",
-      "#gear-armory",
+      "[data-menu-toggle]",
     ])
       await reachable(page, s);
     const geometry = await page.locator(".gear-brief").evaluate((e) => ({
@@ -122,14 +122,15 @@ for (const [width, height] of [
         .evaluate((e) => e.scrollWidth - e.clientWidth),
     ).toBeLessThanOrEqual(1);
     await page.screenshot({ path: `${dir}/verified-gear-${width}.png` });
-    await page.locator("#gear-armory").click();
+    await page.locator("[data-menu-toggle]").click();
+    await page.locator('[data-menu-destination="armory"]').click();
     expect(await page.locator(".armory-list article").count()).toBe(25);
     await expect(
       page.locator('[data-armory-select="pending-1"] .armory-row-effect'),
     ).toHaveText("貫通 ×3");
     for (const s of [
-      "#armory-home",
-      "#armory-gear",
+      "[data-menu-back]",
+      "[data-menu-toggle]",
       "#armory-organize",
       ".armory-effect [data-effect-help]",
       ".armory-detail-actions [data-favorite]",
