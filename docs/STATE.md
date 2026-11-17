@@ -1,3 +1,7 @@
+## 2026-11-18　短編MV『残響線』をGoogle Driveに納品
+
+Three.jsで専用の聴測塔と記録計を制作し、本編のRAYの遊泳と書き下ろしの三音モチーフで構成した。記録計の真鍮・鉄・塗装・紙を接写で再調整。40秒、1920×816、24コマ毎秒、全960コマ、48 kHzステレオ。完成MP4を全編デコードし、メロニキのGoogle Driveに保存した同名ファイルをブラウザーで再生確認。[制作原本と再生成手順](../cinematics/echo-line/README.md)
+
 ## 2026-11-18 タイトル画面の重なり修正を本番公開
 
 [PR #373](https://github.com/futsalife24-bot/swarm-front/pull/373) を通常マージ。公開ソースは `bc44f1b17508d49469e59cff258c5438717dc90d`、既存 Cloudflare Worker の Version ID は `cfc26655-53dc-4feb-944d-30a18100b6f9`（配信100%）。
