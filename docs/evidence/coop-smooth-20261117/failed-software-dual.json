@@ -1,0 +1,697 @@
+{
+  "errors": [],
+  "clients": [
+    {
+      "frames": 128,
+      "states": 11,
+      "buffered": 128,
+      "enemyFrames": 72,
+      "intervals": [
+        668.1999999284744,
+        0.6000000238418579,
+        659.7000000476837,
+        3022.100000023842,
+        2119.1999999284744,
+        131.10000002384186,
+        301.7000000476837,
+        229.29999995231628,
+        328.7999999523163,
+        17.300000071525574
+      ],
+      "positions": [
+        {
+          "time": 1.65,
+          "authority": -10.63,
+          "visual": -10.63
+        },
+        {
+          "time": 1.75,
+          "authority": -10.66,
+          "visual": -10.660690000021456
+        },
+        {
+          "time": 2.05,
+          "authority": -10.86,
+          "visual": -10.85126666665077
+        },
+        {
+          "time": 2.05,
+          "authority": -10.86,
+          "visual": -10.856333333333332
+        },
+        {
+          "time": 2.05,
+          "authority": -10.86,
+          "visual": -10.92406666668256
+        },
+        {
+          "time": 2.25,
+          "authority": -10.94,
+          "visual": -10.950159999990463
+        },
+        {
+          "time": 2.25,
+          "authority": -10.94,
+          "visual": -10.979999999999999
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.602240000057227
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.305600000000005
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.08
+        }
+      ],
+      "errors": [],
+      "phase": "combat",
+      "glError": 0
+    },
+    {
+      "frames": 110,
+      "states": 11,
+      "buffered": 110,
+      "enemyFrames": 57,
+      "intervals": [
+        398.90000009536743,
+        172.09999990463257,
+        3440.5,
+        1.5,
+        2290.3000000715256,
+        2,
+        488.2999999523163,
+        47.39999997615814,
+        750.5,
+        4660.300000071526
+      ],
+      "positions": [
+        {
+          "time": 1.75,
+          "authority": -10.66,
+          "visual": -10.635069999992847
+        },
+        {
+          "time": 1.75,
+          "authority": -10.66,
+          "visual": -10.69
+        },
+        {
+          "time": 1.75,
+          "authority": -10.66,
+          "visual": -10.69
+        },
+        {
+          "time": 1.75,
+          "authority": -10.66,
+          "visual": -10.69
+        },
+        {
+          "time": 2.25,
+          "authority": -10.94,
+          "visual": -10.959999999999999
+        },
+        {
+          "time": 2.25,
+          "authority": -10.94,
+          "visual": -10.959999999999999
+        },
+        {
+          "time": 2.25,
+          "authority": -10.94,
+          "visual": -10.959999999999999
+        },
+        {
+          "time": 2.25,
+          "authority": -10.94,
+          "visual": -10.959999999999999
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 2.65,
+          "authority": -10.32,
+          "visual": -10.165000000000001
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        },
+        {
+          "time": 4.45,
+          "authority": -0.62,
+          "visual": -0.62
+        }
+      ],
+      "errors": [],
+      "phase": "combat",
+      "glError": 0
+    }
+  ],
+  "method": "実ローカルWorker・2人・Chrome SwiftShader・片道143ms。友達の実端末/公衆回線/人間の体感は未確認。"
+}

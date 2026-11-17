@@ -254,6 +254,7 @@ function leave() {
   pendingSortieRun = "";
   network?.close();
   network = null;
+  view.enemyMotion.reset();
   localRun = null;
   world = null;
   info = null;
@@ -843,6 +844,7 @@ function rooms() {
 function connectRoom(code: string, target: string, token = "") {
   connectionFatal = "";
   network?.close();
+  view.enemyMotion.reset();
   network = new FrontNetwork(target, networkDiagnosticsEnabled());
   localRun = null;
   world = null;
@@ -895,6 +897,7 @@ function connectRoom(code: string, target: string, token = "") {
     if (screen !== "prep") returnToLobby();
   };
   net.onLobby = () => {
+    view.enemyMotion.reset();
     if (screen === "prep") return;
     screen = "lobby";
     paintLobby();
@@ -911,6 +914,10 @@ function connectRoom(code: string, target: string, token = "") {
     const previousLevels = info?.levels;
     world = snapshot;
     info = net.frontView;
+    if (first || (info.phase !== "combat" && info.phase !== "boss"))
+      view.enemyMotion.reset();
+    if (info.phase === "combat" || info.phase === "boss")
+      view.enemyMotion.receive(snapshot, performance.now());
     inputReady = true;
     observeFusions();
     const newFusions = FRONT_FUSION_IDS.filter(
