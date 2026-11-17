@@ -68,8 +68,8 @@ describe("control voice line table", () => {
   });
   it("registers all 149 control lines with unique ids", () => {
     expect(CONTROL_SET_LINES).toHaveLength(149);
-    expect(CONTROL_VOICE_LINES).toHaveLength(183);
-    expect(new Set(CONTROL_VOICE_LINES.map((l) => l.id)).size).toBe(183);
+    expect(CONTROL_VOICE_LINES).toHaveLength(193);
+    expect(new Set(CONTROL_VOICE_LINES.map((l) => l.id)).size).toBe(193);
     const category = (c: string) =>
       CONTROL_SET_LINES.filter((l) => l.category === c).length;
     expect(
