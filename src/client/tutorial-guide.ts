@@ -13,7 +13,7 @@ const sections = [
       ],
       [
         "基地",
-        "武器の比較・整理、アクセサリの作成・装備・合成、兵士の育成、バディの編成、補給ポッド、生存カードの確認を行います。工房は工事中です。",
+        "武器の比較・整理、アクセサリの作成・装備・合成、兵士の育成、バディの編成、補給ポッド、生存カードの確認を行います。工房では武装片を使って武器を強化できます。",
       ],
       [
         "エネミーレポート",
@@ -66,6 +66,7 @@ const sections = [
 ];
 
 export interface TutorialGuideActions {
+  armoryTour?: () => void;
   /** 「基礎訓練を始める」（何度でも。修了は解放・報酬に影響しない）。 */
   training: () => void;
   /** 「初回ガイドをもう一度表示」。 */
@@ -80,7 +81,11 @@ export function openTutorialGuide(
   const d = openDialog(
     "チュートリアル",
     (actions
-      ? '<div class="tutorial-actions"><button type="button" class="primary" id="tutorial-training">基礎訓練を始める</button><button type="button" id="tutorial-replay">初回ガイドをもう一度表示</button><small id="tutorial-replay-status" role="status"></small></div>'
+      ? '<div class="tutorial-actions"><button type="button" class="primary" id="tutorial-training">基礎訓練を始める</button>' +
+        (actions.armoryTour
+          ? '<button type="button" id="tutorial-armory">武器強化の実画面案内</button>'
+          : "") +
+        '<button type="button" id="tutorial-replay">初回ガイドをもう一度表示</button><small id="tutorial-replay-status" role="status"></small></div>'
       : "") +
       sections
         .map(
@@ -91,6 +96,12 @@ export function openTutorialGuide(
   );
   d.classList.add("tutorial-guide");
   if (actions) {
+    const armory = d.querySelector<HTMLButtonElement>("#tutorial-armory");
+    if (armory)
+      armory.onclick = () => {
+        d.close();
+        actions.armoryTour?.();
+      };
     d.querySelector<HTMLButtonElement>("#tutorial-training")!.onclick = () => {
       d.close();
       actions.training();

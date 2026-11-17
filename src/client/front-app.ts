@@ -1,3 +1,8 @@
+import {
+  guardMenuExit,
+  installMenuNavigation,
+  visitCampaignMenu,
+} from "./menu-navigation";
 import "./boot-screen";
 import {
   downloadNetworkDiagnostics,
@@ -73,7 +78,6 @@ import { ensureTutorialFlags } from "./tutorial-flags";
 import { completeFirstGuide, showFirstGuide } from "./first-guides";
 import { operationCueForResult } from "./operation-cue-assets";
 import { frontResultTitle } from "./front-result-title";
-import { openWeaponWorkshop } from "./weapon-workshop-ui";
 import { weaponGrade, type NewWeapon } from "../shared/progression";
 import {
   roomBrowserMarkup,
@@ -426,11 +430,6 @@ function base(back: () => void = home) {
   openFrontBase($("ui"), progressStorage, back, {
     allUnlocked: mode === "survival",
   });
-  const workshop = document.createElement("button");
-  workshop.textContent = "武器工房";
-  workshop.onclick = () =>
-    openWeaponWorkshop($("ui"), localStorage, () => base(back));
-  $("ui").querySelector("header nav")?.prepend(workshop);
 }
 const modeDetails: Record<FrontMode, string> = {
   survival:
@@ -491,7 +490,7 @@ function prep(coop = false) {
 /** Defense/daily retain their existing two-weapon equipment editor. */
 function weaponPrep(coop: boolean) {
   $("ui").innerHTML =
-    `<section class="panel gear menu-screen pt-screen front-prep"><header class="menu-header"><h1>出撃準備</h1><nav><button id="front-base">生存カード</button><button id="front-back">${coop ? "部屋を退出" : "タイトルへ"}</button><button id="front-prep-settings">設定・操作</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="front-mission-info">作戦詳細</button></div>${
+    `<section class="panel gear menu-screen pt-screen front-prep"><header class="menu-header"><h1>出撃準備</h1><nav><button id="front-base">生存カード</button><button id="front-back">${coop ? "部屋を退出" : "タイトルへ"}</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="front-mission-info">作戦詳細</button></div>${
       coop
         ? `<p class="front-room-mode">${modeNames[mode]}<small>参加した部屋の作戦</small></p>`
         : `<select id="front-mode" aria-label="作戦">${Object.entries(modeNames)
@@ -517,7 +516,6 @@ function weaponPrep(coop: boolean) {
       };
     });
   $("front-back").onclick = coop ? leave : home;
-  $("front-prep-settings").onclick = () => menuSettings(() => prep(coop));
   $("front-base").onclick = () => base(() => prep(coop));
   if (!coop) {
     $("front-mode").onchange = () => {
@@ -1391,6 +1389,14 @@ function paintOverlay() {
       : "";
     ui.innerHTML = `<section class="pause-card rebuild-panel front-result-panel"><header><h1>${frontResultTitle(info.mode, info.phase)}</h1>${survivalResult ? retryButton : ""}<button id="front-leave" class="primary">タイトルへ</button></header><p>${esc(world.reason)}</p><div class="rebuild-result"><b>${formatRebuildTime(world.time)}</b><b>取得 ${info.picks}${info.growthVersion === 3 ? "回" : `/${info.maxPicks}`}</b><b>最大 ${info.maxChain}連鎖</b></div><p>${(info.growthVersion === 3 ? FRONT_FUSION_IDS.filter((f) => info!.levels[f] > 0).map((f) => FRONT_UPGRADE_CATALOG[f].name) : info.evolved.map((f) => FRONT_EVOLUTIONS[f].name)).join("・") || (info.growthVersion === 3 ? "融合なし" : "未進化")}</p>${rewards}${survivalResult ? (rewardError ? `<p role="alert">${esc(rewardText)}</p>` : "") : retryButton}</section>`;
     $("front-leave").onclick = leave;
+    guardMenuExit($("front-leave").closest("section")!, (proceed) => {
+      if (rewardError) {
+        $("front-retry-save").focus();
+        return;
+      }
+      leave();
+      proceed();
+    });
     if (survivalResult)
       releaseResultWeaponActions = bindResultWeaponActions(
         ui,
@@ -1777,6 +1783,32 @@ window.visualViewport?.addEventListener("resize", () =>
 installLandscapeGuard(() => {
   clearInput();
   pause();
+});
+installMenuNavigation($("ui"), {
+  back: home,
+  go: (destination) => {
+    if (destination === "report")
+      return openFrontBestiary(progressStorage, sound.effectsVolume, sound);
+    if (destination === "settings") {
+      const previous = screen;
+      return menuSettings(() =>
+        previous === "lobby"
+          ? returnToLobby()
+          : previous === "prep"
+            ? prep(!!network)
+            : previous === "rooms"
+              ? rooms()
+              : home(),
+      );
+    }
+    if (destination === "gear") {
+      settings.opened = false;
+      return prep(!!network);
+    }
+    if (network && !window.confirm("部屋を退出して移動しますか？")) return;
+    network?.close();
+    visitCampaignMenu(destination);
+  },
 });
 startWithSaveWriter(async () => {
   installCloudSync();

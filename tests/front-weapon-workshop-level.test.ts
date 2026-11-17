@@ -11,6 +11,7 @@ import {
   armoryLevelLimit,
   levelUpCost,
   levelUpWeapon,
+  levelPlan,
 } from "../src/client/weapon-workshop";
 
 describe("武器庫のレベル強化", () => {
@@ -58,6 +59,34 @@ describe("武器庫のレベル強化", () => {
       );
       expect(save).toEqual(before);
       expect(stats(save.inventory[0])).toEqual(damage);
+    },
+  );
+
+  it("一括強化は所持数で止まり、個別強化と同じ状態を1回で作る", () => {
+    const save = freshProgress("normal");
+    save.powder = 18;
+    const w = save.inventory[0];
+    expect(levelPlan(w, save.powder, 99)).toMatchObject({
+      target: 4,
+      maximum: 4,
+      total: 18,
+    });
+    expect(levelPlan(w, save.powder, 2).total).toBe(4);
+    expect(levelPlan(w, 3, 4)).toMatchObject({ target: 1, total: 0 });
+    expect(() => levelUpWeapon(save, w.id, 5)).toThrow("不足");
+    const oneAtATime = [2, 3, 4].reduce((s) => levelUpWeapon(s, w.id), save);
+    expect(levelUpWeapon(save, w.id, 4)).toEqual(oneAtATime);
+    expect(save.powder).toBe(18);
+  });
+  it.each([0, 1, 1.5, NaN, Infinity, 51])(
+    "不正な目標 %s は確定できない",
+    (goal) => {
+      const save = freshProgress("normal");
+      save.powder = 10000;
+      expect(() => levelUpWeapon(save, save.inventory[0].id, goal)).toThrow(
+        "範囲外",
+      );
+      expect(save.powder).toBe(10000);
     },
   );
 

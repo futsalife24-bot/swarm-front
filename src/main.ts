@@ -1,3 +1,8 @@
+import {
+  guardMenuExit,
+  installMenuNavigation,
+  visitCampaignMenu,
+} from "./client/menu-navigation";
 import { mountControlVoiceVolume } from "./client/control-voice-volume";
 import { loadProgress } from "./client/progression-save";
 import { bindResultWeaponActions } from "./client/result-weapon-actions";
@@ -580,6 +585,24 @@ function setScreen(name: string) {
   $("minimap").hidden = name !== "battle";
   $("pause").hidden = name !== "battle";
 }
+installMenuNavigation(ui, {
+  back: title,
+  go: (destination) => {
+    if (destination === "gear") return gear();
+    if (destination === "armory") return armory();
+    if (destination === "settings")
+      return openSettings(screen === "lobby" ? lobby : gear);
+    if (destination === "report")
+      return openBestiary({
+        encounters: loadProgress("normal")?.encounters,
+        voiceVolume: sound.effectsVolume,
+        controlVoice: sound,
+      });
+    if (network && !window.confirm("部屋を退出して移動しますか？")) return;
+    network?.close();
+    visitCampaignMenu(destination);
+  },
+});
 function title() {
   loadingGeneration++;
   lobbyPreview = null;
@@ -789,7 +812,7 @@ function gear() {
     return;
   }
 
-  ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option>${familyOptions()}</select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button></div><nav><button id="gear-armory">${menuIcon("armory")}武器庫</button><button id="gear-settings">${menuIcon("settings")}設定・操作</button><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span><button id="mission-info" aria-label="作戦詳細">作戦詳細 ⓘ</button></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select><p id="stage-brief" class="sr-only">${esc(STAGES[selectedStage - 1].brief)}</p></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
+  ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option>${familyOptions()}</select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button></div><nav><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span><button id="mission-info" aria-label="作戦詳細">作戦詳細 ⓘ</button></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select><p id="stage-brief" class="sr-only">${esc(STAGES[selectedStage - 1].brief)}</p></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
     .map(
       (w, i) =>
         `<button type="button" data-pick="${i}" class="rarity${w.rarity} ${activeSlot === i ? "selected" : ""}" aria-pressed="${activeSlot === i}"><span class="slot-number">0${i + 1}</span><span><small>装備 ${i + 1} <em>${weaponGrade(w)}</em></small><b>${weaponName(w)}</b><strong>${effectText(w.effect, w.kind)}</strong></span><i aria-hidden="true">${activeSlot === i ? "選択中" : "変更"}</i></button>`,
@@ -821,8 +844,6 @@ function gear() {
     $("home").textContent = "部隊を退出";
   }
   menuTerrain(ui.querySelector(".mission-select"), selectedStage);
-  $("gear-armory").onclick = armory;
-  $("gear-settings").onclick = () => openSettings(gear);
   const filter = $("weapon-filter") as HTMLSelectElement,
     sort = $("weapon-sort") as HTMLSelectElement;
   filter.value = weaponFilter;
@@ -851,7 +872,7 @@ function gear() {
   const buddyEntry = document.createElement("button");
   buddyEntry.id = "gear-buddy";
   buddyEntry.textContent = "バディ";
-  $("gear-settings").before(buddyEntry);
+  $("home").before(buddyEntry);
   buddyEntry.onclick = buddy;
   $("launch").onclick = () => {
     sound.unlock();
@@ -1619,7 +1640,7 @@ function armory() {
         "",
       )}</tbody></table><p class="armory-help">${protectedWeapon ? "登録装備・お気に入りは分解から保護されます。" : `分解で${resourceFrame("powder", weaponYield(w), "gain")}。実行前に確認できます。`}${pending ? " 整理待ちは保存済み。空きができると入手順に収納します。" : ""}</p></div><div class="armory-detail-actions">${favoriteButton(w)}<button data-discard="${esc(w.id)}" ${protectedWeapon ? "disabled" : ""}>${protectedWeapon ? "保護中" : `分解 ${resourceFrame("powder", weaponYield(w), "gain")}`}</button></div>`;
   };
-  ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option>${familyOptions()}</select></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button><button id="armory-gear">出撃準備へ</button></nav></header><div class="armory-toolbar"><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder">${resourceFrame("powder", save.powder ?? 0)}${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解 ${resourceFrame("powder", yieldTotal, "gain")}</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div>${
+  ui.innerHTML = `<section class="panel armory ${armoryOrganizing ? "organizing" : ""}"><header><div class="armory-title"><h1>武器庫 <small>${save.inventory.length}丁${waiting.length ? ` · 整理待ち ${waiting.length}` : ""}</small></h1><button id="armory-organize" aria-pressed="${armoryOrganizing}">${armoryOrganizing ? "整理を終了" : "整理モード"}</button><select id="armory-filter" aria-label="武器庫の絞り込み"><option value="all">全武器</option><option value="favorites">お気に入り</option><option value="pending">整理待ち</option>${familyOptions()}</select></div><nav aria-label="武器庫の移動"><button id="armory-home">ホームへ</button></nav></header><div class="armory-toolbar"><span>${shown.length}丁を表示</span><small>${kindTally()}</small></div><div class="armory-powder">${resourceFrame("powder", save.powder ?? 0)}${armoryOrganizing ? `<button id="armory-dismantle" ${checked.length ? "" : "disabled"}>選択 ${checked.length}丁を分解 ${resourceFrame("powder", yieldTotal, "gain")}</button><small>装備中・お気に入りは保護</small>` : ""}</div><p class="status" role="status">${esc(saveError || status)}</p><div class="armory-workspace"><section class="armory-catalog" aria-label="武器一覧"><div class="armory-list" tabindex="0" aria-label="武器一覧。上下にスクロールできます"><div class="armory-list-head" aria-hidden="true"><span>武器 / 状態</span><span>特殊効果</span><span>威力</span><span>装弾</span><span title="装填時間（秒）">装填</span><span title="射程（m）">射程</span><span title="連射速度（発/秒）">連射</span></div>${
     shown
       .map((w) => {
         const d = stats(w);
@@ -1648,7 +1669,6 @@ function armory() {
         "WEAPON COMPARISON",
       );
   $("armory-home").onclick = () => leave(title);
-  $("armory-gear").onclick = () => leave(gear);
   $("armory-organize").onclick = () => {
     armoryOrganizing = !armoryOrganizing;
     armoryChecked.clear();
@@ -1823,7 +1843,7 @@ function result() {
   if (w.phase === "victory") {
     stored = storeMissionRewards(w);
   }
-  ui.innerHTML = `<section class="panel result"><div class="result-summary"><div class="eyebrow">OPERATION ${String(stageFor(w).id).padStart(2, "0")} / ${mapFor(w).name}</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1><p>${w.phase === "victory" ? "作戦を達成しました。戦利品を確認して、次の戦場へ。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>作戦時間</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>撃破数</span><b>${w.totalKills}</b></div><div><span>回収武器</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">${returnToSquad ? "同じ部隊のロビーへ戻る ↗" : "ホームへ戻る ↗"}</button><button id="retry-save" ${stored ? "hidden" : ""}>保存を再試行</button></div></div><section class="result-loot"><h2>${w.phase === "victory" ? "獲得武器" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(saveError || (w.phase === "victory" ? status : "保存済みの武器は保持されています。"))}</p><div class="loot-list loot-table" aria-label="獲得武器リスト"><div class="weapon-head"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span title="ロック">ロック</span></div>${items.map((item) => card(item, true)).join("")}</div></section></section>`;
+  ui.innerHTML = `<section class="panel result"><div class="result-summary"><header><div><div class="eyebrow">OPERATION ${String(stageFor(w).id).padStart(2, "0")} / ${mapFor(w).name}</div><h1>${w.phase === "victory" ? "MISSION CLEAR" : "MISSION FAILED"}</h1></div></header><p>${w.phase === "victory" ? "作戦を達成しました。戦利品を確認して、次の戦場へ。" : esc(w.reason || "部隊が全員ダウンしました")}</p><div class="stats"><div><span>作戦時間</span><b>${Math.floor(w.time / 60)}:${String(Math.floor(w.time % 60)).padStart(2, "0")}</b></div><div><span>撃破数</span><b>${w.totalKills}</b></div><div><span>回収武器</span><b>${items.length}</b></div></div><div class="result-actions"><button class="primary" id="regear">${returnToSquad ? "同じ部隊のロビーへ戻る ↗" : "ホームへ戻る ↗"}</button><button id="retry-save" ${stored ? "hidden" : ""}>保存を再試行</button></div></div><section class="result-loot"><h2>${w.phase === "victory" ? "獲得武器" : "未確定戦利品は失われました"}</h2><p class="status" role="status">${esc(saveError || (w.phase === "victory" ? status : "保存済みの武器は保持されています。"))}</p><div class="loot-list loot-table" aria-label="獲得武器リスト"><div class="weapon-head"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span title="ロック">ロック</span></div>${items.map((item) => card(item, true)).join("")}</div></section></section>`;
   $("regear").onclick = () => {
     if (!stored) {
       ui.querySelector(".status")!.textContent =
@@ -1845,6 +1865,14 @@ function result() {
       lobby();
     } else title();
   };
+  guardMenuExit($("regear").closest("section")!, (proceed) => {
+    if (!stored) {
+      $("regear").click();
+      return;
+    }
+    if (returnToSquad) $("regear").click();
+    proceed();
+  });
   $("retry-save").onclick = result;
   releaseResultWeaponActions = bindResultWeaponActions(
     ui,

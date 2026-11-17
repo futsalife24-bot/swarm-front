@@ -180,6 +180,17 @@ export function mountScreenTransitions(root: HTMLElement) {
       return;
     const target = event.target instanceof Element ? event.target : null;
     const dialog = currentDialog();
+    // These views own their transitions. A second shutter would duplicate the
+    // outgoing modal and swallow the first tap on the newly visible controls.
+    if (
+      target?.closest(
+        "[data-menu-toggle],.menu-navigation-drawer,.weapon-detail-dialog,.weapon-workshop,.gear-weapon-list [data-row]",
+      ) ||
+      dialog?.matches(
+        ".menu-navigation-drawer,.weapon-detail-dialog,.workshop-confirm",
+      )
+    )
+      return;
     if (!target || (!root.contains(target) && !dialog?.contains(target)))
       return;
     if (event instanceof KeyboardEvent && event.key !== "Escape") return;

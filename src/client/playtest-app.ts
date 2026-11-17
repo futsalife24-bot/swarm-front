@@ -1,3 +1,8 @@
+import {
+  installMenuNavigation,
+  readMenuDestination,
+  type MenuDestination,
+} from "./menu-navigation";
 import { nextStageDropChange } from "../shared/drop-progression";
 import { SUPPLY_GRANTS } from "../shared/supply-grants";
 import {
@@ -58,6 +63,7 @@ import { navigateMenu } from "./menu-route";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
 import { showOperationCue, cancelOperationCue } from "./operation-cue";
 import { mountTitleMotion, trackTitleAction } from "./title-motion";
+import { startArmoryTour } from "./armory-tour";
 import { openTutorialGuide } from "./tutorial-guide";
 import { watchSupplyVoice } from "./supply-voice";
 import { openBasicTraining } from "./tutorial-launch";
@@ -787,7 +793,7 @@ function result() {
   world = null;
   header(
     r.win ? "戦果" : "敗北",
-    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span>${resourceFrame("coins", r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins, "gain")}${resourceFrame("powder", r.powder ?? 0, "gain")}</div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? `${resourceFrame("coins", 500, "gain")}＋武器3個` : `${resourceFrame("points", 3, "gain")}${r.stage <= 4 && r.difficulty === "normal" ? resourceFrame("materials", 1, "gain") : ""}`}</p>` : ""}<button id="pt-result-retry" class="primary">装備変更・再出撃</button><button id="pt-result-home">ホームへ</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
+    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span>${resourceFrame("coins", r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins, "gain")}${resourceFrame("powder", r.powder ?? 0, "gain")}</div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? `${resourceFrame("coins", 500, "gain")}＋武器3個` : `${resourceFrame("points", 3, "gain")}${r.stage <= 4 && r.difficulty === "normal" ? resourceFrame("materials", 1, "gain") : ""}`}</p>` : ""}<button id="pt-result-retry" class="primary">装備変更・再出撃</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
     false,
   );
   bindList("result");
@@ -810,7 +816,6 @@ function result() {
     "beforebegin",
     survivalBreakthroughRewardMarkup(save, r),
   );
-  bind("pt-result-home", home);
   bind("pt-result-retry", gear);
   // 敗北は作戦キュー adv-failed の声が先に鳴るため、勝利の時だけ案内する。
   if (r.win) sound.announce("result-win", `${r.run}:result`);
@@ -1387,7 +1392,7 @@ const sampleMenus =
   new URLSearchParams(location.search).get("menuSample") === "1";
 let gearOrganizing = false;
 let selectedGearSlot = 0;
-let armoryKind: Family | null = null;
+let armoryKind: Family | "all" | null = null;
 const weaponGenres: Record<Family, string> = FAMILY_NAMES;
 let filter = "all",
   sort = "acquired",
@@ -1597,6 +1602,49 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
 }
 let releaseRewardDetails: (() => void) | undefined;
 let releaseSupplyVoice: (() => void) | undefined;
+const previousMenus: { screen: string; family: Family | "all" | null }[] = [];
+let returningToMenu = false;
+function navigateCampaignMenu(destination: MenuDestination) {
+  // The workshop reads and saves directly. Refresh its owner before a drawer exit.
+  if (mode === "normal" && ui.querySelector(".weapon-workshop")) {
+    save = loadProgress("normal") ?? save;
+  }
+  if (destination === "settings") return settingsUI();
+  if (destination === "title") return save ? home() : onboard();
+  enterMenu(() => {
+    if (destination === "armory") armoryKind = "all";
+    const routes = {
+      base,
+      gear,
+      armory,
+      workshop: openBaseWorkshop,
+      supply,
+      report,
+    };
+    routes[destination]();
+  });
+}
+function backToMenu() {
+  const previous = previousMenus.pop();
+  const routes: Record<string, () => void> = {
+    home,
+    base,
+    gear,
+    armory,
+    workshop: openBaseWorkshop,
+    buddy,
+    growth,
+    accessories,
+    supply,
+  };
+  if (previous?.screen === "armory") armoryKind = previous.family;
+  returningToMenu = true;
+  try {
+    (routes[previous?.screen ?? ""] ?? home)();
+  } finally {
+    returningToMenu = false;
+  }
+}
 function setScreen(next: string) {
   releaseRewardDetails?.();
   releaseRewardDetails = undefined;
@@ -1607,6 +1655,23 @@ function setScreen(next: string) {
   releaseSupplyVoice?.();
   releaseSupplyVoice = undefined;
   if (next !== screen) {
+    if (["home", "intro", "battle", "loading", "choice"].includes(next))
+      previousMenus.length = 0;
+    else if (
+      !returningToMenu &&
+      [
+        "home",
+        "base",
+        "gear",
+        "armory",
+        "workshop",
+        "buddy",
+        "supply",
+        "growth",
+        "accessories",
+      ].includes(screen)
+    )
+      previousMenus.push({ screen, family: armoryKind });
     cancelOperationCue();
     if (next === "battle") {
       showOperationCue("adv-sortie", { key: `${world?.run}:sortie` });
@@ -1674,27 +1739,14 @@ function header(title: string, body: string, nav = true) {
                 : "OPERATION RESULTS";
   const panel =
     screen === "gear" ? "gear" : screen === "result" ? "result" : "armory";
-  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-base">基地</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${["base", "armory", "growth", "accessories"].includes(screen) ? resourceWallet(save) : ""}${body}</section>`;
+  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div><nav>${sampleMenus && nav ? '<button id="pt-home">サンプル終了</button>' : ""}</nav></header><p class="pt-status" role="status">${esc(notice)}</p>${["base", "armory", "growth", "accessories"].includes(screen) ? resourceWallet(save) : ""}${body}</section>`;
   bindResourceHelp(ui, dialog);
-  bind("pt-home", home);
-  if (sampleMenus && nav) {
-    $("pt-home").textContent = "サンプル終了";
+  if (sampleMenus && nav)
     bind("pt-home", () => {
       const url = new URL(location.href);
       url.searchParams.delete("menuSample");
       location.href = url.href;
     });
-  }
-  bind("pt-gear", gear);
-  bind("pt-base", base);
-  if (nav) {
-    ui.querySelector("#pt-" + screen)?.remove();
-    ui.querySelector(".menu-header nav")!.insertAdjacentHTML(
-      "beforeend",
-      '<button id="pt-settings">設定・操作</button>',
-    );
-    bind("pt-settings", settingsUI);
-  }
 }
 
 function loadMode(next: SaveMode) {
@@ -1788,6 +1840,19 @@ function home() {
   }
   showHome(true);
 }
+function enterMenu(after: () => void) {
+  return screen !== "intro"
+    ? after()
+    : confirmAction(
+        "新しい進行を開始",
+        "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
+        () => {
+          save = initializeProgress(mode);
+          after();
+        },
+      );
+}
+
 function showHome(initialized: boolean) {
   world = null;
   setScreen(initialized ? "home" : "intro");
@@ -1801,17 +1866,7 @@ function showHome(initialized: boolean) {
     install: canInstallApp(),
   });
   if (canInstallApp()) bind("install", () => installApp());
-  const enter = (after: () => void) =>
-    initialized
-      ? after()
-      : confirmAction(
-          "新しい進行を開始",
-          "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
-          () => {
-            save = initializeProgress(mode);
-            after();
-          },
-        );
+  const enter = enterMenu;
   bind("solo", () => {
     void sound.say("pick-operation");
     openOperationPicker("solo", {
@@ -1864,6 +1919,20 @@ function showHome(initialized: boolean) {
   bind("home-settings", settingsUI);
   bind("home-tutorial", () =>
     openTutorialGuide(dialog, {
+      armoryTour:
+        mode === "normal"
+          ? () =>
+              enterMenu(() => {
+                base();
+                startArmoryTour(sound, {
+                  list: () => {
+                    armoryKind = familyOf(save.inventory[0].kind);
+                    armory();
+                  },
+                  workshop: openBaseWorkshop,
+                });
+              })
+          : undefined,
       training: () =>
         startTraining(() => (initialized ? home() : showHome(false))),
       replayGuides: () => {
@@ -1989,7 +2058,7 @@ function weaponList(items: StoredWeapon[], context: string) {
   const shown = items
     .filter((w) =>
       context === "armory"
-        ? familyOf(w.kind) === armoryKind
+        ? armoryKind === "all" || familyOf(w.kind) === armoryKind
         : filter === "all" || familyOf(w.kind) === filter,
     )
     .filter(
@@ -2030,10 +2099,7 @@ function weaponList(items: StoredWeapon[], context: string) {
     sort,
   )}</fieldset><fieldset><legend>武器種</legend>${choices(
     "kind",
-    [
-      ...(context === "armory" ? [] : [["all", "全武器"]]),
-      ...Object.entries(weaponGenres),
-    ],
+    [["all", "全武器"], ...Object.entries(weaponGenres)],
     context === "armory" ? armoryKind! : filter,
   )}</fieldset><fieldset><legend>レア度</legend>${choices("rarity", [["all", "すべて"], ...GRADES.map((g, i) => [String(i), g])], rarityFilter)}</fieldset><fieldset><legend>お気に入り（ロック）</legend>${choices(
     "favorites",
@@ -2114,7 +2180,7 @@ function bindList(context: string) {
         else if (button.dataset.listChoice === "rarity") rarityFilter = value;
         else if (button.dataset.listChoice === "favorites")
           favoritesOnly = value === "only";
-        else if (context === "armory") armoryKind = value as Family;
+        else if (context === "armory") armoryKind = value as Family | "all";
         else filter = value;
         if (button.dataset.listChoice !== "sort") checked.clear();
         listScroll = 0;
@@ -2163,7 +2229,7 @@ function bindList(context: string) {
         save.inventory.some((item) => item.id === w.id)
       )
         equipWeapon(w.id, selectedGearSlot, gear);
-      else detail(w, context);
+      else detail(w, context, undefined, row);
     };
   });
   ui.querySelectorAll<HTMLButtonElement>("[data-lock]").forEach(
@@ -2207,7 +2273,7 @@ function bindList(context: string) {
         .filter(
           (w) =>
             (context === "armory"
-              ? familyOf(w.kind) === armoryKind
+              ? armoryKind === "all" || familyOf(w.kind) === armoryKind
               : filter === "all" || familyOf(w.kind) === filter) &&
             (rarityFilter === "all" ||
               weaponTier(w) === Number(rarityFilter)) &&
@@ -2239,6 +2305,14 @@ function toggleLock(id: string, after: () => void) {
     );
   else apply();
 }
+function openBaseWorkshop() {
+  if (mode !== "normal") return;
+  setScreen("workshop");
+  openWeaponWorkshop(ui, localStorage, () => {
+    save = loadProgress("normal") ?? save;
+    backToMenu();
+  });
+}
 function base() {
   setScreen("base");
   header(
@@ -2250,9 +2324,10 @@ function base() {
       <button id="pt-base-buddy"><strong>バディ</strong><span>編成・育成・招集</span><small>進撃に同行する相棒</small></button>
       <button id="pt-base-supply" ${developerMode || mode === "normal" ? "" : "disabled"}><strong>補給ポッド</strong><span>${developerMode ? "10連の演出確認" : "補給券で1回・10連"}</span><small>${developerMode ? "演出選択・ランダム（取得なし）" : mode === "normal" ? "武器・バディ・武装片を補給" : "通常プレイで利用できます"}</small></button>
       <button id="pt-base-survival"><strong>生存カード</strong><span>強化候補・デッキ設定</span><small>カードの効果・融合条件を確認</small></button>
-      <button id="pt-base-workshop" disabled aria-describedby="pt-workshop-note"><strong>工房</strong><span>工事中</span><small id="pt-workshop-note">武器のグレードアップ施設を準備中</small></button>
+      <button id="pt-base-workshop" ${mode !== "normal" ? "disabled" : ""}><strong>工房</strong><span>武器のレベル強化・変換・改造</span><small>${mode === "normal" ? "武装片を使って性能を強化" : "通常プレイで利用できます"}</small></button>
     </div>`,
   );
+  bind("pt-base-workshop", openBaseWorkshop);
   bind("pt-base-weapons", armory);
   bind("pt-base-accessories", accessories);
   bind("pt-base-growth", growth);
@@ -2308,6 +2383,7 @@ function buddy() {
   else guide("buddy-menu");
 }
 function armory() {
+  if (screen !== "armory") listScroll = perfScroll = 0;
   setScreen("armory");
   if (!armoryKind) {
     checked.clear();
@@ -2332,7 +2408,7 @@ function armory() {
     ),
   );
   header(
-    weaponGenres[armoryKind],
+    armoryKind === "all" ? "武器一覧" : weaponGenres[armoryKind],
     `<p class="pt-armory-summary">通常 ${save.inventory.length}丁 / 超過 ${save.pending.length}丁 · 系統ごと16丁、全体160丁</p>${weaponList(allWeapons(save), "armory")}`,
   );
   const toolbar = ui.querySelector(".pt-list-tools")!;
@@ -2343,6 +2419,7 @@ function armory() {
   bindList("armory");
   const genreBack = $("pt-genres");
   genreBack.onclick = () => {
+    if (armoryKind === "all") return backToMenu();
     armoryKind = null;
     armory();
   };
@@ -2392,7 +2469,12 @@ function equipWeapon(id: string, slot: number, after: () => void) {
     );
   });
 }
-function detail(w: StoredWeapon, context: string, redraw?: () => void) {
+function detail(
+  w: StoredWeapon,
+  context: string,
+  redraw?: () => void,
+  sourceRow?: HTMLElement,
+) {
   const isResult = context === "result" || context === "daily-result";
   const refresh =
     redraw ??
@@ -2400,6 +2482,7 @@ function detail(w: StoredWeapon, context: string, redraw?: () => void) {
       context === "result" ? result() : context === "gear" ? gear() : armory());
   const d = openWeaponDetail(w, {
     dialog,
+    sourceRow,
     locked: save.locks.includes(w.id),
     onLock: () =>
       toggleLock(w.id, () => {
@@ -2433,6 +2516,7 @@ function detail(w: StoredWeapon, context: string, redraw?: () => void) {
     workshop.textContent = "レベル強化・変換・改造";
     workshop.onclick = () => {
       d.close();
+      setScreen("workshop");
       openWeaponWorkshop(
         ui,
         localStorage,
@@ -2667,8 +2751,21 @@ function accessories() {
 window.addEventListener("app-install-changed", () => {
   if (screen === "home" || screen === "intro") showHome(screen === "home");
 });
+installMenuNavigation(ui, {
+  go: navigateCampaignMenu,
+  back: backToMenu,
+  enabled: (destination) =>
+    destination === "workshop"
+      ? mode === "normal"
+      : destination !== "supply" || developerMode || mode === "normal",
+});
 loadMode("normal");
-if (
+const requestedMenu = readMenuDestination(
+  new URLSearchParams(location.search).get("menu"),
+);
+if (requestedMenu && (screen === "intro" || screen === "home")) {
+  navigateCampaignMenu(requestedMenu);
+} else if (
   new URLSearchParams(location.search).get("base") === "1" &&
   (screen === "intro" || screen === "home")
 ) {

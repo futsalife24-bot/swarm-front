@@ -128,6 +128,7 @@ try {
           titleTop: document.querySelector("h1").getBoundingClientRect().top,
           frameTop: document.querySelector(".panel").getBoundingClientRect()
             .top,
+          firstRowClear: rows[0].getBoundingClientRect().top >= head.bottom - 1,
           heading: head.height,
           header: document.querySelector(".menu-header").getBoundingClientRect()
             .height,
@@ -152,6 +153,7 @@ try {
       );
       assert.ok(state.titleTop >= state.frameTop + 6);
       assert.ok(state.heading <= 20);
+      assert.ok(state.firstRowClear, "先頭の武器行が列見出しと重なっています");
       assert.ok(state.header <= 52);
       assert.ok(state.footerClear);
       assert.ok(!state.overflow);
@@ -217,7 +219,8 @@ try {
       "true",
     );
     await click(".is-selected-slot [data-detail]");
-    await click(".dialog-close");
+    await click("dialog[open] [data-menu-back]");
+    await p.locator(".weapon-detail-dialog").waitFor({ state: "detached" });
     await click(".pt-view-menu summary");
     await click("[data-list-choice=kind][data-value=shotgun]");
     assert.ok(

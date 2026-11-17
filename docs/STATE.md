@@ -1,3 +1,7 @@
+## 2026-11-18 武器強化とメニュー遷移の刷新
+
+[下書きPR #371](https://github.com/futsalife24-bot/swarm-front/pull/371)。一括強化、共通ナビゲーションと実画面案内を実装。単体2,835件・工房E2E 2件合格。全体E2Eは途中終了。[状態・前後画像・収録文](armory-ux-20261118-status.md)。
+
 ## 2026-11-17 協力プレイの敵補間と描画範囲復元（草稿PR369、未merge/未公開）
 
 本人依頼でorigin/main bce1d032から `codex/coop-smooth-20261117` / `C:/Users/futsa/swarm-coop-smooth-20261117` を作成。100ms配信を最新位置への指数平滑化だけで表示していたため、協力の敵表示だけに150ms補間・100ms上限外挿を追加。自キャラ入力/予測・権威戦闘は変更なし。GPU準備中のresize後に古いviewportを復元する競合も修正。[原因・検証・未確認](evidence/coop-smooth-20261117/README.md)。
