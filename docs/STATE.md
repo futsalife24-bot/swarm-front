@@ -1,3 +1,9 @@
+## 2026-11-18 タイトル画面の重なり修正を本番公開
+
+[PR #373](https://github.com/futsalife24-bot/swarm-front/pull/373) を通常マージ。公開ソースは `bc44f1b17508d49469e59cff258c5438717dc90d`、既存 Cloudflare Worker の Version ID は `cfc26655-53dc-4feb-944d-30a18100b6f9`（配信100%）。
+
+マージ後の単体209ファイル・2,835件が全件合格。型チェック、公開ビルド、本番設定のデプロイ予行も合格。公開トップと `/api/health` は HTTP 200、health は `ok: true`。配信JS・CSS 25件のSHA-256と配信JSに埋め込まれたソースSHAが公開ビルドと一致。公開版のChromeで `/` と `/front` を横向き844×390と932×430で開き、見出し・出撃待機と固定ボタンの重なりがないことを確認（4条件、画面例外0件）。[実装時の確認画像](evidence/title-overlap-20261118/)。
+
 ## 2026-11-18 武器強化とメニュー遷移の刷新
 
 [下書きPR #371](https://github.com/futsalife24-bot/swarm-front/pull/371)。一括強化、共通ナビゲーションと実画面案内を実装。単体2,835件・工房E2E 2件合格。全体E2Eは途中終了。[状態・前後画像・収録文](armory-ux-20261118-status.md)。
