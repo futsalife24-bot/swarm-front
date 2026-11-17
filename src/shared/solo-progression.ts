@@ -260,7 +260,7 @@ export function collectSolo(w: World, p: Player) {
               : 0.2),
       );
     } else if (d.type === "powder") {
-      w.solo!.powderCollected++;
+      w.solo!.powderCollected = (w.solo!.powderCollected ?? 0) + 1;
     } else if (w.pending[p.id].length < 3) w.pending[p.id].push(d.weapon);
     w.drops = w.drops.filter((x) => x !== d);
   }
@@ -270,7 +270,8 @@ export function collectRemainingSolo(w: World) {
   if (!w.solo || w.phase !== "victory") return;
   const p = w.players[0];
   for (const d of w.drops.filter((d) => d.owner === p.id)) {
-    if (d.type === "powder") w.solo.powderCollected++;
+    if (d.type === "powder")
+      w.solo.powderCollected = (w.solo.powderCollected ?? 0) + 1;
     else if (d.type !== "heal" && w.pending[p.id].length < 3)
       w.pending[p.id].push(d.weapon);
   }

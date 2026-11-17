@@ -79,3 +79,9 @@ GitHub: https://github.com/futsalife24-bot/swarm-front
 全件 `npm run test:e2e` は現行mainへの既存テスト未追従のため未合格。初回/2回目は起動待ち60秒で失敗。今回用の全4サーバーを事前起動して200応答を確認後は132件の実行へ進み、旧武器庫3件が `#open-armory`/旧 `.armory-list` の動線を待ってtimeout、旧協力結果も旧画面経路待ちでtimeout、協力前提検査はローカル資格未初期化で失敗した（その後既存setup:localを実行）。同じ原因の継続を止めて中断したので全132件合格とは報告しない。`src/bootstrap.ts`・`src/main.ts`は今回無変更。`/?coop=1` の限定再検証でも未入室の部屋作成/参加画面へ入り、旧武器庫テストは `#open-armory` 待ちで90秒timeout。単なるURL置換では直らず、ほか13ファイルも旧協力画面の前提を参照する。試行した既存E2EのURL変更は元へ戻した。今回に含めるか本人へ範囲確認中。
 
 F-17検査の初回2回はfixture用POST応答の未消費/Content-Typeなしの状態でWranglerプロキシが停止した。検査スクリプトのpresetへJSONヘッダー/状態確認/応答消費を追加し、ローカルHTTP専用Workerで7項目成功を確認。本体の認証/受付/Hookの変更や迂回はない。UIの初回fixture版衝突と遷移セレクタ誤りは検査を修正して再実行し成功。マージ・デプロイは禁止範囲として未実施。独立Chat監査は実施していない。主担当の実モデルID/effortは取得不可で未確認、子はgpt-6-sol/mediumを2体へ明示指定（武器庫、ドロップ/計測）、実行側IDは未確認。再委任なし。
+
+## PRと現状
+
+草稿PR: https://github.com/futsalife24-bot/swarm-front/pull/367 。実装commit `23c56e3e9551b5cca130b5800688fa5503e9c024` をpush済み。merge・デプロイなし。全件E2E合格条件は未達で、既存の動線整備範囲の返答待ち。
+
+最終自己レビューで、更新前の戦闘中断データに武装片カウンターがない場合も0から拾えるよう互換処理を追加し、専用回帰テストを加えた。

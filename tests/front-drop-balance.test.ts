@@ -94,6 +94,26 @@ describe("new campaign drop balance", () => {
     expect(world.rewards.solo).toHaveLength(3);
   });
 
+  it("accepts old checkpoints without a powder counter", () => {
+    const world = createWorld("old-counter", 1, 12);
+    initSolo(world, 12, "normal", false, { hp: 0, aim: 0, move: 0, swap: 0 });
+    addPlayer(world, "solo", STARTERS.slice(0, 2));
+    start(world);
+    delete (world.solo as Partial<NonNullable<typeof world.solo>>)
+      .powderCollected;
+    world.drops.push({
+      id: "old-powder",
+      owner: "solo",
+      weapon: STARTERS[0],
+      type: "powder",
+      x: 0,
+      z: 0,
+    });
+    finish(world, true);
+    collectRemainingSolo(world);
+    expect(world.solo!.powderCollected).toBe(1);
+  });
+
   it("credits collected powder on victory only and persists recovery pickups", () => {
     const base = freshProgress("normal");
     const input = {
