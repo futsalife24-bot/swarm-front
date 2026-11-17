@@ -1,3 +1,7 @@
+## 2026-11-17 武器庫のレア度別レベル上限（草稿PR367、未merge/未公開）
+
+同じ指定worktree/ブランチ、開始HEAD85578c6f・cleanを確認して追加変更。N10/R20/SR30/SSR40/LR50へ変更、コスト・6%威力伸長は維持。既存の上限超過はレベル・性能を保持して追加強化不可、工房に上限と到達状態を表示。解体・変換・改造は無変更。全195ファイル2018件・関連17件・型/build/書式成功、実Chrome14条件成功。[検証と詳細](evidence/gacha-caps-20261117/README.md)。本人指定によりpushまで、merge・デプロイ禁止。
+
 ## 2026-11-17 ガチャバランス・武器庫Lv強化（草稿PR367、未merge/未公開）
 
 本人指定のmain 648281fcからcleanな専用worktree `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-gacha-armory`、ブランチ `codex/gacha-balance-armory-20261117`。補給SSR1.5/バディ0.4、日次配布0、保管庫のサーバー進行からの券集計、段階ドロップ表/Lv1化、上限後の武装片と自動回収、券/次ST表示を実装。武器庫個体詳細→既存工房へLv強化を追加、上限25・武装片4～50（仮）、既存Lv26以上は保持。詳細な仮判断・前後表・計測は[今回の報告](evidence/gacha-balance-20261117/README.md)。

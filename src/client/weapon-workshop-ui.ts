@@ -10,7 +10,7 @@ import {
   modificationCost,
   convertWeapon,
   modifyWeapon,
-  ARMORY_LEVEL_LIMIT,
+  armoryLevelLimit,
   levelUpCost,
   levelUpWeapon,
 } from "./weapon-workshop";
@@ -76,7 +76,7 @@ export function openWeaponWorkshop(
       levelError = (e as Error).message;
     }
     const nextDamage =
-      weaponLevel(w) < ARMORY_LEVEL_LIMIT
+      weaponLevel(w) < armoryLevelLimit(w)
         ? stats({ ...w, level: weaponLevel(w) + 1 }).damage.toFixed(1)
         : "—";
     const metrics = (next?: ProgressSave) => {
@@ -109,7 +109,7 @@ export function openWeaponWorkshop(
       )
       .join(
         "",
-      )}</select></label><p>${metrics(modified)}</p><small>火力・弾速は最大10段階、1段階+5%。装填数は約10%・最低1発ずつ、重ロケット3／ロケット4／擲弾系5／その他10段階。変換先の上限超過分は休眠保存。ラン内の強化・融合は持ち越しません。</small><button id="workshop-modify" ${modified ? "" : "disabled"}>武装片 ${modificationCost(w, key)}で改造</button><p>${esc(modError)}</p></section><section class="workshop-level"><h2>レベル強化</h2><p>Lv${weaponLevel(w)} → ${weaponLevel(w) >= ARMORY_LEVEL_LIMIT ? "上限" : `Lv${weaponLevel(w) + 1}`}</p><p>火力 ${stats(w).damage.toFixed(1)} → ${nextDamage}</p><p>必要素材：武装片 ${weaponLevel(w) >= ARMORY_LEVEL_LIMIT ? "—" : levelUpCost(w)} / 所持 ${save.powder}</p><button id="workshop-level" ${leveled ? "" : "disabled"}>Lvを1上げる</button><p>${esc(levelError)}</p></section></div><p id="workshop-status" role="status">${esc(notice)}</p></section>`;
+      )}</select></label><p>${metrics(modified)}</p><small>火力・弾速は最大10段階、1段階+5%。装填数は約10%・最低1発ずつ、重ロケット3／ロケット4／擲弾系5／その他10段階。変換先の上限超過分は休眠保存。ラン内の強化・融合は持ち越しません。</small><button id="workshop-modify" ${modified ? "" : "disabled"}>武装片 ${modificationCost(w, key)}で改造</button><p>${esc(modError)}</p></section><section class="workshop-level"><h2>レベル強化</h2><p>上限 Lv${armoryLevelLimit(w)}</p><p>Lv${weaponLevel(w)} → ${weaponLevel(w) >= armoryLevelLimit(w) ? "上限到達" : `Lv${weaponLevel(w) + 1}`}</p><p>火力 ${stats(w).damage.toFixed(1)} → ${nextDamage}</p><p>必要素材：武装片 ${weaponLevel(w) >= armoryLevelLimit(w) ? "—" : levelUpCost(w)} / 所持 ${save.powder}</p><button id="workshop-level" ${leveled ? "" : "disabled"}>Lvを1上げる</button><p>${esc(levelError)}</p></section></div><p id="workshop-status" role="status">${esc(notice)}</p></section>`;
     root
       .querySelector(".workshop-actions")!
       .prepend(root.querySelector(".workshop-level")!);
