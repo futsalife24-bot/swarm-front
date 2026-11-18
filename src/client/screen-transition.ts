@@ -255,6 +255,13 @@ export function mountScreenTransitions(root: HTMLElement) {
         clear();
         return;
       }
+      if (
+        dialog?.querySelector(".modal-menu-navigation") ||
+        nextDialog?.querySelector(".modal-menu-navigation")
+      )
+        body
+          .querySelectorAll<HTMLElement>("[data-menu-back],[data-menu-toggle]")
+          .forEach((button) => (button.style.visibility = "hidden"));
       pending?.disconnect();
       pending = undefined;
       clearTimeout(expiry);

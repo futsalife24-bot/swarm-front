@@ -10,8 +10,10 @@ dialog > header.menu-navigation-header {
 #ui .weapon-workshop > header.menu-navigation-header {
   flex-shrink: 0;
 }
-.menu-navigation-header > [data-menu-back],
-.menu-navigation-header > [data-menu-toggle] {
+:is(.menu-navigation-header, .modal-menu-navigation)
+  > :is([data-menu-back], [data-menu-toggle]),
+.menu-navigation-header[data-modal-back-label]::before,
+.menu-navigation-header[data-modal-back-label]::after {
   box-sizing: border-box;
   align-self: center;
   flex: 0 0 auto;
@@ -26,28 +28,66 @@ dialog > header.menu-navigation-header {
   white-space: nowrap;
   line-height: 1;
 }
-.menu-navigation-header > [data-menu-back] {
+.menu-navigation-header > [data-menu-back],
+.menu-navigation-header[data-modal-back-label]::before {
   order: -10;
 }
-.menu-navigation-header > [data-menu-toggle] {
+.menu-navigation-header > [data-menu-toggle],
+.modal-menu-navigation > [data-menu-toggle],
+.menu-navigation-header[data-modal-back-label]::after {
   order: 10;
   margin-inline-start: auto;
   font-size: 20px;
 }
+/* Preserve the modal header's spacing for its title and other actions. */
+.menu-navigation-header[data-modal-back-label]::before,
+.menu-navigation-header[data-modal-back-label]::after {
+  visibility: hidden;
+}
+.menu-navigation-header[data-modal-back-label]::before {
+  content: attr(data-modal-back-label);
+}
+.menu-navigation-header[data-modal-back-label]::after {
+  content: "";
+}
 .menu-navigation-header [hidden] {
   display: none !important;
 }
-#ui .home-command > [data-menu-back],
-#ui .home-command > [data-menu-toggle] {
+#ui .home-command > :is([data-menu-back], [data-menu-toggle]),
+.modal-menu-navigation > :is([data-menu-back], [data-menu-toggle]) {
   position: fixed;
   top: max(5px, env(safe-area-inset-top));
   z-index: 5;
 }
-#ui .home-command > [data-menu-back] {
+#ui .home-command > [data-menu-back],
+.modal-menu-navigation > [data-menu-back] {
   left: max(6px, env(safe-area-inset-left));
 }
-#ui .home-command > [data-menu-toggle] {
+#ui .home-command > [data-menu-toggle],
+.modal-menu-navigation > [data-menu-toggle] {
   right: max(6px, env(safe-area-inset-right));
+}
+.modal-menu-navigation {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  pointer-events: none;
+}
+.modal-menu-navigation > button {
+  pointer-events: auto;
+}
+body:has(dialog[open] .modal-menu-navigation)
+  #ui
+  .menu-navigation-header
+  > :is([data-menu-back], [data-menu-toggle]),
+dialog[open]:has(~ dialog[open] .modal-menu-navigation)
+  .modal-menu-navigation
+  > button {
+  visibility: hidden;
 }
 .menu-navigation-header [data-menu-back]:disabled {
   opacity: 0.5;
