@@ -342,6 +342,9 @@ export class Renderer {
   private playerAccentSlots = new Map<string, number>();
   readonly defenseVisual: DefenseVisual;
   dummy = new T.Object3D();
+  private readonly harrowUp = new T.Vector3(0, 1, 0);
+  private readonly harrowNormal = new T.Vector3();
+  private readonly harrowTilt = new T.Quaternion();
   particles: T.InstancedMesh;
   projectiles: T.InstancedMesh;
   drops: T.InstancedMesh;
@@ -834,10 +837,32 @@ export class Renderer {
     sz = 1,
     rx = 0,
     ry = 0,
+    walkingGround?: Block[],
   ) {
     this.dummy.position.set(x, y, z);
     this.dummy.scale.set(sx, sy, sz);
     this.dummy.rotation.set(rx, ry, 0, "YXZ");
+    if (
+      walkingGround &&
+      Math.abs(y - groundHeight(x, z, walkingGround)) < 0.36
+    ) {
+      // Sample across the stance so either foot can be on the uphill side.
+      const span = 3 * sx;
+      if (span > 0) {
+        const left = groundHeight(x - span, z, walkingGround);
+        const right = groundHeight(x + span, z, walkingGround);
+        const back = groundHeight(x, z - span, walkingGround);
+        const front = groundHeight(x, z + span, walkingGround);
+        this.harrowNormal.set(left - right, 2 * span, back - front).normalize();
+        this.harrowTilt.setFromUnitVectors(this.harrowUp, this.harrowNormal);
+        this.dummy.quaternion.premultiply(this.harrowTilt);
+        this.dummy.position.y = Math.max(
+          y,
+          (left + right) / 2,
+          (back + front) / 2,
+        );
+      }
+    }
     this.dummy.updateMatrix();
     mesh.setMatrixAt(i, this.dummy.matrix);
   }
@@ -1415,6 +1440,9 @@ export class Renderer {
             e.partHp === 0 ? 0 : enemySize(e),
             (e.perch ?? 0) > 0 ? Math.PI / 2 : 0,
             -ya,
+            e.kind === "harrow" && !e.harrowAirborne && !e.harrow
+              ? activeMap.blocks
+              : undefined,
           );
           mesh.setColorAt(
             n++,
