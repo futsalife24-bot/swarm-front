@@ -1,59 +1,8 @@
+import { ARMORY_TOUR } from "./armory-tour-steps";
 import type { GuideVoice } from "./first-guides";
 import "./armory-tour.css";
 
-// 台詞IDは音声差し替え用。未収録のIDは既存の音声キューが読み飛ばす。
-export const ARMORY_TOUR = [
-  [
-    "tut-armory-menu",
-    "右上の三本線を押すと、どのメニューからでも行き先を選べます。",
-    "[data-menu-toggle]",
-  ],
-  [
-    "tut-armory-back",
-    "左上の戻るボタンで、ひとつ前の画面に戻れます。",
-    "[data-menu-back]",
-  ],
-  [
-    "tut-armory-list",
-    "武器一覧では、名前の横に現在のレベルと上限が並びます。",
-    ".gear-level",
-  ],
-  [
-    "tut-armory-cap",
-    "斜線の右側が、その武器のレア度で到達できる最高レベルです。",
-    ".gear-level",
-  ],
-  [
-    "tut-armory-drawer",
-    "武器を強化するときは、右のメニューから工房を選んでください。",
-    '[data-menu-destination="workshop"]',
-  ],
-  [
-    "tut-armory-weapon",
-    "工房の対象武器を切り替えると、その武器の強化に必要な武装片を確認できます。",
-    "#workshop-weapon",
-  ],
-  [
-    "tut-armory-target",
-    "プラスとマイナスで目標レベルを調整し、プラス五で五段階ずつ上げられます。",
-    ".workshop-goal",
-  ],
-  [
-    "tut-armory-max",
-    "最大を選ぶと、所持している武装片で届くレベルまで目標が上がります。",
-    '[data-goal="max"]',
-  ],
-  [
-    "tut-armory-preview",
-    "確定する前に、武装片の合計と強化後の威力を見比べてください。",
-    ".workshop-total",
-  ],
-  [
-    "tut-armory-confirm",
-    "内容がよければ強化を確定すると、選んだレベルまで一度で上がります。",
-    "#workshop-level",
-  ],
-] as const;
+export { ARMORY_TOUR };
 
 export function startArmoryTour(
   voice: GuideVoice,

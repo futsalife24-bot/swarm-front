@@ -15,20 +15,15 @@ export const CONTROL_VOICE_SET_VERSION: Record<ControlVoiceSet, number> = {
   tutorial: 1,
   control: 1,
 };
-/**
- * セットごとに収録済みの声（データで切り替える）。
- * 暫定仕様（2026-11-14 本人確定）: チュートリアルはヒロミだけ収録済みのため、
- * 選択中の声が無いセットでは CONTROL_VOICE_FALLBACK の声で再生する。
- * 3声分が届いたら tutorial の一覧に声を足すだけで、選んだ声で鳴るようになる。
- */
+/** セットごとに収録済みの声。台詞の収録範囲が限られる場合は台詞側で指定する。 */
 export const CONTROL_VOICE_SET_VOICES: Record<
   ControlVoiceSet,
   readonly ControlVoiceId[]
 > = {
-  tutorial: ["hiromi"],
-  control: ["hiromi", "hiyori", "yoko"],
+  tutorial: CONTROL_VOICES,
+  control: CONTROL_VOICES,
 };
-/** 選択中の声が収録されていないセットで使う声。null なら代替せず無音にする。 */
+/** 選択中の声が収録されていない場合に使う声。null なら代替せず無音にする。 */
 export const CONTROL_VOICE_FALLBACK: ControlVoiceId | null = "hiromi";
 
 /** そのセットで実際に鳴らす声。収録が無く代替も無ければ undefined。 */
@@ -50,10 +45,14 @@ export function voiceForSet(
  * 音声は公開物に同梱せず、設定からダウンロードした声のパック（control-voice-packs.ts）の目次をこのキーで引く。
  */
 export function controlVoicePath(
-  line: Pick<ControlVoiceLine, "id" | "set">,
+  line: Pick<ControlVoiceLine, "id" | "set" | "voices">,
   voice: ControlVoiceId,
 ) {
-  const actual = voiceForSet(line.set, voice) ?? voice;
+  const available = line.voices && {
+    ...CONTROL_VOICE_SET_VOICES,
+    [line.set]: line.voices,
+  };
+  const actual = voiceForSet(line.set, voice, available) ?? voice;
   return `voice-${line.set}-${actual}-v${CONTROL_VOICE_SET_VERSION[line.set]}/${line.id}`;
 }
 

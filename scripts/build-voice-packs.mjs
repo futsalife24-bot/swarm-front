@@ -28,7 +28,7 @@ const CATALOG = path.join(
 );
 const VOICES = ["hiromi", "hiyori", "yoko"];
 /** パックの版。中身を作り直したら上げる（URLが変わり、古い保存は「更新あり」になる）。 */
-const PACK_VERSION = 4;
+const PACK_VERSION = 5;
 /** 声の台詞向け: モノラル 44.1kHz・MP3 64kbps（全ブラウザの decodeAudioData で展開できる形式）。 */
 const ENCODE = [
   "-ac",
