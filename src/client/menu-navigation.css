@@ -1,4 +1,34 @@
-/* Keep controls in the header flow while the underlying menu scrolls. */
+:root {
+  --menu-navigation-top: max(5px, env(safe-area-inset-top));
+  --menu-navigation-height: 34px;
+  --menu-navigation-clearance: calc(
+    var(--menu-navigation-top) + var(--menu-navigation-height) + 4px
+  );
+  --menu-navigation-bottom: max(8px, env(safe-area-inset-bottom));
+}
+/* Keep menu frames below the fixed controls and leave their contents scrollable. */
+body #ui:has(> .menu-navigation-panel) {
+  padding-block-start: var(--menu-navigation-clearance);
+}
+body
+  #ui:has(> .menu-navigation-panel)
+  > section.menu-navigation-panel:not(.layout-editor) {
+  max-height: calc(100% - 4px);
+  margin-block: 0;
+}
+/* The layout preview uses viewport coordinates. Only its toolbar needs clearance. */
+.menu-navigation-panel > .layout-toolbar {
+  top: var(--menu-navigation-clearance);
+}
+body dialog.menu-navigation-panel:modal {
+  position: fixed;
+  inset-block: var(--menu-navigation-clearance) var(--menu-navigation-bottom);
+  margin-block: auto;
+  max-height: calc(
+    100dvh - var(--menu-navigation-clearance) - var(--menu-navigation-bottom)
+  );
+}
+
 #ui .panel > header.menu-navigation-header,
 #ui .pt-screen > header.menu-header.menu-navigation-header,
 dialog > header.menu-navigation-header {
@@ -11,14 +41,12 @@ dialog > header.menu-navigation-header {
   flex-shrink: 0;
 }
 :is(.menu-navigation-header, .modal-menu-navigation)
-  > :is([data-menu-back], [data-menu-toggle]),
-.menu-navigation-header[data-modal-back-label]::before,
-.menu-navigation-header[data-modal-back-label]::after {
+  > :is([data-menu-back], [data-menu-toggle]) {
   box-sizing: border-box;
   align-self: center;
   flex: 0 0 auto;
   min-width: 38px;
-  min-height: 34px;
+  min-height: var(--menu-navigation-height);
   padding: 2px 7px;
   border: 1px solid #527279;
   border-radius: 4px;
@@ -28,42 +56,34 @@ dialog > header.menu-navigation-header {
   white-space: nowrap;
   line-height: 1;
 }
-.menu-navigation-header > [data-menu-back],
-.menu-navigation-header[data-modal-back-label]::before {
+.menu-navigation-header > [data-menu-back] {
   order: -10;
 }
 .menu-navigation-header > [data-menu-toggle],
-.modal-menu-navigation > [data-menu-toggle],
-.menu-navigation-header[data-modal-back-label]::after {
+.modal-menu-navigation > [data-menu-toggle] {
   order: 10;
   margin-inline-start: auto;
   font-size: 20px;
 }
-/* Preserve the modal header's spacing for its title and other actions. */
-.menu-navigation-header[data-modal-back-label]::before,
-.menu-navigation-header[data-modal-back-label]::after {
-  visibility: hidden;
-}
-.menu-navigation-header[data-modal-back-label]::before {
-  content: attr(data-modal-back-label);
-}
-.menu-navigation-header[data-modal-back-label]::after {
-  content: "";
-}
 .menu-navigation-header [hidden] {
   display: none !important;
 }
-#ui .home-command > :is([data-menu-back], [data-menu-toggle]),
+body
+  #ui
+  .menu-navigation-header
+  > :is(button[data-menu-back], button[data-menu-toggle]),
 .modal-menu-navigation > :is([data-menu-back], [data-menu-toggle]) {
   position: fixed;
-  top: max(5px, env(safe-area-inset-top));
+  top: var(--menu-navigation-top);
+  min-height: var(--menu-navigation-height);
+  height: var(--menu-navigation-height);
   z-index: 5;
 }
-#ui .home-command > [data-menu-back],
+#ui .menu-navigation-header > [data-menu-back],
 .modal-menu-navigation > [data-menu-back] {
   left: max(6px, env(safe-area-inset-left));
 }
-#ui .home-command > [data-menu-toggle],
+#ui .menu-navigation-header > [data-menu-toggle],
 .modal-menu-navigation > [data-menu-toggle] {
   right: max(6px, env(safe-area-inset-right));
 }
@@ -88,9 +108,6 @@ dialog[open]:has(~ dialog[open] .modal-menu-navigation)
   .modal-menu-navigation
   > button {
   visibility: hidden;
-}
-.menu-navigation-header [data-menu-back]:disabled {
-  opacity: 0.5;
 }
 dialog.menu-navigation-drawer {
   box-sizing: border-box;

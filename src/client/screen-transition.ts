@@ -82,6 +82,9 @@ function freeze(source: HTMLElement): HTMLElement {
   originals.forEach((node, i) => {
     const clone = copies[i]!;
     clone.removeAttribute("autofocus");
+    // The live screen owns the fixed corner controls throughout the transition.
+    if (node.matches("[data-menu-back],[data-menu-toggle]"))
+      clone.style.visibility = "hidden";
     for (const attribute of Array.from(clone.attributes))
       if (attribute.name.startsWith("on"))
         clone.removeAttribute(attribute.name);
@@ -255,13 +258,6 @@ export function mountScreenTransitions(root: HTMLElement) {
         clear();
         return;
       }
-      if (
-        dialog?.querySelector(".modal-menu-navigation") ||
-        nextDialog?.querySelector(".modal-menu-navigation")
-      )
-        body
-          .querySelectorAll<HTMLElement>("[data-menu-back],[data-menu-toggle]")
-          .forEach((button) => (button.style.visibility = "hidden"));
       pending?.disconnect();
       pending = undefined;
       clearTimeout(expiry);
