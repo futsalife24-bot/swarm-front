@@ -8,7 +8,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { build } from "esbuild";
 
-const source = "public/assets/enemies/harrow_motion_v16.glb";
+const source = "public/assets/enemies/harrow_motion_v17.glb";
 const bytes = readFileSync(source);
 const loader = new GLTFLoader()
   .setMeshoptDecoder(MeshoptDecoder)

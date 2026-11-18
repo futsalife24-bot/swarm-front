@@ -9,7 +9,8 @@ here = Path(__file__).resolve().parent
 v14 = here.parent / "biped-v14"
 args = sys.argv[sys.argv.index("--") + 1:]
 out = Path(args[0]).resolve()
-long_stride = "--v16" in args[1:]
+spread_toes = "--v17" in args[1:]
+long_stride = spread_toes or "--v16" in args[1:]
 out.mkdir(parents=True, exist_ok=True)
 sys.path.insert(0, str(v14))
 import animation_contract as motion
@@ -19,8 +20,10 @@ rig = bpy.data.objects["HARROW"]
 original = [(track.name, track.strips[0].action)
             for track in rig.animation_data.nla_tracks]
 rig.animation_data_clear()
-old_walk = bpy.data.actions["Locomotion"]
-old_walk.name = "Previous locomotion"
+replace_clips = {"Locomotion", "Idle"} if spread_toes else {"Locomotion"}
+old_actions = {name: bpy.data.actions[name] for name in sorted(replace_clips)}
+for name, action in old_actions.items():
+    action.name = "Previous " + name
 metadata = json.loads((here.parent / "charakuru-20261011" /
                        "rig-metadata.json").read_text(encoding="utf-8-sig"))
 motion.WALK_STEPS_PER_CLIP = 1
@@ -30,16 +33,26 @@ motion.WALK_MID_DROP = 1.45 if long_stride else 0.35
 if long_stride:
     motion.WALK_SPEED = 1.92 / motion.GAME_SCALE
     motion.WALK_SMOOTH_FOOTFALL = True
-motion.animate(rig, metadata, clips={"Locomotion"})
-walk = rig.animation_data.nla_tracks["Locomotion"].strips[0].action
+if spread_toes:
+    motion.WALK_PALM_DROP = 1.55
+motion.animate(rig, metadata, clips=replace_clips)
+updated = {name: rig.animation_data.nla_tracks[name].strips[0].action
+           for name in replace_clips}
 rig.animation_data_clear()
 rig.animation_data_create()
+if spread_toes:
+    sys.path.insert(0, str(here.parent / "footfall-v17"))
+    from plant_toes import animate_toes
+    animate_toes(rig, updated["Locomotion"], updated["Idle"], motion.FPS,
+                 motion.DURATIONS["Locomotion"],
+                 motion.WALK_PALM_DROP, motion.walking_toe_spread)
 for name, action in original:
     track = rig.animation_data.nla_tracks.new()
     track.name = name
-    track.strips.new(name, 0, walk if name == "Locomotion" else action)
+    track.strips.new(name, 0, updated.get(name, action))
     track.mute = True
-bpy.data.actions.remove(old_walk)
+for old in old_actions.values():
+    bpy.data.actions.remove(old)
 bpy.context.scene.frame_set(0)
 bpy.context.preferences.filepaths.save_version = 0
 bpy.ops.wm.save_as_mainfile(filepath=str(out / "harrow-stride.blend"))

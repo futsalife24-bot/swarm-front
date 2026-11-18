@@ -8,7 +8,7 @@ import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { clone as cloneSkeleton } from "three/addons/utils/SkeletonUtils.js";
 
 const assetPath = fileURLToPath(
-  new URL("../public/assets/enemies/harrow_motion_v16.glb", import.meta.url),
+  new URL("../public/assets/enemies/harrow_motion_v17.glb", import.meta.url),
 );
 const outputPath = fileURLToPath(
   new URL("../src/client/harrow-report-camera-profile.ts", import.meta.url),
@@ -292,7 +292,7 @@ function motionProfile(clipName) {
 
 const data = {
   source: {
-    asset: "harrow_motion_v16.glb",
+    asset: "harrow_motion_v17.glb",
     sha256,
     rotationY,
     viewDirection,

@@ -6,7 +6,7 @@ import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 
-const source = "public/assets/enemies/harrow_motion_v16.glb";
+const source = "public/assets/enemies/harrow_motion_v17.glb";
 const bytes = readFileSync(source);
 // The headless check inspects geometry and animation; browser QA decodes the textures.
 const loader = new GLTFLoader()
@@ -48,7 +48,7 @@ scene.traverse((object) => {
   if (object instanceof T.SkinnedMesh) meshes.push(object);
 });
 assert.equal(meshes.length, 22, "HARROW skinned mesh primitives");
-assert.equal(meshes[0].skeleton.bones.length, 39, "HARROW bones");
+assert.equal(meshes[0].skeleton.bones.length, 47, "HARROW bones");
 for (const mesh of meshes) {
   assert.ok(
     mesh.bindMatrix.equals(meshes[0].bindMatrix),

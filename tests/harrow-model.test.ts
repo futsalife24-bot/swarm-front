@@ -21,7 +21,7 @@ import { polishHarrowFlight } from "../src/client/harrow-motion-polish";
 import { HARROW_REPORT_SEQUENCE } from "../src/client/enemy-report-motion";
 
 async function model() {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v16.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v17.glb");
   // CPU geometry/animation checks only: Node has no image decoder. Actual 4K
   // texture decoding and rendering are verified separately in the browser.
   const loader = new GLTFLoader()
@@ -52,35 +52,80 @@ it("HARROWは両脚を一周期に一回ずつ高く運び、接地した爪を�
     const mesh = asset.scene.getObjectByName(
       "Hindlimb" + side,
     ) as T.SkinnedMesh;
-    let toe = 0,
-      min = Infinity;
-    for (let i = 0; i < mesh.geometry.attributes.position.count; i++) {
-      mesh.getVertexPosition(i, point).applyMatrix4(mesh.matrixWorld);
-      if (point.y < min) {
-        min = point.y;
-        toe = i;
+    const attributes = mesh.geometry.attributes;
+    const digits = new Map<string, number[]>();
+    for (let i = 0; i < attributes.position.count; i++) {
+      for (let j = 0; j < 4; j++) {
+        const name =
+          mesh.skeleton.bones[attributes.skinIndex.getComponent(i, j)].name;
+        if (
+          !name.startsWith("Toe") ||
+          attributes.skinWeight.getComponent(i, j) <= 0.01
+        )
+          continue;
+        if (!digits.has(name)) digits.set(name, []);
+        digits.get(name)!.push(i);
       }
     }
+    expect(digits.size).toBe(4);
     let lifts = 0,
       lifted = false,
-      peak = 0,
-      plantZ: number | undefined;
+      peak = 0;
+    const anchors = new Map<string, { vertex: number; x: number; z: number }>();
     for (let frame = 0; frame <= Math.round(walk.duration * 60); frame++) {
       const time = frame / 60;
+      const phase = (time / walk.duration + (side === "R" ? 0.5 : 0)) % 1;
       mixer.setTime(time);
       asset.scene.updateMatrixWorld(true);
-      mesh
-        .getVertexPosition(toe, point)
-        .applyMatrix4(mesh.matrixWorld)
-        .multiplyScalar(HARROW.scale);
-      if (!lifted && point.y > 1) lifts++;
-      lifted = point.y > 1;
-      peak = Math.max(peak, point.y);
-      if (point.y < 0.06) {
-        const z = point.z - time * HARROW.speed;
-        plantZ ??= z;
-        expect(Math.abs(z - plantZ)).toBeLessThan(0.01);
-      } else plantZ = undefined;
+      let clearance = Infinity,
+        highestToe = -Infinity;
+      for (const [digit, vertices] of digits) {
+        let low = Infinity,
+          lowest = 0,
+          contactVertices = 0;
+        for (const vertex of vertices) {
+          mesh
+            .getVertexPosition(vertex, point)
+            .applyMatrix4(mesh.matrixWorld)
+            .multiplyScalar(HARROW.scale);
+          if (point.y < low) {
+            low = point.y;
+            lowest = vertex;
+          }
+          if (point.y < 0.16) contactVertices++;
+        }
+        clearance = Math.min(clearance, low);
+        highestToe = Math.max(highestToe, low);
+        if (phase < 0.72) {
+          // A patch of each of the four claws carries weight on the same plane.
+          expect(low).toBeGreaterThanOrEqual(0);
+          expect(low).toBeLessThan(0.06);
+          expect(contactVertices).toBeGreaterThan(5);
+          const anchor = anchors.get(digit);
+          mesh
+            .getVertexPosition(anchor?.vertex ?? lowest, point)
+            .applyMatrix4(mesh.matrixWorld)
+            .multiplyScalar(HARROW.scale);
+          const z = point.z - time * HARROW.speed;
+          if (anchor)
+            expect(Math.hypot(point.x - anchor.x, z - anchor.z)).toBeLessThan(
+              0.01,
+            );
+          else anchors.set(digit, { vertex: lowest, x: point.x, z });
+        } else anchors.delete(digit);
+      }
+      // Once the digits articulate, it is the lowest part of the entire foot
+      // that has to clear the ground. Its identity changes as the toes uncurl.
+      expect(clearance).toBeGreaterThanOrEqual(0);
+      // Curled claws sit at different heights during swing. All four arrive
+      // on the same plane before the leg reaches the ground.
+      if (phase > 0.835 && phase < 0.86)
+        expect(highestToe - clearance).toBeGreaterThan(1.5);
+      if (phase > 0.967 && phase < 0.99)
+        expect(highestToe - clearance).toBeLessThan(0.02);
+      if (!lifted && clearance > 1) lifts++;
+      lifted = clearance > 1;
+      peak = Math.max(peak, clearance);
     }
     expect(lifts).toBe(1);
     expect((walk.duration * HARROW.speed) / lifts).toBeCloseTo(8.064);
@@ -121,7 +166,7 @@ it("羽ばたき加工は翼だけを変え、左右非交差と上下主体の�
     expect(midpoint).not.toEqual(Array.from(track.values.slice(0, 4)));
   }
   expect(clip.duration).toBe(duration);
-  expect(bones).toHaveLength(39);
+  expect(bones).toHaveLength(47);
   for (const [c, hash] of untouched) expect(digest(c)).toBe(hash);
   for (const [t, values] of tracks)
     expect(Array.from(t.values)).toEqual(values);
@@ -213,7 +258,7 @@ it("羽ばたき加工は翼だけを変え、左右非交差と上下主体の�
 }, 60000);
 
 it("matches the shipped HARROW asset and frames both complete motion clips", async () => {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v16.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v17.glb");
   expect(createHash("sha256").update(bytes).digest("hex")).toBe(
     HARROW_REPORT_PROFILE.source.sha256,
   );
@@ -231,11 +276,11 @@ it("matches the shipped HARROW asset and frames both complete motion clips", asy
   for (const [clipName, frame] of [
     ["Idle", HARROW_POSE_FRAMES.idle],
     ["Locomotion", HARROW_POSE_FRAMES.move],
-  ] as const)
-    for (const [width, height] of [
+  ] as const) {
+    const projections = [
       [949, 240],
       [327, 206],
-    ]) {
+    ].map(([width, height]) => {
       const center = frame.bounds.getCenter(new T.Vector3());
       const halfSize = frame.bounds
         .getSize(new T.Vector3())
@@ -259,32 +304,41 @@ it("matches the shipped HARROW asset and frames both complete motion clips", asy
         .add(center);
       camera.lookAt(center);
       camera.updateMatrixWorld();
-      const mixer = new T.AnimationMixer(asset.scene);
-      const clip = asset.animations.find((c) => c.name === clipName)!;
-      mixer.clipAction(clip).play();
-      const point = new T.Vector3();
-      // Check phases between the sampled poses as well as the sampled phases.
-      let maxProjected = 0;
-      for (let phase = 0; phase < 24; phase++) {
-        mixer.setTime((clip.duration * phase) / 24);
-        asset.scene.updateMatrixWorld(true);
-        for (const mesh of meshes) {
-          const count = mesh.geometry.getAttribute("position").count;
-          for (let i = 0; i < count; i++) {
-            mesh.getVertexPosition(i, point).applyMatrix4(mesh.matrixWorld);
-            point.project(camera);
+      return new T.Matrix4().multiplyMatrices(
+        camera.projectionMatrix,
+        camera.matrixWorldInverse,
+      );
+    });
+    const mixer = new T.AnimationMixer(asset.scene);
+    const clip = asset.animations.find((c) => c.name === clipName)!;
+    mixer.clipAction(clip).play();
+    const point = new T.Vector3(),
+      projected = new T.Vector3();
+    // Check phases between the sampled poses as well as the sampled phases.
+    let maxProjected = 0;
+    for (let phase = 0; phase < 24; phase++) {
+      mixer.setTime((clip.duration * phase) / 24);
+      asset.scene.updateMatrixWorld(true);
+      for (const mesh of meshes) {
+        const count = mesh.geometry.getAttribute("position").count;
+        for (let i = 0; i < count; i++) {
+          mesh.getVertexPosition(i, point).applyMatrix4(mesh.matrixWorld);
+          // Both viewports see the same deformed vertex.
+          for (const projection of projections) {
+            projected.copy(point).applyMatrix4(projection);
             maxProjected = Math.max(
               maxProjected,
-              Math.abs(point.x),
-              Math.abs(point.y),
+              Math.abs(projected.x),
+              Math.abs(projected.y),
             );
           }
         }
       }
-      expect(maxProjected).toBeLessThan(1);
-      mixer.stopAllAction();
-      mixer.uncacheRoot(asset.scene);
     }
+    expect(maxProjected).toBeLessThan(1);
+    mixer.stopAllAction();
+    mixer.uncacheRoot(asset.scene);
+  }
 });
 
 it("tracks every report clip's actual intermediate skinned poses", async () => {
@@ -458,7 +512,7 @@ it("joins landing and both walk boundaries without a skeleton discontinuity", as
   asset.scene.traverse((object) => {
     if (object instanceof T.Bone) bones.push(object);
   });
-  expect(bones).toHaveLength(39);
+  expect(bones).toHaveLength(47);
   const pose = (name: string, end: boolean) => {
     mixer.stopAllAction();
     const clip = asset.animations.find((c) => c.name === name)!;
