@@ -1,15 +1,57 @@
 import { expect, it } from "vitest";
 import * as T from "three";
 import {
+  interpolatedBossWalking,
   syncDynamicInstances,
   soldier,
   poseSoldier,
 } from "../src/client/render";
-import { EVADE_DURATION } from "../src/shared/defs";
+import { ENEMIES, EVADE_DURATION } from "../src/shared/defs";
 import type { Player } from "../src/shared/game";
 import { CombatEffects } from "../src/client/combat-effects";
 import { EnemySpawnEffects } from "../src/client/enemy-spawn-effects";
 import { createWorld, start, spawn } from "../src/shared/game";
+import { HARROW_MOVE_SPEED } from "../src/shared/harrow-motion";
+import { FrontEnemyMotion } from "../src/client/front-enemy-motion";
+
+it.each(["harrow", "boss"] as const)(
+  "%sは前線の補間中も30・60・120コマで歩き、停止と再出発を区別する",
+  (kind) => {
+    for (const fps of [30, 60, 120]) {
+      const world = createWorld("boss-walk", 1);
+      const enemy = spawn(world, kind, 0, 0)!;
+      const motion = new FrontEnemyMotion();
+      const dt = 1 / fps;
+      let last = 0;
+      for (let frame = 0; frame <= fps * 3; frame++) {
+        const time = frame * dt;
+        if (frame % (fps / 10) === 0) {
+          world.time = time;
+          enemy.z =
+            ENEMIES[kind].speed * (Math.min(1, time) + Math.max(0, time - 2));
+          motion.receive(world, time * 1000);
+        }
+        motion.beginFrame(time * 1000);
+        const z = motion.sample(enemy).z;
+        const moving = interpolatedBossWalking(kind, Math.abs(z - last), dt);
+        if (time > 0.3 && time < 1) expect(moving).toBe(true);
+        if (time > 1.3 && time < 2) expect(moving).toBe(false);
+        if (time > 2.3) expect(moving).toBe(true);
+        last = z;
+      }
+    }
+  },
+);
+
+it("HARROWは微小な位置ぶれと時間が進まない描画では踏み出さない", () => {
+  for (const dt of [0.001, 1 / 60, 0.1]) {
+    expect(interpolatedBossWalking("harrow", 0.00005, dt)).toBe(false);
+    expect(interpolatedBossWalking("harrow", HARROW_MOVE_SPEED * dt, dt)).toBe(
+      true,
+    );
+  }
+  expect(interpolatedBossWalking("harrow", 0.1, 0)).toBe(false);
+});
 
 it.each(["crawler", "hornet"] as const)(
   "%sの出現素材を非表示で準備し、演出の終了後も再利用できる",

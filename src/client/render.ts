@@ -52,6 +52,18 @@ import {
 } from "../shared/foundry-defs";
 import { eye, type Enemy, type Player, type World } from "../shared/game";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
+import { HARROW_MOVE_SPEED } from "../shared/harrow-motion";
+
+/** The front already interpolates each frame, so use speed to distinguish a step from jitter. */
+export function interpolatedBossWalking(
+  kind: "harrow" | "boss",
+  distance: number,
+  dt: number,
+) {
+  const speed = kind === "harrow" ? HARROW_MOVE_SPEED : ENEMIES.boss.speed;
+  return dt > 0 && distance > Math.max(0.0001, speed * 0.25 * dt);
+}
+
 const mats = new Map<number, T.MeshStandardMaterial>();
 function material(color: number) {
   if (!mats.has(color))
@@ -995,6 +1007,10 @@ export class Renderer {
     this.mapAssets.select(
       VIEW_MAPS.indexOf(activeMap),
       !!w && w.phase !== "lobby",
+      true,
+      this.quality === 1 &&
+        (w?.players.length ?? 0) < 2 &&
+        !this.enemyMotion.enabled,
     );
     const underground = activeMap.biome === "cave";
     this.caveLamp.visible = underground;
@@ -1195,7 +1211,12 @@ export class Renderer {
           const e = this.enemyMotion.sample(authority);
           const key = String(e.id),
             v = this.visual.get(key) ?? new T.Vector3(e.x, e.y, e.z);
-          const moving = Math.hypot(v.x - e.x, v.z - e.z) > 0.015;
+          const displacement = Math.hypot(v.x - e.x, v.z - e.z);
+          const moving =
+            (e.kind === "harrow" || (e.kind === "boss" && !e.segments)) &&
+            this.enemyMotion.enabled
+              ? interpolatedBossWalking(e.kind, displacement, dt)
+              : displacement > 0.015;
           const previousHoundX = v.x,
             previousHoundZ = v.z;
           if (this.enemyMotion.enabled) v.set(e.x, e.y, e.z);
@@ -1275,6 +1296,7 @@ export class Renderer {
           if (inputs && !e.segments)
             inputs.push({
               slot: n,
+              modelScale: e.kind === "boss" ? enemySize(e) : undefined,
               pleat: e.pleat,
               calyx: e.calyx,
               harrow: e.harrow,
@@ -1284,7 +1306,9 @@ export class Renderer {
               moving:
                 moving &&
                 e.active !== false &&
-                (e.kind === "crawler" ? !(e.wind > 0) : !e.wind),
+                (e.kind === "crawler" || e.kind === "boss"
+                  ? e.wind <= 0
+                  : !e.wind),
               wind: e.wind,
               cool: e.cool,
               distance: Math.hypot(v.x - previousHoundX, v.z - previousHoundZ),

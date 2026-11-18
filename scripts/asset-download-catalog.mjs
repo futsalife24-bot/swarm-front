@@ -194,16 +194,9 @@ export function collectCurrentAssetPacks(root) {
     /(assets\/maps\/map_\$\{assetIndex\}_v\d+\.glb)/g,
     "map template",
   );
-  const distantTemplate = one(
-    mapLoader,
-    /(assets\/maps\/distant_\$\{assetIndex\}_v\d+\.glb)/g,
-    "distant template",
-  );
-  const survivalTemplate = one(
-    mapLoader,
-    /(assets\/maps\/defense_\$\{variant\}_v\d+\.glb)/g,
-    "survival template",
-  );
+  const mapFiles = JSON.parse(source("src/client/assets/map-files.json"));
+  if (mapFiles.distant.length !== names.length - 1 || mapFiles.defense.length !== names.length)
+    throw new Error("Map count differs from the downloadable map catalog");
   const maps = names.map((label, index) => ({
     id: `map-${index}`,
     label: `${label}（進撃）`,
@@ -211,9 +204,7 @@ export function collectCurrentAssetPacks(root) {
       "通常・高台ルート共通。遠景を含みます。音楽は別の任意保存です。",
     urls: [
       mapTemplate.replace("${assetIndex}", String(index)),
-      ...(index !== 5
-        ? [distantTemplate.replace("${assetIndex}", String(index))]
-        : []),
+      ...(mapFiles.distant[index] ? [mapFiles.distant[index]] : []),
     ],
   }));
   const survival = [
@@ -221,7 +212,7 @@ export function collectCurrentAssetPacks(root) {
       id: "map-survival-0",
       label: `生存：${names[0]}`,
       description: "現行の新規生存で使う戦場素材です。",
-      urls: [survivalTemplate.replace("${variant}", "0")],
+      urls: [mapFiles.defense[0]],
     },
   ];
   const bgm = source("src/client/bgm.ts");

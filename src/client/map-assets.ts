@@ -2,6 +2,7 @@ import { liftMap } from "./terrain-view";
 import { isRock, rockTriangles } from "../shared/rock";
 import { addMapDetail, weatherMapMaterials } from "./map-detail";
 import { softenNaturalNormals } from "./map-surfaces";
+import mapFiles from "./assets/map-files.json";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import {
@@ -88,6 +89,15 @@ export class MapAssets {
   shadowDirty = true;
   private selected = -1;
   private detailed = true;
+  private cloudsVisible = true;
+  private applyCitySky(object: T.Object3D | undefined) {
+    if (!(object instanceof T.Mesh)) return;
+    const ridge = object.userData.ridgeIndexCount;
+    if (!Number.isInteger(ridge)) return;
+    // Paint sky only in pixels left by opaque scenery. Multiplayer keeps the ridge.
+    object.renderOrder = 1;
+    object.geometry.setDrawRange(0, this.cloudsVisible ? Infinity : ridge);
+  }
   setQuality(quality: number) {
     const detailed = quality === 1;
     if (this.detailed === detailed) return;
@@ -156,8 +166,20 @@ export class MapAssets {
       }
     }
   }
-  select(index: number, load = true, distantVisible = true) {
+  select(
+    index: number,
+    load = true,
+    distantVisible = true,
+    cloudsVisible = this.cloudsVisible,
+  ) {
     const assetIndex = VIEW_MAPS[index].assetIndex ?? index;
+    if (this.cloudsVisible !== cloudsVisible || this.selected !== index) {
+      this.cloudsVisible = cloudsVisible;
+      this.applyCitySky(this.groups[index].getObjectByName("DISTANT_far"));
+      this.applyCitySky(
+        this.distantGroups[index].getObjectByName("DISTANT_far"),
+      );
+    }
     if (this.selected !== index) {
       if (this.selected >= 0) {
         // GPU memory is bounded by the active map, including both detail levels.
@@ -185,9 +207,7 @@ export class MapAssets {
       this.status[index].state = "loading";
       const variant = index - MAPS.length - 1;
       this.loader
-        .loadAsync(
-          `${import.meta.env.BASE_URL}assets/maps/defense_${variant}_v2.glb`,
-        )
+        .loadAsync(`${import.meta.env.BASE_URL}${mapFiles.defense[variant]}`)
         .then(({ scene }) => {
           if (this.selected !== index) {
             disposeMap(scene);
@@ -198,7 +218,10 @@ export class MapAssets {
             if (o instanceof T.Mesh) {
               const distant = o.name.startsWith("DISTANT_");
               o.castShadow = !distant && !o.name.startsWith("PLAZA_FLAT");
-              o.receiveShadow = true;
+              // The baked city lies beyond the combat shadow camera.
+              o.receiveShadow = !(variant === 0 && distant);
+              if (variant === 0 && o.name === "DISTANT_far")
+                this.applyCitySky(o);
               if (distant) o.raycast = () => {};
             }
           });
@@ -220,14 +243,14 @@ export class MapAssets {
     ) {
       this.distantStatus[index].state = "loading";
       this.loader
-        .loadAsync(
-          `${import.meta.env.BASE_URL}assets/maps/distant_${assetIndex}_v1.glb`,
-        )
+        .loadAsync(`${import.meta.env.BASE_URL}${mapFiles.distant[assetIndex]}`)
         .then(({ scene }) => {
           scene.traverse((o) => {
             if (!(o instanceof T.Mesh)) return;
             o.castShadow = false;
             o.receiveShadow = false;
+            if (assetIndex === 0 && o.name === "DISTANT_far")
+              this.applyCitySky(o);
             // Scenery never participates in camera/aim raycasts, even if the caller traverses the scene.
             o.raycast = () => {};
           });

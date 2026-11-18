@@ -48,7 +48,7 @@ export function assetUrl(path: string, base: URL) {
     !url.pathname.startsWith(base.pathname) ||
     url.username ||
     url.password ||
-    !/^(?:assets\/[\w./-]+\.(?:js|css|glb|png|webp|jpg|jpeg|wav|mp3|mp4|ttf|woff2?)|rebuild\/upgrades\/[\w-]+\.png|icon-swarm-[\w-]+\.png|index\.html|front\.html|manifest\.webmanifest)$/.test(
+    !/^(?:assets\/[\w./-]+\.(?:js|css|glb|png|webp|jpg|jpeg|wav|mp3|mp4|ttf|woff2?)|rebuild\/upgrades\/[\w-]+\.png|rebuild\/card-art\/[\w-]+\.webp|icon-swarm-[\w-]+\.png|index\.html|front\.html|manifest\.webmanifest)$/.test(
       relative,
     )
   )

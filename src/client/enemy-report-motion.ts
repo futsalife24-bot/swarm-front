@@ -7,6 +7,9 @@ import type { Enemy } from "../shared/game";
 import type { ReportEnemyKind } from "../shared/enemy-identity";
 import type { HoundClip } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
+import { ENEMIES } from "../shared/defs";
+import { enemySize, spawnSize } from "../shared/enemy-size";
+import { foundryWalkSeconds } from "./foundry-walk";
 import { CALYX, calyxMuzzle } from "../shared/calyx";
 import {
   HARROW,
@@ -25,6 +28,7 @@ import {
 export type ReportMotion = "idle" | "move" | "attack";
 
 const reportFlightHeight = HARROW.flightHeight / HARROW.scale;
+const reportFoundryScale = enemySize({ size: spawnSize("boss", false, 0) });
 const reportBombRouteLength = 40;
 const reportBombFirst = 8;
 export const HARROW_REPORT_SEQUENCE: {
@@ -363,6 +367,8 @@ export function reportPose(
         ? "Lunge"
         : "Idle";
   let sample = mode === "attack" ? cycle : time;
+  if (kind === "boss" && mode === "move")
+    sample = foundryWalkSeconds(time * ENEMIES.boss.speed, reportFoundryScale);
   if (kind === "ant" && mode === "attack" && clip === "Lunge")
     sample = cycle < 0.8 ? (cycle / 0.8) * 0.45 : 0.45 + cycle - 0.8;
   let height = 0;

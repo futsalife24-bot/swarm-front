@@ -6,6 +6,7 @@ import {
   type HoundVisualInput,
 } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
+import { foundryWalkSeconds } from "./foundry-walk";
 import { HARROW_MOVE_SPEED } from "../shared/harrow-motion";
 import { HARROW } from "../shared/harrow";
 import {
@@ -34,6 +35,7 @@ export function harrowTakeoffClip(seed = 0): HoundClip {
 }
 export type StructureVisualKind = keyof typeof STRUCTURE_ASSETS;
 export type StructureInput = HoundVisualInput & {
+  modelScale?: number;
   pleat?: PleatPose;
   slot: number;
   calyx?: import("../shared/calyx").CalyxAttack;
@@ -199,7 +201,7 @@ export class StructureMotionController {
           this.kind === "spider"
             ? (e.distance / 0.72) * 0.8
             : this.kind === "boss"
-              ? (e.distance / 0.48) * 2
+              ? foundryWalkSeconds(e.distance, e.modelScale ?? 1)
               : dt;
       else s.time += dt;
       s.blend += dt;
