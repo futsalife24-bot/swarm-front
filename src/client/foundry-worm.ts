@@ -476,15 +476,28 @@ export class FoundryWormView {
           0,
           1,
         );
-        const amplitude = Math.min(1, traveled / 2.4) * free * 0.86;
+        const strength = Math.min(1, traveled / 2.4) * free;
+        const amplitude = strength * 1.29;
         const phase = traveled * 0.48 - (index - leader) * 0.78;
-        const side = amplitude * Math.sin(phase);
+        const sine = Math.sin(phase),
+          cosine = Math.cos(phase);
+        const side = amplitude * sine;
         unit.position.x += Math.cos(heading) * side;
         unit.position.z -= Math.sin(heading) * side;
         unit.rotation.y += Math.atan(
-          ((amplitude * 0.78) / FOUNDRY_UNIT_PITCH) * Math.cos(phase),
+          ((amplitude * 0.78) / FOUNDRY_UNIT_PITCH) * cosine,
         );
         unit.rotation.z = -0.07 * side;
+        // The lifting crest starts at the leader and reaches each trailing slot
+        // in turn. Its slope tilts the shell about its local transverse axis.
+        if (phase > 0) {
+          const crest = (1 - cosine) * 0.5;
+          const lift = strength * 0.36;
+          unit.position.y += lift * crest * crest;
+          unit.rotateX(
+            Math.atan((lift * crest * sine * 0.78) / FOUNDRY_UNIT_PITCH),
+          );
+        }
       }
       if (omega === "brace")
         unit.rotation.x =
@@ -519,7 +532,7 @@ export class FoundryWormView {
       );
       connector.scale.z = length / CONNECTOR_LENGTH;
     }
-    this.gait.update(time, omega === "flight");
+    this.gait.update(time, omega === "flight", nodes);
     // Fan the head's articulated launchers while its central laser builds pressure.
     const headProgress =
       1 - ((enemy.acidAt ?? time) - time) / FOUNDRY_LASER_WARNING;
