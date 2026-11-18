@@ -322,13 +322,13 @@ it.each([1, 1.5, 3])(
     expect(controller.states.get(7)?.clip).toBe("Idle");
   },
 );
-it("HARROW travels 2.688 metres per slow 4.2-second stride without advancing while stopped", () => {
+it("HARROWは4.2秒で8.064m歩き、停止中は歩行位相を進めない", () => {
   const controller = new StructureMotionController("harrow");
   const batch = { setPose() {} };
   for (let frame = 0; frame < 84; frame++)
     controller.update(
       batch,
-      [sample({ moving: true, distance: 0.64 * 0.05 })],
+      [sample({ moving: true, distance: 1.92 * 0.05 })],
       0.05,
     );
   expect(controller.states.get(7)).toMatchObject({ clip: "Locomotion" });

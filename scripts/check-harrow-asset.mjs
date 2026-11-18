@@ -6,7 +6,7 @@ import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 
-const source = "public/assets/enemies/harrow_motion_v15.glb";
+const source = "public/assets/enemies/harrow_motion_v16.glb";
 const bytes = readFileSync(source);
 // The headless check inspects geometry and animation; browser QA decodes the textures.
 const loader = new GLTFLoader()
@@ -81,7 +81,7 @@ const result = {
 };
 mkdirSync("dist-validation/harrow", { recursive: true });
 writeFileSync(
-  "dist-validation/harrow/v15-asset.json",
+  "dist-validation/harrow/v16-asset.json",
   JSON.stringify(result, null, 2),
 );
 console.log(JSON.stringify(result));

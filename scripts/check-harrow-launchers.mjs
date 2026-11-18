@@ -8,7 +8,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { build } from "esbuild";
 
-const source = "public/assets/enemies/harrow_motion_v15.glb";
+const source = "public/assets/enemies/harrow_motion_v16.glb";
 const bytes = readFileSync(source);
 const loader = new GLTFLoader()
   .setMeshoptDecoder(MeshoptDecoder)
@@ -118,7 +118,7 @@ for (const sample of samples) {
   };
 }
 writeFileSync(
-  "dist-validation/harrow/v15-launchers.json",
+  "dist-validation/harrow/v16-launchers.json",
   JSON.stringify(report, null, 2),
 );
 console.log(
