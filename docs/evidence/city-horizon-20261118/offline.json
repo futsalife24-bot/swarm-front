@@ -1,0 +1,22 @@
+{
+  "revision": "99236a45856cc7ac2b651053f53f9b2cc2698c4bbf0d9a9e2b8ed26715f700fc",
+  "started": "2026-11-18T04:24:30.375Z",
+  "pausedFiles": 2,
+  "savedFiles": 217,
+  "selectedFiles": 217,
+  "secondVisitDownloads": 0,
+  "sameUrlUpdateDownloads": 1,
+  "sameUrlUpdateHash": "afc38925fc7f912bfcb01abf0da5a15e9b2fccd5285a24870002305880691e50",
+  "rootOffline": true,
+  "rootOfflineReload": true,
+  "offlineRange": {
+    "status": 206,
+    "bytes": 20,
+    "range": "bytes 10-29/71724"
+  },
+  "frontOffline": true,
+  "frontSettingsEntry": true,
+  "survivalOfflineStarted": true,
+  "pageErrors": [],
+  "pass": true
+}
