@@ -2,6 +2,8 @@
 
 街区を事前保存に対応した軽量素材に更新。協力では空の雲を省き、新しい窓・塔・遠山を表示する。HARROWの高フレームレートでの歩行と、FOUNDRY ZERO通常形態の歩幅・図鑑を修正。2人協力と図鑑の実画面を確認。[比較画像・動画と計測条件](evidence/city-horizon-20261118/README.md)
 
+[PR #382](https://github.com/futsalife24-bot/swarm-front/pull/382) を通常マージし、main `76ca3f9b` からWorker `7123b164-2b03-4631-9561-9a7961068a01` を100%配信。JS/CSS 25件、素材一覧と両GLBの照合、公開版での進撃・生存の出撃、ローカルで217件の事前保存とオフライン生存戦を確認。
+
 ## 2026-11-18 タイトルと各メニューの共通ナビを調整
 
 タイトルの戻るとハンバーガーを外し、遷移先では共通ナビの下に枠と見出しを配置。[PR #380](https://github.com/futsalife24-bot/swarm-front/pull/380) を通常マージ。公開ソース `70c6b83d`、Cloudflare Worker `f0dfadc6-6341-432c-8a17-76d48da46db5` を100%配信。単体2,835件、公開Chromeの844×390・932×430、トップ・ヘルスチェック200、配信JS/CSS 25件一致を確認。[公開結果](title-nav-20261118-status.md)
