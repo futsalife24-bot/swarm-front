@@ -13,4 +13,4 @@ node scripts/optimize-enemy-glb.mjs "$footOutput/harrow-stride.glb" "public/asse
 node scripts/generate-harrow-report-profile.mjs
 ```
 
-編集原本では、アーマチュアのアクションを `Locomotion` に切り替えると左右の爪を編集できる。配信用GLBの足裏・足滑り・歩幅・待機との連続性・図鑑の画角は `tests/harrow-model.test.ts`、発射口は `scripts/check-harrow-launchers.mjs` で照合する。
+編集原本を開くと `Locomotion` が選択され、0〜168フレームをそのまま再生・編集できる。配信用GLBの足裏・足滑り・歩幅・待機との連続性・図鑑の画角は `tests/harrow-model.test.ts`、発射口は `scripts/check-harrow-launchers.mjs` で照合する。
