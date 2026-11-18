@@ -1,0 +1,213 @@
+{
+  "at": "2026-11-18T21:20:29.686Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "source": "c38b8942382a0f9662a97d2549a4afbee6af5b33",
+  "version": "3b39dff4-66e1-4390-abdd-ca7f919e99fe",
+  "health": {
+    "status": 200,
+    "body": {
+      "ok": true,
+      "transport": "websocket",
+      "authority": "durable-object"
+    }
+  },
+  "pass": true,
+  "checks": [
+    {
+      "file": "index.html",
+      "status": 200,
+      "local": "78b095905134689d1e1a1c27b6226ea125d437b452a2954738609538a86e389c",
+      "remote": "78b095905134689d1e1a1c27b6226ea125d437b452a2954738609538a86e389c",
+      "pass": true
+    },
+    {
+      "file": "front.html",
+      "status": 200,
+      "local": "171d9be4007a7f0a8438a7a935bb2cf0ed11529b1541568fdf551dc90d5a0522",
+      "remote": "171d9be4007a7f0a8438a7a935bb2cf0ed11529b1541568fdf551dc90d5a0522",
+      "pass": true
+    },
+    {
+      "file": "assets/enemies/harrow_motion_v17.glb",
+      "status": 200,
+      "local": "cb3fbb8ff6d3de5fe48f14c7b49aae0c3afa1acefbc71c6fa65045fcd20e86cb",
+      "remote": "cb3fbb8ff6d3de5fe48f14c7b49aae0c3afa1acefbc71c6fa65045fcd20e86cb",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-9xkxF3RX.css",
+      "status": 200,
+      "local": "fda779092a0673c4b09846d8907f3d2b6bb0b8203d08c869633b57e98e393539",
+      "remote": "fda779092a0673c4b09846d8907f3d2b6bb0b8203d08c869633b57e98e393539",
+      "pass": true
+    },
+    {
+      "file": "assets/cloud-save-SC-fNklM.js",
+      "status": 200,
+      "local": "b5753ab351fd94c17ada0cc6016a94757732ae6961674adba6ac3d5ac3ab1c32",
+      "remote": "b5753ab351fd94c17ada0cc6016a94757732ae6961674adba6ac3d5ac3ab1c32",
+      "pass": true
+    },
+    {
+      "file": "assets/front-BthREkfP.css",
+      "status": 200,
+      "local": "3799c7f9e835350b445232086cded8dde2ad6e4110b7c1e21ef8f7ef9be5de1c",
+      "remote": "3799c7f9e835350b445232086cded8dde2ad6e4110b7c1e21ef8f7ef9be5de1c",
+      "pass": true
+    },
+    {
+      "file": "assets/front-sK94SjXN.js",
+      "status": 200,
+      "local": "b170cdccc3172107c60630c96ba2c3d1380f84434fdbb607bbb899fe4efacf18",
+      "remote": "b170cdccc3172107c60630c96ba2c3d1380f84434fdbb607bbb899fe4efacf18",
+      "pass": true
+    },
+    {
+      "file": "assets/game-select-BCHNgpdL.js",
+      "status": 200,
+      "local": "37c0a4d696396dc1401fb3b9accc84415a24ea7addfd07fbb41d11c770e5e963",
+      "remote": "37c0a4d696396dc1401fb3b9accc84415a24ea7addfd07fbb41d11c770e5e963",
+      "pass": true
+    },
+    {
+      "file": "assets/game-select-C-P1GfeG.css",
+      "status": 200,
+      "local": "b4ef613a7946c922ad21b990cefb89ae183068ca0151a0f3d88fb8d0ff53d261",
+      "remote": "b4ef613a7946c922ad21b990cefb89ae183068ca0151a0f3d88fb8d0ff53d261",
+      "pass": true
+    },
+    {
+      "file": "assets/hud-CTjviM6t.js",
+      "status": 200,
+      "local": "dcb1425979cd05986d8f779783949a345eb36c59482741ef0f8953ce677dc5b8",
+      "remote": "dcb1425979cd05986d8f779783949a345eb36c59482741ef0f8953ce677dc5b8",
+      "pass": true
+    },
+    {
+      "file": "assets/hud-DbXcu7yw.css",
+      "status": 200,
+      "local": "3f5810e1bdab54e21ed4678c846b3194db8df509d2a99fe3b1a7a72d54363fed",
+      "remote": "3f5810e1bdab54e21ed4678c846b3194db8df509d2a99fe3b1a7a72d54363fed",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-CPbai1ZT.css",
+      "status": 200,
+      "local": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "remote": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9",
+      "pass": true
+    },
+    {
+      "file": "assets/legacy-_JUkr6Gf.js",
+      "status": 200,
+      "local": "124c972b767400f49666380651ce36c4859982922a0712261bd46d33e892f0fe",
+      "remote": "124c972b767400f49666380651ce36c4859982922a0712261bd46d33e892f0fe",
+      "pass": true
+    },
+    {
+      "file": "assets/main-B9o9WWVY.js",
+      "status": 200,
+      "local": "c344a86bab6dae427da546376bc09f7f51a314620dc004b1654d4b0475536fa4",
+      "remote": "c344a86bab6dae427da546376bc09f7f51a314620dc004b1654d4b0475536fa4",
+      "pass": true
+    },
+    {
+      "file": "assets/main-BOIn8V8d.css",
+      "status": 200,
+      "local": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "remote": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027",
+      "pass": true
+    },
+    {
+      "file": "assets/operation-picker-CiWEm1iZ.css",
+      "status": 200,
+      "local": "a285049a12953b234afba22f1062c00de73cdd93cfe1315cfb399511c615ffdc",
+      "remote": "a285049a12953b234afba22f1062c00de73cdd93cfe1315cfb399511c615ffdc",
+      "pass": true
+    },
+    {
+      "file": "assets/operation-picker-Ct2yWt-a.js",
+      "status": 200,
+      "local": "cda501b2658a983310e2c593493fec01481830380e17ce2816bbcc32b1f04d96",
+      "remote": "cda501b2658a983310e2c593493fec01481830380e17ce2816bbcc32b1f04d96",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-1a1NA6IO.js",
+      "status": 200,
+      "local": "736d08c8501ddfcdd6d4b03480e1dae4a7dc97a871800fd166a666ba71b8858e",
+      "remote": "736d08c8501ddfcdd6d4b03480e1dae4a7dc97a871800fd166a666ba71b8858e",
+      "pass": true
+    },
+    {
+      "file": "assets/playtest-app-DiI1mAps.css",
+      "status": 200,
+      "local": "c0b9b6bf45aff8053f56c36f55d46c6553eba1e5cd39e5c5338e97f08bfa5b0d",
+      "remote": "c0b9b6bf45aff8053f56c36f55d46c6553eba1e5cd39e5c5338e97f08bfa5b0d",
+      "pass": true
+    },
+    {
+      "file": "assets/preload-helper-BUUOzIBn.css",
+      "status": 200,
+      "local": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "remote": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc",
+      "pass": true
+    },
+    {
+      "file": "assets/preload-helper-D-oQJsnn.js",
+      "status": 200,
+      "local": "f3247deb39a115c524b9e85aeefb0a1044f697fbcf64391a379a7fcfd4c22ed6",
+      "remote": "f3247deb39a115c524b9e85aeefb0a1044f697fbcf64391a379a7fcfd4c22ed6",
+      "pass": true
+    },
+    {
+      "file": "assets/room-access-DzHR7jRh.css",
+      "status": 200,
+      "local": "28f6c3a6d90927ef627a6feacda6e933af8141012d56c26d988f1efaf0824095",
+      "remote": "28f6c3a6d90927ef627a6feacda6e933af8141012d56c26d988f1efaf0824095",
+      "pass": true
+    },
+    {
+      "file": "assets/room-access-UsvHQ1sd.js",
+      "status": 200,
+      "local": "2f2049c56a4be6ed8a70e901b2e46af2b407d5cc83022f4c51223a8badd84048",
+      "remote": "2f2049c56a4be6ed8a70e901b2e46af2b407d5cc83022f4c51223a8badd84048",
+      "pass": true
+    },
+    {
+      "file": "assets/runtime-VlS_FuT6.js",
+      "status": 200,
+      "local": "8413c8673bd87a2b674f976e590c34ba03b22e366976994da8cdbe1ac4596762",
+      "remote": "8413c8673bd87a2b674f976e590c34ba03b22e366976994da8cdbe1ac4596762",
+      "pass": true
+    },
+    {
+      "file": "assets/sfx-worker-BikEsEkF.js",
+      "status": 200,
+      "local": "fb2a5aeb6aed622363981440001f2f032b7b69695313c6587bf007b7df160da3",
+      "remote": "fb2a5aeb6aed622363981440001f2f032b7b69695313c6587bf007b7df160da3",
+      "pass": true
+    },
+    {
+      "file": "assets/training-app-B19JIS4W.js",
+      "status": 200,
+      "local": "4ea393f6bba265ddc4093ef20f99ba82a9b70a1e3dd5d5ec7f3ef7e3d0ee66db",
+      "remote": "4ea393f6bba265ddc4093ef20f99ba82a9b70a1e3dd5d5ec7f3ef7e3d0ee66db",
+      "pass": true
+    },
+    {
+      "file": "assets/weapon-sharing-A5--rscu.js",
+      "status": 200,
+      "local": "18d55a820a3cc40e03eb602a83cbebf69bb7110e86cc2ce2edc60cc9bad3d9b3",
+      "remote": "18d55a820a3cc40e03eb602a83cbebf69bb7110e86cc2ce2edc60cc9bad3d9b3",
+      "pass": true
+    },
+    {
+      "file": "assets/zoom-guard-CYxqEXnM.js",
+      "status": 200,
+      "local": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "remote": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b",
+      "pass": true
+    }
+  ]
+}
