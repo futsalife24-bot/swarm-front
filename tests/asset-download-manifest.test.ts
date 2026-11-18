@@ -6,6 +6,7 @@ import { createHash } from "node:crypto";
 import { EventEmitter } from "node:events";
 import { build as viteBuild } from "vite";
 import { collectCurrentAssetPacks } from "../scripts/asset-download-catalog.mjs";
+import { assetUrl } from "../src/client/asset-download";
 import {
   generateAssetDownloadManifest,
   assetDownloadManifestPlugin,
@@ -197,6 +198,10 @@ describe("事前保存manifestの生成", () => {
   });
   it("現行実参照を使い、不要な旧版・旧モード・任意mediaを共通へ混ぜない", () => {
     const packs = collectCurrentAssetPacks(process.cwd());
+    const base = new URL("https://game.example/swarm-front/");
+    for (const pack of packs)
+      for (const url of pack.urls)
+        expect(() => assetUrl(url, base)).not.toThrow();
     expect(packs.map((p: any) => p.id)).toEqual([
       "app",
       "common",
@@ -278,8 +283,11 @@ describe("事前保存manifestの生成", () => {
       "movies",
     ]);
     expect(packs[0].urls).toContain("icon-swarm-v2-512.png");
+    const street = packs.find((p: any) => p.id === "map-0")!.urls;
+    expect(street).toContain("assets/maps/distant_0_v2.glb");
+    expect(street).not.toContain("assets/maps/distant_0_v1.glb");
     expect(packs.find((p: any) => p.id === "map-survival-0")!.urls).toEqual([
-      "assets/maps/defense_0_v2.glb",
+      "assets/maps/defense_0_v3.glb",
     ]);
   });
   it("generateBundleは名前だけ予約し、writeなしの不完全manifestを成功扱いしない", () => {

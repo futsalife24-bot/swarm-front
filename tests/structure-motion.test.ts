@@ -1,4 +1,5 @@
 import { it, expect } from "vitest";
+import { reportPose } from "../src/client/enemy-report-motion";
 import {
   harrowLandingSample,
   harrowWingStroke,
@@ -302,6 +303,25 @@ it("cancels aborted wind-up and never interprets spawn cooldown as a hit", () =>
   c.update(b, [sample()], 0.016);
   expect(c.states.get(7)?.clip).toBe("Idle");
 });
+it.each([1, 1.5, 3])(
+  "通常炉は描画倍率%sの歩幅で進み、停止時には待機へ戻る",
+  (modelScale) => {
+    const controller = new StructureMotionController("boss");
+    const batch = { setPose() {} };
+    for (let frame = 0; frame < 60; frame++)
+      controller.update(
+        batch,
+        [sample({ moving: true, distance: 1.4 / 60, modelScale })],
+        1 / 60,
+      );
+    const time = controller.states.get(7)!.time;
+    expect(time * 0.24 * modelScale).toBeCloseTo(1.4);
+    if (modelScale === 3)
+      expect(reportPose("boss", "move", 1).sample).toBeCloseTo(time);
+    controller.update(batch, [sample({ modelScale })], 1 / 60);
+    expect(controller.states.get(7)?.clip).toBe("Idle");
+  },
+);
 it("HARROW travels 2.688 metres per slow 4.2-second stride without advancing while stopped", () => {
   const controller = new StructureMotionController("harrow");
   const batch = { setPose() {} };
