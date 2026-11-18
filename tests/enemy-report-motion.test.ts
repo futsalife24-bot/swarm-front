@@ -331,8 +331,9 @@ it("keeps the LEAPER ground/air cycle bounded and stops at a grounded idle pose"
 it("builds independent foundry snapshots and resets movement for attack/idle", () => {
   const move = reportWorm("move", 2),
     before = JSON.stringify(move);
-  const attack = reportWorm("attack", 2);
-  expect(move.z).toBe(-8.4);
+  const attack = reportWorm("attack", 0.6);
+  expect(move.z).toBeCloseTo(-12.6);
+  expect(move.segments![0].z - move.z).toBeCloseTo(4.8);
   expect(attack.z).toBe(0);
   expect(attack.segments).toHaveLength(14);
   expect(attack.pulseAim).toBeDefined();
@@ -342,8 +343,33 @@ it("builds independent foundry snapshots and resets movement for attack/idle", (
 });
 
 it("previews CATENA head-to-tail jump, landing and eight laser mouths", () => {
-  const laser = reportWorm("attack", 2);
-  expect([laser, ...laser.segments!].filter((n) => n.pulseAim)).toHaveLength(8);
+  const mouths = new Set<number>();
+  for (let frame = 0; frame < 150; frame++) {
+    const laser = reportWorm("attack", frame / 60);
+    [laser, ...laser.segments!].forEach((node, part) => {
+      if (node.pulseAim) mouths.add(part);
+    });
+  }
+  expect([...mouths]).toEqual([0, 2, 4, 6, 8, 10, 12, 14]);
+  const effects = new ReportEffects();
+  try {
+    const head = effects.root.getObjectByName("CATENA_OPTIC_0") as T.Mesh;
+    effects.update("boss", true, "attack", 0.2);
+    expect(head.visible).toBe(false);
+    effects.update("boss", true, "attack", 0.6);
+    expect(head.visible).toBe(true);
+    expect(head.scale.x).toBe(2);
+    expect((head.material as T.MeshBasicMaterial).color.getHex()).toBe(
+      0xff4054,
+    );
+    effects.update("boss", true, "attack", 0.9);
+    expect(head.scale.x).toBe(0.055);
+    expect((head.material as T.MeshBasicMaterial).color.getHex()).toBe(
+      0xcaffff,
+    );
+  } finally {
+    effects.dispose();
+  }
   const flight = reportWorm("attack", 9.85);
   expect(flight.omega).toBeDefined();
   expect(flight.y).toBeGreaterThan(flight.segments!.at(-1)!.y);

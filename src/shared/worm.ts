@@ -7,6 +7,8 @@ import {
   FOUNDRY_FRACTURED_SPEED,
   FOUNDRY_LASER_DAMAGE,
   FOUNDRY_LASER_INTERVAL,
+  FOUNDRY_LASER_STAGGER,
+  foundryOptic,
   FOUNDRY_LASER_RANGE,
   FOUNDRY_LASER_SPEED,
   FOUNDRY_LASER_WARNING,
@@ -385,7 +387,7 @@ function fireLaser(
   size: number,
   statSize: number,
 ) {
-  node.acidAt ??= w.time + FOUNDRY_LASER_WARNING + part * 0.23;
+  node.acidAt ??= w.time + FOUNDRY_LASER_WARNING + part * FOUNDRY_LASER_STAGGER;
   if (w.time >= node.acidAt - FOUNDRY_LASER_WARNING && !node.pulseAim) {
     const origin = foundryLaserOrigin(node, part, size);
     const player = nearestPlayer(
@@ -488,14 +490,9 @@ export function moveWorm(w: World, e: Enemy, dt: number) {
       node.trailOwner = parts[0];
       node.trailOffset = offset * FOUNDRY_UNIT_PITCH * enemySize(e);
       // 胴14節でも稼働砲口は従来どおり頭1＋胴7。旧7節は全砲口を維持。
-      if (part === 0 || e.segments.length <= 7 || part % 2 === 0)
-        fireLaser(
-          w,
-          node,
-          part === 0 ? 0 : e.segments.length <= 7 ? part : part / 2,
-          enemySize(e),
-          enemyStatSize(e),
-        );
+      const optic = foundryOptic(part, e.segments.length);
+      if (optic !== undefined)
+        fireLaser(w, node, optic, enemySize(e), enemyStatSize(e));
       else node.pulseAim = undefined;
     }
   }

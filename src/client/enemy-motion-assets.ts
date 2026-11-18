@@ -10,7 +10,7 @@ export const ENEMY_MOTION_FILES = {
   foundry_zero:
     "assets/enemies/foundry_zero_motion_v1.glb?rev=84d8c85b01e6284b",
   calyx: "assets/enemies/calyx_motion_v1.glb?rev=d1a7573d5976e284",
-  harrow: "assets/enemies/harrow_motion_v14.glb?rev=4f0b88f87f62f643",
+  harrow: "assets/enemies/harrow_motion_v15.glb?rev=241796d6131a2193",
 } as const;
 export type EnemyMotionName = keyof typeof ENEMY_MOTION_FILES;
 export const FOUNDRY_WORM_FILE =

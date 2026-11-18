@@ -5,7 +5,10 @@ import { BastionView } from "./bastion-view";
 import { HarrowEffects } from "./harrow-effects";
 import { redWarningDuringWind } from "./attack-telegraph";
 import { PLEAT_STRIKE, pleatStrike } from "../shared/pleat-strike";
-import { foundryLaserWarningLine } from "./foundry-laser-warning";
+import {
+  foundryWarningMaterial,
+  foundryWarningPose,
+} from "./foundry-laser-warning";
 import {
   projectileWarningPaths,
   type WarningPoint,
@@ -46,10 +49,7 @@ import {
 import { NORMAL_FOV, SCOPE_FOV, scopeFov } from "../shared/aim";
 import { aimCamera, cameraShot } from "../shared/game";
 import { FoundryWormView, FOUNDRY_WORM_ASSET } from "./foundry-worm";
-import {
-  foundryLaserOrigin,
-  FOUNDRY_LASER_WARNING,
-} from "../shared/foundry-defs";
+import { FOUNDRY_LASER_WARNING } from "../shared/foundry-defs";
 import { eye, type Enemy, type Player, type World } from "../shared/game";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
 import { HARROW_MOVE_SPEED } from "../shared/harrow-motion";
@@ -575,12 +575,7 @@ export class Renderer {
     this.scene.add(this.bossBody);
     this.foundryWarnings = new T.InstancedMesh(
       box,
-      new T.MeshBasicMaterial({
-        color: 0xff4054,
-        transparent: true,
-        opacity: 0.36,
-        depthWrite: false,
-      }),
+      new T.MeshBasicMaterial(foundryWarningMaterial),
       640,
     );
     this.foundryLasers = new T.InstancedMesh(
@@ -872,7 +867,16 @@ export class Renderer {
     this.foundryWorms.clear();
     this.foundryHeadings.clear();
   }
-  private foundryHeading(key: string, heading: number, dt: number) {
+  private foundryHeading(
+    key: string,
+    heading: number,
+    dt: number,
+    aiming = false,
+  ) {
+    if (aiming) {
+      this.foundryHeadings.set(key, heading);
+      return heading;
+    }
     const previous = this.foundryHeadings.get(key) ?? heading;
     const difference = Math.atan2(
       Math.sin(heading - previous),
@@ -917,46 +921,26 @@ export class Renderer {
   }
   private foundryWarning(enemy: Enemy, blocks: Block[]) {
     for (const [part, node] of [enemy, ...(enemy.segments ?? [])].entries()) {
-      if (
-        !node.pulseAim ||
-        node.partHp === 0 ||
-        !redWarningDuringWind(
-          (node.acidAt ?? this.foundryTime) - this.foundryTime,
-          FOUNDRY_LASER_WARNING,
-        ) ||
-        this.foundryWarnings.count >= 640
-      )
-        continue;
-      const origin = foundryLaserOrigin(node, part, enemySize(enemy));
-      const { to: target, length } = foundryLaserWarningLine(
-        origin,
-        node.pulseAim,
+      if (this.foundryWarnings.count >= 640) break;
+      const pose = foundryWarningPose(
+        node,
+        part,
+        enemySize(enemy),
+        this.foundryTime,
         blocks,
       );
-      if (length <= 0) continue;
-      const dx = target.x - origin.x,
-        dy = target.y - origin.y,
-        dz = target.z - origin.z;
-      const charge = T.MathUtils.clamp(
-        1 -
-          ((node.acidAt ?? this.foundryTime) - this.foundryTime) /
-            FOUNDRY_LASER_WARNING,
-        0,
-        1,
-      );
+      if (!pose) continue;
       this.instance(
         this.foundryWarnings,
         this.foundryWarnings.count++,
-        (origin.x + target.x) / 2,
-        origin.y + dy / 2,
-        (origin.z + target.z) / 2,
-        // The authoritative laser hits player centres within 1 m of its ray.
-        // Show that danger corridor, rather than a subpixel targeting thread.
-        2,
-        0.06 + charge * 0.04,
-        length,
-        -Math.atan2(dy, Math.hypot(dx, dz)),
-        Math.atan2(dx, dz),
+        pose.x,
+        pose.y,
+        pose.z,
+        pose.width,
+        pose.height,
+        pose.length,
+        pose.pitch,
+        pose.yaw,
       );
     }
   }
@@ -1231,7 +1215,7 @@ export class Renderer {
             const snapOmega = !!e.omega || this.omegaVisual.has(e.id);
             if (e.omega) this.omegaVisual.add(e.id);
             else this.omegaVisual.delete(e.id);
-            if (snapOmega) v.set(e.x, e.y, e.z);
+            if (snapOmega || e.pulseAim) v.set(e.x, e.y, e.z);
             const foundry = this.foundryWorm(e.id);
             if (foundry.view) {
               const projected: Enemy = {
@@ -1243,6 +1227,7 @@ export class Renderer {
                   key,
                   e.heading ?? 0,
                   animate ? dt : 0,
+                  !!e.pulseAim,
                 ),
                 segments: e.segments.map((segment, index) => {
                   const segmentKey = `${e.id}:segment:${index}`;
@@ -1257,7 +1242,8 @@ export class Renderer {
                       1 - Math.exp(-dt * 12),
                     );
                   position.y = segment.y;
-                  if (snapOmega) position.set(segment.x, segment.y, segment.z);
+                  if (snapOmega || segment.pulseAim)
+                    position.set(segment.x, segment.y, segment.z);
                   this.visual.set(segmentKey, position);
                   return {
                     ...segment,
@@ -1268,6 +1254,7 @@ export class Renderer {
                       segmentKey,
                       segment.heading ?? 0,
                       animate ? dt : 0,
+                      !!segment.pulseAim,
                     ),
                   };
                 }),

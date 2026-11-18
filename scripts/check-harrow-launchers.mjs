@@ -5,14 +5,17 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { build } from "esbuild";
 
-const source = "public/assets/enemies/harrow_motion_v14.glb";
+const source = "public/assets/enemies/harrow_motion_v15.glb";
 const bytes = readFileSync(source);
-const loader = new GLTFLoader().register(() => ({
-  name: "HEADLESS_GEOMETRY_ONLY",
-  loadTexture: async () => new T.Texture(),
-}));
+const loader = new GLTFLoader()
+  .setMeshoptDecoder(MeshoptDecoder)
+  .register(() => ({
+    name: "HEADLESS_GEOMETRY_ONLY",
+    loadTexture: async () => new T.Texture(),
+  }));
 const { scene, animations } = await loader.parseAsync(
   bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
   "",
@@ -115,7 +118,7 @@ for (const sample of samples) {
   };
 }
 writeFileSync(
-  "dist-validation/harrow/v14-launchers.json",
+  "dist-validation/harrow/v15-launchers.json",
   JSON.stringify(report, null, 2),
 );
 console.log(

@@ -4,14 +4,17 @@ import { createHash } from "node:crypto";
 import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 
-const source = "public/assets/enemies/harrow_motion_v14.glb";
+const source = "public/assets/enemies/harrow_motion_v15.glb";
 const bytes = readFileSync(source);
 // The headless check inspects geometry and animation; browser QA decodes the textures.
-const loader = new GLTFLoader().register(() => ({
-  name: "HEADLESS_GEOMETRY_ONLY",
-  loadTexture: async () => new T.Texture(),
-}));
+const loader = new GLTFLoader()
+  .setMeshoptDecoder(MeshoptDecoder)
+  .register(() => ({
+    name: "HEADLESS_GEOMETRY_ONLY",
+    loadTexture: async () => new T.Texture(),
+  }));
 const { scene, animations } = await loader.parseAsync(
   bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
   "",
@@ -39,17 +42,13 @@ const expected = [
 const names = animations.map((clip) =>
   clip.name === "Attack" ? "Lunge" : clip.name,
 );
-assert.deepEqual(
-  names.slice().sort(),
-  expected.slice().sort(),
-  "HARROW v14 clips",
-);
+assert.deepEqual(names.slice().sort(), expected.slice().sort(), "HARROW clips");
 const meshes = [];
 scene.traverse((object) => {
   if (object instanceof T.SkinnedMesh) meshes.push(object);
 });
-assert.equal(meshes.length, 22, "HARROW v14 skinned mesh primitives");
-assert.equal(meshes[0].skeleton.bones.length, 39, "HARROW v14 bones");
+assert.equal(meshes.length, 22, "HARROW skinned mesh primitives");
+assert.equal(meshes[0].skeleton.bones.length, 39, "HARROW bones");
 for (const mesh of meshes) {
   assert.ok(
     mesh.bindMatrix.equals(meshes[0].bindMatrix),
@@ -82,7 +81,7 @@ const result = {
 };
 mkdirSync("dist-validation/harrow", { recursive: true });
 writeFileSync(
-  "dist-validation/harrow/v14-asset.json",
+  "dist-validation/harrow/v15-asset.json",
   JSON.stringify(result, null, 2),
 );
 console.log(JSON.stringify(result));

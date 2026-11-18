@@ -144,8 +144,8 @@ export function createEnemyViewer(host: HTMLElement) {
         foundryIdle = undefined;
         const snapshot = reportWorm(mode, time);
         foundry.update(snapshot, time);
+        foundry.root.position.z = mode === "move" ? -snapshot.z : 0;
       }
-      foundry.root.position.z = mode === "move" ? time * 4.2 : 0;
     }
     // BASTION は戦闘と同じ表示を台本の状態で動かす（弾・危険帯も標本側で描く）。
     if (bastion) bastion.update(mode, time);
@@ -173,8 +173,8 @@ export function createEnemyViewer(host: HTMLElement) {
       harrowDistance = distance;
       camera.position.copy(HARROW_REPORT_DIRECTION).multiplyScalar(distance);
     } else if (wormForm) {
-      // Fit the long body's projected corners from the head side.
-      const direction = new T.Vector3(1, 0.58, -0.9).normalize();
+      // A mostly side-on view shows the travelling curve along the entire chain.
+      const direction = new T.Vector3(1, 0.62, -0.18).normalize();
       const right = new T.Vector3(direction.z, 0, -direction.x).normalize();
       const up = direction.clone().cross(right);
       const vertical = Math.tan(T.MathUtils.degToRad(camera.fov / 2));
