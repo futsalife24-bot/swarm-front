@@ -55,7 +55,8 @@ for old in old_actions.values():
     bpy.data.actions.remove(old)
 bpy.context.scene.frame_set(0)
 bpy.context.preferences.filepaths.save_version = 0
-bpy.ops.wm.save_as_mainfile(filepath=str(out / "harrow-stride.blend"))
+if not spread_toes:
+    bpy.ops.wm.save_as_mainfile(filepath=str(out / "harrow-stride.blend"))
 bpy.ops.object.select_all(action="DESELECT")
 rig.select_set(True)
 for obj in bpy.data.objects:
@@ -68,3 +69,11 @@ bpy.ops.export_scene.gltf(filepath=str(out / "harrow-stride.glb"),
     export_animations=True, export_animation_mode="NLA_TRACKS",
     export_force_sampling=True, export_frame_range=False,
     export_cameras=False, export_lights=False, export_extras=True)
+
+if spread_toes:
+    # Open the deliverable on its editable walk, after exporting all NLA clips.
+    rig.animation_data.action = updated["Locomotion"]
+    bpy.context.scene.frame_start = 0
+    bpy.context.scene.frame_end = round(updated["Locomotion"].frame_range[1])
+    bpy.context.scene.frame_set(0)
+    bpy.ops.wm.save_as_mainfile(filepath=str(out / "harrow-stride.blend"))
