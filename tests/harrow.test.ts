@@ -1040,6 +1040,7 @@ it("ground pursuit steps off a roof edge while airborne pursuit retains flight a
   stepHarrow(w, e, p, [p], 0.1);
   expect(e.x).toBeLessThan(x);
   expect(e.y).toBe(0);
+  expect(Math.hypot(e.x - x, e.z + 64)).toBeCloseTo(1.92 * 0.1, 6);
   Object.assign(e, {
     x: -58,
     z: -64,
@@ -1049,5 +1050,6 @@ it("ground pursuit steps off a roof edge while airborne pursuit retains flight a
   });
   p.x = e.x - HARROW.spinTriggerRadius - 5;
   stepHarrow(w, e, p, [p], 0.1);
+  expect(Math.hypot(e.x + 58, e.z + 64)).toBeCloseTo(0.64 * 0.1, 6);
   expect(e.y).toBe(HARROW.flightHeight);
 });

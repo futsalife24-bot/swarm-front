@@ -50,6 +50,7 @@ WALK_SPEED = 0.64 / GAME_SCALE
 WALK_STEPS_PER_CLIP = 3
 WALK_LIFT = 0.35
 WALK_MID_DROP = 0.0
+WALK_SMOOTH_FOOTFALL = False
 FIRE_TIME = 3.5
 SPIN_WIND = 1.15
 SPIN_SWEEP_END = 2.20
@@ -631,7 +632,13 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
                     target.x += stride * (gait / duty - 0.5)
                 else:
                     swing_u = (gait - duty) / (1 - duty)
-                    target.x += stride * (0.5 - _smooth(swing_u))
+                    if WALK_SMOOTH_FOOTFALL:
+                        # Keep matching the ground until the toe actually lifts;
+                        # catch up during swing with zero endpoint acceleration.
+                        rewind = swing_u ** 3 * (10 + swing_u * (-15 + 6 * swing_u))
+                        target.x += stride * (0.5 + ((1 - duty) * swing_u - rewind) / duty)
+                    else:
+                        target.x += stride * (0.5 - _smooth(swing_u))
                     target.z += WALK_LIFT * math.sin(math.pi * swing_u) ** 2
                 # Centre each periodic foot trajectory on its own Idle goal.
                 # This constant offset changes neither stance velocity nor

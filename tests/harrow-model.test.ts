@@ -21,7 +21,7 @@ import { polishHarrowFlight } from "../src/client/harrow-motion-polish";
 import { HARROW_REPORT_SEQUENCE } from "../src/client/enemy-report-motion";
 
 async function model() {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v15.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v16.glb");
   // CPU geometry/animation checks only: Node has no image decoder. Actual 4K
   // texture decoding and rendering are verified separately in the browser.
   const loader = new GLTFLoader()
@@ -79,11 +79,11 @@ it("HARROWは両脚を一周期に一回ずつ高く運び、接地した爪を�
       if (point.y < 0.06) {
         const z = point.z - time * HARROW.speed;
         plantZ ??= z;
-        expect(Math.abs(z - plantZ)).toBeLessThan(0.05);
+        expect(Math.abs(z - plantZ)).toBeLessThan(0.01);
       } else plantZ = undefined;
     }
     expect(lifts).toBe(1);
-    expect((walk.duration * HARROW.speed) / lifts).toBeCloseTo(2.688);
+    expect((walk.duration * HARROW.speed) / lifts).toBeCloseTo(8.064);
     expect(peak).toBeGreaterThan(1.9);
     expect(peak).toBeLessThan(2.2);
   }
@@ -213,7 +213,7 @@ it("羽ばたき加工は翼だけを変え、左右非交差と上下主体の�
 }, 60000);
 
 it("matches the shipped HARROW asset and frames both complete motion clips", async () => {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v15.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v16.glb");
   expect(createHash("sha256").update(bytes).digest("hex")).toBe(
     HARROW_REPORT_PROFILE.source.sha256,
   );

@@ -7,7 +7,9 @@ import bpy
 
 here = Path(__file__).resolve().parent
 v14 = here.parent / "biped-v14"
-out = Path(sys.argv[sys.argv.index("--") + 1]).resolve()
+args = sys.argv[sys.argv.index("--") + 1:]
+out = Path(args[0]).resolve()
+long_stride = "--v16" in args[1:]
 out.mkdir(parents=True, exist_ok=True)
 sys.path.insert(0, str(v14))
 import animation_contract as motion
@@ -24,7 +26,10 @@ metadata = json.loads((here.parent / "charakuru-20261011" /
 motion.WALK_STEPS_PER_CLIP = 1
 motion.WALK_LIFT = 1.05
 # Lower the hips at full extension so the planted claw stays within leg reach.
-motion.WALK_MID_DROP = 0.35
+motion.WALK_MID_DROP = 1.45 if long_stride else 0.35
+if long_stride:
+    motion.WALK_SPEED = 1.92 / motion.GAME_SCALE
+    motion.WALK_SMOOTH_FOOTFALL = True
 motion.animate(rig, metadata, clips={"Locomotion"})
 walk = rig.animation_data.nla_tracks["Locomotion"].strips[0].action
 rig.animation_data_clear()

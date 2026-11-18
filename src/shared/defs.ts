@@ -1,4 +1,5 @@
 import { newStats, validNewWeapon, type NewWeapon } from "./progression";
+import { HARROW_MOVE_SPEED } from "./harrow-motion";
 import {
   applyWeaponGrowth,
   validWeaponGrowth,
@@ -361,7 +362,7 @@ export const RAY_MAX_FLIGHT_HEIGHT = 11.5;
 export const ENEMIES = {
   harrow: {
     hp: 8800,
-    speed: 0.64,
+    speed: HARROW_MOVE_SPEED,
     radius: 3.4,
     damage: 34,
     aim: 4.2,
