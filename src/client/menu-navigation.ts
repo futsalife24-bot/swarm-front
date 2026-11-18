@@ -191,7 +191,7 @@ export function installMenuNavigation(
       ui.querySelector<HTMLElement>(
         ":scope > section > header,.result-summary > header,.home-command",
       );
-    if (!header || header.querySelector("[data-menu-toggle]")) return;
+    if (!header || header.classList.contains("menu-navigation-header")) return;
     const current = modal?.matches(".bestiary")
       ? "report"
       : modal?.querySelector("#pt-volume,#volume") ||
@@ -209,6 +209,7 @@ export function installMenuNavigation(
     back.setAttribute("aria-label", "戻る");
     back.disabled = !modal && screen === "title" && !source;
     back.onclick = () => (source ? source.click() : options.back());
+    const restoreFocus = modal && document.activeElement === source;
     if (source) source.hidden = true;
     const toggle = document.createElement("button");
     toggle.type = "button";
@@ -219,8 +220,21 @@ export function installMenuNavigation(
     toggle.setAttribute("aria-expanded", "false");
     toggle.onclick = () => openDrawer(toggle, current, options);
     header.classList.add("menu-navigation-header");
-    header.prepend(back);
-    header.append(toggle);
+    if (modal && typeof HTMLElement.prototype.showPopover === "function") {
+      // A top-layer descendant stays interactive in the native modal without
+      // inheriting the dialog's clipping or entrance transform.
+      const navigation = document.createElement("div");
+      navigation.className = "modal-menu-navigation";
+      navigation.popover = "manual";
+      navigation.append(back, toggle);
+      header.dataset.modalBackLabel = back.textContent;
+      header.prepend(navigation);
+      navigation.showPopover();
+    } else {
+      header.prepend(back);
+      header.append(toggle);
+    }
+    if (restoreFocus) back.focus({ preventScroll: true });
   };
   const observer = new MutationObserver(render);
   observer.observe(ui, { childList: true });
