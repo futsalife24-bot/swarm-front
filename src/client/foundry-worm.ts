@@ -7,6 +7,7 @@ import {
   foundryLaserOrigin,
   foundryLaserDirection,
   FOUNDRY_LASER_WARNING,
+  FOUNDRY_UNIT_PITCH,
 } from "../shared/foundry-defs";
 import { FoundryWormGait } from "./foundry-worm-gait";
 import { windupPressure } from "./enemy-windup-clip";
@@ -271,6 +272,12 @@ export class FoundryWormView {
   private readonly emitters: T.Object3D[];
   private readonly chargeTurn = new T.Quaternion();
   private readonly chargeAngles = new T.Euler();
+  private readonly strides: {
+    x: number;
+    z: number;
+    travel: number;
+    alive: boolean;
+  }[];
   private readonly aims: {
     target?: { x: number; y?: number; z: number };
     until: number;
@@ -328,6 +335,7 @@ export class FoundryWormView {
       ),
     );
     this.aims = units.map(() => ({ until: -Infinity }));
+    this.strides = units.map(() => ({ x: 0, z: 0, travel: 0, alive: false }));
     this.emitters = Array.from({ length: 6 }, (_, i) =>
       requiredNode(
         units[0],
@@ -418,10 +426,11 @@ export class FoundryWormView {
     )
       throw new Error("FOUNDRY ZERO snapshot coordinates must be finite");
 
-    if (
-      this.lastTime !== undefined &&
-      (time < this.lastTime || time - this.lastTime > 0.3)
-    ) {
+    const reset =
+      this.lastTime === undefined ||
+      time < this.lastTime ||
+      time - this.lastTime > 0.3;
+    if (reset) {
       for (const aim of this.aims) {
         aim.target = undefined;
         aim.until = -Infinity;
@@ -430,6 +439,8 @@ export class FoundryWormView {
     this.lastTime = time;
 
     this.root.visible = nodes.some(alive);
+    const omega = omegaPhase(enemy, time);
+    let leader = 0;
     for (const [index, node] of nodes.entries()) {
       const unit = this.units[index];
       const previous = nodes[index - 1];
@@ -441,7 +452,41 @@ export class FoundryWormView {
       unit.visible = alive(node);
       unit.position.set(node.x, node.y, node.z);
       unit.rotation.set(0, heading + Math.PI, 0);
-      if (omegaPhase(enemy, time) === "brace")
+      // The mechanical wave follows distance, including the new leader of a
+      // broken chain. A stopped chain holds its curve without sliding its feet.
+      const stride = this.strides[index];
+      const distance = Math.hypot(node.x - stride.x, node.z - stride.z);
+      stride.travel =
+        reset || omega || !stride.alive || !unit.visible || distance > 2
+          ? 0
+          : stride.travel + distance;
+      stride.x = node.x;
+      stride.z = node.z;
+      stride.alive = unit.visible;
+      if (!previous || !alive(previous)) leader = index;
+      const traveled = this.strides[leader].travel;
+      if (unit.visible && traveled > 0 && !omega && !node.pulseAim) {
+        // Ease out before a scheduled charge. During aiming the optical pivot
+        // stays exactly at the authoritative origin, including release.
+        const free = T.MathUtils.clamp(
+          Math.min(
+            ((node.acidAt ?? Infinity) - time - FOUNDRY_LASER_WARNING) / 0.24,
+            (time - this.aims[index].until) / 0.24,
+          ),
+          0,
+          1,
+        );
+        const amplitude = Math.min(1, traveled / 2.4) * free * 0.86;
+        const phase = traveled * 0.48 - (index - leader) * 0.78;
+        const side = amplitude * Math.sin(phase);
+        unit.position.x += Math.cos(heading) * side;
+        unit.position.z -= Math.sin(heading) * side;
+        unit.rotation.y += Math.atan(
+          ((amplitude * 0.78) / FOUNDRY_UNIT_PITCH) * Math.cos(phase),
+        );
+        unit.rotation.z = -0.07 * side;
+      }
+      if (omega === "brace")
         unit.rotation.x =
           0.22 * Math.sin((Math.PI * (time - enemy.omega!.at)) / 0.7);
       unit.scale.set(1, 1, 1);
@@ -474,7 +519,7 @@ export class FoundryWormView {
       );
       connector.scale.z = length / CONNECTOR_LENGTH;
     }
-    this.gait.update(time, omegaPhase(enemy, time) === "flight");
+    this.gait.update(time, omega === "flight");
     // Fan the head's articulated launchers while its central laser builds pressure.
     const headProgress =
       1 - ((enemy.acidAt ?? time) - time) / FOUNDRY_LASER_WARNING;

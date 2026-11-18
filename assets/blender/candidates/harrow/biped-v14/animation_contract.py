@@ -48,6 +48,8 @@ FPS = 40
 GAME_SCALE = 1.95
 WALK_SPEED = 0.64 / GAME_SCALE
 WALK_STEPS_PER_CLIP = 3
+WALK_LIFT = 0.35
+WALK_MID_DROP = 0.0
 FIRE_TIME = 3.5
 SPIN_WIND = 1.15
 SPIN_SWEEP_END = 2.20
@@ -454,6 +456,7 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
     if moving:
         shift.y = 0.22 * math.sin(step_cycle)
         shift.z = -0.12 * (1 - math.cos(2 * step_cycle))
+        shift.z -= WALK_MID_DROP * math.sin(math.pi * u) ** 2
     elif idle:
         shift.y = 0.055 * math.sin(cycle)
         shift.z = -0.035 * (1 - math.cos(cycle))
@@ -629,7 +632,7 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
                 else:
                     swing_u = (gait - duty) / (1 - duty)
                     target.x += stride * (0.5 - _smooth(swing_u))
-                    target.z += 0.35 * math.sin(math.pi * swing_u) ** 2
+                    target.z += WALK_LIFT * math.sin(math.pi * swing_u) ** 2
                 # Centre each periodic foot trajectory on its own Idle goal.
                 # This constant offset changes neither stance velocity nor
                 # world-space contact drift, but removes the clip-end foot pop.
@@ -677,7 +680,7 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
                 )
 
 
-def animate(rig, metadata: dict) -> dict:
+def animate(rig, metadata: dict, clips=None) -> dict:
     """Create 12 NLA tracks on the supplied rig and return clip metadata.
 
     Blender must call this in a dedicated candidate scene.  This function
@@ -702,6 +705,8 @@ def animate(rig, metadata: dict) -> dict:
     actions = {}
     launchers = {}
     for clip, duration in DURATIONS.items():
+        if clips is not None and clip not in clips:
+            continue
         print('BAKE', clip, flush=True)
         action = bpy.data.actions.new(clip)
         rig.animation_data.action = action

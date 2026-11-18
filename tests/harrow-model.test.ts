@@ -21,7 +21,7 @@ import { polishHarrowFlight } from "../src/client/harrow-motion-polish";
 import { HARROW_REPORT_SEQUENCE } from "../src/client/enemy-report-motion";
 
 async function model() {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v15.glb");
   // CPU geometry/animation checks only: Node has no image decoder. Actual 4K
   // texture decoding and rendering are verified separately in the browser.
   const loader = new GLTFLoader()
@@ -35,6 +35,59 @@ async function model() {
     "",
   );
 }
+
+it("HARROWは両脚を一周期に一回ずつ高く運び、接地した爪を支点にする", async () => {
+  const asset = await model();
+  asset.scene.rotation.y = -Math.PI / 2;
+  const walk = asset.animations.find((clip) => clip.name === "Locomotion")!;
+  const mixer = new T.AnimationMixer(asset.scene);
+  const action = mixer.clipAction(walk).setLoop(T.LoopOnce, 1);
+  action.clampWhenFinished = true;
+  action.play();
+  const point = new T.Vector3();
+  for (const side of ["L", "R"]) {
+    action.reset().play();
+    mixer.setTime(0);
+    asset.scene.updateMatrixWorld(true);
+    const mesh = asset.scene.getObjectByName(
+      "Hindlimb" + side,
+    ) as T.SkinnedMesh;
+    let toe = 0,
+      min = Infinity;
+    for (let i = 0; i < mesh.geometry.attributes.position.count; i++) {
+      mesh.getVertexPosition(i, point).applyMatrix4(mesh.matrixWorld);
+      if (point.y < min) {
+        min = point.y;
+        toe = i;
+      }
+    }
+    let lifts = 0,
+      lifted = false,
+      peak = 0,
+      plantZ: number | undefined;
+    for (let frame = 0; frame <= Math.round(walk.duration * 60); frame++) {
+      const time = frame / 60;
+      mixer.setTime(time);
+      asset.scene.updateMatrixWorld(true);
+      mesh
+        .getVertexPosition(toe, point)
+        .applyMatrix4(mesh.matrixWorld)
+        .multiplyScalar(HARROW.scale);
+      if (!lifted && point.y > 1) lifts++;
+      lifted = point.y > 1;
+      peak = Math.max(peak, point.y);
+      if (point.y < 0.06) {
+        const z = point.z - time * HARROW.speed;
+        plantZ ??= z;
+        expect(Math.abs(z - plantZ)).toBeLessThan(0.05);
+      } else plantZ = undefined;
+    }
+    expect(lifts).toBe(1);
+    expect((walk.duration * HARROW.speed) / lifts).toBeCloseTo(2.688);
+    expect(peak).toBeGreaterThan(1.9);
+    expect(peak).toBeLessThan(2.2);
+  }
+});
 
 it("羽ばたき加工は翼だけを変え、左右非交差と上下主体の翼端軌道を保つ", async () => {
   const asset = await model();
@@ -160,7 +213,7 @@ it("羽ばたき加工は翼だけを変え、左右非交差と上下主体の�
 }, 60000);
 
 it("matches the shipped HARROW asset and frames both complete motion clips", async () => {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v15.glb");
   expect(createHash("sha256").update(bytes).digest("hex")).toBe(
     HARROW_REPORT_PROFILE.source.sha256,
   );

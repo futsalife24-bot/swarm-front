@@ -2,13 +2,18 @@ import * as T from "three";
 import { WORM_UNIT_COUNT } from "../shared/worm";
 import { OMEGA, omegaPose } from "../shared/catena-omega";
 import { OmegaWarning } from "./catena-omega-warning";
+import {
+  foundryWarningMaterial,
+  foundryWarningPose,
+  foundryLaserWarningLine,
+} from "./foundry-laser-warning";
 import { harrowLandingSample } from "./harrow-motion-polish";
 import type { Enemy } from "../shared/game";
 import type { ReportEnemyKind } from "../shared/enemy-identity";
 import type { HoundClip } from "./hound-motion";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
 import { ENEMIES } from "../shared/defs";
-import { enemySize, spawnSize } from "../shared/enemy-size";
+import { enemySize, enemySpeedFactor, spawnSize } from "../shared/enemy-size";
 import { foundryWalkSeconds } from "./foundry-walk";
 import { CALYX, calyxMuzzle } from "../shared/calyx";
 import {
@@ -22,6 +27,13 @@ import { HarrowEffects } from "./harrow-effects";
 import { HARROW_FLIGHT_CYCLE } from "../shared/harrow-motion";
 import {
   FOUNDRY_LASER_WARNING,
+  FOUNDRY_LASER_INTERVAL,
+  FOUNDRY_LASER_STAGGER,
+  FOUNDRY_LASER_SPEED,
+  FOUNDRY_SPEED,
+  FOUNDRY_UNIT_PITCH,
+  foundryOptic,
+  foundryLaserDirection,
   foundryLaserOrigin,
 } from "../shared/foundry-defs";
 
@@ -383,27 +395,47 @@ export function reportPose(
   return { clip, sample, height, impact: spec.impact, cycle };
 }
 
+const catenaTarget = { x: 11, y: 1.2, z: -14 };
+const catenaIndividual = { kind: "boss", size: spawnSize("boss", true, 0) };
+
+function reportLaserAge(time: number, optic: number) {
+  const elapsed = time - optic * FOUNDRY_LASER_STAGGER - FOUNDRY_LASER_WARNING;
+  const phase = elapsed % FOUNDRY_LASER_INTERVAL;
+  return phase >= FOUNDRY_LASER_INTERVAL - FOUNDRY_LASER_WARNING
+    ? phase - FOUNDRY_LASER_INTERVAL
+    : phase;
+}
+
 export function reportWorm(mode: ReportMotion, time: number): Enemy {
-  const distance = mode === "move" ? -time * 4.2 : 0;
-  const phase = time % 3.2;
+  const distance =
+    mode === "move"
+      ? -time * FOUNDRY_SPEED * enemySpeedFactor(catenaIndividual)
+      : 0;
   const jumpAge = (time % OMEGA.cooldown) - 8;
   const jumping =
     mode === "attack" &&
     jumpAge >= 0 &&
     jumpAge < OMEGA.brace + OMEGA.warn + OMEGA.flight;
-  const nodes = Array.from({ length: WORM_UNIT_COUNT }, (_, i) => ({
-    x: mode === "move" ? Math.sin(time * 0.8 - i * 0.32) * 0.42 : 0,
-    y: 0,
-    z: distance + i * 3.2,
-    heading: Math.PI,
-    partHp: i === 0 ? 100 : 50,
-    ...(mode === "attack" && !jumping && i < 8
-      ? {
-          pulseAim: { x: 1.5, y: 1.2, z: distance - 14 },
-          acidAt: time - phase + FOUNDRY_LASER_WARNING,
-        }
-      : {}),
-  }));
+  const nodes = Array.from({ length: WORM_UNIT_COUNT }, (_, i) => {
+    const optic = foundryOptic(i, WORM_UNIT_COUNT - 1);
+    const age = optic === undefined ? Infinity : reportLaserAge(time, optic);
+    return {
+      x: 0,
+      y: 0,
+      z: distance + i * FOUNDRY_UNIT_PITCH * enemySize(catenaIndividual),
+      heading: Math.PI,
+      partHp: i === 0 ? 100 : 50,
+      ...(mode === "attack" &&
+      !jumping &&
+      age >= -FOUNDRY_LASER_WARNING &&
+      age < 0
+        ? {
+            pulseAim: { ...catenaTarget },
+            acidAt: time - age,
+          }
+        : {}),
+    };
+  });
   const omega = jumping
     ? {
         at: time - jumpAge,
@@ -426,6 +458,7 @@ export function reportWorm(mode: ReportMotion, time: number): Enemy {
   return {
     id: 1,
     kind: "boss",
+    size: catenaIndividual.size,
     ...nodes[0],
     ...(omega ? { omega } : {}),
     segments: nodes.slice(1),
@@ -466,6 +499,15 @@ export class ReportEffects {
     { length: 8 },
     () => new T.Mesh(new T.CylinderGeometry(0.025, 0.025, 1, 6), this.material),
   );
+  private readonly catenaWarning = new T.MeshBasicMaterial(
+    foundryWarningMaterial,
+  );
+  private readonly catenaShot = new T.MeshBasicMaterial({ color: 0xcaffff });
+  private readonly catenaBeams = Array.from({ length: 8 }, (_, optic) => {
+    const mesh = new T.Mesh(new T.BoxGeometry(1, 1, 1), this.catenaWarning);
+    mesh.name = `CATENA_OPTIC_${optic}`;
+    return mesh;
+  });
   constructor() {
     this.omega.mesh.name = "CATENA_LANDING_WARNING";
     this.ring.rotation.x = Math.PI / 2;
@@ -475,6 +517,7 @@ export class ReportEffects {
       this.ring,
       ...this.bolts,
       ...this.beams,
+      ...this.catenaBeams,
       this.harrow.root,
       this.omega.mesh,
     );
@@ -565,21 +608,43 @@ export class ReportEffects {
       return;
     }
     if (worm) {
-      const phase = time % 3.2;
       const e = reportWorm(mode, time);
       this.omega.update([e], time);
       this.omega.mesh.visible = !!e.omega;
       if (e.omega) return;
-      [e, ...e.segments!].slice(0, this.beams.length).forEach((node, i) => {
-        if (phase > FOUNDRY_LASER_WARNING + 0.2) return;
-        const origin = foundryLaserOrigin(node, i);
-        const a = new T.Vector3(origin.x, origin.y, origin.z),
-          b = new T.Vector3(1.5, 1.2, -14);
-        this.line(
-          this.beams[i],
-          a,
-          b,
-          phase < FOUNDRY_LASER_WARNING ? 0.22 : 1,
+      [e, ...e.segments!].forEach((node, i) => {
+        const optic = foundryOptic(i, e.segments!.length);
+        if (optic === undefined) return;
+        const beam = this.catenaBeams[optic];
+        const pose = foundryWarningPose(node, i, enemySize(e), time, []);
+        if (pose) {
+          beam.visible = true;
+          beam.material = this.catenaWarning;
+          beam.position.set(pose.x, pose.y, pose.z);
+          beam.rotation.set(pose.pitch, pose.yaw, 0, "YXZ");
+          beam.scale.set(pose.width, pose.height, pose.length);
+          return;
+        }
+        const age = reportLaserAge(time, optic);
+        if (age < 0 || age > 2) return;
+        const origin = foundryLaserOrigin(node, i, enemySize(e));
+        const traveled = age * FOUNDRY_LASER_SPEED;
+        if (traveled > foundryLaserWarningLine(origin, catenaTarget, []).length)
+          return;
+        const d = foundryLaserDirection(origin, catenaTarget);
+        beam.visible = true;
+        beam.material = this.catenaShot;
+        beam.scale.set(0.055, 0.055, 1.2);
+        beam.rotation.set(
+          -Math.atan2(d.y, Math.hypot(d.x, d.z)),
+          Math.atan2(d.x, d.z),
+          0,
+          "YXZ",
+        );
+        beam.position.set(
+          origin.x + d.x * (traveled - 0.6),
+          origin.y + d.y * (traveled - 0.6),
+          origin.z + d.z * (traveled - 0.6),
         );
       });
       return;
@@ -623,6 +688,8 @@ export class ReportEffects {
     mesh.scale.set(width, a.distanceTo(b), width);
   }
   dispose() {
+    this.catenaWarning.dispose();
+    this.catenaShot.dispose();
     this.harrow.dispose();
     this.omega.mesh.material.dispose();
     this.root.children.forEach((o) => (o as T.Mesh).geometry.dispose());
