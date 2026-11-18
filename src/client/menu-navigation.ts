@@ -175,6 +175,7 @@ export function installMenuNavigation(
     const modal = Array.from(
       document.querySelectorAll<HTMLDialogElement>("dialog[open]"),
     ).at(-1);
+    if (!modal && screen === "title") return;
     if (
       modal &&
       (modal.querySelector(
@@ -189,7 +190,7 @@ export function installMenuNavigation(
     const header =
       modal?.querySelector<HTMLElement>(":scope > header") ??
       ui.querySelector<HTMLElement>(
-        ":scope > section > header,.result-summary > header,.home-command",
+        ":scope > section > header,.result-summary > header",
       );
     if (!header || header.classList.contains("menu-navigation-header")) return;
     const current = modal?.matches(".bestiary")
@@ -207,7 +208,6 @@ export function installMenuNavigation(
     back.dataset.menuBack = "";
     back.textContent = "‹ 戻る";
     back.setAttribute("aria-label", "戻る");
-    back.disabled = !modal && screen === "title" && !source;
     back.onclick = () => (source ? source.click() : options.back());
     const restoreFocus = modal && document.activeElement === source;
     if (source) source.hidden = true;
@@ -227,10 +227,12 @@ export function installMenuNavigation(
       navigation.className = "modal-menu-navigation";
       navigation.popover = "manual";
       navigation.append(back, toggle);
-      header.dataset.modalBackLabel = back.textContent;
+      modal.classList.add("menu-navigation-panel");
       header.prepend(navigation);
       navigation.showPopover();
     } else {
+      if (!modal)
+        header.closest("#ui > section")?.classList.add("menu-navigation-panel");
       header.prepend(back);
       header.append(toggle);
     }
