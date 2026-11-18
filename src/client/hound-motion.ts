@@ -147,7 +147,7 @@ export function loadEnemyMotion(
       if (
         bones !==
           {
-            harrow: 39,
+            harrow: 47,
             calyx: 16,
             hound: 20,
             leaper: 20,
