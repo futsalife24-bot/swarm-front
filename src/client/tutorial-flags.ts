@@ -25,14 +25,14 @@ export const GUIDE_KEYS = [
 ] as const;
 export type GuideKey = (typeof GUIDE_KEYS)[number];
 /** 基礎訓練の誘い（1回だけ）と修了。 */
-export type TutorialFlag = GuideKey | "offer" | "training";
+export type TutorialFlag = GuideKey | "offer" | "training" | `ftue:${string}`;
 
 interface TutorialFlags {
   version: 1;
   seen: string[];
 }
 type Store = Pick<Storage, "getItem" | "setItem">;
-const defaultStore = (): Store | undefined => {
+export const defaultStore = (): Store | undefined => {
   try {
     return globalThis.localStorage;
   } catch {
@@ -63,6 +63,7 @@ function write(store: Store | undefined, flags: TutorialFlags) {
 
 /** 保存できない端末でも、この起動中は同じ案内を繰り返さない。 */
 const session = new Set<string>();
+const returnVisitSession = new Set<string>();
 
 /**
  * 記録が無いときだけ作る。既存のプレイヤー（判断点5）には訓練の誘いと初回ガイドを
@@ -91,6 +92,21 @@ export function markSeen(flag: TutorialFlag, store = defaultStore()) {
   return write(store, flags);
 }
 
+/** 初回導線の「別の日本時間の日に再訪」だけを同じ記録の中で管理する。 */
+export function markReturnVisit(date: string, store = defaultStore()) {
+  const marker = `ftue:return:${date}`;
+  if (returnVisitSession.has(marker)) return false;
+  returnVisitSession.add(marker);
+  const flags = read(store) ?? { version: 1 as const, seen: [] };
+  const previous = flags.seen.filter((value) =>
+    value.startsWith("ftue:return:"),
+  );
+  flags.seen = flags.seen.filter((value) => !value.startsWith("ftue:return:"));
+  flags.seen.push(marker);
+  const saved = write(store, flags);
+  return saved && previous.length > 0 && !previous.includes(marker);
+}
+
 /** タイトルの「初回ガイドをもう一度表示」。訓練の誘い・修了の記録は残す。 */
 export function resetGuides(store = defaultStore()) {
   for (const key of GUIDE_KEYS) session.delete(key);
@@ -104,4 +120,5 @@ export function resetGuides(store = defaultStore()) {
 /** テスト用。 */
 export function clearTutorialSession() {
   session.clear();
+  returnVisitSession.clear();
 }

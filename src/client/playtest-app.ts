@@ -212,7 +212,7 @@ import {
   clearBattleCheckpoint,
   type BattleCheckpoint,
 } from "./battle-checkpoint";
-import { track } from "./analytics";
+import { track, trackOnce } from "./analytics";
 import {
   installCloudSync,
   admitDailyDefense,
@@ -239,6 +239,8 @@ const SHOW_AD_UI = false;
 async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   if (sampleMenus || !canSortie(save, stage, difficulty)) return;
   if (!resume) track("sortie");
+  if (!resume && mode === "normal")
+    trackOnce("first_sortie", "ftue:first-sortie");
   const generation = ++loadingGeneration;
   loadReady = false;
   paused = false;
@@ -716,6 +718,7 @@ function victory() {
     return;
   }
   track("clear");
+  if (mode === "normal") trackOnce("first_clear", "ftue:first-clear");
   const w = world,
     s = w.solo!,
     missions = [
@@ -1965,6 +1968,7 @@ function enterMenu(after: () => void) {
         "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
         () => {
           save = initializeProgress(mode);
+          if (mode === "normal") trackOnce("ftue_start", "ftue:start");
           after();
         },
       );
@@ -2909,7 +2913,9 @@ if (
   (screen === "intro" ||
     (save && save.result?.choice !== "pending" && screen === "home"))
 ) {
-  if (screen === "intro") save = initializeProgress("normal");
+  const startedProgress = screen === "intro";
+  if (startedProgress) save = initializeProgress("normal");
+  if (startedProgress) trackOnce("ftue_start", "ftue:start");
   gear();
 }
 if (!developerMode) {

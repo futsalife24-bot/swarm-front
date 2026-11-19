@@ -38,6 +38,8 @@ import {
   exportAppAnalytics,
   expireAppAnalytics,
   readEvent,
+  countSwarmAnalytics,
+  isSwarmAnalyticsKind,
   type Day,
 } from "./app-analytics";
 import {
@@ -819,27 +821,40 @@ export class Gate extends DurableObject<Env> {
   }
   private async analytics(req: Request, path: string) {
     const now = Date.now();
-    type Day = {
-      date: string;
-      views: number;
-      visitors: number;
-      sorties: number;
-      clears: number;
+    type StoredDay = Day & {
       ids: string[];
       admin?: {
         views: number;
         sorties: number;
         clears: number;
+        ftueStarts: number;
+        firstSorties: number;
+        firstClears: number;
+        firstSupply10s: number;
+        returns: number;
         onlyIds: string[];
       };
     };
-    const days = (await this.ctx.storage.get<Day[]>("analytics-days")) ?? [];
+    const days =
+      (await this.ctx.storage.get<StoredDay[]>("analytics-days")) ?? [];
     const day = new Date(now).toLocaleDateString("sv-SE", {
       timeZone: "Asia/Tokyo",
     });
     let d = days.find((x) => x.date === day);
     if (!d) {
-      d = { date: day, views: 0, visitors: 0, sorties: 0, clears: 0, ids: [] };
+      d = {
+        date: day,
+        views: 0,
+        visitors: 0,
+        sorties: 0,
+        clears: 0,
+        ftueStarts: 0,
+        firstSorties: 0,
+        firstClears: 0,
+        firstSupply10s: 0,
+        returns: 0,
+        ids: [],
+      };
       days.push(d);
     }
     if (path === "/analytics-read") {
@@ -851,8 +866,23 @@ export class Gate extends DurableObject<Env> {
           visitors: a.visitors + x.visitors,
           sorties: a.sorties + x.sorties,
           clears: a.clears + x.clears,
+          ftueStarts: a.ftueStarts + (x.ftueStarts ?? 0),
+          firstSorties: a.firstSorties + (x.firstSorties ?? 0),
+          firstClears: a.firstClears + (x.firstClears ?? 0),
+          firstSupply10s: a.firstSupply10s + (x.firstSupply10s ?? 0),
+          returns: a.returns + (x.returns ?? 0),
         }),
-        { views: 0, visitors: 0, sorties: 0, clears: 0 },
+        {
+          views: 0,
+          visitors: 0,
+          sorties: 0,
+          clears: 0,
+          ftueStarts: 0,
+          firstSorties: 0,
+          firstClears: 0,
+          firstSupply10s: 0,
+          returns: 0,
+        },
       );
       return json({
         startedAt: days.length
@@ -867,6 +897,12 @@ export class Gate extends DurableObject<Env> {
                 views: x.views - admin.views,
                 sorties: x.sorties - admin.sorties,
                 clears: x.clears - admin.clears,
+                ftueStarts: (x.ftueStarts ?? 0) - (admin.ftueStarts ?? 0),
+                firstSorties: (x.firstSorties ?? 0) - (admin.firstSorties ?? 0),
+                firstClears: (x.firstClears ?? 0) - (admin.firstClears ?? 0),
+                firstSupply10s:
+                  (x.firstSupply10s ?? 0) - (admin.firstSupply10s ?? 0),
+                returns: (x.returns ?? 0) - (admin.returns ?? 0),
                 visitors: x.visitors - admin.onlyIds.length,
               }
             : x,
@@ -881,17 +917,22 @@ export class Gate extends DurableObject<Env> {
       };
       if (b?.admin !== undefined && typeof b.admin !== "boolean")
         return json({ ok: false }, 400);
-      if (!b || !["view", "sortie", "clear"].includes(b.kind ?? ""))
-        return json({ ok: false }, 400);
+      if (!b || !isSwarmAnalyticsKind(b.kind)) return json({ ok: false }, 400);
       if (b.admin) {
-        d.admin ??= { views: 0, sorties: 0, clears: 0, onlyIds: [] };
-        if (b.kind === "view") d.admin.views++;
-        if (b.kind === "sortie") d.admin.sorties++;
-        if (b.kind === "clear") d.admin.clears++;
+        d.admin ??= {
+          views: 0,
+          sorties: 0,
+          clears: 0,
+          ftueStarts: 0,
+          firstSorties: 0,
+          firstClears: 0,
+          firstSupply10s: 0,
+          returns: 0,
+          onlyIds: [],
+        };
+        countSwarmAnalytics(d.admin, b.kind);
       }
-      if (b.kind === "view") d.views++;
-      if (b.kind === "sortie") d.sorties++;
-      if (b.kind === "clear") d.clears++;
+      countSwarmAnalytics(d, b.kind);
       if (
         typeof b.visitor === "string" &&
         /^[a-zA-Z0-9_-]{8,64}$/.test(b.visitor) &&
