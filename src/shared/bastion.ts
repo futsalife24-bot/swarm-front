@@ -12,7 +12,7 @@ import { enemyStatSize } from "./enemy-size";
 import type { Block } from "./map-blocks";
 
 /**
- * BASTION（仮称）: 短い間隔で撃たれ続けるほど装甲が硬化する浮遊装甲球。
+ * BASTION: 短い間隔で撃たれ続けるほど装甲が硬化する浮遊装甲球。
  * 仮調整値。根拠と一覧は docs/BASTION.md。
  */
 export const BASTION = {

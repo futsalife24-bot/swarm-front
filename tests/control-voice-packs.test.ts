@@ -86,7 +86,7 @@ describe("voice packs shipped for optional download", () => {
         voice === "hiromi" ? 44 : 10,
       );
   });
-  it("contains every playable line including the recorded CALYX identification", () => {
+  it("contains every playable line including all ten adopted identification clips", () => {
     const indexes = new Map(
       CONTROL_VOICE_PACKS.map((p) => [
         p.voice,
@@ -97,7 +97,7 @@ describe("voice packs shipped for optional download", () => {
       for (const voice of CONTROL_VOICE_SET_VOICES[line.set]) {
         const key = controlVoicePath(line, voice);
         const has = indexes.get(packVoiceOfKey(key)!)!.has(key);
-        if (line.id === "anomaly-calyx") {
+        if (/^anomaly-/.test(line.id) && line.id !== "anomaly-new") {
           expect(has, key).toBe(true);
           expect(playableLine(line)).toBe(true);
         } else if (line.blocked === "abolished" || line.blocked === "on-hold")

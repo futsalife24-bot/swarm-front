@@ -27,6 +27,23 @@ export const ENEMY_REPORT_NAMES: Record<EnemyReportId, string> = {
   worm: "CATENA",
 };
 
+export const ENEMY_REPORT_READINGS: Record<EnemyReportId, string> = {
+  harrow: "ハロウ",
+  calyx: "カリクス",
+  bastion: "バスティオン",
+  ant: "ハウンド・ボレー",
+  spider: "ハウンド・リーパー",
+  crawler: "プリート",
+  spitter: "プリズム",
+  hornet: "レイ",
+  boss: "ファウンドリー・ゼロ",
+  worm: "カテナ",
+};
+
+export function enemyIdentificationLine(key: EnemyReportId) {
+  return `識別名、${ENEMY_REPORT_READINGS[key]}。`;
+}
+
 export function enemyReportId(
   enemy: Pick<Enemy, "kind" | "segments">,
 ): EnemyReportId | undefined {

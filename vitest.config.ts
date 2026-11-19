@@ -77,6 +77,7 @@ export default defineConfig({
       "tests/hound-motion.test.ts",
       "tests/structure-motion.test.ts",
       "tests/enemy-report-motion.test.ts",
+      "tests/anomaly-consistency.test.ts",
       "tests/maps.test.ts",
       "tests/terrain.test.ts",
       "tests/jump-audit-regressions.test.ts",
@@ -99,3 +100,4 @@ export default defineConfig({
     fileParallelism: false,
   },
 });
+
