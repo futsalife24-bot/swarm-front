@@ -4,9 +4,14 @@ import {
   HARROW_REPORT_SEQUENCE,
   reportHarrowMissiles,
   reportPose,
+  reportVolleyPositions,
   reportWorm,
 } from "../src/client/enemy-report-motion";
 import { HARROW, harrowMissilePosition } from "../src/shared/harrow";
+import { HOUND_VOLLEY_SPREADS } from "../src/shared/hound-volley";
+import { PLEAT_STRIKE } from "../src/shared/pleat-strike";
+import { WORM_BODY_COUNT, WORM_UNIT_COUNT } from "../src/shared/worm";
+import { foundryOptic } from "../src/shared/foundry-defs";
 import * as T from "three";
 
 it("HARROWの通常降下は接地側で沈み込み、続く待機へ表示だけを戻す", () => {
@@ -308,6 +313,32 @@ it("shows VOLLEY release at its actual wind-up time and keeps PLEAT independent"
   expect(reportPose("ant", "attack", 0.8).sample).toBeCloseTo(0.45);
   expect(reportPose("crawler", "attack", 0.45).sample).toBeCloseTo(0.45);
 });
+
+it("previews VOLLEY with the shared three-shot spread and gravity arc", () => {
+  const positions = reportVolleyPositions(0.2);
+  expect(positions).toHaveLength(HOUND_VOLLEY_SPREADS.length);
+  positions.forEach((position) => {
+    expect(Number.isFinite(position.x)).toBe(true);
+    expect(Number.isFinite(position.y)).toBe(true);
+    expect(Number.isFinite(position.z)).toBe(true);
+  });
+  expect(positions[0].x).toBeGreaterThan(0);
+  expect(positions[2].x).toBeLessThan(0);
+  expect(positions[1].x).toBeCloseTo(0, 5);
+});
+
+it("moves PLEAT through the shared strike distance", () => {
+  expect(reportPose("crawler", "attack", 0.45).z).toBeCloseTo(0, 5);
+  expect(reportPose("crawler", "attack", 0.6).z).toBeCloseTo(
+    -PLEAT_STRIKE.travel / 2,
+    5,
+  );
+  expect(reportPose("crawler", "attack", 0.75).z).toBeCloseTo(
+    -PLEAT_STRIKE.travel,
+    5,
+  );
+  expect(reportPose("crawler", "idle", 0.75).z).toBeCloseTo(0, 5);
+});
 it("keeps the LEAPER ground/air cycle bounded and stops at a grounded idle pose", () => {
   expect(reportPose("spider", "move", 0.4)).toMatchObject({
     height: 0,
@@ -350,7 +381,11 @@ it("previews CATENA head-to-tail jump, landing and eight laser mouths", () => {
       if (node.pulseAim) mouths.add(part);
     });
   }
-  expect([...mouths]).toEqual([0, 2, 4, 6, 8, 10, 12, 14]);
+  const combatMouths = Array.from(
+    { length: WORM_UNIT_COUNT },
+    (_, part) => part,
+  ).filter((part) => foundryOptic(part, WORM_BODY_COUNT) !== undefined);
+  expect([...mouths]).toEqual(combatMouths);
   const effects = new ReportEffects();
   try {
     const head = effects.root.getObjectByName("CATENA_OPTIC_0") as T.Mesh;
@@ -402,3 +437,4 @@ it("shows CATENA landing marks only during the warned jump and clears on exit", 
     effects.dispose();
   }
 });
+

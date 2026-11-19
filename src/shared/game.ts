@@ -25,6 +25,7 @@ import {
   type RebuildAttribution,
 } from "./rebuild-combat";
 import { stepCalyx, stepPollen, advancePollen } from "./calyx";
+import { HOUND_VOLLEY_SPREADS, HOUND_VOLLEY_SPEED, HOUND_VOLLEY_GRAVITY, HOUND_VOLLEY_TARGET_HEIGHT } from "./hound-volley";
 import {
   BASTION,
   bastionDamage,
@@ -1941,14 +1942,14 @@ function releaseFoundryBurst(
 /** 溜めの解放: 射撃型の発射。 */
 function releaseVolley(w: World, e: Enemy, t: Player, def: EnemyTuning) {
   const dist = Math.hypot(e.tx - e.x, e.tz - e.z);
-  for (const spread of e.kind === "ant" ? [-0.16, 0, 0.16] : [0]) {
+  for (const spread of e.kind === "ant" ? HOUND_VOLLEY_SPREADS : [0]) {
     const angle = Math.atan2(e.tx - e.x, e.tz - e.z) + spread;
-    const speed = e.kind === "hornet" ? 19 : 13;
+    const speed = e.kind === "hornet" ? 19 : HOUND_VOLLEY_SPEED;
     const height = eye(e);
-    const targetY = (e.ty ?? t.y ?? 0) + 1.2;
+    const targetY = (e.ty ?? t.y ?? 0) + HOUND_VOLLEY_TARGET_HEIGHT;
     const length = Math.max(1e-8, Math.hypot(dist, targetY - height));
     const flight = Math.max(0.3, dist / speed);
-    const gravity = e.kind === "ant" ? 12 : 0;
+    const gravity = e.kind === "ant" ? HOUND_VOLLEY_GRAVITY : 0;
     if (w.projectiles.length < 100)
       w.projectiles.push({
         id: ++w.serial,
