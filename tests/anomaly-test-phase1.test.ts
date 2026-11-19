@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import {
   ANOMALY_TEST_LIMIT,
   anomalyTestCurrentCount,
@@ -12,6 +13,28 @@ import {
 import { mapFor } from "../src/shared/stages";
 
 describe("ANOMALYテスト フェーズ1", () => {
+  it("Phase1のfooterはtitle画面用の全般footer規則と非表示規則に負けない", () => {
+    const css = readFileSync(new URL("../src/client/anomaly-test.css", import.meta.url), "utf8");
+    const selector = [
+      ".anomaly-test-preparation > footer.anomaly-test-actions",
+      ".anomaly-test-setting-grid > footer.anomaly-test-setting-actions",
+    ].join(",\n");
+
+    expect(css).toContain(selector);
+    for (const declaration of [
+      "display: flex",
+      "position: static",
+      "inset: auto",
+      "font-size: inherit",
+      "letter-spacing: inherit",
+      "color: inherit",
+      "border-top: none",
+      "padding-top: 0",
+    ]) {
+      expect(css).toContain(declaration);
+    }
+  });
+
   it("初期設定のPLEAT1体が次のシミュレーション更新で武器庫防衛拠点に出る", () => {
     const world = createAnomalyTestWorld(12345);
     start(world);

@@ -21,9 +21,19 @@
   margin-top: 4px;
 }
 .anomaly-test-actions {
-  display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+.anomaly-test-preparation > footer.anomaly-test-actions,
+.anomaly-test-setting-grid > footer.anomaly-test-setting-actions {
+  display: flex;
+  position: static;
+  inset: auto;
+  font-size: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  border-top: none;
+  padding-top: 0;
 }
 .anomaly-test-count-row {
   display: grid;
@@ -48,7 +58,6 @@
   min-height: 42px;
 }
 .anomaly-test-setting-actions {
-  display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
