@@ -10,7 +10,8 @@
 
 - 集計日はJST。訪問ブラウザは各アプリ内・日別の重複排除。7/30日は日別ユニークの延べ数であり、期間ユニーク人数ではない。前日0の場合は比率を計算しない。
 - `/api/developer/apps?days=1|7|30`は既存の開発者セッション必須、no-store。個別取得失敗はerror、記録なしはpendingで、0件と区別。
-- スワフロは既存`analytics`オブジェクトと`analytics-days`をそのまま参照。既存の計測イベント・ストレージを変更/移行しない。出撃・クリアは詳細に残す。
+- スワフロは既存`analytics`オブジェクトと`analytics-days`をそのまま参照。`view / sortie / clear`の数え方を変えず、旧の日別データも新しい任意項目が無いまま読める。出撃・クリアは詳細に残す。
+- スワフロの初回導線は`ftue_start / first_sortie / first_clear / first_supply10 / return`を1端末1回だけ送る。判定は`swarm-front-tutorial-v1`の`ftue:*`記録を使う。`return`は別の日本時間の日に再訪した初回だけ。送信内容は種類・既存の匿名ブラウザID・管理者フラグのみで、保存データ・名前・URL・時刻そのものを含まない。
 - 新規3アプリは`/api/analytics/collect/{lmfdb,katamon,mayoi}`。公開ページの表示時に1回。JSON本文はランダムなアプリ別ブラウザID（32桁hex）またはnullのみ。Cookie、URL、Referer、ゲーム保存・アカウント情報は送信しない。
 - 本番の正規origin/pathに限定。developer=1、analytics=off、DNT、GPC、iframe、非表示ページは除外（可視化時に送信）。通信失敗を握り、ゲームを止めない。localStorageが使えない場合はアクセスのみ記録。
 - collectionのCORSはアプリのoriginにのみ許可し、認証/ゲームAPIのorigin許可を拡張しない。GitHub PagesのLMFとカタモンは同一originなので送信元を暗号学的に証明できない。公開ブラウザ計測は改ざん可能な参考値で、課金・報酬等に使わない。

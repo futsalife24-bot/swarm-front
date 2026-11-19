@@ -6,6 +6,7 @@ import {
   ensureTutorialFlags,
   hasSeen,
   markSeen,
+  markReturnVisit,
   resetGuides,
 } from "../src/client/tutorial-flags";
 import {
@@ -84,6 +85,21 @@ describe("tutorial flags (W4)", () => {
     expect(hasSeen("supply", broken)).toBe(false);
     markSeen("supply", broken);
     expect(hasSeen("supply", broken)).toBe(true);
+  });
+  it("records only the first visit on another Japanese day", () => {
+    const s = memory();
+    ensureTutorialFlags(false, s);
+    expect(markReturnVisit("2026-11-19", s)).toBe(false);
+    expect(markReturnVisit("2026-11-19", s)).toBe(false);
+    expect(markReturnVisit("2026-11-20", s)).toBe(true);
+    expect(markReturnVisit("2026-11-20", s)).toBe(false);
+    const flags = JSON.parse(s.m.get(TUTORIAL_FLAGS_KEY)!) as {
+      seen: string[];
+    };
+    expect(flags.seen).toContain("ftue:return:2026-11-20");
+    expect(flags.seen.filter((v) => v.startsWith("ftue:return:"))).toHaveLength(
+      1,
+    );
   });
 });
 

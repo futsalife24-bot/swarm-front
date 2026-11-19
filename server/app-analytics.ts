@@ -27,7 +27,64 @@ export type Day = {
   visitors: number;
   sorties: number;
   clears: number;
+  ftueStarts?: number;
+  firstSorties?: number;
+  firstClears?: number;
+  firstSupply10s?: number;
+  returns?: number;
 };
+export const SWARM_FUNNEL_KINDS = [
+  "ftue_start",
+  "first_sortie",
+  "first_clear",
+  "first_supply10",
+  "return",
+] as const;
+export type SwarmFunnelKind = (typeof SWARM_FUNNEL_KINDS)[number];
+export const SWARM_ANALYTIC_KINDS = [
+  "view",
+  "sortie",
+  "clear",
+  ...SWARM_FUNNEL_KINDS,
+] as const;
+export type SwarmAnalyticsKind = (typeof SWARM_ANALYTIC_KINDS)[number];
+export type SwarmAnalyticsCounters = Pick<
+  Day,
+  "views" | "sorties" | "clears"
+> &
+  Partial<
+    Pick<
+      Day,
+      | "ftueStarts"
+      | "firstSorties"
+      | "firstClears"
+      | "firstSupply10s"
+      | "returns"
+    >
+  >;
+export function isSwarmAnalyticsKind(
+  kind: unknown,
+): kind is SwarmAnalyticsKind {
+  return (
+    typeof kind === "string" &&
+    (SWARM_ANALYTIC_KINDS as readonly string[]).includes(kind)
+  );
+}
+export function countSwarmAnalytics(
+  day: SwarmAnalyticsCounters,
+  kind: SwarmAnalyticsKind,
+) {
+  if (kind === "view") day.views++;
+  else if (kind === "sortie") day.sorties++;
+  else if (kind === "clear") day.clears++;
+  else if (kind === "ftue_start") day.ftueStarts = (day.ftueStarts ?? 0) + 1;
+  else if (kind === "first_sortie")
+    day.firstSorties = (day.firstSorties ?? 0) + 1;
+  else if (kind === "first_clear") day.firstClears = (day.firstClears ?? 0) + 1;
+  else if (kind === "first_supply10")
+    day.firstSupply10s = (day.firstSupply10s ?? 0) + 1;
+  else if (kind === "return") day.returns = (day.returns ?? 0) + 1;
+}
 export const jstDate = (now: number) =>
   new Date(now + 9 * 3600000).toISOString().slice(0, 10);
 const dateOffset = (date: string, offset: number) =>
@@ -48,6 +105,11 @@ export function summary(days: Day[], period: number, now: number) {
         visitors: 0,
         sorties: 0,
         clears: 0,
+        ftueStarts: 0,
+        firstSorties: 0,
+        firstClears: 0,
+        firstSupply10s: 0,
+        returns: 0,
       },
   );
   const totals = selected.reduce(
@@ -56,8 +118,23 @@ export function summary(days: Day[], period: number, now: number) {
       visitors: a.visitors + d.visitors,
       sorties: a.sorties + d.sorties,
       clears: a.clears + d.clears,
+      ftueStarts: a.ftueStarts + (d.ftueStarts ?? 0),
+      firstSorties: a.firstSorties + (d.firstSorties ?? 0),
+      firstClears: a.firstClears + (d.firstClears ?? 0),
+      firstSupply10s: a.firstSupply10s + (d.firstSupply10s ?? 0),
+      returns: a.returns + (d.returns ?? 0),
     }),
-    { views: 0, visitors: 0, sorties: 0, clears: 0 },
+    {
+      views: 0,
+      visitors: 0,
+      sorties: 0,
+      clears: 0,
+      ftueStarts: 0,
+      firstSorties: 0,
+      firstClears: 0,
+      firstSupply10s: 0,
+      returns: 0,
+    },
   );
   const yesterday = byDate.get(dateOffset(today, -1))?.views ?? 0;
   const todayViews = byDate.get(today)?.views ?? 0;
