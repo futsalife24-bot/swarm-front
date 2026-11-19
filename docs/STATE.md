@@ -1,3 +1,9 @@
+## 2026-11-20 C-6 M1 初回導線のファネル計測
+
+進撃ソロの初回導線に匿名計測を追加した。`trackOnce()` で `ftue_start / first_sortie / first_clear / first_supply10 / return` を1端末1回だけ送り、再訪は別の日本時間の日に1回だけ送る。`developer=1` では送らない。サーバーは既存 `view / sortie / clear` の数え方を維持し、日別データへ節目件数のみ追加する。管理画面は期間指定で節目別件数を表示する。体験・文言・導線と進撃の `ProgressSave` は無変更。
+
+`npm run typecheck` は合格。`npm test` 全件は既知5失敗（`encounter-film-assets` 1件、`game-step-equivalence` 4件）に加えて `harrow-model` の1件が120秒タイムアウトし、合計6失敗・2050合格だった。`harrow-model` 単体再実行でも同じ1件が120秒タイムアウトしたため、全件実行特有ではなかった。実中継 `project-hub` は別リポジトリで、今回の対象外変更として未決。
+
 ## 2026-11-18 HARROWの斜面での接地
 
 ステージ20の横斜面で奥足の爪が隠れるため、地上待機・通常歩行の描画姿勢を足幅にわたる地表の傾きに合わせた。元の比較動画と同じ視点・時刻で確認。図鑑の平地歩行・待機も表示確認。[修正版の動画](https://drive.google.com/file/d/1ydD3n2Yecq4KBDxK2EzO0c3XXEPmLfmK/view)
