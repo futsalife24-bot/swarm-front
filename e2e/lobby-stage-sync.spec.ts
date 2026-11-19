@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
 import { copyInvite } from "./invite";
+import { enterCoopPreparation } from "./navigation";
 
 const endpoint = process.env.SWARM_TEST_ENDPOINT ?? "http://127.0.0.1:8789";
 
@@ -15,7 +16,7 @@ test("ST11 and ST20 remain synchronized after lobby replies and guest preparatio
     const a = await host.newPage();
     const b = await guest.newPage();
     await a.goto("/");
-    await a.getByRole("button", { name: "協力プレイ", exact: true }).click();
+    await enterCoopPreparation(a);
     await a.locator(".coop-advanced summary").click();
     await a.locator("#endpoint").fill(endpoint);
     await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {

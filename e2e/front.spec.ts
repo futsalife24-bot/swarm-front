@@ -22,6 +22,7 @@ import {
   FRONT_UPGRADE_CATALOG,
   type FrontUpgradeId,
 } from "../src/shared/front-upgrades";
+import { enterCoopPreparation, enterSoloPreparation } from "./navigation";
 const evidence =
   process.env.FRONT_E2E_EVIDENCE ?? "docs/evidence/front-feedback-20261003";
 const prior = JSON.stringify(fresh()),
@@ -37,7 +38,7 @@ for (const width of [844, 640])
     mkdirSync(evidence, { recursive: true });
     await page.setViewportSize({ width, height: width === 844 ? 390 : 360 });
     await page.goto("/front.html");
-    await page.locator("#solo").click();
+    await enterSoloPreparation(page);
     await page.getByRole("button", { name: "ソロ出撃 ↗", exact: true }).click();
     await expect(page.locator(".rebuild-card")).toHaveCount(3, {
       timeout: 65000,
@@ -118,7 +119,7 @@ for (const withV2 of [false, true]) {
         { oldRaw, v2Raw, withV2, key: SAVE_KEY, legacyKey: legacyProgressKey },
       );
       await page.goto("/front.html");
-      await page.locator("#solo").click();
+      await enterSoloPreparation(page);
       await expect(page.locator('[data-row="carried-v1-0"]')).toBeVisible();
       const read = async () => {
         const state = await context.storageState();
@@ -139,7 +140,7 @@ for (const withV2 of [false, true]) {
         for (const w of v2.inventory)
           expect(inventory.find((x: any) => x.id === w.id)).toMatchObject(w);
       await page.reload();
-      await page.locator("#solo").click();
+      await enterSoloPreparation(page);
       expect(
         (await read()).find((v) => v.name === newSaveKey("normal"))!.value,
       ).toBe(shared);
@@ -179,7 +180,7 @@ for (const width of [844, 640])
       { key: newSaveKey("normal"), raw },
     );
     await page.goto("/front.html");
-    await page.locator("#solo").click();
+    await enterSoloPreparation(page);
     await expect(page.locator("[data-row]")).toHaveCount(18);
     await page.locator('[data-row="fusion-ui-1"] .pt-stat-inner').click();
     await expect(page.locator('[data-front-slot="0"]')).toContainText("SG-4");
@@ -190,7 +191,7 @@ for (const width of [844, 640])
     await page.locator("#front-save-pool").click();
     await page.locator("#base-back").click();
     await page.reload();
-    await page.locator("#solo").click();
+    await enterSoloPreparation(page);
     await page.locator("#front-base").click();
     await expect(page.locator('[data-pool="magnet"]')).toHaveAttribute(
       "aria-pressed",
@@ -302,9 +303,7 @@ for (const viewport of [
     if (viewport.width === 640)
       await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/front.html");
-    await page
-      .getByRole("button", { name: "ソロで出撃準備", exact: true })
-      .click();
+    await enterSoloPreparation(page);
     await page.getByRole("button", { name: "強化候補", exact: true }).click();
     await expect(page.locator("[data-initial]")).toHaveCount(0);
     const excluded = ["blast-core", "armor-piercer", "afterimage-mine"];
@@ -788,7 +787,7 @@ test("実ブラウザ2人：準備・共同選択・独立報酬・再読込", a
     pages = [page, second];
   for (const p of pages) {
     await p.goto("/front.html");
-    await p.getByRole("button", { name: "協力プレイ", exact: true }).click();
+    await enterCoopPreparation(p);
 
     await p.getByText("接続先を手動設定（開発用）", { exact: true }).click();
     await p

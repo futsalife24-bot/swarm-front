@@ -1,11 +1,12 @@
 import { test, expect } from "@playwright/test";
 import { writeFileSync } from "node:fs";
+import { enterSoloPreparation } from "./navigation";
 test("full solo mission rewards equip reload and redeploy with ordinary inputs", async ({
   page,
 }) => {
   test.setTimeout(600000);
   await page.goto("/");
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await page.getByRole("button", { name: "ソロ出撃" }).click();
   await page.mouse.move(600, 350);
   await page.mouse.down();
@@ -67,12 +68,12 @@ test("full solo mission rewards equip reload and redeploy with ordinary inputs",
   expect(initial.inventory.length).toBeGreaterThan(3);
   const rewardId = initial.inventory.at(-1).id;
   await page.getByRole("button", { name: "ホームへ戻る" }).click();
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   // Slot first, then the weapon: the per-card equip buttons are gone.
   await page.locator('[data-pick="0"]').click();
   await page.locator(`[data-equip="${rewardId}"]`).click();
   await page.reload();
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await expect(page.locator(`[data-equip="${rewardId}"]`)).toHaveClass(
     /equipped-0/,
   );

@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
 import { writeFileSync, mkdirSync } from "node:fs";
+import { enterSoloPreparation } from "./navigation";
 const dir = "dist-validation/structure-audit-fix";
 test("four independent real Worker clients receive identical targets, telegraphs and projectiles", async ({
   browser,
@@ -187,7 +188,7 @@ test("models, phase transformation and solo telegraphs compile in real WebGL; re
       .evaluate((e) => e.scrollWidth <= e.clientWidth),
   ).toBe(true);
   await page.getByRole("button", { name: "タイトルへ戻る" }).click();
-  await page.getByRole("button", { name: /ソロで出撃準備/ }).click();
+  await enterSoloPreparation(page);
   await page.locator("#launch").click();
   await expect(page.locator("#hud")).toBeVisible();
   await page.mouse.down();

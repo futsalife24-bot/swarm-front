@@ -1,10 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { enterSoloPreparation } from "./navigation";
 test("solo defeat through ordinary enemy attacks returns to equipment and redeploys", async ({
   page,
 }) => {
   test.setTimeout(180000);
   await page.goto("/");
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await page.getByRole("button", { name: "ソロ出撃" }).click();
   await expect(
     page.getByRole("heading", { name: "MISSION FAILED" }),
@@ -14,7 +15,7 @@ test("solo defeat through ordinary enemy attacks returns to equipment and redepl
   );
   expect(before).toBe(3);
   await page.getByRole("button", { name: "ホームへ戻る" }).click();
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await page.getByRole("button", { name: "ソロ出撃" }).click();
   await expect(page.locator("#hud")).toBeVisible();
 });

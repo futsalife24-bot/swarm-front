@@ -2,6 +2,7 @@ import { localCreationKey } from "../tests/credentials";
 import { test, expect } from "@playwright/test";
 import { copyInvite } from "./invite";
 import { writeFileSync } from "node:fs";
+import { enterCoopPreparation } from "./navigation";
 const endpoint = process.env.SWARM_TEST_ENDPOINT ?? "http://127.0.0.1:8789";
 test("local credential file is not served and creation key stays in the development panel", async ({
   page,
@@ -11,7 +12,7 @@ test("local credential file is not served and creation key stays in the developm
   expect(denied.status()).toBe(403);
   expect((await denied.text()).includes(localCreationKey())).toBe(false);
   await page.goto("/");
-  await page.getByRole("button", { name: "協力プレイ" }).click();
+  await enterCoopPreparation(page);
   await expect(page.locator("#creation-key")).toHaveCount(0);
   await page.locator(".coop-advanced summary").click();
   await expect(page.locator("#creation-key")).toHaveAttribute(
@@ -39,7 +40,7 @@ test("two independent browsers join a real room and receive the same battlefield
   try {
     for (const p of [a, b]) {
       await p.goto("/");
-      await p.getByRole("button", { name: "協力プレイ" }).click();
+      await enterCoopPreparation(p);
     }
     await a.locator(".coop-advanced summary").click();
     await a.locator("#endpoint").fill(endpoint);
@@ -170,7 +171,7 @@ test("40 authoritative enemies render in a mobile-sized browser; record PC-only 
   });
   const p = await context.newPage();
   await p.goto("/");
-  await p.getByRole("button", { name: "協力プレイ" }).click();
+  await enterCoopPreparation(p);
   await p.locator(".coop-advanced summary").click();
   await p.locator("#endpoint").fill("http://127.0.0.1:8789");
   await p.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {

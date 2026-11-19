@@ -1,6 +1,7 @@
 import { copyInvite } from "./invite";
 import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
+import { enterCoopPreparation } from "./navigation";
 test("new enemies and articulated boss arrive on two real clients", async ({
   browser,
   request,
@@ -19,7 +20,7 @@ test("new enemies and articulated boss arrive on two real clients", async ({
     for (const page of [a, b])
       page.on("pageerror", (e) => errors.push(e.message));
     await a.goto("/");
-    await a.getByRole("button", { name: "協力プレイ" }).click();
+    await enterCoopPreparation(a);
     await a.locator(".coop-advanced summary").click();
     await a.locator("#endpoint").fill("http://127.0.0.1:8907");
     await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {

@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { mkdirSync } from "node:fs";
+import { enterSoloPreparation } from "./navigation";
 const dir = "dist-validation/evidence";
 mkdirSync(dir, { recursive: true });
 test.use({
@@ -9,7 +10,7 @@ test.use({
 });
 async function gear(page: any) {
   await page.goto("/");
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
 }
 async function geometry(page: any) {
   return page.evaluate(() => {
@@ -55,7 +56,7 @@ test("short landscape title and weapon list fit without HUD/control collisions a
   await page.setViewportSize({ width: 844, height: 320 });
   await page.goto("/");
   await page.screenshot({ path: dir + "/title.png" });
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await expect(page.locator(".weapon-list .weapon-row")).toHaveCount(3);
   // The armoury is a grid now, so cards share a row. What has to hold is that
   // DOM order still reads left to right then top to bottom, and that no two
@@ -145,7 +146,7 @@ test("dragged layout saves across reload, cancels edits and survives rotation", 
     await page.evaluate(() => localStorage.getItem("swarm-front-controls-v1")),
   ).toBe(saved);
   await page.reload();
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await page.getByRole("button", { name: "ソロ出撃" }).click();
   const initial = await geometry(page);
   await page.setViewportSize({ width: 320, height: 844 });

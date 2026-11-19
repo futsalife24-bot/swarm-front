@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { enterSoloPreparation } from "./navigation";
 
 test("stage picker masks locked names and shows each difficulty mission at landscape sizes", async ({
   page,
@@ -6,7 +7,7 @@ test("stage picker masks locked names and shows each difficulty mission at lands
   await page.goto("/");
   if (await page.locator("#landscape-start").isVisible())
     await page.locator("#landscape-start").click();
-  await page.locator("#solo").click();
+  await enterSoloPreparation(page);
   await page.locator("#player-name").fill("星表示検証");
   await page.locator("#player-name-form button[type=submit]").click();
   await page.locator("#pt-confirm").click();
@@ -30,7 +31,7 @@ test("stage picker masks locked names and shows each difficulty mission at lands
   await page.reload();
   if (await page.locator("#landscape-start").isVisible())
     await page.locator("#landscape-start").click();
-  await page.locator("#solo").click();
+  await enterSoloPreparation(page);
   for (const width of [667, 844, 1280]) {
     await page.setViewportSize({ width, height: 390 });
     await page.locator('[data-game-select-for="pt-stage"]').click();
@@ -68,7 +69,7 @@ test("normal sortie weapon filter keeps keyboard focus after actual screen redra
   await page.goto("/");
   if (await page.locator("#landscape-start").isVisible())
     await page.locator("#landscape-start").click();
-  await page.locator("#solo").click();
+  await enterSoloPreparation(page);
   await page.locator("#player-name").fill("フォーカス検証");
   await page.locator("#player-name-form button[type=submit]").click();
   await page.locator("#pt-confirm").click();

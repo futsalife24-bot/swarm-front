@@ -4,6 +4,7 @@ import { STARTERS } from "../src/shared/defs";
 import { fresh, SAVE_KEY } from "../src/client/save";
 import { localCreationKey } from "../tests/credentials";
 import { copyInvite } from "./invite";
+import { enterCoopPreparation, openArmory } from "./navigation";
 
 test("result banks overflow, favorites survive home and reload, and armory deletion is atomic", async ({
   browser,
@@ -31,7 +32,7 @@ test("result banks overflow, favorites survive home and reload, and armory delet
       { key: SAVE_KEY, seed },
     );
     await page.reload();
-    await page.getByRole("button", { name: "協力プレイ" }).click();
+    await enterCoopPreparation(page);
     await page.locator(".coop-advanced summary").click();
     await page.locator("#endpoint").fill(endpoint);
     await page
@@ -112,14 +113,14 @@ test("result banks overflow, favorites survive home and reload, and armory delet
       });
     }
     await page.locator("#regear").click();
-    await page.locator("#open-armory").click();
+    await openArmory(page);
     await expect(
       page.getByRole("heading", { name: "武器庫", exact: true }),
     ).toBeVisible();
     await page.reload();
     // Reload restores the co-op entry; return through the visible title action.
     await page.getByRole("button", { name: "タイトルへ" }).click();
-    await page.locator("#open-armory").click();
+    await openArmory(page);
     await page.locator('[data-armory-select="fixture-lr"]').click();
     await expect(page.locator('[data-discard="fixture-lr"]')).toBeDisabled();
     await page.locator('[data-armory-select="shotgun-2"]').click();

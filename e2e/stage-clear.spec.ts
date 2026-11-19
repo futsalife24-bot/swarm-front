@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { enterSoloPreparation } from "./navigation";
 
 // Browser-only terminal-state fixture. The shipped application gets no write hook;
 // full mission combat correctness remains covered by shared simulation tests.
@@ -32,7 +33,7 @@ test("solo terminal presentation, reduced motion and redeployment", async ({
     await page.emulateMedia({
       reducedMotion: reduced ? "reduce" : "no-preference",
     });
-    await page.locator("#solo").click({ force: true });
+    await enterSoloPreparation(page, { force: true });
     await page.locator("#launch").click({ force: true });
     await expect(page.locator("#hud")).toBeVisible();
     await page.evaluate(() => (window as any).__terminalFixture("victory"));
@@ -55,7 +56,7 @@ test("solo terminal presentation, reduced motion and redeployment", async ({
     await page.locator("#regear").click({ force: true });
   }
   expect(await page.evaluate(() => (window as any).__clearCount)).toBe(2);
-  await page.locator("#solo").click({ force: true });
+  await enterSoloPreparation(page, { force: true });
   await page.locator("#launch").click({ force: true });
   await page.evaluate(() => (window as any).__terminalFixture("defeat"));
   await page.clock.fastForward(100);

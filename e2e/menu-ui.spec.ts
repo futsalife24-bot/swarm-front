@@ -1,6 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 import { fresh, SAVE_KEY } from "../src/client/save";
 import { STARTERS, type Weapon } from "../src/shared/defs";
+import { revealHomeMenu } from "./navigation";
 const dir = "dist-validation/menu-ui";
 function fullSave() {
   const seed = fresh();
@@ -40,6 +41,7 @@ async function seeded(page: Page) {
     { key: SAVE_KEY, seed: fullSave() },
   );
   await page.goto("/");
+  await revealHomeMenu(page);
   await page.locator("#solo").waitFor();
   await page.clock.pauseAt(
     new Date((await page.evaluate(() => Date.now())) + 2000),

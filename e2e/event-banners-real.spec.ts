@@ -1,5 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
 import { readFileSync } from "node:fs";
+import { enterSoloPreparation } from "./navigation";
 const manifest = JSON.parse(
   readFileSync(
     new URL(
@@ -98,7 +99,7 @@ test("OS reduce loads the received PNG only and mobile menu remains operable", a
     "src",
     "/assets/event-banners/mobile/srv-ended.png",
   );
-  await page.locator("#solo").click();
+  await enterSoloPreparation(page);
   await page.locator("[data-operation=survival]").click();
   await expect(page.locator(".front-prep")).toBeVisible();
   await expect(page.locator(".operation-cue")).toHaveCount(0);

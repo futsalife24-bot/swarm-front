@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { enterSoloPreparation } from "./navigation";
 
 for (const viewport of [
   { width: 640, height: 280 },
@@ -18,7 +19,7 @@ for (const viewport of [
       const errors: string[] = [];
       page.on("pageerror", (error) => errors.push(error.message));
       await page.goto("/");
-      await page.getByRole("button", { name: "ソロで出撃準備" }).tap();
+      await enterSoloPreparation(page);
       await page.getByRole("button", { name: "ソロ出撃" }).tap();
       const cue = page.locator(".reload-cue");
       const cdp = await context.newCDPSession(page);

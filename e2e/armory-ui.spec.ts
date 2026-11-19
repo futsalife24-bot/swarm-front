@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { fresh, SAVE_KEY } from "../src/client/save";
 import { STARTERS, type Weapon } from "../src/shared/defs";
+import { openArmory } from "./navigation";
 
 test("armory stays readable and preserves selection, protection and atomic deletion", async ({
   browser,
@@ -41,7 +42,7 @@ test("armory stays readable and preserves selection, protection and atomic delet
       { key: SAVE_KEY, seed },
     );
     await page.reload();
-    await page.locator("#open-armory").click();
+    await openArmory(page);
     await expect(page.locator(".armory-list article")).toHaveCount(25);
     await expect(
       page.locator('[data-armory-select="pending-1"]'),
@@ -133,7 +134,7 @@ test("armory stays readable and preserves selection, protection and atomic delet
     await page.locator("#armory-filter").selectOption("favorites");
     await expect(page.locator(".armory-list article")).toHaveCount(1);
     await page.reload();
-    await page.locator("#open-armory").click();
+    await openArmory(page, "tap");
     await page.locator("#armory-filter").selectOption("favorites");
     await expect(page.locator(".armory-list article")).toHaveCount(1);
   } finally {
@@ -167,7 +168,7 @@ test("help preserves equipment and supports touch, Escape and keyboard", async (
       { key: SAVE_KEY, seed },
     );
     await page.reload();
-    await page.locator("#open-armory").tap();
+    await openArmory(page);
     await page.locator('[data-kind-help="rifle"]').tap();
     await expect(page.getByRole("dialog")).toContainText("中距離");
     await page.getByRole("button", { name: "閉じる", exact: true }).tap();
@@ -256,7 +257,7 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
     { key: SAVE_KEY, seed },
   );
   await page.reload();
-  await page.locator("#open-armory").click();
+  await openArmory(page);
   const check = (id: string) => page.locator(`[data-dismantle-check="${id}"]`);
   await page.locator("#armory-organize").click();
   await expect(check("bulk-3")).toBeDisabled();
@@ -332,6 +333,6 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
     "waiting",
   );
   await page.reload();
-  await page.locator("#open-armory").click();
+  await openArmory(page);
   await expect(page.locator(".armory-powder")).toContainText("14");
 });

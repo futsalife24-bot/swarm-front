@@ -2,6 +2,7 @@ const endpoint = process.env.SWARM_TEST_ENDPOINT ?? "http://127.0.0.1:8789";
 import { localCreationKey } from "../tests/credentials";
 import { test, expect } from "@playwright/test";
 import { copyInvite } from "./invite";
+import { enterCoopPreparation } from "./navigation";
 test("co-op fixture rewards save on both clients and allow equipment change and a real rematch", async ({
   browser,
   request,
@@ -24,7 +25,7 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
   try {
     for (const p of [a, b]) {
       await p.goto("/");
-      await p.getByRole("button", { name: "協力プレイ" }).click();
+      await enterCoopPreparation(p);
       await p.locator(".coop-advanced summary").click();
       await p.locator("#endpoint").fill(endpoint);
     }
@@ -115,7 +116,7 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
         await p.evaluate(() => (window as any).__swarm.inventory.length),
       ).toBe(5);
       await p.getByRole("button", { name: "ホームへ戻る" }).click();
-      await p.getByRole("button", { name: "協力プレイ" }).click();
+      await enterCoopPreparation(p);
     }
     const item = await a.evaluate(
       () => (window as any).__swarm.inventory[3].id,

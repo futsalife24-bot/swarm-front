@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
 import { STARTERS } from "../src/shared/defs";
 import { neutral } from "../src/shared/game";
+import { enterCoopPreparation, enterSoloPreparation } from "./navigation";
 
 test("four network clients split through the doubled nest with ordinary input", async ({
   request,
@@ -108,7 +109,7 @@ test("host stage reaches both clients over real Workers", async ({
     const a = await ca.newPage(),
       b = await cb.newPage();
     await a.goto("/");
-    await a.getByRole("button", { name: "協力プレイ" }).click();
+    await enterCoopPreparation(a);
     await a.locator(".coop-advanced summary").click();
     await a.locator("#endpoint").fill("http://127.0.0.1:8917");
     await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
@@ -152,7 +153,7 @@ test("select and enter each map on a mobile viewport", async ({ page }) => {
   page.on("pageerror", (e) => errors.push(e.message));
   for (const id of [1, 2, 5, 10, 13, 20]) {
     await page.goto("/");
-    await page.getByRole("button", { name: /ソロで出撃準備/ }).click();
+    await enterSoloPreparation(page);
     await expect(page.locator("#stage-select option")).toHaveCount(20);
     await page.locator("#stage-select").selectOption(String(id));
     await expect(page.locator("#stage-brief")).toBeVisible();
@@ -182,7 +183,7 @@ test("four players load the enlarged nest over real Workers", async ({
       c = await cc.newPage(),
       d = await cd.newPage();
     await a.goto("/");
-    await a.getByRole("button", { name: "協力プレイ" }).click();
+    await enterCoopPreparation(a);
     await a.locator(".coop-advanced summary").click();
     await a.locator("#endpoint").fill("http://127.0.0.1:8917");
     await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {

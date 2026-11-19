@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { enterCoopPreparation, enterSoloPreparation } from "./navigation";
 
 test("common title, repeat navigation and reduced motion at phone sizes", async ({
   page,
@@ -11,7 +12,7 @@ test("common title, repeat navigation and reduced motion at phone sizes", async 
     await expect(page.locator("#solo")).toContainText("ソロ：進撃 または 生存");
     await expect(page.locator("#coop")).toContainText("協力：進撃 または 生存");
     for (let i = 0; i < 4; i++) {
-      await page.locator("#solo").click();
+      await enterSoloPreparation(page);
       await expect(page.locator("[data-operation=survival]")).toBeVisible();
       await page.locator("[data-operation=survival]").click();
       await expect(page.locator(".front-prep")).toBeVisible();
@@ -42,12 +43,12 @@ test("advance and cooperative survival route from the common title", async ({
   page,
 }) => {
   await page.goto("/front");
-  await page.locator("#solo").click();
+  await enterSoloPreparation(page);
   await page.locator("[data-operation=advance]").click();
   await expect(page.locator(".gear")).toBeVisible();
   expect(page.url()).toContain("solo=1");
   await page.goto("/front");
-  await page.locator("#coop").click();
+  await enterCoopPreparation(page);
   await page.locator("[data-operation=survival]").click();
   await expect(page.locator("#room-id")).toBeVisible();
 });

@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
+import { enterSoloPreparation } from "./navigation";
 
 const dir = "dist-validation/evidence";
 mkdirSync(dir, { recursive: true });
@@ -14,7 +15,7 @@ test("P1 custom move over look receives hit-tested simultaneous touch input afte
   context,
 }) => {
   await page.goto("/");
-  await page.locator("#solo").click();
+  await enterSoloPreparation(page);
   await page.locator("#layout-settings").click();
   await page.locator("#layout-selected").selectOption("move");
   await page.locator("#layout-size").fill("0.7");
@@ -52,7 +53,7 @@ test("P1 custom move over look receives hit-tested simultaneous touch input afte
   expect(placement.y).toBeCloseTo(0.55, 3);
   expect(placement.size).toBe(0.7);
   await page.reload();
-  await page.locator("#solo").click();
+  await enterSoloPreparation(page);
   await page.locator("#launch").click();
   await expect(page.locator("#hud")).toBeVisible();
   const observations = [];

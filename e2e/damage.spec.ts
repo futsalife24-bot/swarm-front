@@ -1,9 +1,10 @@
 import { test, expect, type Page } from "@playwright/test";
+import { enterSoloPreparation } from "./navigation";
 // The numbers are DOM, drawn from world coordinates every frame, so only a real
 // browser with a running frame loop can show they appear and then leave.
 async function battle(page: Page) {
   await page.goto("/");
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await page.getByRole("button", { name: "ソロ出撃" }).click();
   await expect(page.locator("#hud")).toBeVisible();
 }
@@ -39,7 +40,7 @@ test("the setting turns them off and keeps that across a reload", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await page
     .locator("details")
     .filter({ hasText: "操作・設定・保存について" })
@@ -55,7 +56,7 @@ test("the setting turns them off and keeps that across a reload", async ({
     )
     .toBe("off");
   await page.reload();
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await page.getByRole("button", { name: "ソロ出撃" }).click();
   await expect(page.locator("#hud")).toBeVisible();
   await hold(page);
@@ -73,7 +74,7 @@ test("the title carries a changelog that opens and closes", async ({
   const button = page.getByRole("button", { name: "更新履歴" });
   await expect(button).toBeVisible();
   // It must not sit on top of the two things the title screen is for.
-  for (const name of ["ソロで出撃準備", "協力プレイ"]) {
+  for (const name of ["ソロ：進撃 または 生存", "協力：進撃 または 生存"]) {
     const a = (await button.boundingBox())!;
     const b = (await page.getByRole("button", { name }).boundingBox())!;
     expect(
@@ -90,6 +91,6 @@ test("the title carries a changelog that opens and closes", async ({
   await page.getByRole("button", { name: "閉じる" }).click();
   await expect(page.locator("#pause-menu")).toBeHidden();
   await expect(
-    page.getByRole("button", { name: "ソロで出撃準備" }),
+    page.getByRole("button", { name: "ソロ：進撃 または 生存" }),
   ).toBeVisible();
 });

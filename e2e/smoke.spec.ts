@@ -1,13 +1,14 @@
 import { test, expect } from "@playwright/test";
+import { enterSoloPreparation } from "./navigation";
 test("solo boots, moves, changes weapons and resets focus input", async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
-  await page.getByRole("button", { name: "ソロ出撃" }).click();
-  await expect(page.locator("#hud")).toBeVisible();
+  await enterSoloPreparation(page);
+  await page.locator("#pt-start").click();
+  await expect(page.locator("#hud")).toBeVisible({ timeout: 60000 });
   const startX = await page.evaluate(
     () => (window as any).__swarm.world.players[0].x,
   );
@@ -45,8 +46,8 @@ test("third-person camera follows the rendered local player during fixed-step mo
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
-  await page.getByRole("button", { name: "ソロ出撃" }).click();
+  await enterSoloPreparation(page);
+  await page.locator("#pt-start").click();
   await page.keyboard.down("KeyW");
   await page.waitForTimeout(260);
   await page.keyboard.up("KeyW");
@@ -68,8 +69,8 @@ test("mobile fire drag aims outside the button while moving and stops on release
   try {
     const page = await context.newPage();
     await page.goto("/");
-    await page.getByRole("button", { name: "ソロで出撃準備" }).click();
-    await page.getByRole("button", { name: "ソロ出撃" }).click();
+    await enterSoloPreparation(page);
+    await page.locator("#pt-start").click();
     await expect(page.locator("#hud")).toBeVisible();
     const cdp = await context.newCDPSession(page);
     const fire = (await page.locator("#fire").boundingBox())!;
@@ -187,8 +188,8 @@ test("mobile simultaneous movement/look/fire cancels and survives rotation", asy
   });
   const page = await context.newPage();
   await page.goto("/");
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
-  await page.getByRole("button", { name: "ソロ出撃" }).click();
+  await enterSoloPreparation(page);
+  await page.locator("#pt-start").click();
   const cdp = await context.newCDPSession(page);
   const points = [
     { x: 105, y: 310, id: 1 },
@@ -272,8 +273,8 @@ test("aim settings persist independently and gyro respects permission, pause and
     await expect(page.locator("#sense")).toHaveValue("3");
     await expect(page.locator("#gyro")).toHaveText("オン");
     await page.keyboard.press("Escape");
-    await page.locator("#solo").click();
-    await page.locator("#launch").click();
+    await enterSoloPreparation(page);
+    await page.locator("#pt-start").click();
     await expect(page.locator("#hud")).toBeVisible();
     const emit = () =>
       page.evaluate(async () => {

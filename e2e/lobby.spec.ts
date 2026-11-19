@@ -1,6 +1,7 @@
 import { copyInvite } from "./invite";
 import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
+import { enterCoopPreparation } from "./navigation";
 test("four-player lobby shares preparation, equipment and host stage without landscape scrolling", async ({
   browser,
 }) => {
@@ -13,7 +14,7 @@ test("four-player lobby shares preparation, equipment and host stage without lan
     const pages = await Promise.all(contexts.map((c) => c.newPage()));
     const [a, b] = pages;
     await a.goto("/");
-    await a.getByRole("button", { name: "協力プレイ" }).click();
+    await enterCoopPreparation(a);
     await expect(a.locator(".room-entry")).toBeVisible();
     await expect(a.locator("[data-equip], #stage-select")).toHaveCount(0);
     for (const size of [
