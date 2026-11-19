@@ -1,0 +1,54 @@
+.anomaly-test-preparation {
+  display: grid;
+  gap: 18px;
+}
+.anomaly-test-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+.anomaly-test-summary article {
+  padding: 12px;
+  border: 1px solid #355262;
+  background: #11212c;
+}
+.anomaly-test-summary small {
+  display: block;
+  color: #8fa9b4;
+}
+.anomaly-test-summary b {
+  display: block;
+  margin-top: 4px;
+}
+.anomaly-test-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.anomaly-test-count-row {
+  display: grid;
+  grid-template-columns: auto minmax(72px, 96px) auto;
+  align-items: center;
+  gap: 8px;
+}
+.anomaly-test-count-row input {
+  width: 100%;
+  min-height: 42px;
+  text-align: center;
+}
+.anomaly-test-setting-grid {
+  display: grid;
+  gap: 14px;
+}
+.anomaly-test-setting-grid label {
+  display: grid;
+  gap: 6px;
+}
+.anomaly-test-setting-grid select {
+  min-height: 42px;
+}
+.anomaly-test-setting-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

@@ -139,6 +139,7 @@ import {
   start,
   step,
   finish,
+  anomalyTestCurrentCount,
   random,
   eye,
   rayVisible,
@@ -360,6 +361,98 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
     });
   }
 }
+async function launchAnomalyTest() {
+  if (!developerMode || !anomalyTestUi) return;
+  const generation = ++loadingGeneration;
+  loadReady = false;
+  paused = false;
+  setScreen("loading");
+  void sound.say("loading");
+  void sound.prepareControlScene("battle");
+  world = anomalyTestUi.createAnomalyTestWorld(
+    crypto.getRandomValues(new Uint32Array(1))[0],
+  );
+  ui.innerHTML = battleLoadingMarkup(true);
+  ui.querySelector(".pt-loading p")!.textContent =
+    "ANOMALYテストは保存に影響しません。";
+  const progress = (n: number, status: BattleLoadingStatus) => {
+    if (generation !== loadingGeneration) return;
+    ($("pt-progress") as HTMLProgressElement).value = n;
+    $("pt-load-percent").textContent = `${n}%`;
+    updateBattleLoadingStatus(status);
+  };
+  try {
+    await prepareBattle(
+      view,
+      world,
+      "solo",
+      () => generation !== loadingGeneration || screen !== "loading",
+      progress,
+    );
+    if (generation !== loadingGeneration || screen !== "loading") return;
+    loadReady = true;
+    $("pt-enter").hidden = false;
+    bind("pt-enter", () => {
+      if (!loadReady || generation !== loadingGeneration) return;
+      start(world!);
+      controls.input.yaw = world!.players[0].yaw;
+      controls.input.pitch = world!.players[0].pitch;
+      accumulator = 0;
+      previous = performance.now();
+      battleUI();
+    });
+  } catch (error) {
+    if (generation !== loadingGeneration) return;
+    loadReady = false;
+    $("pt-load-error").innerHTML =
+      `<p>${esc((error as Error).message)}</p><button id="pt-load-retry">再試行</button><button id="pt-load-home">開発者ホームへ戻る</button>`;
+    bind("pt-load-retry", () => void launchAnomalyTest());
+    bind("pt-load-home", () => {
+      loadingGeneration++;
+      home();
+    });
+  }
+}
+function openAnomalyTestSettings() {
+  if (!anomalyTestUi || !world?.anomalyTest || screen !== "battle") return;
+  paused = true;
+  controls.reset();
+  anomalyTestUi.openAnomalyTestSettings(world, dialog, () => {
+    paused = false;
+    controls.reset();
+  });
+}
+function exitAnomalyTest() {
+  paused = false;
+  document.getElementById("pt-anomaly-settings")?.remove();
+  world = null;
+  notice = "";
+  home();
+}
+function pauseAnomalyTest() {
+  paused = true;
+  controls.reset();
+  let openingSettings = false;
+  const d = dialog(
+    "ANOMALYテスト",
+    '<button id="pt-resume" class="primary">再開</button><button id="pt-anomaly-settings">ANOMALY設定</button><button id="pt-anomaly-exit">テストを終了</button>',
+  );
+  d.querySelector<HTMLButtonElement>("#pt-resume")!.onclick = () => d.close();
+  d.querySelector<HTMLButtonElement>("#pt-anomaly-settings")!.onclick = () => {
+    openingSettings = true;
+    d.close();
+    openAnomalyTestSettings();
+  };
+  d.querySelector<HTMLButtonElement>("#pt-anomaly-exit")!.onclick = () => {
+    d.close();
+    exitAnomalyTest();
+  };
+  d.addEventListener("close", () => {
+    if (openingSettings) return;
+    paused = false;
+    controls.reset();
+  });
+}
 /** 戦闘中の初回ガイドの1行（HUD の状態欄に一定時間だけ出す。戦闘は止めない）。 */
 const battleCaption = new GuideCaption();
 /** 画面の初回ガイド（G1・G5・G6・G9・G10）。1行の案内は既存の状態欄に出す。 */
@@ -447,8 +540,20 @@ function battleUI(next: "battle" | "collection" = "battle") {
   $("pause").hidden = false;
   controls.enabled = true;
   $("revive").hidden = false;
+  if (world?.anomalyTest) {
+    const settings = document.createElement("button");
+    settings.id = "pt-anomaly-settings";
+    settings.className = "pt-battle-button";
+    settings.textContent = "ANOMALY設定";
+    settings.onclick = () => openAnomalyTestSettings();
+    document.body.append(settings);
+  }
 }
 function pause() {
+  if (world?.anomalyTest) {
+    pauseAnomalyTest();
+    return;
+  }
   if (!["battle", "collection"].includes(screen) || paused) return;
   cancelOperationCue();
   paused = true;
@@ -835,7 +940,7 @@ function report() {
   });
 }
 function encounter() {
-  if (!world || encounterActive || modalCount) return;
+  if (!world || world.anomalyTest || encounterActive || modalCount) return;
   const soldier = world.players.find((p) => p.id === "solo");
   if (!soldier || soldier.hp <= 0) return;
   for (const e of world.enemies) {
@@ -1259,6 +1364,8 @@ function frame(now: number) {
       if (fresh.length && !commit(collectDefense(save, world.run, fresh)))
         return;
       if (world.phase === "victory" || world.phase === "defeat") finishDaily();
+    } else if (world.anomalyTest) {
+      /* テストは保存・結果処理を通さず、明示終了まで観察を続ける。 */
     } else if (world.phase === "victory") victory();
     else if (world.players[0].hp <= 0) defeatChoice();
   } else if (active && world && screen === "collection") {
@@ -1284,6 +1391,7 @@ function frame(now: number) {
         s.waveCompleteAt !== null && world.wave < stageFor(world).waves.length
           ? cfg.waveWait[world.wave - 1] - (world.time - s.waveCompleteAt)
           : Infinity;
+    const anomalySetting = world.anomalyTest?.enemies.crawler;
     hud.innerHTML = hudMarkup(
       world,
       "solo",
@@ -1302,6 +1410,14 @@ function frame(now: number) {
         : s.waveCompleteAt !== null && Number.isFinite(warn)
           ? `次波まで ${Math.max(0, Math.ceil(warn))}秒`
           : undefined,
+      anomalySetting
+        ? {
+            mission: "ANOMALYテスト",
+            detail: `PLEAT ${anomalyTestCurrentCount(world, "crawler")}体 · 設定 ${anomalySetting.count}体 · ${anomalySetting.action === "wait" ? "待機" : "自由"}`,
+            weapon: "基準装備",
+            help: "WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · ESC 一時停止",
+          }
+        : undefined,
     );
     if (screen === "battle" && !world.defense && warn > 0 && warn <= 10)
       sound.announce("wave-incoming", `${world.run}:incoming:${world.wave}`);
@@ -1403,6 +1519,7 @@ let filter = "all",
   perfScroll = 0,
   encounterActive = false,
   loadReady = false;
+let anomalyTestUi: typeof import("./anomaly-test") | undefined;
 const adSession = new RewardedAdSession();
 const names = ENEMY_REPORT_NAMES;
 const preferences = createPlaytestPreferences(controls, sound, view, minimap);
@@ -1907,13 +2024,27 @@ function showHome(initialized: boolean) {
   if (developerMode)
     ui.querySelector(".home-utilities")!.insertAdjacentHTML(
       "beforeend",
-      '<button id="pt-menu-sample">武器48丁で表示を試す</button>',
+      '<button id="pt-anomaly-test">ANOMALYテスト</button><button id="pt-menu-sample">武器48丁で表示を試す</button>',
     );
   if (developerMode)
     bind("pt-menu-sample", () => {
       const url = new URL(location.href);
       url.searchParams.set("menuSample", "1");
       location.href = url.href;
+    });
+  if (developerMode)
+    bind("pt-anomaly-test", () => {
+      void (async () => {
+        try {
+          anomalyTestUi ??= await import("./anomaly-test");
+          ui.addEventListener("anomaly-test-home", () => home(), {
+            once: true,
+          });
+          anomalyTestUi.openAnomalyTestPreparation(ui, launchAnomalyTest);
+        } catch (error) {
+          message((error as Error).message);
+        }
+      })();
     });
   bind("open-bestiary", () => enter(report));
   bind("home-settings", settingsUI);

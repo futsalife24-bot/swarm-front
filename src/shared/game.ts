@@ -64,6 +64,7 @@ import {
   soloDrop,
   collectSolo,
   endSoloTick,
+  initSolo,
   type SoloProgression,
 } from "./solo-progression";
 import {
@@ -146,6 +147,11 @@ import {
   type Kind,
   type Weapon,
 } from "./defs";
+import {
+  ENEMY_REPORT_NAMES,
+  enemyReportId,
+  type EnemyReportId,
+} from "./enemy-identity";
 export interface Input {
   buddySkill?: boolean;
   buddyCharge?: boolean;
@@ -349,6 +355,7 @@ export interface World {
   harrowMissiles?: import("./harrow").HarrowMissile[];
   pollen?: import("./calyx").PollenCloud[];
   defense?: DailyDefense;
+  anomalyTest?: AnomalyTestState;
   training?: boolean;
   solo?: SoloProgression;
   foundrySpawns?: FoundrySpawnBatch[];
@@ -377,6 +384,127 @@ export interface World {
   totalKills: number;
   scale: number;
   reason: string;
+}
+export type AnomalyTestAction = "free" | "wait";
+export interface AnomalyTestEnemySetting {
+  count: number;
+  action: AnomalyTestAction;
+  pendingCount?: number;
+  pendingAction?: AnomalyTestAction;
+}
+export interface AnomalyTestState {
+  mode: "observe";
+  enemies: Record<EnemyReportId, AnomalyTestEnemySetting>;
+}
+export const ANOMALY_TEST_LIMIT = 40;
+
+function createAnomalyTestSettings(): AnomalyTestState["enemies"] {
+  return Object.fromEntries(
+    (Object.keys(ENEMY_REPORT_NAMES) as EnemyReportId[]).map((id) => [
+      id,
+      { count: 0, action: "free" as const },
+    ]),
+  ) as AnomalyTestState["enemies"];
+}
+
+export function initAnomalyTest(w: World) {
+  const enemies = createAnomalyTestSettings();
+  enemies.crawler = { ...enemies.crawler, pendingCount: 1 };
+  w.anomalyTest = { mode: "observe", enemies };
+}
+
+export function createAnomalyTestWorld(seed: number) {
+  const w = createWorld(crypto.randomUUID(), seed, 1);
+  initSolo(
+    w,
+    1,
+    "normal",
+    true,
+    { hp: 0, aim: 0, move: 0, swap: 0 },
+    undefined,
+  );
+  const player = addPlayer(w, "solo");
+  player.x = 0;
+  player.z = 8;
+  player.y = supportHeight(player.x, player.z, mapFor(w).blocks);
+  initAnomalyTest(w);
+  return w;
+}
+
+export function anomalyTestCurrentCount(w: World, id: EnemyReportId): number {
+  return w.enemies.filter((e) => enemyReportId(e) === id).length;
+}
+
+export function requestAnomalyTestUpdate(
+  w: World,
+  id: EnemyReportId,
+  count: number,
+  action: AnomalyTestAction,
+) {
+  if (!Number.isInteger(count) || count < 0 || count > ANOMALY_TEST_LIMIT)
+    throw Error(`体数は0〜${ANOMALY_TEST_LIMIT}の整数で指定してください`);
+  const setting = w.anomalyTest?.enemies[id];
+  if (!setting) throw Error("このANOMALYは現在テスト対象外です");
+  setting.pendingCount = count;
+  setting.pendingAction = action;
+}
+
+function cancelAnomalyTestAttack(e: Enemy) {
+  e.wind = 0;
+  if (e.pleat) delete e.pleat.strike;
+  if (e.omega) cancelOmega(e);
+}
+
+function spawnAnomalyTestEnemy(w: World, id: EnemyReportId) {
+  const kind = id === "worm" ? "boss" : id;
+  const ordinal = w.enemyOrdinal ?? 0;
+  const angle = ordinal * 2.399963229728653;
+  return spawn(
+    w,
+    kind as Enemy["kind"],
+    Math.sin(angle) * 34,
+    Math.cos(angle) * 34,
+    id === "worm" ? "worm" : "crown",
+  );
+}
+
+function applyAnomalyTestUpdates(w: World) {
+  const test = w.anomalyTest!;
+  for (const [id, setting] of Object.entries(test.enemies) as [
+    EnemyReportId,
+    AnomalyTestEnemySetting,
+  ][]) {
+    if (
+      setting.pendingCount === undefined &&
+      setting.pendingAction === undefined
+    )
+      continue;
+    const target = setting.pendingCount ?? setting.count;
+    const action = setting.pendingAction ?? setting.action;
+    const current = w.enemies.filter((e) => enemyReportId(e) === id);
+    if (target < current.length)
+      w.enemies = w.enemies.filter((e) => !current.slice(target).includes(e));
+    for (let i = anomalyTestCurrentCount(w, id); i < target; i++)
+      spawnAnomalyTestEnemy(w, id);
+    setting.count = target;
+    setting.action = action;
+    if (action === "wait")
+      for (const e of w.enemies)
+        if (enemyReportId(e) === id) cancelAnomalyTestAttack(e);
+    setting.pendingCount = undefined;
+    setting.pendingAction = undefined;
+  }
+}
+
+function replaceKilledAnomalyTestEnemies(w: World) {
+  const test = w.anomalyTest!;
+  if (test.mode !== "observe") return;
+  for (const [id, setting] of Object.entries(test.enemies) as [
+    EnemyReportId,
+    AnomalyTestEnemySetting,
+  ][])
+    for (let i = anomalyTestCurrentCount(w, id); i < setting.count; i++)
+      spawnAnomalyTestEnemy(w, id);
 }
 export function createWorld(run: string, seed = 123, stage = 1): World {
   return {
@@ -456,7 +584,7 @@ export function start(w: World) {
   w.scale = 1 + 0.75 * (w.players.length - 1);
   w.wave = 1;
   w.waveAt = 0;
-  if (!w.defense && !w.rebuild && !w.front) beginWave(w);
+  if (!w.defense && !w.rebuild && !w.front && !w.anomalyTest) beginWave(w);
 }
 export function random(w: World) {
   w.seed = (Math.imul(w.seed, 1664525) + 1013904223) >>> 0;
@@ -746,11 +874,13 @@ export function spawn(
 ) {
   if (
     w.enemies.length >=
-    (w.front
-      ? (w.front.enemyCap ?? 24) + 1
-      : w.solo
-        ? settings(w.solo.stage, w.solo.difficulty).enemyCap
-        : LIMITS.enemies)
+    (w.anomalyTest
+      ? ANOMALY_TEST_LIMIT
+      : w.front
+        ? (w.front.enemyCap ?? 24) + 1
+        : w.solo
+          ? settings(w.solo.stage, w.solo.difficulty).enemyCap
+          : LIMITS.enemies)
   )
     return;
   if (kind === "boss" && form === "harrow") kind = "harrow";
@@ -871,6 +1001,10 @@ function beginWave(w: World) {
 export function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
   if (w.defense && p === w.defense.armory) {
     p.hp = Math.max(0, p.hp - damage * stageFor(w).damage);
+    p.hurt = 0.2;
+    return;
+  }
+  if (w.anomalyTest?.mode === "observe" && p === w.players[0]) {
     p.hurt = 0.2;
     return;
   }
@@ -2257,6 +2391,8 @@ function stepEnemy(
   e.hurt = Math.max(0, e.hurt - dt);
   if (w.training) return;
   if (frontEnemyFrozen(w, e)) return;
+  if (w.anomalyTest?.enemies[enemyReportId(e) ?? "crawler"]?.action === "wait")
+    return;
   const t = w.defense
     ? defenseTarget(w, e, w.players)
     : selectStructureTarget(e, living, (p) => visible(e, p, mapFor(w).blocks));
@@ -2601,10 +2737,13 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   const plan = stageFor(w);
   const wave = plan.waves[w.wave - 1];
   if (!wave) return;
+  if (w.anomalyTest) applyAnomalyTestUpdates(w);
   if (w.front) {
     /* 改装版の出現予定は front-run が管理する。 */
   } else if (w.defense) defenseSpawn(w);
-  else if (w.solo && !w.training) soloSpawnAndProgress(w);
+  else if (w.anomalyTest) {
+    /* ANOMALYテストは専用設定の差分だけを applyAnomalyTestUpdates で反映する。 */
+  } else if (w.solo && !w.training) soloSpawnAndProgress(w);
   else if (!w.training && !w.rebuild) {
     spawnWaveTroop(w, wave);
     if (advanceWave(w, plan, wave, living)) return;
@@ -2614,13 +2753,16 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   for (const q of w.projectiles) stepProjectile(w, q, living, dt);
   w.projectiles = w.projectiles.filter((q) => q.life > 0);
   w.enemies = w.enemies.filter((e) => e.hp > 0);
+  if (w.anomalyTest) replaceKilledAnomalyTestEnemies(w);
   stepPollen(w, living, dt);
   stepHarrowMissiles(w, living, dt);
   flushFoundrySpawns(w);
   if (w.front) {
     /* 改装版の任務終了は front-run が管理する。 */
   } else if (w.defense) finishDefenseTick(w);
-  else if (w.solo && !w.training) endSoloTick(w);
+  else if (w.anomalyTest) {
+    /* 観察中の試行は明示的な終了操作まで続ける。 */
+  } else if (w.solo && !w.training) endSoloTick(w);
   else if (!w.training && !w.rebuild && w.time > 600)
     finish(w, false, "作戦時間の上限（10分）に達しました");
 }

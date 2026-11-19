@@ -53,6 +53,7 @@ export default defineConfig({
       "tests/tutorial.test.ts",
       "tests/tutorial-flags.test.ts",
       "tests/anomaly-voice.test.ts",
+      "tests/anomaly-test-phase1.test.ts",
       "tests/anomaly-audio-lifecycle.test.ts",
       "tests/anomaly-arrival-audio.test.ts",
       "tests/foundry-laser-warning.test.ts",

@@ -494,8 +494,9 @@ export function mapFor(w: {
   training?: boolean;
   defense?: unknown;
   front?: unknown;
+  anomalyTest?: unknown;
 }) {
-  return w.defense || w.front
+  return w.defense || w.front || w.anomalyTest
     ? DEFENSE_MAPS[stageFor(w).map]
     : w.training
       ? TRAINING_MAP
