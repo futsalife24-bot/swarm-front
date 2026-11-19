@@ -79,11 +79,7 @@ export function track(kind: "view" | "sortie" | "clear") {
 }
 
 export type OnceKind =
-  | "ftue_start"
-  | "first_sortie"
-  | "first_clear"
-  | "first_supply10"
-  | "return";
+  "ftue_start" | "first_sortie" | "first_clear" | "first_supply10" | "return";
 
 export function trackOnce(
   kind: OnceKind,
@@ -100,8 +96,6 @@ export function trackOnce(
 
 export function trackReturn() {
   if (isDeveloper()) return;
-  const today = new Date(Date.now() + 9 * 3600000)
-    .toISOString()
-    .slice(0, 10);
+  const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
   if (markReturnVisit(today)) void collect("return");
 }

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   GUIDE_KEYS,
   TUTORIAL_FLAGS_KEY,
@@ -99,6 +99,102 @@ describe("tutorial flags (W4)", () => {
     expect(flags.seen).toContain("ftue:return:2026-11-20");
     expect(flags.seen.filter((v) => v.startsWith("ftue:return:"))).toHaveLength(
       1,
+    );
+  });
+});
+
+describe("first-journey analytics", () => {
+  const loadAnalytics = async (search: string) => {
+    vi.resetModules();
+    vi.stubGlobal("location", {
+      href: "https://swarm-front.invalid/" + search,
+      search,
+    });
+    vi.stubGlobal("crypto", {
+      randomUUID: () => "0123456789abcdef0123456789abcdef",
+    });
+    return import("../src/client/analytics");
+  };
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  it("sends a first-journey event only once per browser", async () => {
+    const saved = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => saved.get(key) ?? null,
+      setItem: (key: string, value: string) => void saved.set(key, value),
+    };
+    vi.stubGlobal("localStorage", storage);
+    const fetch = vi.fn(async () => ({ ok: true }) as Response);
+    vi.stubGlobal("fetch", fetch);
+    const { trackOnce } = await loadAnalytics("");
+    expect(trackOnce("first_sortie", "ftue:first-sortie", storage)).toBe(true);
+    expect(trackOnce("first_sortie", "ftue:first-sortie", storage)).toBe(false);
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(JSON.parse((fetch.mock.calls[0] as any[])[1].body)).toEqual({
+      kind: "first_sortie",
+      visitor: "0123456789abcdef0123456789abcdef",
+      admin: false,
+    });
+  });
+
+  it("does not send in developer mode", async () => {
+    const saved = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => saved.get(key) ?? null,
+      setItem: (key: string, value: string) => void saved.set(key, value),
+    };
+    vi.stubGlobal("localStorage", storage);
+    const fetch = vi.fn(async () => ({ ok: true }) as Response);
+    vi.stubGlobal("fetch", fetch);
+    const { trackOnce } = await loadAnalytics("?developer=1");
+    expect(trackOnce("first_clear", "ftue:first-clear", storage)).toBe(false);
+    expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("still sends once in the session when storage fails", async () => {
+    const broken = {
+      getItem: () => {
+        throw Error("denied");
+      },
+      setItem: () => {
+        throw Error("denied");
+      },
+    };
+    vi.stubGlobal("localStorage", broken);
+    const fetch = vi.fn(async () => ({ ok: true }) as Response);
+    vi.stubGlobal("fetch", fetch);
+    const { trackOnce } = await loadAnalytics("");
+    expect(trackOnce("first_supply10", "ftue:first-supply10", broken)).toBe(
+      true,
+    );
+    expect(trackOnce("first_supply10", "ftue:first-supply10", broken)).toBe(
+      false,
+    );
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it("sends return once after another Japanese day", async () => {
+    const saved = new Map<string, string>();
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => saved.get(key) ?? null,
+      setItem: (key: string, value: string) => void saved.set(key, value),
+    });
+    const fetch = vi.fn(async () => ({ ok: true }) as Response);
+    vi.stubGlobal("fetch", fetch);
+    vi.useFakeTimers();
+    const { trackReturn } = await loadAnalytics("");
+    vi.setSystemTime(Date.parse("2026-11-19T15:00:00Z"));
+    trackReturn();
+    vi.setSystemTime(Date.parse("2026-11-20T15:00:00Z"));
+    trackReturn();
+    trackReturn();
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(JSON.parse((fetch.mock.calls[0] as any[])[1].body).kind).toBe(
+      "return",
     );
   });
 });

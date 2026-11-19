@@ -48,10 +48,7 @@ export const SWARM_ANALYTIC_KINDS = [
   ...SWARM_FUNNEL_KINDS,
 ] as const;
 export type SwarmAnalyticsKind = (typeof SWARM_ANALYTIC_KINDS)[number];
-export type SwarmAnalyticsCounters = Pick<
-  Day,
-  "views" | "sorties" | "clears"
-> &
+export type SwarmAnalyticsCounters = Pick<Day, "views" | "sorties" | "clears"> &
   Partial<
     Pick<
       Day,
