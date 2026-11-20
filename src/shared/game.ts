@@ -175,6 +175,20 @@ import {
   type AnomalyTestMode,
   type AnomalyTestStance,
 } from "./anomaly-test";
+import {
+  anomalyTestActiveSkill,
+  anomalyTestArmSkill,
+  anomalyTestBeginSkill,
+  anomalyTestCompleteSkill,
+  anomalyTestEnemyId,
+  anomalyTestDesiredSkill,
+  anomalyTestMoveTarget,
+  anomalyTestMovement,
+  anomalyTestSkillArmed,
+  anomalyTestStance,
+  anomalyTestDisarmSkill,
+  resetAnomalyTestAi,
+} from "./anomaly-test-ai";
 export type {
   AnomalySkillId,
   AnomalyStageId,
@@ -456,6 +470,7 @@ export interface AnomalyTestState {
   baseSeed: number;
   initialized: boolean;
   enemies: Record<EnemyReportId, AnomalyTestEnemySetting>;
+  ai: Record<number, import("./anomaly-test-ai").AnomalyTestAiState>;
   metrics: AnomalyTestMetrics;
   conditionsChanged: boolean;
   weapons?: Weapon[];
@@ -538,6 +553,7 @@ export function initAnomalyTest(w: World, config: AnomalyTestConfig = {}) {
     baseSeed: normalized.seed,
     initialized: false,
     enemies: createAnomalyTestSettings(config),
+    ai: {},
     metrics: createAnomalyTestMetrics(),
     conditionsChanged: false,
     weapons: config.weapons ? structuredClone(config.weapons) : undefined,
@@ -668,10 +684,19 @@ export function requestAnomalyTestUpdate(
   if (extra.stance !== undefined) setting.pendingStance = extra.stance;
 }
 
-function cancelAnomalyTestAttack(e: Enemy) {
+function cancelAnomalyTestAttack(w: World, e: Enemy) {
+  resetAnomalyTestAi(w, e);
   e.wind = 0;
   if (e.pleat) delete e.pleat.strike;
   if (e.omega) cancelOmega(e);
+  e.omegaReadyAt = 0;
+  e.pollenReadyAt = 0;
+  e.harrowSwitchAt = 0;
+  if (e.segments)
+    for (const node of wormNodes(e)) {
+      node.acidAt = 0;
+      node.pulseAim = undefined;
+    }
   if (e.harrow) e.harrow = undefined;
   if (e.calyx) e.calyx = undefined;
   if (e.bastion) e.bastion = undefined;
@@ -753,6 +778,8 @@ function applyAnomalyTestUpdates(w: World) {
     const stance = setting.pendingStance ?? setting.stance;
     const current = w.enemies.filter((e) => enemyReportId(e) === id);
     if (target < current.length)
+      for (const removed of current.slice(target)) resetAnomalyTestAi(w, removed);
+    if (target < current.length)
       w.enemies = w.enemies.filter((e) => !current.slice(target).includes(e));
     for (let i = anomalyTestCurrentCount(w, id); i < target; i++)
       spawnAnomalyTestEnemy(w, id);
@@ -769,7 +796,7 @@ function applyAnomalyTestUpdates(w: World) {
     if (!initial) test.conditionsChanged = true;
     if (changed)
       for (const e of w.enemies)
-        if (enemyReportId(e) === id) cancelAnomalyTestAttack(e);
+        if (enemyReportId(e) === id) cancelAnomalyTestAttack(w, e);
     setting.pendingCount = undefined;
     setting.pendingAction = undefined;
     setting.pendingSkill = undefined;
@@ -2772,8 +2799,24 @@ function beginWindup(
   d: number,
   living: Player[],
 ) {
+  const forcedSkill = anomalyTestDesiredSkill(w, e);
+  const forcedKind =
+    forcedSkill === "pleat-strike"
+      ? "crawler"
+      : forcedSkill === "volley"
+        ? "ant"
+        : forcedSkill === "leaper-jump"
+          ? "spider"
+          : forcedSkill === "prism-shot"
+            ? "spitter"
+            : forcedSkill === "ray-shot"
+              ? "hornet"
+              : forcedSkill === "foundry-burst"
+                ? "boss"
+                : undefined;
   if (
     e.cool <= 0 &&
+    (!forcedSkill || (forcedKind === e.kind && anomalyTestArmSkill(w, e))) &&
     d <
       (e.kind === "boss"
         ? 28
@@ -2820,6 +2863,7 @@ function beginWindup(
       e.tx = point.x;
       e.tz = point.z;
     }
+    if (forcedSkill) anomalyTestBeginSkill(w, e, forcedSkill);
   }
 }
 /** 敵1体の1tick。 */
@@ -2835,8 +2879,8 @@ function stepEnemy(
   e.hurt = Math.max(0, e.hurt - dt);
   if (w.training) return;
   if (frontEnemyFrozen(w, e)) return;
-  if (w.anomalyTest?.enemies[enemyReportId(e) ?? "crawler"]?.action === "wait")
-    return;
+  const anomalyId = w.anomalyTest ? anomalyTestEnemyId(w, e) : undefined;
+  if (anomalyId && w.anomalyTest!.enemies[anomalyId].action === "wait") return;
   const t = w.defense
     ? defenseTarget(w, e, w.players)
     : selectStructureTarget(e, living, (p) => visible(e, p, mapFor(w).blocks));
@@ -2853,6 +2897,57 @@ function stepEnemy(
       speed: ENEMIES[e.kind].speed * enemySpeedFactor(e),
       damage: ENEMIES[e.kind].damage * enemyStatSize(e),
     };
+  const movement = anomalyTestMovement(w, e);
+  if (movement) {
+    e.wind = 0;
+    e.cool = Math.max(e.cool, 10);
+    if (e.pleat) delete e.pleat.strike;
+    const moveTarget = anomalyTestMoveTarget(w, e, t);
+    if (e.kind === "harrow") {
+      const stance = anomalyTestStance(w, e);
+      if (!e.harrow && stance === "air")
+        e.harrowSwitchAt = e.harrowAirborne ? w.time + 1000 : w.time;
+      else if (!e.harrow && stance === "ground")
+        e.harrowSwitchAt = e.harrowAirborne ? w.time : w.time + 1000;
+      stepHarrow(w, e, moveTarget, living, dt);
+      return;
+    }
+    if (e.kind === "calyx") {
+      e.pollenReadyAt = Infinity;
+      stepCalyx(w, e, moveTarget, living, dt);
+      return;
+    }
+    if (e.kind === "bastion") {
+      if (e.bastion) {
+        e.bastion.phase = "guard";
+        e.bastion.armor = 0;
+        e.bastion.aim = undefined;
+        e.bastion.volley = undefined;
+        e.bastion.readyAt = Infinity;
+        e.bastion.aimReadyAt = Infinity;
+      }
+      stepBastion(w, e, moveTarget, dt);
+      return;
+    }
+    if (e.segments) {
+      if (e.omega) cancelOmega(e);
+      e.omegaReadyAt = Infinity;
+      for (const node of wormNodes(e)) {
+        node.acidAt = Infinity;
+        node.pulseAim = undefined;
+      }
+      moveWorm(w, e, dt, moveTarget, true);
+      return;
+    }
+    const moveDistance = Math.hypot(
+      moveTarget.x - e.x,
+      moveTarget.z - e.z,
+    );
+    const moveSpecial = specialMotion(w, e, moveTarget, dt);
+    advanceEnemy(w, e, moveTarget, moveDistance, def, moveSpecial, dt);
+    holdFlightHeight(w, e, moveTarget, moveDistance, def, moveSpecial, dt);
+    return;
+  }
   if (e.active === false) {
     if (
       !living.some(
@@ -2925,7 +3020,14 @@ function stepEnemy(
     return;
   }
   if (e.wind > 0) {
+    if (
+      anomalyTestSkillArmed(w, e) &&
+      anomalyTestActiveSkill(w, e) === undefined
+    )
+      anomalyTestBeginSkill(w, e);
     stepWindup(w, e, t, d, def, living, dt);
+    if (e.wind <= 0 && anomalyTestActiveSkill(w, e) && !e.pleat?.strike)
+      anomalyTestCompleteSkill(w, e);
     return;
   }
   advanceEnemy(w, e, t, d, def, special, dt);
