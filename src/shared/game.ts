@@ -649,6 +649,77 @@ const ANOMALY_ACTIONS: readonly AnomalyTestAction[] = [
   "repeat",
 ];
 
+export interface AnomalyTestBatchUpdate {
+  id: EnemyReportId;
+  count: number;
+  action?: AnomalyTestAction | AnomalyTestUpdateOptions;
+  options?: AnomalyTestUpdateOptions;
+}
+
+function normalizeAnomalyTestUpdate(update: AnomalyTestBatchUpdate) {
+  const extra =
+    typeof update.action === "string"
+      ? (update.options ?? {})
+      : (update.action ?? update.options ?? {});
+  const action =
+    typeof update.action === "string" ? update.action : extra.action;
+  return { id: update.id, count: update.count, action, extra };
+}
+
+export function requestAnomalyTestUpdates(
+  w: World,
+  updates: AnomalyTestBatchUpdate[],
+) {
+  const test = w.anomalyTest;
+  if (!test) throw Error("ANOMALYテストではありません");
+  const normalized = updates.map(normalizeAnomalyTestUpdate);
+  const overrides: Partial<Record<EnemyReportId, number>> = {};
+  const seen = new Set<EnemyReportId>();
+  for (const update of normalized) {
+    if (seen.has(update.id))
+      throw Error("同じANOMALYを重複して指定できません");
+    seen.add(update.id);
+    if (!test.enemies[update.id])
+      throw Error("このANOMALYは現在テスト対象外です");
+    overrides[update.id] = update.count;
+    if (update.action !== undefined && !ANOMALY_ACTIONS.includes(update.action))
+      throw Error("行動を指定してください");
+    if (
+      update.extra.skill !== undefined &&
+      !anomalySkillForReport(update.id, update.extra.skill)
+    )
+      throw Error("その種は指定した技を実行できません");
+    if (
+      update.extra.stance !== undefined &&
+      update.extra.stance !== "ground" &&
+      update.extra.stance !== "air"
+    )
+      throw Error("HARROWの姿勢は地上または飛行を指定してください");
+    if (update.extra.sequence !== undefined) {
+      if (
+        !Array.isArray(update.extra.sequence) ||
+        update.extra.sequence.length === 0
+      )
+        throw Error("順番には1つ以上の技を指定してください");
+      for (const skillId of update.extra.sequence)
+        if (!anomalySkillForReport(update.id, skillId))
+          throw Error("その種は指定した技を実行できません");
+    }
+  }
+  validateAnomalyTestCounts(w, overrides);
+  for (const update of normalized) {
+    const setting = test.enemies[update.id];
+    setting.pendingCount = update.count;
+    if (update.action !== undefined) setting.pendingAction = update.action;
+    if (update.extra.skill !== undefined)
+      setting.pendingSkill = update.extra.skill;
+    if (update.extra.sequence !== undefined)
+      setting.pendingSequence = [...update.extra.sequence];
+    if (update.extra.stance !== undefined)
+      setting.pendingStance = update.extra.stance;
+  }
+}
+
 export function requestAnomalyTestUpdate(
   w: World,
   id: EnemyReportId,
@@ -656,32 +727,7 @@ export function requestAnomalyTestUpdate(
   action?: AnomalyTestAction | AnomalyTestUpdateOptions,
   options: AnomalyTestUpdateOptions = {},
 ) {
-  const test = w.anomalyTest;
-  if (!test) throw Error("ANOMALYテストではありません");
-  const setting = test.enemies[id];
-  if (!setting) throw Error("このANOMALYは現在テスト対象外です");
-  const extra = typeof action === "string" ? options : (action ?? options);
-  const nextAction = typeof action === "string" ? action : extra.action;
-  validateAnomalyTestCounts(w, { [id]: count });
-  if (nextAction !== undefined && !ANOMALY_ACTIONS.includes(nextAction))
-    throw Error("行動を指定してください");
-  if (extra.skill !== undefined && !anomalySkillForReport(id, extra.skill))
-    throw Error("その種は指定した技を実行できません");
-  if (extra.stance !== undefined && extra.stance !== "ground" && extra.stance !== "air")
-    throw Error("HARROWの姿勢は地上または飛行を指定してください");
-  if (extra.sequence !== undefined) {
-    if (!Array.isArray(extra.sequence) || extra.sequence.length === 0)
-      throw Error("順番には1つ以上の技を指定してください");
-    for (const skillId of extra.sequence)
-      if (!anomalySkillForReport(id, skillId))
-        throw Error("その種は指定した技を実行できません");
-  }
-  setting.pendingCount = count;
-  if (nextAction !== undefined) setting.pendingAction = nextAction;
-  if (extra.skill !== undefined) setting.pendingSkill = extra.skill;
-  if (extra.sequence !== undefined)
-    setting.pendingSequence = [...extra.sequence];
-  if (extra.stance !== undefined) setting.pendingStance = extra.stance;
+  requestAnomalyTestUpdates(w, [{ id, count, action, options }]);
 }
 
 function cancelAnomalyTestAttack(w: World, e: Enemy) {

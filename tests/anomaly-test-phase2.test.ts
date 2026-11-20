@@ -8,6 +8,7 @@ import {
   anomalyTestMetrics,
   anomalyTestP95,
   anomalyTestSignature,
+  anomalyTestTotalCount,
   createWorld,
   createAnomalyTestWorld,
   finish,
@@ -15,6 +16,7 @@ import {
   hurtPlayer,
   neutral,
   requestAnomalyTestUpdate,
+  requestAnomalyTestUpdates,
   restartAnomalyTestWorld,
   spawn,
   start,
@@ -61,6 +63,49 @@ describe("ANOMALYテスト フェーズ2", () => {
     expect(anomalyTestBossCount(world)).toBe(3);
     expect(world.enemies.some((e) => e.kind === "boss" && e.segments)).toBe(true);
     expect(world.enemies.some((e) => e.kind === "boss" && !e.segments)).toBe(true);
+  });
+
+  it("混成する複数種の体数変更を一括検証して途中の上限をまたいでも反映する", () => {
+    const world = createAnomalyTestWorld(11, {
+      enemies: { crawler: { count: 120 } },
+    });
+    start(world);
+    advance(world);
+    expect(anomalyTestTotalCount(world)).toBe(120);
+
+    requestAnomalyTestUpdates(world, [
+      { id: "crawler", count: 117 },
+      { id: "boss", count: 1 },
+      { id: "worm", count: 1 },
+      { id: "harrow", count: 1 },
+    ]);
+    advance(world);
+    expect(anomalyTestCurrentCount(world, "crawler")).toBe(117);
+    expect(anomalyTestBossCount(world)).toBe(3);
+    expect(anomalyTestTotalCount(world)).toBe(120);
+
+    expect(() =>
+      requestAnomalyTestUpdates(world, [
+        { id: "crawler", count: 118 },
+        { id: "boss", count: 2 },
+        { id: "worm", count: 1 },
+        { id: "harrow", count: 1 },
+      ]),
+    ).toThrow("合計は120体まで");
+    expect(world.anomalyTest!.enemies.crawler.pendingCount).toBeUndefined();
+    expect(world.anomalyTest!.enemies.boss.pendingCount).toBeUndefined();
+
+    const bosses = createAnomalyTestWorld(12, {
+      enemies: { crawler: { count: 116 } },
+    });
+    expect(() =>
+      requestAnomalyTestUpdates(bosses, [
+        { id: "boss", count: 2 },
+        { id: "worm", count: 2 },
+      ]),
+    ).toThrow("HARROW・CATENA・FOUNDRY ZEROは合計3体まで");
+    expect(bosses.anomalyTest!.enemies.boss.pendingCount).toBe(0);
+    expect(bosses.anomalyTest!.enemies.worm.pendingCount).toBe(0);
   });
 
   it("種を追加しても既存個体と他種は保持する", () => {

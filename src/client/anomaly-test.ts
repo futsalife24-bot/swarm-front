@@ -20,7 +20,7 @@ import {
   anomalyTestMetrics,
   anomalyTestTotalCount,
   createAnomalyTestWorld,
-  requestAnomalyTestUpdate,
+  requestAnomalyTestUpdates,
   type AnomalyTestConfig,
   type AnomalyTestEnemySetting,
   type AnomalyTestLoadout,
@@ -414,20 +414,26 @@ export function openAnomalyTestSettings(
           JSON.stringify(draft.action === "sequence" ? draft.sequence : undefined)
       );
     });
-    changes.sort(
-      (left, right) => drafts[left].count - drafts[right].count,
-    );
     try {
-      for (const id of changes) {
-        const draft = drafts[id];
-        requestAnomalyTestUpdate(world, id, draft.count, {
-          action: draft.action,
-          skill: draft.action === "repeat" ? draft.skill : undefined,
-          sequence:
-            draft.action === "sequence" ? [...(draft.sequence ?? [])] : undefined,
-          stance: draft.stance,
-        });
-      }
+      requestAnomalyTestUpdates(
+        world,
+        changes.map((id) => {
+          const draft = drafts[id];
+          return {
+            id,
+            count: draft.count,
+            action: {
+              action: draft.action,
+              skill: draft.action === "repeat" ? draft.skill : undefined,
+              sequence:
+                draft.action === "sequence"
+                  ? [...(draft.sequence ?? [])]
+                  : undefined,
+              stance: draft.stance,
+            },
+          };
+        }),
+      );
       d.close();
     } catch (error) {
       message.textContent = (error as Error).message;
