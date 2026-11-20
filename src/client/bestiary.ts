@@ -18,6 +18,7 @@ import {
   reportIdentification,
   type ReportVoice,
 } from "./report-identification";
+import { allowsReportMotion } from "./report-playback-state";
 
 const entries = ENEMY_REPORT_ENTRIES;
 
@@ -30,6 +31,7 @@ export function openBestiary(
   } = {},
 ) {
   const access = (key: string) => options.encounters?.[key];
+  let selectedKey: EnemyReportId | undefined;
   const identification = reportIdentification(options.controlVoice);
   const dialog = document.createElement("dialog");
   dialog.className = "bestiary";
@@ -84,12 +86,15 @@ export function openBestiary(
   let analysisPending = true;
   function syncPlayback() {
     const ready = viewport.dataset.asset === "ready";
+    const motionAllowed = selectedKey
+      ? allowsReportMotion(access(selectedKey))
+      : false;
     if (ready && analysisPending && viewport.style.filter !== "brightness(0)") {
       analysisPending = false;
       menuAnalyze(viewport);
     }
     motionButtons.forEach((button) => {
-      button.disabled = !ready;
+      button.disabled = !ready || !motionAllowed;
       button.setAttribute(
         "aria-pressed",
         String(button.dataset.motion === (viewport.dataset.motion ?? "idle")),
@@ -102,11 +107,13 @@ export function openBestiary(
           ? "遭遇すると観察できます"
           : !ready
             ? "モデルを読み込み中…"
-            : viewport.dataset.motion === "move"
-              ? "移動モーションを再生中"
-              : viewport.dataset.motion === "attack"
-                ? "攻撃モーションを繰り返し再生中"
-                : "待機モーションを再生中";
+            : !motionAllowed
+              ? "未遭遇のためモーションは再生されません"
+              : viewport.dataset.motion === "move"
+                ? "移動モーションを再生中"
+                : viewport.dataset.motion === "attack"
+                  ? "攻撃モーションを繰り返し再生中"
+                  : "待機モーションを再生中";
   }
   const playbackObserver = new MutationObserver(syncPlayback);
   playbackObserver.observe(viewport, {
@@ -133,7 +140,9 @@ export function openBestiary(
     if (visible) {
       try {
         viewer ??= createEnemyViewer(viewport);
+        viewer.setStill(!allowsReportMotion(access(key)));
         viewer.show(key === "worm" ? "boss" : key, key === "worm");
+        viewer.setStill(!allowsReportMotion(access(key)));
       } catch {
         viewport.dataset.asset = "error";
         viewport.innerHTML =
@@ -148,6 +157,7 @@ export function openBestiary(
     viewport.style.filter = access(key) === "coop" ? "brightness(0)" : "";
   };
   function select(key: EnemyReportId) {
+    selectedKey = key;
     dialog
       .querySelector(".report-detail")!
       .classList.remove("report-unselected");
@@ -264,4 +274,3 @@ export function openBestiary(
   article.textContent = ENEMY_REPORT_INTRO_TEXT;
   identification.enter();
 }
-

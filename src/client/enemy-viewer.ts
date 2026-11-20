@@ -27,6 +27,7 @@ import {
   harrowMotionFrame,
 } from "./harrow-report-camera";
 import { BastionSpecimen, BASTION_REPORT_BOUNDS } from "./bastion-report";
+import { advanceReportViewerTime } from "./report-playback-state";
 
 export function createEnemyViewer(host: HTMLElement) {
   const renderer = new T.WebGLRenderer({ antialias: true, alpha: true });
@@ -64,7 +65,8 @@ export function createEnemyViewer(host: HTMLElement) {
   let kind: ReportEnemyKind = "crawler";
   let mode: ReportMotion = "idle",
     time = 0,
-    last = 0;
+    last = 0,
+    still = false;
   let selectedHarrowAttack: HoundClip | undefined;
   const effects = new ReportEffects();
   scene.add(effects.root);
@@ -157,9 +159,11 @@ export function createEnemyViewer(host: HTMLElement) {
     const dt = last ? Math.min(0.05, (now - last) / 1000) : 0;
     last = now;
     if (disposed || document.hidden) return;
-    time += dt;
-    animatePose();
-    render();
+    time += advanceReportViewerTime(still, dt);
+    if (!still) {
+      animatePose();
+      render();
+    }
   });
   const halfSize = new T.Vector3();
   function reset() {
@@ -367,6 +371,7 @@ export function createEnemyViewer(host: HTMLElement) {
           });
     },
     play(next: ReportMotion, attack?: HoundClip) {
+      if (still) return;
       mode = next;
       selectedHarrowAttack = next === "attack" ? attack : undefined;
       time = 0;
@@ -379,6 +384,15 @@ export function createEnemyViewer(host: HTMLElement) {
       }
       animatePose();
       render();
+    },
+    setStill(next: boolean) {
+      still = next;
+      if (still) {
+        time = 0;
+        last = 0;
+        animatePose();
+        render();
+      } else last = 0;
     },
     reset,
     rotate(direction: number) {
