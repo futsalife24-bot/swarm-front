@@ -4,8 +4,19 @@
  * 訓練は報酬なし・保存なし。修了の記録（tutorial-flags の "training"）だけを残し、
  * ステージ解放や報酬には一切影響しない。
  */
-import { markSeen } from "./tutorial-flags";
+import {
+  OPERATION_KEYS,
+  markOperationFlag,
+  markSeen,
+} from "./tutorial-flags";
 import type { Layout } from "./layout";
+
+export function recordTrainingAchievement(operation: unknown) {
+  if (typeof operation !== "string") return false;
+  const key = OPERATION_KEYS.find((candidate) => candidate === operation);
+  if (!key) return false;
+  return markOperationFlag(`op:${key}`);
+}
 
 export interface BasicTrainingOptions {
   layout: Layout;
@@ -35,6 +46,8 @@ export function openBasicTraining(options: BasicTrainingOptions) {
         },
         location.origin,
       );
+    if (event.data?.type === "training-achievement")
+      recordTrainingAchievement(event.data.operation);
     if (event.data?.type === "training-exit") {
       window.removeEventListener("message", receive);
       frame.remove();

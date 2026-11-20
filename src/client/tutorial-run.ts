@@ -10,6 +10,7 @@ import type { World } from "../shared/game";
 import type { TutorialArena } from "../shared/tutorial";
 import { TUTORIAL_KILL_TARGETS, TUTORIAL_PLAYER } from "../shared/tutorial";
 import { controlVoiceLine } from "./control-voice-lines";
+import type { OperationKey } from "./tutorial-flags";
 
 export type TutorialDevice = "touch" | "pc";
 export type TutorialStepId =
@@ -181,7 +182,20 @@ export type TutorialAction =
   | { type: "say"; id: string }
   | { type: "arena"; arena: TutorialArena }
   | { type: "step"; id: TutorialStepId }
+  | { type: "achievement"; operation: OperationKey }
   | { type: "complete" };
+
+const ACHIEVEMENT_BY_STEP: Partial<Record<TutorialStepId, OperationKey>> = {
+  T1: "move",
+  T2: "look",
+  T3: "fire",
+  T4: "reload",
+  T5: "swap",
+  T6: "dodge",
+  T7: "jump",
+  T8: "kill",
+  T9: "pickup",
+};
 
 const wrap = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
 
@@ -310,8 +324,10 @@ export class TutorialRun {
         break;
       case "T10":
         // 音声の長さで操作前に終了させず、救急箱の実使用（または「次へ」）を待つ。
-        if (w.solo && !w.solo.medkit)
+        if (w.solo && !w.solo.medkit) {
+          actions.push({ type: "achievement", operation: "medkit" });
           actions.push(...this.enter(this.index + 1));
+        }
         return actions;
       default:
         return actions;
@@ -346,7 +362,10 @@ export class TutorialRun {
   }
 
   private achieve(): TutorialAction[] {
-    const actions: TutorialAction[] = [{ type: "say", id: this.pickAck() }];
+    const actions: TutorialAction[] = [];
+    const operation = ACHIEVEMENT_BY_STEP[this.step.id];
+    if (operation) actions.push({ type: "achievement", operation });
+    actions.push({ type: "say", id: this.pickAck() });
     const after = this.step.after;
     if (after) {
       actions.push({ type: "say", id: after });

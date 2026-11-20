@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { maxHp, useMedkit } from "../src/shared/solo-progression";
 import { resetTargets } from "../src/shared/training";
 import type { Input } from "../src/shared/game";
@@ -26,10 +26,20 @@ import {
   lineSeconds,
   type TutorialAction,
 } from "../src/client/tutorial-run";
+import {
+  TUTORIAL_FLAGS_KEY,
+  clearTutorialSession,
+  hasOperationFlag,
+} from "../src/client/tutorial-flags";
+import { recordTrainingAchievement } from "../src/client/tutorial-launch";
 
 const idle = (): Input => ({ mx: 0, mz: 0, yaw: 0, pitch: 0, seq: 0 });
 const said = (actions: TutorialAction[]) =>
   actions.flatMap((a) => (a.type === "say" ? [a.id] : []));
+const achieved = (actions: TutorialAction[]) =>
+  actions.flatMap((a) =>
+    a.type === "achievement" ? [a.operation] : [],
+  );
 
 describe("tutorial world (W2)", () => {
   it("starts on the training range with durable targets and no loot", () => {
@@ -314,5 +324,108 @@ describe("tutorial pickup and health regressions", () => {
     expect(w.rewards).toEqual({});
     expect(w.drops).toEqual([]);
     expect(w.pending[TUTORIAL_PLAYER]).toEqual([]);
+  });
+});
+
+describe("C-6 F2: training achievements", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    clearTutorialSession();
+  });
+  it("emits exactly one achievement action for each judged operation", () => {
+    const run = new TutorialRun(() => 0);
+    const w = createTutorialWorld();
+    const p = w.players[0];
+    run.begin();
+    run.observe(w, 0, 0.1);
+    p.z -= MOVE_GOAL_M + 0.1;
+    expect(achieved(run.observe(w, 0, 0.1))).toEqual(["move"]);
+
+    run.observe(w, 0, 0.1);
+    expect(
+      achieved(run.observe(w, ((LOOK_GOAL_DEG + 1) * Math.PI) / 180, 0.1)),
+    ).toEqual(["look"]);
+
+    run.observe(w, 0, 0.1);
+    for (let i = 0; i < HIT_GOAL; i++)
+      w.events.push({
+        id: 1000 + i,
+        type: "hit",
+        owner: TUTORIAL_PLAYER,
+        x: 0,
+        y: 0,
+        z: 0,
+      });
+    expect(achieved(run.observe(w, 0, 0.1))).toEqual(["fire"]);
+
+    run.observe(w, 0, 0.1);
+    p.reload = 1;
+    run.observe(w, 0, 0.1);
+    p.reload = 0;
+    expect(achieved(run.observe(w, 0, 0.1))).toEqual(["reload"]);
+
+    run.observe(w, 0, 0.1);
+    p.slot = 1;
+    expect(achieved(run.observe(w, 0, 0.1))).toEqual(["swap"]);
+
+    run.observe(w, 0, 0.1);
+    p.evade = 0.2;
+    expect(achieved(run.observe(w, 0, 0.1))).toEqual(["dodge"]);
+
+    run.observe(w, 0, 0.1);
+    p.y = 0.5;
+    expect(achieved(run.observe(w, 0, 0.1))).toEqual(["jump"]);
+
+    apply(run, w, run.observe(w, 0, 0.1));
+    for (let i = 0; i < KILL_GOAL; i++)
+      w.events.push({
+        id: 2000 + i,
+        type: "kill",
+        owner: TUTORIAL_PLAYER,
+        x: 0,
+        y: 0,
+        z: 0,
+      });
+    const killed = run.observe(w, 0, 0.1);
+    expect(achieved(killed)).toEqual(["kill"]);
+    apply(run, w, killed);
+
+    run.observe(w, 0, 0.1);
+    w.pending[TUTORIAL_PLAYER] = [w.drops[0].weapon];
+    expect(achieved(run.observe(w, 0, 0.1))).toEqual(["pickup"]);
+    apply(run, w, run.observe(w, 0, lineSeconds("tut-drop-rule") + 0.1));
+    expect(run.step.id).toBe("T10");
+
+    stepTutorial(w, { ...idle(), revive: true }, "health");
+    expect(achieved(run.observe(w, 0, 0.1))).toEqual(["medkit"]);
+    expect(run.step.id).toBe("T11");
+  });
+  it("does not emit achievements for skipping or quitting", () => {
+    const { run } = runTo(3);
+    run.elapsed = SKIP_AFTER_S;
+    expect(achieved(run.skip())).toEqual([]);
+    expect(achieved(run.quit())).toEqual([]);
+  });
+  it("records through F1 helpers and keeps earned records after a midway exit", () => {
+    const m = new Map<string, string>();
+    const store = {
+      m,
+      getItem: (key: string) => m.get(key) ?? null,
+      setItem: (key: string, value: string) => void m.set(key, value),
+    };
+    vi.stubGlobal("localStorage", store);
+    expect(recordTrainingAchievement("dodge")).toBe(true);
+    expect(recordTrainingAchievement("swap")).toBe(true);
+    expect(recordTrainingAchievement("unknown")).toBe(false);
+    expect(hasOperationFlag("op:dodge", store)).toBe(true);
+    expect(hasOperationFlag("op:swap", store)).toBe(true);
+    expect(hasOperationFlag("op:move", store)).toBe(false);
+
+    const { run } = runTo(3);
+    run.elapsed = SKIP_AFTER_S;
+    expect(achieved(run.skip())).toEqual([]);
+    expect(achieved(run.quit())).toEqual([]);
+    expect(hasOperationFlag("op:dodge", store)).toBe(true);
+    expect([...m.keys()]).toEqual([TUTORIAL_FLAGS_KEY]);
   });
 });

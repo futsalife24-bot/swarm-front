@@ -74,6 +74,11 @@ const exit = (completed = false) => {
 function apply(actions: TutorialAction[]) {
   for (const action of actions) {
     if (action.type === "say") sound.controlVoice.request(action.id);
+    else if (action.type === "achievement")
+      parent.postMessage(
+        { type: "training-achievement", operation: action.operation },
+        location.origin,
+      );
     else if (action.type === "arena") {
       arena = action.arena;
       if (arena === "kill") placeKillTargets(world);
