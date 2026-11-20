@@ -3,6 +3,7 @@ import fs from "node:fs";
 import assert from "node:assert/strict";
 const dir = "dist-validation/weapon-neon";
 fs.mkdirSync(dir, { recursive: true });
+fs.writeFileSync(`${dir}/dependencies.js`, `import * as THREE from 'three'; import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'; export { THREE, GLTFLoader };`);
 const browser = await chromium.launch({
   channel: "chrome",
   args: ["--use-angle=d3d11"],
@@ -16,12 +17,12 @@ try {
   );
   await page.goto("http://127.0.0.1:5419/neon-check");
   const results = await page.evaluate(async () => {
-    const T = await import("/node_modules/three/build/three.module.js");
-    const { GLTFLoader } =
-      await import("/node_modules/three/examples/jsm/loaders/GLTFLoader.js");
+    const { THREE: T, GLTFLoader } = await import("/dist-validation/weapon-neon/dependencies.js");
     const { WeaponRarityGlow } =
       await import("/src/client/weapon-rarity-glow.ts");
     const { makeWeapon } = await import("/src/shared/progression.ts");
+    const { KINDS } = await import("/src/shared/defs.ts");
+    const { weaponModelUrl } = await import("/src/client/weapon-model-url.ts");
     const loader = new GLTFLoader(),
       rows = [];
     document.body.innerHTML =
@@ -35,11 +36,11 @@ try {
     const camera = new T.PerspectiveCamera(35, 450 / 320, 0.01, 100),
       scene = new T.Scene();
     scene.add(new T.HemisphereLight(0xffffff, 0x526070, 3));
-    for (const kind of ["rifle", "shotgun", "rocket"])
+    for (const kind of KINDS)
       for (let grade = 0; grade < 5; grade++) {
         const root = (
           await loader.loadAsync(
-            `/assets/weapons/realism-v2/${kind}_${grade}.glb`,
+            weaponModelUrl(kind, grade),
           )
         ).scene;
         scene.add(root);
@@ -138,6 +139,7 @@ try {
     renderer.dispose();
     return rows;
   });
+  assert.equal(results.length, 60);
   for (const r of results) {
     assert.equal(r.lines, 2);
     assert.ok(r.closed && r.finite && r.unchanged);
@@ -153,7 +155,7 @@ try {
     JSON.stringify({ results, errors }, null, 2),
   );
   console.log(
-    "PASS 15 models: two closed non-additive neon layers, finite geometry, originals untouched, geometry/material disposal; 9 views; max generation ms",
+    "PASS 60 models: two closed non-additive neon layers, finite geometry, originals untouched, geometry/material disposal; 36 views; max generation ms",
     Math.max(...results.map((r) => r.creationMs)),
   );
 } finally {

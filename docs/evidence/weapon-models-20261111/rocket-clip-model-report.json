@@ -1,0 +1,95 @@
+{
+  "scope": "Geometric reconstruction of two captured first frames only. Axial scaling is a visual approximation, not a polygon clip or an actual game rendering. Moving muzzle examples modify the comparison plane hypothetically. No gameplay, network, real device, body collision, animation, or quality claim.",
+  "rows": [
+    {
+      "kind": "rocket",
+      "baseline": {
+        "planeShift": 0,
+        "original": {
+          "min": -0.0000715322731416764,
+          "max": 1.1057744912864333
+        },
+        "scaled": {
+          "min": -2.690989792109022e-15,
+          "max": 1.1057744912864291
+        },
+        "scale": 0.9999353144365329,
+        "forward": 0.0000357661365708382
+      },
+      "muzzleForward20cm": {
+        "planeShift": 0.2,
+        "original": {
+          "min": -0.20007153227314375,
+          "max": 0.9057744912864312
+        },
+        "scaled": {
+          "min": -2.6862193025500858e-15,
+          "max": 0.9057744912864272
+        },
+        "scale": 0.8190783092666559,
+        "forward": 0.10003576613657188
+      },
+      "muzzleBackward20cm": {
+        "planeShift": -0.2,
+        "original": {
+          "min": 0.1999284677268604,
+          "max": 1.3057744912864355
+        },
+        "scaled": {
+          "min": 0.1999284677268604,
+          "max": 1.3057744912864355
+        },
+        "scale": 1,
+        "forward": 0
+      }
+    },
+    {
+      "kind": "heavy",
+      "baseline": {
+        "planeShift": 0,
+        "original": {
+          "min": -0.41707197773682864,
+          "max": 0.6887740458227463
+        },
+        "scaled": {
+          "min": 9.681925400295555e-16,
+          "max": 0.6887740458227463
+        },
+        "scale": 0.6228480558312015,
+        "forward": 0.20853598886841432
+      },
+      "muzzleForward20cm": {
+        "planeShift": 0.2,
+        "original": {
+          "min": -0.6170719777368308,
+          "max": 0.48877404582274425
+        },
+        "scaled": {
+          "min": -2.0972806824559598e-15,
+          "max": 0.48877404582274736
+        },
+        "scale": 0.4419910506613244,
+        "forward": 0.3085359888684154
+      },
+      "muzzleBackward20cm": {
+        "planeShift": -0.2,
+        "original": {
+          "min": -0.21707197773682652,
+          "max": 0.8887740458227484
+        },
+        "scaled": {
+          "min": 9.681925400295555e-16,
+          "max": 0.8887740458227484
+        },
+        "scale": 0.8037050610010787,
+        "forward": 0.10853598886841326
+      }
+    }
+  ],
+  "speedExample": {
+    "heavyBase": 20,
+    "heavySpeedMod": 8,
+    "heavyResult": 28,
+    "rocketBase": 28
+  }
+}

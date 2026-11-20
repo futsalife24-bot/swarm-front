@@ -1,0 +1,53 @@
+{
+  "assets": [
+    {
+      "name": "b-oriha.webp",
+      "sha256": "06d89c781b30e893fe36634917451a735cdd140db4aa2b415afa5ace40e9a3e4"
+    },
+    {
+      "name": "b-tatara.webp",
+      "sha256": "414b96d9e6e2e82ac3c05db12f71f08fef2120adb17c4dd79435c515f0fad10b"
+    },
+    {
+      "name": "b-tobari.webp",
+      "sha256": "fb8a0e146bdd1af37a7ac6fada341f4c58d661c469fc62e6db7ac6932218186b"
+    },
+    {
+      "name": "b-yosuga.webp",
+      "sha256": "82323909095077c8d5c70815af82c864d86d5cfce0409199365776deceff740d"
+    },
+    {
+      "name": "OFL.txt",
+      "sha256": "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f",
+      "normalizedSha256": "793bdd8538a0c03afb5bc10906be27ad1dc76f143cfeac8c55cd9075a5b3a55c"
+    },
+    {
+      "name": "pod-256.webp",
+      "sha256": "5ce36875907f10c8a859f8791634e08e7a059e47be56be9bcfefd1bc148e3da9"
+    },
+    {
+      "name": "pod-512.webp",
+      "sha256": "9bac11c7de22e6a45f0d0dd30ae8661a96dadeff6deddb1b1a7eff5648d98fb7"
+    },
+    {
+      "name": "Rajdhani-Bold.ttf",
+      "sha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+    },
+    {
+      "name": "w-rifle.webp",
+      "sha256": "438263bf1f47dd29f02156f365a32c6d104b5a5519055f3164faf5186f1e7aaf"
+    },
+    {
+      "name": "w-rocket.webp",
+      "sha256": "7f776fb3723e782c25f62088681cb46b114d6726dd7fc72402021940100e8ef5"
+    },
+    {
+      "name": "w-shotgun.webp",
+      "sha256": "86c4026070c593e31615a58028fa388bccd92cf2b4cebbd2a14cc422ad58b168"
+    }
+  ],
+  "renderer": "e17d78e5430930249c97a7a796920eaf3ef7013e7385025827ddbcc081fabda2",
+  "fx": "0a3608a18681e8f7b0cbf38182590586cf153ac7cb56f975d60da920d0791eb0",
+  "audioFormula": "76bc7427680e9efd1e5f39922380d5c14a359eaf80205c63db1b2580532d8524",
+  "css": "de9835141aa8fed4f1947226dccc2e6ec06ad5b3e3264985d4d44a9a2432c502"
+}

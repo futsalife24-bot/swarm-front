@@ -4,10 +4,43 @@ import {
   HARROW_REPORT_SEQUENCE,
   reportHarrowMissiles,
   reportPose,
+  reportVolleyPositions,
   reportWorm,
 } from "../src/client/enemy-report-motion";
 import { HARROW, harrowMissilePosition } from "../src/shared/harrow";
+import { HOUND_VOLLEY_SPREADS } from "../src/shared/hound-volley";
+import { PLEAT_STRIKE } from "../src/shared/pleat-strike";
+import { WORM_BODY_COUNT, WORM_UNIT_COUNT } from "../src/shared/worm";
+import { foundryOptic } from "../src/shared/foundry-defs";
 import * as T from "three";
+
+it("HARROWの通常降下は接地側で沈み込み、続く待機へ表示だけを戻す", () => {
+  const index = HARROW_REPORT_SEQUENCE.findIndex(
+    (p) => p.clip === "Land" && (p.from ?? 0) > (p.to ?? 0),
+  );
+  expect(index).toBeGreaterThan(0);
+  const start = HARROW_REPORT_SEQUENCE.slice(0, index).reduce(
+    (n, p) => n + p.duration,
+    0,
+  );
+  const landing = reportPose(
+    "harrow",
+    "attack",
+    start + HARROW.landDuration - 0.001,
+  );
+  expect(landing.clip).toBe("Land");
+  expect(landing.sample).toBeCloseTo(HARROW.landDuration * 0.22, 4);
+  expect(landing.height).toBeLessThan(0.001);
+  const recovery = reportPose(
+    "harrow",
+    "attack",
+    start + HARROW.landDuration + 0.1,
+  );
+  expect(recovery.clip).toBe("Idle");
+  expect(recovery).toMatchObject({ landingRecovery: true, height: 0 });
+  const ground = reportPose("harrow", "attack", 0.14, "Land");
+  expect(ground.sample).toBeCloseTo(HARROW.landDuration * 0.22);
+});
 
 it("observes HARROW spin, full threat, dive and staggered fall in one grounded loop", () => {
   let start = 0;
@@ -175,19 +208,24 @@ it("observes ten upward missiles and clears them when leaving attack playback", 
       (child) => child instanceof T.Group,
     )!;
     expect(group.visible).toBe(true);
-    expect(
+    // 2026-10-26採用の立体予告（突進・爆撃専用）は別の子として末尾に加わった。
+    // 上向きミサイルでは1本も出さないことを名前で確かめ、従来の並びはそのまま照合する。
+    const beacons = group.getObjectByName(
+      "harrow-warning-beacons",
+    ) as T.InstancedMesh;
+    expect(beacons).toBeInstanceOf(T.InstancedMesh);
+    const counts = () =>
       group.children
-        .filter((child) => !(child instanceof T.Group))
-        .map((child) => (child as T.InstancedMesh).count),
-    ).toEqual([10, 10, 10, 0, 0, undefined, 0]);
+        .filter((child) => !(child instanceof T.Group) && child !== beacons)
+        .map((child) => (child as T.InstancedMesh).count);
+    expect(counts()).toEqual([10, 10, 10, 0, 0, undefined, 0]);
+    expect(beacons.count).toBe(0);
+    expect(beacons.visible).toBe(false);
     expect(group.getObjectByName("HARROW_SPIN_PRESSURE")?.visible).toBe(false);
     effects.update("harrow", false, "idle", start + 0.1);
     expect(group.visible).toBe(false);
-    expect(
-      group.children
-        .filter((child) => !(child instanceof T.Group))
-        .map((child) => (child as T.InstancedMesh).count),
-    ).toEqual([0, 0, 0, 0, 0, undefined, 0]);
+    expect(counts()).toEqual([0, 0, 0, 0, 0, undefined, 0]);
+    expect(beacons.count).toBe(0);
   } finally {
     effects.dispose();
   }
@@ -275,6 +313,32 @@ it("shows VOLLEY release at its actual wind-up time and keeps PLEAT independent"
   expect(reportPose("ant", "attack", 0.8).sample).toBeCloseTo(0.45);
   expect(reportPose("crawler", "attack", 0.45).sample).toBeCloseTo(0.45);
 });
+
+it("previews VOLLEY with the shared three-shot spread and gravity arc", () => {
+  const positions = reportVolleyPositions(0.2);
+  expect(positions).toHaveLength(HOUND_VOLLEY_SPREADS.length);
+  positions.forEach((position) => {
+    expect(Number.isFinite(position.x)).toBe(true);
+    expect(Number.isFinite(position.y)).toBe(true);
+    expect(Number.isFinite(position.z)).toBe(true);
+  });
+  expect(positions[0].x).toBeGreaterThan(0);
+  expect(positions[2].x).toBeLessThan(0);
+  expect(positions[1].x).toBeCloseTo(0, 5);
+});
+
+it("moves PLEAT through the shared strike distance", () => {
+  expect(reportPose("crawler", "attack", 0.45).z).toBeCloseTo(0, 5);
+  expect(reportPose("crawler", "attack", 0.6).z).toBeCloseTo(
+    -PLEAT_STRIKE.travel / 2,
+    5,
+  );
+  expect(reportPose("crawler", "attack", 0.75).z).toBeCloseTo(
+    -PLEAT_STRIKE.travel,
+    5,
+  );
+  expect(reportPose("crawler", "idle", 0.75).z).toBeCloseTo(0, 5);
+});
 it("keeps the LEAPER ground/air cycle bounded and stops at a grounded idle pose", () => {
   expect(reportPose("spider", "move", 0.4)).toMatchObject({
     height: 0,
@@ -298,12 +362,79 @@ it("keeps the LEAPER ground/air cycle bounded and stops at a grounded idle pose"
 it("builds independent foundry snapshots and resets movement for attack/idle", () => {
   const move = reportWorm("move", 2),
     before = JSON.stringify(move);
-  const attack = reportWorm("attack", 2);
-  expect(move.z).toBe(-8.4);
+  const attack = reportWorm("attack", 0.6);
+  expect(move.z).toBeCloseTo(-12.6);
+  expect(move.segments![0].z - move.z).toBeCloseTo(4.8);
   expect(attack.z).toBe(0);
-  expect(attack.segments).toHaveLength(7);
+  expect(attack.segments).toHaveLength(14);
   expect(attack.pulseAim).toBeDefined();
   expect(reportWorm("idle", 0).pulseAim).toBeUndefined();
   attack.segments![0].x = 100;
   expect(JSON.stringify(move)).toBe(before);
 });
+
+it("previews CATENA head-to-tail jump, landing and eight laser mouths", () => {
+  const mouths = new Set<number>();
+  for (let frame = 0; frame < 150; frame++) {
+    const laser = reportWorm("attack", frame / 60);
+    [laser, ...laser.segments!].forEach((node, part) => {
+      if (node.pulseAim) mouths.add(part);
+    });
+  }
+  const combatMouths = Array.from(
+    { length: WORM_UNIT_COUNT },
+    (_, part) => part,
+  ).filter((part) => foundryOptic(part, WORM_BODY_COUNT) !== undefined);
+  expect([...mouths]).toEqual(combatMouths);
+  const effects = new ReportEffects();
+  try {
+    const head = effects.root.getObjectByName("CATENA_OPTIC_0") as T.Mesh;
+    effects.update("boss", true, "attack", 0.2);
+    expect(head.visible).toBe(false);
+    effects.update("boss", true, "attack", 0.6);
+    expect(head.visible).toBe(true);
+    expect(head.scale.x).toBe(2);
+    expect((head.material as T.MeshBasicMaterial).color.getHex()).toBe(
+      0xff4054,
+    );
+    effects.update("boss", true, "attack", 0.9);
+    expect(head.scale.x).toBe(0.055);
+    expect((head.material as T.MeshBasicMaterial).color.getHex()).toBe(
+      0xcaffff,
+    );
+  } finally {
+    effects.dispose();
+  }
+  const flight = reportWorm("attack", 9.85);
+  expect(flight.omega).toBeDefined();
+  expect(flight.y).toBeGreaterThan(flight.segments!.at(-1)!.y);
+  expect([flight, ...flight.segments!].some((n) => n.pulseAim)).toBe(false);
+  const landed = reportWorm("attack", 11.5);
+  expect(landed.omega).toBeUndefined();
+  expect([landed, ...landed.segments!].every((n) => n.y === 0)).toBe(true);
+  expect(reportWorm("attack", 25.85).y).toBeCloseTo(flight.y);
+  expect(reportWorm("idle", 9.85).omega).toBeUndefined();
+});
+
+it("shows CATENA landing marks only during the warned jump and clears on exit", () => {
+  const effects = new ReportEffects();
+  try {
+    const marks = effects.root.getObjectByName(
+      "CATENA_LANDING_WARNING",
+    ) as T.InstancedMesh;
+    effects.update("boss", true, "attack", 8.2);
+    expect(marks.count).toBe(0);
+    effects.update("boss", true, "attack", 9);
+    expect(marks.visible).toBe(true);
+    expect(marks.count).toBe(15);
+    effects.update("boss", true, "attack", 11.5);
+    expect(marks.visible).toBe(false);
+    expect(marks.count).toBe(0);
+    effects.update("boss", true, "attack", 9);
+    effects.update("boss", true, "idle", 9);
+    expect(marks.visible).toBe(false);
+  } finally {
+    effects.dispose();
+  }
+});
+

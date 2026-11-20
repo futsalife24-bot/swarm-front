@@ -1,0 +1,15 @@
+
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-gacha-marks-20261116
+
+
+ Test Files  184 passed (184)
+      Tests  1907 passed (1907)
+   Start at  11:03:25
+   Duration  441.73s (tests 76%, import 21%, transform 3%)
+
+    Isolate  184 workers spawned · ~189ms startup each (spawn + environment, per file)
+             at least ~34.62s faster with isolate: false — reuses workers across files instead of one per file

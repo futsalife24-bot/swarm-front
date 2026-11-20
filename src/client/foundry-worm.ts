@@ -1,16 +1,18 @@
 import { enemySize } from "../shared/enemy-size";
 import * as T from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { enemyGltfLoader } from "./enemy-gltf-loader";
 import type { Enemy } from "../shared/game";
 import type { WormNode } from "../shared/worm";
 import {
   foundryLaserOrigin,
   foundryLaserDirection,
   FOUNDRY_LASER_WARNING,
+  FOUNDRY_UNIT_PITCH,
 } from "../shared/foundry-defs";
 import { FoundryWormGait } from "./foundry-worm-gait";
 import { windupPressure } from "./enemy-windup-clip";
 import { FOUNDRY_WORM_FILE } from "./enemy-motion-assets";
+import { omegaPhase } from "../shared/catena-omega";
 
 export const FOUNDRY_WORM_ASSET = `${import.meta.env.BASE_URL}${FOUNDRY_WORM_FILE}`;
 
@@ -246,7 +248,7 @@ function buildBatches(root: T.Group): BatchState {
 }
 
 /**
- * Rigid eight-unit view. The caller supplies its URL and owns this view.
+ * 剛体の頭1＋胴14節を描く。旧7節の保存にも対応する。
  * Every load creates a separate asset; no cache or cross-view resource sharing.
  * Meshes inside one asset may share resources, which dispose releases once.
  * Do not independently dispose, clone, or lend these resources to another view.
@@ -270,6 +272,12 @@ export class FoundryWormView {
   private readonly emitters: T.Object3D[];
   private readonly chargeTurn = new T.Quaternion();
   private readonly chargeAngles = new T.Euler();
+  private readonly strides: {
+    x: number;
+    z: number;
+    travel: number;
+    alive: boolean;
+  }[];
   private readonly aims: {
     target?: { x: number; y?: number; z: number };
     until: number;
@@ -284,7 +292,7 @@ export class FoundryWormView {
 
   static async load(url: string): Promise<FoundryWormView> {
     if (!url.trim()) throw new TypeError("FOUNDRY ZERO asset URL is required");
-    const { scene } = await new GLTFLoader().loadAsync(url);
+    const { scene } = await enemyGltfLoader().loadAsync(url);
     const resources = ownedResources(scene);
     try {
       return new FoundryWormView(scene, resources);
@@ -297,6 +305,17 @@ export class FoundryWormView {
   private constructor(root: T.Group, resources: Resources) {
     const assembly = requiredNode(root, "FOUNDRY_ZERO_ROOT");
     const units = UNIT_NAMES.map((name) => requiredNode(assembly, name));
+    // 既存GLBの剛体節を共有資源のまま複製。元アセットを上書きしない。
+    for (let i = 8; i <= 14; i++) {
+      const source = units[1 + ((i - 8) % 7)],
+        clone = source.clone(true);
+      const prefix = `FZ_BODY_${String(i).padStart(2, "0")}`;
+      clone.traverse((n) => {
+        n.name = n.name.replace(source.name, prefix);
+      });
+      assembly.add(clone);
+      units.push(clone);
+    }
     if (units.some((unit) => unit.parent !== assembly))
       throw new Error("FOUNDRY ZERO units must share the assembly parent");
     const connectors = units.slice(1).map((unit) => {
@@ -316,6 +335,7 @@ export class FoundryWormView {
       ),
     );
     this.aims = units.map(() => ({ until: -Infinity }));
+    this.strides = units.map(() => ({ x: 0, z: 0, travel: 0, alive: false }));
     this.emitters = Array.from({ length: 6 }, (_, i) =>
       requiredNode(
         units[0],
@@ -353,7 +373,7 @@ export class FoundryWormView {
   }
 
   /**
-   * Read-only snapshot projection: e is slot 0; segments[0..6] are slots 1..7.
+   * 読み取り専用投影。eは頭、segmentsは7または14の固定した胴の枠。
    * Broken slots stay in place. A body never becomes a replacement head.
    * Coordinates are in root-local game metres; callers may transform root for
    * an inspection scene. time is the monotonic visual clock within one run.
@@ -389,11 +409,13 @@ export class FoundryWormView {
       ? (x, z) => ground(x * size, z * size) / size
       : undefined;
     if (this.disposed) throw new Error("FOUNDRY ZERO view has been disposed");
-    if (enemy.kind !== "boss" || enemy.segments?.length !== 7)
+    if (enemy.kind !== "boss" || ![7, 14].includes(enemy.segments?.length ?? 0))
       throw new Error(
-        "FOUNDRY ZERO requires one boss with seven fixed body slots",
+        "FOUNDRY ZERO requires one boss with seven or fourteen fixed body slots",
       );
-    const nodes: readonly Readonly<WormNode>[] = [enemy, ...enemy.segments];
+    const nodes: readonly Readonly<WormNode>[] = [enemy, ...enemy.segments!];
+    for (let i = nodes.length; i < this.units.length; i++)
+      this.units[i].visible = false;
     if (
       !Number.isFinite(time) ||
       nodes.some(
@@ -404,10 +426,11 @@ export class FoundryWormView {
     )
       throw new Error("FOUNDRY ZERO snapshot coordinates must be finite");
 
-    if (
-      this.lastTime !== undefined &&
-      (time < this.lastTime || time - this.lastTime > 0.3)
-    ) {
+    const reset =
+      this.lastTime === undefined ||
+      time < this.lastTime ||
+      time - this.lastTime > 0.3;
+    if (reset) {
       for (const aim of this.aims) {
         aim.target = undefined;
         aim.until = -Infinity;
@@ -416,6 +439,8 @@ export class FoundryWormView {
     this.lastTime = time;
 
     this.root.visible = nodes.some(alive);
+    const omega = omegaPhase(enemy, time);
+    let leader = 0;
     for (const [index, node] of nodes.entries()) {
       const unit = this.units[index];
       const previous = nodes[index - 1];
@@ -427,10 +452,60 @@ export class FoundryWormView {
       unit.visible = alive(node);
       unit.position.set(node.x, node.y, node.z);
       unit.rotation.set(0, heading + Math.PI, 0);
+      // The mechanical wave follows distance, including the new leader of a
+      // broken chain. A stopped chain holds its curve without sliding its feet.
+      const stride = this.strides[index];
+      const distance = Math.hypot(node.x - stride.x, node.z - stride.z);
+      stride.travel =
+        reset || omega || !stride.alive || !unit.visible || distance > 2
+          ? 0
+          : stride.travel + distance;
+      stride.x = node.x;
+      stride.z = node.z;
+      stride.alive = unit.visible;
+      if (!previous || !alive(previous)) leader = index;
+      const traveled = this.strides[leader].travel;
+      if (unit.visible && traveled > 0 && !omega && !node.pulseAim) {
+        // Ease out before a scheduled charge. During aiming the optical pivot
+        // stays exactly at the authoritative origin, including release.
+        const free = T.MathUtils.clamp(
+          Math.min(
+            ((node.acidAt ?? Infinity) - time - FOUNDRY_LASER_WARNING) / 0.24,
+            (time - this.aims[index].until) / 0.24,
+          ),
+          0,
+          1,
+        );
+        const strength = Math.min(1, traveled / 2.4) * free;
+        const amplitude = strength * 1.29;
+        const phase = traveled * 0.48 - (index - leader) * 0.78;
+        const sine = Math.sin(phase),
+          cosine = Math.cos(phase);
+        const side = amplitude * sine;
+        unit.position.x += Math.cos(heading) * side;
+        unit.position.z -= Math.sin(heading) * side;
+        unit.rotation.y += Math.atan(
+          ((amplitude * 0.78) / FOUNDRY_UNIT_PITCH) * cosine,
+        );
+        unit.rotation.z = -0.07 * side;
+        // The lifting crest starts at the leader and reaches each trailing slot
+        // in turn. Its slope tilts the shell about its local transverse axis.
+        if (phase > 0) {
+          const crest = (1 - cosine) * 0.5;
+          const lift = strength * 0.36;
+          unit.position.y += lift * crest * crest;
+          unit.rotateX(
+            Math.atan((lift * crest * sine * 0.78) / FOUNDRY_UNIT_PITCH),
+          );
+        }
+      }
+      if (omega === "brace")
+        unit.rotation.x =
+          0.22 * Math.sin((Math.PI * (time - enemy.omega!.at)) / 0.7);
       unit.scale.set(1, 1, 1);
     }
 
-    for (let index = 1; index < this.units.length; index++) {
+    for (let index = 1; index < nodes.length; index++) {
       const unit = this.units[index];
       const previous = this.units[index - 1];
       const connector = this.connectors[index - 1];
@@ -457,7 +532,7 @@ export class FoundryWormView {
       );
       connector.scale.z = length / CONNECTOR_LENGTH;
     }
-    this.gait.update(time);
+    this.gait.update(time, omega === "flight", nodes);
     // Fan the head's articulated launchers while its central laser builds pressure.
     const headProgress =
       1 - ((enemy.acidAt ?? time) - time) / FOUNDRY_LASER_WARNING;

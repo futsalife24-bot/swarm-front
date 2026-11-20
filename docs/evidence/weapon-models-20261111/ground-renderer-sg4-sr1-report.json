@@ -1,0 +1,950 @@
+{
+  "scope": "Actual local game Renderer with loaded map at 844x390; fixed stationary player state; no game input, terrain traversal, network or phone",
+  "renderViewport": [
+    844,
+    390
+  ],
+  "contactSheetViewport": [
+    1800,
+    800
+  ],
+  "data": [
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket",
+      "action": "down",
+      "map": "灰明の街区",
+      "groundAtPlayer": 0,
+      "supportAtPlayer": 0,
+      "mapStatus": {
+        "state": "ready",
+        "error": ""
+      },
+      "captures": [
+        {
+          "time": 0,
+          "min": [
+            -1.1001810954457305,
+            0.7403336983706437,
+            34.311462315320924
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7403336983706437,
+          "relativeToSupport": 0.7403336983706437
+        },
+        {
+          "time": 0.25,
+          "min": [
+            -1.1245473584862136,
+            0.7582799382487277,
+            34.426739475374674
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7582799382487277,
+          "relativeToSupport": 0.7582799382487277
+        },
+        {
+          "time": 0.5,
+          "min": [
+            -1.187617316398394,
+            0.797860704247205,
+            34.46379805267782
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.797860704247205,
+          "relativeToSupport": 0.797860704247205
+        },
+        {
+          "time": 1,
+          "min": [
+            -1.0467106977349876,
+            -0.03636426126982614,
+            34.70334629337182
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.03636426126982614,
+          "relativeToSupport": -0.03636426126982614
+        },
+        {
+          "time": 1.5,
+          "min": [
+            -1.0623641255590903,
+            -0.07522360919753643,
+            34.5074821919396
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.07522360919753643,
+          "relativeToSupport": -0.07522360919753643
+        },
+        {
+          "time": 2,
+          "min": [
+            -1.0627976013673273,
+            -0.07674059346439144,
+            34.49563144891711
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.07674059346439144,
+          "relativeToSupport": -0.07674059346439144
+        },
+        {
+          "time": 2.4,
+          "min": [
+            -1.0627976159013293,
+            -0.07674073085350047,
+            34.49563149706545
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.07674073085350047,
+          "relativeToSupport": -0.07674073085350047
+        }
+      ],
+      "minimum": {
+        "time": 1.1833333333333333,
+        "min": [
+          -1.0482978190413075,
+          -0.0805400528708122,
+          34.454170422236466
+        ],
+        "ground": 0,
+        "support": 0,
+        "relativeToGround": -0.0805400528708122,
+        "relativeToSupport": -0.0805400528708122,
+        "mode": "down"
+      }
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket",
+      "action": "roll",
+      "map": "灰明の街区",
+      "groundAtPlayer": 0,
+      "supportAtPlayer": 0,
+      "mapStatus": {
+        "state": "ready",
+        "error": ""
+      },
+      "captures": [
+        {
+          "time": 0,
+          "min": [
+            -1.002351873759107,
+            0.6867441722252752,
+            34.44940960933493
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.6867441722252752,
+          "relativeToSupport": 0.6867441722252752
+        },
+        {
+          "time": 0.05,
+          "min": [
+            -0.9938949636701313,
+            1.2545268794997877,
+            34.236490781199066
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 1.2545268794997877,
+          "relativeToSupport": 1.2545268794997877
+        },
+        {
+          "time": 0.1,
+          "min": [
+            -0.37027568650617954,
+            1.1422319120271909,
+            33.32718920962458
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 1.1422319120271909,
+          "relativeToSupport": 1.1422319120271909
+        },
+        {
+          "time": 0.15,
+          "min": [
+            -0.4219790624162453,
+            0.1841272330587932,
+            33.61881620664542
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.1841272330587932,
+          "relativeToSupport": 0.1841272330587932
+        },
+        {
+          "time": 0.2,
+          "min": [
+            -0.45365504453002503,
+            0.06372597797980314,
+            34.443376710817766
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.06372597797980314,
+          "relativeToSupport": 0.06372597797980314
+        },
+        {
+          "time": 0.25,
+          "min": [
+            -0.9827702579965752,
+            -0.16229571316408736,
+            34.15905877492303
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.16229571316408736,
+          "relativeToSupport": -0.16229571316408736
+        },
+        {
+          "time": 0.31666666666666665,
+          "min": [
+            -1.0342472710012633,
+            0.6320334072570466,
+            34.50511648381259
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.6320334072570466,
+          "relativeToSupport": 0.6320334072570466
+        },
+        {
+          "time": 0.48333333333333334,
+          "min": [
+            -1.1052701132258924,
+            0.7385966288683956,
+            34.314046934577235
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7385966288683956,
+          "relativeToSupport": 0.7385966288683956
+        }
+      ],
+      "minimum": {
+        "time": 0.23333333333333334,
+        "min": [
+          -0.9865065269450443,
+          -0.18807855532031506,
+          33.916284035293764
+        ],
+        "ground": 0,
+        "support": 0,
+        "relativeToGround": -0.18807855532031506,
+        "relativeToSupport": -0.18807855532031506,
+        "mode": "roll"
+      }
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket_2",
+      "action": "down",
+      "map": "灰明の街区",
+      "groundAtPlayer": 0,
+      "supportAtPlayer": 0,
+      "mapStatus": {
+        "state": "ready",
+        "error": ""
+      },
+      "captures": [
+        {
+          "time": 0,
+          "min": [
+            -1.0928002748072239,
+            0.7402911365635051,
+            34.31286133083878
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7402911365635051,
+          "relativeToSupport": 0.7402911365635051
+        },
+        {
+          "time": 0.25,
+          "min": [
+            -1.1166581102817121,
+            0.7572836782565954,
+            34.427455097030965
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7572836782565954,
+          "relativeToSupport": 0.7572836782565954
+        },
+        {
+          "time": 0.5,
+          "min": [
+            -1.1782212615474539,
+            0.796273885460504,
+            34.465235958885934
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.796273885460504,
+          "relativeToSupport": 0.796273885460504
+        },
+        {
+          "time": 1,
+          "min": [
+            -1.0388700641407072,
+            -0.036572331791091095,
+            34.70185435817224
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.036572331791091095,
+          "relativeToSupport": -0.036572331791091095
+        },
+        {
+          "time": 1.5,
+          "min": [
+            -1.0524273448554278,
+            -0.07519569506950777,
+            34.50637209379542
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.07519569506950777,
+          "relativeToSupport": -0.07519569506950777
+        },
+        {
+          "time": 2,
+          "min": [
+            -1.052851493901927,
+            -0.07667712795000975,
+            34.494609867386636
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.07667712795000975,
+          "relativeToSupport": -0.07667712795000975
+        },
+        {
+          "time": 2.4,
+          "min": [
+            -1.0528514904947692,
+            -0.07667730368677808,
+            34.4946097117452
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.07667730368677808,
+          "relativeToSupport": -0.07667730368677808
+        }
+      ],
+      "minimum": {
+        "time": 1.1833333333333333,
+        "min": [
+          -1.038335465577342,
+          -0.08011465996829986,
+          34.453433360215115
+        ],
+        "ground": 0,
+        "support": 0,
+        "relativeToGround": -0.08011465996829986,
+        "relativeToSupport": -0.08011465996829986,
+        "mode": "down"
+      }
+    },
+    {
+      "kind": "shotgun",
+      "socket": "BackWeaponSocket_2",
+      "action": "roll",
+      "map": "灰明の街区",
+      "groundAtPlayer": 0,
+      "supportAtPlayer": 0,
+      "mapStatus": {
+        "state": "ready",
+        "error": ""
+      },
+      "captures": [
+        {
+          "time": 0,
+          "min": [
+            -0.9930396448726454,
+            0.6845447147724599,
+            34.448261834170346
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.6845447147724599,
+          "relativeToSupport": 0.6845447147724599
+        },
+        {
+          "time": 0.05,
+          "min": [
+            -0.8781393505477897,
+            1.2393320048970187,
+            34.188837263329674
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 1.2393320048970187,
+          "relativeToSupport": 1.2393320048970187
+        },
+        {
+          "time": 0.1,
+          "min": [
+            -1.2925551509135513,
+            1.3263784638819212,
+            33.11835852187087
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 1.3263784638819212,
+          "relativeToSupport": 1.3263784638819212
+        },
+        {
+          "time": 0.15,
+          "min": [
+            -1.2798826293849457,
+            0.06609407548280255,
+            33.378885280451954
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.06609407548280255,
+          "relativeToSupport": 0.06609407548280255
+        },
+        {
+          "time": 0.2,
+          "min": [
+            -1.3551025146248525,
+            -0.23858131788194176,
+            34.44900832722955
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.23858131788194176,
+          "relativeToSupport": -0.23858131788194176
+        },
+        {
+          "time": 0.25,
+          "min": [
+            -0.9750567290649855,
+            -0.16230595276267373,
+            34.15699789537294
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.16230595276267373,
+          "relativeToSupport": -0.16230595276267373
+        },
+        {
+          "time": 0.31666666666666665,
+          "min": [
+            -1.0249668093577744,
+            0.6295461555506209,
+            34.5043686745101
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.6295461555506209,
+          "relativeToSupport": 0.6295461555506209
+        },
+        {
+          "time": 0.48333333333333334,
+          "min": [
+            -1.0979305759828284,
+            0.7385149471497832,
+            34.3156470282758
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7385149471497832,
+          "relativeToSupport": 0.7385149471497832
+        }
+      ],
+      "minimum": {
+        "time": 0.18333333333333332,
+        "min": [
+          -1.3087264400565597,
+          -0.31063442252443996,
+          34.188426167151164
+        ],
+        "ground": 0,
+        "support": 0,
+        "relativeToGround": -0.31063442252443996,
+        "relativeToSupport": -0.31063442252443996,
+        "mode": "roll"
+      }
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket",
+      "action": "down",
+      "map": "灰明の街区",
+      "groundAtPlayer": 0,
+      "supportAtPlayer": 0,
+      "mapStatus": {
+        "state": "ready",
+        "error": ""
+      },
+      "captures": [
+        {
+          "time": 0,
+          "min": [
+            -1.0510271915484475,
+            0.7126285407487785,
+            34.31283903994812
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7126285407487785,
+          "relativeToSupport": 0.7126285407487785
+        },
+        {
+          "time": 0.25,
+          "min": [
+            -1.080718665134418,
+            0.7291142088656807,
+            34.448988958641806
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7291142088656807,
+          "relativeToSupport": 0.7291142088656807
+        },
+        {
+          "time": 0.5,
+          "min": [
+            -1.1488932333063075,
+            0.7716460667867867,
+            34.49665945541595
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7716460667867867,
+          "relativeToSupport": 0.7716460667867867
+        },
+        {
+          "time": 1,
+          "min": [
+            -1.003583851429174,
+            -0.05472956701799994,
+            34.67064424646867
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.05472956701799994,
+          "relativeToSupport": -0.05472956701799994
+        },
+        {
+          "time": 1.5,
+          "min": [
+            -1.014576655256009,
+            -0.08046029922992975,
+            34.4734623148122
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.08046029922992975,
+          "relativeToSupport": -0.08046029922992975
+        },
+        {
+          "time": 2,
+          "min": [
+            -1.0147121968672796,
+            -0.08090976037550515,
+            34.46188490497515
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.08090976037550515,
+          "relativeToSupport": -0.08090976037550515
+        },
+        {
+          "time": 2.4,
+          "min": [
+            -1.0147122157073194,
+            -0.0809099024629413,
+            34.46188494203812
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.0809099024629413,
+          "relativeToSupport": -0.0809099024629413
+        }
+      ],
+      "minimum": {
+        "time": 1.2833333333333334,
+        "min": [
+          -1.0127295120509117,
+          -0.08098956176637548,
+          34.45323906217142
+        ],
+        "ground": 0,
+        "support": 0,
+        "relativeToGround": -0.08098956176637548,
+        "relativeToSupport": -0.08098956176637548,
+        "mode": "down"
+      }
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket",
+      "action": "roll",
+      "map": "灰明の街区",
+      "groundAtPlayer": 0,
+      "supportAtPlayer": 0,
+      "mapStatus": {
+        "state": "ready",
+        "error": ""
+      },
+      "captures": [
+        {
+          "time": 0,
+          "min": [
+            -0.955772051684003,
+            0.6610498816947348,
+            34.46895937544701
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.6610498816947348,
+          "relativeToSupport": 0.6610498816947348
+        },
+        {
+          "time": 0.05,
+          "min": [
+            -0.9495988136138351,
+            1.2369732929565687,
+            34.2671440598311
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 1.2369732929565687,
+          "relativeToSupport": 1.2369732929565687
+        },
+        {
+          "time": 0.1,
+          "min": [
+            -0.35112873239444864,
+            1.128655764634857,
+            33.29066079555967
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 1.128655764634857,
+          "relativeToSupport": 1.128655764634857
+        },
+        {
+          "time": 0.15,
+          "min": [
+            -0.36454051401687837,
+            0.15706890810593377,
+            33.63125207309449
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.15706890810593377,
+          "relativeToSupport": 0.15706890810593377
+        },
+        {
+          "time": 0.2,
+          "min": [
+            -0.8864058682728813,
+            0.054669043576719784,
+            33.93600530246558
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.054669043576719784,
+          "relativeToSupport": 0.054669043576719784
+        },
+        {
+          "time": 0.25,
+          "min": [
+            -0.9403606861453357,
+            -0.18513514890192884,
+            34.12829480937236
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.18513514890192884,
+          "relativeToSupport": -0.18513514890192884
+        },
+        {
+          "time": 0.31666666666666665,
+          "min": [
+            -0.9888549149967358,
+            0.6065651852083018,
+            34.527543551952355
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.6065651852083018,
+          "relativeToSupport": 0.6065651852083018
+        },
+        {
+          "time": 0.48333333333333334,
+          "min": [
+            -1.0565037186392723,
+            0.710403939365339,
+            34.3175949645301
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.710403939365339,
+          "relativeToSupport": 0.710403939365339
+        }
+      ],
+      "minimum": {
+        "time": 0.23333333333333334,
+        "min": [
+          -0.9399056809946622,
+          -0.1919396337228791,
+          33.88131123319207
+        ],
+        "ground": 0,
+        "support": 0,
+        "relativeToGround": -0.1919396337228791,
+        "relativeToSupport": -0.1919396337228791,
+        "mode": "roll"
+      }
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket_2",
+      "action": "down",
+      "map": "灰明の街区",
+      "groundAtPlayer": 0,
+      "supportAtPlayer": 0,
+      "mapStatus": {
+        "state": "ready",
+        "error": ""
+      },
+      "captures": [
+        {
+          "time": 0,
+          "min": [
+            -1.1393541819156958,
+            0.7131387360405961,
+            34.29609652469796
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7131387360405961,
+          "relativeToSupport": 0.7131387360405961
+        },
+        {
+          "time": 0.25,
+          "min": [
+            -1.16955223350979,
+            0.7403341265090755,
+            34.440929422714284
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7403341265090755,
+          "relativeToSupport": 0.7403341265090755
+        },
+        {
+          "time": 0.5,
+          "min": [
+            -1.2351945023601232,
+            0.7880362920034734,
+            34.47753624531284
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7880362920034734,
+          "relativeToSupport": 0.7880362920034734
+        },
+        {
+          "time": 1,
+          "min": [
+            -1.0918701670562394,
+            -0.05238365260889827,
+            34.687445160089545
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.05238365260889827,
+          "relativeToSupport": -0.05238365260889827
+        },
+        {
+          "time": 1.5,
+          "min": [
+            -1.1065152596743453,
+            -0.08071718762845151,
+            34.48373522034751
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.08071718762845151,
+          "relativeToSupport": -0.08071718762845151
+        },
+        {
+          "time": 2,
+          "min": [
+            -1.106737112797419,
+            -0.08149564219419084,
+            34.4713388656527
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.08149564219419084,
+          "relativeToSupport": -0.08149564219419084
+        },
+        {
+          "time": 2.4,
+          "min": [
+            -1.106737111529798,
+            -0.08149582416340595,
+            34.47133870344219
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.08149582416340595,
+          "relativeToSupport": -0.08149582416340595
+        }
+      ],
+      "minimum": {
+        "time": 1.1833333333333333,
+        "min": [
+          -1.0914851263151664,
+          -0.08365067404740124,
+          34.4283130988702
+        ],
+        "ground": 0,
+        "support": 0,
+        "relativeToGround": -0.08365067404740124,
+        "relativeToSupport": -0.08365067404740124,
+        "mode": "down"
+      }
+    },
+    {
+      "kind": "sniper",
+      "socket": "BackWeaponSocket_2",
+      "action": "roll",
+      "map": "灰明の街区",
+      "groundAtPlayer": 0,
+      "supportAtPlayer": 0,
+      "mapStatus": {
+        "state": "ready",
+        "error": ""
+      },
+      "captures": [
+        {
+          "time": 0,
+          "min": [
+            -1.0455352583010857,
+            0.6829044056997753,
+            34.47377973479298
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.6829044056997753,
+          "relativeToSupport": 0.6829044056997753
+        },
+        {
+          "time": 0.05,
+          "min": [
+            -0.9044977198135629,
+            1.2445802005401851,
+            34.21047352474932
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 1.2445802005401851,
+          "relativeToSupport": 1.2445802005401851
+        },
+        {
+          "time": 0.1,
+          "min": [
+            -1.3351035460899032,
+            1.3301917099354936,
+            33.07213383074257
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 1.3301917099354936,
+          "relativeToSupport": 1.3301917099354936
+        },
+        {
+          "time": 0.15,
+          "min": [
+            -1.326703285625658,
+            0.024691439373561108,
+            33.36216287131067
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.024691439373561108,
+          "relativeToSupport": 0.024691439373561108
+        },
+        {
+          "time": 0.2,
+          "min": [
+            -1.366069046160619,
+            -0.2522867643553189,
+            34.488530206843215
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.2522867643553189,
+          "relativeToSupport": -0.2522867643553189
+        },
+        {
+          "time": 0.25,
+          "min": [
+            -1.0272153903925283,
+            -0.18501896046925842,
+            34.15149999773605
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": -0.18501896046925842,
+          "relativeToSupport": -0.18501896046925842
+        },
+        {
+          "time": 0.31666666666666665,
+          "min": [
+            -1.0781330358373546,
+            0.6307896757730993,
+            34.52848193467007
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.6307896757730993,
+          "relativeToSupport": 0.6307896757730993
+        },
+        {
+          "time": 0.48333333333333334,
+          "min": [
+            -1.1443364805755367,
+            0.7113819365650766,
+            34.2984461647735
+          ],
+          "ground": 0,
+          "support": 0,
+          "relativeToGround": 0.7113819365650766,
+          "relativeToSupport": 0.7113819365650766
+        }
+      ],
+      "minimum": {
+        "time": 0.18333333333333332,
+        "min": [
+          -1.3137961197956858,
+          -0.33707847509527233,
+          34.2230960394466
+        ],
+        "ground": 0,
+        "support": 0,
+        "relativeToGround": -0.33707847509527233,
+        "relativeToSupport": -0.33707847509527233,
+        "mode": "roll"
+      }
+    }
+  ],
+  "errors": []
+}

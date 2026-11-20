@@ -1,0 +1,16 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.goto: net::ERR_CONNECTION_TIMED_OUT at http://127.0.0.1:5198/front.html
+Call log:
+  - navigating to "http://127.0.0.1:5198/front.html", waiting until "domcontentloaded"
+
+    at C:\Users\futsa\Documents\Codex\2026-10-02\github\swarm-rebuild-p1a\task-resume-support-rewards-20261110\scripts\check-support-stage3-ui.mjs:21:16 {
+  log: [
+    '  - navigating to "http://127.0.0.1:5198/front.html", waiting until "domcontentloaded"'
+  ],
+  name: 'Error'
+}
+
+Node.js v24.19.0

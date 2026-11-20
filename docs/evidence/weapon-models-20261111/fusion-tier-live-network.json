@@ -1,0 +1,22 @@
+{
+  "scope": "Test-only local Worker and real WebSocket, two connections; no public Worker, physical phone, or actual old browser",
+  "case": "融合後の表示等級を実Workerで同期し、再接続でも保持する",
+  "result": "PASS",
+  "participants": [
+    "new-format N",
+    "legacy-format R"
+  ],
+  "checks": [
+    "forged incoming appearanceTier removed",
+    "both selections preserve distinct visual tiers",
+    "normal and tuple-v2 state decoding",
+    "unchanged damage, magazine, reload, range and interval for non-weapon-stat upgrades",
+    "reconnect preserves both visual tiers"
+  ],
+  "command": "vitest.front-integration.config.ts / 融合後の表示等級",
+  "limitations": [
+    "One selected upgrade per player",
+    "Representative normal and tuple-v2 peers; no real old browser",
+    "No internet or real phone"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "at": "2026-11-10T07:08:21.361Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "passed": true,
+  "cases": [
+    {
+      "width": 640,
+      "height": 360,
+      "coopEntry": true,
+      "coopOverflow": false,
+      "prep": true,
+      "battle": true,
+      "pause": true,
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 640,
+        "height": 360
+      },
+      "consoleErrors": []
+    }
+  ],
+  "errors": [],
+  "scope": "公開URL・隔離保存・実Chrome。通常ソロ導線と協力入口。実機・協力戦闘・CATENA遭遇は含まない。"
+}

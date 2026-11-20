@@ -1,0 +1,33 @@
+{
+  "scope": "Actual product previewWeapon and local direct StandardTrooper render; not actual game UI, actual share, phone, or final-quality approval.",
+  "result": {
+    "intercepted": 1,
+    "materials": [
+      {
+        "name": "Textured polymer",
+        "vertexColors": false
+      },
+      {
+        "name": "Paint hazard yellow",
+        "vertexColors": false
+      },
+      {
+        "name": "Metal steel",
+        "vertexColors": false
+      },
+      {
+        "name": "Recess black",
+        "vertexColors": false
+      },
+      {
+        "name": "Metal gunmetal",
+        "vertexColors": false
+      },
+      {
+        "name": "Rarity identification",
+        "vertexColors": false
+      }
+    ]
+  },
+  "errors": []
+}

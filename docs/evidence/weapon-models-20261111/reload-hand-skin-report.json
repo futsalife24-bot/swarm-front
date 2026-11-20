@@ -1,0 +1,1985 @@
+{
+  "files": [
+    {
+      "file": "public/assets/characters/swarm-soldier.glb",
+      "sha256": "d1028fd14cb42cfab2a0c484c57fa99032dc73609f8c3a08684abdec76f35269"
+    },
+    {
+      "file": "public/assets/weapons/realism-v2/rifle_0.glb",
+      "sha256": "5a5539736338946c43f070e20203c08ce3ffa27cf23f999c701e922c9321a537"
+    },
+    {
+      "file": "public/assets/weapons/unique-v1/smg_0.glb",
+      "sha256": "6b3095b092f87b1bbdb41f2dc5f5810c8d3988132edc4994c99522396cbe6f18"
+    },
+    {
+      "file": "public/assets/weapons/realism-v2/shotgun_0.glb",
+      "sha256": "37ffc6c7a90abe35e1d4c4a1b7b1581bfa4274d14788c7ed21c66428d6e63061"
+    },
+    {
+      "file": "public/assets/weapons/unique-v1/slug_0.glb",
+      "sha256": "b8cdd32be340601e7d853acf9ecf11b0ac73f0af47ffcc3256229724a873f9ee"
+    },
+    {
+      "file": "public/assets/weapons/realism-v2/rocket_0.glb",
+      "sha256": "af11c626d8e82dbc277d0a04e54df0ce4c2645cc9be728a1f9450669dd004a40"
+    },
+    {
+      "file": "public/assets/weapons/unique-v1/heavy_0.glb",
+      "sha256": "3186fbedaf04fcb8b42632ad73ebd6936f29847a2e49af14eb76573c8418e3d9"
+    },
+    {
+      "file": "public/assets/weapons/unique-v1/sniper_0.glb",
+      "sha256": "2f8205316ea439cfafa9d21fbcd04d9e5a10d5244324f6db18a7a46acd491c6b"
+    },
+    {
+      "file": "public/assets/weapons/unique-v1/laser_0.glb",
+      "sha256": "3858ca9c66889f1c2b905596cdf86b2e0428a7d0e0c842c0f8cee16950524d10"
+    },
+    {
+      "file": "public/assets/weapons/unique-v1/grenade_0.glb",
+      "sha256": "7ae145e7a59f73e1df44439b9e9e155560543dd71b21b51933adc77c07926640"
+    },
+    {
+      "file": "public/assets/weapons/unique-v1/sticky_0.glb",
+      "sha256": "d3b46ee1918d1ce297c0caef2c0efe1c64a2403e2ed4ae346110bc0c600776e9"
+    },
+    {
+      "file": "public/assets/weapons/unique-v1/kick_0.glb",
+      "sha256": "d7526b3c7d0837068c8a2ba4340060ce7ea9c4f3c493c03da026c9f9d33bb0bc"
+    },
+    {
+      "file": "public/assets/weapons/unique-v1/medic_0.glb",
+      "sha256": "07e885acf6d228007aa12755228d2f86d0b58611c452898ae7f10ea269a6fb73"
+    }
+  ],
+  "scope": "Fixed reload samples on product StandardTrooper and N weapons, not the actual game input. All three vertices weighted at least 0.5 to selected hand bone; edge-face crossing only; vertex-to-weapon-triangle distance is an upper bound, not full surface distance. No depth, full containment, coplanar overlap, continuous motion, magazine-specific analysis, multiplayer or phone.",
+  "analyticControls": "crossing and separated triangles; 50mm point-triangle distance",
+  "records": [
+    {
+      "kind": "rifle",
+      "pose": "rifle",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.008849293287175795,
+              "handPoint": [
+                0.22602748271343365,
+                1.0436372412988435,
+                -0.31959017666135614
+              ],
+              "weaponPoint": [
+                0.21812866501797848,
+                1.044322680556463,
+                -0.323520678374946
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 28,
+              "vertexDistance": 0.0006563118423658179,
+              "handPoint": [
+                0.18258445318995534,
+                1.0917781837971081,
+                -0.19001474198775634
+              ],
+              "weaponPoint": [
+                0.18272567361253,
+                1.091543127233339,
+                -0.19061102249096473
+              ]
+            }
+          },
+          "control": {
+            "farWorldShift": [
+              10,
+              10,
+              10
+            ],
+            "farPairs": 0,
+            "positive": {
+              "worldShift": [
+                0.04,
+                0,
+                0
+              ],
+              "pairs": 21
+            }
+          }
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.08561469714999408,
+              "handPoint": [
+                0.23897153286959363,
+                0.996827084486806,
+                -0.18496931746192594
+              ],
+              "weaponPoint": [
+                0.19188779587789476,
+                1.0641274042132574,
+                -0.20912847811992802
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 28,
+              "vertexDistance": 0.0006563211981799761,
+              "handPoint": [
+                0.18258443251374823,
+                1.0917782419561994,
+                -0.19001472098282093
+              ],
+              "weaponPoint": [
+                0.18272565494709736,
+                1.091543182085827,
+                -0.19061101000405128
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.015392142104658916,
+              "handPoint": [
+                0.22886280869209163,
+                1.0607718769113537,
+                -0.30817458075990567
+              ],
+              "weaponPoint": [
+                0.2163095858257388,
+                1.0626778768846912,
+                -0.3168752587989626
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 28,
+              "vertexDistance": 0.0006563305539932672,
+              "handPoint": [
+                0.1825844118375378,
+                1.091778300115288,
+                -0.19001469997788817
+              ],
+              "weaponPoint": [
+                0.18272563628166108,
+                1.0915432369383138,
+                -0.1906109975171401
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "smg",
+      "pose": "rifle",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.009732239107685146,
+              "handPoint": [
+                0.22602748271343365,
+                1.0436372412988437,
+                -0.31959017666135614
+              ],
+              "weaponPoint": [
+                0.218674826501622,
+                1.0449639120470766,
+                -0.3258267517956624
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 30,
+              "vertexDistance": 0.0015535394012046423,
+              "handPoint": [
+                0.1921136990106213,
+                1.1009534158944232,
+                -0.19825759040393762
+              ],
+              "weaponPoint": [
+                0.19060197840361737,
+                1.1009534162096808,
+                -0.1986156203991263
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.08579480571052339,
+              "handPoint": [
+                0.23897153286959363,
+                0.996827084486806,
+                -0.18496931746192594
+              ],
+              "weaponPoint": [
+                0.1900559045166747,
+                1.062968542483433,
+                -0.20932742748355945
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 30,
+              "vertexDistance": 0.0015535437930044456,
+              "handPoint": [
+                0.19211367775804505,
+                1.1009534719389125,
+                -0.1982575688357431
+              ],
+              "weaponPoint": [
+                0.19060195287219583,
+                1.100953472237027,
+                -0.19861559982083618
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.016520210576107513,
+              "handPoint": [
+                0.23476003700131431,
+                1.0646247660937582,
+                -0.32045543270167676
+              ],
+              "weaponPoint": [
+                0.22051467620120555,
+                1.0697251341131726,
+                -0.3270866693299531
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 30,
+              "vertexDistance": 0.0015535481848038186,
+              "handPoint": [
+                0.19211365650546589,
+                1.1009535279833993,
+                -0.1982575472675512
+              ],
+              "weaponPoint": [
+                0.1906019273407718,
+                1.1009535282643708,
+                -0.19861557924254855
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "shotgun",
+      "pose": "shotgun",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Shotgun_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.12142409661618535,
+              "handPoint": [
+                0.2497683663842209,
+                1.040445211364811,
+                -0.19991856195535548
+              ],
+              "weaponPoint": [
+                0.18791312906022878,
+                1.1405765891723076,
+                -0.17006143494986975
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.023685208383300623,
+              "handPoint": [
+                0.19044918088547297,
+                1.122931661695325,
+                -0.1517821547190516
+              ],
+              "weaponPoint": [
+                0.18412850298414035,
+                1.1417306910360812,
+                -0.16472953371533391
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Shotgun_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.13450106076145724,
+              "handPoint": [
+                0.2603501230431292,
+                1.0314948157291837,
+                -0.2007953961489254
+              ],
+              "weaponPoint": [
+                0.1879131066684585,
+                1.1405766119739646,
+                -0.17006144533382545
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.023685219271283364,
+              "handPoint": [
+                0.19044915662833184,
+                1.122931669374057,
+                -0.15178216584032841
+              ],
+              "weaponPoint": [
+                0.1841284753712107,
+                1.1417307076039156,
+                -0.16472955020965044
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Shotgun_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.05637123791712538,
+              "handPoint": [
+                0.21844585602065214,
+                1.116841810684556,
+                -0.2705186610295105
+              ],
+              "weaponPoint": [
+                0.1888088359159061,
+                1.1647014714690793,
+                -0.27348789884591806
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.023685230159267028,
+              "handPoint": [
+                0.1904491323711901,
+                1.1229316770527886,
+                -0.1517821769616072
+              ],
+              "weaponPoint": [
+                0.1841284477582797,
+                1.1417307241717507,
+                -0.16472956670396893
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "slug",
+      "pose": "shotgun",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Shotgun_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.0681054423409187,
+              "handPoint": [
+                0.24131134591183256,
+                1.0340925029213832,
+                -0.21643900380510384
+              ],
+              "weaponPoint": [
+                0.1818199564936232,
+                1.0652029519168906,
+                -0.2278961336743643
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.009474092816598102,
+              "handPoint": [
+                0.1825844707568729,
+                1.0917781321028417,
+                -0.1900147556413537
+              ],
+              "weaponPoint": [
+                0.17336540479123347,
+                1.0917781344789406,
+                -0.192198160647004
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Shotgun_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.08293886466406707,
+              "handPoint": [
+                0.2383255839250924,
+                1.0110229441744094,
+                -0.191701054081309
+              ],
+              "weaponPoint": [
+                0.17664435111318325,
+                1.0611014191952328,
+                -0.21550078370490472
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.009474087423642167,
+              "handPoint": [
+                0.18258444572945354,
+                1.0917781361746886,
+                -0.19001476727032754
+              ],
+              "weaponPoint": [
+                0.1733653850927252,
+                1.0917781381885954,
+                -0.19219817137564948
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Shotgun_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.027028727425105356,
+              "handPoint": [
+                0.2114563244814589,
+                1.0764667673138277,
+                -0.23876457139623253
+              ],
+              "weaponPoint": [
+                0.1859464561071612,
+                1.0703981326889789,
+                -0.24531975221271152
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.009474082030685742,
+              "handPoint": [
+                0.18258442070203437,
+                1.091778140246536,
+                -0.19001477889930338
+              ],
+              "weaponPoint": [
+                0.1733653653942175,
+                1.0917781418982513,
+                -0.19219818210429634
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "rocket",
+      "pose": "rocket",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.30227636150488424,
+              "handPoint": [
+                -0.1277991080512359,
+                1.067345993306727,
+                -0.23540674713808474
+              ],
+              "weaponPoint": [
+                0.13022268321403946,
+                1.223634352252394,
+                -0.21617908958547333
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.03498565602421649,
+              "handPoint": [
+                0.17310463453661423,
+                1.2388120804215794,
+                -0.17732514083338402
+              ],
+              "weaponPoint": [
+                0.16805109538190446,
+                1.2393748887706875,
+                -0.21193931590977122
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.04947457989598888,
+              "handPoint": [
+                0.05881303887400361,
+                1.3464433630941426,
+                -0.255900337077945
+              ],
+              "weaponPoint": [
+                0.09600995458880697,
+                1.3790642692309154,
+                -0.2559004161900949
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.034985653617616255,
+              "handPoint": [
+                0.1731046384931886,
+                1.2388121009813047,
+                -0.17732513136745953
+              ],
+              "weaponPoint": [
+                0.16805110684072877,
+                1.2393749064611026,
+                -0.2119393051533716
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.03037905594777768,
+              "handPoint": [
+                0.10140502229663027,
+                1.2848978849587411,
+                -0.26381968704448266
+              ],
+              "weaponPoint": [
+                0.12947092789081807,
+                1.2852952084355003,
+                -0.2521992689146923
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.034985651211019396,
+              "handPoint": [
+                0.17310464244976434,
+                1.2388121215410302,
+                -0.1773251219015372
+              ],
+              "weaponPoint": [
+                0.16805111829955133,
+                1.2393749241515188,
+                -0.21193929439697531
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "heavy",
+      "pose": "rocket",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.2997304453136515,
+              "handPoint": [
+                -0.12779910805123573,
+                1.0673459933067275,
+                -0.23540674713808474
+              ],
+              "weaponPoint": [
+                0.12955114031444517,
+                1.2175256704430624,
+                -0.20292207245496052
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 16,
+              "vertexDistance": 0.0011712323575082575,
+              "handPoint": [
+                0.16482058805427813,
+                1.2324403439909872,
+                -0.15727471049534308
+              ],
+              "weaponPoint": [
+                0.16482058629906277,
+                1.233006245981579,
+                -0.15830015682368778
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.051563591283812014,
+              "handPoint": [
+                0.07840071925002993,
+                1.3155240012042944,
+                -0.25664530232018623
+              ],
+              "weaponPoint": [
+                0.1295509776296529,
+                1.3157953217747467,
+                -0.25013520255675137
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 16,
+              "vertexDistance": 0.0011712235907571367,
+              "handPoint": [
+                0.16482059186178266,
+                1.2324403651228728,
+                -0.15727470047350678
+              ],
+              "weaponPoint": [
+                0.1648205901011702,
+                1.2330062628018792,
+                -0.15830013916813368
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.03293322189746796,
+              "handPoint": [
+                0.10291966014507244,
+                1.3021012493600592,
+                -0.2689558484059912
+              ],
+              "weaponPoint": [
+                0.12955100203753678,
+                1.3029078662616078,
+                -0.2495982115995865
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 16,
+              "vertexDistance": 0.0011712148240069673,
+              "handPoint": [
+                0.1648205956692883,
+                1.2324403862547582,
+                -0.15727469045167292
+              ],
+              "weaponPoint": [
+                0.1648205939032788,
+                1.2330062796221808,
+                -0.15830012151258224
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "sniper",
+      "pose": "rifle",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.04183252071869697,
+              "handPoint": [
+                0.212358168484486,
+                1.0436180625705915,
+                -0.2667241425560707
+              ],
+              "weaponPoint": [
+                0.19561407463281655,
+                1.061463522605979,
+                -0.23279576701446708
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 15,
+              "vertexDistance": 0.00043520780364648005,
+              "handPoint": [
+                0.18638974155576316,
+                1.1148531409070688,
+                -0.19272456984818234
+              ],
+              "weaponPoint": [
+                0.18661992728232343,
+                1.1149191996463366,
+                -0.19236117391175891
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.08621658590108115,
+              "handPoint": [
+                0.23897153286959363,
+                0.996827084486806,
+                -0.18496931746192594
+              ],
+              "weaponPoint": [
+                0.19043970331392737,
+                1.0631827316314673,
+                -0.21094794899692937
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 15,
+              "vertexDistance": 0.00043520038519252475,
+              "handPoint": [
+                0.18638971998639775,
+                1.114853199472044,
+                -0.19272454911047165
+              ],
+              "weaponPoint": [
+                0.1866199017928025,
+                1.114919257067027,
+                -0.19236115936733483
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.042966730066233805,
+              "handPoint": [
+                0.22240340467597325,
+                1.0652058826640274,
+                -0.27012911947220364
+              ],
+              "weaponPoint": [
+                0.19680609061900467,
+                1.077355807051167,
+                -0.2378290150909434
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 15,
+              "vertexDistance": 0.0004351929667400568,
+              "handPoint": [
+                0.1863896984170288,
+                1.1148532580370167,
+                -0.19272452837276371
+              ],
+              "weaponPoint": [
+                0.18661987630327836,
+                1.1149193144877152,
+                -0.19236114482291203
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "laser",
+      "pose": "rifle",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.04115553368245368,
+              "handPoint": [
+                0.212358168484486,
+                1.0436180625705915,
+                -0.2667241425560707
+              ],
+              "weaponPoint": [
+                0.1983800597944184,
+                1.0595754598437521,
+                -0.23145727563536503
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 48,
+              "vertexDistance": 0.00003261720988922728,
+              "handPoint": [
+                0.18638974155576316,
+                1.1148531409070688,
+                -0.19272456984818234
+              ],
+              "weaponPoint": [
+                0.18640699871720576,
+                1.1148582002896552,
+                -0.1926973581703997
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.08439800423216635,
+              "handPoint": [
+                0.23897153286959363,
+                0.996827084486806,
+                -0.18496931746192594
+              ],
+              "weaponPoint": [
+                0.19335894625773217,
+                1.0631827201265607,
+                -0.21025656088212358
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 48,
+              "vertexDistance": 0.0000326097603091298,
+              "handPoint": [
+                0.18638971998639775,
+                1.114853199472044,
+                -0.19272454911047165
+              ],
+              "weaponPoint": [
+                0.18640697320666755,
+                1.1148582576977313,
+                -0.1926973436475894
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.03505722168571192,
+              "handPoint": [
+                0.2560194399815407,
+                1.0801767076644404,
+                -0.3394089346817856
+              ],
+              "weaponPoint": [
+                0.23056185312594335,
+                1.099182164045619,
+                -0.3542316433260917
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 48,
+              "vertexDistance": 0.000032602310730451126,
+              "handPoint": [
+                0.1863896984170288,
+                1.1148532580370167,
+                -0.19272452837276371
+              ],
+              "weaponPoint": [
+                0.18640694769612615,
+                1.1148583151058042,
+                -0.19269732912478027
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "grenade",
+      "pose": "rocket",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.2899217229124452,
+              "handPoint": [
+                -0.12779910805123573,
+                1.0673459933067275,
+                -0.23540674713808474
+              ],
+              "weaponPoint": [
+                0.12955115895167588,
+                1.1974577705625677,
+                -0.2054672930786439
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 32,
+              "vertexDistance": 0.0007398608472496408,
+              "handPoint": [
+                0.16880990935239715,
+                1.253215034658713,
+                -0.17178521994045498
+              ],
+              "weaponPoint": [
+                0.16933307021792313,
+                1.2533712983922034,
+                -0.17128594203420366
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.04423850459205775,
+              "handPoint": [
+                0.05881303887400361,
+                1.3464433630941426,
+                -0.255900337077945
+              ],
+              "weaponPoint": [
+                0.09255090573885397,
+                1.3748643901175277,
+                -0.25922401740059337
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 32,
+              "vertexDistance": 0.0007398614310626189,
+              "handPoint": [
+                0.16880991336134343,
+                1.2532150552032773,
+                -0.1717852107041049
+              ],
+              "weaponPoint": [
+                0.16933307461773126,
+                1.2533713191267593,
+                -0.17128593240174564
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.02920231456597069,
+              "handPoint": [
+                0.1039864189458954,
+                1.3171848125356664,
+                -0.27824307122539954
+              ],
+              "weaponPoint": [
+                0.12355092377947813,
+                1.3388644187734349,
+                -0.2782431152038849
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 32,
+              "vertexDistance": 0.0007398620148720088,
+              "handPoint": [
+                0.16880991737029105,
+                1.2532150757478415,
+                -0.17178520146775694
+              ],
+              "weaponPoint": [
+                0.16933307901753786,
+                1.2533713398613142,
+                -0.17128592276929178
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "sticky",
+      "pose": "rocket",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.2959923627977487,
+              "handPoint": [
+                -0.12779910805123573,
+                1.0673459933067275,
+                -0.23540674713808474
+              ],
+              "weaponPoint": [
+                0.12955114440903734,
+                1.2105089609812087,
+                -0.2056293886275784
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 21,
+              "vertexDistance": 0.0007250592037963379,
+              "handPoint": [
+                0.16682812590399743,
+                1.2213348293126045,
+                -0.16352245860729447
+              ],
+              "weaponPoint": [
+                0.16682812682155534,
+                1.2206430169147864,
+                -0.16330541839158763
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.041124552716493276,
+              "handPoint": [
+                0.05881303887400361,
+                1.3464433630941426,
+                -0.255900337077945
+              ],
+              "weaponPoint": [
+                0.08789256135373785,
+                1.3755227408123558,
+                -0.2559003983116033
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 21,
+              "vertexDistance": 0.000725075496958914,
+              "handPoint": [
+                0.16682812926065438,
+                1.221334850183837,
+                -0.16352244826700857
+              ],
+              "weaponPoint": [
+                0.16682813021195636,
+                1.2206430222559996,
+                -0.16330540312296354
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Rocket_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.032637451012320046,
+              "handPoint": [
+                0.08674453957933673,
+                1.3345217856915477,
+                -0.2774153779869592
+              ],
+              "weaponPoint": [
+                0.11555091539628064,
+                1.3498644034887828,
+                -0.27741542842511674
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 21,
+              "vertexDistance": 0.0007250917901224636,
+              "handPoint": [
+                0.16682813261731244,
+                1.2213348710550698,
+                -0.1635224379267251
+              ],
+              "weaponPoint": [
+                0.16682813360236004,
+                1.2206430275972129,
+                -0.16330538785433937
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "kick",
+      "pose": "shotgun",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Shotgun_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.05381646190129046,
+              "handPoint": [
+                0.24131134591183256,
+                1.0340925029213832,
+                -0.21643900380510384
+              ],
+              "weaponPoint": [
+                0.1976907919095915,
+                1.0631933389308572,
+                -0.2285468600835835
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 16,
+              "vertexDistance": 0.000032617248077274946,
+              "handPoint": [
+                0.1863897599922606,
+                1.11485308831356,
+                -0.19272458244168306
+              ],
+              "weaponPoint": [
+                0.18640701717876781,
+                1.1148581476975497,
+                -0.19269737073428286
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Shotgun_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.07367895078334442,
+              "handPoint": [
+                0.2383255839250924,
+                1.0110229441744094,
+                -0.191701054081309
+              ],
+              "weaponPoint": [
+                0.18991403507172935,
+                1.0622907524524696,
+                -0.21306741924988631
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 16,
+              "vertexDistance": 0.0000326230244641571,
+              "handPoint": [
+                0.18638973482812626,
+                1.1148530924666167,
+                -0.19272459418350585
+              ],
+              "weaponPoint": [
+                0.18640699506955175,
+                1.1148581527462813,
+                -0.19269737765615869
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Shotgun_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.007867048087141714,
+              "handPoint": [
+                0.20830784030630434,
+                1.1000383343928717,
+                -0.24001276042326813
+              ],
+              "weaponPoint": [
+                0.20046069945102934,
+                1.1005482952254866,
+                -0.24024246882989028
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 16,
+              "vertexDistance": 0.00003262880084992851,
+              "handPoint": [
+                0.18638970966399127,
+                1.1148530966196735,
+                -0.19272460592533044
+              ],
+              "weaponPoint": [
+                0.18640697296033384,
+                1.11485815779501,
+                -0.19269738457803637
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    },
+    {
+      "kind": "medic",
+      "pose": "rifle",
+      "samples": [
+        {
+          "fraction": 0.25,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.038332581168354536,
+              "handPoint": [
+                0.24162051925366737,
+                1.0704123234128315,
+                -0.31211536096254394
+              ],
+              "weaponPoint": [
+                0.22426599813982478,
+                1.0964579536856631,
+                -0.33424752126443585
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 29,
+              "vertexDistance": 0.0007397326775596252,
+              "handPoint": [
+                0.18638974155576316,
+                1.1148531409070688,
+                -0.19272456984818234
+              ],
+              "weaponPoint": [
+                0.18678112075993733,
+                1.1149678837011077,
+                -0.19210743060619098
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.5,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.08579480210886017,
+              "handPoint": [
+                0.23897153286959363,
+                0.996827084486806,
+                -0.18496931746192594
+              ],
+              "weaponPoint": [
+                0.19005590466612104,
+                1.0629685389971242,
+                -0.2093274245644417
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 29,
+              "vertexDistance": 0.0007397252279801232,
+              "handPoint": [
+                0.18638971998639775,
+                1.114853199472044,
+                -0.19272454911047165
+              ],
+              "weaponPoint": [
+                0.18678109525507258,
+                1.1149679410795488,
+                -0.19210741608146803
+              ]
+            }
+          },
+          "control": null
+        },
+        {
+          "fraction": 0.75,
+          "mode": "normal_Rifle_reload_idle",
+          "hands": {
+            "L": {
+              "vertices": 347,
+              "triangles": 486,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 486
+                }
+              ],
+              "crossingPairs": 0,
+              "vertexDistance": 0.03243963681546584,
+              "handPoint": [
+                0.24746382970343922,
+                1.0844879087225527,
+                -0.314988640152013
+              ],
+              "weaponPoint": [
+                0.22426594620392054,
+                1.0964580713366536,
+                -0.33424749382646796
+              ]
+            },
+            "R": {
+              "vertices": 367,
+              "triangles": 508,
+              "meshCounts": [
+                {
+                  "name": "Trooper_Material_uniform",
+                  "triangles": 508
+                }
+              ],
+              "crossingPairs": 29,
+              "vertexDistance": 0.0007397177784019984,
+              "handPoint": [
+                0.1863896984170288,
+                1.1148532580370167,
+                -0.19272452837276371
+              ],
+              "weaponPoint": [
+                0.18678106975020503,
+                1.114967998457982,
+                -0.19210740155674566
+              ]
+            }
+          },
+          "control": null
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "failed": []
+}

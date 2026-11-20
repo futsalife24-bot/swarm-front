@@ -1,0 +1,308 @@
+{
+  "scope": "Local build and manifest after code commit; Worker dry-run only, no deployment",
+  "head": "0e7bde8c4d04c9ab68e0ed3413d20353951e9e79",
+  "weaponCount": 60,
+  "allSizeHashAndPublicBytesMatch": true,
+  "rows": [
+    {
+      "url": "assets/weapons/realism-v2/rifle_0.glb",
+      "bytes": 792224,
+      "sha256": "5a5539736338946c43f070e20203c08ce3ffa27cf23f999c701e922c9321a537"
+    },
+    {
+      "url": "assets/weapons/realism-v2/rifle_1.glb",
+      "bytes": 792224,
+      "sha256": "bb2d327162b905c34857f9d2656a176e0e8e54a06e37dcf9cc0ec7bc224ded54"
+    },
+    {
+      "url": "assets/weapons/realism-v2/rifle_2.glb",
+      "bytes": 792224,
+      "sha256": "9a8d45f8b09fe3fe76dce35d6516c2f069511476d6eef90a1e14afc9d050d820"
+    },
+    {
+      "url": "assets/weapons/realism-v2/rifle_3.glb",
+      "bytes": 792224,
+      "sha256": "858c925b6c63b1c414e964276a5ccfa613953e03003b626f8d10fec5ab1f0b84"
+    },
+    {
+      "url": "assets/weapons/realism-v2/rifle_4.glb",
+      "bytes": 792220,
+      "sha256": "dbff0b689cefc96fa4d2d0228d9d783a366f9ee02247ef030063d95881ce7d47"
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_0.glb",
+      "bytes": 483424,
+      "sha256": "af11c626d8e82dbc277d0a04e54df0ce4c2645cc9be728a1f9450669dd004a40"
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_1.glb",
+      "bytes": 483424,
+      "sha256": "bb678df173b94c62ea405438ed515554c81fff6c71e22dcb9dea688d174bb59f"
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_2.glb",
+      "bytes": 483424,
+      "sha256": "7d17a02968b265396e78fa9c6a878647da411d8d7270a6d77ec25b74e1417521"
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_3.glb",
+      "bytes": 483424,
+      "sha256": "43fe2854d49bfce14526ed5b0bbce15ac0a9ce8935be4c5ff8c487fb2b988243"
+    },
+    {
+      "url": "assets/weapons/realism-v2/rocket_4.glb",
+      "bytes": 483420,
+      "sha256": "c3370005965cbfc7cb2e66577d416b954339d2229cdd9126fbea6929aa572743"
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_0.glb",
+      "bytes": 444960,
+      "sha256": "37ffc6c7a90abe35e1d4c4a1b7b1581bfa4274d14788c7ed21c66428d6e63061"
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_1.glb",
+      "bytes": 444960,
+      "sha256": "3ce0e6dc435d7e3502c25e619a82de909e62a9435d7eb3d71e93657c2ec6e34c"
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_2.glb",
+      "bytes": 444960,
+      "sha256": "f60cb564e48b3e78bccd9fd03226b0c9572c50ad9d74b66c1daed5744cf83d86"
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_3.glb",
+      "bytes": 444960,
+      "sha256": "da262691a4c128bfea46a418bf4abc55d6b702c86f3d17427a954e639c0e4f5a"
+    },
+    {
+      "url": "assets/weapons/realism-v2/shotgun_4.glb",
+      "bytes": 444956,
+      "sha256": "a6c5979a02e4a555cdcd75afc93c445e620e02c32c257fe445443dedea4bfe2c"
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_0.glb",
+      "bytes": 470296,
+      "sha256": "4ad45d9b6408bf6fa3401e4e57ee6e5633aa7309ccfa3b56eeb8a4feaf3c5765"
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_1.glb",
+      "bytes": 470296,
+      "sha256": "d1d10b2369cea6a5b2124c3833396553272354990698fbc2a045c2e34e700604"
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_2.glb",
+      "bytes": 470296,
+      "sha256": "bf96da96fcc544c6badf887af8c53269c4c939fd60b13055ceeec99f0013f4e5"
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_3.glb",
+      "bytes": 470296,
+      "sha256": "46499fb8251e5e15c8b0d2f1e0558c26f33822a78444ea68fecbe4f02d56bac4"
+    },
+    {
+      "url": "assets/weapons/unique-v1/grenade_4.glb",
+      "bytes": 470292,
+      "sha256": "df87159d1e853a6112f413bb034fe580707cf542e896a46adc64a228c449eb64"
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_0.glb",
+      "bytes": 398720,
+      "sha256": "9aa79359f674b8d310b59ed88248c65d3c45dd8931c0faacc0f2ea0cb1bfffd2"
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_1.glb",
+      "bytes": 398720,
+      "sha256": "9170b9ee60c34ba0e42df8903aba031deccb78d6f97991dad5cc5532af5602a1"
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_2.glb",
+      "bytes": 398720,
+      "sha256": "288a99e399af39107b3107feeac1412c98959b373488d37f9d3e3ca41e9f71cc"
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_3.glb",
+      "bytes": 398720,
+      "sha256": "b98f981eac331fc7dc3e09bf030018951f3a11a66a5edad56aa9c3b6e1f3ba05"
+    },
+    {
+      "url": "assets/weapons/unique-v1/heavy_4.glb",
+      "bytes": 398720,
+      "sha256": "6579a559888184af39be039847b851e9cadda3b3728d098f124f55b34e4dc71a"
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_0.glb",
+      "bytes": 398044,
+      "sha256": "8ada79b19cfab2ff8dbfc7bfac8b2148f76efc3502c379a53c9bf39b657c7240"
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_1.glb",
+      "bytes": 398044,
+      "sha256": "a7d6b3a618ef1aaa8b2af4736cfb987945127c261d84684dcc56238dc7bb1e6f"
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_2.glb",
+      "bytes": 398044,
+      "sha256": "fd4c1407658e930c358bf6441ec2c38ef7bcc4260584ad0cae77d236c4e9a0d0"
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_3.glb",
+      "bytes": 398044,
+      "sha256": "8e7cc615a4377b2169f2b52a5f4812255647e67fd82d289c12aebbb616271f7a"
+    },
+    {
+      "url": "assets/weapons/unique-v1/kick_4.glb",
+      "bytes": 398040,
+      "sha256": "beff0101f271496e54e130cd02ef3663285d70a5efd7ab6a049e581255e85dd4"
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_0.glb",
+      "bytes": 497720,
+      "sha256": "2401e94c756c071fbd7413ec822a4d170fd6e94747d7d3ba203f29d30c523bab"
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_1.glb",
+      "bytes": 497720,
+      "sha256": "4bc7123b9f39ba805d5fc3b87cc315ead0a85b13ab1df52ac82dec661684baa6"
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_2.glb",
+      "bytes": 497720,
+      "sha256": "fabb60e46d623b71f379c58bc63dc8edbeff1b8c7526c6dda86693b47acaa231"
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_3.glb",
+      "bytes": 497720,
+      "sha256": "d631e506bbc5c049164063045a57583451a3936c4e07fa85b97ee0cafabd43c5"
+    },
+    {
+      "url": "assets/weapons/unique-v1/laser_4.glb",
+      "bytes": 497716,
+      "sha256": "367d948e2bfee5516fd75fc02ecc62804a241a9d6cbd8a46574e7cd3a472eae8"
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_0.glb",
+      "bytes": 424704,
+      "sha256": "8b81fc801ed0847d4dd220ff505c297e52efc95d68b1685ab0aa29719bf37aaa"
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_1.glb",
+      "bytes": 424704,
+      "sha256": "87593246797c781ac81e192cf7f432496f4d24b6693b8dfb1af1248591c86de2"
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_2.glb",
+      "bytes": 424704,
+      "sha256": "c14dc800afeb5f1e1c693a8fffa7a158d14d4bfd6ba499205d030d4c05f592a8"
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_3.glb",
+      "bytes": 424704,
+      "sha256": "444f434d719b72b7c4f013f976caae92f31988c7ff606300766d7fe9ccf00c6f"
+    },
+    {
+      "url": "assets/weapons/unique-v1/medic_4.glb",
+      "bytes": 424700,
+      "sha256": "3b73d41247bd01de61cc227cbffdfc099882b70acc04740322cecd0ea39332da"
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_0.glb",
+      "bytes": 452184,
+      "sha256": "38d94e9fd4b2ea3139fd27fa7ecda7bf4199f484afd009287220f77ae46f9018"
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_1.glb",
+      "bytes": 452184,
+      "sha256": "97f593f0c12c9b2ea95a0c45578e01408226f6a2ffa215dd89392a4a294dcef3"
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_2.glb",
+      "bytes": 452184,
+      "sha256": "27743bce75ed39133890b3e58fcedbc4089dc66342705ec9014813495646c0b3"
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_3.glb",
+      "bytes": 452184,
+      "sha256": "8edde9988bacc7493893c67e49485e1440aa051ab2c580196333d92d048c5bc0"
+    },
+    {
+      "url": "assets/weapons/unique-v1/slug_4.glb",
+      "bytes": 452184,
+      "sha256": "ff57f54001d2de9aa7677388caeb86c0afc01455f3f5be3e46ed3dad77021291"
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_0.glb",
+      "bytes": 447476,
+      "sha256": "676f685f667225e9457b9d7fb6496a7e28eb74d978e6c958463f2520e69b8466"
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_1.glb",
+      "bytes": 447476,
+      "sha256": "e59019abe98def9b0554ea91944ad7a02a3b7013d8701ebf011a5e93555db4a0"
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_2.glb",
+      "bytes": 447476,
+      "sha256": "f91ef3abbca9ed8e600c5072a1259d134e741fd36b03ff974d0e5d31c683446a"
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_3.glb",
+      "bytes": 447476,
+      "sha256": "c5ad2e73369a19875d235909bda5157095391fef0811172e13ce37827848ba98"
+    },
+    {
+      "url": "assets/weapons/unique-v1/smg_4.glb",
+      "bytes": 447476,
+      "sha256": "b52e36693e6aed30faff059b99bd8455e1f5a8f5aff447f522a5389d67c13da9"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_0.glb",
+      "bytes": 431408,
+      "sha256": "7cd881f7cd7a80013537c00f38527c364d04662c03bc793db30992f466e46e62"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_1.glb",
+      "bytes": 431408,
+      "sha256": "c134db93b431ed855fe20bb83b7a893536d03a91951872b2a8bbf8f4d5b4a44b"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_2.glb",
+      "bytes": 431408,
+      "sha256": "092e2fd65cf5599e398c252dc2072e17f617db0b804e468de8b04c0c2099a049"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_3.glb",
+      "bytes": 431408,
+      "sha256": "5705d95716eedfeda42a55ff7afe4f79f4de17d11811e214a633e22637a3ac24"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sniper_4.glb",
+      "bytes": 431404,
+      "sha256": "9b31c981041805dd2be209017be84935e7c3a38b6111c882efe284ac24ca4032"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_0.glb",
+      "bytes": 484856,
+      "sha256": "f6ef172f836d9dba682a744bc5c8e46ecc3c23b9edd86d0bf1ba7192cd7a7557"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_1.glb",
+      "bytes": 484856,
+      "sha256": "93d4714bde7922045463989d88e1da01e855bff4854695106426010135b2a141"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_2.glb",
+      "bytes": 484856,
+      "sha256": "f4e3ec26efbce27e9e775c4a0b13d84fc7c8bc9c04676e5a7494653b4894bead"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_3.glb",
+      "bytes": 484856,
+      "sha256": "58c653f97cce340829687578fde16c75201df9fe9397d884d8be12883f106c1c"
+    },
+    {
+      "url": "assets/weapons/unique-v1/sticky_4.glb",
+      "bytes": 484852,
+      "sha256": "16dbc5fd82beca2bc560d73618aa85279af24fc8dcb02fccd9927817ccc9f0cb"
+    }
+  ]
+}

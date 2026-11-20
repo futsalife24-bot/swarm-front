@@ -2,6 +2,8 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     include: [
+      "tests/catena-omega.test.ts",
+      "tests/catena-cave-regression.test.ts",
       "tests/pleat-*.test.ts",
       "tests/surface-ray.test.ts",
       "tests/front-*.test.ts",
@@ -21,6 +23,7 @@ export default defineConfig({
       "tests/weapon-stat-marks.test.ts",
       "tests/room-invite.test.ts",
       "tests/coop-performance.test.ts",
+      "tests/coop-comfort-regression.test.ts",
       "tests/player-projectile-pressure.test.ts",
       "tests/room-clock.test.ts",
       "tests/adaptive-quality.test.ts",
@@ -41,7 +44,16 @@ export default defineConfig({
       "tests/encounter-film.test.ts",
       "tests/encounter-film-assets.test.ts",
       "tests/audio.test.ts",
+      "tests/control-voice.test.ts",
+      "tests/control-announcer.test.ts",
+      "tests/control-voice-packs.test.ts",
+      "tests/supply-box.test.ts",
+      "tests/supply-*.test.ts",
+      "tests/playtest-vault.test.ts",
+      "tests/tutorial.test.ts",
+      "tests/tutorial-flags.test.ts",
       "tests/anomaly-voice.test.ts",
+      "tests/anomaly-test-phase1.test.ts",
       "tests/anomaly-audio-lifecycle.test.ts",
       "tests/anomaly-arrival-audio.test.ts",
       "tests/foundry-laser-warning.test.ts",
@@ -66,6 +78,7 @@ export default defineConfig({
       "tests/hound-motion.test.ts",
       "tests/structure-motion.test.ts",
       "tests/enemy-report-motion.test.ts",
+      "tests/anomaly-consistency.test.ts",
       "tests/maps.test.ts",
       "tests/terrain.test.ts",
       "tests/jump-audit-regressions.test.ts",
@@ -75,6 +88,7 @@ export default defineConfig({
       "tests/stages.test.ts",
       "tests/armory.test.ts",
       "tests/game.test.ts",
+      "tests/game-step-equivalence.test.ts",
       "tests/weapon-families.test.ts",
       "tests/p1.test.ts",
       "tests/layout.test.ts",
@@ -87,3 +101,4 @@ export default defineConfig({
     fileParallelism: false,
   },
 });
+

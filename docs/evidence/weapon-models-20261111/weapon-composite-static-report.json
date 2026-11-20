@@ -1,0 +1,144 @@
+{
+  "scope": "Isolated static down pose, deterministic 100 6DoF candidate combinations per condition, edge/face crossing only; not solid containment, co-planar, contact naturalness, time continuity, game input, ground terrain, network, or device.",
+  "errors": [],
+  "failed": [],
+  "seed0": 20261112,
+  "result": [
+    {
+      "kind": "shotgun",
+      "index": 0,
+      "base": {
+        "min": -0.07674073085350047,
+        "bodyPairs": 1325,
+        "heldPairs": 28,
+        "bodyMin": 0.005492805545709253,
+        "heldMin": 0.26858803470028325
+      },
+      "best": {
+        "pos": [
+          0.015507526875352931,
+          -0.08041191309980232,
+          0.07497152584286444
+        ],
+        "angles": [
+          0.48330967385873286,
+          0.174370820547441,
+          -0.27870459721545376
+        ],
+        "lift": 0.018284528515096973,
+        "score": 0.16948084169371647,
+        "offset": 0.11102832451841846,
+        "floorMin": 0.0020000000000000018,
+        "fullBody": 0,
+        "fullHeld": 0
+      },
+      "tested": 96,
+      "bodyRejected": 91,
+      "heldRejected": 0,
+      "overLimit": 4,
+      "maxTries": 100
+    },
+    {
+      "kind": "shotgun",
+      "index": 1,
+      "base": {
+        "min": -0.07667730368677808,
+        "bodyPairs": 0,
+        "heldPairs": 0,
+        "bodyMin": 0.005492805545709253,
+        "heldMin": 0.26858803470028325
+      },
+      "best": {
+        "pos": [
+          0.03767125782668579,
+          0.024730336875437034,
+          -0.0134268514156732
+        ],
+        "angles": [
+          0.17643635027875942,
+          -0.31182866306403895,
+          0.38632059502629446
+        ],
+        "lift": 0.09173224342307826,
+        "score": 0.09970995957455586,
+        "offset": 0.047021203378431325,
+        "floorMin": 0.0020000000000000087,
+        "fullBody": 0,
+        "fullHeld": 0
+      },
+      "tested": 94,
+      "bodyRejected": 81,
+      "heldRejected": 0,
+      "overLimit": 6,
+      "maxTries": 100
+    },
+    {
+      "kind": "sniper",
+      "index": 0,
+      "base": {
+        "min": -0.0809099024629413,
+        "bodyPairs": 1051,
+        "heldPairs": 14,
+        "bodyMin": 0.005492805545709253,
+        "heldMin": 0.26858803470028325
+      },
+      "best": {
+        "pos": [
+          0.0648744323918723,
+          0.011593198737019153,
+          0.11467740684792327
+        ],
+        "angles": [
+          -0.12227836226688796,
+          0.19391788836584714,
+          -0.5424388634828197
+        ],
+        "lift": 0.10535061601811406,
+        "score": 0.191154286270157,
+        "offset": 0.1322648928343714,
+        "floorMin": 0.0020000000000000018,
+        "fullBody": 0,
+        "fullHeld": 0
+      },
+      "tested": 89,
+      "bodyRejected": 87,
+      "heldRejected": 0,
+      "overLimit": 11,
+      "maxTries": 100
+    },
+    {
+      "kind": "sniper",
+      "index": 1,
+      "base": {
+        "min": -0.08149582416340595,
+        "bodyPairs": 0,
+        "heldPairs": 0,
+        "bodyMin": 0.005492805545709253,
+        "heldMin": 0.26858803470028325
+      },
+      "best": {
+        "pos": [
+          0.03259520312036504,
+          0.03824138387113249,
+          -0.056628156758525325
+        ],
+        "angles": [
+          0.858451389744983,
+          -0.06991761768427643,
+          0.6422613103478381
+        ],
+        "lift": 0.0491161638412849,
+        "score": 0.1831469276716789,
+        "offset": 0.07570732358699048,
+        "floorMin": 0.001999999999999988,
+        "fullBody": 0,
+        "fullHeld": 0
+      },
+      "tested": 90,
+      "bodyRejected": 87,
+      "heldRejected": 0,
+      "overLimit": 10,
+      "maxTries": 100
+    }
+  ]
+}

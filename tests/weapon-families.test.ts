@@ -30,6 +30,7 @@ import {
 } from "../src/shared/game";
 import { CombatAudio } from "../src/client/combat-audio";
 import { neonGeometry } from "../src/client/weapon-rarity-glow";
+import { weaponModelUrl } from "../src/client/weapon-model-url";
 
 // The three kinds that existed before families did. Their numbers are load-
 // bearing for every save already on a player's device, so they are asserted
@@ -390,16 +391,19 @@ describe("weapon families", () => {
     // a GLB that does not exist fails the whole preparation, and in co-op it
     // fails it for everyone in the room, so this is checked against the disk
     // rather than against the mapping table alone.
-    const dir = "public/assets/weapons/realism-v2";
+    expect(KINDS).toHaveLength(12);
+    expect(new Set(KINDS.map(modelOf)).size).toBe(12);
     for (const kind of KINDS)
       for (let grade = 0; grade < 5; grade++)
         expect(
-          existsSync(`${dir}/${modelOf(kind)}_${grade}.glb`),
+          existsSync(
+            `public/${weaponModelUrl(kind, grade as 0 | 1 | 2 | 3 | 4).replace(/^\//, "")}`,
+          ),
           `${kind} grade ${grade} -> ${modelOf(kind)}_${grade}.glb`,
         ).toBe(true);
   });
 
-  it("draws the rarity neon on every kind, borrowing its model's outline", () => {
+  it("draws the rarity neon on each weapon's own outline", () => {
     // The neon trim arrived alongside the new kinds and traced only the three
     // original models by kind, so equipping any new weapon threw here.
     for (const kind of KINDS) {

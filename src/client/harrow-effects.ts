@@ -78,7 +78,7 @@ export class HarrowEffects {
   private readonly dashFills = new TerrainProjectedMarkers(
     this.dashFillMaterial,
     13,
-    1024,
+    TerrainProjectedMarkers.maxTrianglesPerRing,
   );
   private readonly clawOutlineGeometry = new T.BufferGeometry();
   private readonly clawOutlineMaterial = new T.LineBasicMaterial({

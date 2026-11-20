@@ -1,0 +1,42 @@
+{
+  "expected": "old",
+  "oldSounds": [
+    {
+      "frames": 17640,
+      "rate": 0.7491535544395447
+    },
+    {
+      "frames": 26460,
+      "rate": 0.8408964276313782
+    },
+    {
+      "frames": 17640,
+      "rate": 1.1224620342254639
+    },
+    {
+      "frames": 26460,
+      "rate": 1.2599210739135742
+    },
+    {
+      "frames": 17640,
+      "rate": 1.4983071088790894
+    },
+    {
+      "frames": 26460,
+      "rate": 1.6817928552627563
+    },
+    {
+      "frames": 17640,
+      "rate": 2
+    },
+    {
+      "frames": 17640,
+      "rate": 2.2449240684509277
+    }
+  ],
+  "newSounds": [],
+  "errors": [],
+  "saveUnchanged": true,
+  "serviceWorkerControlled": true,
+  "passed": true
+}

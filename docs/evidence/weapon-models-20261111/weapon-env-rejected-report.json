@@ -1,0 +1,300 @@
+{
+  "scope": "Actual local solo gameplay frozen at same frame, actual previewWeapon twice. Isolated Vite plugin and material hooks; no product changes. GPU timer only when extension available; no device performance, other weapons, long-term cache, actual share UI.",
+  "browser": "157.0.8103.39",
+  "affected": 2,
+  "beforeSig": [
+    {
+      "name": "Recess black",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 0,
+      "color": 1580834,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal steel",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 0,
+      "color": 4738898,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal gunmetal",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 0,
+      "color": 6381423,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Paint rust orange",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 0,
+      "color": 12876863,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Glow heat",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 16757584,
+      "color": 11168807,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Rarity identification",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 0,
+      "color": 8162190,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "emissive": null,
+      "color": 9282720,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "emissive": null,
+      "color": 9611942,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+  ],
+  "afterSig": [
+    {
+      "name": "Recess black",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 0,
+      "color": 1580834,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal steel",
+      "wear": true,
+      "env": true,
+      "envIsSource": true,
+      "envIntensity": 0.35,
+      "emissive": 0,
+      "color": 4738898,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal gunmetal",
+      "wear": true,
+      "env": true,
+      "envIsSource": true,
+      "envIntensity": 0.35,
+      "emissive": 0,
+      "color": 6381423,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Paint rust orange",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 0,
+      "color": 12876863,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Glow heat",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 16757584,
+      "color": 11168807,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Rarity identification",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "envIntensity": 1,
+      "emissive": 0,
+      "color": 8162190,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "emissive": null,
+      "color": 9282720,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "env": false,
+      "envIsSource": false,
+      "emissive": null,
+      "color": 9611942,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+  ],
+  "controls": [
+    {
+      "kind": "rifle",
+      "applied": 0,
+      "unchanged": true
+    },
+    {
+      "kind": "laser",
+      "applied": 0,
+      "unchanged": true
+    }
+  ],
+  "programs": {
+    "before": 47,
+    "candidate": 50,
+    "repeat": 50,
+    "clone": 50,
+    "sharedMaterials": true
+  },
+  "gpuBefore": {
+    "supported": true,
+    "ready": true,
+    "disjoint": false,
+    "times": [
+      5.107552,
+      5.027031,
+      5.83552,
+      4.914843,
+      4.692863,
+      5.68927,
+      4.705052,
+      4.540833,
+      5.334895,
+      4.754166,
+      4.53901,
+      4.320937
+    ],
+    "median": 4.914843,
+    "p95": 5.83552
+  },
+  "gpuAfter": {
+    "supported": true,
+    "ready": true,
+    "disjoint": false,
+    "times": [
+      9.303072,
+      12.14125,
+      7.482343,
+      5.763593,
+      5.480312,
+      8.031145,
+      5.836093,
+      5.744843,
+      5.625364,
+      4.400572,
+      4.839166,
+      4.990208
+    ],
+    "median": 5.763593,
+    "p95": 12.14125
+  },
+  "cpuBefore": [
+    4.4000000059604645,
+    4.4000000059604645,
+    5.9000000059604645,
+    4.899999991059303,
+    7.100000008940697,
+    5.5,
+    4.9000000059604645,
+    4.9000000059604645,
+    4.5,
+    6.0999999940395355,
+    4.5999999940395355,
+    5.800000011920929
+  ],
+  "cpuAfter": [
+    10.099999994039536,
+    12.5,
+    7.700000002980232,
+    9.400000005960464,
+    6.200000002980232,
+    6.5,
+    6.700000002980232,
+    8.799999997019768,
+    6.100000008940697,
+    6.299999997019768,
+    8.100000008940697,
+    7.600000008940697
+  ],
+  "gpuInfo": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "glError": 0,
+  "shaderErrors": [],
+  "viewport": [
+    844,
+    390
+  ],
+  "errors": [],
+  "consoleErrors": [
+    "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:51091' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED",
+    "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:51091' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED"
+  ]
+}

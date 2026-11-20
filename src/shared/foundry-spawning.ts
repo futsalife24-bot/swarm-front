@@ -28,7 +28,10 @@ export interface FoundrySpawnBatch {
 export function queueFoundrySpawn(w: World, e: Enemy) {
   if (e.foundryTriggered) return;
   e.foundryTriggered = true;
-  const parts = attachedWormBodyParts(e);
+  // 追加節を増援へ直結させない。2節を従来の1生成枠として最大7体。
+  const parts = attachedWormBodyParts(e).filter(
+    (part) => (e.segments?.length ?? 0) <= 7 || part % 2 === 1,
+  );
   if (parts.length)
     (w.foundrySpawns ??= []).push({
       source: e.id,

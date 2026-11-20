@@ -1,0 +1,75 @@
+{
+  "voice": "hiyori",
+  "mode": "solo",
+  "intro": {
+    "included": true,
+    "sha256": "f9becc923bf7a2793d858453486f2988a213fe2df51287a941d03ead57bfdbd2",
+    "played": true,
+    "transitions": 3,
+    "guidance": true,
+    "unselected": true,
+    "stopped": true
+  },
+  "clipHashes": [
+    {
+      "key": "crawler",
+      "id": "anomaly-pleat",
+      "sha256": "300f0746d551bac3a9be32e39657e3c5477d9a066c5bfa2334957eba9aff245b"
+    },
+    {
+      "key": "ant",
+      "id": "anomaly-volley",
+      "sha256": "94b8a22bb8b4c84307b40bf98e74c89ff068ce1d881a4e7ee4163c3adc9366ff"
+    },
+    {
+      "key": "spider",
+      "id": "anomaly-leaper",
+      "sha256": "06ac47b4ae1453851899ec311e728d33270d8bfa09fff5b91c07d39c089f38a3"
+    },
+    {
+      "key": "spitter",
+      "id": "anomaly-prism",
+      "sha256": "0025f937f5d7a022db9e98e7db245e8c08bb81d5bfab2cf48ab86eccb8420184"
+    },
+    {
+      "key": "boss",
+      "id": "anomaly-foundry",
+      "sha256": "21fadb7e872c429cc5433df8ccfb233b09ef1dc05ba668639188560d7f30b523"
+    },
+    {
+      "key": "hornet",
+      "id": "anomaly-ray",
+      "sha256": "7ca278b5d24131f62c0b7d0434fdd708bf66f936747cc5c3b0fab0a46d5ec3a7"
+    },
+    {
+      "key": "bastion",
+      "id": "anomaly-bastion",
+      "sha256": "02b1c343c2089cc82b13cab7556272152179d1e58ce9e23656a4186f295c03e8"
+    },
+    {
+      "key": "worm",
+      "id": "anomaly-catena",
+      "sha256": "f0e8751b91ea1b1a59e19a98b9ff5332ad5cbffecbaa9da251586cb5f128cb5d"
+    },
+    {
+      "key": "calyx",
+      "id": "anomaly-calyx",
+      "sha256": "a5a0fb3bbea05f89a203a24fa6e9f21c0fa05398c4c8594f72cb18fac1bcdb23"
+    },
+    {
+      "key": "harrow",
+      "id": "anomaly-harrow",
+      "sha256": "8c85d1f11a605026b6450b6e685a9b068b5960224075d26bf93d00dd6063a297"
+    }
+  ],
+  "starts": 12,
+  "maxLive": 1,
+  "playing": 12,
+  "ended": 11,
+  "rejected": [],
+  "chromeVersion": "157.0.8103.51",
+  "network": [
+    "http://127.0.0.1:5216/assets/voice-packs/control-voice-hiyori-v4.bin"
+  ],
+  "errors": []
+}

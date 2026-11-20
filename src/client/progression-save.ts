@@ -14,6 +14,7 @@ import {
 } from "../shared/front-progression";
 import type { FrontUpgradeId } from "../shared/front-upgrades";
 import { campaignNumber } from "../shared/campaign";
+import { supplyMilestones } from "../shared/supply-grants";
 import { preservesGrowthSave } from "../shared/growth-save-guard";
 import {
   CAMPAIGN_COUNT,
@@ -79,6 +80,8 @@ export interface Receipt {
   /** 作戦開始時の同行者。旧戦果では未指定。 */
   buddyId?: BuddyId | null;
   powder?: number;
+  powderCollected?: number;
+  supplyEstimate?: { first: number; stars: number; front: number };
   run: string;
   stage: number;
   difficulty: Difficulty;
@@ -396,8 +399,20 @@ export function validateProgress(s: ProgressSave) {
       !integer(r.collected) ||
       !integer(r.coins) ||
       !integer(r.firstCoins) ||
+      (r.powderCollected !== undefined &&
+        (!integer(r.powderCollected) || r.powderCollected > r.kills)) ||
       (r.powder !== undefined &&
-        r.powder !== (r.win ? 2 + campaignNumber(r.stage) : 0))
+        r.powder !==
+          (r.win
+            ? 2 + campaignNumber(r.stage) + (r.powderCollected ?? 0)
+            : 0)) ||
+      (r.supplyEstimate !== undefined &&
+        (!r.win ||
+          ![
+            r.supplyEstimate.first,
+            r.supplyEstimate.stars,
+            r.supplyEstimate.front,
+          ].every(integer)))
     )
       throw new Error("報酬保存が不正です");
   }
@@ -727,10 +742,40 @@ export function grantResult(
     choice: input.win ? "pending" : "normal",
     collectionDone: !input.win,
     bonus: [],
-    powder: input.win ? 2 + campaignNumber(input.stage) : 0,
+    powderCollected: input.win ? (input.powderCollected ?? 0) : 0,
+    powder: input.win
+      ? 2 + campaignNumber(input.stage) + (input.powderCollected ?? 0)
+      : 0,
   };
   if (input.win) {
-    n.powder += 2 + campaignNumber(input.stage);
+    const previous = new Set(
+      supplyMilestones(s.missions).map((milestone) => milestone.id),
+    );
+    const current = {
+      ...n.missions,
+      [key]: old.map((v, i) => v || input.missions[i]),
+    };
+    const earned = supplyMilestones(current).filter(
+      (milestone) => !previous.has(milestone.id),
+    );
+    r.supplyEstimate = {
+      first: earned
+        .filter((milestone) => milestone.id.startsWith("first:"))
+        .reduce((sum, milestone) => sum + milestone.tickets, 0),
+      stars: earned
+        .filter((milestone) => milestone.id.startsWith("star:"))
+        .reduce((sum, milestone) => sum + milestone.tickets, 0),
+      front: earned
+        .filter((milestone) => milestone.id.startsWith("front:"))
+        .reduce((sum, milestone) => sum + milestone.tickets, 0),
+    };
+    if (
+      !Number.isSafeInteger(input.powderCollected ?? 0) ||
+      (input.powderCollected ?? 0) < 0 ||
+      (input.powderCollected ?? 0) > input.kills
+    )
+      throw new Error("武装片の回収数が不正です");
+    n.powder += 2 + campaignNumber(input.stage) + (input.powderCollected ?? 0);
     n.missions[key] = old.map((v, i) => v || input.missions[i]);
     if (first && input.stage !== 21) {
       n.points = Math.min(120, n.points + 3);
@@ -746,6 +791,7 @@ export function grantResult(
             n.mode === "test",
             n.serial++,
             rng,
+            "solo",
           ),
         );
     bank(n, r.weapons);
@@ -768,11 +814,24 @@ export function grantResult(
   n.weaponReceipts = weaponReceiptSnapshot(n);
   return n;
 }
-export function appendCollected(s: ProgressSave, items: NewWeapon[]) {
+export function appendCollected(
+  s: ProgressSave,
+  items: NewWeapon[],
+  powderCollected = 0,
+) {
   const n = structuredClone(s),
     r = n.result;
   if (!r || !r.win || r.collectionDone || r.choice !== "pending")
     throw new Error("回収受付は終了しました");
+  if (
+    !Number.isSafeInteger(powderCollected) ||
+    powderCollected < 0 ||
+    (r.powderCollected ?? 0) + powderCollected > r.kills
+  )
+    throw new Error("武装片の回収数が不正です");
+  r.powderCollected = (r.powderCollected ?? 0) + powderCollected;
+  r.powder = (r.powder ?? 2 + campaignNumber(r.stage)) + powderCollected;
+  n.powder += powderCollected;
   const known = new Set(r.weapons.map((w) => w.id)),
     fresh = items.filter((w) => !known.has(w.id));
   r.collected += fresh.length;
@@ -794,6 +853,7 @@ export function prepareChoice(s: ProgressSave, rng: () => number) {
       n.mode === "test",
       n.serial++,
       rng,
+      "solo",
     ),
   );
   return n;

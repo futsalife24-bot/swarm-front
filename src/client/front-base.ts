@@ -1,3 +1,4 @@
+import { guardMenuExit } from "./menu-navigation";
 import { readFrontFusionDiscovery } from "./front-fusion-discovery";
 import "./front-base.css";
 import {
@@ -84,7 +85,7 @@ export function openFrontBase(
       ? `進撃${FRONT_SURVIVAL_UNLOCKS.find((r) => r.ids.includes(id))?.stage ?? ""}突破で解放`
       : `攻略${FRONT_CAMPAIGN_UNLOCKS.find((r) => r.ids.includes(id))?.stage ?? ""}クリアで解放`;
   root.innerHTML = `<section class="panel menu-screen pt-screen front-base${departure ? " front-departure-deck" : ""}" aria-label="生存カード設定・デッキ編成">
-    <header class="menu-header base-header"><h1>${departure ? "カードデッキ編成" : "生存カード"}</h1>${departure ? '<small class="front-departure-weapon">武器は固定：ライフル</small>' : ""}<span class="base-service">${progress.wins}勝 · ${progress.credits}功績</span><nav><button id="front-save-pool" class="primary">出撃にセット</button><button id="base-back">${departure ? (departure.coop ? "ロビーへ" : "タイトルへ") : "戻る"}</button>${departure ? '<button id="front-prep-settings">設定・操作</button>' : ""}</nav></header>
+    <header class="menu-header base-header"><h1>${departure ? "カードデッキ編成" : "生存カード"}</h1>${departure ? '<small class="front-departure-weapon">武器は固定：ライフル</small>' : ""}<span class="base-service">${progress.wins}勝 · ${progress.credits}功績</span><nav><button id="front-save-pool" class="primary">出撃にセット</button><button id="base-back">${departure ? (departure.coop ? "ロビーへ" : "タイトルへ") : "戻る"}</button></nav></header>
     <div class="base-deck-bar"><label class="sr-only" for="base-slot">保存デッキ</label><select id="base-slot"></select><label class="sr-only" for="base-name">デッキ名</label><input id="base-name" maxlength="24" placeholder="デッキ名（24文字まで）"><button id="base-store">デッキ保存</button><button id="base-load">呼び出す</button><span id="base-count"></span></div>
     <div class="base-workbench"><section class="base-catalog" aria-label="強化候補">
       <div class="base-catalog-heading"><div role="tablist" aria-label="強化と融合"><button id="base-upgrades" role="tab" aria-selected="true" aria-controls="base-grid">強化 ${baseIds.length}</button><button id="base-fusions" role="tab" aria-selected="false" aria-controls="base-grid" tabindex="-1">融合 ${FRONT_FUSION_IDS.length}</button></div><span id="base-fusion-count"></span></div>
@@ -440,10 +441,10 @@ export function openFrontBase(
     loadoutDirty || nameDirty
       ? confirmAction("編集中の変更があります", label, action)
       : action();
+  guardMenuExit($("base-back").closest("section")!, (action) =>
+    leaveEditor(action, "変更を破棄して移動"),
+  );
   $("base-back").onclick = () => leaveEditor(back);
-  if (departure)
-    $("front-prep-settings").onclick = () =>
-      leaveEditor(departure.onSettings, "変更を破棄して設定へ");
   slotOptions();
   name.value = decks.slots[slot]?.name ?? "";
   render();

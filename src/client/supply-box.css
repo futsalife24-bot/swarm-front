@@ -1,0 +1,96 @@
+body .sb-dialog {
+  width: min(760px, calc(100vw - 24px));
+}
+body .sb-dialog > header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+}
+body .sb-dialog > header > div {
+  flex: 1;
+  min-width: 0;
+}
+body .sb-dialog h2 {
+  font-size: 18px;
+}
+body .sb-dialog .sb-all {
+  min-height: 36px;
+  padding: 4px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+body .sb-dialog .menu-dialog-body {
+  padding: 8px 14px;
+}
+body .sb-dialog .sb-intro {
+  margin: 0 0 6px;
+  font-size: 12px;
+}
+.sb-list {
+  display: grid;
+  gap: 4px;
+}
+.sb-row {
+  display: grid;
+  grid-template-columns: minmax(0, 11em) 7.5em minmax(0, 1fr) 3em 92px;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 8px;
+  border: 1px solid #63777b;
+  border-left: 3px solid #c7b788;
+  border-radius: 4px;
+}
+.sb-row[data-source="login"] {
+  border-left-color: #8fc9b0;
+}
+.sb-row b {
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sb-reward {
+  font-size: 13px;
+  color: #eee4c9;
+  white-space: nowrap;
+}
+.sb-row small {
+  font-size: 11px;
+  color: #c3d1d2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sb-row time {
+  font-size: 11px;
+  color: #9fb4b5;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+body .sb-dialog .sb-row button {
+  min-height: 36px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+body .sb-dialog .sb-status {
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+.sb-status:empty {
+  display: none;
+}
+body .sb-dialog .sb-empty {
+  margin: 8px 0;
+  font-size: 13px;
+  color: #c3d1d2;
+}
+@media (max-width: 700px) {
+  .sb-row {
+    grid-template-columns: minmax(0, 1fr) auto 84px;
+  }
+  .sb-row :is(small, time) {
+    display: none;
+  }
+}

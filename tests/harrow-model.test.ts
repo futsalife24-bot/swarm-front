@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { expect, it } from "vitest";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 import { HARROW, harrowMissileOrigins } from "../src/shared/harrow";
 import {
   HARROW_FLIGHT_CYCLE,
@@ -16,24 +17,248 @@ import {
   projectedBoxDistance,
 } from "../src/client/harrow-report-camera";
 import { HARROW_REPORT_PROFILE } from "../src/client/harrow-report-camera-profile";
+import { polishHarrowFlight } from "../src/client/harrow-motion-polish";
 import { HARROW_REPORT_SEQUENCE } from "../src/client/enemy-report-motion";
 
 async function model() {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v17.glb");
   // CPU geometry/animation checks only: Node has no image decoder. Actual 4K
   // texture decoding and rendering are verified separately in the browser.
-  const loader = new GLTFLoader().register(() => ({
-    name: "HEADLESS_GEOMETRY_ONLY",
-    loadTexture: async () => new T.Texture(),
-  }));
+  const loader = new GLTFLoader()
+    .setMeshoptDecoder(MeshoptDecoder)
+    .register(() => ({
+      name: "HEADLESS_GEOMETRY_ONLY",
+      loadTexture: async () => new T.Texture(),
+    }));
   return loader.parseAsync(
     bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength),
     "",
   );
 }
 
+it("HARROWは両脚を一周期に一回ずつ高く運び、接地した爪を支点にする", async () => {
+  const asset = await model();
+  asset.scene.rotation.y = -Math.PI / 2;
+  const walk = asset.animations.find((clip) => clip.name === "Locomotion")!;
+  const mixer = new T.AnimationMixer(asset.scene);
+  const action = mixer.clipAction(walk).setLoop(T.LoopOnce, 1);
+  action.clampWhenFinished = true;
+  action.play();
+  const point = new T.Vector3();
+  for (const side of ["L", "R"]) {
+    action.reset().play();
+    mixer.setTime(0);
+    asset.scene.updateMatrixWorld(true);
+    const mesh = asset.scene.getObjectByName(
+      "Hindlimb" + side,
+    ) as T.SkinnedMesh;
+    const attributes = mesh.geometry.attributes;
+    const digits = new Map<string, number[]>();
+    for (let i = 0; i < attributes.position.count; i++) {
+      for (let j = 0; j < 4; j++) {
+        const name =
+          mesh.skeleton.bones[attributes.skinIndex.getComponent(i, j)].name;
+        if (
+          !name.startsWith("Toe") ||
+          attributes.skinWeight.getComponent(i, j) <= 0.01
+        )
+          continue;
+        if (!digits.has(name)) digits.set(name, []);
+        digits.get(name)!.push(i);
+      }
+    }
+    expect(digits.size).toBe(4);
+    let lifts = 0,
+      lifted = false,
+      peak = 0;
+    const anchors = new Map<string, { vertex: number; x: number; z: number }>();
+    for (let frame = 0; frame <= Math.round(walk.duration * 60); frame++) {
+      const time = frame / 60;
+      const phase = (time / walk.duration + (side === "R" ? 0.5 : 0)) % 1;
+      mixer.setTime(time);
+      asset.scene.updateMatrixWorld(true);
+      let clearance = Infinity,
+        highestToe = -Infinity;
+      for (const [digit, vertices] of digits) {
+        let low = Infinity,
+          lowest = 0,
+          contactVertices = 0;
+        for (const vertex of vertices) {
+          mesh
+            .getVertexPosition(vertex, point)
+            .applyMatrix4(mesh.matrixWorld)
+            .multiplyScalar(HARROW.scale);
+          if (point.y < low) {
+            low = point.y;
+            lowest = vertex;
+          }
+          if (point.y < 0.16) contactVertices++;
+        }
+        clearance = Math.min(clearance, low);
+        highestToe = Math.max(highestToe, low);
+        if (phase < 0.72) {
+          // A patch of each of the four claws carries weight on the same plane.
+          expect(low).toBeGreaterThanOrEqual(0);
+          expect(low).toBeLessThan(0.06);
+          expect(contactVertices).toBeGreaterThan(5);
+          const anchor = anchors.get(digit);
+          mesh
+            .getVertexPosition(anchor?.vertex ?? lowest, point)
+            .applyMatrix4(mesh.matrixWorld)
+            .multiplyScalar(HARROW.scale);
+          const z = point.z - time * HARROW.speed;
+          if (anchor)
+            expect(Math.hypot(point.x - anchor.x, z - anchor.z)).toBeLessThan(
+              0.01,
+            );
+          else anchors.set(digit, { vertex: lowest, x: point.x, z });
+        } else anchors.delete(digit);
+      }
+      // Once the digits articulate, it is the lowest part of the entire foot
+      // that has to clear the ground. Its identity changes as the toes uncurl.
+      expect(clearance).toBeGreaterThanOrEqual(0);
+      // Curled claws sit at different heights during swing. All four arrive
+      // on the same plane before the leg reaches the ground.
+      if (phase > 0.835 && phase < 0.86)
+        expect(highestToe - clearance).toBeGreaterThan(1.5);
+      if (phase > 0.967 && phase < 0.99)
+        expect(highestToe - clearance).toBeLessThan(0.02);
+      if (!lifted && clearance > 1) lifts++;
+      lifted = clearance > 1;
+      peak = Math.max(peak, clearance);
+    }
+    expect(lifts).toBe(1);
+    expect((walk.duration * HARROW.speed) / lifts).toBeCloseTo(8.064);
+    expect(peak).toBeGreaterThan(1.9);
+    expect(peak).toBeLessThan(2.2);
+  }
+});
+
+it("羽ばたき加工は翼だけを変え、左右非交差と上下主体の翼端軌道を保つ", async () => {
+  const asset = await model();
+  const meshes: T.SkinnedMesh[] = [];
+  asset.scene.traverse((o) => {
+    if (o instanceof T.SkinnedMesh) meshes.push(o);
+  });
+  const bones = meshes[0].skeleton.bones;
+  const clip = asset.animations.find((c) => c.name === "Flight")!;
+  const digest = (c: T.AnimationClip) =>
+    createHash("sha256").update(JSON.stringify(c.toJSON())).digest("hex");
+  const untouched = asset.animations
+    .filter((c) => c !== clip)
+    .map((c) => [c, digest(c)] as const);
+  const tracks = clip.tracks
+    .filter((t) => !/^Wing_(upper|fore|fan)[LR]\.quaternion$/.test(t.name))
+    .map((t) => [t, Array.from(t.values)] as const);
+  const rest = bones.map(
+    (b) => [b.position.clone(), b.quaternion.clone(), b.scale.clone()] as const,
+  );
+  const duration = clip.duration;
+  polishHarrowFlight(asset.scene, bones, clip);
+  for (const track of clip.tracks.filter((t) =>
+    /^Wing_(upper|fore|fan)[LR]\.quaternion$/.test(t.name),
+  )) {
+    // Constant authored elbow tracks were STEP. Articulated elbows must not
+    // hold each baked sample and jump to the next one.
+    expect(track.getInterpolation()).toBe(T.InterpolateLinear);
+    const interpolant = track.createInterpolant();
+    const midpoint = Array.from(interpolant.evaluate(1 / 60));
+    expect(midpoint).not.toEqual(Array.from(track.values.slice(0, 4)));
+  }
+  expect(clip.duration).toBe(duration);
+  expect(bones).toHaveLength(47);
+  for (const [c, hash] of untouched) expect(digest(c)).toBe(hash);
+  for (const [t, values] of tracks)
+    expect(Array.from(t.values)).toEqual(values);
+  bones.forEach((b, i) => {
+    expect(b.position.equals(rest[i][0])).toBe(true);
+    expect(b.quaternion.equals(rest[i][1])).toBe(true);
+    expect(b.scale.equals(rest[i][2])).toBe(true);
+  });
+  const vertices: { mesh: T.SkinnedMesh; index: number; sign: number }[] = [];
+  for (const mesh of meshes)
+    for (
+      let index = 0;
+      index < mesh.geometry.attributes.position.count;
+      index++
+    )
+      for (let n = 0; n < 4; n++) {
+        const name =
+          bones[mesh.geometry.attributes.skinIndex.getComponent(index, n)].name;
+        if (
+          mesh.geometry.attributes.skinWeight.getComponent(index, n) > 0.99 &&
+          /^Wing_/.test(name)
+        ) {
+          vertices.push({ mesh, index, sign: name.endsWith("L") ? 1 : -1 });
+          break;
+        }
+      }
+  expect(vertices.length).toBeGreaterThan(12000);
+  const mixer = new T.AnimationMixer(asset.scene);
+  const action = mixer.clipAction(clip);
+  action.setLoop(T.LoopOnce, 1);
+  action.clampWhenFinished = true;
+  action.play();
+  const p = new T.Vector3();
+  let minimum = Infinity;
+  const tips = [1, -1].map((sign) => {
+    const candidates = vertices.filter((v) => v.sign === sign);
+    return candidates.reduce(
+      (best, v) => {
+        const span =
+          v.mesh.getVertexPosition(v.index, p).applyMatrix4(v.mesh.matrixWorld)
+            .z * sign;
+        return span > best.span
+          ? {
+              v,
+              span,
+              minX: Infinity,
+              maxX: -Infinity,
+              minY: Infinity,
+              maxY: -Infinity,
+            }
+          : best;
+      },
+      {
+        v: candidates[0],
+        span: -Infinity,
+        minX: Infinity,
+        maxX: -Infinity,
+        minY: Infinity,
+        maxY: -Infinity,
+      },
+    );
+  });
+  for (let frame = 0; frame <= Math.round(duration * 120); frame++) {
+    mixer.setTime(frame / 120);
+    asset.scene.updateMatrixWorld(true);
+    for (const v of vertices) {
+      v.mesh.getVertexPosition(v.index, p).applyMatrix4(v.mesh.matrixWorld);
+      minimum = Math.min(minimum, p.z * v.sign);
+    }
+    for (const tip of tips) {
+      tip.v.mesh
+        .getVertexPosition(tip.v.index, p)
+        .applyMatrix4(tip.v.mesh.matrixWorld);
+      tip.minX = Math.min(tip.minX, p.x);
+      tip.maxX = Math.max(tip.maxX, p.x);
+      tip.minY = Math.min(tip.minY, p.y);
+      tip.maxY = Math.max(tip.maxY, p.y);
+    }
+  }
+  // A positive separating plane also separates all triangle interiors.
+  expect(minimum).toBeGreaterThan(0.05);
+  for (const tip of tips) {
+    const vertical = tip.maxY - tip.minY;
+    expect(vertical).toBeGreaterThan(3);
+    expect(vertical).toBeGreaterThan((tip.maxX - tip.minX) * 2.5);
+  }
+  mixer.stopAllAction();
+  mixer.uncacheRoot(asset.scene);
+}, 60000);
+
 it("matches the shipped HARROW asset and frames both complete motion clips", async () => {
-  const bytes = readFileSync("public/assets/enemies/harrow_motion_v14.glb");
+  const bytes = readFileSync("public/assets/enemies/harrow_motion_v17.glb");
   expect(createHash("sha256").update(bytes).digest("hex")).toBe(
     HARROW_REPORT_PROFILE.source.sha256,
   );
@@ -51,11 +276,11 @@ it("matches the shipped HARROW asset and frames both complete motion clips", asy
   for (const [clipName, frame] of [
     ["Idle", HARROW_POSE_FRAMES.idle],
     ["Locomotion", HARROW_POSE_FRAMES.move],
-  ] as const)
-    for (const [width, height] of [
+  ] as const) {
+    const projections = [
       [949, 240],
       [327, 206],
-    ]) {
+    ].map(([width, height]) => {
       const center = frame.bounds.getCenter(new T.Vector3());
       const halfSize = frame.bounds
         .getSize(new T.Vector3())
@@ -79,38 +304,56 @@ it("matches the shipped HARROW asset and frames both complete motion clips", asy
         .add(center);
       camera.lookAt(center);
       camera.updateMatrixWorld();
-      const mixer = new T.AnimationMixer(asset.scene);
-      const clip = asset.animations.find((c) => c.name === clipName)!;
-      mixer.clipAction(clip).play();
-      const point = new T.Vector3();
-      // Check phases between the sampled poses as well as the sampled phases.
-      let maxProjected = 0;
-      for (let phase = 0; phase < 24; phase++) {
-        mixer.setTime((clip.duration * phase) / 24);
-        asset.scene.updateMatrixWorld(true);
-        for (const mesh of meshes) {
-          const count = mesh.geometry.getAttribute("position").count;
-          for (let i = 0; i < count; i++) {
-            mesh.getVertexPosition(i, point).applyMatrix4(mesh.matrixWorld);
-            point.project(camera);
+      return new T.Matrix4().multiplyMatrices(
+        camera.projectionMatrix,
+        camera.matrixWorldInverse,
+      );
+    });
+    const mixer = new T.AnimationMixer(asset.scene);
+    const clip = asset.animations.find((c) => c.name === clipName)!;
+    mixer.clipAction(clip).play();
+    const point = new T.Vector3(),
+      projected = new T.Vector3();
+    // Check phases between the sampled poses as well as the sampled phases.
+    let maxProjected = 0;
+    for (let phase = 0; phase < 24; phase++) {
+      mixer.setTime((clip.duration * phase) / 24);
+      asset.scene.updateMatrixWorld(true);
+      for (const mesh of meshes) {
+        const count = mesh.geometry.getAttribute("position").count;
+        for (let i = 0; i < count; i++) {
+          mesh.getVertexPosition(i, point).applyMatrix4(mesh.matrixWorld);
+          // Both viewports see the same deformed vertex.
+          for (const projection of projections) {
+            projected.copy(point).applyMatrix4(projection);
             maxProjected = Math.max(
               maxProjected,
-              Math.abs(point.x),
-              Math.abs(point.y),
+              Math.abs(projected.x),
+              Math.abs(projected.y),
             );
           }
         }
       }
-      expect(maxProjected).toBeLessThan(1);
-      mixer.stopAllAction();
-      mixer.uncacheRoot(asset.scene);
     }
+    expect(maxProjected).toBeLessThan(1);
+    mixer.stopAllAction();
+    mixer.uncacheRoot(asset.scene);
+  }
 });
 
 it("tracks every report clip's actual intermediate skinned poses", async () => {
   const asset = await model();
   asset.scene.rotation.y = HARROW_REPORT_PROFILE.source.rotationY;
   asset.scene.updateMatrixWorld(true);
+  let skeleton: T.Skeleton | undefined;
+  asset.scene.traverse((o) => {
+    if (o instanceof T.SkinnedMesh && !skeleton) skeleton = o.skeleton;
+  });
+  polishHarrowFlight(
+    asset.scene,
+    skeleton!.bones,
+    asset.animations.find((c) => c.name === "Flight")!,
+  );
   const meshes: T.SkinnedMesh[] = [];
   asset.scene.traverse((object) => {
     if (object instanceof T.SkinnedMesh) meshes.push(object);
@@ -269,7 +512,7 @@ it("joins landing and both walk boundaries without a skeleton discontinuity", as
   asset.scene.traverse((object) => {
     if (object instanceof T.Bone) bones.push(object);
   });
-  expect(bones).toHaveLength(39);
+  expect(bones).toHaveLength(47);
   const pose = (name: string, end: boolean) => {
     mixer.stopAllAction();
     const clip = asset.animations.find((c) => c.name === name)!;

@@ -1,0 +1,49 @@
+{
+  "at": "2026-11-10T07:06:35.550Z",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "passed": false,
+  "cases": [
+    {
+      "width": 844,
+      "height": 390,
+      "coopEntry": true,
+      "coopOverflow": false,
+      "prep": true,
+      "battle": true,
+      "pause": true,
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 844,
+        "height": 390
+      },
+      "consoleErrors": []
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "coopEntry": true,
+      "coopOverflow": false,
+      "prep": true,
+      "battle": true,
+      "pause": true,
+      "canvas": {
+        "x": 0,
+        "y": 0,
+        "width": 640,
+        "height": 360
+      },
+      "consoleErrors": [
+        "%c%d font-size:0;color:transparent NaN",
+        "%c%d font-size:0;color:transparent NaN",
+        "%c%o font-size:0;color:transparent {}",
+        "%c%o font-size:0;color:transparent {}"
+      ]
+    }
+  ],
+  "errors": [],
+  "scope": "公開URL・隔離保存・実Chrome。通常ソロ導線と協力入口。実機・協力戦闘・CATENA遭遇は含まない。",
+  "failure": "Error: ブラウザエラー 4件",
+  "lastUrl": "https://swarm-front.melosalife-24.workers.dev/",
+  "lastText": "HP\n160 / 160\nST 1 · WAVE 1 / 2\n4 体 · 0 撃破 · 0:03\nAR-9 リーフ · 1/2\n残弾\n32 / 32\n未確定 0 ·\n+\n停止\n射撃\n回避\nREADY\nジャンプ\n装填\nREADY\n切替\n救急箱\n1 / H\nSWARM FRONT\n一時停止\n閉じる ×\n\n同行バディ\n\n同行なし\nこの出撃にはバディが同行していません。\n\nタップで再開\n設定・操作\nリタイア"
+}

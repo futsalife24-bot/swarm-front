@@ -11,6 +11,7 @@ export interface TerrainProp extends Block {
 interface Terrain {
   heights: Float32Array;
   props: TerrainProp[];
+  fieldScale?: number;
 }
 const terrains = new WeakMap<Block[], Terrain>();
 const NX = ARENA_X * 2 + 1,
@@ -133,6 +134,29 @@ export function groundHeight(x: number, z: number, blocks: Block[]): number {
 }
 export function terrainProps(blocks: Block[]) {
   return terrains.get(blocks)?.props ?? [];
+}
+/** 地表の全三角形の勾配上限。y-groundHeightを安全な距離下限へ縮める。
+ * 地形の高さは変えず、登録し直した地形は新しいTerrainに再計算する。 */
+export function groundFieldScale(blocks: Block[]): number {
+  const terrain = terrains.get(blocks);
+  if (!terrain) return 1;
+  if (terrain.fieldScale !== undefined) return terrain.fieldScale;
+  let maxSlopeSquared = 0;
+  const h = terrain.heights;
+  for (let z = 0; z < NZ - 1; z++)
+    for (let x = 0; x < NX - 1; x++) {
+      const i = z * NX + x,
+        a = h[i],
+        b = h[i + 1],
+        c = h[i + NX],
+        e = h[i + NX + 1];
+      maxSlopeSquared = Math.max(
+        maxSlopeSquared,
+        (b - a) ** 2 + (c - a) ** 2,
+        (e - c) ** 2 + (e - b) ** 2,
+      );
+    }
+  return (terrain.fieldScale = 1 / Math.sqrt(1 + maxSlopeSquared));
 }
 export function supportHeight(
   x: number,

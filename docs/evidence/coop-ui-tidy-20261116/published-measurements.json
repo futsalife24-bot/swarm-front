@@ -1,0 +1,422 @@
+[
+  {
+    "width": 1280,
+    "access": "private",
+    "overflow": [
+      {
+        "selector": "ui",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "panel room-entry room-browser",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "room-create",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "room-create-fields",
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "panel": {
+      "x": 140,
+      "y": 135,
+      "width": 1000,
+      "height": 450,
+      "bottom": 585,
+      "right": 1140
+    },
+    "create": {
+      "x": 157,
+      "y": 491,
+      "width": 473,
+      "height": 40,
+      "bottom": 531,
+      "right": 630
+    },
+    "join": {
+      "x": 650,
+      "y": 491,
+      "width": 473,
+      "height": 40,
+      "bottom": 531,
+      "right": 1123
+    },
+    "name": {
+      "x": 157,
+      "y": 339.6875,
+      "width": 473,
+      "height": 40,
+      "bottom": 379.6875,
+      "right": 630
+    },
+    "id": {
+      "x": 650,
+      "y": 339.6875,
+      "width": 473,
+      "height": 40,
+      "bottom": 379.6875,
+      "right": 1123
+    },
+    "title": {
+      "x": 157,
+      "y": 289.6875,
+      "width": 473,
+      "height": 22,
+      "bottom": 311.6875,
+      "right": 630
+    },
+    "browseTitle": {
+      "x": 650,
+      "y": 289.6875,
+      "width": 104.671875,
+      "height": 22,
+      "bottom": 311.6875,
+      "right": 754.671875
+    },
+    "advanced": {
+      "x": 157,
+      "y": 547,
+      "width": 966,
+      "height": 25,
+      "bottom": 572,
+      "right": 1123
+    },
+    "widget": {
+      "x": 157,
+      "y": 385.6875,
+      "width": 473,
+      "height": 93.3125,
+      "bottom": 479,
+      "right": 630
+    },
+    "iframe": false,
+    "widgetText": "",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "errors": []
+  },
+  {
+    "width": 1280,
+    "access": "public",
+    "overflow": [
+      {
+        "selector": "ui",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "panel room-entry room-browser",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "room-create",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "room-create-fields",
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "panel": {
+      "x": 140,
+      "y": 135,
+      "width": 1000,
+      "height": 450,
+      "bottom": 585,
+      "right": 1140
+    },
+    "create": {
+      "x": 157,
+      "y": 491,
+      "width": 473,
+      "height": 40,
+      "bottom": 531,
+      "right": 630
+    },
+    "join": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "bottom": 0,
+      "right": 0
+    },
+    "name": {
+      "x": 157,
+      "y": 341.6875,
+      "width": 473,
+      "height": 40,
+      "bottom": 381.6875,
+      "right": 630
+    },
+    "id": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "bottom": 0,
+      "right": 0
+    },
+    "title": {
+      "x": 157,
+      "y": 289.6875,
+      "width": 473,
+      "height": 24,
+      "bottom": 313.6875,
+      "right": 630
+    },
+    "browseTitle": {
+      "x": 650,
+      "y": 290.6875,
+      "width": 94.828125,
+      "height": 22,
+      "bottom": 312.6875,
+      "right": 744.828125
+    },
+    "advanced": {
+      "x": 157,
+      "y": 547,
+      "width": 966,
+      "height": 25,
+      "bottom": 572,
+      "right": 1123
+    },
+    "widget": {
+      "x": 157,
+      "y": 387.6875,
+      "width": 473,
+      "height": 91.3125,
+      "bottom": 479,
+      "right": 630
+    },
+    "iframe": false,
+    "widgetText": "",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "errors": []
+  },
+  {
+    "width": 844,
+    "access": "private",
+    "overflow": [
+      {
+        "selector": "ui",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "panel room-entry room-browser",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "room-create",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "room-create-fields",
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "panel": {
+      "x": 22,
+      "y": 18,
+      "width": 800,
+      "height": 354,
+      "bottom": 372,
+      "right": 822
+    },
+    "create": {
+      "x": 39,
+      "y": 296,
+      "width": 375,
+      "height": 40,
+      "bottom": 336,
+      "right": 414
+    },
+    "join": {
+      "x": 430,
+      "y": 296,
+      "width": 375,
+      "height": 40,
+      "bottom": 336,
+      "right": 805
+    },
+    "name": {
+      "x": 39,
+      "y": 178.09375,
+      "width": 375,
+      "height": 40,
+      "bottom": 218.09375,
+      "right": 414
+    },
+    "id": {
+      "x": 430,
+      "y": 178.09375,
+      "width": 375,
+      "height": 40,
+      "bottom": 218.09375,
+      "right": 805
+    },
+    "title": {
+      "x": 39,
+      "y": 139.09375,
+      "width": 375,
+      "height": 22,
+      "bottom": 161.09375,
+      "right": 414
+    },
+    "browseTitle": {
+      "x": 430,
+      "y": 139.09375,
+      "width": 104.671875,
+      "height": 22,
+      "bottom": 161.09375,
+      "right": 534.671875
+    },
+    "advanced": {
+      "x": 39,
+      "y": 340,
+      "width": 766,
+      "height": 23,
+      "bottom": 363,
+      "right": 805
+    },
+    "widget": {
+      "x": 39,
+      "y": 221.09375,
+      "width": 375,
+      "height": 68.90625,
+      "bottom": 290,
+      "right": 414
+    },
+    "iframe": false,
+    "widgetText": "",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "errors": []
+  },
+  {
+    "width": 844,
+    "access": "public",
+    "overflow": [
+      {
+        "selector": "ui",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "panel room-entry room-browser",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "room-create",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "selector": "room-create-fields",
+        "x": 0,
+        "y": 0
+      }
+    ],
+    "panel": {
+      "x": 22,
+      "y": 18,
+      "width": 800,
+      "height": 354,
+      "bottom": 372,
+      "right": 822
+    },
+    "create": {
+      "x": 39,
+      "y": 297.09375,
+      "width": 375,
+      "height": 40,
+      "bottom": 337.09375,
+      "right": 414
+    },
+    "join": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "bottom": 0,
+      "right": 0
+    },
+    "name": {
+      "x": 39,
+      "y": 180.09375,
+      "width": 375,
+      "height": 40,
+      "bottom": 220.09375,
+      "right": 414
+    },
+    "id": {
+      "x": 0,
+      "y": 0,
+      "width": 0,
+      "height": 0,
+      "bottom": 0,
+      "right": 0
+    },
+    "title": {
+      "x": 39,
+      "y": 139.09375,
+      "width": 375,
+      "height": 24,
+      "bottom": 163.09375,
+      "right": 414
+    },
+    "browseTitle": {
+      "x": 430,
+      "y": 140.09375,
+      "width": 94.828125,
+      "height": 22,
+      "bottom": 162.09375,
+      "right": 524.828125
+    },
+    "advanced": {
+      "x": 39,
+      "y": 340,
+      "width": 766,
+      "height": 23,
+      "bottom": 363,
+      "right": 805
+    },
+    "widget": {
+      "x": 39,
+      "y": 223.09375,
+      "width": 375,
+      "height": 68,
+      "bottom": 291.09375,
+      "right": 414
+    },
+    "iframe": false,
+    "widgetText": "",
+    "viewport": {
+      "width": 844,
+      "height": 390
+    },
+    "errors": []
+  }
+]

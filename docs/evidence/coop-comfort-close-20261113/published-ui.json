@@ -1,0 +1,41 @@
+{
+  "source": "006d600e4131713331e9350c2a8edbcb8b9794a9",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "solo": {
+    "passed": true,
+    "errors": []
+  },
+  "coop": {
+    "passed": true,
+    "status": "通常Chromeの本物の認証で作成した自室へ別ブラウザで招待参加し、公開2人協力の準備・起動・ゲスト移動を確認。",
+    "errors": [],
+    "attempts": [
+      {
+        "headless": true,
+        "timeoutMs": 60000
+      },
+      {
+        "headless": false,
+        "timeoutMs": 300000
+      },
+      {
+        "headless": false,
+        "timeoutMs": 180000,
+        "widgetScrolledIntoView": true,
+        "hostBroughtToFront": true
+      }
+    ],
+    "resume": "公開協力の起動確認は完了。本人実機の5分確認とgoal終了判断を残す。",
+    "previousStatus": "通常Turnstileの私はロボットではありませんが未チェック。部屋作成前で終了。認証回避なし。",
+    "resolution": "published-coop-ui.json"
+  },
+  "conditions": {
+    "solo": {
+      "viewport": "844x390",
+      "serviceWorkers": "block",
+      "reducedMotion": "reduce",
+      "headless": true
+    },
+    "coop": "published-coop-ui.json にホスト/ゲストの異なる条件を記載"
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "base": "aa886b0d",
+  "results": [
+    {
+      "file": "server/admin-page.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "c254f196bf935e1723679d93a71af8ce4052c661038c50079b18e3a4c32b7d6d",
+      "identical": true
+    },
+    {
+      "file": "server/admin-proxy.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "e09ee08f47ff6f6ba91d8363c58e54d4301ddf1ded8d0a6e5c3f990610ec421a",
+      "identical": true
+    },
+    {
+      "file": "server/developer-auth.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "2f4da264e31a7a5232b8455db8b57e80d0b02e2cca982e8ddc874584abd1b657",
+      "identical": true
+    },
+    {
+      "file": "src/client/combat-effects.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "8e32bd4089e54d1a1de2eadde8ee58f68a2e8fab6cf0f97f9896a326c400a548",
+      "identical": true
+    },
+    {
+      "file": "src/client/playtest.css",
+      "sourceChanged": true,
+      "normalizedSha256": "0822353ebb40d7236f48b3f2be997d031cb58f79c84714c38d361f48a552d712",
+      "identical": true
+    },
+    {
+      "file": "src/client/soldier-accent.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "219c9efcf147de4bc57eace76fa07cadc858cc7b9bf7affe6225a8c7f9aa2275",
+      "identical": true
+    },
+    {
+      "file": "src/client/supply-result-actions.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "9d5ac1eb0680786300defdb91c8ec8e6740f9c7740a70f72f3b6f9e6e5dd817c",
+      "identical": true
+    },
+    {
+      "file": "src/client/title-entry.css",
+      "sourceChanged": true,
+      "normalizedSha256": "c0344e6fc03818e3f3216b4b9e14bb732f06c4eaf3ed433a69a3a775e27cfbee",
+      "identical": true
+    },
+    {
+      "file": "src/client/title-entry.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "9b7fae73a9b8f878af3e2a5205ba98b2104ea24df83ba5b2970d74a3153b862b",
+      "identical": true
+    },
+    {
+      "file": "tests/developer-auth.test.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "79fd797109f6a0cd23b2526713cd62ee792bf1153c0257492a87640bc565f080",
+      "identical": true
+    },
+    {
+      "file": "tests/front-reward-ui.test.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "244cf66e45f2ca24276a954bd860cbea0a5be84cdfcc20f5075a9d5846a7622d",
+      "identical": true
+    },
+    {
+      "file": "vitest.balance.config.ts",
+      "sourceChanged": true,
+      "normalizedSha256": "7fdb69c6b50da5a7eeabd6cdee596a91d4ffb43c538062ed04ff22034d147a0b",
+      "identical": true
+    }
+  ]
+}

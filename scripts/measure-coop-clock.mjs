@@ -69,7 +69,7 @@ class Client {
         frontOpening: 2,
         equipmentCache: 1,
         stateOmissions: 1,
-        stateTuples: 1,
+        stateTuples: 2,
         stateChunks: 1,
       });
     this.ws.onclose = (e) => {

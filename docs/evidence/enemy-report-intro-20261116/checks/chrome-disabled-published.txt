@@ -1,0 +1,12 @@
+{"voice":"hiromi","mode":"disabled","selecting":"crawler","selected":"crawler"}
+{"voice":"hiromi","mode":"disabled","selecting":"ant","selected":"ant"}
+{"voice":"hiromi","mode":"disabled","selecting":"spider","selected":"spider"}
+{"voice":"hiromi","mode":"disabled","selecting":"spitter","selected":"spitter"}
+{"voice":"hiromi","mode":"disabled","selecting":"boss","selected":"boss"}
+{"voice":"hiromi","mode":"disabled","selecting":"hornet","selected":"hornet"}
+{"voice":"hiromi","mode":"disabled","selecting":"bastion","selected":"bastion"}
+{"voice":"hiromi","mode":"disabled","selecting":"worm","selected":"worm"}
+{"voice":"hiromi","mode":"disabled","selecting":"calyx","selected":"calyx"}
+{"voice":"hiromi","mode":"disabled","selecting":"harrow","selected":"harrow"}
+{"completed":true,"voice":"hiromi","mode":"disabled"}
+{"passed":true,"cases":1}

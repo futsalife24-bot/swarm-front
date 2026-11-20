@@ -1,0 +1,22 @@
+{
+  "source": "769353b21567ad9f0c2251d0c439c50edac9a077",
+  "embeddedBuildFiles": [
+    "front-DTOSF9cq.js"
+  ],
+  "clientBuild": {
+    "command": "npm run build:production",
+    "exitCode": 0,
+    "modules": 290,
+    "viteReportedSeconds": 9.12
+  },
+  "workerDryRun": {
+    "command": "npm run server:build:production",
+    "exitCode": 0,
+    "assets": 466,
+    "uploadKiB": 526,
+    "gzipKiB": 135.2,
+    "workerSha256": "0fc201bf88ee35e9ecab399b374f3613dea44265ca975a18673d98340b56dbc6"
+  },
+  "runtimeEnvNamesChecked": true,
+  "productionConfigChanged": false
+}

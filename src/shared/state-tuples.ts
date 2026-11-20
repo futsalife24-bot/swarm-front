@@ -1,7 +1,7 @@
 import { isPleatPoseTuple, restorePleatPose } from "./pleat-pose-wire";
 
 /** Lossless layout change for already-rounded state JSON. Bump for schema changes. */
-export const STATE_TUPLE_ENCODING = "tuples-v1";
+export const STATE_TUPLE_ENCODING = "tuples-v2";
 
 const PROJECTILE = [
   "id",
@@ -57,7 +57,9 @@ const ENEMY = [
   "bastion",
   "pleat",
   "segments",
+  "omega",
 ] as const;
+const ENEMY_V1 = ENEMY.slice(0, -1);
 const ORB = ["id", "x", "y", "z", "value"] as const;
 const PLEAT = [
   "body",
@@ -95,6 +97,7 @@ const complexKeys = new Set([
   "pulseAim",
   "pleat",
   "segments",
+  "omega",
   "body",
   "up",
   "forward",
@@ -168,6 +171,7 @@ function packEnemyField(key: string, value: unknown): unknown {
     return pack(value, PLEAT, packPleat);
   }
   if (key === "pulseAim") return pack(value, VECTOR);
+  if (key === "omega") return value;
   if (key === "segments") {
     if (!Array.isArray(value) || value.length > 64) invalid();
     return value.map((segment) =>
@@ -185,8 +189,9 @@ function ownerReference(value: unknown, owners: readonly string[]) {
 export const packEnemyTuple = (
   value: unknown,
   owners: readonly string[] = [],
+  version: 1 | 2 = 2,
 ) =>
-  pack(value, ENEMY, (key, item) =>
+  pack(value, version === 1 ? ENEMY_V1 : ENEMY, (key, item) =>
     key === "targetId"
       ? ownerReference(item, owners)
       : packEnemyField(key, item),
@@ -357,6 +362,26 @@ function unpackEnemy(
           invalid();
       }
       if (key === "targetId") return restoreOwner(item, owners);
+      if (key === "omega") {
+        if (!record(item) || !Number.isFinite(item.at)) invalid();
+        const ground = item.ground,
+          peak = item.peak;
+        if (!Array.isArray(ground) || !Array.isArray(peak)) invalid();
+        for (const nodes of [ground, peak]) {
+          if (nodes.length > 64) invalid();
+          for (const point of nodes)
+            if (
+              !record(point) ||
+              Object.keys(point).length !== 4 ||
+              ["x", "y", "z", "heading"].some(
+                (axis) => !Number.isFinite(point[axis]),
+              )
+            )
+              invalid();
+        }
+        if (ground.length !== peak.length) invalid();
+        return item;
+      }
       if (key === "pleat") return unpackPleat(item, budget, compact);
       if (key === "pulseAim") return unpack(item, VECTOR, ["x", "z"], budget);
       if (key !== "segments") return item;
@@ -432,7 +457,9 @@ export function restoreStateTuples(packet: unknown): boolean {
   try {
     if (
       packet.type !== "state" ||
-      packet.stateEncoding !== STATE_TUPLE_ENCODING ||
+      !["tuples-v1", STATE_TUPLE_ENCODING].includes(
+        packet.stateEncoding as string,
+      ) ||
       !record(packet.world)
     )
       return false;

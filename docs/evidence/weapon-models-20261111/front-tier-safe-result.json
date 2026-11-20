@@ -1,0 +1,123 @@
+{
+  "cases": [
+    {
+      "type": "new",
+      "tier": 0,
+      "visual": 0,
+      "unchangedStats": true,
+      "color": 9611942,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "new",
+      "tier": 1,
+      "visual": 1,
+      "unchangedStats": true,
+      "color": 8640688,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "new",
+      "tier": 2,
+      "visual": 2,
+      "unchangedStats": true,
+      "color": 8175092,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "new",
+      "tier": 3,
+      "visual": 3,
+      "unchangedStats": true,
+      "color": 14001396,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "new",
+      "tier": 4,
+      "visual": 4,
+      "unchangedStats": true,
+      "color": 16766066,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "old",
+      "tier": 0,
+      "visual": 1,
+      "unchangedStats": true,
+      "color": 8640688,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "old",
+      "tier": 1,
+      "visual": 2,
+      "unchangedStats": true,
+      "color": 8175092,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "old",
+      "tier": 2,
+      "visual": 3,
+      "unchangedStats": true,
+      "color": 14001396,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "type": "old",
+      "tier": 3,
+      "visual": 4,
+      "unchangedStats": true,
+      "color": 16766066,
+      "packetModes": [
+        0,
+        1,
+        2
+      ]
+    }
+  ],
+  "urls": [
+    "/assets/weapons/unique-v1/slug_0.glb",
+    "/assets/weapons/unique-v1/slug_1.glb",
+    "/assets/weapons/unique-v1/slug_2.glb",
+    "/assets/weapons/unique-v1/slug_3.glb",
+    "/assets/weapons/unique-v1/slug_4.glb"
+  ],
+  "spoofRejected": true,
+  "saveValidatorStillAcceptsUnknownProperty": true,
+  "oldSaveBattleRejected": true,
+  "invalidTierFallback": true
+}

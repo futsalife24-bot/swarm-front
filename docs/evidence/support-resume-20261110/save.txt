@@ -1,0 +1,124 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-support-rewards-20261110
+
+ ❯ tests/playtest.test.ts (0 test)
+ ❯ tests/playtest-economy.test.ts (0 test)
+ ❯ tests/shared-armory.test.ts (0 test)
+ ❯ tests/p1.test.ts (0 test)
+ ❯ tests/playtest-checkpoint.test.ts (0 test)
+ ❯ tests/training.test.ts (0 test)
+ ❯ tests/playtest-boundaries.test.ts (0 test)
+ ❯ tests/armory.test.ts (0 test)
+ ❯ tests/save-regression.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/armory.test.ts [ tests/armory.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{5d4a2a9c-6935-442b-ad20-b28c118bd324}\AC\Temp\gJxEJWmeZK6UQjktySaD7\ssr\765ad5c3c5aa470b57faad4b2dfce10044c8d875'
+ ❯ tests/armory.test.ts:2:1
+      1| import { describe, it, expect } from "vitest";
+      2| import {
+       | ^
+      3|   bankRewards,
+      4|   discardWeapon,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/p1.test.ts [ tests/p1.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{5d4a2a9c-6935-442b-ad20-b28c118bd324}\AC\Temp\gJxEJWmeZK6UQjktySaD7\ssr\1ea9d037220fc8cca3bdbf5df97b3799dabce270'
+ ❯ src/client/network.ts:11:1
+      9| import type { World, Input } from "../shared/game";
+     10| import type { Weapon } from "../shared/defs";
+     11| import {
+       | ^
+     12|   validBuddyEquipment,
+     13|   type BuddyEquipment,
+ ❯ tests/p1.test.ts:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/playtest-boundaries.test.ts [ tests/playtest-boundaries.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{5d4a2a9c-6935-442b-ad20-b28c118bd324}\AC\Temp\gJxEJWmeZK6UQjktySaD7\ssr\4ba657f3ca9118500e346e097ce4338badc76427'
+ ❯ tests/playtest-boundaries.test.ts:2:1
+      1| import { it, expect } from "vitest";
+      2| import {
+       | ^
+      3|   createWorld,
+      4|   addPlayer,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/playtest-checkpoint.test.ts [ tests/playtest-checkpoint.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{5d4a2a9c-6935-442b-ad20-b28c118bd324}\AC\Temp\gJxEJWmeZK6UQjktySaD7\ssr\4ba657f3ca9118500e346e097ce4338badc76427'
+ ❯ tests/playtest-checkpoint.test.ts:2:1
+      1| import { describe, expect, it } from "vitest";
+      2| import {
+       | ^
+      3|   createWorld,
+      4|   addPlayer,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  tests/playtest-economy.test.ts [ tests/playtest-economy.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{5d4a2a9c-6935-442b-ad20-b28c118bd324}\AC\Temp\gJxEJWmeZK6UQjktySaD7\ssr\2a19b57917f1285a21ed6eab9dd16601c699bfed'
+ ❯ tests/playtest-economy.test.ts:2:1
+      1| import { it, expect } from "vitest";
+      2| import {
+       | ^
+      3|   rollVariance,
+      4|   COSTS,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  tests/playtest.test.ts [ tests/playtest.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{5d4a2a9c-6935-442b-ad20-b28c118bd324}\AC\Temp\gJxEJWmeZK6UQjktySaD7\ssr\7566b6921639ccff1a47220a4069f234f6a75280'
+ ❯ tests/playtest.test.ts:1:1
+      1| import { normalSaveId } from "../src/shared/campaign";
+       | ^
+      2| import { it, expect } from "vitest";
+      3| import { fresh as freshLegacySave } from "../src/client/save";
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  tests/save-regression.test.ts [ tests/save-regression.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{5d4a2a9c-6935-442b-ad20-b28c118bd324}\AC\Temp\gJxEJWmeZK6UQjktySaD7\ssr\7ce46689be5a6358fbe73e4275e13c69ba8dd7b0'
+ ❯ src/client/progression-save.ts:2:1
+      1| import { assertSaveWriter } from "./save-writer";
+      2| import {
+       | ^
+      3|   freshBuddyProgress,
+      4|   validBuddyProgress,
+ ❯ tests/save-regression.test.ts:6:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  tests/shared-armory.test.ts [ tests/shared-armory.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{5d4a2a9c-6935-442b-ad20-b28c118bd324}\AC\Temp\gJxEJWmeZK6UQjktySaD7\ssr\2a19b57917f1285a21ed6eab9dd16601c699bfed'
+ ❯ src/client/save-recovery.ts:1:1
+      1| import { missionKey, victoryCoins } from "../shared/progression";
+       | ^
+      2| import {
+      3|   bank,
+ ❯ tests/shared-armory.test.ts:3:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  tests/training.test.ts [ tests/training.test.ts ]
+Error: ENOENT: no such file or directory, open 'C:\Users\futsa\AppData\Local\Packages\sandbox.{5d4a2a9c-6935-442b-ad20-b28c118bd324}\AC\Temp\gJxEJWmeZK6UQjktySaD7\ssr\4ba657f3ca9118500e346e097ce4338badc76427'
+ ❯ src/shared/training.ts:1:1
+      1| import { createWorld, addPlayer, spawn, step, type Input } from "./gam…
+       | ^
+      2| import { STARTERS, type Weapon } from "./defs";
+      3| export const TARGETS = [
+ ❯ tests/training.test.ts:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  9 failed | 1 passed (10)
+      Tests  35 passed (35)
+   Start at  12:53:35
+   Duration  74.92s (tests 80%, transform 17%, import 2%)
+
+    Isolate  10 workers spawned · ~544ms startup each (spawn + environment, per file)
+             at least ~4.90s faster with isolate: false — reuses workers across files instead of one per file

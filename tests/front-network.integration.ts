@@ -9,6 +9,8 @@ import {
   FRONT_INITIAL_CARDS,
 } from "../src/shared/front-upgrades";
 import { neutral } from "../src/shared/game";
+import { STARTERS, stats } from "../src/shared/defs";
+import { makeWeapon } from "../src/shared/progression";
 import { restoreTurn } from "../src/shared/state-wire";
 import { restoreStateTuples } from "../src/shared/state-tuples";
 import { StateChunkAssembler } from "../src/shared/state-chunks";
@@ -23,6 +25,7 @@ class Client {
   decodeErrors = 0;
   maxPacketBytes = 0;
   chunkPackets = 0;
+  closeCodes: number[] = [];
   deltaPackets = 0;
   deltaVersions = new Set<number>();
   compactPackets = 0;
@@ -42,6 +45,7 @@ class Client {
     pleatPose: number | undefined = undefined,
     playerDelta = false,
     networkTrace = false,
+    supportRewards = false,
   ) {
     this.ws = new WebSocket(
       `${base.replace("http", "ws")}/rooms/${code}?ruleset=front-v1&testClient=${createHash(
@@ -57,8 +61,8 @@ class Client {
         ...(growth === 3 && catalog === 2 ? { frontCatalog: 2 } : {}),
         ...(growth === 3 && opening === 2 ? { frontOpening: 2 } : {}),
         ...(stateOmissions ? { stateOmissions: 1 } : {}),
-        ...(stateTuples ? { stateTuples: 1 } : {}),
-        ...(stateChunks ? { stateChunks: 1 } : {}),
+        ...(stateTuples ? { stateTuples: 2 } : {}),
+        ...(stateChunks ? { stateChunks: 1, stateChunkBudget: 1 } : {}),
         ...(stateFlow ? { stateFlow: 1 } : {}),
         ...(optimized
           ? { stateDelta: 1, inputReceipt: 1, networkTiming: 1 }
@@ -66,6 +70,7 @@ class Client {
         ...(pleatPose !== undefined ? { pleatPose } : {}),
         ...(playerDelta ? { stateDeltaPlayers: 1 } : {}),
         ...(networkTrace ? { networkTrace: 1 } : {}),
+        ...(supportRewards ? { frontSupportRewards: 1 } : {}),
         ...(token ? { token } : {}),
       });
     this.ws.onmessage = (e) => {
@@ -83,7 +88,7 @@ class Client {
       );
       if (!m) return;
       if (m.type === "state" && m.pleatPose === 1) this.compactPackets++;
-      if (m.stateEncoding === "tuples-v1") this.tuplePackets++;
+      if (m.stateEncoding === "tuples-v2") this.tuplePackets++;
       if (!restoreStateTuples(m)) {
         this.decodeErrors++;
         return;
@@ -94,6 +99,7 @@ class Client {
         this.token = m.token;
       }
     };
+    this.ws.onclose = (event) => this.closeCodes.push(event.code);
     clients.push(this);
   }
   send(value: unknown) {
@@ -127,6 +133,104 @@ class Client {
   }
 }
 afterEach(() => clients.splice(0).forEach((c) => c.ws.close()));
+
+it("融合後の表示等級を実Workerで同期し、再接続でも保持する", async () => {
+  const entry = await room("defense");
+  const host = new Client(entry.code, "", 3);
+  // The other peer negotiates compact tuple encoding.
+  const guest = new Client(entry.code, "", 3, 2, 2, false, true);
+  const zeroVariance = { power: 0, reload: 0, range: 0, rate: 0 };
+  const original = [
+    makeWeapon("visual-modern-n", "slug", 0, zeroVariance, false, 0),
+    { ...STARTERS[0], id: "visual-legacy-r", kind: "slug" as const },
+  ];
+  const pool = [
+    "blast-core",
+    "armor-piercer",
+    "afterimage-mine",
+    "armor",
+    "magnet",
+    "interceptor",
+  ];
+  for (const [index, client] of [host, guest].entries()) {
+    await client.wait((m) => m.type === "welcome");
+    client.send({
+      type: "equip",
+      upgradePool: pool,
+      // A saved or network input must not be allowed to choose its glow.
+      weapons: [
+        { ...original[index], appearanceTier: 4 },
+        { ...STARTERS[1], id: `visual-side-${index}` },
+      ],
+    });
+    const lobby = await client.wait(
+      (m) =>
+        m.members?.find((p: any) => p.id === client.id)?.weapons?.length === 2,
+    );
+    expect(
+      lobby.members.find((p: any) => p.id === client.id).weapons[0]
+        .appearanceTier,
+    ).toBeUndefined();
+  }
+  const lobby = await host.wait(
+    (m) =>
+      m.members?.length === 2 &&
+      m.members.every((p: any) => p.weapons?.length === 2),
+  );
+  for (const client of [host, guest])
+    client.send({
+      type: "ready",
+      ready: true,
+      stage: lobby.stage,
+      preparationGeneration: lobby.preparationGeneration,
+    });
+  await host.wait(
+    (m) => m.members?.length === 2 && m.members.every((p: any) => p.ready),
+  );
+  host.send({ type: "start" });
+  const states = await Promise.all(
+    [host, guest].map((c) => c.wait((m) => m.type === "state")),
+  );
+  const from = host.messages.length;
+  host.choose(states[0]);
+  guest.choose(states[1]);
+  const selected = await host.wait(
+    (m) =>
+      m.type === "state" &&
+      m.world.players.find((p: any) => p.id === host.id)?.weapons[0]
+        ?.appearanceTier === 0 &&
+      m.world.players.find((p: any) => p.id === guest.id)?.weapons[0]
+        ?.appearanceTier === 1,
+    from,
+    10000,
+  );
+  for (const [index, client] of [host, guest].entries()) {
+    const projected = selected.world.players.find(
+      (p: any) => p.id === client.id,
+    ).weapons[0];
+    const actual = stats(projected),
+      before = stats(original[index]);
+    for (const key of ["damage", "mag", "reload", "range", "interval"] as const)
+      expect(actual[key]).toBeCloseTo(before[key], 8);
+  }
+  expect(guest.tuplePackets).toBeGreaterThan(0);
+  guest.ws.close();
+  await host.wait(
+    (m) => m.members?.some((p: any) => p.id === guest.id && !p.connected),
+    from,
+  );
+  const restored = new Client(entry.code, guest.token, 3, 2, 2, false, true);
+  const rejoined = await restored.wait((m) => m.type === "state", 0, 10000);
+  expect(
+    rejoined.world.players.find((p: any) => p.id === host.id).weapons[0]
+      .appearanceTier,
+  ).toBe(0);
+  expect(
+    rejoined.world.players.find((p: any) => p.id === guest.id).weapons[0]
+      .appearanceTier,
+  ).toBe(1);
+  expect(restored.decodeErrors).toBe(0);
+});
 async function room(mode = "defense") {
   const response = await fetch(base + "/rooms", {
     method: "POST",
@@ -158,6 +262,7 @@ async function team(
   pleatPose: (number | undefined)[] = [],
   playerDelta: boolean[] = [],
   networkTrace: boolean[] = [],
+  supportRewards = false,
 ) {
   const entry = await room(mode),
     members: Client[] = [];
@@ -176,6 +281,7 @@ async function team(
       pleatPose[i],
       playerDelta[i],
       networkTrace[i],
+      supportRewards,
     );
     await c.wait((m) => m.type === "welcome");
     members.push(c);
@@ -429,6 +535,80 @@ describe("改装版の実通信", () => {
       expect(members[index].ws.readyState).toBe(WebSocket.OPEN);
     }
   });
+  it.each([
+    ["front-wire-heavy", 400, false],
+    ["front-wire-overflow", 1000, true],
+  ] as const)(
+    "支援報酬対応4人のv2密集状態を%sで欠落なく復元する",
+    async (fixture, projectileCount, chunksSupported) => {
+      const { entry, members, states } = await team(
+        4,
+        "survival",
+        3,
+        true,
+        true,
+        chunksSupported,
+        false,
+        false,
+        [],
+        [],
+        [],
+        true,
+      );
+      states.forEach((state) =>
+        expect(state.frontView.rewardPolicy).toBe("team-v1"),
+      );
+      const offsets = members.map((member) => member.messages.length);
+      const response = await fetch(
+        `${base}/fixtures/${entry.code}/${fixture}`,
+        { method: "POST" },
+      );
+      expect(response.status).toBe(200);
+      const packets = await Promise.all(
+        members.map((member, index) =>
+          member.wait(
+            (message) =>
+              message.type === "state" &&
+              message.world.projectiles.length === projectileCount,
+            offsets[index],
+          ),
+        ),
+      );
+      for (const [index, packet] of packets.entries()) {
+        const member = members[index];
+        expect(packet.frontView.rewardPolicy).toBe("team-v1");
+        expect(typeof packet.frontView.supportRewardEligible).toBe("boolean");
+        expect(typeof packet.frontView.rewardCount).toBe("number");
+        expect(packet.world.enemies).toHaveLength(96);
+        expect(packet.world.front.orbs).toHaveLength(160);
+        expect(packet.omitted?.enemies ?? []).toHaveLength(0);
+        expect(packet.omitted?.orbs ?? []).toHaveLength(0);
+        expect(member.tuplePackets).toBeGreaterThan(0);
+        if (chunksSupported) expect(member.chunkPackets).toBeGreaterThan(1);
+        expect(member.decodeErrors).toBe(0);
+        expect(member.maxPacketBytes).toBeLessThanOrEqual(65536);
+        expect(member.closeCodes).not.toContain(4009);
+        expect(member.ws.readyState).toBe(WebSocket.OPEN);
+      }
+      console.info(
+        "integrated-capacity",
+        JSON.stringify({
+          fixture,
+          members: packets.map((packet, index) => ({
+            maxPacketBytes: members[index].maxPacketBytes,
+            chunkPackets: members[index].chunkPackets,
+            enemies: packet.world.enemies.length,
+            orbs: packet.world.front.orbs.length,
+            projectiles: packet.world.projectiles.length,
+            omittedEnemies: packet.omitted?.enemies?.length ?? 0,
+            omittedOrbs: packet.omitted?.orbs?.length ?? 0,
+            decodeErrors: members[index].decodeErrors,
+            closeCodes: members[index].closeCodes,
+          })),
+        }),
+      );
+    },
+  );
   it("新旧画面が混在する実通信でもBASTIONの予告方向を維持する", async () => {
     const { entry, members } = await team(
       2,
@@ -476,8 +656,51 @@ describe("改装版の実通信", () => {
       "turnBits",
     );
   });
-  it("4人の密集状態を省略可能なクライアントへ送り、切断せず権威状態を維持する", async () => {
+  it("分割非対応の旧画面は密集時に敵を省略せず更新案内で切断する", async () => {
     const { entry, members } = await team(4, "survival", 3, true);
+    const offsets = members.map((member) => member.messages.length);
+    const response = await fetch(
+      `${base}/fixtures/${entry.code}/front-wire-dense`,
+      { method: "POST" },
+    );
+    expect(response.status).toBe(200);
+    const notices = await Promise.all(
+      members.map((member, index) =>
+        member.wait((m) => m.type === "notice", offsets[index]),
+      ),
+    );
+    for (let i = 0; i < members.length; i++) {
+      expect(notices[i].reason).toContain("再読み込み");
+      const member = members[i];
+      if (!member.closeCodes.includes(4000))
+        await new Promise<void>((resolve, reject) =>
+          member.ws.addEventListener(
+            "close",
+            (event) =>
+              event.code === 4000
+                ? resolve()
+                : reject(Error(`予期しない切断: ${event.code}`)),
+            { once: true },
+          ),
+        );
+      expect(member.closeCodes).toContain(4000);
+      expect(
+        member.messages
+          .slice(offsets[i])
+          .some((m) => m.type === "state" && m.omitted),
+      ).toBe(false);
+    }
+    const snapshotResponse = await fetch(
+      `${base}/fixtures/${entry.code}/snapshot`,
+      { method: "POST" },
+    );
+    const authority = await snapshotResponse.json();
+    expect(authority.world.enemies).toHaveLength(96);
+    expect(authority.world.front.orbs).toHaveLength(160);
+    expect(authority.world.projectiles).toHaveLength(180);
+  });
+  it("分割対応4人は同じ密集状態の全敵・全弾・全オーブを受信する", async () => {
+    const { entry, members } = await team(4, "survival", 3, true, true, true);
     const offsets = members.map((member) => member.messages.length);
     const response = await fetch(
       `${base}/fixtures/${entry.code}/front-wire-dense`,
@@ -486,22 +709,20 @@ describe("改装版の実通信", () => {
     expect(response.status).toBe(200);
     const packets = await Promise.all(
       members.map((member, index) =>
-        member.wait((m) => m.type === "state" && m.omitted, offsets[index]),
+        member.wait(
+          (m) => m.type === "state" && m.world.projectiles.length === 180,
+          offsets[index],
+        ),
       ),
     );
     for (let i = 0; i < members.length; i++) {
       expect(members[i].ws.readyState).toBe(WebSocket.OPEN);
-      expect(Buffer.byteLength(JSON.stringify(packets[i]))).toBeLessThanOrEqual(
-        65536,
-      );
+      expect(members[i].maxPacketBytes).toBeLessThanOrEqual(61440);
       expect(packets[i].world.projectiles).toHaveLength(180);
-      expect(packets[i].omitted.orbs.length).toBeGreaterThan(0);
-      expect(
-        packets[i].world.enemies.length + packets[i].omitted.enemies.length,
-      ).toBe(96);
-      expect(
-        packets[i].world.front.orbs.length + packets[i].omitted.orbs.length,
-      ).toBe(160);
+      expect(packets[i].world.enemies).toHaveLength(96);
+      expect(packets[i].world.front.orbs).toHaveLength(160);
+      expect(packets[i].omitted?.enemies ?? []).toEqual([]);
+      expect(packets[i].omitted?.orbs ?? []).toEqual([]);
     }
     const snapshotResponse = await fetch(
       `${base}/fixtures/${entry.code}/snapshot`,

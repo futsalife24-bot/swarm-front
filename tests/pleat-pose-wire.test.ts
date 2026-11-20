@@ -103,6 +103,7 @@ describe("PLEAT pose negotiation", () => {
       const f = fixture(),
         before = JSON.stringify(f.w);
       const prepared = prepareState(f.w, 0, {});
+      // 旧受信者はWorkerが明示交渉するv1で比較する。省略時は最新版。
       const oldWire = prepared.packet(
         f.ids[0],
         false,
@@ -111,6 +112,8 @@ describe("PLEAT pose negotiation", () => {
         true,
         tuples,
         true,
+        false,
+        1,
       );
       expect(oldWire).toBe(
         oldWireModule.exports
@@ -126,6 +129,7 @@ describe("PLEAT pose negotiation", () => {
         tuples,
         true,
         true,
+        1,
       );
       expect(
         prepared.packet(
@@ -137,6 +141,7 @@ describe("PLEAT pose negotiation", () => {
           tuples,
           true,
           false,
+          1,
         ),
       ).toBe(oldWire);
       expect(
@@ -149,6 +154,7 @@ describe("PLEAT pose negotiation", () => {
           tuples,
           true,
           true,
+          1,
         ),
       ).toBe(newWire);
       const old = JSON.parse(oldWire),

@@ -11,8 +11,18 @@ export const adminManifest = JSON.stringify({
   background_color: "#0c1820",
   theme_color: "#0c1820",
   icons: [
-    { src: "/icon-swarm-v3-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-    { src: "/icon-swarm-v3-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+    {
+      src: "/icon-swarm-v3-192.png",
+      sizes: "192x192",
+      type: "image/png",
+      purpose: "any",
+    },
+    {
+      src: "/icon-swarm-v3-512.png",
+      sizes: "512x512",
+      type: "image/png",
+      purpose: "any",
+    },
   ],
 });
 
@@ -32,7 +42,7 @@ function metric(label,value){const d=node('div',undefined,'metric');d.append(nod
 function card(a,period){const c=node('article',undefined,'card'),head=node('div',undefined,'card-head');head.append(node('h2',a.name),node('span',a.status==='active'?'計測中':a.status==='error'?'取得失敗':a.status==='unconfigured'?'未連携':'計測待ち','tag'+(a.status==='active'?' ok':'')));c.append(head);
  if(a.status==='active'){const m=node('div',undefined,'metrics');m.append(metric('アクセス',a.totals.views),metric(period===1?'訪問ブラウザ':'延べ訪問ブラウザ',a.totals.visitors));c.append(m);c.append(node('small','今日 '+num(a.todayViews)+' / 昨日 '+num(a.yesterdayViews)+'　前日比 '+(a.change===null?'—':(a.change>0?'+':'')+a.change+'%')));
  const chart=node('div',undefined,'spark');chart.setAttribute('role','img');chart.setAttribute('aria-label',period+'日間のアクセス推移。数値は詳細で確認できます');const max=Math.max(1,...a.days.map(d=>d.views));a.days.forEach(d=>{const bar=node('i');bar.style.height=(d.views?Math.max(3,d.views/max*100):0)+'%';bar.title=d.date+'：'+num(d.views);chart.append(bar)});const dates=node('div',undefined,'dates');dates.append(node('span',a.days[0].date.slice(5)),node('span',a.days.at(-1).date.slice(5)));c.append(chart,dates);
- const details=node('details');details.append(node('summary','日別の数値を見る'));if(a.id==='swarm-front')details.append(node('p','この期間の出撃 '+num(a.totals.sorties)+' / クリア '+num(a.totals.clears)));a.days.slice().reverse().forEach(d=>{const row=node('div',undefined,'detail-row');row.append(node('span',d.date),node('span',num(d.views)+' 回 / '+num(d.visitors)+' ブラウザ'));details.append(row)});c.append(details);
+ const details=node('details');details.append(node('summary','日別の数値を見る'));if(a.id==='swarm-front'){details.append(node('p','この期間の出撃 '+num(a.totals.sorties)+' / クリア '+num(a.totals.clears)));details.append(node('p','初回導線：開始 '+num(a.totals.ftueStarts ?? 0)+' / 初回出撃 '+num(a.totals.firstSorties ?? 0)+' / 初回勝利 '+num(a.totals.firstClears ?? 0)+' / 初回10連 '+num(a.totals.firstSupply10s ?? 0)+' / 再訪 '+num(a.totals.returns ?? 0)))}a.days.slice().reverse().forEach(d=>{const row=node('div',undefined,'detail-row');row.append(node('span',d.date),node('span',num(d.views)+' 回 / '+num(d.visitors)+' ブラウザ'));details.append(row)});c.append(details);
  }else c.append(node('p',a.status==='error'?'データを取得できませんでした。更新して再試行してください。':a.status==='unconfigured'?'接続先を確認中です。':'まだ計測データがありません。連携後のアクセスから表示します。','empty'));
  const foot=node('div',undefined,'card-foot');if(a.url){const link=node('a','アプリを開く ↗');link.href=a.url;link.target='_blank';link.rel='noopener noreferrer';foot.append(link)}if(a.url){for(const [value,label] of [['1','管理者として登録 ↗'],['0','登録解除 ↗']]){const link=node('a',label),url=new URL(a.url);url.searchParams.set('analytics_admin',value);link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';foot.append(link)}}if(a.firstDate)foot.append(node('small','記録あり：'+a.firstDate+'〜'));c.append(foot);return c}
 async function load(){const id=++generation;loading=true;$('refresh').disabled=true;$('cards').setAttribute('aria-busy','true');$('msg').textContent='';try{const period=Number($('period').value);const[r,d]=await api('/api/developer/apps?days='+period+'&excludeAdmin='+$('audience').value);if(id!==generation)return;if(r.status===401){signedOut();$('msg').textContent='ログインしてください';return}if(!r.ok)throw Error();$('login').hidden=true;$('out').hidden=false;$('app').hidden=false;$('cards').replaceChildren(...d.apps.map(a=>card(a,period)));$('updated').textContent='取得：'+new Date(d.updatedAt).toLocaleString('ja-JP',{timeZone:'Asia/Tokyo'})+'（日本時間）';}catch{if(id===generation){$('cards').replaceChildren();$('updated').textContent='';$('msg').textContent='取得に失敗しました。通信を確認して再試行してください。'}}finally{if(id===generation){loading=false;$('refresh').disabled=false;$('cards').setAttribute('aria-busy','false')}}}

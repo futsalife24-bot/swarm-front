@@ -1,9 +1,10 @@
 import * as T from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { enemyGltfLoader } from "./enemy-gltf-loader";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { leaperReportClip } from "./leaper-report-clip";
 import { enemyIdleClip } from "./enemy-idle-clip";
 import { enemyWindupClip } from "./enemy-windup-clip";
+import { polishHarrowFlight } from "./harrow-motion-polish";
 import { trsPalette, TRS_PALETTE_GLSL } from "./motion-trs";
 import {
   ENEMY_MOTION_FILES,
@@ -64,7 +65,7 @@ export function loadEnemyMotion(
 ): Promise<HoundMotionAsset> {
   const key = name + (report ? "_report" : "");
   if (cached.has(key)) return cached.get(key)!;
-  const request = new GLTFLoader()
+  const request = enemyGltfLoader()
     .loadAsync(
       // The service worker caches by URL. Version HARROW's path with its asset.
       `${import.meta.env.BASE_URL}${ENEMY_MOTION_FILES[name]}`,
@@ -118,6 +119,12 @@ export function loadEnemyMotion(
         throw new Error("Invalid enemy motion asset");
       const skeleton = meshes[0].skeleton,
         bones = skeleton.bones.length;
+      if (name === "harrow")
+        polishHarrowFlight(
+          model,
+          skeleton.bones,
+          clips.find((c) => c.name === "Flight")!,
+        );
       if (name !== "calyx" && name !== "harrow") {
         clips.splice(
           clips.findIndex((c) => c.name === "Idle"),
@@ -140,7 +147,7 @@ export function loadEnemyMotion(
       if (
         bones !==
           {
-            harrow: 39,
+            harrow: 47,
             calyx: 16,
             hound: 20,
             leaper: 20,

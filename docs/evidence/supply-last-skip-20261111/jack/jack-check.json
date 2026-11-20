@@ -1,0 +1,120 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "effect": 10,
+      "resultArt": "b-tatara",
+      "modelArt": "b-tatara",
+      "datasetArt": "b-tatara",
+      "line": "準備できた。",
+      "reply": "そっちへ行く。",
+      "drawnLines": [
+        "UNKNOWN SIGNAL  ///  CH-07",
+        "● REC",
+        "準備できた。",
+        "そっちへ行く。"
+      ],
+      "jack": true,
+      "drawn": 1,
+      "matches": true
+    },
+    {
+      "effect": 10,
+      "resultArt": "b-yosuga",
+      "modelArt": "b-yosuga",
+      "datasetArt": "b-yosuga",
+      "line": "……見つけた。",
+      "reply": "待ってて。",
+      "drawnLines": [
+        "UNKNOWN SIGNAL  ///  CH-07",
+        "● REC",
+        "……見つけた。",
+        "待ってて。"
+      ],
+      "jack": true,
+      "drawn": 1,
+      "matches": true
+    },
+    {
+      "effect": 10,
+      "resultArt": "b-tobari",
+      "modelArt": "b-tobari",
+      "datasetArt": "b-tobari",
+      "line": "聞こえたよ。",
+      "reply": "すぐそばに。",
+      "drawnLines": [
+        "UNKNOWN SIGNAL  ///  CH-07",
+        "● REC",
+        "聞こえたよ。",
+        "すぐそばに。"
+      ],
+      "jack": true,
+      "drawn": 1,
+      "matches": true
+    },
+    {
+      "effect": 10,
+      "resultArt": "b-oriha",
+      "modelArt": "b-oriha",
+      "datasetArt": "b-oriha",
+      "line": "つながった。",
+      "reply": "会いに行くね。",
+      "drawnLines": [
+        "UNKNOWN SIGNAL  ///  CH-07",
+        "● REC",
+        "つながった。",
+        "会いに行くね。"
+      ],
+      "jack": true,
+      "drawn": 1,
+      "matches": true
+    },
+    {
+      "effect": 10,
+      "resultArt": "b-tatara",
+      "modelArt": "b-tatara",
+      "datasetArt": "b-tatara",
+      "line": "準備できた。",
+      "reply": "そっちへ行く。",
+      "drawnLines": [
+        "UNKNOWN SIGNAL  ///  CH-07",
+        "● REC",
+        "準備できた。",
+        "そっちへ行く。"
+      ],
+      "jack": true,
+      "drawn": 1,
+      "matches": true
+    }
+  ],
+  "multiple": {
+    "arts": [
+      "b-oriha",
+      "b-yosuga"
+    ],
+    "targetArt": "b-oriha",
+    "datasetArt": "b-oriha",
+    "line": "つながった。",
+    "reply": "会いに行くね。",
+    "drawnLines": [
+      "UNKNOWN SIGNAL  ///  CH-07",
+      "● REC",
+      "つながった。",
+      "会いに行くね。"
+    ],
+    "matches": true
+  },
+  "unknown": {
+    "datasetArt": "",
+    "line": "……きこえる？",
+    "reply": "そっちへ行く。",
+    "drawn": 0,
+    "drawnLines": [
+      "UNKNOWN SIGNAL  ///  CH-07",
+      "● REC",
+      "……きこえる？",
+      "そっちへ行く。"
+    ]
+  },
+  "errors": []
+}

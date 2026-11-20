@@ -38,6 +38,8 @@ import {
   exportAppAnalytics,
   expireAppAnalytics,
   readEvent,
+  countSwarmAnalytics,
+  isSwarmAnalyticsKind,
   type Day,
 } from "./app-analytics";
 import {
@@ -47,17 +49,24 @@ import {
   normalizeChatText,
   type ChatMessage,
 } from "../src/shared/social";
-import { validStage } from "../src/shared/stages";
+import { STAGES, stageFor, validStage } from "../src/shared/stages";
 import { developerAuth } from "./developer-auth";
 import {
   playerVault,
   sqlVaultStorage,
   cloudAdmission,
-  cloudRateLimit,
+  cloudRateCount,
   cloudBody,
+  cloudHash,
   cloudReply,
+  clientAddress,
+  authenticatedResponse,
+  vaultSupplyGrant,
+  vaultSupplyProgress,
   validCloudSave,
+  PER_ADDRESS_PER_MINUTE,
 } from "./player-vault";
+import { supplyVault } from "./supply-vault";
 import { DurableObject } from "cloudflare:workers";
 import { RoomClock } from "./room-clock";
 import { RoomNetworkTrace, RoomTraceEvent } from "./room-network-trace";
@@ -99,6 +108,17 @@ import {
   type RoomOptions,
 } from "../src/shared/room-directory";
 
+const CATENA_UPDATE_NOTICE =
+  "連結型の表示が更新されています。画面を再読み込みして復帰してください";
+const stageHasCatena = (stage: number) =>
+  validStage(stage) &&
+  STAGES[stage - 1].waves.some((wave) => wave.bosses.includes("worm"));
+const roomHasCatena = (w: World) =>
+  w.enemies.some((enemy) => (enemy.segments?.length ?? 0) > 7) ||
+  (w.phase === "battle" &&
+    !w.front &&
+    stageFor(w).waves.some((wave) => wave.bosses.includes("worm")));
+
 interface Env {
   ROOMS: DurableObjectNamespace<Room>;
   GATE: DurableObjectNamespace<Gate>;
@@ -118,6 +138,7 @@ interface Member {
   frontGrowth?: 2 | 3;
   frontCatalog?: 2 | 3;
   frontOpening?: 2;
+  frontSupportRewards?: 1;
   upgradePool?: FrontUpgradeId[];
   initialCards?: FrontUpgradeId[];
   id: string;
@@ -147,6 +168,33 @@ interface Saved {
 }
 const json = (body: unknown, status = 200) => Response.json(body, { status });
 const secret = () => crypto.randomUUID().replaceAll("-", "");
+/*
+ * Supply/cloud request limits (F-17 H-2), in this order:
+ * 1. Per-address window at the Worker entry (IPv6 grouped per /64), held by a
+ *    per-address object, so one client cannot spend anyone else's allowance.
+ * 2. The account object checks the credential.
+ * 3. Only authenticated requests increase the shared daily counter. Reaching
+ *    it stops creation only (cloudAdmission); authenticated play continues.
+ */
+const clientIp = (req: Request) =>
+  req.headers.get("CF-Connecting-IP") ?? "local";
+async function addressLimit(env: Env, scope: string, req: Request) {
+  const key = await cloudHash(clientAddress(clientIp(req)));
+  const res = await env.GATE.get(
+    env.GATE.idFromName(`rate-address/${scope}/${key}`),
+  ).fetch(new Request("https://internal/rate-address"));
+  return res.ok ? null : res;
+}
+async function countAuthenticated(env: Env, counter: string, res: Response) {
+  if (!authenticatedResponse(res.status)) return;
+  try {
+    await env.GATE.get(env.GATE.idFromName(counter)).fetch(
+      new Request("https://internal/cloud-rate-count", { method: "POST" }),
+    );
+  } catch {
+    // The account already committed; a lost count must not fail the request.
+  }
+}
 export default {
   async fetch(req: Request, env: Env) {
     const u = new URL(req.url);
@@ -229,8 +277,9 @@ export default {
           "Access-Control-Allow-Origin":
             origin ?? allowedOrigins[0] ?? u.origin,
           "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-          "Access-Control-Allow-Headers":
-            "Content-Type,X-Room-Creation-Key,X-Turnstile-Token",
+          "Access-Control-Allow-Headers": u.pathname.startsWith("/api/supply/")
+            ? "Content-Type,Authorization"
+            : "Content-Type,X-Room-Creation-Key,X-Turnstile-Token",
           Vary: "Origin",
         },
       });
@@ -238,6 +287,61 @@ export default {
     const path = u.pathname.startsWith("/api/")
       ? u.pathname.slice(4)
       : u.pathname;
+    if (u.pathname.startsWith("/api/supply/")) {
+      if (!/^Bearer [a-f0-9]{64}$/.test(req.headers.get("Authorization") ?? ""))
+        return cloudReply({ error: "補給認証を確認してください" }, 401);
+      if (
+        req.method !== "GET" &&
+        (req.method !== "POST" ||
+          !origin ||
+          (origin !== u.origin && !allowedOrigins.includes(origin)))
+      )
+        return cloudReply({ error: "接続元と操作を確認してください" }, 403);
+      try {
+        // `cloud/<vault ID>` = vault-bound account (vault token); a bare ID is
+        // a legacy device account, which can only be used or migrated.
+        const match =
+          /^\/supply\/(?:(cloud)\/)?([a-f0-9]{32})\/(initialize|status|daily|draw|ack|migrate)$/.exec(
+            path,
+          );
+        if (
+          !match ||
+          (req.method === "GET") !== (match[3] === "status") ||
+          (match[1] === "cloud" && match[3] === "migrate")
+        )
+          return cloudReply({ error: "見つかりません" }, 404);
+        const limited = await addressLimit(env, "supply", req);
+        if (limited) return limited;
+        const payload =
+          req.method === "POST"
+            ? JSON.stringify(await cloudBody(req))
+            : undefined;
+        const res = await env.GATE.get(
+          env.GATE.idFromName(
+            (match[1] ? "supply-cloud/" : "supply/") + match[2],
+          ),
+        ).fetch(
+          new Request(
+            match[1]
+              ? `https://internal/supply-cloud/${match[2]}/${match[3]}`
+              : `https://internal/supply/${match[2]}/${match[3]}`,
+            {
+              method: req.method,
+              headers: {
+                Authorization: req.headers.get("Authorization") ?? "",
+                "Content-Type": "application/json",
+                "CF-Connecting-IP": clientIp(req),
+              },
+              ...(payload === undefined ? {} : { body: payload }),
+            },
+          ),
+        );
+        await countAuthenticated(env, "supply-admission", res);
+        return res;
+      } catch {
+        return cloudReply({ error: "補給を処理できませんでした" }, 400);
+      }
+    }
     if (u.pathname.startsWith("/api/cloud/")) {
       if (
         req.method !== "GET" &&
@@ -246,6 +350,8 @@ export default {
         return cloudReply({ error: "接続元と操作を確認してください" }, 403);
       try {
         if (path === "/cloud/create" && req.method === "POST") {
+          const limited = await addressLimit(env, "cloud", req);
+          if (limited) return limited;
           const allowed = await env.GATE.get(
             env.GATE.idFromName("cloud-admission"),
           ).fetch(
@@ -284,22 +390,13 @@ export default {
           /^\/cloud\/([a-f0-9]{32})\/(save|daily|weekly|delete)$/.exec(path);
         if (!match || (req.method === "GET" && match[2] !== "save"))
           return cloudReply({ error: "見つかりません" }, 404);
-        const admission = await env.GATE.get(
-          env.GATE.idFromName("cloud-admission"),
-        ).fetch(
-          new Request("https://internal/cloud-rate", {
-            headers: {
-              "CF-Connecting-IP":
-                req.headers.get("CF-Connecting-IP") ?? "local",
-            },
-          }),
-        );
-        if (!admission.ok) return admission;
+        const limited = await addressLimit(env, "cloud", req);
+        if (limited) return limited;
         const payload =
           req.method === "POST"
             ? JSON.stringify(await cloudBody(req))
             : undefined;
-        return await env.GATE.get(
+        const res = await env.GATE.get(
           env.GATE.idFromName("cloud/" + match[1]),
         ).fetch(
           new Request("https://internal/cloud/" + match[2], {
@@ -311,6 +408,8 @@ export default {
             ...(payload === undefined ? {} : { body: payload }),
           }),
         );
+        await countAuthenticated(env, "cloud-admission", res);
+        return res;
       } catch {
         return cloudReply(
           {
@@ -559,6 +658,7 @@ export default {
 export class Gate extends DurableObject<Env> {
   private analyticsClients = new Map<string, { at: number; count: number }>();
   private directoryQueries = new Map<string, { at: number; count: number }>();
+  private addressWindow = { window: 0, count: 0 };
   async fetch(req: Request) {
     const internal = new URL(req.url).pathname;
     if (internal === "/app-analytics-export")
@@ -591,9 +691,115 @@ export class Gate extends DurableObject<Env> {
       return this.ctx.blockConcurrencyWhile(() =>
         cloudAdmission(req, this.ctx.storage),
       );
-    if (internal === "/cloud-rate")
+    if (internal === "/cloud-rate-count")
       return this.ctx.blockConcurrencyWhile(() =>
-        cloudRateLimit(req, this.ctx.storage),
+        cloudRateCount(this.ctx.storage),
+      );
+    if (internal === "/rate-address") {
+      // One object per address key: an in-memory minute window, no storage
+      // writes. A flooding client keeps its object alive, so the count holds.
+      const window = Math.floor(Date.now() / 60000);
+      if (this.addressWindow.window !== window)
+        this.addressWindow = { window, count: 0 };
+      if (++this.addressWindow.count > PER_ADDRESS_PER_MINUTE)
+        return cloudReply(
+          { error: "同期回数の上限です。端末の進行は保存されています" },
+          429,
+        );
+      return cloudReply({ ok: true });
+    }
+    if (internal === "/cloud-supply-grant")
+      return this.ctx.blockConcurrencyWhile(() =>
+        vaultSupplyGrant(req, sqlVaultStorage(this.ctx.storage)),
+      );
+    if (internal === "/cloud-supply-progress")
+      return this.ctx.blockConcurrencyWhile(() =>
+        vaultSupplyProgress(req, sqlVaultStorage(this.ctx.storage)),
+      );
+    const legacySupply = /^\/supply\/([a-f0-9]{32})\/[a-z]+$/.exec(internal);
+    if (legacySupply)
+      return this.ctx.blockConcurrencyWhile(() =>
+        supplyVault(
+          req,
+          sqlVaultStorage(this.ctx.storage),
+          Date.now(),
+          undefined,
+          {
+            legacyId: legacySupply[1],
+            migrate: (vault, transfer) =>
+              this.env.GATE.get(
+                this.env.GATE.idFromName("supply-cloud/" + vault.id),
+              ).fetch(
+                new Request(
+                  `https://internal/supply-cloud/${vault.id}/absorb`,
+                  {
+                    method: "POST",
+                    headers: {
+                      Authorization: "Bearer " + vault.token,
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(transfer),
+                  },
+                ),
+              ),
+          },
+        ),
+      );
+    const cloudSupply = /^\/supply-cloud\/([a-f0-9]{32})\/[a-z]+$/.exec(
+      internal,
+    );
+    if (cloudSupply)
+      return this.ctx.blockConcurrencyWhile(() =>
+        supplyVault(
+          req,
+          sqlVaultStorage(this.ctx.storage),
+          Date.now(),
+          undefined,
+          {
+            progress: async () => {
+              const response = await this.env.GATE.get(
+                this.env.GATE.idFromName("cloud/" + cloudSupply[1]),
+              ).fetch(
+                new Request("https://internal/cloud-supply-progress", {
+                  headers: {
+                    Authorization: req.headers.get("Authorization") ?? "",
+                  },
+                }),
+              );
+              if (!response.ok) return response;
+              return (await response.json()) as import("../src/shared/supply-grants").SupplyProgress;
+            },
+            open: async (claim) => {
+              const granted = await this.env.GATE.get(
+                this.env.GATE.idFromName("cloud/" + cloudSupply[1]),
+              ).fetch(
+                new Request("https://internal/cloud-supply-grant", {
+                  method: "POST",
+                  headers: {
+                    Authorization: req.headers.get("Authorization") ?? "",
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ claim }),
+                }),
+              );
+              if (!granted.ok) return granted;
+              const result = (await granted.json()) as { grant: boolean };
+              // Only a brand-new vault account passes creation admission; a
+              // migrating legacy player already has an account.
+              if (claim === "cloud") {
+                const admission = await this.env.GATE.get(
+                  this.env.GATE.idFromName("supply-admission"),
+                ).fetch(
+                  new Request("https://internal/cloud-admission", {
+                    headers: { "CF-Connecting-IP": clientIp(req) },
+                  }),
+                );
+                if (!admission.ok) return admission;
+              }
+              return { grant: result.grant === true };
+            },
+          },
+        ),
       );
     if (internal === "/cloud-initialize" || internal.startsWith("/cloud/"))
       return this.ctx.blockConcurrencyWhile(() =>
@@ -615,27 +821,40 @@ export class Gate extends DurableObject<Env> {
   }
   private async analytics(req: Request, path: string) {
     const now = Date.now();
-    type Day = {
-      date: string;
-      views: number;
-      visitors: number;
-      sorties: number;
-      clears: number;
+    type StoredDay = Day & {
       ids: string[];
       admin?: {
         views: number;
         sorties: number;
         clears: number;
+        ftueStarts: number;
+        firstSorties: number;
+        firstClears: number;
+        firstSupply10s: number;
+        returns: number;
         onlyIds: string[];
       };
     };
-    const days = (await this.ctx.storage.get<Day[]>("analytics-days")) ?? [];
+    const days =
+      (await this.ctx.storage.get<StoredDay[]>("analytics-days")) ?? [];
     const day = new Date(now).toLocaleDateString("sv-SE", {
       timeZone: "Asia/Tokyo",
     });
     let d = days.find((x) => x.date === day);
     if (!d) {
-      d = { date: day, views: 0, visitors: 0, sorties: 0, clears: 0, ids: [] };
+      d = {
+        date: day,
+        views: 0,
+        visitors: 0,
+        sorties: 0,
+        clears: 0,
+        ftueStarts: 0,
+        firstSorties: 0,
+        firstClears: 0,
+        firstSupply10s: 0,
+        returns: 0,
+        ids: [],
+      };
       days.push(d);
     }
     if (path === "/analytics-read") {
@@ -647,8 +866,23 @@ export class Gate extends DurableObject<Env> {
           visitors: a.visitors + x.visitors,
           sorties: a.sorties + x.sorties,
           clears: a.clears + x.clears,
+          ftueStarts: a.ftueStarts + (x.ftueStarts ?? 0),
+          firstSorties: a.firstSorties + (x.firstSorties ?? 0),
+          firstClears: a.firstClears + (x.firstClears ?? 0),
+          firstSupply10s: a.firstSupply10s + (x.firstSupply10s ?? 0),
+          returns: a.returns + (x.returns ?? 0),
         }),
-        { views: 0, visitors: 0, sorties: 0, clears: 0 },
+        {
+          views: 0,
+          visitors: 0,
+          sorties: 0,
+          clears: 0,
+          ftueStarts: 0,
+          firstSorties: 0,
+          firstClears: 0,
+          firstSupply10s: 0,
+          returns: 0,
+        },
       );
       return json({
         startedAt: days.length
@@ -663,6 +897,12 @@ export class Gate extends DurableObject<Env> {
                 views: x.views - admin.views,
                 sorties: x.sorties - admin.sorties,
                 clears: x.clears - admin.clears,
+                ftueStarts: (x.ftueStarts ?? 0) - (admin.ftueStarts ?? 0),
+                firstSorties: (x.firstSorties ?? 0) - (admin.firstSorties ?? 0),
+                firstClears: (x.firstClears ?? 0) - (admin.firstClears ?? 0),
+                firstSupply10s:
+                  (x.firstSupply10s ?? 0) - (admin.firstSupply10s ?? 0),
+                returns: (x.returns ?? 0) - (admin.returns ?? 0),
                 visitors: x.visitors - admin.onlyIds.length,
               }
             : x,
@@ -677,17 +917,22 @@ export class Gate extends DurableObject<Env> {
       };
       if (b?.admin !== undefined && typeof b.admin !== "boolean")
         return json({ ok: false }, 400);
-      if (!b || !["view", "sortie", "clear"].includes(b.kind ?? ""))
-        return json({ ok: false }, 400);
+      if (!b || !isSwarmAnalyticsKind(b.kind)) return json({ ok: false }, 400);
       if (b.admin) {
-        d.admin ??= { views: 0, sorties: 0, clears: 0, onlyIds: [] };
-        if (b.kind === "view") d.admin.views++;
-        if (b.kind === "sortie") d.admin.sorties++;
-        if (b.kind === "clear") d.admin.clears++;
+        d.admin ??= {
+          views: 0,
+          sorties: 0,
+          clears: 0,
+          ftueStarts: 0,
+          firstSorties: 0,
+          firstClears: 0,
+          firstSupply10s: 0,
+          returns: 0,
+          onlyIds: [],
+        };
+        countSwarmAnalytics(d.admin, b.kind);
       }
-      if (b.kind === "view") d.views++;
-      if (b.kind === "sortie") d.sorties++;
-      if (b.kind === "clear") d.clears++;
+      countSwarmAnalytics(d, b.kind);
       if (
         typeof b.visitor === "string" &&
         /^[a-zA-Z0-9_-]{8,64}$/.test(b.visitor) &&
@@ -954,8 +1199,10 @@ export class Room extends DurableObject<Env> {
       equipmentCache?: boolean;
       stateOmissions?: boolean;
       stateTuples?: boolean;
+      stateTupleVersion?: 1 | 2;
       pleatPose?: boolean;
       stateChunks?: boolean;
+      stateChunkBudget?: boolean;
       stateDelta?: StateDeltaSender;
       stateDelivery: StateDelivery;
       equipmentKey?: string;
@@ -992,8 +1239,10 @@ export class Room extends DurableObject<Env> {
           id: string;
           stateOmissions?: boolean;
           stateTuples?: boolean;
+          stateTupleVersion?: 1 | 2;
           pleatPose?: boolean;
           stateChunks?: boolean;
+          stateChunkBudget?: boolean;
           stateDelta?: boolean;
           stateDeltaPlayers?: boolean;
           stateFlow?: boolean;
@@ -1010,8 +1259,11 @@ export class Room extends DurableObject<Env> {
           seq: -1,
           stateOmissions: a.stateOmissions === true,
           stateTuples: a.stateTuples === true,
+          stateTupleVersion: a.stateTupleVersion === 2 ? 2 : 1,
           pleatPose: a.pleatPose === true,
           stateChunks: a.stateChunks === true,
+          stateChunkBudget:
+            a.stateChunks === true && a.stateChunkBudget === true,
           stateDelta:
             a.stateDelta === true
               ? new StateDeltaSender(a.stateDeltaPlayers === true ? 2 : 1)
@@ -1235,6 +1487,7 @@ export class Room extends DurableObject<Env> {
         return;
       }
       if (
+        (this.saved.frontRun?.supportRewards && m.frontSupportRewards !== 1) ||
         (this.saved.frontRun?.world.front?.survivalBuildVersion === 1 &&
           m.frontSurvivalBuild !== 1) ||
         (this.saved.frontRun?.world.front?.catalogVersion === 3 &&
@@ -1254,6 +1507,15 @@ export class Room extends DurableObject<Env> {
             "強化ルールが更新されています。画面を再読み込みして復帰してください",
         });
         // 旧クライアントのerror処理は復帰トークンを消すので、noticeとcloseで保持する。
+        ws.close(4000, "画面を再読み込みして復帰してください");
+        return;
+      }
+      if (
+        m.stateTuples !== 2 &&
+        this.saved.world &&
+        roomHasCatena(this.saved.world)
+      ) {
+        this.send(ws, { type: "notice", reason: CATENA_UPDATE_NOTICE });
         ws.close(4000, "画面を再読み込みして復帰してください");
         return;
       }
@@ -1310,6 +1572,7 @@ export class Room extends DurableObject<Env> {
         m.frontCatalog === 3 ? 3 : m.frontCatalog === 2 ? 2 : undefined;
       member.frontSurvivalBuild =
         m.frontSurvivalBuild === 1 && m.frontGrowth === 3 ? 1 : undefined;
+      member.frontSupportRewards = m.frontSupportRewards === 1 ? 1 : undefined;
       member.frontOpening = m.frontOpening === 2 ? 2 : undefined;
       member.frontGrowth =
         m.frontGrowth === 3 ? 3 : m.frontGrowth === 2 ? 2 : undefined;
@@ -1325,9 +1588,11 @@ export class Room extends DurableObject<Env> {
       s.id = member.id;
       s.equipmentCache = m.equipmentCache === 1;
       s.stateOmissions = m.stateOmissions === 1;
-      s.stateTuples = m.stateTuples === 1;
+      s.stateTuples = m.stateTuples === 1 || m.stateTuples === 2;
+      s.stateTupleVersion = m.stateTuples === 2 ? 2 : 1;
       s.pleatPose = m.pleatPose === 1;
       s.stateChunks = m.stateChunks === 1;
+      s.stateChunkBudget = s.stateChunks && m.stateChunkBudget === 1;
       s.inputReceipt = m.inputReceipt === 1;
       s.networkTiming = m.networkTiming === 1;
       s.networkTrace =
@@ -1761,6 +2026,23 @@ export class Room extends DurableObject<Env> {
         this.error(ws, "ステージが不正です");
         return;
       }
+      if (
+        this.saved.directory?.ruleset !== "front-v1" &&
+        stageHasCatena(this.saved.stage ?? m.stage ?? 1)
+      ) {
+        const oldPeers = [...this.sockets].filter(
+          ([, session]) =>
+            session.stateTupleVersion !== 2 &&
+            present.some((member) => member.id === session.id),
+        );
+        if (oldPeers.length) {
+          for (const [peer] of oldPeers)
+            this.send(peer, { type: "notice", reason: CATENA_UPDATE_NOTICE });
+          if (!oldPeers.some(([peer]) => peer === ws))
+            this.send(ws, { type: "notice", reason: CATENA_UPDATE_NOTICE });
+          return;
+        }
+      }
       let world: World;
       if (this.saved.directory?.ruleset === "front-v1") {
         if (
@@ -1808,6 +2090,7 @@ export class Room extends DurableObject<Env> {
             seed: crypto.getRandomValues(new Uint32Array(1))[0],
             mode: this.saved.directory.mode,
             fusion: present.every((p) => p.frontGrowth === 3),
+            supportRewards: present.every((p) => p.frontSupportRewards === 1),
             clearedStage: present[0]?.frontClearedStage ?? 0,
             catalogVersion: present.every((p) => p.frontCatalog === 3)
               ? 3
@@ -1931,8 +2214,10 @@ export class Room extends DurableObject<Env> {
       id: s.id,
       stateOmissions: s.stateOmissions,
       stateTuples: s.stateTuples,
+      stateTupleVersion: s.stateTupleVersion,
       pleatPose: s.pleatPose,
       stateChunks: s.stateChunks,
+      stateChunkBudget: s.stateChunkBudget,
       stateDelta: !!s.stateDelta,
       stateDeltaPlayers: s.stateDelta?.version === 2,
       inputReceipt: s.inputReceipt,
@@ -1959,6 +2244,19 @@ export class Room extends DurableObject<Env> {
       : 2;
   }
   broadcast(target?: WebSocket) {
+    const active = this.saved.world;
+    if (active && roomHasCatena(active)) {
+      const old = [...this.sockets].find(
+        ([, session]) => session.id && session.stateTupleVersion !== 2,
+      );
+      if (old) {
+        const [ws] = old;
+        this.send(ws, { type: "notice", reason: CATENA_UPDATE_NOTICE });
+        ws.close(4000, "画面を再読み込みして復帰してください");
+        this.disconnected(ws);
+        return;
+      }
+    }
     this.publishDirectory();
     const w = this.saved.world;
     if (w)
@@ -2065,11 +2363,28 @@ export class Room extends DurableObject<Env> {
               cached,
               s.seq,
               recipientMetadata,
-              s.stateOmissions === true,
+              s.stateChunks === true && s.stateOmissions === true,
               s.stateTuples === true,
               s.stateChunks === true,
               s.pleatPose === true,
+              s.stateTupleVersion ?? 1,
+              61440,
             );
+            // Keep 4KiB below the transport ceiling. An old screen cannot
+            // reconstruct chunks: retain all combat state or ask it to update.
+            if (
+              !s.stateChunkBudget &&
+              new TextEncoder().encode(payload).length > 61440
+            ) {
+              this.send(ws, {
+                type: "notice",
+                reason:
+                  "戦況データの表示が更新されています。画面を再読み込みして復帰してください",
+              });
+              ws.close(4000, "画面を再読み込みして復帰してください");
+              this.disconnected(ws);
+              return [];
+            }
             if (s.stateDelta) {
               try {
                 payload = s.stateDelta.encode(payload, stateId);
@@ -2079,7 +2394,7 @@ export class Room extends DurableObject<Env> {
             }
             this.lastEncodeMs = performance.now() - encodingStarted;
             const chunks = s.stateChunks
-              ? encodeStateChunks(payload, stateId)
+              ? encodeStateChunks(payload, stateId, 61440)
               : [payload];
             trace?.record(
               RoomTraceEvent.encodeEnd,

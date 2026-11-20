@@ -1,0 +1,75 @@
+{
+  "voice": "yoko",
+  "mode": "solo",
+  "intro": {
+    "included": true,
+    "sha256": "83baa6db2a0f13b63ae750ddae71120a6048d00a8b3b30d6a520cf161db5f492",
+    "played": true,
+    "transitions": 3,
+    "guidance": true,
+    "unselected": true,
+    "stopped": true
+  },
+  "clipHashes": [
+    {
+      "key": "crawler",
+      "id": "anomaly-pleat",
+      "sha256": "723794080573a01f49d85380ce66707dbbd35af0aa2e4260d1b43ab43a59aa2d"
+    },
+    {
+      "key": "ant",
+      "id": "anomaly-volley",
+      "sha256": "2f8db781a6884d1372998f35a49b3272e3ab53af660f572c142fdc7f7926385e"
+    },
+    {
+      "key": "spider",
+      "id": "anomaly-leaper",
+      "sha256": "f5ae989fa0512db4a242dbd7ff3f395bbd8507936e1f2909824f8383bf48501c"
+    },
+    {
+      "key": "spitter",
+      "id": "anomaly-prism",
+      "sha256": "94edc2b33365ee0220b8b28786bcfccb36efe5923fb7fc42ecffebe504c5ad37"
+    },
+    {
+      "key": "boss",
+      "id": "anomaly-foundry",
+      "sha256": "1a4edfaec8daab96261ab09c0056a3bd7b090572cd26e835b5b4ab67c505a81b"
+    },
+    {
+      "key": "hornet",
+      "id": "anomaly-ray",
+      "sha256": "5bc8483cfbc7d2c2e43d211475e34cd834c864611164568049b0b869eac88d65"
+    },
+    {
+      "key": "bastion",
+      "id": "anomaly-bastion",
+      "sha256": "08ab175ba4f541e55fe02a9b16d4b04806d4854e0b541b8696588c0282938a68"
+    },
+    {
+      "key": "worm",
+      "id": "anomaly-catena",
+      "sha256": "74a1cf93b0a72f307138de02cd50df7be7e81dcf2b591888febfb89d4c2015c0"
+    },
+    {
+      "key": "calyx",
+      "id": "anomaly-calyx",
+      "sha256": "87e51563327d2037dc7dac960918c62bfd3f77b60a45d1c070ae00b1b872020f"
+    },
+    {
+      "key": "harrow",
+      "id": "anomaly-harrow",
+      "sha256": "c20a0f25ec142a1112173be49e0ef80fa6eb42ee892b10fba64b3cb049c06751"
+    }
+  ],
+  "starts": 12,
+  "maxLive": 1,
+  "playing": 12,
+  "ended": 11,
+  "rejected": [],
+  "chromeVersion": "157.0.8103.51",
+  "network": [
+    "https://swarm-front.melosalife-24.workers.dev/assets/voice-packs/control-voice-yoko-v4.bin"
+  ],
+  "errors": []
+}

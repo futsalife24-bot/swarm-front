@@ -1,0 +1,1794 @@
+{
+  "mode": "all",
+  "viewport": [
+    844,
+    390
+  ],
+  "checked": 72,
+  "rows": [
+    {
+      "name": "1-ten",
+      "request": 1,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        1,
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.4675,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "1-ten-reduced",
+      "request": 1,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        1,
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.2805,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "1-single",
+      "request": 1,
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        1,
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.4675,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "1-single-reduced",
+      "request": 1,
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        1,
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.2805,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "2-ten",
+      "request": 2,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        2,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 1.55,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "2-ten-reduced",
+      "request": 2,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        2,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 1.33,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "2-single",
+      "request": 2,
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        2,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 1.55,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "2-single-reduced",
+      "request": 2,
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        2,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 1.33,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "3-ten",
+      "request": 3,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        3,
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ],
+      "sampleTime": 1.9,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "3-ten-reduced",
+      "request": 3,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        3,
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ],
+      "sampleTime": 1.24,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "3-single",
+      "request": 3,
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        3,
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 1.75,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "3-single-reduced",
+      "request": 3,
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        3,
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 1.1500000000000001,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "4-ten",
+      "request": 4,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        4
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ],
+      "sampleTime": 8.99,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "4-ten-reduced",
+      "request": 4,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        4
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ],
+      "sampleTime": 6.913999999999999,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "4-single",
+      "request": 4,
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        4
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 2.04,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "4-single-reduced",
+      "request": 4,
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        4
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 1.304,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "9-ten",
+      "request": 9,
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        9
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ],
+      "sampleTime": 8.99,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "9-ten-reduced",
+      "request": 9,
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        9
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ],
+      "sampleTime": 6.913999999999999,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "9-single",
+      "request": 9,
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        9
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 2.04,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "9-single-reduced",
+      "request": 9,
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        9
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 1.304,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "10-ten",
+      "request": 10,
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        10
+      ],
+      "targets": [
+        null,
+        null,
+        2
+      ],
+      "sampleTime": 4.54,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "10-ten-reduced",
+      "request": 10,
+      "fixture": "ten-buddy",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        10
+      ],
+      "targets": [
+        null,
+        null,
+        2
+      ],
+      "sampleTime": 3.4880000000000004,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "10-single",
+      "request": 10,
+      "fixture": "single-buddy",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        10
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 2.04,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "10-single-reduced",
+      "request": 10,
+      "fixture": "single-buddy",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        10
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 1.304,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "response-ten",
+      "request": "response",
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "response-ten-reduced",
+      "request": "response",
+      "fixture": "ten-buddy",
+      "reduced": true,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "response-single",
+      "request": "response",
+      "fixture": "single-buddy",
+      "reduced": false,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "response-single-reduced",
+      "request": "response",
+      "fixture": "single-buddy",
+      "reduced": true,
+      "phases": [
+        "response",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "signature-ten",
+      "request": "signature",
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "signature-ten-reduced",
+      "request": "signature",
+      "fixture": "ten-buddy",
+      "reduced": true,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "signature-single",
+      "request": "signature",
+      "fixture": "single-buddy",
+      "reduced": false,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "signature-single-reduced",
+      "request": "signature",
+      "fixture": "single-buddy",
+      "reduced": true,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "heartbeat-ten",
+      "request": "heartbeat",
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        0,
+        "heartbeat",
+        0
+      ],
+      "targets": [
+        null,
+        2,
+        null
+      ],
+      "sampleTime": 1.8399999999999999,
+      "firstSampleTime": 4.8000000000000025,
+      "tailTime": 1.416,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "heartbeat-ten-reduced",
+      "request": "heartbeat",
+      "fixture": "ten-buddy",
+      "reduced": true,
+      "phases": [
+        0,
+        "heartbeat",
+        0
+      ],
+      "targets": [
+        null,
+        2,
+        null
+      ],
+      "sampleTime": 1.264,
+      "firstSampleTime": 3.680000000000002,
+      "tailTime": 0.8495999999999999,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "heartbeat-single",
+      "request": "heartbeat",
+      "fixture": "single-buddy",
+      "reduced": false,
+      "phases": [
+        0,
+        "heartbeat",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 1.9,
+      "firstSampleTime": 3.600000000000002,
+      "tailTime": 1.467,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "heartbeat-single-reduced",
+      "request": "heartbeat",
+      "fixture": "single-buddy",
+      "reduced": true,
+      "phases": [
+        0,
+        "heartbeat",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 1.3000000000000003,
+      "firstSampleTime": 2.640000000000001,
+      "tailTime": 0.8802000000000001,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "multilock-ten",
+      "request": "multilock",
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        "multilock",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "multilock-ten-reduced",
+      "request": "multilock",
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        "multilock",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "multilock-single",
+      "request": "multilock",
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        "multilock",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "multilock-single-reduced",
+      "request": "multilock",
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        "multilock",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "sonic-ten",
+      "request": "sonic",
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ],
+      "sampleTime": 1.69,
+      "firstSampleTime": 1.6000000000000003,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "sonic-ten-reduced",
+      "request": "sonic",
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ],
+      "sampleTime": 1.03,
+      "firstSampleTime": 1.0399999999999998,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "sonic-single",
+      "request": "sonic",
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 1.54,
+      "firstSampleTime": 1.36,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "sonic-single-reduced",
+      "request": "sonic",
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        "sonic",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 0.9400000000000002,
+      "firstSampleTime": 0.9599999999999999,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "reverse-ten",
+      "request": "reverse",
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        "reverse",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "reverse-ten-reduced",
+      "request": "reverse",
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        "reverse",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "reverse-single",
+      "request": "reverse",
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        "reverse",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "reverse-single-reduced",
+      "request": "reverse",
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        "reverse",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "reverseSeal-ten",
+      "request": "reverseSeal",
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        "reverseSeal",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": 0.319,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "reverseSeal-ten-reduced",
+      "request": "reverseSeal",
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        "reverseSeal",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": 0.1914,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "reverseSeal-single",
+      "request": "reverseSeal",
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        "reverseSeal",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": 0.319,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "reverseSeal-single-reduced",
+      "request": "reverseSeal",
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        "reverseSeal",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": 0.1914,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "lamp-ten",
+      "request": "lamp",
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        "lamp",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "lamp-ten-reduced",
+      "request": "lamp",
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        "lamp",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "lamp-single",
+      "request": "lamp",
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        "lamp",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": 0.64,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "lamp-single-reduced",
+      "request": "lamp",
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        "lamp",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.33,
+      "firstSampleTime": 0.56,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 1,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "landing-ten",
+      "request": "landing",
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        "landing",
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ],
+      "sampleTime": 1.8499999999999999,
+      "firstSampleTime": 1.9200000000000006,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "landing-ten-reduced",
+      "request": "landing",
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        "landing",
+        0
+      ],
+      "targets": [
+        null,
+        5,
+        null
+      ],
+      "sampleTime": 1.19,
+      "firstSampleTime": 1.5200000000000002,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "landing-single",
+      "request": "landing",
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        "landing",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 1.7,
+      "firstSampleTime": 1.7600000000000005,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "landing-single-reduced",
+      "request": "landing",
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        "landing",
+        0
+      ],
+      "targets": [
+        null,
+        0,
+        null
+      ],
+      "sampleTime": 1.1,
+      "firstSampleTime": 1.36,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "delayed-ten",
+      "request": "delayed",
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        "delayed"
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ],
+      "sampleTime": 9.040000000000001,
+      "firstSampleTime": 10.320000000000007,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "delayed-ten-reduced",
+      "request": "delayed",
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        "delayed"
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ],
+      "sampleTime": 6.963999999999999,
+      "firstSampleTime": 7.920000000000005,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "delayed-single",
+      "request": "delayed",
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        "delayed"
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 2.09,
+      "firstSampleTime": 3.520000000000002,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "delayed-single-reduced",
+      "request": "delayed",
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        "delayed"
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 1.354,
+      "firstSampleTime": 2.400000000000001,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "skeleton-ten",
+      "request": "skeleton",
+      "fixture": "ten-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        "skeleton"
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ],
+      "sampleTime": 9.040000000000001,
+      "firstSampleTime": 10.320000000000007,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "skeleton-ten-reduced",
+      "request": "skeleton",
+      "fixture": "ten-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        "skeleton"
+      ],
+      "targets": [
+        null,
+        null,
+        5
+      ],
+      "sampleTime": 6.963999999999999,
+      "firstSampleTime": 7.920000000000005,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "skeleton-single",
+      "request": "skeleton",
+      "fixture": "single-ssr",
+      "reduced": false,
+      "phases": [
+        0,
+        0,
+        "skeleton"
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 2.09,
+      "firstSampleTime": 3.520000000000002,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "skeleton-single-reduced",
+      "request": "skeleton",
+      "fixture": "single-ssr",
+      "reduced": true,
+      "phases": [
+        0,
+        0,
+        "skeleton"
+      ],
+      "targets": [
+        null,
+        null,
+        0
+      ],
+      "sampleTime": 1.354,
+      "firstSampleTime": 2.400000000000001,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "buddy-three",
+      "request": [
+        "signature",
+        "heartbeat",
+        10
+      ],
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        "signature",
+        "heartbeat",
+        10
+      ],
+      "targets": [
+        null,
+        2,
+        2
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "ssr-three",
+      "request": [
+        "reverse",
+        "landing",
+        "delayed"
+      ],
+      "fixture": "ten-two",
+      "reduced": false,
+      "phases": [
+        "reverse",
+        "landing",
+        "delayed"
+      ],
+      "targets": [
+        null,
+        5,
+        5
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "old-new",
+      "request": [
+        1,
+        "sonic",
+        4
+      ],
+      "fixture": "ten-two",
+      "reduced": false,
+      "phases": [
+        1,
+        "sonic",
+        4
+      ],
+      "targets": [
+        null,
+        5,
+        5
+      ],
+      "sampleTime": 0.55,
+      "firstSampleTime": null,
+      "tailTime": null,
+      "backTime": null,
+      "idle": 0.25,
+      "layerFound": true,
+      "podWaitAtBeat": true
+    },
+    {
+      "name": "last-default",
+      "phases": [
+        0,
+        "last-default",
+        0
+      ],
+      "implicitLast": true,
+      "conflict": true
+    }
+  ],
+  "live": [
+    {
+      "request": [
+        "signature",
+        "heartbeat",
+        10
+      ],
+      "final": true,
+      "taps": 61,
+      "ms": 20273,
+      "motionMs": 15100.000000000004,
+      "holdMs": 3990,
+      "limitMs": 31000,
+      "stalled": false
+    },
+    {
+      "request": [
+        "reverse",
+        "landing",
+        "delayed"
+      ],
+      "final": true,
+      "taps": 63,
+      "ms": 18451,
+      "motionMs": 13425.000000000004,
+      "holdMs": 3990,
+      "limitMs": 30000,
+      "stalled": false
+    },
+    {
+      "request": [
+        1,
+        "sonic",
+        4
+      ],
+      "final": true,
+      "taps": 64,
+      "ms": 18708,
+      "motionMs": 13425.000000000004,
+      "holdMs": 3990,
+      "limitMs": 30000,
+      "stalled": false
+    }
+  ],
+  "cleanup": {
+    "confirmStillNeeded": true,
+    "roots": 0,
+    "caps": 0
+  },
+  "errors": [],
+  "combinations": {
+    "単発SSR": {
+      "total": 288,
+      "accepted": 14,
+      "rejected": 274,
+      "multiAccepted": 0,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 138,
+        "複数局面の条件を満たしません": 136
+      }
+    },
+    "単発BUDDY": {
+      "total": 288,
+      "accepted": 200,
+      "rejected": 88,
+      "multiAccepted": 184,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 88
+      }
+    },
+    "10連SSR1": {
+      "total": 288,
+      "accepted": 14,
+      "rejected": 274,
+      "multiAccepted": 0,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 138,
+        "複数局面の条件を満たしません": 136
+      }
+    },
+    "10連SSR複数": {
+      "total": 288,
+      "accepted": 150,
+      "rejected": 138,
+      "multiAccepted": 136,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 138
+      }
+    },
+    "10連BUDDY最後SR": {
+      "total": 288,
+      "accepted": 200,
+      "rejected": 88,
+      "multiAccepted": 184,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 88
+      }
+    },
+    "10連最後SSRデフォルト": {
+      "total": 288,
+      "accepted": 30,
+      "rejected": 258,
+      "multiAccepted": 29,
+      "badTargets": 0,
+      "reasons": {
+        "確定演出と結果の下限が一致しません": 18,
+        "最後枠の合図と衝突します": 240
+      }
+    },
+    "10連最後SSRのみデフォルト": {
+      "total": 288,
+      "accepted": 1,
+      "rejected": 287,
+      "multiAccepted": 0,
+      "badTargets": 0,
+      "reasons": {
+        "複数局面の条件を満たしません": 29,
+        "確定演出と結果の下限が一致しません": 18,
+        "最後枠の合図と衝突します": 240
+      }
+    }
+  },
+  "fixtureNote": "旧PRESETS10の最終枠にはSR未満があるため、実検査では最後枠をSR/SSRの固定結果へ置換した。旧fixture不整合は今回の実装失敗に数えない。",
+  "samplingNote": "初回のsonic中央値カットは輪の出現前だった。firstSampleTimeを保持し、sonicはtLand+0.04へ変更。heartbeatはtLand+0.4の札と、降下94%の尾を別撮影。"
+}

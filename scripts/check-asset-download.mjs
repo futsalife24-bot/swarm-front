@@ -77,7 +77,10 @@ await new Promise((resolve, reject) => {
   server.once("error", reject);
   server.listen(5186, "127.0.0.1", resolve);
 });
-const browser = await chromium.launch({ channel: "chrome" });
+const browser = await chromium.launch({
+  channel: "chrome",
+  args: process.platform === "win32" ? ["--use-angle=d3d11"] : [],
+});
 const context = await browser.newContext({
   viewport: { width: 844, height: 390 },
 });
@@ -89,6 +92,7 @@ const results = {
 };
 const settled = () =>
   page.locator(".split-shutter").waitFor({ state: "hidden" });
+const goBack = () => page.locator("[data-menu-back]:visible").click();
 async function openMenu() {
   if (await page.locator(".title-entry-start").isVisible()) {
     if (
@@ -124,6 +128,7 @@ try {
   const before = await page.evaluate(() => ({ ...localStorage }));
   await openMenu();
   console.log("保存画面を表示");
+  await page.locator('[data-pack="map-0"]').check();
   await page.locator('[data-pack="map-survival-0"]').check();
   for (const width of [844, 640]) {
     await page.setViewportSize({
@@ -188,7 +193,7 @@ try {
   );
   results.selectedFiles = new Set(
     manifest.packs
-      .filter((p) => ["app", "common", "map-survival-0"].includes(p.id))
+      .filter((p) => ["app", "common", "map-0", "map-survival-0"].includes(p.id))
       .flatMap((p) => p.assets.map((a) => a.url)),
   ).size;
   assert.equal(results.savedFiles, results.selectedFiles);
@@ -199,14 +204,15 @@ try {
     "Asset download changed local save/settings",
   );
   await page.screenshot({ path: `${out}/saved-844.png` });
-  await page.locator(".download-dialog .dialog-close").click();
+  await goBack();
   await settled();
-  await page.locator("dialog[open] .dialog-close").click();
+  await goBack();
   await settled();
   const downloadCount = requests.filter((url) =>
     url.includes("__swarm_asset"),
   ).length;
   await openMenu();
+  await page.locator('[data-pack="map-0"]').check();
   await page.locator('[data-pack="map-survival-0"]').check();
   assert.equal(await page.locator("[data-download]").isDisabled(), true);
   assert.equal(
@@ -235,9 +241,9 @@ try {
     "/asset-download-manifest.json",
     Buffer.from(JSON.stringify(updated)),
   );
-  await page.locator(".download-dialog .dialog-close").click();
+  await goBack();
   await settled();
-  await page.locator("dialog[open] .dialog-close").click();
+  await goBack();
   await settled();
   await openMenu();
   const beforeUpdate = requests.filter((url) =>
@@ -288,9 +294,9 @@ try {
   await openMenu();
   assert.equal(await page.locator("[data-download]").isDisabled(), true);
   results.frontSettingsEntry = true;
-  await page.locator(".download-dialog .dialog-close").click();
+  await goBack();
   await settled();
-  await page.locator("#front-settings-back").click();
+  await goBack();
   await settled();
   if (await page.locator(".title-entry-start").isVisible()) {
     await page.locator(".title-entry-start").click();
@@ -301,8 +307,8 @@ try {
   await page.locator('[data-operation="survival"]').click();
   await settled();
   await page.getByRole("button", { name: "ソロ出撃 ↗", exact: true }).click();
-  await page.locator(".rebuild-card").first().waitFor({ timeout: 65000 });
-  await page.locator(".rebuild-card").first().click();
+  await page.locator("[data-card]:visible").first().waitFor({ timeout: 65000 });
+  await page.locator("[data-card]:visible").first().click();
   await page.locator("#controls").waitFor({ state: "visible", timeout: 10000 });
   results.survivalOfflineStarted = true;
   await page.screenshot({ path: `${out}/offline-survival.png` });

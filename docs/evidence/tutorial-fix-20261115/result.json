@@ -1,0 +1,19 @@
+{
+  "base": "http://127.0.0.1:5198/",
+  "errors": [],
+  "sizes": [
+    {
+      "width": 844,
+      "height": 390
+    },
+    {
+      "width": 568,
+      "height": 320
+    }
+  ],
+  "pickupText": "回収｜落ちている武器に近づいて回収",
+  "healthText": "体力｜時間がたつと半分まで自動回復 · H／救急箱で全回復（1出撃に1回）　HP 40 / 160",
+  "medkitCompleted": true,
+  "savedVolume": "0.25",
+  "packDownloadReloadDelete": true
+}

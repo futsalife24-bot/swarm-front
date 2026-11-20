@@ -7,7 +7,7 @@ export const ENCOUNTER_FILM_FILES = {
   boss: "assets/encounters/report-v3/boss-20261015.mp4?v=ed60fcf09355",
   hornet: "assets/encounters/report-v3/hornet-20261015.mp4?v=aa842551120f",
   bastion: "assets/encounters/report-v3/bastion-20261018.mp4?v=79f14d199441",
-  worm: "assets/encounters/report-v3/worm-20261015.mp4?v=e3b73bd91414",
+  worm: "assets/encounters/report-v3/worm-20261111.mp4?v=c712e47513cc",
   calyx: "assets/encounters/report-v3/calyx-20261015.mp4?v=8557f0143310",
   harrow: "assets/encounters/report-v3/harrow-20261015.mp4?v=81161e9bbbd3",
 } as const;

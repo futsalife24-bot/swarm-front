@@ -27,9 +27,9 @@ function solo() {
 }
 
 describe("campaign weapon limit", () => {
-  it("marks co-op campaign loot with the cleared mission stage", () => {
+  it("starts co-op campaign loot at level one", () => {
     expect(loot(createWorld("stage-one", 1, 1)).level).toBe(1);
-    expect(loot(createWorld("stage-three", 1, 3)).level).toBe(3);
+    expect(loot(createWorld("stage-three", 1, 3)).level).toBe(1);
   });
 
   it("limits new solo weapons to three including picked drops and victory gifts", () => {

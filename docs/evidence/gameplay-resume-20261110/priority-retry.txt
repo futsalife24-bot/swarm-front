@@ -1,0 +1,55 @@
+{"validationPriority":-7}
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-support-rewards-20261110
+
+ ↓ tests/harrow-model.test.ts > 羽ばたき加工は翼だけを変え、左右非交差と上下主体の翼端軌道を保つ
+ ↓ tests/harrow-model.test.ts > matches the shipped HARROW asset and frames both complete motion clips
+ ✓ tests/harrow-model.test.ts > tracks every report clip's actual intermediate skinned poses 63325ms
+ ↓ tests/harrow-model.test.ts > the shipped HARROW clips finish at their authoritative attack transitions
+ ↓ tests/harrow-model.test.ts > joins landing and both walk boundaries without a skeleton discontinuity
+ ↓ tests/harrow-model.test.ts > plants both articulated wings before the authoritative single sweep while keeping root motion external
+ ↓ tests/harrow-model.test.ts > ten authoritative missile origins match the shipped warhead tips (airborne false)
+ ↓ tests/harrow-model.test.ts > ten authoritative missile origins match the shipped warhead tips (airborne true)
+ ↓ tests/foundry-movement.test.ts > 風渡る草原 rock-edge goals project to reachable segmented-body clearance
+ ↓ tests/foundry-movement.test.ts > 風渡る草原・高台ルート rock-edge goals project to reachable segmented-body clearance
+ ↓ tests/foundry-movement.test.ts > 白嶺の雪峡 rock-edge goals project to reachable segmented-body clearance
+ ↓ tests/foundry-movement.test.ts > 白嶺の雪峡・高台ルート rock-edge goals project to reachable segmented-body clearance
+ ↓ tests/foundry-movement.test.ts > segmented enemy keeps pursuing a player beside map 3 rock
+ ↓ tests/foundry-movement.test.ts > segmented enemy keeps pursuing a player beside map 4 rock
+ ↓ tests/foundry-movement.test.ts > audit P2: actual severing keeps pursuing the rock-edge soldier in stage 7
+ ↓ tests/foundry-movement.test.ts > audit P2: actual severing keeps pursuing the rock-edge soldier in stage 13
+ ↓ tests/foundry-movement.test.ts > initial roaming and cuts do not fold a connected chain back onto itself
+ ✓ tests/foundry-movement.test.ts > ground patrol stays clear and covers both axes on map 0 (灰明の街区) 11530ms
+ ↓ tests/foundry-movement.test.ts > ground patrol stays clear and covers both axes on map 1 (薄暮の倉庫地区)
+ ↓ tests/foundry-movement.test.ts > ground patrol stays clear and covers both axes on map 2 (蒼鉄の工業区)
+ ↓ tests/foundry-movement.test.ts > ground patrol stays clear and covers both axes on map 3 (風渡る草原)
+ ↓ tests/foundry-movement.test.ts > ground patrol stays clear and covers both axes on map 4 (白嶺の雪峡)
+ ↓ tests/foundry-movement.test.ts > ground patrol stays clear and covers both axes on map 5 (晶脈の地底巣)
+ ↓ tests/foundry-movement.test.ts > unsafe initial spawn projects all eight units safely on map 0
+ ↓ tests/foundry-movement.test.ts > unsafe initial spawn projects all eight units safely on map 1
+ ↓ tests/foundry-movement.test.ts > unsafe initial spawn projects all eight units safely on map 2
+ ↓ tests/foundry-movement.test.ts > unsafe initial spawn projects all eight units safely on map 3
+ ↓ tests/foundry-movement.test.ts > unsafe initial spawn projects all eight units safely on map 4
+ ↓ tests/foundry-movement.test.ts > unsafe initial spawn projects all eight units safely on map 5
+ ↓ tests/foundry-movement.test.ts > head destruction retains normal speed; body cuts promote chasing leaders without teleporting
+ ↓ tests/foundry-movement.test.ts > chase ignores disconnected and defeated players and survives snapshot replay
+ ↓ tests/foundry-movement.test.ts > each unit warns then emits a straight 60m/s, 100m laser from its model socket
+ ↓ tests/foundry-movement.test.ts > laser authority stops at cover before crossing a building
+ ↓ tests/foundry-movement.test.ts > entering muzzle range immediately before an old fire time still gets a full warning
+ ↓ tests/foundry-movement.test.ts > target eligibility uses the 100m three-dimensional distance from the muzzle
+ ✓ tests/foundry-movement.test.ts > all cut chains navigate to a distant player on map 0 24569ms
+ ↓ tests/foundry-movement.test.ts > all cut chains navigate to a distant player on map 1
+ ↓ tests/foundry-movement.test.ts > all cut chains navigate to a distant player on map 2
+ ↓ tests/foundry-movement.test.ts > all cut chains navigate to a distant player on map 3
+ ↓ tests/foundry-movement.test.ts > all cut chains navigate to a distant player on map 4
+ ↓ tests/foundry-movement.test.ts > all cut chains navigate to a distant player on map 5
+ ↓ tests/foundry-movement.test.ts > three worms keep only bounded leader histories inside the rounded multiplayer snapshot budget
+stdout | tests/coop-performance.test.ts > measures the authoritative three-player simulation without changing combat
+{"simulationMedianMs":3.9180999999998676,"simulationP95Ms":8.891299999999319}
+
+ ✓ tests/coop-performance.test.ts > measures the authoritative three-player simulation without changing combat 7784ms
+
+ Test Files  3 passed (3)
+      Tests  4 passed | 39 skipped (43)
+   Start at  14:24:14
+   Duration  114.69s (tests 95%, import 3%, transform 2%)

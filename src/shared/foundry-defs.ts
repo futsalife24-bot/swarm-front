@@ -4,6 +4,11 @@ export const FOUNDRY_FRACTURED_SPEED = 6.3;
 export const FOUNDRY_UNIT_PITCH = 3.2;
 export const FOUNDRY_LASER_WARNING = 0.8;
 export const FOUNDRY_LASER_INTERVAL = 4.8;
+export const FOUNDRY_LASER_STAGGER = 0.23;
+/** Head and seven body optics, spaced along either supported body length. */
+export function foundryOptic(part: number, bodyCount: number) {
+  return bodyCount <= 7 ? part : part % 2 === 0 ? part / 2 : undefined;
+}
 export const FOUNDRY_LASER_DAMAGE = 10;
 export const FOUNDRY_LASER_SPEED = 60;
 export const FOUNDRY_LASER_RANGE = 100;

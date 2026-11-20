@@ -42,7 +42,7 @@ describe("fixed body-centre shot presentation", () => {
       const original = { ...event };
       fx.event(event, body);
       const bullet = fx.items.find((item) => item.kind === "bullet")!;
-      const flash = fx.items.find((item) => item.kind === "flash")!;
+      const flash = fx.items.find((item) => item.kind === "muzzle")!;
       const start = new T.Vector3(body.x, body.y + 1.5, body.z);
       expect(bullet.mesh.position.distanceTo(start)).toBeLessThan(1e-9);
       expect(flash.mesh.position.distanceTo(start)).toBeLessThan(1e-9);
@@ -76,7 +76,7 @@ describe("fixed body-centre shot presentation", () => {
     const event = shot();
     fx.event(event, body, (out) => out.copy(muzzle));
     const bullet = fx.items.find((item) => item.kind === "bullet")!;
-    const flash = fx.items.find((item) => item.kind === "flash")!;
+    const flash = fx.items.find((item) => item.kind === "muzzle")!;
     expect(bullet.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
     expect(flash.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
     const endpoint = muzzle
@@ -91,11 +91,39 @@ describe("fixed body-centre shot presentation", () => {
     expect(flash.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
   });
 
+  it("aligns a grenade direction marker with the rendered barrel without lengthening the tracer", () => {
+    const fx = new CombatEffects(new T.Scene());
+    const body = new T.Vector3(0, 0, 0);
+    const muzzle = new T.Vector3(0.4, 1.4, -0.5);
+    const event = shot({
+      weapon: "grenade",
+      x: 0,
+      y: 1.5,
+      z: 0,
+      tx: 0,
+      ty: 1.5,
+      tz: -2,
+    });
+    fx.event(event, body, (out) => out.copy(muzzle));
+    const bullet = fx.items.find((item) => item.kind === "bullet")!;
+    const expectedDirection = new T.Vector3(0, 1.5, -30)
+      .sub(muzzle)
+      .normalize();
+    expect(bullet.mesh.position.distanceTo(muzzle)).toBeLessThan(1e-9);
+    expect(
+      bullet.velocity.clone().normalize().distanceTo(expectedDirection),
+    ).toBeLessThan(1e-9);
+    expect(bullet.duration).toBeCloseTo(
+      new T.Vector3(0, 1.5, -2).distanceTo(muzzle) / 120,
+      9,
+    );
+  });
+
   it("falls back to the body-centre height while no weapon is in the hand", () => {
     const fx = new CombatEffects(new T.Scene());
     const body = new T.Vector3(4, 2, 6);
     fx.event(shot(), body, () => null);
-    const flash = fx.items.find((item) => item.kind === "flash")!;
+    const flash = fx.items.find((item) => item.kind === "muzzle")!;
     expect(
       flash.mesh.position.distanceTo(new T.Vector3(4, 3.5, 6)),
     ).toBeLessThan(1e-9);
@@ -125,6 +153,21 @@ describe("fixed body-centre shot presentation", () => {
     expect(tip.x).toBeCloseTo(0, 6);
   });
 
+  it("does not let decorative rarity outlines move the physical muzzle", () => {
+    const gun = new T.Group();
+    const barrel = new T.Mesh(new T.BoxGeometry(0.04, 0.04, 0.8));
+    barrel.position.set(0, 0.06, -0.45);
+    gun.add(barrel);
+    const muzzle = weaponMuzzle(gun);
+    for (const name of ["WeaponNeonCore", "WeaponNeonHalo"]) {
+      const outline = new T.Mesh(new T.BoxGeometry(0.1, 0.1, 0.1));
+      outline.name = name;
+      outline.position.set(0.1, -0.1, -0.9);
+      gun.add(outline);
+    }
+    expect(weaponMuzzle(gun).distanceTo(muzzle)).toBeLessThan(1e-9);
+  });
+
   it("preserves world-space effects when no body exists, for enemies and secondary shots", () => {
     for (const event of [
       shot(),
@@ -138,7 +181,7 @@ describe("fixed body-centre shot presentation", () => {
         event.owner === "p1" && !event.frontEffect ? undefined : body,
       );
       const bullet = fx.items.find((item) => item.kind === "bullet")!;
-      const flash = fx.items.find((item) => item.kind === "flash")!;
+      const flash = fx.items.find((item) => item.kind === "muzzle")!;
       expect(bullet.mesh.position.toArray()).toEqual([4, 3.5, 6]);
       expect(flash.mesh.position.toArray()).toEqual([4, 3.5, 5.2]);
       body.x = 200;

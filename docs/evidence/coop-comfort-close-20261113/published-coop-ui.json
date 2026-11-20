@@ -1,0 +1,41 @@
+{
+  "source": "006d600e4131713331e9350c2a8edbcb8b9794a9",
+  "base": "https://swarm-front.melosalife-24.workers.dev",
+  "passed": true,
+  "authentication": {
+    "normalChrome": true,
+    "realProductionTurnstile": true,
+    "widgetVisibleResult": "成功しました！",
+    "bypass": false,
+    "automatedChromeHumanClickResult": "検証に失敗しました",
+    "cause": "自動ブラウザ検知の可能性。個別のエラー番号は未取得。"
+  },
+  "coop": {
+    "players": 2,
+    "privateOwnRoom": true,
+    "checks": [
+      "本人の通常認証済み非公開部屋へ招待で入室・準備完了",
+      "公開2人協力のカード選択・戦闘起動・ゲスト移動"
+    ],
+    "guestPageExceptions": [],
+    "hostGameConsoleErrorCount": 0,
+    "hostThirdPartyTurnstileConsoleErrorCount": 4,
+    "hostUncaughtExceptionListener": "別途設置せず、Cuaのエラーログを観測。ゲストはpageerror監視。",
+    "cleanup": "ゲストは起動・2秒移動後に終了。ホストは続いて切断表示と32秒で全滅の結果を確認し、今回開いたタブを閉じた。"
+  },
+  "conditions": {
+    "host": "既存の通常Chrome・通常Service Worker/画面設定",
+    "guest": {
+      "browser": "独立Chrome",
+      "headless": true,
+      "viewport": "844x390",
+      "serviceWorkers": "block",
+      "reducedMotion": "reduce"
+    }
+  },
+  "limits": [
+    "起動の確認。スマホや4人高負荷の合格ではない。",
+    "ホストは戦闘11秒の表示で1FPS、ゲストの2秒画像は60FPS。画面条件が異なるため比較計測や改善率に使わない。",
+    "Cloudflare側のconsole.error4件をゲーム例外と混同しない。認証は成功し、部屋作成も成功した。"
+  ]
+}

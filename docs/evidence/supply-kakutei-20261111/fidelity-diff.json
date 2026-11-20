@@ -1,0 +1,348 @@
+{
+  "count": 57,
+  "exact": 48,
+  "frames": [
+    {
+      "file": "01-0.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "01-1.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "01-2.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "01-3.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "01-4.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "01-5.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "02-0.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "02-1.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "02-2.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "03-0.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "03-1.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "04-0.jpg",
+      "meanAbsolute": 0.0039,
+      "changedPixels": 355,
+      "max": 9
+    },
+    {
+      "file": "04-1.jpg",
+      "meanAbsolute": 0.00443,
+      "changedPixels": 400,
+      "max": 13
+    },
+    {
+      "file": "04-2.jpg",
+      "meanAbsolute": 0.00907,
+      "changedPixels": 1341,
+      "max": 23
+    },
+    {
+      "file": "04-3.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "04-4.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "05-0.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "05-1.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "05-2.jpg",
+      "meanAbsolute": 0.00041,
+      "changedPixels": 90,
+      "max": 7
+    },
+    {
+      "file": "05-3.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "05-4.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "05-5.jpg",
+      "meanAbsolute": 0.0041,
+      "changedPixels": 501,
+      "max": 13
+    },
+    {
+      "file": "06-0.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "06-1.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "06-2.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "06-3.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "06-4.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "06-5.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "06-6.jpg",
+      "meanAbsolute": 0.00149,
+      "changedPixels": 151,
+      "max": 9
+    },
+    {
+      "file": "07-0.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "07-1.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "07-2.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "07-3.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "07-4.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "07-5.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "07-6.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "07-7.jpg",
+      "meanAbsolute": 8e-05,
+      "changedPixels": 0,
+      "max": 2
+    },
+    {
+      "file": "08-0.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "08-1.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "08-2.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "08-3.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "08-4.jpg",
+      "meanAbsolute": 0.0001,
+      "changedPixels": 0,
+      "max": 3
+    },
+    {
+      "file": "09-0.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "09-1.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "09-2.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "09-3.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "09-4.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "09-5.jpg",
+      "meanAbsolute": 0.00035,
+      "changedPixels": 15,
+      "max": 4
+    },
+    {
+      "file": "09-6.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "10-0.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "10-1.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "10-2.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "10-3.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "10-4.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "10-5.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "10-6.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    },
+    {
+      "file": "10-7.jpg",
+      "meanAbsolute": 0.0,
+      "changedPixels": 0,
+      "max": 0
+    }
+  ]
+}

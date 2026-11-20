@@ -1,0 +1,85 @@
+{
+  "frames": [
+    {
+      "name": "00-1.60.png",
+      "time": 1.6,
+      "phase": "brace",
+      "pads": 0,
+      "hp": 100,
+      "maxGap": 3.8400000000000034,
+      "minHeight": 0,
+      "maxHeight": 0
+    },
+    {
+      "name": "01-2.30.png",
+      "time": 2.3,
+      "phase": "warn",
+      "pads": 15,
+      "hp": 100,
+      "maxGap": 3.8400000000000034,
+      "minHeight": 0,
+      "maxHeight": 0
+    },
+    {
+      "name": "02-2.75.png",
+      "time": 2.75,
+      "phase": "flight",
+      "pads": 15,
+      "hp": 100,
+      "maxGap": 3.8553413391901667,
+      "minHeight": 0,
+      "maxHeight": 0.7084445523206171
+    },
+    {
+      "name": "03-3.05.png",
+      "time": 3.05,
+      "phase": "flight",
+      "pads": 15,
+      "hp": 100,
+      "maxGap": 3.9101501465039767,
+      "minHeight": 0,
+      "maxHeight": 6.838267879542596
+    },
+    {
+      "name": "04-3.35.png",
+      "time": 3.35,
+      "phase": "flight",
+      "pads": 15,
+      "hp": 100,
+      "maxGap": 3.9538122489992875,
+      "minHeight": 3.988077827349193,
+      "maxHeight": 13.72772507864064
+    },
+    {
+      "name": "05-3.70.png",
+      "time": 3.7,
+      "phase": "flight",
+      "pads": 15,
+      "hp": 100,
+      "maxGap": 3.850130402860728,
+      "minHeight": 13.995394421354195,
+      "maxHeight": 15.379610336825147
+    },
+    {
+      "name": "06-4.10.png",
+      "time": 4.1,
+      "phase": "flight",
+      "pads": 15,
+      "hp": 100,
+      "maxGap": 3.8530063261377356,
+      "minHeight": 4.7672496074526,
+      "maxHeight": 7.987047082538381
+    },
+    {
+      "name": "07-4.45.png",
+      "time": 4.45,
+      "phase": "landed",
+      "pads": 0,
+      "hp": 91.2,
+      "maxGap": 3.8400000000000034,
+      "minHeight": 0,
+      "maxHeight": 0
+    }
+  ],
+  "errors": []
+}

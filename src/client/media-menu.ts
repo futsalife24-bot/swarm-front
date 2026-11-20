@@ -6,6 +6,10 @@ import { MediaPlayback } from "./media-playback";
 import "./media-menu.css";
 import { SOLDIER_VOICES, SOLDIER_PATH } from "./soldier-voice";
 import { openAssetDownloadMenu } from "./asset-download-menu";
+import {
+  openControlVoiceMenu,
+  type ControlVoiceHost,
+} from "./control-voice-menu";
 
 export const SOUND_TEST_TRACKS: readonly { id: MusicTrack; label: string }[] = [
   { id: "title", label: "タイトル / 戦線の灯" },
@@ -29,17 +33,32 @@ export function mountMediaMenu(
   owner: HTMLDialogElement,
   volume: () => number,
   musicVolume: () => number = volume,
+  controlVoice?: ControlVoiceHost,
 ) {
   const entries = document.createElement("nav");
   entries.className = "settings-media";
   entries.setAttribute("aria-label", "データ保存・音楽・映像");
-  entries.innerHTML =
-    '<button type="button" data-download-menu>データを事前ダウンロード</button><button type="button" data-sound-test>サウンドテスト</button><button type="button" data-pv>PVを見る</button>';
+  entries.innerHTML = `<button type="button" data-download-menu>データを事前ダウンロード</button>${controlVoice ? '<button type="button" data-control-voice>管制AIボイス</button>' : ""}<button type="button" data-sound-test>サウンドテスト</button><button type="button" data-pv>PVを見る</button>`;
   const panel = owner.querySelector("#settings-save");
   const name = panel?.querySelector(".player-name-setting");
   if (name) name.after(entries);
   else (panel ?? owner.querySelector(".menu-dialog-body"))!.append(entries);
   let active: HTMLDialogElement | undefined;
+  const voiceButton = entries.querySelector<HTMLButtonElement>(
+    "[data-control-voice]",
+  );
+  if (voiceButton && controlVoice)
+    voiceButton.onclick = () => {
+      if (active) return;
+      active = openControlVoiceMenu(owner, controlVoice);
+      active.addEventListener(
+        "close",
+        () => {
+          active = undefined;
+        },
+        { once: true },
+      );
+    };
   entries.querySelector<HTMLButtonElement>("[data-download-menu]")!.onclick =
     () => {
       if (active) return;

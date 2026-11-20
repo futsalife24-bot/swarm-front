@@ -1,0 +1,107 @@
+{
+  "mode": "audio",
+  "errors": [],
+  "scenes": [
+    {
+      "scene": "title",
+      "caption": [
+        "管制AI｜スウォーム・フロント。"
+      ],
+      "log": [
+        {
+          "id": "title",
+          "text": "管制AI｜スウォーム・フロント。"
+        }
+      ],
+      "audio": []
+    },
+    {
+      "scene": "training",
+      "caption": [
+        "管制AI｜まず、移動です。訓練場の中を、自由に動いてみてください。"
+      ]
+    },
+    {
+      "scene": "battle",
+      "caption": [
+        "管制AI｜進撃作戦、開始。出撃してください。"
+      ],
+      "log": [
+        {
+          "id": "title",
+          "text": "管制AI｜スウォーム・フロント。"
+        },
+        {
+          "id": "pick-operation",
+          "text": "管制AI｜進撃と生存から、作戦を選択してください。"
+        },
+        {
+          "id": "loading",
+          "text": "管制AI｜戦場を準備中です。"
+        },
+        {
+          "id": "adv-sortie",
+          "text": "管制AI｜進撃作戦、開始。出撃してください。"
+        }
+      ],
+      "audio": [
+        {
+          "duration": 4.08,
+          "time": 2921.699999988079
+        },
+        {
+          "duration": 3.68,
+          "time": 21566.600000023842
+        }
+      ]
+    },
+    {
+      "scene": "survival",
+      "caption": [
+        "管制AI｜生存戦、開始。可能な限り、生き延びてください。"
+      ],
+      "log": [
+        {
+          "id": "loading",
+          "text": "管制AI｜戦場を準備中です。"
+        },
+        {
+          "id": "srv-sortie",
+          "text": "管制AI｜生存戦、開始。可能な限り、生き延びてください。"
+        }
+      ],
+      "audio": [
+        {
+          "duration": 0.035020833333333334,
+          "time": 14421
+        },
+        {
+          "duration": 4.64,
+          "time": 14625.600000023842
+        }
+      ]
+    },
+    {
+      "scene": "supply",
+      "caption": [
+        "管制AI｜投下要請、受理。"
+      ],
+      "log": [
+        {
+          "id": "title",
+          "text": "管制AI｜スウォーム・フロント。"
+        },
+        {
+          "id": "supply-request",
+          "text": "管制AI｜投下要請、受理。"
+        }
+      ],
+      "audio": [
+        {
+          "duration": 2,
+          "time": 4352.699999988079
+        }
+      ]
+    }
+  ]
+}

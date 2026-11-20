@@ -1,0 +1,234 @@
+{
+  "source": "17f094ae4927a6cf35f391614cfedf12dd6cee4f",
+  "readingEvidence": "docs/evidence/voice-fix5-20261115/received-manifest.md",
+  "packs": [
+    {
+      "voice": "hiromi",
+      "sha256": "3727d557d269fa29106f158015eee03188ac652b74c77962d2f37958cba37253",
+      "clips": 147
+    },
+    {
+      "voice": "hiyori",
+      "sha256": "3be7fbc76cfb2d393dc86f4e4ecb75fec201bf182e0706840f372d12e7108dd3",
+      "clips": 113
+    },
+    {
+      "voice": "yoko",
+      "sha256": "2dc48061ad3e6ee40b04222abcfe00adc3d0aed8ad62edd0401faabeadae454d",
+      "clips": 113
+    }
+  ],
+  "inventory": [
+    {
+      "key": "crawler",
+      "name": "PLEAT",
+      "reading": "プリート",
+      "clip": "anomaly-pleat",
+      "voices": {
+        "hiromi": {
+          "source": false,
+          "pack": false
+        },
+        "hiyori": {
+          "source": false,
+          "pack": false
+        },
+        "yoko": {
+          "source": false,
+          "pack": false
+        }
+      }
+    },
+    {
+      "key": "ant",
+      "name": "HOUND / VOLLEY",
+      "reading": "ハウンド・ボレー",
+      "clip": "anomaly-volley",
+      "voices": {
+        "hiromi": {
+          "source": false,
+          "pack": false
+        },
+        "hiyori": {
+          "source": false,
+          "pack": false
+        },
+        "yoko": {
+          "source": false,
+          "pack": false
+        }
+      }
+    },
+    {
+      "key": "spider",
+      "name": "HOUND / LEAPER",
+      "reading": "ハウンド・リーパー",
+      "clip": "anomaly-leaper",
+      "voices": {
+        "hiromi": {
+          "source": false,
+          "pack": false
+        },
+        "hiyori": {
+          "source": false,
+          "pack": false
+        },
+        "yoko": {
+          "source": false,
+          "pack": false
+        }
+      }
+    },
+    {
+      "key": "spitter",
+      "name": "PRISM",
+      "reading": "プリズム",
+      "clip": "anomaly-prism",
+      "voices": {
+        "hiromi": {
+          "source": false,
+          "pack": false
+        },
+        "hiyori": {
+          "source": false,
+          "pack": false
+        },
+        "yoko": {
+          "source": false,
+          "pack": false
+        }
+      }
+    },
+    {
+      "key": "boss",
+      "name": "FOUNDRY ZERO",
+      "reading": "ファウンドリー・ゼロ",
+      "clip": "anomaly-foundry",
+      "voices": {
+        "hiromi": {
+          "source": false,
+          "pack": false
+        },
+        "hiyori": {
+          "source": false,
+          "pack": false
+        },
+        "yoko": {
+          "source": false,
+          "pack": false
+        }
+      }
+    },
+    {
+      "key": "hornet",
+      "name": "RAY",
+      "reading": "レイ",
+      "clip": "anomaly-ray",
+      "voices": {
+        "hiromi": {
+          "source": false,
+          "pack": false
+        },
+        "hiyori": {
+          "source": false,
+          "pack": false
+        },
+        "yoko": {
+          "source": false,
+          "pack": false
+        }
+      }
+    },
+    {
+      "key": "bastion",
+      "name": "BASTION",
+      "reading": "バスティオン",
+      "clip": "anomaly-bastion",
+      "voices": {
+        "hiromi": {
+          "source": false,
+          "pack": false
+        },
+        "hiyori": {
+          "source": false,
+          "pack": false
+        },
+        "yoko": {
+          "source": false,
+          "pack": false
+        }
+      }
+    },
+    {
+      "key": "worm",
+      "name": "CATENA",
+      "reading": "カテナ",
+      "clip": "anomaly-catena",
+      "voices": {
+        "hiromi": {
+          "source": false,
+          "pack": false
+        },
+        "hiyori": {
+          "source": false,
+          "pack": false
+        },
+        "yoko": {
+          "source": false,
+          "pack": false
+        }
+      }
+    },
+    {
+      "key": "calyx",
+      "name": "CALYX",
+      "reading": "カリクス",
+      "clip": "anomaly-calyx",
+      "voices": {
+        "hiromi": {
+          "source": true,
+          "pack": true,
+          "sourceSHA256": "59247211ce37d21d73b11436d01b55e743f08cb63cd6e835aad6ae5543a36c90",
+          "receivedArchiveMatch": true,
+          "packClipBytes": 17762
+        },
+        "hiyori": {
+          "source": true,
+          "pack": true,
+          "sourceSHA256": "ffaeee350ef2299fb249690966389bb05cd3022a4cc4451d2df1b39feb3ce2f3",
+          "receivedArchiveMatch": true,
+          "packClipBytes": 17135
+        },
+        "yoko": {
+          "source": true,
+          "pack": true,
+          "sourceSHA256": "2d739ad859d30937c98a1a419dad20604c02e58fe4d18a2feddedadc3564cb8f",
+          "receivedArchiveMatch": true,
+          "packClipBytes": 17135
+        }
+      }
+    },
+    {
+      "key": "harrow",
+      "name": "HARROW",
+      "reading": "ハロウ",
+      "clip": "anomaly-harrow",
+      "voices": {
+        "hiromi": {
+          "source": false,
+          "pack": false
+        },
+        "hiyori": {
+          "source": false,
+          "pack": false
+        },
+        "yoko": {
+          "source": false,
+          "pack": false
+        }
+      }
+    }
+  ],
+  "availableClips": 3,
+  "missingClips": 27
+}

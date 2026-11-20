@@ -1,0 +1,386 @@
+{
+  "source": "Claude リモート指示用 + image_gen",
+  "copiedAt": "2026-11-10",
+  "files": [
+    {
+      "path": "ASSET-NOTES.md",
+      "sha256": "5dbd2c6f8277f05ab1f9634a95c926b2e3fd9d94cd904f877410897e3da9ff97"
+    },
+    {
+      "path": "assets/supply-pod-neutral-v1.png",
+      "sha256": "66ca3412a2178ace542e45394c2f34a9aab0096ce412d2560c73359e9d52da84"
+    },
+    {
+      "path": "compare/1-sr-final.jpg",
+      "sha256": "f4a4397b072e03a7af2a446d741b4667a582db3c94831360f46e877d57a3d6d0"
+    },
+    {
+      "path": "compare/1-ssr-cut.jpg",
+      "sha256": "797471b8150b0c1a74ee8a30046be28faf8c8eb499ce78ad33e406dd9c60ec52"
+    },
+    {
+      "path": "compare/1-ssr-omen.jpg",
+      "sha256": "92e927ffabb12f24503c28a297a12e4114f154b61f0f84d377ade8803bbffb28"
+    },
+    {
+      "path": "compare/1-ssr-open.jpg",
+      "sha256": "6225f902dc626b72d17c919656adb9f356a0b28c588caeb45a2cb0c967a3ee20"
+    },
+    {
+      "path": "compare/10-mix-buddy.jpg",
+      "sha256": "35e57d4736f86ab1af29e085bbce92c3858e39447a4ab313016b0a0c5625970a"
+    },
+    {
+      "path": "compare/10-mix-focus.jpg",
+      "sha256": "57d3d9eed4e41124069790bbcf0f4544c0dc7898521cfb98dec3894c094f49b4"
+    },
+    {
+      "path": "compare/10-mix-list.jpg",
+      "sha256": "1cfb70dd8f65566f23840fa4bc8cd9b98d14694b2f244913057215a191c77799"
+    },
+    {
+      "path": "compare/10-mix-omen.jpg",
+      "sha256": "9932e700639e60ce3b7245a21baeef2b75f0b6397112bcdc1fc45d350b7aa6ba"
+    },
+    {
+      "path": "compare/10-mix-wave.jpg",
+      "sha256": "ea0131f471e8f3d2f61cb52116d2727e1a7b81cfcee278f24e9ac0fe9a647c00"
+    },
+    {
+      "path": "compare/index.html",
+      "sha256": "761be807e75151f9f43ee2f8e30dac2d3585d20f45ce53823636cbffc6cf7ef2"
+    },
+    {
+      "path": "HANDOFF.md",
+      "sha256": "a7eabe52b7031da87c178784c0092b135a80a455ea1af0948c01f5645911cc7a"
+    },
+    {
+      "path": "preview.css",
+      "sha256": "afe984cbb53c3e046b4f046cb288ec8ec3f81976890524af297ffb959d28ce5d"
+    },
+    {
+      "path": "preview.html",
+      "sha256": "f4cbeb37ec593d9fe35214e39fa89dcd9378329a9bc7b527ec359acd4fe31a3d"
+    },
+    {
+      "path": "preview.js",
+      "sha256": "ced98d816e40cbd9c308aa55ecd42ed19b72ce8ccb5f17dfa59d51c72c59ae62"
+    },
+    {
+      "path": "supply-reveal/assets/pod-256.webp",
+      "sha256": "5ce36875907f10c8a859f8791634e08e7a059e47be56be9bcfefd1bc148e3da9"
+    },
+    {
+      "path": "supply-reveal/assets/pod-512.webp",
+      "sha256": "9bac11c7de22e6a45f0d0dd30ae8661a96dadeff6deddb1b1a7eff5648d98fb7"
+    },
+    {
+      "path": "supply-reveal/supply-reveal.css",
+      "sha256": "34ca59a06d78411ed57e302076aaec33094ab1590a83ed9d28cc1a4943279964"
+    },
+    {
+      "path": "supply-reveal/supply-reveal.js",
+      "sha256": "a22c31d871104edbe628619a88831657176d6af3e3db2317a690a40404d8d4c8"
+    },
+    {
+      "path": "verification/layout-check.js",
+      "sha256": "e55570490a1cb4c1485b60fa7bb847b1cc18a720d0dfab3568b9869d377e3593"
+    },
+    {
+      "path": "verification/results.json",
+      "sha256": "e0c3f9a92fd003ebf8fe0ee61b18d5cbf0613f5c5583951f7b403be4ee9a7008"
+    },
+    {
+      "path": "verification/run-verify.mjs",
+      "sha256": "4907b8df0fc53c5ef98aadde68b3ae06d6d6ffde44e77cb619c572b3e755e20c"
+    },
+    {
+      "path": "verification/shots/568x320-1-buddy-b-omen.jpg",
+      "sha256": "2651c42f603ee1212e5848a16f86003c4a4a16c3cb47afaeed8683de7399994a"
+    },
+    {
+      "path": "verification/shots/568x320-1-buddy-d-final.jpg",
+      "sha256": "73f097360e53129914c4a77a24b97b007dc74315a0543d3d2e8c2c5b602be7cc"
+    },
+    {
+      "path": "verification/shots/568x320-1-n-d-final.jpg",
+      "sha256": "78dc31b8a8b1bbd1fe0dbfc74c6cd52767432a77c30c6db8865a3bfb569642e2"
+    },
+    {
+      "path": "verification/shots/568x320-1-sr-c-open.jpg",
+      "sha256": "061cb1217fe1aeb5cec22cfbb18ec1c1b0265d9c0d39b753a786cd9199f6c182"
+    },
+    {
+      "path": "verification/shots/568x320-1-sr-d-final.jpg",
+      "sha256": "9ebe25df6575d2552b678fd8bc0f43da8ad51fb049122883d46b0a2f011d5b9f"
+    },
+    {
+      "path": "verification/shots/568x320-1-ssr-a-drop.jpg",
+      "sha256": "cb53aa2d3519b61277c97ae3f9377f85195c322d5ef1a5d5b9660ee5ac6e3e90"
+    },
+    {
+      "path": "verification/shots/568x320-1-ssr-b-omen.jpg",
+      "sha256": "9e99ef6b31c37d69c0c25689fab4cc7a79f9b2ccaaffea61fb5eb21b1d81484c"
+    },
+    {
+      "path": "verification/shots/568x320-1-ssr-c-open.jpg",
+      "sha256": "5acb87f309b4b00f0270051318be465ca4ed1fd937386382bf938fa6dfc75679"
+    },
+    {
+      "path": "verification/shots/568x320-1-ssr-d-final.jpg",
+      "sha256": "145a9541ad6df4348d0590324287b58dfe6546aeedb78c56193b089a905ff4e5"
+    },
+    {
+      "path": "verification/shots/568x320-10-long-b-omen.jpg",
+      "sha256": "73abd92dcc898d3e0ce198aaf52bc591205bbfa5aadae1f1013c22680fff8380"
+    },
+    {
+      "path": "verification/shots/568x320-10-long-c-wave.jpg",
+      "sha256": "6c94f215b394daf112f666dbdbe19556ed2d17cafc31d39693a23ab28174be68"
+    },
+    {
+      "path": "verification/shots/568x320-10-long-d-focus.jpg",
+      "sha256": "e50f98ebc0539a7794ed1a7a80df34e2c23c148aa367da0355ef7f7e97946c58"
+    },
+    {
+      "path": "verification/shots/568x320-10-long-f-list.jpg",
+      "sha256": "2743501b023b30769e104a0af0c0c1580efcb89c70c56725a2c208819455e06c"
+    },
+    {
+      "path": "verification/shots/568x320-10-low-b-omen.jpg",
+      "sha256": "395a2f0ce126bd99556588c3cf79d59a43bfedf36d525c7b45a669373b0a9080"
+    },
+    {
+      "path": "verification/shots/568x320-10-low-f-list.jpg",
+      "sha256": "1e960c5ca37ac7763cab7085672adf04635499a991001b8fca4f65652205b21d"
+    },
+    {
+      "path": "verification/shots/568x320-10-mix-a-drop.jpg",
+      "sha256": "905a08116eca13bd3022f28c1edc2aee4a92b34549e91aa362f1861b7fa5c729"
+    },
+    {
+      "path": "verification/shots/568x320-10-mix-b-omen.jpg",
+      "sha256": "73abd92dcc898d3e0ce198aaf52bc591205bbfa5aadae1f1013c22680fff8380"
+    },
+    {
+      "path": "verification/shots/568x320-10-mix-c-wave.jpg",
+      "sha256": "dcb76a000f4ef81456f29afcd15a2f29e9ea1aa1fdbad8175e28ffdfaff7be0f"
+    },
+    {
+      "path": "verification/shots/568x320-10-mix-d-focus.jpg",
+      "sha256": "f0bb0db2d9a33e9a9c1cc5935aef72b625063e31c72bf53c626497499da61518"
+    },
+    {
+      "path": "verification/shots/568x320-10-mix-e-stop1.jpg",
+      "sha256": "b244bdb527e77148dedb5a0bebefffd90b89b078aa0438f97016339a619cbbae"
+    },
+    {
+      "path": "verification/shots/568x320-10-mix-e-stop2.jpg",
+      "sha256": "83a4e09eec186b2aba6e80b7be9f5b2ef2070fb76bd29bd03d8b8618a3ccca43"
+    },
+    {
+      "path": "verification/shots/568x320-10-mix-e-stop3.jpg",
+      "sha256": "d3a08d20d5909f8d272e65a3c40462b9edcdc418bc7051e3e54cb4101d061d97"
+    },
+    {
+      "path": "verification/shots/568x320-10-mix-f-list.jpg",
+      "sha256": "6725e4027c66668ad0cd91789f87f2418cade956a805d95ec2c54dd2f2f85c8a"
+    },
+    {
+      "path": "verification/shots/568x320-launcher.jpg",
+      "sha256": "38a1fc0a9e50d9184586e34ee183febd9083d177af69545946aa64cbe4a7b713"
+    },
+    {
+      "path": "verification/shots/640x360-1-buddy-b-omen.jpg",
+      "sha256": "1633ccf6f1cf7fe7d00e616ab9698f9fbebad0f369a6a6f49f710cdbc13802f9"
+    },
+    {
+      "path": "verification/shots/640x360-1-buddy-d-final.jpg",
+      "sha256": "cdb19512146f9b7be22f8563e6963042bb5191c5e0846ed0892f6b32d6aea711"
+    },
+    {
+      "path": "verification/shots/640x360-1-n-d-final.jpg",
+      "sha256": "bfa4fee0395e5b71ca4ab94c654b6e13a969a860d5ff31e13e43235e2a5290cb"
+    },
+    {
+      "path": "verification/shots/640x360-1-sr-c-open.jpg",
+      "sha256": "1d38dd4e74064685504f9514d755e94bf2148614bcd733869c70960fd4dbdc9b"
+    },
+    {
+      "path": "verification/shots/640x360-1-sr-d-final.jpg",
+      "sha256": "6db141e068a2cf343518cb7354cfd765495b245cac8866035662eee85bde9a58"
+    },
+    {
+      "path": "verification/shots/640x360-1-ssr-a-drop.jpg",
+      "sha256": "ffcf71276dfba6ab09b9b443c88267caa1ffe5178e97479f76af5c163e779efb"
+    },
+    {
+      "path": "verification/shots/640x360-1-ssr-b-omen.jpg",
+      "sha256": "2458e6eeb6ea8005badb59cccf624bfebb57e959af317860022ddf3ea8a71ba0"
+    },
+    {
+      "path": "verification/shots/640x360-1-ssr-c-open.jpg",
+      "sha256": "d9cd9f7be879c62b7d8d0625fafbb0f943c810be95c4c174516df1c1231e84f5"
+    },
+    {
+      "path": "verification/shots/640x360-1-ssr-d-final.jpg",
+      "sha256": "321e5804c16ec718ea37a31dc168d087d877930eb9ba4068ea033c3c6042892b"
+    },
+    {
+      "path": "verification/shots/640x360-10-long-b-omen.jpg",
+      "sha256": "7bb7e7cd2d57377e10ec72bb64f726aa095107f63e164f3f642071bc77197c22"
+    },
+    {
+      "path": "verification/shots/640x360-10-long-c-wave.jpg",
+      "sha256": "34be1b2919908594c112d2d277b9f29dde533ab4971043a13a8a1015b3f56c3a"
+    },
+    {
+      "path": "verification/shots/640x360-10-long-d-focus.jpg",
+      "sha256": "798e0b1fb6236b5acc020e5e92bfc71bd207024da6cbc65b9d0d163271c0a226"
+    },
+    {
+      "path": "verification/shots/640x360-10-long-f-list.jpg",
+      "sha256": "67f9a8c3e6ac87c4c157a4c19aa275f034b9340e2b7d2cc8556d6c120702cb92"
+    },
+    {
+      "path": "verification/shots/640x360-10-low-b-omen.jpg",
+      "sha256": "12282dfc11a7a619624bce247c63c80ec16595559cf090ce1b10458a0c2f1409"
+    },
+    {
+      "path": "verification/shots/640x360-10-low-f-list.jpg",
+      "sha256": "0302dc13fb43a52933c55c2404915891e916d9088e34371dbfe183d31a0b9993"
+    },
+    {
+      "path": "verification/shots/640x360-10-mix-a-drop.jpg",
+      "sha256": "a06c0095cf0a9e8105300a68930691e3e8e84d3d8a8064904fd5328fd9914a33"
+    },
+    {
+      "path": "verification/shots/640x360-10-mix-b-omen.jpg",
+      "sha256": "6bf0433f3f03244612dc302145549a97043279f9cab0783a6857e5469fe49cce"
+    },
+    {
+      "path": "verification/shots/640x360-10-mix-c-wave.jpg",
+      "sha256": "34ab7f2e89bcbca771b036ea67c2849f6d4204cf136fb339bd5442692260dfcf"
+    },
+    {
+      "path": "verification/shots/640x360-10-mix-d-focus.jpg",
+      "sha256": "6b4da17888bf3777bd9d0afdf5dce150f633cbf0cc9e59e28e705f1714631410"
+    },
+    {
+      "path": "verification/shots/640x360-10-mix-e-stop1.jpg",
+      "sha256": "2e255e5a03483d67d2d2e910d218d5de8fda5f34f340516ca451c8ced4b3dc64"
+    },
+    {
+      "path": "verification/shots/640x360-10-mix-e-stop2.jpg",
+      "sha256": "bf523360ddda7fb4eb3278def3dc6ebd85da3d5cadcf507e43575f5ab6f95466"
+    },
+    {
+      "path": "verification/shots/640x360-10-mix-e-stop3.jpg",
+      "sha256": "a73e71bf98fcb59966c9ec06ea22355ff94b4015d5b4ac756894c1b37fe87532"
+    },
+    {
+      "path": "verification/shots/640x360-10-mix-f-list.jpg",
+      "sha256": "ab4192e59894ecf2736c81e0ff983b9d87f76d71241293c3147180e8899f993a"
+    },
+    {
+      "path": "verification/shots/640x360-launcher.jpg",
+      "sha256": "b2a69bc17047196932570bad2e9a3fcf9bcd5bfad28bce57ca661a1e33d925d8"
+    },
+    {
+      "path": "verification/shots/844x390-1-buddy-b-omen.jpg",
+      "sha256": "21a0591cfc6a12f7440d01d7c22b96f98637c7e7e449eb06b22e7038db677330"
+    },
+    {
+      "path": "verification/shots/844x390-1-buddy-d-final.jpg",
+      "sha256": "6354bcc75ca9223c74c3b1f277e1afbb01f7cb10e075a4fb98522215b645ff00"
+    },
+    {
+      "path": "verification/shots/844x390-1-n-d-final.jpg",
+      "sha256": "3a8acdb9fed6c72aaa1396e435bade135c3868af7fb7b24c709b273883c2223f"
+    },
+    {
+      "path": "verification/shots/844x390-1-sr-c-open.jpg",
+      "sha256": "b91f00d7729370ae95dc9ed3e78107645f459f1eeb5014049b23d556ad155fe8"
+    },
+    {
+      "path": "verification/shots/844x390-1-sr-d-final.jpg",
+      "sha256": "315367950401095e68923be6e48ea8bcf77667dc7f25ff9a919834b09cfc6fc6"
+    },
+    {
+      "path": "verification/shots/844x390-1-ssr-a-drop.jpg",
+      "sha256": "0bb4a7ae9d55e05edad015dd79cc2c42932e8fc86948ea74964abe808e660f01"
+    },
+    {
+      "path": "verification/shots/844x390-1-ssr-b-omen.jpg",
+      "sha256": "c2516819ddd658029fb6abff2fb4daff25a785d5d58d9dea5309d348d502865b"
+    },
+    {
+      "path": "verification/shots/844x390-1-ssr-c-open.jpg",
+      "sha256": "bf8db203fcb9dd3169f9466c28f9b6228bf5dd767e465ef112c123df1e11b4fa"
+    },
+    {
+      "path": "verification/shots/844x390-1-ssr-d-final.jpg",
+      "sha256": "4232d8e2b961e03e347db591c83b3ad3262a2a7129a826618433305f446fdf93"
+    },
+    {
+      "path": "verification/shots/844x390-10-long-b-omen.jpg",
+      "sha256": "ef82f9e8ddab499a62e7fedd71ceaf8d4c27646feb1b1f6f05749aa19b6b2f80"
+    },
+    {
+      "path": "verification/shots/844x390-10-long-c-wave.jpg",
+      "sha256": "8d7ed1e2d08d4f444279c2bc26d91fec767d0d129182e2bf52ee6ccb3b6c7863"
+    },
+    {
+      "path": "verification/shots/844x390-10-long-d-focus.jpg",
+      "sha256": "e702ccb25c9047f6960bfbbbb541412aa1b06b021018c9464601d28f28214023"
+    },
+    {
+      "path": "verification/shots/844x390-10-long-f-list.jpg",
+      "sha256": "a1beb18daf6259b83ab956e97e701190d7770c16e9b38df6f36eb92bdafd3546"
+    },
+    {
+      "path": "verification/shots/844x390-10-low-b-omen.jpg",
+      "sha256": "ebe67fc4c9e34a580ce9417e6fe8fe47c8c18e0669f42a8f5b831e4c5796b38e"
+    },
+    {
+      "path": "verification/shots/844x390-10-low-f-list.jpg",
+      "sha256": "b55c58b37f1ae9c953790149d84142d0a5071cbc33530db52fabfa939a13056b"
+    },
+    {
+      "path": "verification/shots/844x390-10-mix-a-drop.jpg",
+      "sha256": "54d05a06ed0e8a1b69cc04a9404b663d2b5eae506cd12a643beebfceb5588efd"
+    },
+    {
+      "path": "verification/shots/844x390-10-mix-b-omen.jpg",
+      "sha256": "8c5d10df49e4c7f5cbb61f9e478714ba0bbf0d775f9e1dae10f148ac62565ee7"
+    },
+    {
+      "path": "verification/shots/844x390-10-mix-c-wave.jpg",
+      "sha256": "e0f4510b2d605971d1831e5534ed33506367c312959b5ba4f463fe06ef58b82c"
+    },
+    {
+      "path": "verification/shots/844x390-10-mix-d-focus.jpg",
+      "sha256": "30a307a21304b644cdc62c9a80699a649d13a91ed1dadaf2aff136d6bc9b1d0e"
+    },
+    {
+      "path": "verification/shots/844x390-10-mix-e-stop1.jpg",
+      "sha256": "3c497b4caf6ed40145284e45e1830877c1114ced87ee503439b15d29dc923b5e"
+    },
+    {
+      "path": "verification/shots/844x390-10-mix-e-stop2.jpg",
+      "sha256": "a95759e5fcac3f3e125b7c82d220444eaf1ea65eed0ea9f18358f85085d3cf57"
+    },
+    {
+      "path": "verification/shots/844x390-10-mix-e-stop3.jpg",
+      "sha256": "e671dd02b4ff5c9a7945546a796a474fefe3eddc817c2ebd2a4531ba45c8798f"
+    },
+    {
+      "path": "verification/shots/844x390-10-mix-f-list.jpg",
+      "sha256": "d5cb305932dd1a181055d068fccbfbf7fad9b920d3aa560a04b73333f93e6663"
+    },
+    {
+      "path": "verification/shots/844x390-launcher.jpg",
+      "sha256": "1fe31576256624c2dc8e678c77f9e00eca2c8b7c2929353f3bef2bf35a5d51a8"
+    }
+  ]
+}

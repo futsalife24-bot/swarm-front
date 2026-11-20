@@ -1,0 +1,1303 @@
+{
+  "rows": [
+    {
+      "id": 1,
+      "stage": "ST1",
+      "difficulty": "normal",
+      "rarity": [
+        0.8,
+        0.2,
+        0,
+        0,
+        0
+      ],
+      "level": 1
+    },
+    {
+      "id": 1,
+      "stage": "ST1",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0.7,
+        0.3,
+        0,
+        0
+      ],
+      "level": 1
+    },
+    {
+      "id": 2,
+      "stage": "ST2",
+      "difficulty": "normal",
+      "rarity": [
+        0.8,
+        0.2,
+        0,
+        0,
+        0
+      ],
+      "level": 2
+    },
+    {
+      "id": 2,
+      "stage": "ST2",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0.7,
+        0.3,
+        0,
+        0
+      ],
+      "level": 2
+    },
+    {
+      "id": 3,
+      "stage": "ST3",
+      "difficulty": "normal",
+      "rarity": [
+        0.8,
+        0.2,
+        0,
+        0,
+        0
+      ],
+      "level": 3
+    },
+    {
+      "id": 3,
+      "stage": "ST3",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0.7,
+        0.3,
+        0,
+        0
+      ],
+      "level": 3
+    },
+    {
+      "id": 21,
+      "stage": "3-A",
+      "difficulty": "normal",
+      "rarity": [
+        0.75,
+        0.25,
+        0,
+        0,
+        0
+      ],
+      "level": 3
+    },
+    {
+      "id": 21,
+      "stage": "3-A",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0.65,
+        0.35,
+        0,
+        0
+      ],
+      "level": 3
+    },
+    {
+      "id": 4,
+      "stage": "ST4",
+      "difficulty": "normal",
+      "rarity": [
+        0.8,
+        0.2,
+        0,
+        0,
+        0
+      ],
+      "level": 4
+    },
+    {
+      "id": 4,
+      "stage": "ST4",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0.7,
+        0.3,
+        0,
+        0
+      ],
+      "level": 4
+    },
+    {
+      "id": 5,
+      "stage": "ST5",
+      "difficulty": "normal",
+      "rarity": [
+        0.8,
+        0.2,
+        0,
+        0,
+        0
+      ],
+      "level": 5
+    },
+    {
+      "id": 5,
+      "stage": "ST5",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0.7,
+        0.3,
+        0,
+        0
+      ],
+      "level": 5
+    },
+    {
+      "id": 6,
+      "stage": "ST6",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0.8,
+        0.2,
+        0,
+        0
+      ],
+      "level": 6
+    },
+    {
+      "id": 6,
+      "stage": "ST6",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 6
+    },
+    {
+      "id": 7,
+      "stage": "ST7",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0.8,
+        0.2,
+        0,
+        0
+      ],
+      "level": 7
+    },
+    {
+      "id": 7,
+      "stage": "ST7",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 7
+    },
+    {
+      "id": 8,
+      "stage": "ST8",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0.8,
+        0.2,
+        0,
+        0
+      ],
+      "level": 8
+    },
+    {
+      "id": 8,
+      "stage": "ST8",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 8
+    },
+    {
+      "id": 9,
+      "stage": "ST9",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0.8,
+        0.2,
+        0,
+        0
+      ],
+      "level": 9
+    },
+    {
+      "id": 9,
+      "stage": "ST9",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 9
+    },
+    {
+      "id": 10,
+      "stage": "ST10",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0.8,
+        0.2,
+        0,
+        0
+      ],
+      "level": 10
+    },
+    {
+      "id": 10,
+      "stage": "ST10",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 10
+    },
+    {
+      "id": 11,
+      "stage": "ST11",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 11
+    },
+    {
+      "id": 11,
+      "stage": "ST11",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 11
+    },
+    {
+      "id": 12,
+      "stage": "ST12",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 12
+    },
+    {
+      "id": 12,
+      "stage": "ST12",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 12
+    },
+    {
+      "id": 13,
+      "stage": "ST13",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 13
+    },
+    {
+      "id": 13,
+      "stage": "ST13",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 13
+    },
+    {
+      "id": 14,
+      "stage": "ST14",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 14
+    },
+    {
+      "id": 14,
+      "stage": "ST14",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 14
+    },
+    {
+      "id": 15,
+      "stage": "ST15",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 15
+    },
+    {
+      "id": 15,
+      "stage": "ST15",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 15
+    },
+    {
+      "id": 27,
+      "stage": "15-A",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 15
+    },
+    {
+      "id": 27,
+      "stage": "15-A",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 15
+    },
+    {
+      "id": 16,
+      "stage": "ST16",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 16
+    },
+    {
+      "id": 16,
+      "stage": "ST16",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 16
+    },
+    {
+      "id": 17,
+      "stage": "ST17",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 17
+    },
+    {
+      "id": 17,
+      "stage": "ST17",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.7,
+        0.3,
+        0
+      ],
+      "level": 17
+    },
+    {
+      "id": 18,
+      "stage": "ST18",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 18
+    },
+    {
+      "id": 18,
+      "stage": "ST18",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.699,
+        0.3,
+        0.001
+      ],
+      "level": 18
+    },
+    {
+      "id": 19,
+      "stage": "ST19",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 19
+    },
+    {
+      "id": 19,
+      "stage": "ST19",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.699,
+        0.3,
+        0.001
+      ],
+      "level": 19
+    },
+    {
+      "id": 20,
+      "stage": "ST20",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 20
+    },
+    {
+      "id": 20,
+      "stage": "ST20",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.699,
+        0.3,
+        0.001
+      ],
+      "level": 20
+    },
+    {
+      "id": 22,
+      "stage": "ST21",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 21
+    },
+    {
+      "id": 22,
+      "stage": "ST21",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.699,
+        0.3,
+        0.001
+      ],
+      "level": 21
+    },
+    {
+      "id": 23,
+      "stage": "ST22",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 22
+    },
+    {
+      "id": 23,
+      "stage": "ST22",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.699,
+        0.3,
+        0.001
+      ],
+      "level": 22
+    },
+    {
+      "id": 24,
+      "stage": "ST23",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 23
+    },
+    {
+      "id": 24,
+      "stage": "ST23",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.699,
+        0.3,
+        0.001
+      ],
+      "level": 23
+    },
+    {
+      "id": 25,
+      "stage": "ST24",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 24
+    },
+    {
+      "id": 25,
+      "stage": "ST24",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.699,
+        0.3,
+        0.001
+      ],
+      "level": 24
+    },
+    {
+      "id": 26,
+      "stage": "ST25",
+      "difficulty": "normal",
+      "rarity": [
+        0,
+        0,
+        0.8,
+        0.2,
+        0
+      ],
+      "level": 25
+    },
+    {
+      "id": 26,
+      "stage": "ST25",
+      "difficulty": "medium",
+      "rarity": [
+        0,
+        0,
+        0.699,
+        0.3,
+        0.001
+      ],
+      "level": 25
+    }
+  ],
+  "variance": [
+    {
+      "id": 1,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 2,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 3,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 21,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 4,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 5,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 6,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 7,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 8,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 9,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 10,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 11,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 12,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 13,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 14,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 15,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 27,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 16,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 17,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 18,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 19,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 20,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 22,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 23,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 24,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 25,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    },
+    {
+      "id": 26,
+      "bands": [
+        0.2,
+        0.1,
+        0.57,
+        0.1,
+        0.03
+      ]
+    }
+  ],
+  "supply": {
+    "initialTickets": 10,
+    "dailyTickets": 1,
+    "singleCost": 1,
+    "tenCost": 10,
+    "shardAmount": 10,
+    "weights": {
+      "N": 0.45,
+      "R": 0.3,
+      "SR": 0.15,
+      "SSR": 0.04,
+      "buddy": 0.01,
+      "shard": 0.05
+    },
+    "guaranteeWeights": {
+      "SR": 0.75,
+      "SSR": 0.2,
+      "buddy": 0.05
+    }
+  },
+  "soloDropRate": 0.05,
+  "soloWeaponCap": 3,
+  "survivalLevel": 26,
+  "coop": [
+    {
+      "stage": 1,
+      "dropRate": 0.04,
+      "lootExponent": 1.25,
+      "samples": 200000,
+      "quality": [
+        0.782465,
+        0.18876,
+        0.02784,
+        0.000935
+      ]
+    },
+    {
+      "stage": 2,
+      "dropRate": 0.04473684210526316,
+      "lootExponent": 1.216842105263158,
+      "samples": 200000,
+      "quality": [
+        0.7681,
+        0.2,
+        0.030975,
+        0.000925
+      ]
+    },
+    {
+      "stage": 3,
+      "dropRate": 0.049473684210526316,
+      "lootExponent": 1.183684210526316,
+      "samples": 200000,
+      "quality": [
+        0.75257,
+        0.21132,
+        0.035065,
+        0.001045
+      ]
+    },
+    {
+      "stage": 4,
+      "dropRate": 0.05421052631578947,
+      "lootExponent": 1.1505263157894736,
+      "samples": 200000,
+      "quality": [
+        0.73609,
+        0.22548,
+        0.03719,
+        0.00124
+      ]
+    },
+    {
+      "stage": 5,
+      "dropRate": 0.05894736842105263,
+      "lootExponent": 1.1173684210526316,
+      "samples": 200000,
+      "quality": [
+        0.718475,
+        0.238435,
+        0.04158,
+        0.00151
+      ]
+    },
+    {
+      "stage": 6,
+      "dropRate": 0.06368421052631579,
+      "lootExponent": 1.0842105263157895,
+      "samples": 200000,
+      "quality": [
+        0.699975,
+        0.251555,
+        0.046905,
+        0.001565
+      ]
+    },
+    {
+      "stage": 7,
+      "dropRate": 0.06842105263157894,
+      "lootExponent": 1.0510526315789472,
+      "samples": 200000,
+      "quality": [
+        0.68128,
+        0.265815,
+        0.050965,
+        0.00194
+      ]
+    },
+    {
+      "stage": 8,
+      "dropRate": 0.0731578947368421,
+      "lootExponent": 1.0178947368421052,
+      "samples": 200000,
+      "quality": [
+        0.655805,
+        0.284605,
+        0.057535,
+        0.002055
+      ]
+    },
+    {
+      "stage": 9,
+      "dropRate": 0.07789473684210527,
+      "lootExponent": 0.9847368421052631,
+      "samples": 200000,
+      "quality": [
+        0.635935,
+        0.29791,
+        0.063935,
+        0.00222
+      ]
+    },
+    {
+      "stage": 10,
+      "dropRate": 0.08263157894736842,
+      "lootExponent": 0.9515789473684211,
+      "samples": 200000,
+      "quality": [
+        0.612315,
+        0.31452,
+        0.070395,
+        0.00277
+      ]
+    },
+    {
+      "stage": 11,
+      "dropRate": 0.08736842105263157,
+      "lootExponent": 0.9184210526315789,
+      "samples": 200000,
+      "quality": [
+        0.58309,
+        0.334755,
+        0.07895,
+        0.003205
+      ]
+    },
+    {
+      "stage": 12,
+      "dropRate": 0.09210526315789473,
+      "lootExponent": 0.8852631578947368,
+      "samples": 200000,
+      "quality": [
+        0.55546,
+        0.35231,
+        0.088435,
+        0.003795
+      ]
+    },
+    {
+      "stage": 13,
+      "dropRate": 0.0968421052631579,
+      "lootExponent": 0.8521052631578947,
+      "samples": 200000,
+      "quality": [
+        0.52846,
+        0.36887,
+        0.098295,
+        0.004375
+      ]
+    },
+    {
+      "stage": 14,
+      "dropRate": 0.10157894736842105,
+      "lootExponent": 0.8189473684210526,
+      "samples": 200000,
+      "quality": [
+        0.494775,
+        0.386695,
+        0.11325,
+        0.00528
+      ]
+    },
+    {
+      "stage": 15,
+      "dropRate": 0.1063157894736842,
+      "lootExponent": 0.7857894736842105,
+      "samples": 200000,
+      "quality": [
+        0.460265,
+        0.40701,
+        0.126535,
+        0.00619
+      ]
+    },
+    {
+      "stage": 16,
+      "dropRate": 0.11105263157894738,
+      "lootExponent": 0.7526315789473683,
+      "samples": 200000,
+      "quality": [
+        0.426595,
+        0.424765,
+        0.14128,
+        0.00736
+      ]
+    },
+    {
+      "stage": 17,
+      "dropRate": 0.11578947368421053,
+      "lootExponent": 0.7194736842105263,
+      "samples": 200000,
+      "quality": [
+        0.388945,
+        0.442685,
+        0.15977,
+        0.0086
+      ]
+    },
+    {
+      "stage": 18,
+      "dropRate": 0.12052631578947368,
+      "lootExponent": 0.6863157894736842,
+      "samples": 200000,
+      "quality": [
+        0.35582,
+        0.45533,
+        0.178525,
+        0.010325
+      ]
+    },
+    {
+      "stage": 19,
+      "dropRate": 0.12526315789473683,
+      "lootExponent": 0.653157894736842,
+      "samples": 200000,
+      "quality": [
+        0.313985,
+        0.470515,
+        0.203245,
+        0.012255
+      ]
+    },
+    {
+      "stage": 20,
+      "dropRate": 0.13,
+      "lootExponent": 0.6199999999999999,
+      "samples": 200000,
+      "quality": [
+        0.273585,
+        0.47882,
+        0.23209,
+        0.015505
+      ]
+    },
+    {
+      "stage": 21,
+      "dropRate": 0.13,
+      "lootExponent": 0.6199999999999999,
+      "samples": 200000,
+      "quality": [
+        0.27571,
+        0.47732,
+        0.231805,
+        0.015165
+      ]
+    },
+    {
+      "stage": 22,
+      "dropRate": 0.13,
+      "lootExponent": 0.6199999999999999,
+      "samples": 200000,
+      "quality": [
+        0.276635,
+        0.476325,
+        0.23184,
+        0.0152
+      ]
+    },
+    {
+      "stage": 23,
+      "dropRate": 0.13,
+      "lootExponent": 0.6199999999999999,
+      "samples": 200000,
+      "quality": [
+        0.275735,
+        0.47805,
+        0.23125,
+        0.014965
+      ]
+    },
+    {
+      "stage": 24,
+      "dropRate": 0.13,
+      "lootExponent": 0.6199999999999999,
+      "samples": 200000,
+      "quality": [
+        0.27708,
+        0.477345,
+        0.230265,
+        0.01531
+      ]
+    },
+    {
+      "stage": 25,
+      "dropRate": 0.13,
+      "lootExponent": 0.6199999999999999,
+      "samples": 200000,
+      "quality": [
+        0.27627,
+        0.47708,
+        0.23158,
+        0.01507
+      ]
+    }
+  ]
+}

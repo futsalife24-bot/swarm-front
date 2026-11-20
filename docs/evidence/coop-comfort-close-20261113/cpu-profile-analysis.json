@@ -1,0 +1,258 @@
+{
+  "profileDurationMs": 52078.381,
+  "measurementDurationMs": 45350.39999997616,
+  "alignment": {
+    "method": "profileのnet.onWorld連続区間の先頭と、既存samples.msの受信時刻を独立照合",
+    "boundWithoutAlignmentMs": [
+      0,
+      6727.981000023843
+    ],
+    "markerCount": 5,
+    "matchedCount": 5,
+    "profileMinusMeasurementMs": 5374.005000000074,
+    "observedResidualMs": [
+      -0.14000000006944902,
+      0.08900002406153362
+    ],
+    "precisionNote": "残差は本結果を参照。CPU sampling約1〜2msの位置ずれを見込む推定。直接のProfiler/live.begin共有timestampではない。",
+    "matched": [
+      {
+        "profileMs": 5425.865000000004,
+        "measurementMs": 52,
+        "residualMs": -0.14000000006944902
+      },
+      {
+        "profileMs": 5431.912000000005,
+        "measurementMs": 57.89999997615814,
+        "residualMs": 0.007000023772889108
+      },
+      {
+        "profileMs": 18836.99900000001,
+        "measurementMs": 13463,
+        "residualMs": -0.006000000063068001
+      },
+      {
+        "profileMs": 26445.005000000074,
+        "measurementMs": 21071,
+        "residualMs": 0
+      },
+      {
+        "profileMs": 39426.99400000029,
+        "measurementMs": 34052.89999997616,
+        "residualMs": 0.08900002406153362
+      }
+    ]
+  },
+  "longFrame": {
+    "measurementEndMs": 699.6999999940381,
+    "durationMs": 216.6999999999971,
+    "gameTime": 182.35
+  },
+  "frameIntervalsAroundMs": [],
+  "longInterval": {
+    "measurementMs": [
+      482.999999994041,
+      699.6999999940381
+    ],
+    "profileRelativeMs": [
+      5857.004999994115,
+      6073.704999994112
+    ],
+    "sampleWeightedCategoryMs": {
+      "product-render": 36.575000005888796,
+      "other-native-or-program": 4.798999999999978,
+      "getProgramInfoLog": 175.32599999410832
+    },
+    "sampleWeightedCategoryPercent": {
+      "product-render": 16.878172591550204,
+      "other-native-or-program": 2.2145823719427975,
+      "getProgramInfoLog": 80.907245036507
+    },
+    "topFunctionsMs": [
+      [
+        "getProgramInfoLog",
+        175.32599999410832
+      ],
+      [
+        "get",
+        3.1530000000002474
+      ],
+      [
+        "getParameters",
+        2.9440000000004147
+      ],
+      [
+        "gl.<computed>",
+        2.394000000000233
+      ],
+      [
+        "render",
+        1.789000005890557
+      ],
+      [
+        "multiplyMatrices",
+        1.761000000000422
+      ],
+      [
+        "applyQuaternion",
+        1.7529999999997017
+      ],
+      [
+        "renderObject",
+        1.707999999999629
+      ],
+      [
+        "bufferSubData",
+        1.706000000000131
+      ],
+      [
+        "updateMatrix",
+        1.7030000000004293
+      ],
+      [
+        "updateWorldMatrix",
+        1.694999999999709
+      ],
+      [
+        "projectObject",
+        1.6899999999995998
+      ]
+    ]
+  },
+  "surroundingWindow": {
+    "measurementMs": [
+      382.999999994041,
+      799.6999999940381
+    ],
+    "profileRelativeMs": [
+      5757.004999994115,
+      6173.704999994112
+    ],
+    "sampleWeightedCategoryMs": {
+      "product-render": 209.05599999999595,
+      "idle": 1.643000000000029,
+      "other-native-or-program": 14.885000000000218,
+      "pilot": 2.9439999999995052,
+      "receive": 7.878999999999905,
+      "getProgramInfoLog": 178.66800000000148,
+      "gc": 1.625
+    },
+    "sampleWeightedCategoryPercent": {
+      "product-render": 50.16942644588371,
+      "idle": 0.3942884569234559,
+      "other-native-or-program": 3.5721142308616085,
+      "pilot": 0.7065034797215085,
+      "receive": 1.8908087353011664,
+      "getProgramInfoLog": 42.87688984881275,
+      "gc": 0.38996880249580307
+    },
+    "topFunctionsMs": [
+      [
+        "getProgramInfoLog",
+        178.66800000000148
+      ],
+      [
+        "getParameters",
+        21.017000005889713
+      ],
+      [
+        "updateMatrixWorld",
+        13.520000000000437
+      ],
+      [
+        "compose",
+        11.486000000000786
+      ],
+      [
+        "",
+        9.997000000000298
+      ],
+      [
+        "setProgram",
+        9.40900000000056
+      ],
+      [
+        "projectObject",
+        8.666000000000167
+      ],
+      [
+        "render",
+        6.648000000000138
+      ],
+      [
+        "multiplyMatrices",
+        6.6250000000009095
+      ],
+      [
+        "update",
+        6.287000000000262
+      ],
+      [
+        "decode",
+        6.037999999999556
+      ],
+      [
+        "setFromRotationMatrix",
+        5.58600000000024
+      ]
+    ]
+  },
+  "longestGetErrorRuns": [
+    {
+      "id": 2874,
+      "name": "getError",
+      "start": 50724.72500000011,
+      "end": 50795.23900000011,
+      "ms": 70.51400000000285,
+      "samples": 44,
+      "measurementStartMs": 45350.72000000003,
+      "measurementEndMs": 45421.23400000004
+    }
+  ],
+  "longestGcRuns": [
+    {
+      "id": 3,
+      "name": "(garbage collector)",
+      "start": 404.433,
+      "end": 1956.6009999999999,
+      "ms": 1552.168,
+      "samples": 1
+    },
+    {
+      "id": 3,
+      "name": "(garbage collector)",
+      "start": 1970.5409999999997,
+      "end": 2006.174,
+      "ms": 35.633000000000266,
+      "samples": 21
+    },
+    {
+      "id": 3,
+      "name": "(garbage collector)",
+      "start": 4229.43400000001,
+      "end": 4246.95300000001,
+      "ms": 17.519000000000233,
+      "samples": 10
+    }
+  ],
+  "receiveDuringRafGap": [],
+  "receiptDuringRafGap": [],
+  "inputSendsDuringRafGap": 1,
+  "shaderTransitionsNear": [
+    {
+      "ms": 713,
+      "gameTime": 182.25,
+      "durationMs": 220.40000000596046,
+      "beforeCount": 45,
+      "afterCount": 47
+    }
+  ],
+  "otherClientRafMaxMs": [
+    17.3,
+    17.4,
+    17.4
+  ],
+  "conclusion": [
+    "CPU標本と受信時刻の推定照合。idleだけでGPU/OSの原因を確定しない。"
+  ]
+}

@@ -1,0 +1,345 @@
+{
+  "scope": "Local actual solo game and first shot, desktop Chrome 844x390. Passive Sound.play and post-cue-gain pre-master Web Audio analyser tap; analyser output uses separate zero-gain branch and leaves product gain/settings unchanged. Buffer decode awaited before shooting. No proof of final speaker output, listening, mobile hardware, or other acoustic conditions.",
+  "viewport": [
+    844,
+    390
+  ],
+  "records": [
+    {
+      "kind": "rifle",
+      "family": "rifle",
+      "expectedCue": "rifle",
+      "shot": {
+        "id": 1,
+        "weapon": "rifle",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rifle",
+        "key": "solo:rifle",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.056658223271369934,
+        "samples": 50,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.094,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "smg",
+      "family": "rifle",
+      "expectedCue": "rifle",
+      "shot": {
+        "id": 1,
+        "weapon": "rifle",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rifle",
+        "key": "solo:rifle",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.055922236293554306,
+        "samples": 40,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.094,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "shotgun",
+      "family": "shotgun",
+      "expectedCue": "shotgun",
+      "shot": {
+        "id": 1,
+        "weapon": "shotgun",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "shotgun",
+        "key": "solo:shotgun",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.5979326367378235,
+        "samples": 40,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 1.47625,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "slug",
+      "family": "shotgun",
+      "expectedCue": "shotgun",
+      "shot": {
+        "id": 1,
+        "weapon": "shotgun",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "shotgun",
+        "key": "solo:shotgun",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.599179744720459,
+        "samples": 28,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 1.47625,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "rocket",
+      "family": "rocket",
+      "expectedCue": "rocket",
+      "shot": {
+        "id": 1,
+        "weapon": "rocket",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rocket",
+        "key": "solo:rocket",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.46518614888191223,
+        "samples": 44,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.75,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "heavy",
+      "family": "rocket",
+      "expectedCue": "rocket",
+      "shot": {
+        "id": 1,
+        "weapon": "rocket",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rocket",
+        "key": "solo:rocket",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.47597354650497437,
+        "samples": 42,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.75,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "sniper",
+      "family": "sniper",
+      "expectedCue": "rifle",
+      "shot": {
+        "id": 1,
+        "weapon": "sniper",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rifle",
+        "key": "solo:sniper",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.05547104775905609,
+        "samples": 51,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.094,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "laser",
+      "family": "sniper",
+      "expectedCue": "rifle",
+      "shot": {
+        "id": 1,
+        "weapon": "sniper",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rifle",
+        "key": "solo:sniper",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.49644604325294495,
+        "samples": 49,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.094,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "grenade",
+      "family": "grenade",
+      "expectedCue": "rocket",
+      "shot": {
+        "id": 1,
+        "weapon": "grenade",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rocket",
+        "key": "solo:grenade",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.4605482220649719,
+        "samples": 42,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.75,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "sticky",
+      "family": "grenade",
+      "expectedCue": "rocket",
+      "shot": {
+        "id": 1,
+        "weapon": "grenade",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rocket",
+        "key": "solo:grenade",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.5982340574264526,
+        "samples": 46,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.75,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "kick",
+      "family": "special",
+      "expectedCue": "rifle",
+      "shot": {
+        "id": 1,
+        "weapon": "special",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rifle",
+        "key": "solo:special",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.057193953543901443,
+        "samples": 40,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.094,
+        "sampleRate": 48000
+      },
+      "errors": []
+    },
+    {
+      "kind": "medic",
+      "family": "special",
+      "expectedCue": "rifle",
+      "shot": {
+        "id": 1,
+        "weapon": "special",
+        "owner": "solo"
+      },
+      "play": {
+        "type": "rifle",
+        "key": "solo:special",
+        "gain": 1,
+        "pan": 0,
+        "state": "running",
+        "effectsVolume": 0.35,
+        "request": true,
+        "sourceCreated": true,
+        "bufferExpected": true,
+        "peak": 0.005105501040816307,
+        "samples": 42,
+        "prePeak": 0,
+        "done": true,
+        "bufferDuration": 0.094,
+        "sampleRate": 48000
+      },
+      "errors": []
+    }
+  ]
+}

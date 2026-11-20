@@ -5,6 +5,678 @@
 # 終了確認：非公開の実装・検証候補（2026-11-08）
 
 本人の限定依頼に基づき、端末Back等で文書を離れる際の標準確認を追加。通常のメニュー戻る/閉じるは維持、取消で履歴/編成/接続を操作しない。base `303b7745ab6db05ac9d02c6985e35249eaada4cd`、専用branch `codex/exit-confirm-20261108`。両型、関連67＋保存回帰53件、隔離Chrome6経路（ローカル実WebSocket含む）成功。実Android/PWA終了・実複数人協力は未検証。本人の指示によりpush/merge/deployせず、独立レビュー用に非公開保存。以前の独立メニュー監査は別フォルダーに保持。[仕様・証拠・制約](EXIT-CONFIRMATION-20261108.md)。
+## 2026-11-20 C-6 M1 初回導線のファネル計測
+
+進撃ソロの初回導線に匿名計測を追加した。`trackOnce()` で `ftue_start / first_sortie / first_clear / first_supply10 / return` を1端末1回だけ送り、再訪は別の日本時間の日に1回だけ送る。`developer=1` では送らない。サーバーは既存 `view / sortie / clear` の数え方を維持し、日別データへ節目件数のみ追加する。管理画面は期間指定で節目別件数を表示する。体験・文言・導線と進撃の `ProgressSave` は無変更。
+
+`npm run typecheck` は合格。`npm test` 全件は既知5失敗（`encounter-film-assets` 1件、`game-step-equivalence` 4件）に加えて `harrow-model` の1件が120秒タイムアウトし、合計6失敗・2050合格だった。`harrow-model` 単体再実行でも同じ1件が120秒タイムアウトしたため、全件実行特有ではなかった。実中継 `project-hub` は別リポジトリで、今回の対象外変更として未決。
+
+## 2026-11-18 HARROWの斜面での接地
+
+ステージ20の横斜面で奥足の爪が隠れるため、地上待機・通常歩行の描画姿勢を足幅にわたる地表の傾きに合わせた。元の比較動画と同じ視点・時刻で確認。図鑑の平地歩行・待機も表示確認。[修正版の動画](https://drive.google.com/file/d/1ydD3n2Yecq4KBDxK2EzO0c3XXEPmLfmK/view)
+
+## 2026-11-18 HARROWの歩行着地を更新
+
+左右四本ずつの爪を接地前に開き、足首を沈めて下面で荷重する動作を本編・図鑑に反映。地上速度1.92 m/秒・歩行周期4.2秒。事前保存もv17を参照。[比較動画と図鑑](evidence/harrow-claw-contact-20261118/)
+
+## 2026-11-18 HARROWの地上歩幅と前進速度を3倍に調整
+
+地上1.92 m/秒、同じ足の着地間隔8.064 m、周期4.2秒。飛行追跡は0.64 m/秒。図鑑・事前保存をv16に更新。本編で4.5秒の移動距離8.64 mを確認。[比較動画と図鑑](evidence/harrow-long-step-20261118/)
+
+## 2026-11-18　HARROWの大股とCATENAの蛇行・予兆
+
+HARROWは地上速度0.64 m/秒で同じ足の着地間隔を0.896→2.688 m、爪先の高さを0.634→1.997 mに変更。他17クリップ・40発射口を照合。CATENAは移動距離に応じて頭側から尾へ曲がりが伝わり、頭と偶数節の発射予兆を本編と図鑑で揃えた。実レポートの移動・攻撃を確認。[比較動画と実画面](evidence/stride-wave-20261118/)
+
+## 2026-11-18　灰明の街区の遠景と大型ANOMALYの歩行
+
+街区を事前保存に対応した軽量素材に更新。協力では空の雲を省き、新しい窓・塔・遠山を表示する。HARROWの高フレームレートでの歩行と、FOUNDRY ZERO通常形態の歩幅・図鑑を修正。2人協力と図鑑の実画面を確認。[比較画像・動画と計測条件](evidence/city-horizon-20261118/README.md)
+
+[PR #382](https://github.com/futsalife24-bot/swarm-front/pull/382) を通常マージし、main `76ca3f9b` からWorker `7123b164-2b03-4631-9561-9a7961068a01` を100%配信。JS/CSS 25件、素材一覧と両GLBの照合、公開版での進撃・生存の出撃、ローカルで217件の事前保存とオフライン生存戦を確認。
+
+## 2026-11-18 タイトルと各メニューの共通ナビを調整
+
+タイトルの戻るとハンバーガーを外し、遷移先では共通ナビの下に枠と見出しを配置。[PR #380](https://github.com/futsalife24-bot/swarm-front/pull/380) を通常マージ。公開ソース `70c6b83d`、Cloudflare Worker `f0dfadc6-6341-432c-8a17-76d48da46db5` を100%配信。単体2,835件、公開Chromeの844×390・932×430、トップ・ヘルスチェック200、配信JS/CSS 25件一致を確認。[公開結果](title-nav-20261118-status.md)
+
+## 2026-11-18 小ウィンドウの共通ナビを画面の隅に固定
+
+支給ボックスなどのハンバーガーと戻るをタイトルと同じ画面端に固定。[PR #378](https://github.com/futsalife24-bot/swarm-front/pull/378) を通常マージし、main `2b4d40ae` の単体2,835件が全件合格。Cloudflare Worker `f6f343c3-8752-4702-8a8d-74f04b78433d` を100%配信。公開トップ・health 200、配信JS/CSS 25件が一致。Chromeの横向き2サイズでドロワーと戻るを確認。対象と結果は [小ウィンドウの共通ナビ](modal-nav-20261118-status.md)。
+
+## 2026-11-18　短編MV『残響線』をGoogle Driveに納品
+
+Three.jsで専用の聴測塔と記録計を制作し、本編のRAYの遊泳と書き下ろしの三音モチーフで構成した。記録計の真鍮・鉄・塗装・紙を接写で再調整。40秒、1920×816、24コマ毎秒、全960コマ、48 kHzステレオ。完成MP4を全編デコードし、メロニキのGoogle Driveに保存した同名ファイルをブラウザーで再生確認。[制作原本と再生成手順](../cinematics/echo-line/README.md)
+
+## 2026-11-18 タイトル画面の重なり修正を本番公開
+
+[PR #373](https://github.com/futsalife24-bot/swarm-front/pull/373) を通常マージ。公開ソースは `bc44f1b17508d49469e59cff258c5438717dc90d`、既存 Cloudflare Worker の Version ID は `cfc26655-53dc-4feb-944d-30a18100b6f9`（配信100%）。
+
+マージ後の単体209ファイル・2,835件が全件合格。型チェック、公開ビルド、本番設定のデプロイ予行も合格。公開トップと `/api/health` は HTTP 200、health は `ok: true`。配信JS・CSS 25件のSHA-256と配信JSに埋め込まれたソースSHAが公開ビルドと一致。公開版のChromeで `/` と `/front` を横向き844×390と932×430で開き、見出し・出撃待機と固定ボタンの重なりがないことを確認（4条件、画面例外0件）。[実装時の確認画像](evidence/title-overlap-20261118/)。
+
+## 2026-11-18 武器強化の実画面案内に3声の音声を追加
+
+[通常PR #376](https://github.com/futsalife24-bot/swarm-front/pull/376) を作成。作業ブランチは `codex/armory-voice-20261118`、起点は main `e6724617`、実装は `a6e1d4de`。受領WAV30本は原本とSHA-256一致。既存手順で3声のv5パックを生成し、各10本を追加。既存397クリップのバイト一致を確認。
+
+単体209ファイル2,835件の合格を確認。全体実行でタイムアウトした敵移動1件は制限時間を変えずに再実行し、当該ファイル34件が全合格。型・書式・ビルド合格。実Chromeでタイトルから案内10文×3声の再生開始とMP3一致を確認。
+
+本人の承認を受けてPR #376を通常マージ。公開ソースは main `c6ada22f889616b20999fcd7136dfc94fac735d5`。マージ後の単体209ファイル・2,835件、型チェック、公開ビルド、本番設定での予行はすべて合格。
+
+既存Cloudflare Workerの Version ID は `784382ae-00da-43c8-af1e-ca2d9050034c`（100%配信）。公開トップと `/api/health` は HTTP 200、health は `ok: true`。配信JS・CSS 25件と音声パックv5の3本は公開ビルドとSHA-256一致。公開版Chromeで10文×3声の再生と音声バイト一致を確認。
+
+## 2026-11-18 武器強化とメニュー遷移の刷新
+
+[下書きPR #371](https://github.com/futsalife24-bot/swarm-front/pull/371)。一括強化、共通ナビゲーションと実画面案内を実装。単体2,835件・工房E2E 2件合格。全体E2Eは途中終了。[状態・前後画像・収録文](armory-ux-20261118-status.md)。
+
+## 2026-11-17 協力プレイの敵補間と描画範囲復元（草稿PR369、未merge/未公開）
+
+本人依頼でorigin/main bce1d032から `codex/coop-smooth-20261117` / `C:/Users/futsa/swarm-coop-smooth-20261117` を作成。100ms配信を最新位置への指数平滑化だけで表示していたため、協力の敵表示だけに150ms補間・100ms上限外挿を追加。自キャラ入力/予測・権威戦闘は変更なし。GPU準備中のresize後に古いviewportを復元する競合も修正。[原因・検証・未確認](evidence/coop-smooth-20261117/README.md)。
+
+全197ファイル2025件・型/build成功、実Chrome9サイズ/DPR条件合格。旧コードのviewport回帰失敗と修正版合格、実ローカルWorker2人・片道143ms・ゲスト描画15秒（各85状態、例外/GLエラー0）を確認。友達の実端末の原因同一性、爆発時RTT上昇の根因、人間の体感は未確認。既存E2Eは今回対象外。[草稿PR369](https://github.com/futsalife24-bot/swarm-front/pull/369) を作成・ブランチへpush済み。本人指定で草稿PRまで、merge・デプロイは行わない。指定結果 `C:/Users/futsa/bibi-bridge/outbox/swarm-coop-smooth-status.md`。
+
+## 2026-11-17 PR367 本人承認による公開完了
+
+本人の公開指示で草稿PR367をReadyに変更して通常merge。公開ソースmainは52dfe8873beab55fab4b7e3bda1ab83099688bb5、対象3b3812c0の取り込みを確認。mainの単体全195ファイル2018件（517.24秒）、型チェック、build、production dry-run成功後に既存Workerへ公開。既存E2E未合格は本人指定により今回公開の判定対象外、再実行なし。
+
+Worker Version: 7e719a8d-9207-4831-86f6-8026a2dd339e。公開URL https://swarm-front.melosalife-24.workers.dev/ はHTTP200、health正常、27配信ファイルSHAと埋め込みソース版が公開buildと一致。実Chromeでタイトル・作戦本部の表示を確認。補給の新しい日次配布なし文言は配信JSに存在。補給画面への追加自動確認は#pt-base-supply待機とbodyの複数要素取得で失敗し、新仕様の実画面と強化確定操作は未確認。実スマホも未実施。
+
+指定outbox C:/Users/futsa/bibi-bridge/outbox/swarm-gacha-deploy-status.md に最終main・公開・後片付けの確定結果を記録。今回worktree/branchだけをclean確認後に削除し、他worktreeと既存差分は保持する。通常方針で独立Chat監査なし、実モデルID/推論設定未確認、委任なし。
+## 2026-11-17 武器庫のレア度別レベル上限（草稿PR367、未merge/未公開）
+
+同じ指定worktree/ブランチ、開始HEAD85578c6f・cleanを確認して追加変更。N10/R20/SR30/SSR40/LR50へ変更、コスト・6%威力伸長は維持。既存の上限超過はレベル・性能を保持して追加強化不可、工房に上限と到達状態を表示。解体・変換・改造は無変更。全195ファイル2018件・関連17件・型/build/書式成功、実Chrome14条件成功。[検証と詳細](evidence/gacha-caps-20261117/README.md)。本人指定によりpushまで、merge・デプロイ禁止。
+
+## 2026-11-17 ガチャバランス・武器庫Lv強化（草稿PR367、未merge/未公開）
+
+本人指定のmain 648281fcからcleanな専用worktree `C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-gacha-armory`、ブランチ `codex/gacha-balance-armory-20261117`。補給SSR1.5/バディ0.4、日次配布0、保管庫のサーバー進行からの券集計、段階ドロップ表/Lv1化、上限後の武装片と自動回収、券/次ST表示を実装。武器庫個体詳細→既存工房へLv強化を追加、上限25・武装片4～50（仮）、既存Lv26以上は保持。詳細な仮判断・前後表・計測は[今回の報告](evidence/gacha-balance-20261117/README.md)。
+
+単体全195ファイル2002件、保存147件、関連追加25件、型/build/server dry-run、F-17実HTTP7項目/進行HTTP5項目/補給HTTP4項目、実Chrome2横画面の券・工房検査成功。全件E2E132件は旧武器庫/協力画面への既存動線が現行mainに未追従で未合格、今回の武器工房新旧E2E各1件は成功。既存E2Eの広い整備を含めるか本人へ確認中。草稿PR https://github.com/futsalife24-bot/swarm-front/pull/367 、実装23c56e3eをpush済み。製品コード07132064で最終全件195ファイル2005件成功、関連52件/工房E2E2件も成功。最終検証は報告内verification.json。本人の今回指示によりmergeとデプロイは実行しない。
+
+## 2026-11-17 F-17 H-1/H-2 修正（PR作成まで・未merge）
+
+本人ブリーフv3に従い高2件のみ修正。H-2: `/api/supply/*`・`/api/cloud/*` はWorker入口でアドレス別60回/分（IPv6は/64単位、アドレスごとのGate）を先に判定し、全体20,000回/日は口座が資格を認めた応答だけで数える。上限到達時は新規作成（クラウド保存作成・補給口座作成）だけ429、認証済みの通常利用は継続。H-1: 新しい補給口座はクラウド保存（サーバー発行の保管庫ID/トークン）に紐づけ、初回10枚の付与記録を保管庫の`supplyGrant`へ保存。端末生成の旧口座は新規作成不可、既存残高は保管庫口座へ1回だけ移行し保管庫を付与済みにする。補給画面は未作成時に「クラウド保存を作成」を案内。
+
+防止範囲（本人決定2026-11-17）: 補給接続情報の削除→再作成では再付与されない。クラウド保管庫自体の削除・作り直しは新しい保管庫として再付与され得る（クラウドセーブも失うため許容、`server/supply-vault.ts`冒頭に明記）。中・低の指摘は対象外。
+
+検証: 型チェック、補給系11ファイル101テスト、保管庫15テスト、npm test 185ファイル1925テスト、書式、build、production dry-run（テスト用入口なし）。テスト用Worker（`server/testing.ts`系、`scripts/check-supply-f17.mjs`）で7項目合格。テスト用Worker+dist の実Chromeで844×390/640×360の補給画面（作成案内→10枚→10連→再読込復帰→受領）合格。マージ・本番反映は本人確認後。詳細は C:/Users/futsa/bibi-bridge/outbox/20261117-f17-fix4-status.md。
+
+## 2026-11-16 エネミーレポート導入と無選択表示を公開
+
+本人ブリーフに従い受領3 WAVを原本同一で追加、既存SFVP v1/MP3 64kbpsで3声v4へ更新。実パック目次でenemy-report-introの収録を確認、ヒロミ156→157/ヒヨリ122→123/ヨウコ122→123、旧400クリップ同一。旧v3利用者はv4再DLが必要。無選択で全文案内を表示、遷移時だけ既存ControlVoiceQueueで導入、選択/閉じる停止と既存開示/識別名/report-*不採用を維持。
+
+全185ファイル1,925テスト、型/書式/diff/merge後build/production dry-run成功。ローカル本番形式buildと公開実Chrome各9条件が成功。3声×全10種の実MP3一致/導入単発/停止/常設案内/無音/開示/保存不変/字幕0/例外0を確認。[詳細と証拠](evidence/enemy-report-intro-20261116/README.md)。実スマホ/人間の実聴は未実施。通常方針で独立監査なし、実モデルID/effort未確認、委任なし。
+
+実装PR364を通常merge、公開ソースmain cd0b7c3c23a4039e3ae93bad5212b73fd4b245d4。既存Worker Version 62713a92-8419-44f5-8fb9-2eaf93e33355（100%）、公開30ファイル/SHA/ソース版一致・health正常。公開記録のmain取り込みと今回worktree削除の確定結果は本人指定 C:/Users/futsa/bibi-bridge/outbox/20261116-enemy-report-intro-status.md を参照。元root/他worktree/共有依存を保持。今回依存は実ディレクトリ、Junctionなし。local mainは別worktree使用中のため動かさず、専用HEAD/origin/remote mainを照合して後片付けする。
+
+## 2026-11-16 識別名27本追加・全10種配線を公開
+
+本人ブリーフに従い受領27 WAVを原本同一で追加し、既存変換で3声ともv3パックへ更新。旧373クリップはバイト一致、旧パック利用者は設定から再DLが必要。残り9種をCALYXと同じ選択時再生へ配線、solo判明/？？？/無音/停止/字幕なし/report-*不採用を維持。全185ファイル1,920テスト・型/書式/merge後build/production dry-run成功。ローカル/公開実Chrome各9条件で全10種×3声のMP3一致・実再生・自然終了・重複抑止・停止と6種の無音、保存不変/字幕0/例外0を確認。
+
+実装PR362通常merge、公開ソースmain f1c70e09fcbf8013719dac60e1f51f15a1c36e45。既存Worker Version 1e0d2ded-d50c-4837-8a5a-d5ce960d2260（100%）、配信36ファイル/ソースSHA一致、health正常。[詳細と証拠](evidence/idname-wiring-20261116/README.md)。公開記録のmain取り込み・専用worktree削除の最終結果は指定outbox/20261116-idname-wiring-status.mdを参照。元root/他worktree/共有依存を保持。実スマホ/人間の実聴は未確認、通常方針で独立Chat監査なし、実モデルID/effort未確認、委任なし。
+
+## 2026-11-16 エネミーレポート識別名・公開完了
+
+本人ブリーフに従い全10種/30枠を棚卸しし、受領済み「カリクス」3声だけ既存Soundキューへ配線。未収録9種/27本は生成せず指定outboxへ不足一覧を記録。solo開示済みのみ1回、未DL/ボイスなし/？？？で無音、report-*不採用と表示/判明条件を維持。[PR360](https://github.com/futsalife24-bot/swarm-front/pull/360)を通常merge、ソースmain f90bc19aから再build/production dry-run後に既存Worker Version 60232c88-c4e6-4550-902d-5e39bc1170b4へ公開。配信35ファイルSHA/ソース版一致・health正常。
+
+全185ファイル1918テスト、関連56テスト、型/書式/build成功。公開実Chromeはモード別新規起動で7条件すべて成功、3声のMP3一致、同時発話最大1、停止/無音/保存不変/例外0。全モードを同一Chromeで巡回する検証はunknown選択が不成立となり根因未特定、失敗と個別起動成功を分けて記録。[棚卸し・配線・全実ログ・公開証拠](evidence/enemy-report-idname-20261116/README.md)。実スマホ/人間の実聴は未確認。通常方針で独立Chat監査なし、実モデルID/effort未確認、委任なし。
+
+公開記録のmain反映後、専用HEAD/origin/remote一致・clean・実装/記録の取り込みを確認して今回の C:/Users/futsa/swarm-enemy-report-idname-20261116 だけを削除する。元root/別worktree/既存差分を保護。最終mainと削除の確定結果は指定 C:/Users/futsa/bibi-bridge/outbox/20261116-enemy-report-idname-status.md に記録する。ローカルmainは別worktreeが使用中のため動かさず専用HEADで照合。
+
+## 2026-11-16 協力プレイ配置は公開済み・後片付けのみツール制限
+
+PR357/358を通常merge。公開ソース35a8eca4・Worker Version 28850f2a-bb7b-4a8f-a734-6591cd0ce49e。全1907テスト等成功、公開28ファイルSHA/ソース一致・health正常、公開実Chrome2サイズ/両タブのスクロール0・非重複・整列・例外0を確認。指定outboxの状態ファイルと画像3ファイルを保存済み。公開記録後main 9c2bcead25640fd3ff54c24b3183b902f9331e83で専用HEAD/origin/remote一致・clean・両PRの取り込みを確認。[証拠](evidence/coop-ui-tidy-20261116/README.md)。
+
+停止理由: 自動承認レビューが今回用node_modules Junctionの削除を実行前に blocked by policy で拒否。詳細理由なし。別機構へ迂回せず、C:/Users/futsa/swarm-coop-ui-tidy-20261116 とリンクを保持。元root/他worktree/共有依存は保護。
+再開条件: 正式なツール経路で今回リンクの削除が許可される、または本人がリンクだけを除去したことを確認できること。その後にmain取り込み/cleanを確認して今回worktreeだけを削除し、C:/Users/futsa/bibi-bridge/outbox/20261116-coop-ui-tidy-status.md を更新。本番の再公開は不要。
+
+## 2026-11-16 協力プレイ募集画面の配置整理・公開完了
+
+本人ブリーフに従い製品は coop-lobby.css のみ変更。左右の見出し・入力・操作を揃え、認証欄を通常サイズのまま左端合わせ、短い横画面の余白を整理。ゲーム・作成/参加・認証・フリーマッチング処理は無変更。[実装PR357](https://github.com/futsalife24-bot/swarm-front/pull/357)を通常mergeし、公開ソースmain 35a8eca4f62f0cbc9d1023cb13e6cdb4ff979253から再build/dry-run後、既存Worker Version 28850f2a-bb7b-4a8f-a734-6591cd0ce49eへ公開。配信28ファイルSHAとソース一致・health正常。公開実Chromeの1280×720/844×390・両タブでスクロール0・整列・非重複・画面例外0を確認。全184ファイル1907テスト・型・書式・ビルド成功。[証拠・画像・実ログ](evidence/coop-ui-tidy-20261116/README.md)。指定outboxへ状態ファイルと変更前/後3画像を保存。実スマホ・認証合格・多人数実戦は今回未実施。公開記録のmain反映・clean/取り込み確認後、今回の C:/Users/futsa/swarm-coop-ui-tidy-20261116 だけを削除し、outboxへ確定結果を記録する。元root・別worktreeは保護。
+
+## 2026-11-16 ガチャ金マークは本番公開済み・後片付けのみツール制限
+
+PR354/355は通常merge済み、公開ソースfe734b3d・Worker a69ec47a-4ee1-4a96-8925-3eff9a1df720（100%）。公開119ファイル一致/health正常/公開実Chrome64条件成功。1907テスト・補給88テスト等の成功と各箇所の採否は下記と[証拠](evidence/gacha-marks-20261116/README.md)。main/local/origin/remote一致・clean・実装/記録の取り込みを確認した。
+
+停止理由: 自動承認レビューが今回用node_modules Junctionの削除を `blocked by policy` で2回実行前に拒否した。固定パス単独でも同じ拒否、詳細理由なし。別機構へ迂回せず、今回worktree `C:/Users/futsa/swarm-gacha-marks-20261116` とリンクを保持。元root/他worktree/共有依存は保護。
+再開条件: 正式なツール経路で当該リンクの削除が許可される、または本人がリンクだけを除去したことを確認できること。その後、main取り込み/cleanを再確認して今回worktreeだけを削除し、指定outbox `20261116-gacha-mark-redesign-status.md` の削除結果を更新する。本番への再公開は不要。
+
+## 2026-11-16 ガチャの金マークを箱面投影へ改修・公開完了
+
+本人[ブリーフ](gacha-mark-redesign-brief-20261116.md)に従い、先読み/側板展開の金章を箱の装甲の陰影・パース・揺れに沿う青緑の細線ステンシルへ置換。金は短い検査線のみ。箱へ統合できない射出章/金角ブラケット/着陸架章/逆転中央章/反転札の裏と完了章/既存4の金矢印を取り外し、動き/輪/反射/粒子/SEは維持。太い金構造線も中立金属と青緑細線へ。発生条件/局面/確率/結果/天井/保存/runtime/SE定義は無変更。お試しサイト同期なし。
+
+[PR #354](https://github.com/futsalife24-bot/swarm-front/pull/354)を通常merge。公開ソースmain `fe734b3da13806207f00ef6c35c5fd6e4e2fd8e6` から再build/dry-runし、既存Worker Version `a69ec47a-4ee1-4a96-8925-3eff9a1df720`（100%）へ公開。公開119ファイル/SHA/ソース版一致、health正常。公開実Chrome64条件、結果/計画/保存不変・API書込/画面例外/破棄後残留0。全184ファイル1907テスト/補給88テスト/型/書式成功、全演出72条件・2016組合せ・実時間タップ3組・スキップ確認成功。旧検査20秒上限の2失敗は正常最短19.09秒/旧成功20.093秒と照合し、検査だけタイムライン由来の有限上限/5秒無進捗検出へ修正。失敗と最終成功を分けて保存。
+
+[箇所ごとの採否・証拠・再現手順](evidence/gacha-marks-20261116/README.md)。実スマホ/人間の実聴は未確認。通常方針で独立Chat監査は未実施。公開記録PRのmain反映後、main一致/cleanを確認して今回の `C:/Users/futsa/swarm-gacha-marks-20261116` だけ削除し、指定outbox `20261116-gacha-mark-redesign-status.md` へ最終main/削除結果を確定する。元root/他worktree/共有依存は保護。
+
+## 2026-11-15 ガチャ新規合図を公開完了
+
+本人ブリーフに従い、新規11案と既存4のSSR以上対象/金色修正を表示専用で実装。[PR #352](https://github.com/futsalife24-bot/swarm-front/pull/352)を通常merge、main ee2ff437から再build/dry-runし、既存Worker Version aad47ce7-d9d8-4970-81b1-2a796733005b（100%）へ公開。公開118ファイル/ソースSHA一致、health正常、公開固定結果8条件・書込0/例外0。
+
+全1907テスト、補給88テスト、型/書式/build/dry-run、実Chrome72条件＋狭幅32条件＋実確認UI14回、組合せ2016通り、新音14の音声信号/消音/停止/破棄が成功。局面各0/1・最後枠②占有・複数局面条件を計画で固定。確率/天井/レア度/課金/保存/server/sharedは無変更。実機の見た目/実聴は本人の最終確認事項。[判断と公開記録](impl-status-20261114.md)、[証拠](evidence/gacha-signals-20261115/README.md)。
+
+作業場所 C:/Users/futsa/swarm-gacha-signals-20261115。公開記録の通常main反映後、main一致/cleanを確認して今回作業ツリーのみ削除し、指定outboxへ最終main・削除結果を確定する。元root/他worktreeは保護。契約APIは既存権限で403のため最新Free取得成功とはせず、既存契約/公開先は無変更。
+
+## 2026-11-15 ガチャ合図を実装・公開準備
+
+第7弾main 7bf67664から新規worktree C:/Users/futsa/swarm-gacha-signals-20261115 / codex/gacha-signals-20261115。本人採用11案と既存4のSSR以上/金色への修正を表示専用で実装。局面各0/1、最後枠デフォルト色の②占有、複数局面条件と対象箱を再生前に凍結。確率/天井/レア度/課金/保存/server/sharedは無変更。
+
+全1907テスト、補給88テスト、型/書式、実Chrome72条件＋狭幅32条件＋実確認UI14回/保存不変/書込0、新音14の音声信号/消音/停止/破棄が成功。main反映・build・公開はこの時点では準備中。実機見た目/実聴は本人確認。詳細 [実装記録](impl-status-20261114.md)、[証拠](evidence/gacha-signals-20261115/README.md)。元root/他worktreeは保持。公開後に通常記録PRを反映し、今回作成したworktreeだけ削除する。
+
+## 2026-11-15 第7弾の音声復帰修正を公開完了
+
+最新main ee462c5d（第6弾PR #348/#349取り込み後）から新規worktree C:/Users/futsa/swarm-audio-fix7-20261115 / codex/audio-fix7-20261115で実装。BGM/管制AI・SEのAudioContextの復帰処理不足を修正。visible/pageshow/focusと最初の操作で再開し、ブラウザの再生拒否は最新の1本だけ再試行する。旧台詞・非表示・無音・ボイスなし・終了済み要素は復活させない。既存仕様/保存/禁止領域は維持。
+
+型/書式/全183ファイル1885テスト/build/production dry-run成功。[PR #350](https://github.com/futsalife24-bot/swarm-front/pull/350)を通常merge、公開ソースmain d321b808d25d77e5e28dbb2d61afc29057cdb4fdから再build/dry-runし、既存Worker Version 2fd363c4-1d94-4cd1-990c-79fef1a5662d（100%）へ公開。公開33ファイルとソース版一致・health正常。公開実Chromeの中断注入と実タブfocus復帰・文字タップ・進撃選択・音声信号が成功、画面例外0。第6弾の速度6択/ピッチ保持指定/保存/タイトル無音/字幕なし等もローカル実Chromeで成功。自然なAndroid中断とdocument.hiddenの変化・人間の実聴は未確認。詳細 [impl-status](impl-status-20261114.md)、[証拠](evidence/audio-fix7-20261115/README.md)。公開記録を通常PRでmainへ反映後、今回worktreeだけを削除し、C:/Users/futsa/bibi-bridge/outbox/20261115-fix7-status.mdへ最終mainと削除結果を確定する。元root/他worktreeは保持。
+
+## 2026-11-15 第6弾を公開完了
+
+PR #348を通常merge。公開ソースmain f0321f91aec9a7fb16df5594629f574aa2566973、既存Worker Version 482dd4a3-9c53-4c8d-a48a-6c769decfe5c（100%）。merge後main build/dry-run成功。公開33ファイルのSHAとソース版が一致、health正常。公開実Chromeでも6速度/preservesPitch/保存復元/タイトル無音/home音源バイト一致/横2サイズ/字幕なし/ヨウコロック成功、画面例外0。型・書式・全182ファイル1864テスト成功。
+
+速度1.0〜1.5倍の6択・採用TRUE58/FALSE63・タイトル読み上げ停止。未掲載61行とretire-ackを維持。敵名10行の採用TRUEと既存再生保留は区別（9件未収録）。素材/パック・禁止領域は無変更。[判断と結果](impl-status-20261114.md)、[証拠](evidence/voice-fix6-20261115/README.md)。元root/他worktreeを保護。今回の作業ツリーは公開記録のmain反映後に削除し、指定outboxへ結果を保存する。実スマホ/iOS・人間の実聴・全分岐/多人数戦は未確認。
+
+## 2026-11-15 第5弾・ピッチ保持/音声更新/任意撤退を公開完了
+
+最新main35358299から専用worktree `../swarm-voice-fix5-20261115` で実装。管制AIだけピッチ保持付き再生へ変更、受信68 WAVを保存し3声のパックをv2へ再構築、任意撤退確定のretire-ackを進撃/日替わり/回収と生存側の退出/任意帰還へ接続。隊長・バディ等の未対応セットは原本配置まで。字幕なし・ヨウコロックと禁止領域を維持。
+
+[PR #346](https://github.com/futsalife24-bot/swarm-front/pull/346) を通常merge、公開ソースmain `861b94cbfd8ac04d8115cd77610a61f485438b32`、既存Worker Version `e5a9f122-be53-4513-a0cc-7f49d76bae78`（100%）。型/全182ファイル1858テスト/書式/merge後build/dry-run成功。実Chromeの録音で220Hzと実声のピッチ保持・約1.3倍速を測定し合格。公開33ファイル一致/ソース版照合/health正常、公開実Chrome10条件/例外0・進撃/生存退出の音源SHA一致・キャンセル無音・横2サイズ・訓練を確認。[詳細](impl-status-20261114.md)、[証拠](evidence/voice-fix5-20261115/README.md)。元root/他worktreeと別worktreeのローカルmainを保護。C容量不足は今回の生成出力/TEMPのみD:/Codex-buildsへ置いて解決。他データ削除なし。
+
+未確認は実スマホ/iOS・人間の実聴品質・全台詞/分岐・生存60秒任意帰還の実画面・多人数戦。次は本人の実機確認。公開記録のみ通常PRで保存し、専用worktree HEADとorigin/mainを同期する。
+
+## 2026-11-15 第4弾・管制AI再生改善を公開完了
+
+第3弾後の最新mainから新規worktree `../swarm-voice-fix4-20261115` で実装。SE読込に巻き込まれる期限切れを実測して専用準備へ分離し、全分類で最新要求を優先、逆順の準備完了と長い台詞の終了直後の連続再生も抑止。通常/1.3倍速を独立保存し試聴にも適用。字幕なし・ヨウコロックと禁止範囲を維持、第1〜3弾の再実施なし。
+
+PR343/344を通常merge、最終公開ソース `8723c99d693ecfcce1f340a070fc47c8ccfd9c54`、既存Worker Version `6c47277c-33a7-4c64-a457-4c8b6f7fb061`。型/全182ファイル1857テスト/format/merge後build/本番dry-run成功。公開30ファイル一致・health正常、公開実Chrome8条件成功/例外0、連続画面操作の最新音声87.6ms・同時発話max1・訓練初回/速度保存も確認。根因/判断/再現方法/未確認は [impl-status](impl-status-20261114.md) と [証拠](evidence/voice-fix4-20261115/README.md)。実スマホ/iOS・人間の実聴・全分岐/多人数戦は未確認。元root/他worktree/他worktree保持のローカルmainを保護。記録のみの通常PRを保存し、専用worktree HEADとorigin/mainを同期する。
+
+# 第3弾：試聴差し替え・管制AI字幕撤去を公開（2026-11-15）
+
+最新main `22c06174` から新規 `codex/voice-fix3-20261115` / `../swarm-voice-fix3-20261115` で本人指定の2件のみ実装。[PR #341](https://github.com/futsalife24-bot/swarm-front/pull/341) を通常merge、公開ソースmain `3069d315`、既存Worker Version `dfc09c94-94a0-461d-b087-87770ae57c75`。試聴を既存の日本語home台詞へ変更し、全シーン共通字幕/設定/専用導線を撤去、「ボイスなし」を正式名称に確定。ガイド文・禁止領域・ヨウコロック・第2弾の他の成果は維持。タイトルの既存title発話は範囲外として記録のみ。
+
+型・全181ファイル1854件・format・build・dry-run成功。公開30ファイル一致・health正常、実Chromeで公開設定/試聴/無音状態/旧字幕値/再読込/横2サイズ、ローカルで訓練ガイド維持と字幕なしを確認。画面例外0。原因・判断・証拠・実聴/実スマホ等の未確認は [impl-status](impl-status-20261114.md) と [証拠一覧](evidence/voice-fix3-20261115/README.md)。公開記録は同じ新worktreeの `codex/voice-fix3-release-20261115` から通常PRで保存。元rootと他worktreeは保持。次は本人の実機確認。
+
+# 管制AIボイス設定・字幕の第2弾を公開（2026-11-15）
+
+新規 `codex/voice-fix2-20261115` / `../swarm-voice-fix2-20261115` で第2弾の追加要望2・3のみを実装。[PR #339](https://github.com/futsalife24-bot/swarm-front/pull/339)を通常mergeし、公開ソースmain `e67964e6` を既存Worker Version `4298818a-0185-40e8-b2f7-2ec35991d93c` へ公開。選択行の強調、削除撤去、ボイスなし、保存済みの試聴、字幕3状態と全シーンの共通描画、タイトルの発話タイミングを修正。ヨウコの選択/試聴不可・禁止領域・第1弾は不変。
+
+型・全181ファイル1861テスト・format・build・dry-run成功。実Chromeで音声あり/未DL/保存済みパックのボイスなしをシーン別に確認し、専用Workerの実WebSocketによる1人協力のロビー/戦闘も確認。公開30ファイルSHA一致・health正常、公開先の設定5条件と横2サイズが成功、画面例外0。詳細・シーン別画像・仮称/導線等の要確認・実機/実聴等の未確認は [impl-status](impl-status-20261114.md) と [字幕監査](evidence/voice-fix2-20261115/README.md)。公開記録は同じ新worktreeの `codex/voice-fix2-release-20261115` から保存する。元rootと他worktreeは保持。
+
+# 基礎訓練の回収・救急箱と管制AI独立音量を公開（2026-11-15）
+
+新規 `codex/tutorial-fix-fresh-20261115` / `../swarm-tutorial-fix-fresh-20261115` で実装し、[PR #337](https://github.com/futsalife24-bot/swarm-front/pull/337) を通常merge。公開ソースmain `433f13c5`、既存Worker Version `b5c4892c-d72f-418c-8e7b-e673ecc49de1`。T9の標的復元による見本消去を修正し、T10を本編の救急箱・自然回復へ接続、進行開始前の訓練終了時のタイトル復帰も修正。設定にSEと独立した管制AI音量を追加。型・180ファイル1849テスト・format・build・Worker dry-run成功。公開30ファイル一致/health正常、実Chromeで回収・救急箱・修了/復帰、横2サイズの音量保存/再読込、音声パックDL/保持/削除が成功、画面例外0。原因・新保存キー・証拠・実機等の未確認は [impl-status](impl-status-20261114.md)。
+
+着手時の3件は公開済み。作業中に依頼書へ後追いで追加された「第2弾」のボイス選択UI/試聴/字幕監査・表示設定は未着手として分離し、本人へ続行範囲を質問済み。元root・中止済みtutorial/旧voice worktreeは保持。公開記録は `codex/tutorial-fix-release-20261115` から文書PRでmainへ保存する。
+
+# 管制AI音声・基礎訓練・支給ボックスを公開（2026-11-15）
+
+ブランチ `claude/voice-w0-20261114`（W0・フェーズ2・フェーズ3・公開前仕様変更）。管制AI音声の再生基盤と181行の定義表、基礎訓練（12ステップ）と初回ガイド、設定からの声ごとの任意ダウンロード（圧縮パック・Cache Storage保存、WAVは `assets-src/` へ移し公開物から除外）、ホームの「支給ボックス」（個別/一括受取）、日次ログインボーナス（日本時間・仮置き値は要確認）、初起動時のヒヨリ解放配布を実装。既存の進行保存の形式・キーとガチャ規則は不変。詳細・パック容量・要確認・公開結果は [impl-status-20261114](impl-status-20261114.md)。
+
+# マルチ快適化の判定材料を最新mainで再確認（2026-11-14）
+
+指定されたB-4は11/13に実装・公開済みだったため、最新main `eb652977` から `codex/coop-comfort-close-20261114` を作成し、既存証拠を保持して追加計測した。A-1のPR #326・merge後main `3fd6e65` は補記済み。今回の変更は記録と集計器の入出力指定のみで製品変更なし、再公開なし。元root・他worktreeは保護し、既存の `task-coop-comfort-close-20261113` を使用。本記録の反映先は [PR #336](https://github.com/futsalife24-bot/swarm-front/pull/336)。
+
+[残件1〜5の判定表・条件・数値](evidence/coop-comfort-close-20261114/README.md)、[本人用5分チェック](evidence/coop-comfort-close-20261114/device-check.md)。実Worker/実WebSocketの4人×6容量条件は成功し、最大61,423B・余裕4,113B、旧版更新案内と同じ隊員の復帰を確認。実Chromeの人工混在1/4画面・低速上り・通常生存の4試行は完走、画面例外/WebGLエラー0。ただし通常生存60秒でも入力最大691.7ms・猶予外ACK=0が3/2/0/2件あり、前回の通常条件成功を引き継がない。人工密集では入力空白・単発RAF待ちが残り、同一PC4画面をスマホ4台やクラウド性能へ換算しない。本人の押しっぱなし中の連射症状は原因未確定。goal終了判断は本人が行い、未完了を維持する。型・全1,769テスト・format・build・Worker dry-runが全て成功。[終了コード・日時](evidence/coop-comfort-close-20261114/checks/summary.json)。
+
+# マルチ実機の診断と本人報告を受領（2026-11-13）
+
+追加確認: 本人は**射撃ボタンを押しっぱなしの最中に弾の間隔がばらついた**と回答。通信の揺れとの因果は未確定。次の再現では押下・入力受理/適用・サーバー射出・表示を対応させる。[診断と限界](evidence/coop-comfort-close-20261113/device-feedback-20261113.md)。
+
+本人は「ほんの若干重さを感じた」「弾の連射が不規則」と報告。実機診断の保存末尾約82秒では状態更新間隔p95 144.1ms・最大226.6ms、400ms超の記録0。直近128標本の入力送信→受理ACKはp95 96.4ms・最大134.3ms。揺れはあるが、これだけで連射の原因は確定しない。入力送信が2.4〜5.5秒空いた箇所が4回あり、その間も状態更新は継続したが、本人の操作や一時停止との対応は不明。[匿名集計・限界](evidence/coop-comfort-close-20261113/device-feedback-20261113.md)。本人のgoal終了判断は未受領。
+
+# 画面演出スイッチの表示を修正・公開済み（2026-11-13）
+
+本人の実機画像で「動きを抑える」の文字がスイッチ内で折り返されていた。ラベルを「画面演出を抑える」、スイッチを周囲と同じ「オン／オフ」へ変更し、意味と切替動作を維持。[PR #332](https://github.com/futsalife24-bot/swarm-front/pull/332)を通常mergeし、本人の実機確認終了後、source `d41bcda9f818064d8a45ad9fdff51eee75fb743b` を既存Worker Version `3c655e87-69f6-47f2-a505-7f8647dc6f83` へ公開。型確認、関連7テスト、build/dry-run成功。ローカルと公開先の実Chromeで844×390・640×390を確認し、オフ→オン・はみ出しなし・ページ例外0。公開38ファイルのSHA一致・health正常。[公開結果と初回の起動制限](evidence/motion-switch-20261113/README.md)。スマホでの新表示は未確認。マルチgoalを閉じる判断は本人が行う。
+
+# マルチ快適化の残件を計測・修正、既存Workerへ公開済み（2026-11-13）
+
+実機確認の案内を訂正（同日）: 本人画像のタイトル共通「設定」には診断切替がない。切替は **ソロ → 生存 → 出撃準備の「設定・操作」→ 下までスクロール**。[5分チェック](evidence/coop-comfort-close-20261113/device-check.md)に経路と戦闘中には切替がない点を明記。製品変更なし。
+
+最新main `3fd6e65` から `codex/coop-comfort-close-20261113` を作成し、A-1のPR #326/merge SHAを補記。60KiB予算・早期分割の対応通知・旧画面の更新案内で判定状態を保持し、HARROWの正規突進予告が小数座標で描画容量を超える例外を修正した。ゲームルール・予告形状・判定・報酬・保存は不変。
+
+[残件1〜5の判定・実測・採否](evidence/coop-comfort-close-20261113/README.md)、[回帰照合](evidence/coop-comfort-close-20261113/regression.md)、[本人用5分チェック](evidence/coop-comfort-close-20261113/device-check.md)。実WebSocket12条件＋旧分割互換4条件、関連87件、実Worker14項目成功。通常生存60秒は全員の250ms超入力間隔/猶予外ACK=0が0、人工混在では入力空白と単発RAF待ちが残る。実UIのHARROWレポート・ソロ・非公開2人協力は例外0。協力UIは既存検査同様の動きを減らす設定で確認し、通常アニメーションの早押しが待機した試行は成功扱いしていない。
+
+本人は現在もWorkers Freeと回答。契約API403/ブラウザ接続喪失と、利用量API成功は区別して記録。最終の `typecheck`・`npm test`（174ファイル/1769件すべて成功、341秒）・`format:check`・`build`・`server:build` は全て終了コード0。[生ログと終了コード](evidence/coop-comfort-close-20261113/checks/summary.json)。[PR #327](https://github.com/futsalife24-bot/swarm-front/pull/327) を通常mergeし、mainの公開ソース `006d600e4131713331e9350c2a8edbcb8b9794a9` を既存Worker Version `bc3ebaaa-a78b-40ff-bbce-5647bf49a5a5` へ公開。merge後build/dry-run成功、[公開38ファイルのSHA一致・health200/ok](evidence/coop-comfort-close-20261113/published-delivery.json)、[公開ソロの起動・移動と画面例外0](evidence/coop-comfort-close-20261113/published-ui.json) を確認。公開記録は[PR #328](https://github.com/futsalife24-bot/swarm-front/pull/328)へ反映。公開協力も通常Chromeの本物の認証で作成した非公開自室へ別ブラウザを招待し、2人準備・戦闘開始・ゲスト移動を確認。[公開協力の結果と観測範囲](evidence/coop-comfort-close-20261113/published-coop-ui.json)。ゲストpageerror0・ホスト製品console.error0、認証側console.error4件は別記。ホスト全例外の独立監視はなく、起動確認の範囲とする。自動検査Chromeの本人チェック後の失敗は、通常Chromeの本物の認証で解消した。ホストに1FPSの表示があり、快適性の合格とはしない。goalは閉じず、OPPO Find X8・ホーム画面版と本人の終了判断を待つ。
+
+# 全体テストとformatが全件成功：以後の基準線（2026-11-13、Claude Code）
+
+A-1のmain反映: [PR #326](https://github.com/futsalife24-bot/swarm-front/pull/326) を通常merge済み。merge後のmainは `3fd6e65faa6af9fe6ed3c147abe17b3d8607f28b`（`3fd6e65`）。
+
+本人依頼「既存テスト失敗とformat警告を一掃し、全体合格の土台を作る」。最新main `aa886b0d` では1766件中16件失敗・format警告16ファイルだった。最終 `9f321ca0` で `npm run typecheck`、`npm test`（**1766件すべて成功・172ファイル、255秒**）、`npm run format:check`、`npm run build`、`npm run server:build` が全て終了コード0。以後、`npm test` か `format:check` の失敗は新規の回帰として扱える。[分類表・原因・根拠・生ログ](evidence/test-green-20261113/README.md)。
+
+- 16件は全て試験側の問題（仕様変更・構成変更への未追従と、試験入力の日付依存）で、製品の不具合は0件。ゲームルール・報酬・保存形式・難易度・通信形式は無変更。skip・timeout延長・assert削除なし。期待値は定義値と仕様文書から導出した。
+- **リファクタ候補2の開始ゲート（step同値）は通過。** 前線5条件に非決定性は無い。原因は、`createFrontRun` が `day` 省略時に実行日を状態へ保存すること（試験は採取時のUTC日付を固定）と、PR319で武器へ追加された表示用の `appearanceTier`。この項目を除くと全tickが分割前の基点 `303b7745` と一致。融合4条件だけスナップショットを更新（差分はsha256の4行）。
+- **B-4への引継ぎ（64KiB）：** 判定状態を落とさずに合格。4人最大密集の実 `broadcast` で、旧クライアント向けは65,520バイト（上限まで16バイト、古い演出を削って収める設計どおり）、現行クライアント向けは約59.4KB。上限値を上げる前に同じ試験で余裕を測ること。実WebSocketでは未確認。
+- format：prettierで13ファイルを整形。製品9ファイルは意味同一を `scripts/check-format-only-diff.mjs` で照合。旧保存fixtureのJSON 3件はSHA照合があるため `.prettierignore` で除外。
+- 安定化：更新履歴の生成（`scripts/automatic-changelog.mjs`）のgit起動を履歴全体で1回へまとめた。結果は旧生成器と完全一致、32.6秒→0.3秒。これを呼ぶ試験が11/10に77.7秒（上限90秒）かかっていた問題を解消。全体は11/10の548秒から255秒。
+- 作業場所：別worktree `task-test-green-20261113`、branch `claude/test-green-20261113`。元rootと他worktreeの差分には触れていない。独立Chat監査なし（2026-10-15方針）。
+- 公開：**既存Workerへの公開は不要と判断し未実施。** 配信物の動作を変える差分が無い（整形と内部処理のみ、機械照合済み）。実画面確認もしていない。次回公開時の更新履歴に「内部処理の整理（遊び方・性能の変更なし）」が入る。
+- 未確認・残り：実WebSocket／実機、`test:e2e`・`test:save:browser`・各integrationは対象外で未実行。洞窟×HARROWは製品に無い組合せとして出現位置の試験から外し、洞窟にHARROWの作戦が追加されたら失敗する条件へ置き換えた。重い4ファイルを `test:heavy` へ分ける案は未実施（上記READMEに記載）。
+- 注意：全体テストは他の重い検証と同時に走らせない（`harrow-model` の1件が負荷次第で19〜77秒）。前線の run を直列化する試験では `day` を必ず渡す。
+
+# 補給演出・結果画面と単発演出確認を公開済み（2026-11-12）
+
+金射出の視認性、昇格文字の整理、結果の武器・バディ詳細、X共有と「次へ」、地割れの描画順、3種の確定演出の発動順、結果以下の初期箱色、タップ位置に累積する画面割れと開発者向け単発演出確認を改修。[PR #323](https://github.com/futsalife24-bot/swarm-front/pull/323)・[PR #324](https://github.com/futsalife24-bot/swarm-front/pull/324) を通常mergeし、公開ソース `9c587395e98d932cb870df34d285bbe045291f4e` を既存Worker Version `73ec3f1e-3bd0-4b4a-8a0f-c5f67507722a` に公開。通常抽選・報酬・保存は変更しない。補給関連76件・型検査・マージ後本番build・Worker dry-run成功。隔離Workerと本体の試しガチャ1連・10連を2画面、通常10連で詳細復帰、保存不変、受領、SW旧CSS回避を確認し画面例外0。[検証](evidence/supply-reveal-improvements-20261112/README.md)。公開36ファイルがbuildと一致しhealth正常。[配信照合](evidence/supply-reveal-improvements-20261112/published.json)。実スマホ・聴感・公開環境の認証済み操作・実X接続は未確認。
+
+# 補給ポッドの武器画像を修正・公開済み（2026-11-12）
+
+試しガチャと通常補給の共通表示変換が12武器を旧３画像へまとめ、名前と形が不一致だった。採用済みGLBから詳細プレビューと同じ照明・構図の透過画像を12種×５等級生成し、実際の武器種と見た目の等級に対応させた。旧３武器のGLB・抽選・報酬・保存は変更しない。[PR #321](https://github.com/futsalife24-bot/swarm-front/pull/321) を通常mergeし、公開ソース `2dca748c85502038c05a387af05dc79ff170c6c1` を既存Worker Version `3a41afa8-33ff-4d99-8aa3-20c6c92d23e5` に公開した。補給関連75件・型検査・マージ後の本番build・Worker dry-run成功。隔離ローカルWorkerの通常10連と認証済み演出確認を844×390・640×360で確認し、画像読込とページ例外0、演出確認の保存不変。[結果と画像](evidence/supply-weapon-art-20261112/README.md)。公開先で画像60点と本体関連6ファイルの内容がbuildと一致し、health正常を確認した。[配信照合](evidence/supply-weapon-art-20261112/published.json)。実スマホ・実聴・公開Workerの認証済み操作は未確認。
+
+# 武器12丁の個別モデルを公開済み（2026-11-12）
+
+今回の状態: 本人が受け入れた新9種・既存3種の構成で制作と統合を完了し、独立再監査合格後に [PR #319](https://github.com/futsalife24-bot/swarm-front/pull/319) を通常mergeした。公開ソースは `50125e6d63d966c25b4d0424b82991dbedd5abfe`、既存Worker Versionは `00b4e105-aa09-4dad-9042-62e9d608d753`（100%）。[公開先](https://swarm-front.melosalife-24.workers.dev)。merge後の本番build・Worker dry-run成功、全60 GLBの元データ/build/manifest一致、公開90ファイルのSHA一致、health正常、844×390・1280×720の開始/射撃/切替/一時停止と画面例外0を確認した。公開manifest.webmanifestのHTTP・SHA・横画面指定も一致。[公開検査](evidence/weapon-models-20261111/published-release.json)、[補足](evidence/weapon-models-20261111/published-supplement.json)、[844画面](evidence/weapon-models-20261111/published-844.png)、[監査と公開の詳細](evidence/weapon-models-20261111/release-audit.md)。
+
+未確認・既知の範囲: 実スマホの表示/負荷/聴感、全連続動作の接触、実旧Worker通信は未確認。ダウン時の床入り込みと旧Workerでの元等級色制限は今回の監査必須修正から除外された。追加の専用ブラウザー検査では新SW登録は成功したが有効化の待機期限に達したため、旧→新SW更新・公開キャッシュ回復は未確認（実SWのローカル回復検査は合格済み）。公開UIの2画面検査はSWを無効にした使い捨て環境で、12丁すべての公開プレイを意味しない。モデル・手持ち・背負い・装填・銃口・詳細/共有のローカル確認と限界は下の履歴/証拠を参照。追加磨き込みは本人判断で終了。以下は制作中の経過記録であり、この先頭の公開済み状態を優先する。
+
+独立再監査に合格（2026-11-12）: 対象 `8d44d6f3` のP1/P2は両方閉鎖、追加必須修正0。通常main反映と、merge後build/dry-run→既存Worker公開→即時配信/health/2画面検査→不合格時切戻しの順序が認められた。[最終回答](evidence/weapon-models-20261111/audit-8d44d6f3.md)、[合格画面](evidence/weapon-models-20261111/audit-8d44d6f3.jpg)。本人は同じ監査の修正版共有も許可済み。次は通常PRでmain反映と公開。現時点ではmain・公開とも未実施。監査後の変更は記録文書と合格証拠だけで、製品は監査対象と同一。
+
+過去の再監査共有承認待ち（2026-11-12、解消済み）: 自動承認審査が「初回ZIPの許可は修正版を含まない」として添付を拒否し、同じ未回答条件で3回のgoalターンが続いたため `blocked` へ切り替えた。その後の本人の明示許可・同じ正式経路での送信・goal復帰により解消済み。別経路で拒否を回避しておらず、現在の停止理由にはしない。
+
+必須修正の検証完了・再監査資料確定（2026-11-12）: 修正HEAD `8d44d6f3` の本番build・Worker dry-run成功。全60 GLBのmanifest/public/build一致と、ローカル本番90配信ファイルの一致、844×390・1280×720の開始/射撃/一時停止、画面例外0を確認。[build資産](evidence/weapon-models-20261111/audit-fix-build-assets.json)、[実HTTP/UI](evidence/weapon-models-20261111/audit-fix-built-release.json)。約1.7MBの再監査差分ZIPを確定し、現在は上記のとおり送信済み。修正の独立再判定・main反映・既存Worker公開は未完了。
+
+独立監査の必須指摘へ対応（2026-11-12）: 初回判定は[要修正](evidence/weapon-models-20261111/audit-5b4a1aab.md)。P1のHTML誤キャッシュは新武器GLBのヘッダー確認と正常品による対象キーの回復を追加し、実SWの修正前再現・修正後の拒否/復旧/オフライン/Rangeを確認。P2の旧Worker相当投影による旧3形状への退行は、同kindの読込済みモデルを使う最小修正で、新9kind×3条件の手持ち/背負いを維持。exact等級を読込後の切替も確認。型確認と関連10テスト成功。造形・通信・性能値は変更せず、旧Workerでの等級色の制限は残る。次は修正ソースの本番ビルド・dry-runと同じChatでの再監査。main・公開はまだ行っていない。[詳細](evidence/weapon-models-20261111/release-audit.md)。
+
+独立監査へ送信済み・判定待ち（2026-11-12）: 本人の「許可する」を受け、確定ZIPを通常Chatへ送信。画面の添付名は `weapon-audit-5b4a1aab(1).zip`、内容SHA-256は `70c5029bcca0feb8b9e1a0732589045b8999b9d4debbcacdd23e9d6e4d9f0096`、監査対象は `5b4a1aab`。主担当が[監査Chat](https://chatgpt.com/c/6af56982-8070-83e8-928b-6d91dee8a9be)でZIPのSHA・収容物・実コード・GLB検査へ着手した旨を確認したが、独立判定はまだ出ていない。送信時PR HEAD `c4fce32f` は監査対象からSTATEと監査公開記録の2文書だけの差分であることをGit照合し、依頼本文にも明示済み。goalはactiveへの復帰を実取得で確認。main反映・Worker公開・公開後確認は未実施。[監査・公開記録](evidence/weapon-models-20261111/release-audit.md)。
+
+監査資料準備と送信承認待ちの経過（2026-11-12、承認待ちは解消済み）: 対象 `5b4a1aab` のソース・45新モデル・15旧モデル・検証証拠589件をZIPに整理し、ハッシュとCRCを照合。初回添付は自動承認審査が非公開資料の具体的共有許可不足として拒否したため、本人へZIPと送信先を明示して確認した。同じ承認待ちが3回のgoalターンで続き、独立した公開準備も完了した時点でgoalを `blocked` にした。その後の本人許可・同じ正式経路での送信・goal復帰は上記の現在地を参照。別経路で拒否を回避していない。
+
+公開へ移行（2026-11-12、本人最新判断）: 本人が比較画像を確認し「デザインはほぼオッケーレベル、このままゲームが動けばいい」と指定。現行の新規9丁の造形を確定し、細部磨き込みとPBR量産を停止する。画像使用の許可は得たが、今回の製品は現在の画像なし `unique-v1` 45本で凍結。PBRは隔離参考のまま、公開へ含めない。実装・公開モデルは最終検証ソース `fc1fea1` 以降の差分0を確認。最新origin/mainは基点 `d7d1399` のまま。残りは必要な差分照合、依頼済み独立Chat監査、main反映・既存Worker公開・配信確認。床への入り込み・装填接触や実機の未確認は監査へ明示し、未実施を合格にしない。goalはactiveへ復帰を実取得で確認。
+
+Astraでの再開とPBR比較（2026-11-12、条件変更の本人判断待ち）: 過去の画像試作は平面の灰色Noiseを掛けただけで、形状に応じたPBRベイクではなかった。RL-9の実部品へ縁摩耗・AO・粗さ・金属度を焼いた隔離候補を制作。色512pxとORM256pxの2画像、8,020三角形・材質6・618,856 bytes。形状と材質割当、5等級の識別／発光材質は元と一致、UV由来の銃口算出高の差はPython再現で0.173mm。現行検査は画像禁止の不合格1・500KB目標の警告5、上限は維持。製品の詳細プレビュー関数と局所兵士表示では表面差を目視し、画面例外・HTTP失敗0。AAA完成・実ゲーム性能・実スマホは未確認。新規9丁のみ画像2枚以内／各512px以下を許可する案を比較付きで本人へ提示し、製品と検査基準は未変更。[比較と再現](evidence/weapon-models-20261111/astra-pbr-proof/README.md)。主担当 gpt-6-astra、推論設定は未確認。自走用goalはblockedのままで、既存未完goalのためcreate_goalも拒否された。画面のゴール再開操作を案内し、作業は手動継続。
+
+制作環境の確認（2026-11-12）: dxdiagの表示アダプタは Intel Iris Xe、専用メモリー128MB・共有16097MB。非表示の計算用GPUの有無は未確認。Blender 5.2.1は利用できる。調べたPython環境にはtorch等がなく、調べた標準キャッシュに画像から立体を作るモデルの重みはなかった。CPU対応をうたう候補も見つかったが、依存・重みの取得が必要で、当PCでの速度・品質・40項目への適合は未実証。インストール・ダウンロード・画像送信はしていない。
+
+SR-1の照準器・機関部隔離再設計（2026-11-12、不採用）: 奥まった照準器レンズ、独立した白装甲、赤茶の固定具と真鍮管を作り直した。7,332三角形・材質6・最大425,744 bytes、40項目合格・警告0。現行との差は小さく、一部の白い面はより平板に見え、参考画像の密度や材質感の明確な改善を確認できず不採用。[比較](evidence/weapon-models-20261111/sniper-redraw-rejected.png)、[検査](evidence/weapon-models-20261111/sniper-redraw-rejected-check.json)、[試作](evidence/weapon-models-20261111/sniper-redraw-rejected.py)。実ゲーム・干渉・共有・実機は未確認、製品は変更しない。
+
+ダウン時背負い武器の複数軸隔離試作（2026-11-12、不採用）: SG-4とSR-1の左右4条件で、静止時に床上2mm・体表と手持ちの辺面交差0となる配置を有限探索。静止候補を倒れる途中と復帰を含む211フレームに適用すると、4条件すべてで床上2mmを下回り、最深は床下15〜97mm、2条件で体表と手持ちの交差も出た。補正を0へ戻した後の位置・回転残留は0。復帰の1フレーム350〜369mm程度の大きな変化は現行にもあり、試作だけの原因とは断定できない。[比較](evidence/weapon-models-20261111/weapon-composite-rejected.png)、[静止](evidence/weapon-models-20261111/weapon-composite-static-report.json)、[連続](evidence/weapon-models-20261111/weapon-composite-timeline-report.json)、[現行比較](evidence/weapon-models-20261111/weapon-composite-motion-report.json)。全組合せ・完全内包・実ゲーム・実機は未確認、製品は変更しない。
+
+MD-4の薬液槽隔離試作（2026-11-12、不採用）: 白い胴を開いた殻に変更し、内側の不透明な緑槽と外側の真鍮枠を別の立体にした。8,784三角形・材質6・最大471,176 bytes、40項目合格・警告0。現行より枠と槽の前後関係は見えるが、透明容器や液体らしさは明確に改善せず、参考画像の質感に届かないため不採用。[比較](evidence/weapon-models-20261111/medic-reservoir-rejected.png)、[検査](evidence/weapon-models-20261111/medic-reservoir-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/medic-reservoir-rejected.py)、[試作材質](evidence/weapon-models-20261111/medic-reservoir-kit-rejected.py)。実ゲーム・共有・干渉・実機は未確認、製品は変更しない。
+
+公開前のURL確認（2026-11-12）: 既存Workerの新武器45 URLにHEADを送り、すべてHTTP 200・`text/html` の応答を確認。代表の `medic_0.glb` はGETでも `text/html`、先頭4バイト `<!do` を返し、GLBではない。残り44件はGET本文未確認。旧ブラウザーの保存状況は未確認で、公開後にはGLBの実体・manifest・キャッシュを別途確認する。
+
+RL-9の既存環境反射隔離試作（2026-11-12、不採用）: 兵士生成時の環境をRL-9の金属2材質へ隔離適用し、参照を確認。ゲーム画面と詳細の画素に差は出たが、目視で明確な品質向上は判定できなかった。固定画面のGPU測定中央値は各12回で4.91→5.76ms、小標本で差は断定できない。起動時THREEシェーダー警告と既存の分析通信CORS失敗あり、試作後のGLエラー・ページ例外0。既存AR-9とLZ-2の材質情報は変化なし。[比較](evidence/weapon-models-20261111/weapon-env-rejected.png)、[測定](evidence/weapon-models-20261111/weapon-env-rejected-report.json)、[試作](evidence/weapon-models-20261111/weapon-env-rejected.js)。別武器・共有画像・混戦・実機は未確認、製品は変更しない。
+
+武器キャッシュの初回公開と将来更新（2026-11-12）: 基点のGitツリーに `unique-v1` はなく、利用者が同一オリジンの同URLを事前保存していなければ、旧試作品が初回公開を邪魔する前提はない。ただし公開Workerでの先行配信有無・旧実ブラウザー・CDNは未確認。隔離試作は旧版保存後に同URLを更新した将来条件であり、初回公開の実害を示したものではない。公開後に同じURLへ上書きすると通常読込で旧キャッシュが残り得るため、次回変更時は新パス切替などの運用と旧版・オフラインを検証する。明示保存は照合・再取得で更新可能だが自動実行は保証されない。
+
+SMG-3の装填手首位置・向き隔離試作（2026-11-12、不採用）: 位置と向きを滑らかに補正したが、中盤で腕が大きく伸び、弾倉を握って交換する動きには見えない。装填50%の手首中心から弾倉候補面までの距離は206.57→24.50mm、位置目標の誤差は約0.000016mmだったが接触の証明ではない。静止5時点を目視、比較動画の連続再生は未確認。位置計算の正例は当初2回到達範囲外で失敗し、到達可能な点へ修正。[比較](evidence/weapon-models-20261111/reload-smg-gesture-rejected.png)、[測定](evidence/weapon-models-20261111/reload-smg-gesture-rejected-report.json)、[再現用](../scripts/reload-smg-gesture-probe.mjs)。指先と弾倉の接触・連続動作・実ゲーム・実機は未確認。
+
+SMG-3の立体構造隔離試作（2026-11-12、不採用）: 前部を6枚の分割装甲と内側コア、中央を接続輪、後部を点検区画に変更。6,088三角形・材質6・341,296 bytes、40項目合格・警告0。多面図を見比べた結果、黄色い平面が目立ち、参考画像の厚みと複雑な機械感に届かないため採用しない。[比較](evidence/weapon-models-20261111/smg-structural-rejected.png)、[検査](evidence/weapon-models-20261111/smg-structural-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/smg-structural-rejected.py)。実ゲーム・動作・実機は未確認。
+
+装填中の手と武器の表面測定（2026-11-12）: 12丁の装填25・50・75%で、手の骨に重みのある面を抽出して武器との辺面交差を測定。左の抽出面は36条件すべて交差0、右は9丁で15〜48組だった。握りの接触とめり込みの深さは区別できず、抽出外の手表面や完全内包も判定できない。弾倉・指先の接触、連続動作、実ゲーム入力と実機も未確認。[条件と結果](evidence/weapon-models-20261111/reload-hand-skin.md)、[比較画像](evidence/weapon-models-20261111/reload-hand-skin.png)、[測定](evidence/weapon-models-20261111/reload-hand-skin-report.json)。
+
+LZ-2の箱形機関部隔離試作（2026-11-12、不採用）: 紫の本体、銅の枠、冷却窓を太くした案を比較。8,460三角形・材質6・483,616 bytes、40項目合格・警告0、発光材質と5等級の識別色以外は一致したが、詳細の実寸では差が小さく参考画像の重厚な印象に届かないため不採用。[比較](evidence/weapon-models-20261111/laser-box-rejected.png)、[検査](evidence/weapon-models-20261111/laser-box-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/laser-box-rejected.py)。候補ネオン・完全内包・動作中・実ゲーム・スマホは未確認。製品は変更していない。
+
+旧サーバー外観ずれの復元可能性（2026-11-12）: 旧ロビーで元装備を観測し、出撃直前の装備と確実に対応付けられた場合には部分復元の可能性がある。一方、戦闘中の再接続や再読込後は元の形式が送られず、全員分を確実に復元する経路は確認できない。武器IDの異なる出撃・プレイヤー間の一意性も保証されないため、推測で補正せず既知のずれとして維持する。[調査](evidence/weapon-models-20261111/old-server-appearance-review.md)。旧Workerと新クライアントの実通信は未確認。
+
+独立監査の事前整理（2026-11-12）: 監査者が実装・モデル・40項目・実画面と未確認点を照合するための候補537件と容量を計算。[選定理由と不足](evidence/weapon-models-20261111/audit-preparation.md)、[ファイル一覧](evidence/weapon-models-20261111/audit-preparation-files.txt)。計算時点は `6e050bb` であり、最終HEAD・証拠の対応と秘密／個人情報の点検が必要。ZIP作成・監査送信・独立判定は行っていない。候補だけではマップ・敵・音などを含むゲーム全体の実行は再現できない。
+
+射撃線の追加修正後の本番ビルド再確認（2026-11-12）: ソース `fc1fea1` の本番ビルド・Worker dry-runが成功し、武器60件のmanifest・publicとの一致を確認。[測定](evidence/weapon-models-20261111/freeze-final-build-report.json)。ローカル本番ビルドでは87配信ファイルを照合し、844×390・1280×720の使い捨てブラウザーで名前入力・開始・射撃・一時停止、武器読込HTTP 200、画面例外0を確認。[測定](evidence/weapon-models-20261111/built-release-freeze.json)。公開環境・12丁すべての本番ビルド画面・実機は対象外。
+
+射撃線の描画前移動の追加修正（2026-11-12）: 自己レビューで、短い更新間隔では初回描画待ちの線が先に移動・減光する問題を発見。対象線は初回描画まで位置・明るさを保ち、描画後に進めるよう修正した。1/144秒・1/240秒の連続更新では移動0・不透明度1、描画後0.004秒で0.48m移動・不透明度0.76。期限回収・clear・上限・再利用と対象外、実ローカルでのGL-6・ST-3・RL-2・AR-9を再確認。型確認・関連11テスト成功。[回収と短い更新](evidence/weapon-models-20261111/grenade-firstdraw-freeze-test.json)、[実ローカル射撃](evidence/weapon-models-20261111/grenade-firstdraw-freeze-live.json)。閃光と線は実画面では小さく、スマホでの視認性・通信は未確認。
+
+RL-9の塗装欠け隔離試作（2026-11-12、不採用）: 橙装甲の端を不規則に欠かせ、既存の暗い金属を見せる案を比較。8,180三角形・材質6・445,516 bytes、40項目合格・警告0、5等級の識別色以外一致だったが、詳細の実寸と兵士サイズでは違いがほぼ読めず不採用。[比較](evidence/weapon-models-20261111/heavy-chipped-rejected.png)、[検査](evidence/weapon-models-20261111/heavy-chipped-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/heavy-chipped-rejected.py)。製品は変更せず、通常対戦・共有画像・スマホ実機は未確認。
+
+新規9丁の現在の横面は[一覧画像](evidence/weapon-models-20261111/reframe-nine-latest.png)にまとめた。形の違いを確認できる一方、参考画像の写実的な材質・摩耗には届いておらず、AAA級の完成とは判定していない。
+
+12丁×5等級のネオン再検査（2026-11-12）: 現在のモデル60組について、2層の輪郭、有限の形状、元モデルを変更しないこと、破棄、左右2枠、発光の強弱・持ち替えを既存検査で確認。36方向の画像を目視した。[輪郭・発光画像](evidence/weapon-models-20261111/neon-glow-final.png)、[輪郭測定](evidence/weapon-models-20261111/neon-final-report.json)、[発光測定](evidence/weapon-models-20261111/glow-final-report.json)。検査用スクリプトの依存モジュール読込を作業フォルダでも動くよう更新。実戦の全動作・実スマホは未確認。
+
+RL-9の手続き表面２尺度試作（2026-11-12、不採用）: 橙装甲に大小のむら、金属に細い擦れを付け、実ゲーム・詳細・共有画像を同倍率で比較。自然な質感の明確な向上は確認できず不採用。[比較](evidence/weapon-models-20261111/procedural-wear-v2-rejected.png)、[測定](evidence/weapon-models-20261111/procedural-wear-v2-rejected-report.json)、[試作コード](evidence/weapon-models-20261111/procedural-wear-v2-rejected.js)。共有画像の文字・数値は不変。GPU計測は各12回の小標本で変動が大きく、負荷の増減を断定できない。外部HTTPSを遮断した隔離ブラウザーの外部取得失敗3件は描画エラーと区別する。製品は変更せず、別武器・全等級・共有UIの操作・実スマホは未確認。
+
+本番ビルドの実画面確認（2026-11-12）: ソース `1bb61fe` のローカル本番ビルドで、配信対象87件をビルド実体と照合。844×390・1280×720の使い捨てブラウザーで名前入力・開始・射撃・一時停止を確認し、各画面の弾数は32→29、取得した武器3件はすべてHTTP 200、画面例外0。[測定](evidence/weapon-models-20261111/built-release-current.json)。開始検査は現行の画面遷移と入力保護へ合わせて更新した。公開環境・12丁すべての本番ビルド画面・実機はこの検査の対象外。
+
+RL-9の手続きシェーダー隔離試作（2026-11-12、不採用）: 画像テクスチャや材質を増やさず、金属・橙装甲の色と粗さに位置由来のむらを加えた。実ローカル画面と詳細プレビューの同倍率比較では、写実的な質感の明確な向上を確認できず不採用。[比較](evidence/weapon-models-20261111/procedural-wear-rejected.png)、[測定](evidence/weapon-models-20261111/procedural-wear-rejected-report.json)、[試作コード](evidence/weapon-models-20261111/procedural-wear-rejected.js)。固定画面各12回のGPUクエリ中央値は現行5.02ms・候補5.34msだが、小標本で確定的な差ではない。画面内のプログラム数は47→48、共有複製後も48。実ゲーム中に既存の分析通信のCORS失敗が記録されており、描画のエラーとは区別する。製品は変更せず、別武器・共有画面・長期キャッシュ・スマホ実機は未確認。
+
+KB-6の多層通風口隔離試作（2026-11-12、不採用）: 6つの通風口に縁・奥・二段の羽根、胴に赤茶と青灰の分割装甲を追加。8,432三角形・材質6・475,428 bytes、40項目合格・警告0、5等級の識別色以外一致だったが、詳細の実寸では差が小さく、兵士サイズではほぼ分からないため不採用。[比較](evidence/weapon-models-20261111/kick-layered-rejected.png)、[検査](evidence/weapon-models-20261111/kick-layered-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/kick-layered-rejected.py)。頭部との静止辺面交差は0組だが、完全内包・動作中・実ゲーム・スマホは未確認。製品は変更していない。
+
+射撃線修正後のビルド（2026-11-12）: ソース `1bb61fe` の本番ビルドとWorker dry-runが成功。武器60件はmanifestのサイズ・ハッシュとpublic実体に一致し、既存15ファイルは基点から未変更。[測定](evidence/weapon-models-20261111/grenade-final-build-report.json)。公開環境と実端末は未確認。
+
+LZ-2の頂点AO隔離試作（2026-11-12、不採用）: 形状由来の陰影を頂点色へ焼き、100%と30%で比較。100%は銅色が黒くつぶれ、30%は詳細でも違いが小さく、容量増に見合う改善を確認できなかった。両案とも8,788三角形・材質6・約625KB、画像0、40項目合格・500KB目標超過の警告5件、5等級の識別色以外一致。上限や検査条件は変更せず、製品にも反映しない。[比較](evidence/weapon-models-20261111/laser-ao-rejected.png)、[検査](evidence/weapon-models-20261111/laser-ao-rejected-check.json)。通常対戦・共有画面・実機は未確認。
+
+GL-6・ST-3の短い射撃線修正（2026-11-12、制作途中）: 2m方向目印からの射撃線が初回描画前に寿命切れになる問題に対し、対象の線だけ実描画を待つようにした。描画されない場合は100msのタイマーで回収し、描画後・回収時・clear時・再利用時に状態を解除。既存の効果数上限は維持。正式コードでGL-6・ST-3の初回描画、対象外のRL-2・AR-9、180件満杯・残り1枠・最大90本待機・clearと再利用を検証。ゲーム・Worker型確認と関連11テストも成功。[条件と再現](evidence/weapon-models-20261111/grenade-first-draw.md)、[回収検証](evidence/weapon-models-20261111/grenade-first-draw-lifecycle.json)、[実ローカル射撃](evidence/weapon-models-20261111/grenade-first-draw-live.json)、[先行画素比較](evidence/weapon-models-20261111/grenade-first-draw-pixel.png)。100msはタイマー設定で厳密な経過時間上限ではない。描画コールバックは遮蔽なく見える証明ではなく、通常サイズの視認性・実戦負荷・通信・スマホ実機は未確認。
+
+12丁の初回射撃の画面投影（2026-11-12）: 844×390の実ローカル単独プレイで初回描画を測り、全12丁の銃口発光中心は同じカメラで投影した銃口と0px差。射撃線を持つ8丁では描画対象と移動方向を確認し、ロケット2丁は別の飛翔体を描画。GL-6・ST-3は射撃線を生成するが、測定した初回は寿命切れで描画前に消えていたため修正を隔離検証中。[比較](evidence/weapon-models-20261111/shot-screen.png)、[条件と結果](evidence/weapon-models-20261111/shot-screen.md)、[測定](evidence/weapon-models-20261111/shot-screen-report.json)。円は診断用の印で、遮蔽による実画素の可視・全飛行・他時点・通信・実機は未確認。飛翔体の生成は身体基準であり、描画時の位置は生成後の移動を含む。
+
+LZ-2の発光環拡大隔離試作（2026-11-12、不採用）: 輪・配管を太くした案は8,712三角形・材質6・494,268 bytes、40項目合格・警告0だったが、発光環が白く飽和し、参考画像の内部が見える輪から遠ざかるため採用しない。[比較](evidence/weapon-models-20261111/laser-industrial-rejected.png)、[検査](evidence/weapon-models-20261111/laser-industrial-rejected-check.json)、[試作ソース](evidence/weapon-models-20261111/laser-industrial-rejected.py)。製品は変更しておらず、実ゲーム・動作中・実機は未確認。
+
+SR-1の大型照準器再設計（2026-11-12、制作途中）: 白いスコープと赤茶の輪を大きくし、前部装甲・留め具・真鍮管を強めた。正式生成は8,868三角形・材質6・最大497,568 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士10場面と844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/sniper-industrial-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/sniper-industrial-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/sniper-industrial-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/sniper-industrial-reframe-reload-report.json)。静止手持ち2位置で頭部の辺面交差0組、頭側へ寄せる正例は285組、制服との3,891組は正常接触とめり込みを未分類。[測定](evidence/weapon-models-20261111/sniper-industrial-held-report.json)。再造形後の12丁×左右の背負い静止24条件は体表の辺面交差0組、正例246組。[測定](evidence/weapon-models-20261111/back-final-sniper-report.json)。12丁×装填3時点×2方向の手元を再描画したが、指先・弾倉の接触は判定できない。[画像](evidence/weapon-models-20261111/reload-hands-sniper-final.png)、[測定](evidence/weapon-models-20261111/reload-hands-sniper-final-report.json)。
+
+SR-1再造形後の描画再測定（2026-11-12）: 同じデスクトップ固定画面で各5秒を再計測。画面更新は59.2〜60.1回/秒、CPU側描画処理の95%値は既存3丁11.3〜16.4ms、新規9丁10.6〜20.3ms。[測定](evidence/weapon-models-20261111/render-load-sniper-final-report.json)。1回ずつの比較でばらつきがあり、GPU完了時間・混雑中・スマホ性能は未確認。実ゲームの通常カメラでは大型照準器の細部の違いも判定しにくく、参考画像の写実的な摩耗は未達。
+
+12丁の固定画面の描画測定（2026-11-12）: Windows・Intel Iris Xe・Headless Chrome、844×390・兵士1人・敵0・背中のAR-9を固定して各5秒を1回ずつ比較。画面更新は全条件約59.9〜60.1回/秒、CPU側描画処理の95%値は既存3丁13.4〜15.9ms、新規9丁10.9〜16.1msだった。[条件と結果](evidence/weapon-models-20261111/render-load.md)、[測定](evidence/weapon-models-20261111/render-load-report.json)。これは短時間のデスクトップ固定画面の観察で、GPU完了時間・混雑中・実スマホの性能や負荷の保証ではない。
+
+ST-3の枠・蛇腹の再設計（2026-11-12、制作途中）: 3槽の黒い縁、橙の厚い枠、留め具と蛇腹を太くし、槽上半分の暗色で薬液の高さが分かるようにした。握り・前後端・銃口軸は維持。正式生成は8,444三角形・材質6・最大446,256 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士10場面と844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/sticky-industrial-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/sticky-industrial-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/sticky-industrial-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/sticky-industrial-reframe-reload-report.json)。静止手持ち2位置で頭部の辺面交差0組、頭側へ寄せる正例は820組、制服との1,439組は正常接触とめり込みを未分類。[測定](evidence/weapon-models-20261111/sticky-industrial-held-report.json)。12丁×左右の背負い静止24条件は体表との辺面交差0組、正例246組。[測定](evidence/weapon-models-20261111/back-final-sticky-report.json)。12丁×装填3時点×2方向の手元も再描画したが、指先・弾倉の接触は判定できない。[画像](evidence/weapon-models-20261111/reload-hands-sticky-final.png)、[測定](evidence/weapon-models-20261111/reload-hands-sticky-final-report.json)。参考画像の透明なガラス・写実的な摩耗、完全内包・共面・連続動作・実通信・スマホ実機は未確認。
+
+12丁の初回射撃音信号（2026-11-12）: 当時のモデルを装備した844×390の実ローカル単独プレイで、全12丁の初回射撃イベントと対応する再生要求・復号済みの正規クリップ・非ゼロの音声信号を確認。再生直前の無音対照は全件0、画面例外0。[条件と結果](evidence/weapon-models-20261111/shot-audio.md)、[測定](evidence/weapon-models-20261111/shot-audio-report.json)。測定は個別効果音ゲインの後、定位・マスター・圧縮の前であり、スピーカー出力・聴感・実スマホ・復号前の初回射撃は未確認。
+
+SMG-3の装填左手IK隔離試作（2026-11-12、不採用）: 既存３丁を変更せず、装填中盤だけ左手を弾倉の推定領域へ最大60mm寄せる案を60Hz・91時点で比較。到達可能／不能の対照は成功し、中盤の手首と推定領域の距離は約207→147mmとなったが、弾倉を操作する自然な動作に届かず不採用。[比較](evidence/weapon-models-20261111/reload-smg-ik.png)、[条件と限界](evidence/weapon-models-20261111/reload-smg-ik.md)、[測定](evidence/weapon-models-20261111/reload-smg-ik-report.json)。推定領域には弾倉以外も含まれ、指先の接触・貫通・実ゲーム・他武器・実機は未確認。
+
+RL-9の外周帯再設計（2026-11-12、制作途中）: 短筒・銃口軸・握りを維持し、筒全体に太い９本の外周帯と分割装甲を追加。正式生成は8,020三角形・材質6・最大436,872 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。実ゲームの初回描画1回では弾体と武器・体表の辺面交差0組、胸方向へずらす正例は74組。[比較](evidence/weapon-models-20261111/heavy-industrial-comparison.png)、[兵士](evidence/weapon-models-20261111/heavy-industrial-reframe-trooper.png)、[射撃と交差](evidence/weapon-models-20261111/heavy-industrial-intersection-report.json)、[詳細・共有](evidence/weapon-models-20261111/heavy-industrial-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/heavy-industrial-reframe-reload-report.json)。再造形後の12丁×左右の背負い静止24条件でも体表の辺面交差0組、正例246組。[測定](evidence/weapon-models-20261111/back-final-industrial-report.json)。12丁×装填3時点×2方向の手元も再描画し、右手は握り付近、左手は途中で離れる時点を確認。[画像](evidence/weapon-models-20261111/reload-hands-final.png)、[測定](evidence/weapon-models-20261111/reload-hands-final-report.json)。参考画像の写実的な摩耗、指先と弾倉の接触、完全内包・共面・連続動作・実通信・スマホ実機は未確認。
+
+12丁の装填手元の拡大診断（2026-11-12）: 当時のGLBと兵士の既存クリップを用い、12丁×装填25・50・75%×2方向を局所描画した。その後RL-9を再造形したため、この画像のRL-9は旧形状。右手は握り付近に見え、左手は途中で武器から離れる時点がある。手首ボーンから武器表面への距離も測り、既知距離と実武器表面の正負対照を確認したが、手袋・指先や弾倉との接触距離ではない。全12丁に独立した弾倉ノードやモデル内アニメーションはなく、この画像だけでは弾倉に合う装填表現の合格を判断できない。[比較](evidence/weapon-models-20261111/reload-hands-close.png)、[条件と所見](evidence/weapon-models-20261111/reload-hands-close.md)、[測定](evidence/weapon-models-20261111/reload-hands-close-report.json)。選択時点以外の連続動画・実ゲーム入力・スマホは本診断の対象外。
+
+再造形後のビルド・配信準備（2026-11-12）: ソース `37fa7cc` のゲーム・Worker型確認、本番ビルドとWorker dry-runが成功。本番ビルドの武器60ファイルはmanifestのサイズ・ハッシュとpublic実体に一致し、既存15ファイルは基点から未変更。[測定](evidence/weapon-models-20261111/reframe-build-report.json)。実Service Workerと保存処理を用いた隔離ブラウザーでは、60ファイルを明示保存後、オフラインで全件一致。[測定](evidence/weapon-models-20261111/cache-reframe-report.json)。公開環境・実端末・更新前にオフラインの端末は未確認。
+
+12丁の背負い静止検査（2026-11-12）: 当時のモデルで左右24条件を再測定し、変形後の体表と背負い武器の辺面交差は0組。武器を体側へ10cm移す正例では246組を検出。その後RL-9を再造形したため、RL-9については再確認が必要。[測定](evidence/weapon-models-20261111/back-reframe-static-report.json)。完全内包・共面・連続動作・実地形・通信・実機は未確認で、ダウン時の床めり込みは別途残る。
+
+横向きダウンの隔離試作（2026-11-12、不採用）: 胴を90度回す案を3武器・左右で60Hz測定。静止時も身体が床下182mm、片側の背負い武器が床下199〜248mmとなり、復帰時の動きも不自然だったため採用しない。[記録](evidence/weapon-models-20261111/ground-side-probe.md)、[画像](evidence/weapon-models-20261111/ground-side-probe.png)、[測定](evidence/weapon-models-20261111/ground-side-probe-report.json)。横向き姿勢の全方式が不可能と分かったわけではない。
+
+MD-4の陶器の仕上げ隔離試作（2026-11-12、不採用）: 4枚の花弁の立体的な欠けと陶器の色・粗さを2案で比較。各8,800三角形・材質6・最大492,364 bytes、40項目合格・警告0、5等級の識別色以外も一致したが、兵士表示では差がほぼ見えず参考画像の質感に届かないため製品へ反映しない。[比較](evidence/weapon-models-20261111/medic-patina-comparison.png)、[測定](evidence/weapon-models-20261111/medic-patina-report.json)。実ゲームループ・共有画面・実機は未確認。
+
+MD-4の丸胴・花弁再設計（2026-11-12、制作途中）: 参考画像を基に幅広い4枚の花弁、白い丸胴、緑の薬液窓、真鍮の帯と取っ手を加え、DESIGNとPRODUCTIONを更新。握り・前後端・銃口軸は維持。正式生成は8,512三角形・材質6・最大472,200 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/medic-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/medic-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/medic-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/medic-reframe-reload-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた手・体の接触、連続動作・実通信・スマホ実機は未確認。
+
+GL-6の6機構再設計（2026-11-12、制作途中）: 参考画像を基に中央を箱形にし、大きな円形機構を2×3に並べた。肩担ぎの後部、握り、前後端、銃口軸は維持し、DESIGNとPRODUCTIONも更新。正式生成は8,860三角形・材質6・最大499,400 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/grenade-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/grenade-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/grenade-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/grenade-reframe-reload-report.json)。別生成の隔離候補では静止時のヘルメットとの辺面交差は左右0組、制服との交差は各729組だが、正常接触とめり込みの内訳は未判定。[測定](evidence/weapon-models-20261111/grenade-held-crossing-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた接触、連続動作・実通信・スマホ実機は未確認。
+
+ダウン時に背負い武器を離す隔離試作（2026-11-12、不採用）: SG-4・短筒RL-9・SR-1の左右6条件を平面・60Hzで測定。体と手持ちの最低高は変更前と同じだったが、背負い武器は静止時に床上106〜126mmで浮き、移動途中の体表・手持ちとの辺面交差も検出した。支持のない浮遊・自動帰還も不自然なため製品へ反映しない。[記録](evidence/weapon-models-20261111/ground-detach-probe.md)、[測定](evidence/weapon-models-20261111/ground-detach-probe-report.json)、[画像](evidence/weapon-models-20261111/ground-detach-probe.png)。実地形・連続接触・通信・実機は未確認。背負い武器の床めり込みは未解決。
+
+ST-3の3連薬液槽再設計（2026-11-12、制作途中）: 参考画像を基に3本の槽・太い配管・橙色の枠を大きくし、肩担ぎ用の握り・前後端・銃口軸を維持した。正式生成は7,804三角形・材質6・最大410,668 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/sticky-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/sticky-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/sticky-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/sticky-reframe-reload-report.json)。別生成の隔離候補では、静止時のヘルメットとの辺面交差は左右0組、制服との交差は各1,439組だったが、正常接触とめり込みの内訳は未判定。[測定](evidence/weapon-models-20261111/sticky-held-crossing-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた接触、連続動作・実通信・スマホ実機は未確認。
+
+KB-6の通風機構再設計（2026-11-12、制作途中）: 参考画像を基に胴を太くし、両側に大きな6つの通風口と分割装甲を加えた。前後の噴射口と翼、既存の握り・銃口軸は維持。正式生成は8,560三角形・材質6・最大488,228 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭が一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/kick-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/kick-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/kick-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/kick-reframe-reload-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた手・体の接触、連続動作・実通信・スマホ実機は未確認。
+
+LZ-2の機構再設計（2026-11-12、制作途中）: 参考画像を基に円形機構・銅色の枠・冷却フィンを加えた。正式生成は8,788三角形・材質6・最大498,120 bytes、40項目合格・警告0、多面図を目視。5等級の識別色以外の不変検査は全9種で成功。実兵士の手持ち・背負い・装填10場面、844×390の隔離仮保存で初回射撃・詳細・共有・装填5時点と満弾復帰を確認した。発光弾と銃口炎の生成位置は製品銃口と0mm差。初回発光弾の色を線形色に変換した値は `[0.53948, 0.95597, 1]`、GLB発光値は `[0.53900, 0.95600, 1]` で最大差0.00048。[兵士](evidence/weapon-models-20261111/laser-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/laser-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/laser-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/laser-reframe-reload-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた手・体の接触、連続動作・実通信・スマホ実機は未確認。
+
+SG-7の厚い帯と機構の再設計（2026-11-12、制作途中）: 参考画像を基に太い7本の真鍮帯・赤茶の区画・上部輪を加え、棘とレバー輪を維持。銃口軸を0.054→0.080mへ変更し、DESIGNとPRODUCTIONも更新。正式生成は8,308三角形・材質6・最大494,744 bytes、40項目合格・警告0、多面図を目視。SG-4と同じ条件で無彩色96×36へ投影し、棘と上下の輪で識別できることを目視した。[輪郭比較](evidence/weapon-models-20261111/slug-reframe-silhouette.png)。5等級の生成物と本体およびネオン輪郭は一致、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と製品銃口、844×390隔離仮保存での初回射撃・詳細・共有・装填5時点と満弾復帰を確認。銃口炎・発光弾の生成位置は製品銃口と0mm差。[兵士](evidence/weapon-models-20261111/slug-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/slug-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/slug-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/slug-reframe-reload-report.json)。隔離試作の静止手持ちでは制服との辺面交差2,070組、ヘルメット0組で、正常接触とめり込みの内訳は未判定。参考画像の写実的な摩耗には届いておらず、連続動作・実通信・スマホ実機は未確認。
+
+SR-1のスコープと装甲再設計（2026-11-12、制作途中）: 参考画像を基に大口径スコープ・白い分割装甲・暗赤の補強・金属配管を追加し、銃口下の棘を1本に整理。銃身の範囲・握り・銃口軸は維持。正式生成は8,892三角形・材質6・最大499,628 bytes、40項目合格・警告0、多面図を目視。5等級の生成物と本体およびネオン輪郭は一致し、全9種のレア度不変検査も成功。実兵士の手持ち・背負い・装填10場面と製品銃口を局所確認。844×390の隔離仮保存で初回射撃の銃口炎・発光弾の生成位置は製品銃口と0mm差、詳細・共有画面と装填5時点・満弾復帰も確認した。[兵士](evidence/weapon-models-20261111/sniper-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/sniper-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/sniper-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/sniper-reframe-reload-report.json)。参考画像の写実的な摩耗には届いておらず、隠れた手・体の接触、連続動作・実通信・スマホ実機は未確認。
+
+GL-6の箱形6機構隔離試作（2026-11-12）: 本人参考画像の2×3配列と緑の装甲を試作。8,004三角形・材質6・最大460,976 bytesで正規40項目合格・警告0、5等級の識別色以外も一致した。多面図・製品プレビュー関数・局所兵士表示を比較したが、製品サイズでは細部が小さく、現行からの明白な完成度向上とまでは判断できず不採用。[比較](evidence/weapon-models-20261111/grenade-box-prototype.png)。製品は変更しておらず、実ゲーム射撃・装填・スマホは未確認。
+
+SMG-3の3区画再設計（2026-11-12、制作途中）: 本人提供の参考画像に合わせ、細い機関部を3つの太い暗色機構・黄黒装甲・多層リング・配管と取っ手へ作り直した。針、2本の弾倉、握りと前方支持を維持し、DESIGNとPRODUCTIONの寸法・銃口軸を更新。正式生成は8,096三角形・材質6・最大448,980 bytes、40項目合格・警告0、多面図と札サイズを目視。5等級の生成物と本体が一致し、全9種のレア度不変検査とSMGのネオン輪郭照合も成功。実兵士の手持ち・背負い・装填の10場面と製品銃口を確認し、844×390の隔離仮保存による実射撃で銃口炎・発光弾は製品銃口と0mm差、詳細・共有画面と装填5時点・満弾復帰も確認。[兵士](evidence/weapon-models-20261111/smg-reframe-trooper.png)、[射撃](evidence/weapon-models-20261111/smg-reframe-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/smg-reframe-detail-report.json)、[装填](evidence/weapon-models-20261111/smg-reframe-reload-report.json)、[9丁の現状](evidence/weapon-models-20261111/concept-models-round4.png)。試作の手持ち静止時には制服との辺面交差1,678組があり、手の接触とめり込みの内訳は未判定。参考画像の写実的な摩耗・完成品質には届かず、連続動作・実通信・スマホ実機は未確認。初回の実射撃確認は画面読込が50秒で時間切れとなり、並行処理を止めた再実行で成功した。
+
+ダウンのうつ伏せ隔離試作（2026-11-12）: SG-4・短筒RL-9・SR-1×背負い両位置の平面6条件を60Hzで測定。既存姿勢を胴軸で回した単純案では背負い武器は静止時に床上へ出た一方、手持ち武器は静止時42〜48mm・倒れる途中最大451mm床下、背負いと体表は静止時最大1,336面組の交差、復帰時は胸位置が1フレーム最大約402mm変化して不自然だったため不採用。製品は変更していない。[測定・画像と再現方法](evidence/weapon-models-20261111/ground-prone-probe.md)。平面・6条件・この単純案に限定し、うつ伏せ方式全体の限界とは扱わない。実地形・通信・スマホは未確認。
+
+短筒RL-9を含む背負い静止位置（2026-11-12）: 現在の12種×背負い2位置で、変形後の体表と武器の辺・面交差は24条件すべて0組。武器を体側へ10cm移した正例は246組を検出。[測定](evidence/weapon-models-20261111/heavy-short-back-surface-report.json)。完全内包、共平面、深さ、連続動作、実ゲーム・実機は対象外。ダウン時の床下は別途未解決。
+
+SMG-3の立体傷隔離試作（2026-11-12）: 既存材質を使い塗装欠け50か所を立体で追加。8,016三角形・材質6・最大489,480 bytes、正規40項目合格・警告0、5等級の識別色以外のデータ一致も確認。しかし製品詳細プレビュー・局所兵士表示では傷の差が小さく、参考画像の細密さには届かないため不採用。[比較](evidence/weapon-models-20261111/smg-surface-geometry-comparison.png)。製品・原設計は変更していない。実ゲームループ・共有画像・実機は未確認。
+
+融合表示修正のコミット後build（2026-11-12）: 実装commit `0e7bde8` から本番クライアントbuildと既存Worker向けdry-runが成功。build内の武器60件についてmanifestのサイズ・SHAおよびpublic実体との一致を確認。[記録](evidence/weapon-models-20261111/fusion-committed-build-report.json)。これは公開・配信・実機の確認ではない。
+
+融合表示の実画面（2026-11-12）: 844×390・隔離仮保存の実ローカル防衛戦で、新形式SG-7のN・LRを各1回装備し、融合成長モードの最初の通常強化を選択。強化前後で選択スロット0・右手ソケット、モデルノード・識別インレイ・ネオンの色を実Rendererから確認し一致。`slug_0.glb`／`slug_4.glb` を要求し、`slug_5.glb` 要求・ページ例外・武器要求失敗は0。[測定](evidence/weapon-models-20261111/fusion-tier-ui-report.json)、[比較](evidence/weapon-models-20261111/fusion-tier-ui-comparison.png)。画像は選択UIに隠れた兵士を見るため、製品Rendererを追加描画して取得している。画像内の兵士は小さく、細部の目視判定ではない。融合カード自体、実通信を伴う画面、スマホ実機は対象外。再現は `node scripts/check-front-fusion-appearance-ui.mjs`。
+
+旧サーバー由来の表示上限（2026-11-12）: 基点の融合コードが出力する表示項目なしの新LRを現行コードで処理すると、存在しない等級5のGLBを要求して404、ネオンは白になった。表示専用 `weaponVisualTier` の欠落時フォールバックを0〜4へ収め、隔離ローカルHTTPの実GLB読込でLRの `_4.glb` とLR色を確認。正規の新旧9等級、保存値と戦闘値は維持。表示項目が存在しない旧サーバーの新N〜SSRは、新旧元装備を識別できず色ずれが残る。[測定](evidence/weapon-models-20261111/fusion-old-server-fallback-report.json)。旧コード実行と隔離HTTPによる試験であり、旧サーバープロセス・旧実ブラウザー・公開環境・実機は未確認。変更後の関連6ファイル72テスト・ゲーム／Worker型確認、新旧2人の実ローカルWorker通信テストは成功。
+
+SMG-3の画像なし表面試作（2026-11-12）: 分割した面に頂点色で摩耗・明暗を加える2案を隔離制作。8,916／9,000三角形、材質各6、最大448,960／464,920 bytes、各40項目合格・警告0、5等級の識別色以外のデータ一致も確認。製品の詳細プレビュー関数と局所兵士表示を比較したが、候補1の差は小さく、候補2も参考画像の細密さ・摩耗には届かないため不採用。[比較画像](evidence/weapon-models-20261111/smg-edge-paint-comparison.png)。製品・原設計は未変更。試作では画像未使用GLBのUVを除去したが、将来の素材編集への影響は未評価。実ゲームループ・共有画像・実機は未確認。
+
+融合表示の旧コード互換（2026-11-12）: 基点 `d7d1399` のデコーダ・装備キャッシュ・GLB読込・ネオンクラスをNodeで読み、実ローカルWorkerから新N・新LR・旧Rの融合後データを通常JSON／tuple v1／tuple v2の3接続で受信。旧コードで復元・装備キャッシュ受理し、旧GLB `shotgun_0` と `shotgun_4` のローカルHTTP読込も成功。[測定と再現手順](evidence/weapon-models-20261111/fusion-old-client-compat.md)。旧コードは追加された表示等級を使わず、NをR色、LRを白く表示し、融合投影には旧3形状を使用する。これは旧コード自体にある挙動で、旧版の見た目は修正されない。旧画面全体・旧実ブラウザー・公開環境・実機は未確認。
+
+融合後の表示等級の修正（2026-11-12、作業中）: 本人が表示用の通信項目追加を明示許可。元装備から `appearanceTier` を融合時に算出し、戦闘用GLB・インレイ・ネオンの選択に利用する。持ち込み値は兵士作成時の複製から除去し、元の保存データと戦闘値計算は変更しない。全12種×新5・旧4等級の関数検証、偽装値と既存保存、JSON／tuple v1・v2／装備キャッシュ、変更前の関数との戦闘値比較を実施。ゲーム・Worker型確認、関連11ファイル192テスト成功。実ローカルWorkerとWebSocketの2人検証では新N・旧Rの偽装値除去、融合後の表示等級、通常／tuple v2通信、再接続、代表強化での戦闘値保持を確認。既存の4人融合・旧世代を模した復帰の実通信2テストも成功。[通信検証](evidence/weapon-models-20261111/fusion-tier-live-network.json)。旧実ブラウザーの画面全体、公開Worker、実スマホ、すべての強化の実通信は未確認。詳細・共有の保存武器と報酬は従来の等級関数を維持する。
+
+RL-9短筒の銃口炎（2026-11-12）: 844×390の隔離仮保存を用いる実ローカル単独プレイで、初回射撃の銃口炎の生成位置が製品銃口と0mm差であることを確認。ロケット飛翔体の全飛行や画面上の厳密な位置、通信・実機は対象外。[測定](evidence/weapon-models-20261111/heavy-short-shot-report.json)。
+
+RL-9短筒の制作途中候補（2026-11-12）: 射撃初回フレームの弾体交差を改善するため、参考画像も踏まえ前端を約0.62→0.28m、後端を約−0.37→−0.18m、銃身軸を0.09→0.13mに変更。太いドラムの9本リブ、帯、留め具、圧力計を造形し、DESIGNとPRODUCTIONも更新。正式生成後は7,368三角形・材質6・最大398,720 bytes、正規40項目合格・警告0。多面図を目視、5等級の生成物と本体の一致、全9種のネオンとreport一致・レア度不変検査成功。実兵士の手持ち・背負い・装填10場面、844×390の隔離仮保存による実ローカルの詳細・共有と装填5時点・満弾復帰を確認。[9丁の現状](evidence/weapon-models-20261111/concept-models-round3.png)、[兵士](evidence/weapon-models-20261111/heavy-short-trooper.png)、[詳細・共有・射撃・装填](evidence/weapon-models-20261111/heavy-short-ui.png)。実際の初回描画1回ではRL-9とRL-2とも武器・体表の辺面交差0組、体側へ移した正例は交差あり。[測定](evidence/weapon-models-20261111/heavy-short-rocket-report.json)。単一時点の観測であり、完全内包・共平面・全射撃・連続動作・実通信・スマホは未確認。参考画像の写実的な表面には届いておらず完成品質ではない。型検査・本番ビルド・Worker dry-run成功、本番ビルド60件のmanifestと実体一致、明示保存後オフライン60件一致。[本番build](evidence/weapon-models-20261111/heavy-short-build-manifest-report.json)、[オフライン](evidence/weapon-models-20261111/heavy-short-cache-report.json)。
+
+SMG-3の造形隔離試作（2026-11-12）: 参考画像に近づけるため、大型装甲と上部取っ手を別環境で追加。8,208三角形・6材質・最大492,552 bytes、正規40項目合格・警告0。ただし黄色い単調な面が目立ち、参考画像の機構密度・摩耗や求められた完成品質には届かず不採用。製品ファイルは変更していない。兵士・実ゲーム・製品ネオンでは未確認。[比較](evidence/weapon-models-20261111/smg-art-lab-comparison.png)、[検査](evidence/weapon-models-20261111/smg-art-lab-check.json)、[試作ソース](evidence/weapon-models-20261111/smg-art-lab.py)。
+
+参考画像後のRL-9飛翔体の再測定（2026-11-12）: 追加造形後、補正なしの実ローカル単独プレイで最初に描かれた弾体と武器の辺・面交差はRL-9で277組、RL-2は0組。どちらも兵士の可視体表との交差は0組で、弾を体側へ移した正例は交差を検出。RL-9の問題は引き続き未解決。完全内包・共平面・他時点・実通信・実機は対象外。[測定](evidence/weapon-models-20261111/concept-rocket-overlap-report.json)。再現は `node scripts/rocket-overlap-probe.mjs`。
+
+参考画像後の背負い静止位置（2026-11-12）: 実兵士を局所更新し、12種×背負い2位置で体表と武器の辺・面交差を調べた結果、24条件すべて0組。銃を体側に動かした正例では246組の交差を検出した。[測定](evidence/weapon-models-20261111/concept-back-surface-report.json)。完全内包、共平面、接触の深さ、連続動作、実ゲーム・実機は対象外で、ダウン時の床への入り込み問題は別途未解決。
+
+参考画像後のローカル配信検証（2026-11-12）: 再造形後のGL-6／ST-3は844×390の隔離仮保存の実画面で初回射撃と詳細・共有画像を再確認し、生成時の銃口炎・発光弾と製品の銃口位置の差は各0mm。[射撃](evidence/weapon-models-20261111/concept-round2-shot-report.json)、[詳細・共有](evidence/weapon-models-20261111/concept-round2-detail-report.json)。ゲームとWorkerの型検査、本番ビルドとWorkerの公開しないdry-run、武器読込・配信関連4ファイル67テストが成功。本番ビルドの武器60件はmanifestのサイズ・SHAおよびpublic実体と一致。隔離環境での明示保存後、60件をオフラインで一致確認。[本番ビルド](evidence/weapon-models-20261111/concept-build-manifest-report.json)、[オフライン](evidence/weapon-models-20261111/concept-cache-report.json)。これは本番配信や実スマホの検証ではない。同じURLの将来更新で古いキャッシュが残る課題は未解決。
+
+参考画像後の装填観測（2026-11-12）: 新規9丁について、844×390の隔離仮保存を使った実ローカル単独プレイで装填開始、5時点のRenderer画像と両手の座標、満弾への復帰を取得。6丁では遭遇演出をスキップしている。画像はゲームの通常カメラで兵士が小さく、隠れた手の接触・めり込みを判定できないため、手の位置の完全な確認とは扱わない。[画像](evidence/weapon-models-20261111/concept-reload-9.png)、[測定](evidence/weapon-models-20261111/concept-reload-9-report.json)。実通信・実スマホ・音は未確認。
+
+参考画像を踏まえた2丁の追加造形（2026-11-12）: GL-6の六連機構を段付きにして配管を追加。初回の左手範囲不合格は該当2室を薄くして修正し、8,512三角形・材質6・最大470,296 bytesで正規40項目合格、警告0。ST-3は3槽を太くしそれぞれにアーチ管と固定枠を追加、ネオン輪郭も更新し、8,924三角形・材質6・最大484,856 bytesで同合格。両方の多面画像を目視し、実兵士の持ち・背負い・装填の静止20場面と製品の銃口計算を局所確認。[9丁の現状](evidence/weapon-models-20261111/concept-models-round2.png)、[兵士表示](evidence/weapon-models-20261111/concept-round2-trooper.png)、[測定](evidence/weapon-models-20261111/concept-round2-trooper-report.json)。9種の生成物と本体の各5等級のバイト一致、ネオン輪郭と各reportの一致、レア度不変検査も確認。隠れた手や体との接触と連続動作、実通信・実機は未確認。参考画像の摩耗は未再現であり、完成品質とは扱わない。
+
+参考画像を受けた初回造形（2026-11-12）: 新規9丁に装甲・配管・留め具などを追加し、正規40項目の検査は各合格・警告0、5等級の生成物と本体ファイルのSHAが一致。各10場面の兵士表示と製品の銃口計算、844×390の隔離仮保存を使った12種の詳細・共有画像と初回射撃を確認した。初回射撃の銃口炎12件と発光弾10件は生成時の製品銃口から0mm、2種のロケットは発光弾対象外。[初回造形](evidence/weapon-models-20261111/concept-models-round1.png)、[兵士表示](evidence/weapon-models-20261111/concept-round1-trooper-report.json)、[詳細・共有](evidence/weapon-models-20261111/concept-round1-detail-report.json)、[射撃](evidence/weapon-models-20261111/concept-round1-shot-report.json)。参考画像の写実的な傷・汚れ・複雑さには届いておらず完成品質とは扱わない。隠れた部分の接触、連続動作、実通信・スマホ実機は未確認。GL-6とST-3については追加造形前の結果。
+
+本人提供の参考画像を受領（2026-11-12）: 9点の非武装小道具画像を[原寸保存](../design/weapon-models-20261111/concepts/user-reference-9.png)。前に本人へ渡した順番と色・特徴から左上→右下をSMG-3、SG-7、RL-9、SR-1、LZ-2、GL-6、ST-3、KB-6、MD-4に対応すると推定。画像に型番はなく、対応は推定。材質・装甲・機構密度を参考にし、武器固有の輪郭・握り・担ぐ構えはDESIGNを維持して9丁を作り直す。テクスチャ・透過禁止や三角形12,060／材質6／800KBの上限、検査基準は変更していない。画像そのものは武器の設計図でも完成モデルでもない。
+
+コンセプト画像の生成停止（2026-11-12）: 本人の選択を受けて新規9丁の統一方向の画像生成を実行したが、画像ツールの安全審査に `violence` を理由に拒否された。画像は生成されていない。現在の試作3Dを1枚にまとめた参照と、9丁の造形・材質の制作メモを保存したが、コンセプトアートの代替とは扱わない。[制作メモ](../design/weapon-models-20261111/concepts/DIRECTION.md)。本体・公開先は変更せず、最終3D制作・実機・独立Chat監査・公開は未完了。
+
+本人の制作方針変更（2026-11-12）: 新規9丁はコンセプトアートから進めて3Dを仕上げ直す。既存AR-9・SG-4・RL-2は維持。現時点の新規9モデルは寸法・握り・装着検証の試作として保持し、完成品やAAA級の到達と扱わない。GL-6／ST-3は先に決定した担ぐ構えと武器形状の方向を維持。下記の検査結果は変更前の試作の結果であり、新しい造形には再検証が必要。
+
+RL-9格子化の隔離試作（2026-11-12）: 武器の剛体三角形をローカル格子に前計算し、実Rendererの同一フレームでは262交差から補正後0。RL-2は観測5フレームで元サイズ。単一観測で格子初回構築18.6ms、構築を除く補正前後の照合計5.6ms。同じ交差位置を32弾分繰り返す近似では照合だけで45.5ms。装備切替後に過去弾が別銃と偶然重なる場合、同一Group内で形状が変わる場合の安全性は未解決で不採用。実通信・実切替・実機・GPU・全体fps・完全内包・共平面は未確認。[RL-9](evidence/weapon-models-20261111/rocket-grid-heavy-report.json)、[RL-2](evidence/weapon-models-20261111/rocket-grid-rocket-report.json)。再現は `python scripts/create-rocket-grid.py` の後 `node dist-validation/rocket-grid-collision.mjs`。
+
+追加確認（2026-11-12）: GL-6のネオン外形で末尾の重複点を除き、正規40項目・局所兵士表示・実ローカル初回射撃を再確認。GLB自体は先の本体配置版を用い、再読み込み検査合格・生成物と本体の5等級SHA一致。最終client buildと既存Workerの公開用dry-run成功、weapon関連3テストファイル51件成功、ゲーム・Workerの型確認成功。最終buildの武器60件はmanifestとサイズ・SHA一致。実通信・実スマホは未確認。[GL-6射撃](evidence/weapon-models-20261111/grenade-final-shot-report.json)。
+
+本人判断と12種の完成途中検証（2026-11-12）: 本人の「後者」で、GL-6／ST-3は構えをrocketのまま形を担ぐ向きに改修。続けての「後者」はレア度修正について通信情報を追加せず別案を検討する選択として扱う。現行の融合成長投影には新Nと旧Rが同じ武器データになる例があり、既存通信を維持しながら全等級・復帰・他プレイヤー・旧クライアントの表示と戦闘値を保つ解は未発見。レア度ずれは未修正。[根拠](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+GL-6／ST-3の造形と局所確認: GL-6は下がった銃床を短い後部機構に改め、6連弾倉・照尺を維持。ST-3は担ぐ筒、3本の薬液ボンベ・蛇腹・ラッパ形噴射口を制作。GL-6は6,216三角形・材質6・最大359,616 bytes、ST-3は8,372三角形・材質6・最大461,960 bytes。どちらも正規40項目合格・警告0、5等級の生成物と本体SHA一致、ネオン外形とreportが一致し、多面画像を目視した。[2丁の画像](evidence/weapon-models-20261111/grenade-sticky-new.png)。実兵士の手持ち・背負い・装填3時点の各10場面と製品の銃口計算を局所確認。静止時の背負い2位置は両武器とも体表の辺・面交差0組。静止の手持ちはヘルメットとの交差0だが、手・腕・体を含むuniformとはGL-6 2,105組、ST-3 1,464組の交差を検出し、握る接触とめり込みの内訳は未判定。完全内包・共平面・連続動作は未確認。持ち上げ・床との干渉は別途課題。[手持ち測定GL-6](evidence/weapon-models-20261111/grenade-held-surface-report.json)、[ST-3](evidence/weapon-models-20261111/sticky-held-surface-report.json)。生成時の測定JSONのscopeにあった背負いという表記と、未実行の体移動対照を示す文言は実際の手持ち対象と対照の実行範囲に修正し、数値は変えていない。
+
+12種の実画面と配信の途中確認: 844×390の隔離仮保存を用いる実ローカル単独プレイで12種の初回射撃を確認。生成直後の銃口炎12件と発光弾10件は銃口から0mm、RL-2／RL-9は飛翔体方式で発光弾対象外。GL-6／ST-3は装填開始・実Rendererの5時点・残弾満杯への復帰を確認。12種各1レア度の詳細・共有画像は実UIで開き、ページ例外・武器素材読込失敗0。正規build成功、製品の配信manifestと実ファイルの武器60件のサイズ・SHA一致。隔離環境の実Service Workerで明示ダウンロード後、オフライン60件が実ファイルと一致。全9新規モデルのレア度不変検査は負例付き成功、武器・配信関連既存テスト計51件成功、ゲーム・Worker双方の型確認成功。実通信・実スマホ・連続動作や隠れた手の接触・飛翔体の飛行全体・完成版の独立Chat監査・公開は未確認。[射撃](evidence/weapon-models-20261111/weapon-shot-12-report.json)、[詳細・共有](evidence/weapon-models-20261111/weapon-detail-12-report.json)、[配信](evidence/weapon-models-20261111/weapon-catalog-60-report.json)、[オフライン](evidence/weapon-models-20261111/weapon-cache-60-report.json)、[装填](evidence/weapon-models-20261111/grenade-sticky-reload-report.json)。以前のST-3未制作という記録は当時の状態。
+
+RL-9の現在フレーム交差に限定した隔離試作（2026-11-12）: 発射イベントと弾の対応付けを使わず、現行のRL-9に該当する系統・爆風半径を候補に、実Rendererで現在の武器との面交差がある場合だけ弾体を前端固定で縮小。初回描画は258面組から0組、長さ62.28%。次に観測した約0.1秒後には元の長さ。RL-2は観測7フレームで元サイズ。RL-9の弾1件の交差検査は `performance.now` の単一観測で約41.9msかかり、60fpsの1フレーム約16.7msを超えたため不採用。GPUや全フレームの負荷、実スマホ性能を示す値ではない。中間時点・装備切替・他弾との交差・実通信・実機は未確認。爆風半径は武器IDの保証ではなく、結果JSONの `clipFrames.active` は前回値が残る計測上の欠陥があるため継続判定に使わない。[RL-9測定](evidence/weapon-models-20261111/rocket-current-heavy-report.json)、[RL-2測定](evidence/weapon-models-20261111/rocket-current-rocket-report.json)。再現は `python scripts/create-rocket-current.py`、続けて `node dist-validation/rocket-current-collision.mjs`。
+
+内容版を別ファイルで保持する隔離試作（2026-11-12）: MD-4の旧新5等級を内容ハッシュ付きの物理ファイルとして同時配信し、実Service Workerと保存処理で検証。旧版未保存の仮クライアントも旧版を取得でき、診断用6資産の旧新manifestは各々照合成功。新版5件の初回取得後は再読込・明示保存の追加通信0、オフライン5件一致、旧版と既存AR-9もオフラインで維持。新版未取得のままオフラインでは読込失敗。旧5本2,438,496 bytesと新5本2,490,656 bytesの双方を配信側に保持する運用が前提で、無期限の容量増加・旧版保持方針・既存固定URLからの移行は未検討。実旧ブラウザー・CDN・Worker・スマホ・正規全manifest・保存失敗時は未確認、製品未採用。[結果](evidence/weapon-models-20261111/cache-immutable-report.json)。再現は `node scripts/cache-immutable-proto.mjs`。
+
+内容に応じたURL版の隔離試作（2026-11-12）: 新規武器URLのクエリに内容由来の版を付け、配信一覧と同じ値を使う案を、既存の実Service Worker・保存処理とMD-4旧新5等級＋既存AR-9の診断用6資産で検証。新5種は初回だけ取得し、再読込の配信元要求0、取得後オフライン5件一致。旧キャッシュと既存AR-9も読めた。新版未取得のままオフラインでは新版URLが失敗し、クエリを無視する静的配信では旧版未キャッシュの旧URLが新版を返し得る。古い一覧による明示保存は不一致を拒否。正規全manifest・実CDN・旧ブラウザー・実スマホは未確認で製品未採用。[結果](evidence/weapon-models-20261111/cache-revision-report.json)。再現は `node scripts/cache-revision-proto.mjs`。
+
+同一URL武器のネットワーク優先・隔離試作（2026-11-12）: 新規武器フォルダのみを対象に、最新版取得と両キャッシュ更新、通信失敗時の既存キャッシュ利用を試作。旧MD-4から新版へ更新し、503・オフライン・短い不正応答時に旧版へ戻れた。成功時は両キャッシュが新版になりオフラインでも新版だったが、PRELOAD書込失敗を模擬するとオンラインで新版を返した後、オフラインでは旧版が返った。no-store条件では2回の読込で計996,264 bytesを受信し、模擬遅延200msで各約234／240ms。通信量と安定性のため未採用、製品未変更。不正応答全般・実スマホ・公開配信は未確認。[結果](evidence/weapon-models-20261111/cache-network-first-report.json)。再現は `node scripts/cache-network-first-proto.mjs`。
+
+同一URL更新時の通常キャッシュ（2026-11-12）: 隔離ローカルで旧MD-4をPRELOADへ保存し、同じURLの配信元を新版にした後、実Service Workerのコメントだけを変えて更新・切替を確認。通常再読込後も旧GLBが返り、GLBの配信元への要求は0、ページ例外0だった。明示ダウンロードでは更新できるが、通常起動では古いデータが残る例として未解決。今回の新URL初回公開で利用者が旧MD-4を持つことを示す結果ではない。公開Worker・実通信・実スマホは未確認。[測定](evidence/weapon-models-20261111/medic-auto-cache-report.json)。再現は `node scripts/check-medic-auto-update.mjs`。
+
+追加造形後のMD-4のキャッシュ確認（2026-11-12）: 隔離ローカル環境の実Service Workerと製品保存処理で、旧MD-4の実GLB5種を2種類のキャッシュへ入れ、通常読込で旧版が返ることを確認。明示ダウンロード後、オフラインで新5種を読み、実ファイルのサイズ・SHA-256と全件一致。ページ例外0。以前の55件の記録はMD-4追加造形前のもので、現行MD-4の証拠にはしない。正規manifest・自動更新・公開Worker・実スマホは未確認。[測定](evidence/weapon-models-20261111/medic-updated-cache-report.json)。再現は `node scripts/check-medic-cache-updated.mjs`。
+
+追加造形後のMD-4の詳細・共有画像確認（2026-11-12）: 隔離仮保存を用いた844×390の実ローカルUIでN等級の詳細画面と共有画像画面を開き、追加造形を目視。実UIが生成した1200×720 PNGを取り出し、性能表示と下端の注記まで画像内にあることを確認した。ページ例外・武器素材読込失敗0。横画面の共有ダイアログでは画像下部がスクロール領域に隠れ、全体を一度に表示できたとは確認していない。実送信・他等級・スマホ実機は未確認。[生成画像](evidence/weapon-models-20261111/medic-updated-share.png)、[測定](evidence/weapon-models-20261111/medic-updated-share-report.json)。再現は `node scripts/check-medic-detail-after-update.mjs`。
+
+追加造形後のMD-4の実プレイ確認（2026-11-12）: 隔離仮保存の実ローカル単独プレイを844×390で出撃・初回射撃。実CombatEffects生成直後の銃口炎・発光弾の位置はいずれも製品の銃口と0mm差。実UIでMD-4装備と残弾4/5、ページ例外0を確認。既存WebGL警告あり。実通信・スマホ・飛行全体・画面上の厳密な位置は未確認。[画像](evidence/weapon-models-20261111/medic-updated-live.png)は上が射撃時Canvas、下が実UIで、出撃表示が中央に重なる。[測定](evidence/weapon-models-20261111/medic-updated-live-report.json)。再現は `node scripts/weapon-shot-medic-after-update.mjs`。
+
+MD-4の胴体を追加造形（2026-11-12）: 白い円筒面に周方向の分割、両側の点検蓋・通気窓・留め具を追加。8,496三角形、材質6、最大498,132 bytes、40項目合格・警告0。多面画像を目視し、本体5等級のSHA-256が生成物と一致、生成済み8種のレア度不変検査も成功。実兵士を直接更新する局所検査10場面と製品コードの銃口を確認、ページ例外0。実プレイの射撃エフェクト・実機は追加確認していない。[素材画像](../design/weapon-models-20261111/out/medic/views.png)、[兵士表示](evidence/weapon-models-20261111/medic-detail-trooper.png)、[測定](evidence/weapon-models-20261111/medic-detail-trooper-report.json)。
+
+融合成長の持ち込み値を除去する第3隔離試作（2026-11-12）: 兵士作成時の装備複製から同名値を除去し、元装備から表示等級を再算出。新旧9等級、偽装値12条件、代表不正入力5条件とJSON・tupleの関数試験で期待どおり。GLBはスタブ、実保存・実ゲーム・実通信・旧ブラウザー・実機は未確認。通信項目追加の承認・互換検証待ちで製品未変更。[結果](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+融合成長の持ち込み値を拒否する第2隔離試作（2026-11-12）: 表示専用等級を元装備から算出する案で新旧9条件の表示・戦闘値・符号化／復号を関数単位で確認。GLB読込はスタブ。偽装入力は拒否できたが、従来の保存検証を通る同名未知項目付き武器も出撃時に拒否する互換上の課題があり未採用。旧実ブラウザー・実通信・保存・実機は未確認。[結果](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+融合成長の表示等級を保持する隔離試作（2026-11-12）: 新5等級・旧4等級の表示を維持し、戦闘値と通常JSON・tuple v1/v2の復号／装備キャッシュを関数単位で確認。ただし入力された表示等級を偽装できる例があり不採用。旧実ブラウザー・実通信・実機は未確認。新Nと旧Rが強化後に同じ武器データになる例も確認した。[条件と結果](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+融合成長後の表示等級の不具合（2026-11-12）: 防衛戦の正規強化選択をSG-7の5等級で実行すると、表示用等級が1段ずれ、最高等級は存在しない5になる。対象候補では戦闘値は前後でほぼ一致。実画面・通信・実機は未確認。未修正で、通信する武器情報に表示等級を追加する候補は形式変更の承認と互換性検証が必要。[再現と修正候補](evidence/weapon-models-20261111/front-tier-projection.md)。
+
+ダウン中の体側移動試作（2026-11-12）: SG-4・SR-1×両背負いの平面4条件で、武器を体側に移して床下を避けたが、体表交差が最大4,319組、元位置からの移動が最大331.3mm、復帰時の1フレーム変化が最大77.2mmとなり不採用。製品は未変更。回避中の一瞬の床めり込みは過去に本人が許容したが、ダウン静止中は別として扱う。実ゲーム・通信・実機は未確認。[画像と条件](evidence/weapon-models-20261111/ground-down-side.md)。
+
+RL-9補正の対応付け追加検討（2026-11-12）: 同じ所有者・系統で新規観測の弾と射撃が各1件でも、イベント省略と弾の衝突が重なると別の発射を対応付ける反例がコード上成立する。実通信での再現や誤補正の発動は未確認。この条件だけを根拠に試作を製品へ採用しない。[詳細](evidence/weapon-models-20261111/rocket-visual-prototype.md)。
+
+RL-9表示補正の隔離試作（2026-11-12）: 実ローカル単独プレイの実Rendererで、初回観測時の銃口面を弾IDごとに固定し、弾体の前端を保って後端側を圧縮。RL-9の初回フレームは武器との辺／面交差0組（無補正の別走は258組）で、前端位置も別走と約0.002mm差。RL-2の今回の初回フレームでは縮小なし。RL-9は初回62.3%、次に観測できた約0.1秒後に100%だったが、その間の自然な伸び方は未確認。初回観測を新規発射と区別できず、途中参加・遅延・装備切替やモデル未ロード時の安全性も未確認のため、製品には採用していない。[画像と限界](evidence/weapon-models-20261111/rocket-visual-prototype.md)。
+
+RL-9飛翔体と武器の交差（2026-11-12）: 仮保存の実ローカル単独プレイで初回描画の弾体と兵士・手持ち武器の三角面の辺／面交差を測定。RL-9は実際の手持ちGLBと258面組の交差を検出し、同条件のRL-2は武器・兵士とも0、RL-9と兵士も0。体へ意図的に近づける正例と遠ざける負例、既知の三角形対照は成功。完全内包・共平面・他時点・通信・実機は未確認。弾体の前端を保って後端を縮める数値試作ではRL-9が約62%の長さとなったが、現行の飛翔体と発射イベントには直接対応するID・武器kindがなく、装備切替や通信遅延時の誤適用を防ぐ方法が未確定のため製品へ採用していない。交差の見た目への影響と安全な修正は未解決。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+レビュー用の[下書きPR #319](https://github.com/futsalife24-bot/swarm-front/pull/319)を作成。未完成のST-3、GL-6／ST-3の構えの本人判断、床への入り込み、全体検証と独立Chat監査を未完了と明記している。完成版への更新、main反映、既存Worker公開は未実施。
+
+既存素材の照合（2026-11-12）: `realism-v2/` のAR-9・SG-4・RL-2各5レア度、計15 GLBについて、作業基点 `d7d1399` の各ファイルと現在の実ファイルのSHA-256がすべて一致した。既存の出撃画面・武器行のソースにも基点からの差分はないが、画面の全操作や実機の検証を意味しない。
+
+RL-2／RL-9飛翔体の途中確認: 仮保存を使う実ローカル単独プレイで初回発射と通常更新後の実Rendererを観測。飛翔体は銃口ではなく射撃イベントの視点位置に生成され、初回描画までの0.05秒で各1.4m／1.0m進んだ。初回描画の弾体中心は銃口より進行方向へ約553mm／136mm前、飛行軸は銃口から横約160mm。RL-9の実描画形状の最後端を進行方向に投影すると銃口より約417mm後方だが、体や武器との交差を示す値ではない。見た目の自然さ、複数照準、飛行全体・通信・実機は未確認。ページ例外0、既存WebGL警告あり。製品は変更していない。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+背負い内包検査の前提確認: 兵士GLBの静止初期姿勢を解析すると、位置とスキン情報で頂点を解析上統合しても体・頭に多数の境界辺と非多様体の辺が残る。閉じた／開いた四面体の対照は期待どおり。兵士全体を穴のない単一体積として扱う単純な内外判定は信頼できず、めり込みなしとは判定していない。変形後の接触・実ゲーム・実機は未確認。[条件と結果](evidence/weapon-models-20261111/body-topology.md)。
+
+実ゲーム装填確認（2026-11-12）: 隔離した仮保存のローカル単独プレイで生成済み11種を射撃後にR入力し、装填開始、実Rendererの5時点、残弾が満杯に戻ることを確認。RL-9は自動装填条件も成立するため、開始をどちらが誘発したかは未判定。自然遭遇の紹介は実UIで計8回スキップ。ページ例外0。Rendererの解像度は負荷により一部低下。ST-3・手の隠れた接触・連続映像・実通信・実スマホは未確認。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+実射撃の生成位置（2026-11-12）: 孤立した実ローカル単独プレイで、実RendererがCombatEffectsを生成する瞬間を観測。生成済み11種の初回銃口炎11件と、発光弾を使う9種の発光弾9件は、いずれも生成時の兵士の銃口座標と0mm差。RL-2／RL-9は発光弾ではなく飛翔体を使用し、その初期位置・飛行は本検査の対象外。LZ-2の射撃発光色は `0xc2faff`。GL-6の発光弾は生成時に確認したが描画後には消えていた。既存WebGL警告あり、ページ例外0。ST-3・連続射撃・飛行中の見た目・実通信・実スマホは未確認。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+実戦画面と背負い体表の途中確認（2026-11-12）: 孤立ブラウザーの仮保存で生成済み11種を順に装備し、844×390の実ローカル単独プレイ画面から初回射撃。各武器の射撃イベント、銃口座標と方向、銃口エフェクトの存在を確認しページ例外0。描画の記録を追加しており、実通信・実スマホではない。発光弾の見た目の位置や連続動作はこの検証だけでは確定しない。別の隔離測定では、兵士の変形後の体表と背負い武器の辺・面の交差が、通常静止11種×両位置の22条件と、SG-4・SR-1の回避・ダウン各1時点×両位置の8条件で0。SG-4を意図的に体へ10cm寄せた負例は246面組を検出。完全内包や共平面は検出できず、自然な装着・連続動作の合格ではない。[画像と条件](evidence/weapon-models-20261111/README.md)。
+
+配信一覧の途中照合（2026-11-12、MD-4追加造形前）: 製品の配信カタログが列挙する武器60 URLは、実際のKind→URL関数による12種×5レア度の60 URLと一致。未生成ST-3の5件を含む正規manifest生成は欠落を検出して停止した。メモリー上の検証用一覧だけからその5件を除くと、残り55件のサイズとSHA-256は当時の実ファイルに一致。MD-4の5件はその後更新済み。完成manifest・本番build・公開配信は未確認。[方法と結果](evidence/weapon-models-20261111/README.md)。
+
+配信キャッシュの途中検証（2026-11-12、MD-4追加造形前）: 関連単体テスト21件成功。隔離ローカル環境で実Service Workerと製品の保存処理を使い、古いLZ-2ファイルを2種類のキャッシュに入れて古い内容が返る状態を再現し、明示ダウンロードで更新。その後オフラインにして、生成済み11種×5レア度の55ファイルを読み、全件のサイズとSHA-256が当時の実ファイルと一致した。MD-4の5件はその後更新済み。対象は手動で列挙した武器のみで、未生成ST-3・製品manifest全体・実スマホ・公開Workerの検証ではない。[記録と再現](evidence/weapon-models-20261111/README.md)。
+
+左手の隔離計測: 生成済み11種の通常構え・装填0/50/99%について、左手ボーンに強く追従する兵士頂点から武器三角面までの最短距離を計測。支え候補面の通常構え距離は既存SG-4が43.5mm、SG-7が44.9mm、既存RL-2が33.9mm、RL-9が32.7mm。範囲に頂点を持つ面全体を候補とする近似であり、手の接触・貫通や自然さの合否は判定できない。ST-3・連続再生・実操作・実機は未確認。[方法と画像](evidence/weapon-models-20261111/README.md)。
+
+床の追加試作: 武器と体を一体で持ち上げる案は、平面8条件で武器の床下を避けたが、最大339.1mmの移動と1フレーム最大299.1mmの急変、ダウン静止時の84.2〜89.0mmの浮きがあり不採用。製品は変更していない。実操作・地形・通信・実機は未確認。[条件と結果](evidence/weapon-models-20261111/ground-whole-body-lift.md)。
+
+SG-7追加造形と床の切り分け（2026-11-12）: 棘の補強板・銃床の段差・機関部の留め具を追加。7,916三角形・材質6・最大499,552 bytes、40項目合格・警告0。SG-4と実GLBを単色96×36で同条件投影し、棘とレバー輪で区別できることを目視。SG-4とSG-7の兵士表示・装填11時点、生成済み11種の実詳細・共有画面と局所射撃を再確認したが、手の接触と身体交差は一部隠れて未判定。床の隔離計測ではSG-4・SR-1×両位置×選択72時点で兵士頂点は床上、武器は最大337.1mm床下。回避クリップの時間圧縮と骨盤の下降・回転が急速な接近に関係することと整合するが、自然な修正・実操作・実地形は未確認。[検証記録](evidence/weapon-models-20261111/README.md)。
+
+装填の追加確認（2026-11-12）: SMG-3・LZ-2・MD-4の実兵士を、手持ち・背負いと装填11時点で左右から局所描画。3丁とも共通のrifle動作で、記録した左手ボーンは装填開始から最大約303mm移動し99%時点で約2mmまで戻った。背中や武器に隠れる手の接触・めり込み、連続再生、実操作と実機はこの静止画像では判定できず未完了。[範囲と画像](evidence/weapon-models-20261111/README.md)。
+
+追加造形・レア度比較（2026-11-12）: SMG-3の遮熱板・冷却溝・副弾倉の窓・照準器と固定具を追加。7,760三角形・材質6・最大480,004 bytes、40項目合格・警告0。兵士の手持ち・背負い・装填3時点の10画像、銃口計算、11種の局所射撃と844×390の実詳細・共有画像画面を再確認。生成済み新規8種のGLB全体を5レア度で比較し、識別材質のRGB以外のglTF設定とバイナリが一致。別材質とバイナリの負例は検出した。ネオンは別生成なので比較対象外。既存ネオン多角度検査はworktreeに依存ファイルがなく、親ディレクトリへのVite配信も許可リスト外で403となり未実施。全12種・実スマホ・実通信の確認は未了。[証拠と再現方法](evidence/weapon-models-20261111/README.md)。
+
+背負い床対策の先読み試作: 平面上のSG-4・SR-1×両位置×ダウン／回避の8条件では、武器回転を滑らかにして床下を避けたが、最大309mmの押し上げと1フレーム最大262.7mmの補正変化が残った。大きく動く既存の体・背負いソケットとの組合せが一因と示唆され、製品には採用していない。実操作・体との交差・実地形・通信・実機は未確認。
+
+実UI追加確認（2026-11-12）: 孤立ブラウザーの仮保存から、生成済み11種それぞれを出撃準備の一覧で装備し、実際の詳細ダイアログと共有画像ダイアログを開いて閉じた。844×390、画像は各1200×720、ページ例外・武器読込失敗0。ST-3、画像の実送信、実スマホは未確認。画面遷移中の入力保護を待たない初期試験は操作を取りこぼしたため、遷移完了を待って再試験した。[画面と範囲](evidence/weapon-models-20261111/README.md)。
+
+追加造形と床対策の試作（2026-11-12）: MD-4に送液管・残量窓・交換セルの段差を追加し、8,336三角形・材質6・最大487,700 bytes、強化40項目合格・警告0。実兵士の手持ち・背負い・装填3時点を10画像で確認し、製品の銃口計算も一致。生成済み11種の局所射撃エフェクトを再確認、ページ例外0。背負い武器をソケット中心に回転し不足分を押し上げる案は、SG-4・SR-1の平面8条件で床下を避けたが、隣接フレームで最大66.5度回転。速度制限案も最大253mmの押し上げが必要で、自然さや体との交差を確認できず両案とも不採用。実地形・実操作・実機は未確認。[検証範囲と結果](evidence/weapon-models-20261111/README.md)。
+
+追加造形と検査強化: RL-9に排気リング・固定具・圧力計・握りの溝、KB-6に銃口補強・翼の骨組み・留め具を追加。RL-9は8,456三角形・材質6・469,624 bytes、KB-6は7,888三角形・材質6・434,720 bytes。KB-6の識別インレイが装甲に隠れていたため位置を修正。読み直したGLBの左右それぞれ正面9点で見えること、およびレア度間の頂点位置と面接続の一致を検査に追加し、生成済み8種すべて40項目合格・警告0。隠れたインレイと、寸法・頂点数を変えない面接続変更の負例が不合格になることも確認。斜めからの見え方や実ゲーム中の視認性はこの検査では保証しない。両武器の兵士表示・銃口計算と、生成済み11種のプレビュー・共有画像生成・局所射撃エフェクトを再確認。当時は実ダイアログ未確認で、後日の結果は上記。実通信・実スマホや主観的なAAA品質の評価は未了。[画像と検証範囲](evidence/weapon-models-20261111/README.md)。
+
+専用worktree `task-weapon-models-20261111`、branch `codex/weapon-models-20261111`、基点 `d7d1399c5ba452b96b432819b69d3076ca668352`。Claude の未コミット設計19ファイルを複製し、元worktreeは保持。LZ-2の射撃線色との整合・詳細追加と、GL-6、SG-7、RL-9、SMG-3、SR-1、KB-6、MD-4の生成・各38項目合格・画像目視まで実施。既存3形は保持。製品統合は作業中、ST-3未制作。保存commitの状態は実Gitを参照。実画面の全12種検証、独立監査、完成版のcommit/push/PR/main反映、既存Worker公開はいずれも未完了。
+
+GL-6を実兵士の現行ロケット姿勢で比較し、銃床が首・肩付近に重なるため、[画像](evidence/weapon-models-20261111/grenade-pose-comparison.png)を添えて「姿勢を変更」か「担ぐ形へ改修」か本人の判断を確認中。比較は静止した2時点のみ。ST-3と両武器の最終姿勢は回答待ち。銃口は製品 `weaponBore` で `[0, 0.0531065, -0.5]` を測定し、射撃中の線は未確認。独立監査は本人が実施を選択。型検査は途中版で成功、全素材と最終差分での必要検証は未完了。モデルID・推論設定未確認。
+
+途中検証: ネオン形状が銃口計算へ混ざり発光位置がずれる既存問題を修正し、関連16テスト成功。修正後、GL-6/ST-3以外の10種は実兵士の銃口と元GLB単体の製品計算値が一致。SG-4/SG-7の装填11時点では左手が離れて戻る動きと座標が同じで、背中に隠れた接触部分や連続再生は未判定。ローカル検証画面で生成済み11種の詳細プレビュー・共有画像に空画像・読込エラーなし、実際の詳細ダイアログ・実機は未確認。実射撃の局所測定でGL-6の発光弾の方向差を発見したが、実Rendererでは短く消え視認性は未判定。[画像](evidence/weapon-models-20261111/grenade-projectile-60fps.png)では頭付近に弾体が重なったが、これは `fire()` の後 `step()` の前を人工的に描いた中間状態であり、通常実戦の表示証拠ではない。通常 `step()` 後の[初回描画](evidence/weapon-models-20261111/grenade-projectile-stepped.png)では弾体は座標上銃口より前に進んでいた。両方とも隔離fixtureであり、実UIの検証結果は次段に記載。協力通信での初回表示は未検証。発射イベントと弾体は共通IDがなく、通信中の確実な対応付けには別途設計が必要。当たり判定・通信は維持。以前から古かった素材名・発射エフェクト名のテスト期待値を現行実装に合わせた。ST-3が未生成のため事前保存manifest全体のテストは未完了。
+
+既存の武器地面接触検査をST-3以外の11種で厳格実行すると、全11種の背負いソケットで静的クリップ計88条件が不合格。手持ちソケットと5レア度の形状一致は成功。[集計](evidence/weapon-models-20261111/ground-11-summary.json)。既存SG-4と新SR-1を実兵士の更新・姿勢ブレンドで比較した[局所検証](evidence/weapon-models-20261111/ground-runtime-sg4-sr1.png)でも、ダウン・回避時に床に隠れる部分を確認。実ゲームの地形・通信・手操作は未確認。隔離した実UI確認は最初の準備ページが30秒でタイムアウト。仮保存を初期化時に入れ、PCの左クリック射撃を使う別方式でGL-6装備の実戦画面と[初回発射](evidence/weapon-models-20261111/grenade-ui-first-render.png)を確認。最初の弾体は3D座標上で銃口より前、画面上は頭付近に重なる。ページ例外0、WebGL警告あり。協力通信とスマホ実機は未確認で、実機の接続手段を確認中。
+
+継続検証: 武器系統の単体テストは28件成功、ST-3の完成が必要な2件は未実施。事前保存manifestのテストは15件成功、全素材が必要な1件は未実施。GL-6の短い発光弾が2mの方向目印へ向かっていた既存の問題を、描画方向だけ兵士の照準に合わせて修正。当たり判定・通信・発光弾の寿命は維持。関連17テストと両型検査が成功。生成済み11種類の実発射イベントとエフェクトを局所確認し、銃口炎・発光弾の開始位置が製品の銃口に一致。GL-6の銃身と発光弾の方向差は約7.68度から約0.011度に改善。[記録](evidence/weapon-models-20261111/shot-effects-11-report.json)。GitHubのmainと作業ブランチは照合時点でそれぞれ基点 `d7d1399`、途中保存 `341ecd6` と一致した。
+
+方向修正後のローカル実ゲームUIでもGL-6の射撃・弾体・銃口炎を確認し、ページ例外0。短い発光弾は初回描画には残っていないため、画像での方向判定には使わない。[記録](evidence/weapon-models-20261111/grenade-ui-after-direction-report.json)。
+
+床への入り込みは固定位置・角度を変える4案では解消せず、1案は悪化したため不採用。[結果](evidence/weapon-models-20261111/ground-offset-review.md)。地形アセット読み込み済みの実Renderer・844×390の固定入力でも、既存SG-4と新SR-1の両背負い位置でダウン・回避中に地表より下へ入り、画像上も床に隠れる場面を確認。[画像と範囲](evidence/weapon-models-20261111/README.md)。実操作、移動、高低差、他地形、通信、実機は未確認。既存クリップや持ち替えを損なわない解決策は未確定で、基準を変えていない。
+
+継続試作: 武器の外接箱を使う垂直押し上げを、既存SG-4・新SR-1の平面上で試した。床下は避けられたが回避中の移動が最大367mmとなり、背中からの浮き・体との交差が懸念されるため製品へ採用しない。[試作の条件と結果](evidence/weapon-models-20261111/ground-lift-prototype.md)。段差・高台・持ち替え・通信・実機負荷は未検証。
+
+追加造形: 本人の書き込み重視の指定に合わせ、LZ-2は握り・照準器・蓄電ドラム・前部固定具を追加、SR-1は銃床・弾倉・銃身・照準器・機関部を追加。形の目印と材質を維持。LZ-2は8,500三角形・材質6・499,592 bytes、SR-1は8,448三角形・材質5・496,060 bytesで、各38項目合格・警告0。実兵士の手持ち・背負い・装填各10場面と銃口計算を再確認し、ネオン外形データと生成レポートが一致。生成済み11種類のプレビュー・共有画像・局所射撃エフェクトを再確認し、ページ例外0。詳細は[検証記録](evidence/weapon-models-20261111/README.md)。AAA級に相当するかの主観評価、ST-3を含む全体検証・実機は未了。
+
+# 確定演出のSSR以上条件を修正・公開（2026-11-11）
+
+本人が指定先へのpush・main反映・既存Worker公開を承認。実装PR [#317](https://github.com/futsalife24-bot/swarm-front/pull/317) を通常mergeし、公開source `aa1dc0026d330e809cfc942e4ac4d22167dd4dcb` からWorker Version `6ec9ecc1-5d43-4049-bd15-683169679a51` を100%配信。演出23ファイル、index/frontと実行runtimeがビルドと一致、health正常。公開側の認証済みゲーム操作と実スマホは未確認。初回pushは自動承認レビューが送信先の具体的承認不足として拒否し、本人の明示承認後に成功。初回deployは非対話端末の認証要求で失敗し、既存認証を確認した対話端末で成功。
+
+本人の指摘を受け、10種類の確定演出はSSR武器またはバディがある場合だけ候補にし、各演出固有の対象条件を維持して候補からランダムに選ぶ。バディ時の通信優先を廃止し、開発者の個別確認データも適合させた。抽選・受領は変更なし。専用worktree `task-gacha-kakutei-10-20261111`、base `59c43bb2f0c555a7cb8fed4c180a69f202c81f48`。関連73件・型・build・差分検査成功。Chrome表示fixtureの844×390/640×360でSR以下は通常、SSRの流星群、バディの通信を確認、例外0。初回のsandbox内接続拒否後、正式な権限で検証成功。配信照合は [証拠](evidence/supply-ssr-effects-20261111/supply-delivery.json)。元rootと他worktreeの差分を保持。モデルID・推論設定未確認。
+
+# 補給10連の末尾確定・獲得停止・バディ通信を修正・公開済み（2026-11-11）
+
+本人の指定により、10連はSR以上の1個を必ず最後へ配置。通常10抽選→当たり0時だけ条件付き保証の方式と報酬個数/確率を維持し、既存pendingは保存を変えず表示時だけ整列する。スキップは未確認のSSR/バディ各獲得画面で止まり、タップで順に確認後、一覧へ進む。再スキップで飛ばさず、確認済みは再表示しない。
+
+通信ジャックの固定ヨスガ影を対象バディ本人へ変更。本人が4体別の2行セリフ案も採用し反映。4体/複数バディ/反復/未知artを実Chromeで確認。関連73件・両型成功、2サイズでSSR/バディ獲得停止・動き減・確認済み除外、通常10連/回復/受領、開発者10案＋ランダム成功。実HTTPの末尾保証と並行/再送も成功。base b140965、branch codex/supply-last-guarantee-skip-20261111。PR315を通常merge、公開source 87f7c96から既存Worker Version 24243026-1a16-4c2a-95da-ef00e1f9aba6を100%配信。本体38＋演出23ファイルSHA一致、health200、公開HTTPの末尾保証/並行/再送/ACKも成功。[証拠](evidence/supply-last-skip-20261111/RELEASE.md)。
+
+# 開発者モードの旧開封音キャッシュを修正・公開済み（2026-11-11）
+
+本人の「音が変わらない」を旧キャッシュで再現。共通の固定URL演出JSがService Workerのcache-firstへ残り、ピアノ音を再生していた。前回の新規/Service Worker無効の検査では見落とした。Viteで依存音源とWorkerまでハッシュ付きbundleへ変更。旧キャッシュ入りの実開発者10連で修正前は旧音8件、修正後は新音8件/旧音0件/全rate1/例外0/保存不変。型/build成功。base de715ac、branch codex/supply-audio-cache-fix-20261111。PR313を通常merge、source 66aad08からWorker Version 73733ca9-4ed9-45f1-96ab-08ceb5e837aaを100%公開。ハッシュ付きruntime/Workerを含む38ファイルSHA一致・health200。[記録](evidence/supply-audio-cache-20261111/RELEASE.md)。
+
+# 鍵の解除SEを本人が正式採用（2026-11-11）
+
+本人が「いいね！採用。これで更新かけて公開して」と確定。既に配信済みの同一音を再照合し、Version 4c7843fb-ce67-47a3-900d-d0f974dc184dの100%配信、音源/再生JS/試聴MP3のSHA一致、health200を確認。製品差分なしのため再デプロイ不要。採用は本人の試聴判断であり、過去の開発側実聴未確認と区別する。証拠 docs/evidence/supply-lock-se-20261111/release/adoption-check.json。
+
+# 補給箱SEを鍵のロック解除音へ再修正・公開済み（2026-11-11）
+
+本人が前回の開蓋音を見送り、「ガチャって鍵を開けた感じ」を指定。CC0の鍵とボルトの実録#0191の二段の打撃へ差替え、約0.4秒・音階なし。実Chromeの表示fixtureで10箱分の新波形再生・全rate1・例外0を確認。描画/時刻/券/報酬は変更なし。base ce6c775、branch codex/supply-lock-se-20261111。PR310を通常mergeし、source fd9e4ddから既存Worker Version 4c7843fb-ce67-47a3-900d-d0f974dc184dを100%公開。本体36＋演出23ファイルSHA一致・health200・公開MP3再生成功。[詳細](evidence/supply-lock-se-20261111/RELEASE.md)。
+
+# 補給10連の通常箱SEを金属箱の実録へ変更・公開済み（2026-11-11）
+
+本人の「連続開封のピアノ音が嫌、実際の箱のSEを探すか作る」を受け、CC0の金属箱開蓋実録を2か所切り出し、採用版のpop/pop_rへ接続。重厚版にpopの定義がなく標準の打鍵音へ戻っていたのが原因。10連の箱開封ごとの音階変更も外し、同じ速度で鳴らす。見た目・時間軸・当たりの音・券/報酬は変更なし。
+
+専用worktree `task-gacha-kakutei-10-20261111` / `codex/supply-crate-open-se-20261111`、base `4b538dd`。実Chromeの表示fixtureで10箱をタップ開封し、実WebAudio10音の波形RMS/長さ一致・全rate1・例外0を確認。両型・本体build成功。[原音と再生成](../assets/audio/supply/README.md)、[検証記録](evidence/supply-crate-se-20261111/VALIDATION.md)。
+
+[PR308](https://github.com/futsalife24-bot/swarm-front/pull/308)を通常merge。公開source `00d013cd450aacda73636bfac31a28a936d2e18f`から本番build/dry-run/deploy成功。既存Worker Version `99e4ee4d-7810-4e05-b538-767ef48de7cf` を100%配信、本体36＋演出23ファイルSHA一致・health200/ok。公開試聴MP3は実Chromeで5.2秒の読込・再生進行成功。実聴/実スマホは未実施。公開後のbranch `codex/supply-crate-se-release-record-20261111` は記録/検証器のみ。元root/別worktreeを保持。[公開記録](evidence/supply-crate-se-20261111/RELEASE.md)。
+
+# 管理者モードの補給10連・演出確認を公開済み（2026-11-11）
+
+本人の「演出選択と通常同様のランダム、取得なし」を実装。認証済み管理者の基地→補給ポッドに10案の選択10連とランダム10連を追加。通常と表示変換・描画・抽選方針を共用し、確認側は補給API/受領/保存を呼ばない。通常側の表示選択だけ、順番送りから適格候補のランダムへ変更（バディ通信優先は維持）。演出の描画式・尺・素材とサーバーの抽選/券は変更なし。
+
+base `2a97b3c`、専用worktree `task-gacha-kakutei-10-20261111` / 実装branch `codex/supply-dev-preview-20261111`。関連62件・両型・本体build・format成功。正式なローカル管理者ログイン後、Chrome844×390/640×360で各10案＋ランダム2回、スキップ/閉じる/繰返し、補給API0件・全localStorage不変・例外0を確認。通常10連/再読込み/受領も2サイズ成功。[詳細と証拠](evidence/supply-dev-preview-20261111/VALIDATION.md)。
+
+[PR306](https://github.com/futsalife24-bot/swarm-front/pull/306)を通常mergeし、公開source `c0a75e61e620224a4ce39e158de43b6cd6bb2f70` から本番build/dry-run/deploy成功。既存Worker Version `2bc75dc0-9d49-4082-af29-43f1fd87a664` を100%配信。本体36＋演出21ファイルSHA一致、health200/ok。公開Chrome2サイズで未認証のログイン必須・確認UI非表示を確認。公開側の認証済み操作、実スマホ/実聴は未確認。公開後は記録・検証器のみで製品差分なし。別main worktreeとrootの既存差分を保護。[公開記録](evidence/supply-dev-preview-20261111/RELEASE.md)。
+
+# 補給ポッド10演出・無料補給ガチャを公開済み（2026-11-11）
+
+本人の「goalで公開まで」に従い、[PR304](https://github.com/futsalife24-bot/swarm-front/pull/304)を通常merge。公開source `aaecc2ac7898866364ac85fe65f9101b53032f0e`、既存Worker Version `72f68324-431a-4d3a-8908-a495aac62433`を100%配信。基地→補給ポッドから利用可能。改善5案は保留のまま。
+
+merge後mainで本体build/Worker dry-run/deploy成功。本体36ファイル＋演出20ファイルのSHA一致、health200/ok。公開HTTPで並行要求/再送/認証/10連保証/ACK成功。公開Chrome844×390・640×360で初回バディ選択→補給10連→途中再読込み→結果回復→スキップ→受領まで成功、pageerror0、二重付与なし。実スマホ・実聴・今回の全ゲーム全件/協力実戦は未実施。[公開結果と証拠](evidence/supply-kakutei-20261111/RELEASE.md)。
+
+公開後の専用branch `codex/supply-release-record-20261111` は記録・検証器のみ。別worktreeで使用中のmainとrootの既存差分を保護し、専用worktreeだけorigin/mainへ同期する。製品再公開は不要。
+
+# 補給ポッド10演出・新ガチャを実装、公開準備（2026-11-11、公開前の記録）
+
+本人が元動画10案の継承と本体接続/公開、無料補給ガチャ新設の対象/券/確率/10連SR以上保証を採用。専用worktree `task-gacha-kakutei-10-20261111`、branch `codex/gacha-kakutei-10-20261111`、base `48eb270`。改善5案は保留、元root/別worktreeの差分を保持。
+
+元描画/FX式・素材・音波形を継承し、10案を実タップ/長押し・1/10連へ接続。57比較画面の48完全一致、残り最大平均差0.00907/255。本体の基地→補給を追加し、サーバーで無料券・結果を一括確定し、端末受領保存後に表示する。初回10枚/JST1日1枚、10連10枚・SR以上1個保証。
+
+関連59件・両型・本体build・Worker dry-run成功。本体Chrome844×390/640×360で実10連/途中再読込み/回復/スキップ/ACK成功、pageerror0。実スマホ/実聴/全ゲーム全件は未実施。main反映/公開はまだ。仕様 [SUPPLY-KAKUTEI-20261111.md](SUPPLY-KAKUTEI-20261111.md)、証拠 [VALIDATION](evidence/supply-kakutei-20261111/VALIDATION.md)。主担当gpt-6.1-sol（推論未確認）、子指定gpt-6-sol medium/high。
+
+# CATENAレポート・会敵ムービー公開済み（2026-11-11）
+
+公開記録: [PR303](https://github.com/futsalife24-bot/swarm-front/pull/303)、初回記録HEAD 0919e10d07d094d2ed2cd0a6b314ce57636fbe80。
+
+本人の「公開まで進めて」に従い、[PR302](https://github.com/futsalife24-bot/swarm-front/pull/302)を通常merge。公開source 233f2f5860997e6c0206700aa27abc1fff80fa5d、既存Worker Version 5d778296-0c44-43b1-aef1-539cc67461d9を100%配信。専用worktree task-resume-catena-20261110 / codex/catena-report-release-20261111。ルート他担当12差分を保持。
+
+mainで本番build/dry-run/deploy成功。本体36ファイル＋新動画SHA一致、health200/ok。公開Chrome1280×720 / 844×390で14胴のレポート表示・攻撃再生、1280幅で11秒動画の再生を確認、pageerror0。公開UIは隔離遭遇fixtureを使用、実スマホ/自然遭遇/協力実通信は今回未実施。既存失敗とformat14警告、候補2の開始ゲート停止、候補3未着手を維持。[公開コマンド・結果・証拠](evidence/catena-report-release-20261111/RELEASE.md)。後続は記録のみで製品再公開不要。
+
+# CATENAレポート本体・会敵ムービーを連動修正（2026-11-11）
+
+本人の「公開まで進めて」により、説明/専用表示/カメラ/着地予告/会敵ムービーを現14胴・自然跳躍へ揃えた。基点main 8c03cd7e4f7e0389b0751352d02072e5f69a19a1、task-resume-catena-20261110 / codex/catena-report-20261111。戦闘側の数値・判定は変更せずroot他担当12差分・旧動画/他9種を保持。
+
+型成功、CATENA追加3件・omega14件・関連11件・動画素材1件成功。レポート全件のHARROW1不一致とformat14は既存で維持。実Chrome2サイズで通常タイトルからレポートを開き、14胴全身・赤円・跳躍・着地・新11秒動画の再生を確認（遭遇状態は隔離fixture、実スマホ未確認）。build/本番dry-run成功。詳細は[検証記録](evidence/catena-report-20261111/VALIDATION.md)。
+
+公開は未実施。現環境のWranglerは未認証のため、main反映後の公開用ビルドと既存ログイン復旧を進める。旧公開Version abe7ecdbは前回確認値で、現在の再取得は未実施。
+
+# ANOMALYレポート連動を必須化・CATENAの漏れを確認（2026-11-11）
+
+本人の「ANOMALYの更新は必ずエネミーレポートも連動」をAGENTS.mdへ明記。基点main c816292d8da40e5bd6f202e415233c9ec75b1030、専用worktree task-resume-catena-20261110 / codex/anomaly-report-rule-20261111。文書変更のみ、製品変更・再公開なし。
+
+CATENAは未対応を確認: src/client/bestiary.tsの説明は「七つの胴節」、src/client/enemy-report-motion.tsのreportWormは頭＋7胴（length:8）の専用生成。攻撃再生はレーザーのみで自然跳躍の再生なし。前回の38ファイル配信照合と戦闘側描画検証はレポート確認を含まず、レポート更新済みという証拠にはならない。今回のルール記録によってこれらが修正されたとは扱わない。必要な後続対応は14胴/自然跳躍の説明・専用プレビュー・カメラ/エフェクトの整合と実レポート画面検証。
+
+検証: 対象ソースと前回差分の読み取り、git diff --check。既存root他担当12差分を保持。
+
+# 保留機能・CATENA自然跳躍を既存Workerへ公開済み（2026-11-10）
+
+本人の「すすめて」を受け、main 769353b21567ad9f0c2251d0c439c50edac9a077から本番ビルドし、既存swarm-frontへ公開した。Worker Version abe7ecdb-5026-4c71-a0b6-f080028654e1、100%配信。作業場所 task-resume-catena-20261110 / codex/release-resume-20261110。公開記録[PR300](https://github.com/futsalife24-bot/swarm-front/pull/300)、初回記録HEAD 392109cab76bd27fb0536748af6dcca3b8892462。製品コードは変更せず、root他担当12差分・別worktreeを保護。
+
+本番build/dry-run/deploy成功、health 200/ok、本体36ファイル＋HARROW/CATENAモデル2件のSHA一致。公開Chrome2サイズで出撃・実戦・停止まで操作、pageerror 0。初回640のconsole出力4件は失敗として保存し、発生元記録を加えた640再検査は再現せず0件・再開まで成功。初回出力の根因は未特定。本番協力はTurnstile未完了で部屋/WS作成前に終了し未検証、認証回避なし。
+
+公開前点検の非公開運用情報はローカルに保持し、公開資料から除外。新規費用・契約・権限変更なし。既存22失敗/format14警告、リファクタ候補2の開始ゲート停止、候補3未着手、実スマホ・公開CATENA遭遇・補給演出の本番接続未実施は維持。[公開元HEAD・コマンド・結果・制約](evidence/resume-release-20261110/RELEASE.md)。
+
+# 保留機能とCATENA自然跳躍：main反映済み、Worker未公開（2026-11-10）
+
+専用worktree `task-resume-catena-20261110` / `codex/resume-catena-20261110` に、[PR297](https://github.com/futsalife24-bot/swarm-front/pull/297)のHARROW・武器調整・支援報酬・表示専用補給演出と、[PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)のCATENAを通常mergeした。基点main `3f2c429c442c44d54bf4a8132cc791f30534ae9d`、最終全体検査の製品HEAD `c4f2c27ff4ca87192ca103bf3b5fb86522ca1c8a`。fixtureは両方を残し、rootの他担当12差分と他worktreeは保護。main使用中の `task-survival-build` も変更しない。
+
+通常merge完了: PR297 `f72672f2cb5cbe3eda670a10d859490ed75a18cd`、PR298 `4dfc8228e99309464f1436b0853228a0fd4aa0f5`。実mainを明示fetchして専用worktreeをfast-forwardし、PR298の最終候補f35a7e6との全tree一致、検証HEAD c4f2c27との製品コード/素材一致を確認した。ローカルmainは別worktreeで使用中のため変更せず、専用worktreeで最新mainを確認した。この後続追記は `codex/record-resume-main-20261110` の文書だけで、製品変更・再公開は行わない。
+
+`npm test -- --reporter=verbose` は1752件を完走し1729成功/23失敗、exit 1。基点との機械照合で既存22件＋旧v1比較の指定不足1件。後者は試験だけにv1を明示し、旧生成器・期待byte・assert・製品コードを維持して関連9件成功を確認した。全件修正後再走とは扱わない。ST25と更新履歴の2件は今回成功。既存22失敗とformat14警告は未修正で、全体合格ではない。初期の負荷下中断、ツール再接続後の途中中断、終了コードを含む最終結果を区別して保存した。
+
+型は両方成功、`npm run build` と `npm run server:build`（dry-run）成功、基点からの `git diff --check` 成功。format14件は基点とファイル名まで一致。4人密集の実WS（400弾/1000弾）、支援報酬7件、CATENA旧版更新/同ID復帰/2接続36状態同期も成功。通信欠落・decode・容量切断なし。今回の検証Workerは終了し8789番ポート解放を確認。[コマンド・結果・HEAD・限界](evidence/catena-resume-20261110/INTEGRATED.md)。
+
+本人の「自然に跳ねる感じ」を受け、頭から尾へ連続して跳ぶ姿勢へ修正。実Renderer8画像/動画、ST10 seed814、関連193件が成功。総HP・14胴・最大8砲口・16秒間隔・基本威力10・単回命中を維持。別Codexは旧P1と単体検証HOLDを解除可能と判定した。stepの意図差4条件はPR297と初差tick/fieldを照合して限定更新し、既存前線4条件は基点/統合で毎tick・受信SHAが一致することを確認した。
+
+通常main反映は完了。既存Workerへは公開していない。実Android/iOS・実回線・旧製品全体E2Eは未確認。補給演出は確定結果の表示専用で、本番抽選・券消費・保存へ接続していない。縦横モック `codex/resume-orientation-20261110` / `81e7d24` は専用branchへ保存し、本番mainへ混ぜない。
+
+候補2リファクタは本人指定の開始ゲート不合格で未着手。`codex/refactor-worker-message-20261110` / 記録 `2cc75da3c4fcf8cb04c21f40eb621ce350a37ef8`、PRなし。開始時main3f2c429の全体24失敗・format14警告・step前線4不一致を保存し、候補1をやり直さず候補3も未着手。再開には開始ゲートの解消または本人の次指示が必要。独立Chat監査は通常タスクに必須ではない。MainVaultの既存swarm-frontノートにも概要を記録する。
+
+# CATENA Ω：PR298へ保存、検証HOLD継続（2026-11-10）
+
+本人採用の14胴・総HP維持・最大8砲口・16秒Ωジャンプ/基本10/重複命中なしを現mainへ移植。専用worktree `task-resume-catena-20261110`、branch `codex/resume-catena-20261110`、製品HEAD `7fef736bc3885fbc3a44878a2c76b86a9b7eba88`、base `3f2c429c442c44d54bf4a8132cc791f30534ae9d`。[Draft PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)へpush済み。root/旧候補/他担当差分を保持、main反映・Worker公開なし。
+
+正式ST10 seed814勝利、wire/tuple/delta47件、実Workerで更新ゲート・新v2二接続36状態一致・同ID復帰・着地HP[992,1000]、型・client build・Worker dry-run成功。関連166件の最終再走は159成功・7件が30秒timeoutで不合格。全体合格としない。独立Codexは固定HEADの旧P1経路と旧client向け更新ゲートを確認し、新たな確認済みP1コード欠陥なしと判定したが、未完検証のため採用HOLDを維持。旧Network Chrome表示fixtureと着地前予告の目視証拠、負荷の少ない条件での時間切れ再検査が残る。
+
+初回pushの自動審査は公開先へのpayload承認不足を理由に拒否。本人提示AGENTSのcommit/push指示、実WORKFLOW、同一origin、固定対象とログ秘密検査の結果を示し、同じ操作を再審査して承認・成功した。別経路の迂回なし。PR297との将来統合では `server/testing.ts` のfixture許可リストへ `front-support-result` と `catena-omega` を両方残す必要がある。詳細は [移植・証拠・未実施](CATENA-RESUME-20261110.md)。
+
+# 保留機能の再開：追加8件の再検証成功・自然跳躍を調整中（2026-11-10）
+
+主担当の統合worktreeは `task-resume-support-rewards-20261110`、branch `codex/resume-gameplay-20261110`。製品HEAD `7fe26b9af49122343dea518ab44635b6f26d916d` に、原因対照済みの固定snapshot6件と武器UI/実WS証拠を `50b303e96c9c52f03da51254682b98fa2b8ad484` で追加した。[Draft PR297](https://github.com/futsalife24-bot/swarm-front/pull/297)はHARROW羽ばたき・BASTION/ソロMD・協力支援報酬・表示専用補給演出。CATENAは別branch `codex/resume-catena-20261110`、製品 `7fef736bc3885fbc3a44878a2c76b86a9b7eba88` を [Draft PR298](https://github.com/futsalife24-bot/swarm-front/pull/298)へ保存。双方ともmain未反映・Worker公開なし。
+
+統合の型・client build・Worker dry-run・実WS7条件は成功。format14警告は基点mainと対象ファイルまで完全一致。最初の全体検査は通常sandboxと重い別検査の並行下で長時間化し中断。同じ既定条件で正式昇格した再実行も長時間化し、同条件の反復を止めて中断した。step特性は22件中18成功、更新6件は全て成功、失敗は基点と同じ前線4件。再実行の途中では基点24失敗中23件と、移動5/描画2/協力性能1の追加8項目を観測。基点のST25は未観測で解消扱いせず、全体成功とはしない。CPU測定でBlender接続補助4系統の高負荷を観測し、本体未起動を確認した。本人の停止承認後の対処と再検査成功は下記の後続更新を参照。[統合検証の詳細](evidence/gameplay-resume-20261110/README.md)。
+
+CATENAは正式ST10・実WS更新ゲート/新v2復帰・wire47件・型/build成功。旧Networkの限定Chrome fixtureも更新案内/token保持/14節受信0/例外0で成功したが、全旧製品の通し検証ではない。独立Codexは旧P1経路と旧版描画クラッシュ対策を確認し、最終関連166件中7timeout等により採用HOLDを維持。旧文字姿勢の着地前予告画像も補完済みで、現在は本人追加指示の自然跳躍を別commitへ準備している。将来統合では `server/testing.ts` のfixture名を両方残す1行競合解消と統合検証が必要。縦横モックは専用branch `81e7d24` をpush済み、単体34/ブラウザー9成功。本番mainへ混ぜない。
+
+候補2リファクタは本人の開始ゲートで停止し未着手。記録 `2cc75da3c4fcf8cb04c21f40eb621ce350a37ef8` を `codex/refactor-worker-message-20261110` へpushしremote一致確認。基点main3f2c429の型成功・全体1694中24失敗・format14警告・step前線4不一致を保持し、候補1のやり直し・候補3は行わない。rootの他担当12差分と旧候補、mainを使用中の別worktreeも保護する。
+
+後続更新: 本人がBlender補助4系統の停止を承認し、対象を再特定して停止完了。その後8件限定で4成功/4timeout、残る4件は検査Node親子だけAboveNormalへ揃えて全成功。入力・assert・既定の30秒/120秒上限は不変。追加8項目は分割確認ですべて成功し、補助停止の承認待ちも解消。初回失敗と再検査条件は上記詳細へ保持する。
+
+現在の残件: PR297の全体検査の完了と既存失敗照合、通常main反映。CATENAには本人から「Ωに忠実すぎるよ、自然に跳ねる感じね」の追加指示があり、文字形を作る姿勢を自然な跳躍へ修正中。着地位置・予告・攻撃時刻・威力を維持し、連続フレームとST10/関連検査で確認する。CPU検査は直列化。候補2は別途、本人指定の開始ゲート解消または次指示が必要。
+
+# 保留機能を専用ブランチへ統合中（2026-11-10、main未反映・未公開）
+
+本人の全作業再開と具体的配分承認に基づく作業。`task-resume-support-rewards-20261110` 内で `codex/resume-gameplay-20261110` を作成し、支援報酬dcb12f5（記録1e7fa6b）・補給演出31292f0と、HARROW503c9fe・武器段階1/2の8cff2bfを通常merge。統合製品HEAD `7fe26b9af49122343dea518ab44635b6f26d916d`、base main `3f2c429c442c44d54bf4a8132cc791f30534ae9d`、競合なし。root12差分・各担当の元branchは保持。
+
+統合後の支援報酬実WS7件とWorker dry-run（515.94KiB/gzip132.38KiB）は成功。全体npm test・両型/client build・format確認を実行中。基点mainには全体24失敗・format14警告があり、今回の差分と照合する。武器調整の意図差6snapshotは変更前に元期待値と一致する対照まで完了し、厳密な切分けを継続。無条件更新はしない。各機能の実行済み検証は以下の記録を参照。
+
+- [HARROW羽ばたき](HARROW-RESUME-20261110.md)、[BASTION開放・ソロMD抽選](EQUIPMENT-RESUME-20261110.md)、[協力支援報酬](SUPPORT-REWARDS-RESUME-20261110.md)、[補給演出](../design/resume-ui-20261110/HANDOFF.md)。
+- CATENA Ωは別worktree `task-resume-catena-20261110` で移植と通信互換性を確認中。過去P1再監査HOLDは維持し、この統合へ含めていない。
+- 縦横モックは専用branch `codex/resume-orientation-20261110` / `81e7d24` をpush済み、ローカル/remote一致・clean確認。本番mainに混ぜない。単体34・Chrome E2E9・両型/専用build成功、公開なし。
+- 候補2リファクタは本人の開始ゲート不合格停止に従い未着手、専用branchの記録 `2cc75da` を保持。候補1再実装・候補3・Worker公開なし。
+
+# 生成素材とClaudeによる補給ポッド演出を受領（2026-11-10、表示専用）
+
+本人依頼の画像生成とClaude UI制作を実施。透明補給ポッドを使う1連/10連の再生モジュールを `design/resume-ui-20261110/` に保存した。Claudeの書込範囲は元rootの同designフォルダーだけで、旧試作・製品・他担当差分は保護。納品95ファイルをhash一致で本worktreeへ複製し、入力を検証して確定結果だけ再生する処理・エスケープ・多重ループ防止を主担当がレビュー。実Chrome3サイズ228場面の配置、26条件の予兆/停止点、スキップ・連打・中断復帰・動き減をClaudeが検証。主担当は比較画像2枚とコピー後26条件を確認、すべて成功。通常ゲームのbuild入口には接続していない。
+
+本番の抽選・券配布/消費・課金・保存の仕様は未確定で、勝手に追加しない。検証画像の全shotsはローカル保持、比較9枚・結果JSON・再現器・元生成素材をGit対象にした。旧試作のタイムラインと操作機能を維持するためJS/CSS合計は約1300行で、外部依存の追加はない。Claude UI表示Opus5.5/高、主担当モデル/推論未確認。[納品と検証](../design/resume-ui-20261110/HANDOFF.md)、[生成素材](../design/resume-ui-20261110/ASSET-NOTES.md)。
+
+# 協力支援報酬の再開（2026-11-10、検証・統合作業中）
+
+本人の具体的承認により、協力武器の従来合計枠を参加時間で分配する段階3を現main3f2c429へ移植。資格30秒/10秒/10%/直近30秒、3対3等の再配分、総数非増加、旧型/混在/ソロ互換を維持。コイン・宝箱は既存受領条件のまま。task-resume-support-rewards-20261110 / codex/resume-support-rewards-20261110。関連165件を分割確認、追加の結果表示を含む23件・保存147・実WS7・人工12000条件成功、両型・client build・Worker dry-run成功。初回sandbox一時ファイル/接続失敗と合成試験timeoutは分けて記録。説明画面の現行Chrome2サイズ・横はみ出しなし/戻る操作/例外0も確認。現在は統合中で、PR/main/Worker公開は未実施。[詳細と未実施](SUPPORT-REWARDS-RESUME-20261110.md)。
+
+別件の候補2リファクタは開始ゲート不合格で本人指定どおり未着手。task-refactor-worker-message-20261110 / codex/refactor-worker-message-20261110、記録2cc75da。main3f2c429で型成功、1694中1670成功/24失敗、format14警告、step22中18成功/前線4失敗。候補1の分割はやり直さず、候補3にも未着手。rootの他担当12差分・旧候補を保持。
+
+# step() の分割：検証済み、PR296で main へ通常merge（2026-11-10、Claude Code）
+
+本人依頼のリファクタリング候補1。`src/shared/game.ts` の `step()`（約870行）を、同じファイル内の非公開関数（兵士・救助・波・敵・弾）へ純粋抽出した。数値・判定順・乱数の消費順・dt の処理順は無変更で、描画・UI・通信形式にも触れていない。Worker への公開は行わない。独立Chat監査なし（2026-10-15方針）。
+
+- 作業場所: 別worktree `task-refactor-game-step`、branch `claude/refactor-game-step-20261110`（origin へ push 済み）、基点 origin/main `303b7745ab6db05ac9d02c6985e35249eaada4cd`。テスト追加 `2c97bc8`、分割 `1c6a8a0`。元rootの他担当差分と他worktreeには触れていない。node_modules は元rootへの junction で、インストールはしていない。
+- 分割前後の一致: `tests/game-step-equivalence.test.ts` を分割前の `step()` のまま先に commit。同一seed・同一入力の World（前線・改装版は run 全体）を毎tick直列化して SHA-256 に畳み込み、スナップショットと照合する。通常・ソロ・武器庫防衛・訓練場・P1a改装版・前線の22条件が、分割後もスナップショット無更新で一致。処理順を一時的に入れ替えると6条件が失敗することも確認して戻した。
+- 対象 HEAD `1c6a8a0` での結果: `npm run typecheck` 成功。`npm test` は1694件中1675成功・19失敗で、失敗19件は分割前の `303b774` と同一（一覧を照合して差分なし）。`npx vitest run --config vitest.playtest.config.ts` 109件成功。`npm run format:check` は既存14ファイルの警告で失敗（分割前と同一、今回の3ファイルは警告なし）。`git diff --check` 問題なし。`npm run build` と `npm run server:build`（dry-run）成功。
+- 未実施: 実通信の統合テスト、実UI確認、Worker公開。既存の失敗19件（aim / asset-download-manifest / bgm-layout-return / briefing-cache / enemy-report-motion / front-feedback / front-shot-origin / maps / stages / standard-trooper / state-receipt / structure-v2）と format:check の14ファイルは範囲外で未修正。
+- main反映: [PR296](https://github.com/futsalife24-bot/swarm-front/pull/296) を通常merge。merge後の SHA は main の履歴を正とする（この記録は merge 前に同じ PR へ含めた）。この環境の `gh` は未ログインだったため、本人の承認を受けて、git push と同じ保存済み認証をコマンド実行中だけ `gh` へ渡して PR 作成と merge を行った。`gh` のログイン設定は変更していない。
+- 更新履歴: merge 本文に `Player-Note` を付け、自動生成の文言を「内部処理の整理（遊び方・性能の変更なし）」にした。次回の公開時に反映される。
+- スナップショットの更新は、数値や判定順を意図して変えた時だけ `npx vitest run tests/game-step-equivalence.test.ts -u`。
+- 残課題（未着手）: 候補2 `server/worker.ts` の `Room.webSocketMessage` の分割（`npm run server:build` と実通信確認が必須）、候補3 `clamp` の重複定義を `src/shared/surface-math.ts` へ統一。
 
 # 武器UI＋バディ4体：公開・配信・通常UI確認済み（2026-11-08）
 

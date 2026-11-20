@@ -15,8 +15,17 @@ import {
 } from "../src/shared/game";
 import { collectFrontXp, FRONT_BALANCE } from "../src/shared/front-combat";
 import { groundHeight } from "../src/shared/terrain";
-import { mapFor } from "../src/shared/stages";
+import { mapFor, STAGES, stageFor, validStage } from "../src/shared/stages";
 import { encodeState, prepareState } from "../src/shared/state-wire";
+import { encodeStateChunks } from "../src/shared/state-chunks";
+import { StateDeltaSender } from "../src/shared/state-delta";
+import { DEFAULT_PLAYER_NAME } from "../src/shared/social";
+import {
+  StateDelivery,
+  deliverState,
+  minimumSentEvent,
+} from "../server/state-delivery";
+import { RoomTraceEvent } from "../server/room-network-trace";
 import { readFileSync } from "node:fs";
 import { stripTypeScriptTypes } from "node:module";
 import { createContext, runInContext } from "node:vm";
@@ -241,82 +250,133 @@ describe("戦闘フィードバックの回帰", () => {
         expect(received.events.at(-1).id).toBe(w.events.at(-1)!.id);
       }
     expect(JSON.stringify(w)).toBe(original);
-    // Worker本体のbroadcast/sendEncodedを実行する。通信モックの単体検証で、
-    // 別途の実WebSocket検証を代替しない。後付け情報による4009回帰を捉える。
+    // Worker本体の現行broadcast/send/sendEncodedと、その配送補助（接続記録・
+    // イベント下限・装備数）を実コードのまま実行する。配送クレジット
+    // （server/state-delivery.ts）と分割も実物。通信モックの単体検証で、別途の
+    // 実WebSocket検証を代替しない。後付け情報による4009回帰を捉える。
     const source = readFileSync("server/worker.ts", "utf8");
-    const sendStart = source.indexOf("  private sendEncoded(");
-    const sendEnd = source.indexOf("  error(", sendStart);
-    const broadcastStart = source.indexOf("  broadcast() {");
-    const broadcastEnd = source.indexOf("  run() {", broadcastStart);
-    expect(
-      [sendStart, sendEnd, broadcastStart, broadcastEnd].every((n) => n >= 0),
-    ).toBe(true);
+    const section = (from: string, to: string) => {
+      const start = source.indexOf(from);
+      const end = source.indexOf(to, start);
+      expect(start, from).toBeGreaterThanOrEqual(0);
+      expect(end, to).toBeGreaterThan(start);
+      return source.slice(start, end);
+    };
     const actualMethods = stripTypeScriptTypes(
-      `class Harness {${source.slice(sendStart, sendEnd)}${source.slice(broadcastStart, broadcastEnd)}}; new Harness()`,
+      `${section("const CATENA_UPDATE_NOTICE =", "interface Env {")}
+       class Harness {
+         ${section("  private traceAll(", "  async fetch(req: Request) {")}
+         ${section("  send(ws: WebSocket, data: unknown) {", "  error(ws: WebSocket")}
+         ${section("  private rememberSocket(", "  run() {")}
+       }; new Harness()`,
     );
-    for (const cached of [false, true]) {
-      const packets: string[] = [];
-      const closes: number[] = [];
-      const context = createContext({
-        prepareState,
-        encodeState,
-        getFrontRunView,
-        TextEncoder,
-        DEFAULT_PLAYER_NAME: "隊員",
-        retireEvents() {},
-      });
-      const worker = runInContext(actualMethods, context);
-      worker.saved = {
-        world: w,
-        frontRun: r,
-        members: ids.map((id) => ({
-          id,
-          name: "隊員名前".repeat(3),
-          weapons: w.players.find((p) => p.id === id)!.weapons,
-          ready: true,
-          readyGeneration: 0,
-        })),
-        directory: { ruleset: "front-v1", mode: "interception" },
-      };
-      worker.roomExpiresAt = () => 3600000;
-      worker.wireRoomExpiresAt = () => 3600000;
-      worker.frontResultExpiresAt = () => undefined;
-      worker.sentEvent = 0;
-      worker.publishDirectory = () => {};
-      worker.disconnected = () => {
-        throw new Error("最大密集で切断");
-      };
-      worker.sockets = new Map(
-        ids.map((id) => [
-          {
-            send: (packet: string) => packets.push(packet),
-            close: (code: number) => closes.push(code),
-          },
-          {
+    // 旧クライアント（素のJSON）と、現行クライアントが交渉する全機能の2通り。
+    for (const modern of [false, true])
+      for (const cached of [false, true]) {
+        const frames = new Map<string, string[]>(ids.map((id) => [id, []]));
+        const closes: number[] = [];
+        const context = createContext({
+          prepareState,
+          encodeState,
+          encodeStateChunks,
+          deliverState,
+          minimumSentEvent,
+          getFrontRunView,
+          RoomTraceEvent,
+          STAGES,
+          stageFor,
+          validStage,
+          TextEncoder,
+          performance,
+          DEFAULT_PLAYER_NAME,
+          retireEvents() {},
+        });
+        const worker = runInContext(actualMethods, context);
+        worker.saved = {
+          world: w,
+          frontRun: r,
+          members: ids.map((id) => ({
             id,
-            seq: 999999,
-            equipmentCache: cached,
-            equipmentKey: prepareState(w, 0, {}).equipmentKey,
-          },
-        ]),
-      );
-      worker.broadcast();
-      expect(closes).toEqual([]);
-      expect(packets).toHaveLength(4);
-      packets.forEach((packet, i) => {
-        expect(new TextEncoder().encode(packet).length).toBeLessThanOrEqual(
-          65536,
+            name: "隊員名前".repeat(3),
+            weapons: w.players.find((p) => p.id === id)!.weapons,
+            ready: true,
+            readyGeneration: 0,
+          })),
+          directory: { ruleset: "front-v1", mode: "interception" },
+        };
+        worker.wireRoomExpiresAt = () => 3600000;
+        worker.publishDirectory = () => {};
+        worker.traceSockets = new Set();
+        worker.ticks = 0;
+        worker.stateSnapshot = 0;
+        worker.lastTickMs = 0;
+        worker.lastEncodeMs = 0;
+        worker.pendingTraceWrites = 0;
+        worker.clock = { droppedMs: 0 };
+        worker.disconnected = () => {
+          throw new Error("最大密集で切断");
+        };
+        const sessions = ids.map((id) => ({
+          id,
+          seq: 999999,
+          equipmentCache: cached,
+          equipmentKey: prepareState(w, 0, {}).equipmentKey,
+          stateDelivery: new StateDelivery(modern),
+          ...(modern
+            ? {
+                stateOmissions: true,
+                stateTuples: true,
+                stateTupleVersion: 2,
+                pleatPose: true,
+                stateChunks: true,
+                stateDelta: new StateDeltaSender(2),
+                inputReceipt: true,
+                networkTiming: true,
+              }
+            : {}),
+        }));
+        worker.sockets = new Map(
+          sessions.map((session) => [
+            {
+              send: (packet: string) => frames.get(session.id)!.push(packet),
+              close: (code: number) => closes.push(code),
+              serializeAttachment() {},
+            },
+            session,
+          ]),
         );
-        const state = JSON.parse(packet);
-        expect(state.frontView).toEqual(getFrontRunView(r, ids[i]));
-        expect(state.serverNow).toBeGreaterThan(0);
-        expect(state.world.enemies).toHaveLength(97);
-        expect(state.world.front.players[ids[i]].statuses).toEqual(
-          w.front!.players[ids[i]].statuses,
-        );
-        expect(state.world.events.at(-1).id).toBe(w.events.at(-1)!.id);
-      });
-    }
+        worker.broadcast();
+        expect(closes).toEqual([]);
+        for (const [i, id] of ids.entries()) {
+          const sent = frames.get(id)!;
+          // 送信が成立した相手だけが配送済みになる（上限超過は4009で切断）。
+          expect(sessions[i].stateDelivery.lastSent).toBeGreaterThan(0);
+          expect(sessions[i].stateDelivery.sentEvent).toBe(w.eventSerial);
+          expect(sent.length).toBeGreaterThan(0);
+          for (const frame of sent)
+            expect(new TextEncoder().encode(frame).length).toBeLessThanOrEqual(
+              65536,
+            );
+          // 通信量の調査用。FRONT_FEEDBACK_SIZES=1 で実際の送信サイズを出す。
+          if (process.env.FRONT_FEEDBACK_SIZES)
+            console.log(
+              `wire-size modern=${modern} cached=${cached} ${id} frames=${sent.length} bytes=${sent.map((frame) => new TextEncoder().encode(frame).length).join("+")}`,
+            );
+          if (modern) continue;
+          expect(sent).toHaveLength(1);
+          const state = JSON.parse(sent[0]);
+          expect(state.frontView).toEqual(getFrontRunView(r, id));
+          expect(state.serverNow).toBeGreaterThan(0);
+          expect(state.world.enemies).toHaveLength(97);
+          expect(state.world.projectiles).toHaveLength(100);
+          expect(state.world.front.orbs).toHaveLength(160);
+          expect(state.world.front.mines).toHaveLength(20);
+          expect(state.world.front.players[id].statuses).toEqual(
+            w.front!.players[id].statuses,
+          );
+          expect(state.world.events.at(-1).id).toBe(w.events.at(-1)!.id);
+        }
+      }
     expect(JSON.stringify(w)).toBe(original);
   });
 });

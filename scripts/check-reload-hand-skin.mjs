@@ -1,0 +1,61 @@
+import { build } from 'esbuild';
+import { chromium } from '@playwright/test';
+import fs from 'node:fs/promises';
+import http from 'node:http';
+import path from 'node:path';
+import crypto from 'node:crypto';
+
+const out = 'dist-validation/reload-hand-skin';
+const debug = process.argv.includes('--debug');
+const kinds = ['rifle','smg','shotgun','slug','rocket','heavy','sniper','laser','grenade','sticky','kick','medic'];
+const files = ['public/assets/characters/swarm-soldier.glb',...kinds.map(k=>`public/assets/weapons/${['rifle','shotgun','rocket'].includes(k)?'realism-v2':'unique-v1'}/${k}_0.glb`)];
+const hash = async p => crypto.createHash('sha256').update(await fs.readFile(p)).digest('hex');
+const before = await Promise.all(files.map(hash));
+const source = `
+import * as T from 'three';
+import {StandardTrooper,loadStandardTrooper} from '../../src/client/standard-trooper.ts';
+import {loadProgressionWeapons} from '../../src/client/progression-weapons.ts';
+import {makeWeapon} from '../../src/shared/progression.ts';
+import {poseOf,reloadDuration} from '../../src/shared/defs.ts';
+import {createWorld,addPlayer} from '../../src/shared/game.ts';
+const V=(x,y,z)=>new T.Vector3(x,y,z), ray=new T.Ray(), hit=new T.Vector3(), near=new T.Vector3(), tri=new T.Triangle();
+function segment(a,b,t){const d=b.clone().sub(a),n=d.length();if(n<1e-9)return null;ray.set(a,d.multiplyScalar(1/n));const p=ray.intersectTriangle(t[0],t[1],t[2],false,hit);return p&&p.distanceTo(a)<=n+1e-7?p.clone():null}
+function crossing(a,b){for(let i=0;i<3;i++){const p=segment(a[i],a[(i+1)%3],b);if(p)return p}for(let i=0;i<3;i++){const p=segment(b[i],b[(i+1)%3],a);if(p)return p}return null}
+const A=[V(0,0,0),V(1,0,0),V(0,1,0)],yes=[V(.2,.2,-.2),V(.2,.2,.2),V(.6,.2,.2)],no=[V(.2,.2,.2),V(.5,.2,.2),V(.2,.5,.2)];
+if(!crossing(A,yes)||crossing(A,no))throw Error('analytic crossing controls failed');
+function collect(root,side){const faces=[],points=[],meshCounts=[],tmp=V(0,0,0);root.traverse(o=>{
+ if(side?(!o.isSkinnedMesh||!o.visible):(!o.isMesh||o.name==='WeaponNeonCore'||o.name==='WeaponNeonHalo'))return;
+ const g=o.geometry,p=g.getAttribute('position'),ix=g.index;if(!p)return;
+ const si=g.getAttribute('skinIndex'),sw=g.getAttribute('skinWeight'),bone=side?o.skeleton.bones.findIndex(b=>b.name==='Hand_'+side):-1;
+ if(side&&(bone<0||!si||!sw))return;
+ const verts=[],selected=[];for(let i=0;i<p.count;i++){
+  let weight=0;if(side){for(let j=0;j<4;j++)if(si.getComponent(i,j)===bone)weight+=sw.getComponent(i,j);o.getVertexPosition(i,tmp)}else tmp.fromBufferAttribute(p,i);
+  verts.push(tmp.clone().applyMatrix4(o.matrixWorld));selected.push(!side||weight>=.5);if(side&&weight>=.5)points.push(verts[i]);
+ }
+ let count=0;for(let i=0;i+2<(ix?ix.count:p.count);i+=3){const ids=[0,1,2].map(j=>ix?ix.getX(i+j):i+j);if(side&&!ids.every(j=>selected[j]))continue;
+  const q=ids.map(j=>verts[j]),lo=V(Math.min(...q.map(v=>v.x)),Math.min(...q.map(v=>v.y)),Math.min(...q.map(v=>v.z))),hi=V(Math.max(...q.map(v=>v.x)),Math.max(...q.map(v=>v.y)),Math.max(...q.map(v=>v.z)));faces.push({q,lo,hi});count++}
+ if(side&&count)meshCounts.push({name:o.name,triangles:count});
+ });return {faces,points,meshCounts}}
+const size=.05,cell=n=>Math.floor(n/size),key=(x,y,z)=>x+','+y+','+z;
+function cells(lo,hi,fn){for(let x=cell(lo.x);x<=cell(hi.x);x++)for(let y=cell(lo.y);y<=cell(hi.y);y++)for(let z=cell(lo.z);z<=cell(hi.z);z++)fn(key(x,y,z))}
+function intersects(hand,gun){const map=new Map();for(let i=0;i<hand.length;i++)cells(hand[i].lo,hand[i].hi,k=>{if(!map.has(k))map.set(k,[]);map.get(k).push(i)});
+ let pairs=0;const positions=[];for(const g of gun){const ids=new Set();cells(g.lo,g.hi,k=>{for(const i of map.get(k)||[])ids.add(i)});for(const i of ids){const h=hand[i];if(g.hi.x<h.lo.x||g.lo.x>h.hi.x||g.hi.y<h.lo.y||g.lo.y>h.hi.y||g.hi.z<h.lo.z||g.lo.z>h.hi.z)continue;const p=crossing(g.q,h.q);if(p){pairs++;positions.push(p)}}}return {pairs,positions}}
+function distance(points,faces){let best=Infinity,pa=null,pb=null;for(const p of points)for(const f of faces){const dx=Math.max(f.lo.x-p.x,0,p.x-f.hi.x),dy=Math.max(f.lo.y-p.y,0,p.y-f.hi.y),dz=Math.max(f.lo.z-p.z,0,p.z-f.hi.z);if(dx*dx+dy*dy+dz*dz>=best)continue;tri.set(...f.q);tri.closestPointToPoint(p,near);const d=p.distanceToSquared(near);if(d<best){best=d;pa=p.clone();pb=near.clone()}}return {distance:Math.sqrt(best),pa,pb}}
+tri.set(...A);tri.closestPointToPoint(V(.25,.25,.05),near);if(Math.abs(near.distanceTo(V(.25,.25,.05))-.05)>1e-9)throw Error('analytic distance control failed');
+const make=(id,k)=>makeWeapon(id,k,0,{power:0,reload:0,range:0,rate:0},true,0);
+window.result=(async()=>{await new Promise(r=>setTimeout(r,0));console.log('STAGE assets start',performance.now());const assets=await loadStandardTrooper(),scene=new T.Scene(),records=[];console.log('STAGE assets done',performance.now());scene.add(new T.HemisphereLight(0xffffff,0x526070,3));const light=new T.DirectionalLight(0xffffff,3);light.position.set(3,4,3);scene.add(light);
+ const renderer=new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});renderer.setSize(480,330);renderer.setClearColor(0x12232d);const camera=new T.PerspectiveCamera(35,480/330,.01,100);
+ document.body.style.cssText='margin:0;background:#12232d;color:white;font:14px sans-serif';document.body.innerHTML='<h2>装填中の手骨ウェイト面と武器表面</h2><p>赤点は辺・面の交差候補。手袋全体、指、接触、めり込みの深さを確定するものではない。</p><main></main>';
+ for(const kind of ${JSON.stringify(debug ? ['rifle'] : kinds)}){const actor=new StandardTrooper(assets),p=addPlayer(createWorld('reload-skin-'+kind),'review'),target=make('target-'+kind,kind),spare=make('spare-'+kind,'rifle');scene.add(actor.model);await loadProgressionWeapons([target,spare]);p.weapons=[target,spare];p.slot=0;p.ammo[0]=0;p.swapCd=0;const duration=reloadDuration(target,0),samples=[];
+  const section=document.createElement('section');section.style.cssText='display:grid;grid-template-columns:repeat(3,480px);gap:5px;margin:12px 0';section.innerHTML='<b style="grid-column:1 / -1">'+kind+' / '+poseOf(kind)+'</b>';document.querySelector('main').append(section);
+  for(const fraction of ${JSON.stringify(debug ? [.25] : [.25,.5,.75])}){console.log('STAGE sample start',kind,fraction,performance.now());p.reload=duration*(1-fraction);for(let i=0;i<4;i++)actor.update(p,0,2+i*.1,'reload-skin',.1);actor.model.updateMatrixWorld(true);const gun=actor.weapons[0];if(gun.parent?.name!=='RightHandWeaponSocket'||!actor.mode.includes('_reload_'))throw Error('socket or mode '+kind);
+   const weapon=collect(gun),hands={};console.log('STAGE gun collected',kind,weapon.faces.length,performance.now());for(const side of ['L','R']){const skin=collect(actor.model,side);if(!skin.points.length||!skin.faces.length||!weapon.faces.length)throw Error('missing geometry '+kind+side);const inter=intersects(skin.faces,weapon.faces),near=distance(skin.points,weapon.faces);console.log('STAGE hand done',kind,side,skin.points.length,skin.faces.length,inter.pairs,performance.now());hands[side]={vertices:skin.points.length,triangles:skin.faces.length,meshCounts:skin.meshCounts,crossingPairs:inter.pairs,vertexDistance:near.distance,handPoint:near.pa.toArray(),weaponPoint:near.pb.toArray(),points:inter.positions};}
+   let control=null;if(kind==='rifle'&&fraction===.25){const skin=collect(actor.model,'L'),before=gun.position.clone();const inv=new T.Matrix4().copy(gun.parent.matrixWorld).invert();function moveWorld(d){gun.position.copy(before).add(d.clone().applyMatrix3(new T.Matrix3().setFromMatrix4(inv)));gun.updateWorldMatrix(true,true);return intersects(skin.faces,collect(gun).faces).pairs}
+    const far=moveWorld(V(10,10,10));let positive=null;for(const [x,y,z] of [[.04,0,0],[-.04,0,0],[0,.04,0],[0,-.04,0],[0,0,.04],[0,0,-.04]]){const pairs=moveWorld(V(x,y,z));console.log('STAGE control shift',x,y,z,pairs,performance.now());if(pairs>0){positive={worldShift:[x,y,z],pairs};break}}gun.position.copy(before);gun.updateWorldMatrix(true,true);if(far!==0)throw Error('real model negative control failed '+far);if(!positive)console.log('STAGE no real model positive');control={farWorldShift:[10,10,10],farPairs:far,positive};}
+   const markers=new T.Group();scene.add(markers);const material=new T.MeshBasicMaterial({color:0xff3b30,depthTest:false});for(const h of Object.values(hands))for(const pos of h.points.slice(0,60)){const m=new T.Mesh(new T.SphereGeometry(.003,5,4),material);m.position.copy(pos);m.renderOrder=999;markers.add(m)}
+   const left=actor.model.getObjectByName('Hand_L').getWorldPosition(V(0,0,0)),right=actor.model.getObjectByName('Hand_R').getWorldPosition(V(0,0,0)),focus=left.clone().lerp(right,.5);camera.position.copy(focus).add(V(.7,.2,-.9));camera.lookAt(focus);renderer.render(scene,camera);const div=document.createElement('div');div.innerHTML='<b>'+Math.round(fraction*100)+'% L '+hands.L.crossingPairs+' / R '+hands.R.crossingPairs+' 組</b><br><img src="'+renderer.domElement.toDataURL()+'">';section.append(div);markers.removeFromParent();markers.traverse(o=>o.geometry?.dispose());material.dispose();for(const h of Object.values(hands))delete h.points;samples.push({fraction,mode:actor.mode,hands,control});
+  }records.push({kind,pose:poseOf(kind),samples});actor.dispose();scene.remove(actor.model)}renderer.dispose();renderer.forceContextLoss();return records})();`;
+await fs.mkdir(out,{recursive:true});
+await build({stdin:{contents:source,resolveDir:path.resolve(out),sourcefile:'entry.js'},bundle:true,format:'esm',platform:'browser',define:{'import.meta.env.BASE_URL':'"/"','import.meta.env.DEV':'false'},outfile:out+'/bundle.js'});
+const server=http.createServer(async(req,res)=>{const n=new URL(req.url,'http://127.0.0.1').pathname,root=path.resolve(n.startsWith('/assets/')?'public':out),name=n.startsWith('/assets/')?n.slice(1):path.basename(n),file=path.resolve(root,name);if(!file.startsWith(root+path.sep))return void res.writeHead(403).end();try{res.writeHead(200,{'Content-Type':file.endsWith('.js')?'text/javascript':'application/octet-stream'}).end(await fs.readFile(file))}catch{res.writeHead(404).end()}});
+let browser;try{await new Promise(r=>server.listen(0,'127.0.0.1',r));browser=await chromium.launch({channel:'chrome',args:['--use-angle=d3d11']});const page=await browser.newPage({viewport:{width:1480,height:900}}),errors=[],failed=[];page.on('console',m=>console.log('browser',m.text()));page.on('requestfailed',r=>console.error('requestfailed',r.url(),r.failure()?.errorText));page.on('pageerror',e=>{errors.push(e.message);console.error('pageerror',e.message)});page.on('response',r=>{if(r.status()>=400){failed.push([r.url(),r.status()]);console.error('http',r.status(),r.url())}});await page.route('**/fixture',r=>r.fulfill({contentType:'text/html',body:'<script type="module" src="/bundle.js"></script>'}));await page.goto('http://127.0.0.1:'+server.address().port+'/fixture');await page.waitForFunction(()=>!!window.result,null,{timeout:30000});const records=await page.evaluate(()=>window.result);await page.screenshot({path:out+'/comparison.png',fullPage:true});const after=await Promise.all(files.map(hash));if(before.some((h,i)=>h!==after[i]))throw Error('asset changed during measurement');await fs.writeFile(out+'/report.json',JSON.stringify({files:files.map((file,i)=>({file,sha256:before[i]})),scope:'Fixed reload samples on product StandardTrooper and N weapons, not the actual game input. All three vertices weighted at least 0.5 to selected hand bone; edge-face crossing only; vertex-to-weapon-triangle distance is an upper bound, not full surface distance. No depth, full containment, coplanar overlap, continuous motion, magazine-specific analysis, multiplayer or phone.',analyticControls:'crossing and separated triangles; 50mm point-triangle distance',records,errors,failed},null,2));console.log(JSON.stringify({records:records.map(r=>({kind:r.kind,pose:r.pose,samples:r.samples.map(s=>({fraction:s.fraction,hands:Object.fromEntries(Object.entries(s.hands).map(([k,h])=>[k,{vertices:h.vertices,triangles:h.triangles,crossingPairs:h.crossingPairs,vertexDistance:h.vertexDistance}]))}))})),errors,failed},null,2));if(errors.length||failed.length||records.length!==(debug?1:12))process.exitCode=1}finally{await browser?.close();await new Promise(r=>server.close(r))}

@@ -1,0 +1,15 @@
+
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-voice-fix4-20261115
+
+
+ Test Files  182 passed (182)
+      Tests  1857 passed (1857)
+   Start at  08:47:37
+   Duration  469.69s (tests 77%, import 18%, transform 5%)
+
+    Isolate  182 workers spawned · ~147ms startup each (spawn + environment, per file)
+             at least ~26.66s faster with isolate: false — reuses workers across files instead of one per file

@@ -6,7 +6,7 @@ const LEGACY_STAGES: StagePlan[] = [
   {
     name: "前哨掃討",
     map: 0,
-    brief: "HOUNDと散射派生で移動・射撃の基本を確認。ボスなし。",
+    brief: "PLEATとHOUND / VOLLEYで移動・射撃の基本を確認。ボスなし。",
     waves: [
       {
         troops: {

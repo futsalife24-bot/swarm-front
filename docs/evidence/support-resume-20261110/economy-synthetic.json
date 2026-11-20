@@ -1,0 +1,79 @@
+{
+  "seed": 20261020,
+  "artificial": true,
+  "count": 12000,
+  "rows": [
+    {
+      "players": 2,
+      "model": "full-participation",
+      "samples": 2000,
+      "previous": 55077,
+      "next": 55077,
+      "delta": 0,
+      "zeroKillPrevious": 0,
+      "zeroKillNext": 27545,
+      "qualifying": 4000,
+      "capped": 0
+    },
+    {
+      "players": 2,
+      "model": "partial-afk-forfeit",
+      "samples": 2000,
+      "previous": 46008,
+      "next": 10166,
+      "delta": -35842,
+      "zeroKillPrevious": 0,
+      "zeroKillNext": 4461,
+      "qualifying": 758,
+      "capped": 14
+    },
+    {
+      "players": 3,
+      "model": "full-participation",
+      "samples": 2000,
+      "previous": 110011,
+      "next": 110011,
+      "delta": 0,
+      "zeroKillPrevious": 0,
+      "zeroKillNext": 36720,
+      "qualifying": 6000,
+      "capped": 0
+    },
+    {
+      "players": 3,
+      "model": "partial-afk-forfeit",
+      "samples": 2000,
+      "previous": 93355,
+      "next": 16880,
+      "delta": -76475,
+      "zeroKillPrevious": 0,
+      "zeroKillNext": 6094,
+      "qualifying": 1098,
+      "capped": 27
+    },
+    {
+      "players": 4,
+      "model": "full-participation",
+      "samples": 2000,
+      "previous": 110172,
+      "next": 110172,
+      "delta": 0,
+      "zeroKillPrevious": 0,
+      "zeroKillNext": 55130,
+      "qualifying": 8000,
+      "capped": 0
+    },
+    {
+      "players": 4,
+      "model": "partial-afk-forfeit",
+      "samples": 2000,
+      "previous": 93614,
+      "next": 21284,
+      "delta": -72330,
+      "zeroKillPrevious": 0,
+      "zeroKillNext": 10895,
+      "qualifying": 1426,
+      "capped": 28
+    }
+  ]
+}

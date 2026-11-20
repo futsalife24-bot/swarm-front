@@ -1,5 +1,12 @@
 import { retryGameDocument } from "./exit-confirmation";
 import {
+  installMenuNavigation,
+  readMenuDestination,
+  type MenuDestination,
+} from "./menu-navigation";
+import { nextStageDropChange } from "../shared/drop-progression";
+import { SUPPLY_GRANTS } from "../shared/supply-grants";
+import {
   createBuddyBattleState,
   equipBattleBuddy,
 } from "../shared/buddy-combat";
@@ -12,6 +19,8 @@ import {
 } from "./advance-pause-ui";
 import "./advance-pause-ui.css";
 import { mountGameBuddyMenu, attachBuddySkill } from "./buddy-bindings";
+import { mountSupplyMenu } from "./supply-menu";
+import { mountSupplyPreview } from "./supply-preview";
 import {
   battleLoadingMarkup,
   updateBattleLoadingStatus,
@@ -55,7 +64,23 @@ import { navigateMenu } from "./menu-route";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
 import { showOperationCue, cancelOperationCue } from "./operation-cue";
 import { mountTitleMotion, trackTitleAction } from "./title-motion";
+import { startArmoryTour } from "./armory-tour";
 import { openTutorialGuide } from "./tutorial-guide";
+import { watchSupplyVoice } from "./supply-voice";
+import { openBasicTraining } from "./tutorial-launch";
+import {
+  ensureTutorialFlags,
+  hasSeen,
+  markSeen,
+  resetGuides,
+} from "./tutorial-flags";
+import {
+  BuddyGuideWatch,
+  GuideCaption,
+  completeFirstGuide,
+  forgetShownGuides,
+  showFirstGuide,
+} from "./first-guides";
 import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
 import { hudMarkup, updateCooldowns } from "./hud";
@@ -115,6 +140,7 @@ import {
   start,
   step,
   finish,
+  anomalyTestCurrentCount,
   random,
   eye,
   rayVisible,
@@ -128,6 +154,7 @@ import {
   useMedkit,
   reviveSolo,
   collectionStep,
+  collectRemainingSolo,
 } from "../shared/solo-progression";
 import {
   SKILLS,
@@ -186,7 +213,7 @@ import {
   clearBattleCheckpoint,
   type BattleCheckpoint,
 } from "./battle-checkpoint";
-import { track } from "./analytics";
+import { track, trackOnce } from "./analytics";
 import {
   installCloudSync,
   admitDailyDefense,
@@ -195,6 +222,8 @@ import {
   syncCloud,
 } from "./cloud-save";
 import { openCloudSettings, openWeeklyMissions } from "./continuity-ui";
+import { refreshSupplyBox } from "./supply-box";
+import { openSupplyBox, supplyBoxCount } from "./supply-box-ui";
 import { WEEKLY_MISSIONS } from "../shared/weekly-missions";
 import { japanWeek } from "../shared/calendar";
 import { initDailyDefense } from "../shared/daily-defense";
@@ -211,10 +240,14 @@ const SHOW_AD_UI = false;
 async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   if (sampleMenus || !canSortie(save, stage, difficulty)) return;
   if (!resume) track("sortie");
+  if (!resume && mode === "normal")
+    trackOnce("first_sortie", "ftue:first-sortie");
   const generation = ++loadingGeneration;
   loadReady = false;
   paused = false;
   setScreen("loading");
+  void sound.say("loading");
+  void sound.prepareControlScene("battle");
   const p = soldier(save);
   world = createWorld(
     crypto.randomUUID(),
@@ -327,6 +360,161 @@ async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
     });
   }
 }
+async function launchAnomalyTest() {
+  if (!developerMode || !anomalyTestUi) return;
+  const generation = ++loadingGeneration;
+  loadReady = false;
+  paused = false;
+  setScreen("loading");
+  void sound.say("loading");
+  void sound.prepareControlScene("battle");
+  world = anomalyTestUi.createAnomalyTestWorld(
+    crypto.getRandomValues(new Uint32Array(1))[0],
+  );
+  ui.innerHTML = battleLoadingMarkup(true);
+  ui.querySelector(".pt-loading p")!.textContent =
+    "ANOMALYテストは保存に影響しません。";
+  const progress = (n: number, status: BattleLoadingStatus) => {
+    if (generation !== loadingGeneration) return;
+    ($("pt-progress") as HTMLProgressElement).value = n;
+    $("pt-load-percent").textContent = `${n}%`;
+    updateBattleLoadingStatus(status);
+  };
+  try {
+    await prepareBattle(
+      view,
+      world,
+      "solo",
+      () => generation !== loadingGeneration || screen !== "loading",
+      progress,
+    );
+    if (generation !== loadingGeneration || screen !== "loading") return;
+    loadReady = true;
+    $("pt-enter").hidden = false;
+    bind("pt-enter", () => {
+      if (!loadReady || generation !== loadingGeneration) return;
+      start(world!);
+      controls.input.yaw = world!.players[0].yaw;
+      controls.input.pitch = world!.players[0].pitch;
+      accumulator = 0;
+      previous = performance.now();
+      battleUI();
+    });
+  } catch (error) {
+    if (generation !== loadingGeneration) return;
+    loadReady = false;
+    $("pt-load-error").innerHTML =
+      `<p>${esc((error as Error).message)}</p><button id="pt-load-retry">再試行</button><button id="pt-load-home">開発者ホームへ戻る</button>`;
+    bind("pt-load-retry", () => void launchAnomalyTest());
+    bind("pt-load-home", () => {
+      loadingGeneration++;
+      home();
+    });
+  }
+}
+function openAnomalyTestSettings() {
+  if (!anomalyTestUi || !world?.anomalyTest || screen !== "battle") return;
+  paused = true;
+  controls.reset();
+  anomalyTestUi.openAnomalyTestSettings(world, dialog, () => {
+    paused = false;
+    controls.reset();
+  });
+}
+function exitAnomalyTest() {
+  paused = false;
+  document.getElementById("pt-anomaly-settings")?.remove();
+  world = null;
+  notice = "";
+  home();
+}
+function pauseAnomalyTest() {
+  paused = true;
+  controls.reset();
+  let openingSettings = false;
+  const d = dialog(
+    "ANOMALYテスト",
+    '<button id="pt-resume" class="primary">再開</button><button id="pt-anomaly-settings">ANOMALY設定</button><button id="pt-anomaly-exit">テストを終了</button>',
+  );
+  d.querySelector<HTMLButtonElement>("#pt-resume")!.onclick = () => d.close();
+  d.querySelector<HTMLButtonElement>("#pt-anomaly-settings")!.onclick = () => {
+    openingSettings = true;
+    d.close();
+    openAnomalyTestSettings();
+  };
+  d.querySelector<HTMLButtonElement>("#pt-anomaly-exit")!.onclick = () => {
+    d.close();
+    exitAnomalyTest();
+  };
+  d.addEventListener("close", () => {
+    if (openingSettings) return;
+    paused = false;
+    controls.reset();
+  });
+}
+/** 戦闘中の初回ガイドの1行（HUD の状態欄に一定時間だけ出す。戦闘は止めない）。 */
+const battleCaption = new GuideCaption();
+/** 画面の初回ガイド（G1・G5・G6・G9・G10）。1行の案内は既存の状態欄に出す。 */
+function guide(key: Parameters<typeof showFirstGuide>[0]) {
+  if (developerMode || sampleMenus) return false;
+  return showFirstGuide(key, sound, (text) => {
+    const node = ui.querySelector(".pt-status");
+    if (node && !notice) node.textContent = text;
+  });
+}
+const buddyWatch = new BuddyGuideWatch();
+/** G3: バディを連れた最初の戦闘の開始10秒後。固有スキルの初発動か戦闘終了で既読。 */
+function buddyGuide(w: World) {
+  if (developerMode) return;
+  buddyWatch.update(w, "solo", screen === "battle", sound, (text) =>
+    battleCaption.show(text),
+  );
+}
+/** 基礎訓練を開く（タイトル・初回の誘いから）。訓練は報酬なし・保存なし。 */
+function startTraining(after: () => void) {
+  sound.controlVoice.stop();
+  let weapons: unknown;
+  try {
+    weapons = soldier(save).equipped.map((id) =>
+      save.inventory.find((w) => w.id === id)!,
+    );
+  } catch {
+    weapons = undefined;
+  }
+  openBasicTraining({
+    layout,
+    config: () => ({
+      preferences: preferences.snapshot(),
+      weapons,
+      solo: true,
+    }),
+    onExit: () => after(),
+  });
+}
+/** 新しい進行で初めて「ソロ → 進撃」に入るときの誘い（1回だけ・断れる）。 */
+function offerTraining(next: () => void) {
+  if (developerMode || hasSeen("offer")) {
+    next();
+    return;
+  }
+  markSeen("offer");
+  const d = dialog(
+    "基礎訓練",
+    '<p>操作をひととおり確認できます（約3分・報酬なし）。あとからタイトルの「チュートリアル」で受けることもできます。</p><button id="pt-offer-training" class="primary">基礎訓練を受ける</button><button id="pt-offer-later">あとで</button>',
+  );
+  void sound.say("tut-offer");
+  let chosen = false;
+  d.querySelector<HTMLButtonElement>("#pt-offer-training")!.onclick = () => {
+    chosen = true;
+    d.close();
+    startTraining(next);
+  };
+  d.querySelector<HTMLButtonElement>("#pt-offer-later")!.onclick = () =>
+    d.close();
+  d.addEventListener("close", () => {
+    if (!chosen) next();
+  });
+}
 function tutorial(id: string, title: string, body: string) {
   if (developerMode || save.tutorials.includes(id)) return;
   const n = structuredClone(save);
@@ -336,6 +524,8 @@ function tutorial(id: string, title: string, body: string) {
       title,
       `<p>${esc(body)}</p><button id="pt-tutorial-skip">スキップして続ける</button>`,
     );
+    // G2（ソロ）: 既存の「戦闘の基本」に管制AIの声を重ねる。
+    if (id === "combat") void sound.say("tutorial-combat");
     d.querySelector<HTMLButtonElement>("#pt-tutorial-skip")!.onclick = () =>
       d.close();
   });
@@ -349,8 +539,20 @@ function battleUI(next: "battle" | "collection" = "battle") {
   $("pause").hidden = false;
   controls.enabled = true;
   $("revive").hidden = false;
+  if (world?.anomalyTest) {
+    const settings = document.createElement("button");
+    settings.id = "pt-anomaly-settings";
+    settings.className = "pt-battle-button";
+    settings.textContent = "ANOMALY設定";
+    settings.onclick = () => openAnomalyTestSettings();
+    document.body.append(settings);
+  }
 }
 function pause() {
+  if (world?.anomalyTest) {
+    pauseAnomalyTest();
+    return;
+  }
   if (!["battle", "collection"].includes(screen) || paused) return;
   cancelOperationCue();
   paused = true;
@@ -389,11 +591,13 @@ function pause() {
     confirmAction(
       "リタイア",
       screen === "collection"
-        ? "<p>未回収品を残して結果へ進みます。</p>"
+        ? "<p>未回収の戦利品を自動回収して結果へ進みます。</p>"
         : "<p>敗北として進捗コインを受け取ります。未確定武器は失います。</p>",
       () => {
         d.close();
         screen === "collection" ? endCollection() : defeat();
+        // 結果画面の敗北案内より後で要求し、最新の撤退確認を優先する。
+        void sound.say("retire-ack");
       },
     );
   };
@@ -511,6 +715,7 @@ function victory() {
     return;
   }
   track("clear");
+  if (mode === "normal") trackOnce("first_clear", "ftue:first-clear");
   const w = world,
     s = w.solo!,
     missions = [
@@ -532,6 +737,7 @@ function victory() {
       missions,
       weapons: items,
       collected: w.pending.solo.length,
+      powderCollected: s.powderCollected,
     },
     () => random(w),
   );
@@ -546,16 +752,7 @@ function victory() {
     hud.hidden = false;
     $("minimap").hidden = false;
     $("pause").hidden = false;
-    bind("pt-end-collection", () => {
-      const left = w.drops.filter((d) => d.type !== "heal").length;
-      if (left)
-        confirmAction(
-          "回収を切り上げる",
-          `<p>未回収武器 ${left}個を残して結果へ進みます。</p>`,
-          endCollection,
-        );
-      else endCollection();
-    });
+    bind("pt-end-collection", endCollection);
   });
 }
 async function openDailyDefense() {
@@ -615,6 +812,14 @@ function finishDaily(interrupted = false) {
       ui.classList.add("pt-clear");
       const ledger = save.dailyDefense!;
       ui.innerHTML = `<div class="daily-cinematic"><strong>${outcome === "victory" ? "武器庫を守り抜いた" : d.armory.hp <= 0 ? "武器庫が破壊された" : "防衛作戦終了"}</strong></div>`;
+      sound.announce(
+        outcome === "victory"
+          ? "daily-victory"
+          : d.armory.hp <= 0
+            ? "daily-destroyed"
+            : "daily-ended",
+        `${w.run}:daily-result`,
+      );
       const showResult = () => {
         if (
           world !== w ||
@@ -656,8 +861,22 @@ function finishDaily(interrupted = false) {
 }
 function endCollection() {
   if (!save.result) return;
+  let collected = save;
+  if (world?.solo) {
+    collectRemainingSolo(world);
+    const known = new Set(save.result.weapons.map((w) => w.id));
+    const items = (world.pending.solo as NewWeapon[]).filter(
+      (w) => !known.has(w.id),
+    );
+    const powder = Math.max(
+      0,
+      (world.solo.powderCollected ?? 0) - (save.result.powderCollected ?? 0),
+    );
+    if (items.length || powder)
+      collected = appendCollected(save, items, powder);
+  }
   commit(
-    prepareChoice(save, () => (world ? random(world) : Math.random())),
+    prepareChoice(collected, () => (world ? random(world) : Math.random())),
     choice,
   );
 }
@@ -679,22 +898,40 @@ function result() {
   world = null;
   header(
     r.win ? "戦果" : "敗北",
-    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span>${resourceFrame("coins", r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins, "gain")}</div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? `${resourceFrame("coins", 500, "gain")}＋武器3個` : `${resourceFrame("points", 3, "gain")}${r.stage <= 4 && r.difficulty === "normal" ? resourceFrame("materials", 1, "gain") : ""}`}</p>` : ""}<button id="pt-result-retry" class="primary">装備変更・再出撃</button><button id="pt-result-home">ホームへ</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
+    `<div class="pt-result"><aside><div class="pt-summary"><span>${Math.floor(r.time)}秒</span><span>${r.kills}撃破</span>${resourceFrame("coins", r.coins * (r.choice === "ad" ? 2 : 1) + r.firstCoins, "gain")}${resourceFrame("powder", r.powder ?? 0, "gain")}</div><p>${stageLabel(r.stage)} ${r.difficulty === "normal" ? "通常" : "中難易度"}</p><p>${r.missions.map((v, i) => `${i + 1}${v ? "✓" : "○"}`).join("　")}</p>${r.first ? `<p>初達成 ${r.stage === 21 ? `${resourceFrame("coins", 500, "gain")}＋武器3個` : `${resourceFrame("points", 3, "gain")}${r.stage <= 4 && r.difficulty === "normal" ? resourceFrame("materials", 1, "gain") : ""}`}</p>` : ""}<button id="pt-result-retry" class="primary">装備変更・再出撃</button></aside><section>${weaponList(r.weapons, "result")}</section></div>`,
     false,
   );
   bindList("result");
+  if (r.win) {
+    const estimate = r.supplyEstimate;
+    const fixed = estimate
+      ? estimate.first + estimate.stars + estimate.front
+      : 0;
+    const change = r.first ? nextStageDropChange(r.stage, r.difficulty) : null;
+    ui.querySelector(".pt-summary")!.insertAdjacentHTML(
+      "beforeend",
+      `<span class="pt-ticket-estimate">補給券 最大+${fixed + SUPPLY_GRANTS.weeklyClear + SUPPLY_GRANTS.dailyFirstClear}枚（見込み）</span>`,
+    );
+    ui.querySelector(".pt-result > section")!.insertAdjacentHTML(
+      "afterbegin",
+      `<p class="pt-reward-notes">${estimate ? `初回 ${estimate.first}／星 ${estimate.stars}／最高到達 ${estimate.front}／` : ""}週${SUPPLY_GRANTS.weeklyClearCap}回までのクリア +${SUPPLY_GRANTS.weeklyClear}／当日の初クリア +${SUPPLY_GRANTS.dailyFirstClear}（週上限内・当日未受領時）<br>${transferCode() ? "クラウド同期後に補給へ反映" : "クラウド保存を作ると受け取れます"}${change ? `<br>${esc(change)}` : ""}</p>`,
+    );
+  }
   $("pt-result-retry").insertAdjacentHTML(
     "beforebegin",
     survivalBreakthroughRewardMarkup(save, r),
   );
-  bind("pt-result-home", home);
   bind("pt-result-retry", gear);
+  // 敗北は作戦キュー adv-failed の声が先に鳴るため、勝利の時だけ案内する。
+  if (r.win) sound.announce("result-win", `${r.run}:result`);
+  if (r.win) guide("result");
 }
 function report() {
   modalCount++;
   controls.enabled = false;
   openBestiary({
     voiceVolume: sound.effectsVolume,
+    controlVoice: sound,
     encounters: save.encounters,
     onClose: () => {
       modalCount--;
@@ -703,7 +940,7 @@ function report() {
   });
 }
 function encounter() {
-  if (!world || encounterActive || modalCount) return;
+  if (!world || world.anomalyTest || encounterActive || modalCount) return;
   const soldier = world.players.find((p) => p.id === "solo");
   if (!soldier || soldier.hp <= 0) return;
   for (const e of world.enemies) {
@@ -748,6 +985,7 @@ function encounter() {
     commit(n, () => {
       // A save conflict opens its own dialog without starting a cutscene.
       encounterActive = true;
+      sound.announce("anomaly-new");
       const d = dialog(
         `新たなANOMALYを確認：${names[key]}`,
         '<p>エネミーレポートに記録しました。</p><button id="pt-intro-skip">スキップして戦闘へ</button>',
@@ -913,6 +1151,7 @@ function settingsUI() {
     d,
     () => sound.volume,
     () => sound.musicVolume,
+    sound,
   );
   d.querySelector("#pt-volume")!.addEventListener(
     "input",
@@ -950,6 +1189,35 @@ function weeklyMissionsUI() {
     save = loadProgress("normal")!;
     home();
   });
+}
+function supplyBoxUI(initialized: boolean) {
+  openSupplyBox(
+    dialog,
+    {
+      // コインは既存の進行保存へ加える。進行の開始前は受け取れない（箱に残る）。
+      addCoins: initialized
+        ? (amount) => {
+            const next = structuredClone(save);
+            next.coins = Math.min(Number.MAX_SAFE_INTEGER, next.coins + amount);
+            persistProgress(next);
+            save = next;
+          }
+        : undefined,
+    },
+    updateSupplyBadge,
+  );
+}
+function updateSupplyBadge() {
+  const button = ui.querySelector<HTMLButtonElement>("#pt-supply-box");
+  if (!button) return;
+  const count = supplyBoxCount();
+  const badge = button.querySelector<HTMLElement>(".weekly-notification")!;
+  badge.textContent = String(count);
+  badge.hidden = count === 0;
+  button.setAttribute(
+    "aria-label",
+    count ? `支給ボックス、未受取${count}件` : "支給ボックス",
+  );
 }
 function updateWeeklyBadge() {
   const button = ui.querySelector<HTMLButtonElement>("#pt-weekly-missions");
@@ -1096,14 +1364,22 @@ function frame(now: number) {
       if (fresh.length && !commit(collectDefense(save, world.run, fresh)))
         return;
       if (world.phase === "victory" || world.phase === "defeat") finishDaily();
+    } else if (world.anomalyTest) {
+      /* テストは保存・結果処理を通さず、明示終了まで観察を続ける。 */
     } else if (world.phase === "victory") victory();
     else if (world.players[0].hp <= 0) defeatChoice();
   } else if (active && world && screen === "collection") {
-    const before = world.pending.solo.length;
+    const before = world.pending.solo.length,
+      beforePowder = world.solo!.powderCollected ?? 0;
     collectionStep(world, controls.read(), dt);
-    if (world.pending.solo.length > before)
+    const powder = (world.solo!.powderCollected ?? 0) - beforePowder;
+    if (world.pending.solo.length > before || powder)
       commit(
-        appendCollected(save, world.pending.solo.slice(before) as NewWeapon[]),
+        appendCollected(
+          save,
+          world.pending.solo.slice(before) as NewWeapon[],
+          powder,
+        ),
       );
     if (world.solo!.collection >= 10 && !saving) endCollection();
   } else accumulator = 0;
@@ -1115,13 +1391,16 @@ function frame(now: number) {
         s.waveCompleteAt !== null && world.wave < stageFor(world).waves.length
           ? cfg.waveWait[world.wave - 1] - (world.time - s.waveCompleteAt)
           : Infinity;
+    const anomalySetting = world.anomalyTest?.enemies.crawler;
     hud.innerHTML = hudMarkup(
       world,
       "solo",
       [
         p.swapCd > 0 ? "切替中" : "",
         s.branchReached ? "クリアで分岐解放" : "",
+        s.powderCollected ? `武装片 +${s.powderCollected}（勝利時）` : "",
         warn <= 10 ? `増援まで ${Math.ceil(warn)}秒` : "",
+        battleCaption.current,
       ]
         .filter(Boolean)
         .join(" · "),
@@ -1131,7 +1410,18 @@ function frame(now: number) {
         : s.waveCompleteAt !== null && Number.isFinite(warn)
           ? `次波まで ${Math.max(0, Math.ceil(warn))}秒`
           : undefined,
+      anomalySetting
+        ? {
+            mission: "ANOMALYテスト",
+            detail: `PLEAT ${anomalyTestCurrentCount(world, "crawler")}体 · 設定 ${anomalySetting.count}体 · ${anomalySetting.action === "wait" ? "待機" : "自由"}`,
+            weapon: "基準装備",
+            help: "WASD 移動 · マウス 照準/射撃 · R 装填 · Q 切替 · SPACE 回避 · ESC 一時停止",
+          }
+        : undefined,
     );
+    if (screen === "battle" && !world.defense && warn > 0 && warn <= 10)
+      sound.announce("wave-incoming", `${world.run}:incoming:${world.wave}`);
+    buddyGuide(world);
     updateCooldowns(world, "solo", true);
     const med = $("revive") as HTMLButtonElement;
     med.disabled = !s.medkit || p.hp <= 0 || p.hp >= maxHp(world);
@@ -1194,6 +1484,7 @@ const buddySkill = attachBuddySkill(controls, sound, () =>
   placeControls(layout),
 );
 let activeBuddyMenu: ReturnType<typeof mountGameBuddyMenu> | undefined;
+let activeSupplyMenu: ReturnType<typeof mountSupplyMenu> | undefined;
 document.body.classList.add("playtest");
 void document.fonts.load('700 32px "Rajdhani"').catch(() => {});
 let mode: SaveMode = "normal",
@@ -1217,7 +1508,7 @@ const sampleMenus =
   new URLSearchParams(location.search).get("menuSample") === "1";
 let gearOrganizing = false;
 let selectedGearSlot = 0;
-let armoryKind: Family | null = null;
+let armoryKind: Family | "all" | null = null;
 const weaponGenres: Record<Family, string> = FAMILY_NAMES;
 let filter = "all",
   sort = "acquired",
@@ -1228,6 +1519,7 @@ let filter = "all",
   perfScroll = 0,
   encounterActive = false,
   loadReady = false;
+let anomalyTestUi: typeof import("./anomaly-test") | undefined;
 const adSession = new RewardedAdSession();
 const names = ENEMY_REPORT_NAMES;
 const preferences = createPlaytestPreferences(controls, sound, view, minimap);
@@ -1426,19 +1718,92 @@ function commit(next: ProgressSave, after: () => void = () => {}) {
   return true;
 }
 let releaseRewardDetails: (() => void) | undefined;
+let releaseSupplyVoice: (() => void) | undefined;
+const previousMenus: { screen: string; family: Family | "all" | null }[] = [];
+let returningToMenu = false;
+function navigateCampaignMenu(destination: MenuDestination) {
+  // The workshop reads and saves directly. Refresh its owner before a drawer exit.
+  if (mode === "normal" && ui.querySelector(".weapon-workshop")) {
+    save = loadProgress("normal") ?? save;
+  }
+  if (destination === "settings") return settingsUI();
+  if (destination === "title") return save ? home() : onboard();
+  enterMenu(() => {
+    if (destination === "armory") armoryKind = "all";
+    const routes = {
+      base,
+      gear,
+      armory,
+      workshop: openBaseWorkshop,
+      supply,
+      report,
+    };
+    routes[destination]();
+  });
+}
+function backToMenu() {
+  const previous = previousMenus.pop();
+  const routes: Record<string, () => void> = {
+    home,
+    base,
+    gear,
+    armory,
+    workshop: openBaseWorkshop,
+    buddy,
+    growth,
+    accessories,
+    supply,
+  };
+  if (previous?.screen === "armory") armoryKind = previous.family;
+  returningToMenu = true;
+  try {
+    (routes[previous?.screen ?? ""] ?? home)();
+  } finally {
+    returningToMenu = false;
+  }
+}
 function setScreen(next: string) {
   releaseRewardDetails?.();
   releaseRewardDetails = undefined;
   activeBuddyMenu?.destroy();
   activeBuddyMenu = undefined;
+  activeSupplyMenu?.destroy();
+  activeSupplyMenu = undefined;
+  releaseSupplyVoice?.();
+  releaseSupplyVoice = undefined;
   if (next !== screen) {
+    if (["home", "intro", "battle", "loading", "choice"].includes(next))
+      previousMenus.length = 0;
+    else if (
+      !returningToMenu &&
+      [
+        "home",
+        "base",
+        "gear",
+        "armory",
+        "workshop",
+        "buddy",
+        "supply",
+        "growth",
+        "accessories",
+      ].includes(screen)
+    )
+      previousMenus.push({ screen, family: armoryKind });
     cancelOperationCue();
-    if (next === "battle")
+    if (next === "battle") {
       showOperationCue("adv-sortie", { key: `${world?.run}:sortie` });
-    else if (next === "collection")
+      sound.announce(
+        world?.defense ? "daily-sortie" : "adv-sortie",
+        `${world?.run}:sortie`,
+      );
+    } else if (next === "collection") {
       showOperationCue("adv-complete", { key: `${world?.run}:complete` });
-    else if (next === "result" && save?.result?.win === false)
+      // 回収時間の案内（G4 の既存 stage-clear）。作戦達成の声と1本の枠を取り合うため、こちらを鳴らす。
+      sound.announce("stage-clear", `${world?.run}:complete`);
+    } else if (next === "result" && save?.result?.win === false) {
       showOperationCue("adv-failed", { key: `${save.result.run}:failed` });
+      sound.announce("adv-failed", `${save.result.run}:failed`);
+    }
   }
   backgroundMusic().setScreen(next, save?.result?.win === true, world);
   queueMicrotask(() => {
@@ -1449,6 +1814,9 @@ function setScreen(next: string) {
   });
   if (document.pointerLockElement) document.exitPointerLock();
   if (next !== "gear") gearOrganizing = false;
+  if (next !== "battle") battleCaption.clear();
+  if (screen === "buddy" && save?.buddies?.starterChosen)
+    completeFirstGuide("buddy-menu");
   if (next !== "armory") armoryKind = null;
   screen = next;
   document.body.dataset.screen =
@@ -1488,27 +1856,14 @@ function header(title: string, body: string, nav = true) {
                 : "OPERATION RESULTS";
   const panel =
     screen === "gear" ? "gear" : screen === "result" ? "result" : "armory";
-  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div>${nav ? '<nav><button id="pt-gear">出撃準備</button><button id="pt-base">基地</button><button id="pt-home">タイトルへ</button></nav>' : ""}</header><p class="pt-status" role="status">${esc(notice)}</p>${["base", "armory", "growth", "accessories"].includes(screen) ? resourceWallet(save) : ""}${body}</section>`;
+  ui.innerHTML = `<section class="panel ${panel} menu-screen pt-screen"><header class="menu-header"><div><div class="eyebrow">${eyebrow}${developerMode ? " · 管理者モード" : mode === "test" ? " · TEST DATA" : ""}</div><h1>${esc(title)}</h1></div><nav>${sampleMenus && nav ? '<button id="pt-home">サンプル終了</button>' : ""}</nav></header><p class="pt-status" role="status">${esc(notice)}</p>${["base", "armory", "growth", "accessories"].includes(screen) ? resourceWallet(save) : ""}${body}</section>`;
   bindResourceHelp(ui, dialog);
-  bind("pt-home", home);
-  if (sampleMenus && nav) {
-    $("pt-home").textContent = "サンプル終了";
+  if (sampleMenus && nav)
     bind("pt-home", () => {
       const url = new URL(location.href);
       url.searchParams.delete("menuSample");
       location.href = url.href;
     });
-  }
-  bind("pt-gear", gear);
-  bind("pt-base", base);
-  if (nav) {
-    ui.querySelector("#pt-" + screen)?.remove();
-    ui.querySelector(".menu-header nav")!.insertAdjacentHTML(
-      "beforeend",
-      '<button id="pt-settings">設定・操作</button>',
-    );
-    bind("pt-settings", settingsUI);
-  }
 }
 
 function loadMode(next: SaveMode) {
@@ -1535,6 +1890,8 @@ function loadMode(next: SaveMode) {
       forgetPendingResult();
       notice = "未保存だった戦果を復元しました。";
     }
+    // 既存のプレイヤーには訓練の誘いと初回ガイドを自動で出さない（判断点5）。
+    if (mode === "normal") ensureTutorialFlags(!!found);
     if (!found) {
       onboard();
       return;
@@ -1600,6 +1957,20 @@ function home() {
   }
   showHome(true);
 }
+function enterMenu(after: () => void) {
+  return screen !== "intro"
+    ? after()
+    : confirmAction(
+        "新しい進行を開始",
+        "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
+        () => {
+          save = initializeProgress(mode);
+          if (mode === "normal") trackOnce("ftue_start", "ftue:start");
+          after();
+        },
+      );
+}
+
 function showHome(initialized: boolean) {
   world = null;
   setScreen(initialized ? "home" : "intro");
@@ -1613,25 +1984,16 @@ function showHome(initialized: boolean) {
     install: canInstallApp(),
   });
   if (canInstallApp()) bind("install", () => installApp());
-  const enter = (after: () => void) =>
-    initialized
-      ? after()
-      : confirmAction(
-          "新しい進行を開始",
-          "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
-          () => {
-            save = initializeProgress(mode);
-            after();
-          },
-        );
-  bind("solo", () =>
+  const enter = enterMenu;
+  bind("solo", () => {
+    void sound.say("pick-operation");
     openOperationPicker("solo", {
-      advance: () => enter(gear),
+      advance: () => enter(() => offerTraining(gear)),
       survival: () => {
         navigateMenu(import.meta.env.BASE_URL + "front?solo=1");
       },
-    }),
-  );
+    });
+  });
   if (!developerMode) {
     ui.querySelector(".home-challenges")!.insertAdjacentHTML(
       "beforeend",
@@ -1644,12 +2006,26 @@ function showHome(initialized: boolean) {
     );
     bind("pt-weekly-missions", weeklyMissionsUI);
     updateWeeklyBadge();
+    if (mode === "normal") {
+      // 初起動のヒヨリ解放とその日のログインボーナスを箱へ入れる（受け取りで初めて付与）。
+      try {
+        refreshSupplyBox();
+      } catch {
+        /* 読めない保存は上書きしない。箱を開いたときに理由を出す。 */
+      }
+      ui.querySelector(".home-challenges")!.insertAdjacentHTML(
+        "beforeend",
+        '<button id="pt-supply-box" class="weekly-title-button">支給ボックス<span class="weekly-notification" aria-hidden="true" hidden></span></button>',
+      );
+      bind("pt-supply-box", () => supplyBoxUI(initialized));
+      updateSupplyBadge();
+    }
   }
   bind("open-armory", () => enter(base));
   if (developerMode)
     ui.querySelector(".home-utilities")!.insertAdjacentHTML(
       "beforeend",
-      '<button id="pt-menu-sample">武器48丁で表示を試す</button>',
+      '<button id="pt-anomaly-test">ANOMALYテスト</button><button id="pt-menu-sample">武器48丁で表示を試す</button>',
     );
   if (developerMode)
     bind("pt-menu-sample", () => {
@@ -1657,10 +2033,48 @@ function showHome(initialized: boolean) {
       url.searchParams.set("menuSample", "1");
       location.href = url.href;
     });
+  if (developerMode)
+    bind("pt-anomaly-test", () => {
+      void (async () => {
+        try {
+          anomalyTestUi ??= await import("./anomaly-test");
+          ui.addEventListener("anomaly-test-home", () => home(), {
+            once: true,
+          });
+          anomalyTestUi.openAnomalyTestPreparation(ui, launchAnomalyTest);
+        } catch (error) {
+          message((error as Error).message);
+        }
+      })();
+    });
   bind("open-bestiary", () => enter(report));
   bind("home-settings", settingsUI);
-  bind("home-tutorial", () => openTutorialGuide(dialog));
-  bind("coop", () =>
+  bind("home-tutorial", () =>
+    openTutorialGuide(dialog, {
+      armoryTour:
+        mode === "normal"
+          ? () =>
+              enterMenu(() => {
+                base();
+                startArmoryTour(sound, {
+                  list: () => {
+                    armoryKind = familyOf(save.inventory[0].kind);
+                    armory();
+                  },
+                  workshop: openBaseWorkshop,
+                });
+              })
+          : undefined,
+      training: () =>
+        startTraining(() => (initialized ? home() : showHome(false))),
+      replayGuides: () => {
+        resetGuides();
+        forgetShownGuides();
+      },
+    }),
+  );
+  bind("coop", () => {
+    void sound.say("pick-operation");
     openOperationPicker("coop", {
       advance: () => {
         navigateMenu(
@@ -1672,8 +2086,8 @@ function showHome(initialized: boolean) {
       survival: () => {
         navigateMenu(import.meta.env.BASE_URL + "front?coop=1");
       },
-    }),
-  );
+    });
+  });
   bind("changelog", () =>
     dialog(
       "更新履歴",
@@ -1697,6 +2111,7 @@ function showHome(initialized: boolean) {
     bind("pt-developer-exit", () => exitDeveloperMode());
   }
   mountTitleMotion(ui);
+  // 本人決定: タイトル画面では読み上げない。home の明示試聴は別経路で維持。
 }
 
 function gear() {
@@ -1736,6 +2151,7 @@ function gear() {
     gear();
   };
   bind("pt-start", () => void launch());
+  guide("gear");
   if (sampleMenus) {
     ($("pt-start") as HTMLButtonElement).disabled = true;
     $("pt-start").textContent = "サンプル表示中";
@@ -1774,7 +2190,7 @@ function weaponList(items: StoredWeapon[], context: string) {
   const shown = items
     .filter((w) =>
       context === "armory"
-        ? familyOf(w.kind) === armoryKind
+        ? armoryKind === "all" || familyOf(w.kind) === armoryKind
         : filter === "all" || familyOf(w.kind) === filter,
     )
     .filter(
@@ -1815,10 +2231,7 @@ function weaponList(items: StoredWeapon[], context: string) {
     sort,
   )}</fieldset><fieldset><legend>武器種</legend>${choices(
     "kind",
-    [
-      ...(context === "armory" ? [] : [["all", "全武器"]]),
-      ...Object.entries(weaponGenres),
-    ],
+    [["all", "全武器"], ...Object.entries(weaponGenres)],
     context === "armory" ? armoryKind! : filter,
   )}</fieldset><fieldset><legend>レア度</legend>${choices("rarity", [["all", "すべて"], ...GRADES.map((g, i) => [String(i), g])], rarityFilter)}</fieldset><fieldset><legend>お気に入り（ロック）</legend>${choices(
     "favorites",
@@ -1899,7 +2312,7 @@ function bindList(context: string) {
         else if (button.dataset.listChoice === "rarity") rarityFilter = value;
         else if (button.dataset.listChoice === "favorites")
           favoritesOnly = value === "only";
-        else if (context === "armory") armoryKind = value as Family;
+        else if (context === "armory") armoryKind = value as Family | "all";
         else filter = value;
         if (button.dataset.listChoice !== "sort") checked.clear();
         listScroll = 0;
@@ -1948,7 +2361,7 @@ function bindList(context: string) {
         save.inventory.some((item) => item.id === w.id)
       )
         equipWeapon(w.id, selectedGearSlot, gear);
-      else detail(w, context);
+      else detail(w, context, undefined, row);
     };
   });
   ui.querySelectorAll<HTMLButtonElement>("[data-lock]").forEach(
@@ -1992,7 +2405,7 @@ function bindList(context: string) {
         .filter(
           (w) =>
             (context === "armory"
-              ? familyOf(w.kind) === armoryKind
+              ? armoryKind === "all" || familyOf(w.kind) === armoryKind
               : filter === "all" || familyOf(w.kind) === filter) &&
             (rarityFilter === "all" ||
               weaponTier(w) === Number(rarityFilter)) &&
@@ -2024,6 +2437,14 @@ function toggleLock(id: string, after: () => void) {
     );
   else apply();
 }
+function openBaseWorkshop() {
+  if (mode !== "normal") return;
+  setScreen("workshop");
+  openWeaponWorkshop(ui, localStorage, () => {
+    save = loadProgress("normal") ?? save;
+    backToMenu();
+  });
+}
 function base() {
   setScreen("base");
   header(
@@ -2033,16 +2454,47 @@ function base() {
       <button id="pt-base-accessories"><strong>アクセサリ</strong><span>作成・装備・合成</span><small>${save.accessories.length}個を所持</small></button>
       <button id="pt-base-growth"><strong>育成</strong><span>兵士の能力を強化</span><small>兵士ごとの成長を管理</small></button>
       <button id="pt-base-buddy"><strong>バディ</strong><span>編成・育成・招集</span><small>進撃に同行する相棒</small></button>
+      <button id="pt-base-supply" ${developerMode || mode === "normal" ? "" : "disabled"}><strong>補給ポッド</strong><span>${developerMode ? "10連の演出確認" : "補給券で1回・10連"}</span><small>${developerMode ? "演出選択・ランダム（取得なし）" : mode === "normal" ? "武器・バディ・武装片を補給" : "通常プレイで利用できます"}</small></button>
       <button id="pt-base-survival"><strong>生存カード</strong><span>強化候補・デッキ設定</span><small>カードの効果・融合条件を確認</small></button>
-      <button id="pt-base-workshop" disabled aria-describedby="pt-workshop-note"><strong>工房</strong><span>工事中</span><small id="pt-workshop-note">武器のグレードアップ施設を準備中</small></button>
+      <button id="pt-base-workshop" ${mode !== "normal" ? "disabled" : ""}><strong>工房</strong><span>武器のレベル強化・変換・改造</span><small>${mode === "normal" ? "武装片を使って性能を強化" : "通常プレイで利用できます"}</small></button>
     </div>`,
   );
+  bind("pt-base-workshop", openBaseWorkshop);
   bind("pt-base-weapons", armory);
   bind("pt-base-accessories", accessories);
   bind("pt-base-growth", growth);
   bind("pt-base-buddy", buddy);
+  bind("pt-base-supply", supply);
   bind("pt-base-survival", () =>
     navigateMenu(import.meta.env.BASE_URL + "front?cards=1"),
+  );
+  guide("base");
+}
+function supply() {
+  if (!developerMode && mode !== "normal") return;
+  setScreen("supply");
+  header(
+    developerMode ? "補給ポッド・演出確認" : "補給ポッド",
+    '<div class="pt-supply"></div>',
+  );
+  void sound.prepareControlScene("supply");
+  releaseSupplyVoice = watchSupplyVoice((id) => sound.announce(id));
+  guide("supply");
+  if (developerMode) {
+    activeSupplyMenu = mountSupplyPreview(
+      ui.querySelector(".pt-supply")!,
+      () => sound.effectsVolume,
+    );
+    return;
+  }
+  activeSupplyMenu = mountSupplyMenu(
+    ui.querySelector(".pt-supply")!,
+    () => save,
+    (next) => {
+      save = next;
+    },
+    buddy,
+    () => sound.effectsVolume,
   );
 }
 function buddy() {
@@ -2058,8 +2510,12 @@ function buddy() {
     () => screen === "battle",
     sound,
   );
+  // G10: 最初の1体が未選択のときだけ。最初の1体を選んだら既読。
+  if (save.buddies?.starterChosen) completeFirstGuide("buddy-menu");
+  else guide("buddy-menu");
 }
 function armory() {
+  if (screen !== "armory") listScroll = perfScroll = 0;
   setScreen("armory");
   if (!armoryKind) {
     checked.clear();
@@ -2084,7 +2540,7 @@ function armory() {
     ),
   );
   header(
-    weaponGenres[armoryKind],
+    armoryKind === "all" ? "武器一覧" : weaponGenres[armoryKind],
     `<p class="pt-armory-summary">通常 ${save.inventory.length}丁 / 超過 ${save.pending.length}丁 · 系統ごと16丁、全体160丁</p>${weaponList(allWeapons(save), "armory")}`,
   );
   const toolbar = ui.querySelector(".pt-list-tools")!;
@@ -2095,6 +2551,7 @@ function armory() {
   bindList("armory");
   const genreBack = $("pt-genres");
   genreBack.onclick = () => {
+    if (armoryKind === "all") return backToMenu();
     armoryKind = null;
     armory();
   };
@@ -2144,7 +2601,12 @@ function equipWeapon(id: string, slot: number, after: () => void) {
     );
   });
 }
-function detail(w: StoredWeapon, context: string, redraw?: () => void) {
+function detail(
+  w: StoredWeapon,
+  context: string,
+  redraw?: () => void,
+  sourceRow?: HTMLElement,
+) {
   const isResult = context === "result" || context === "daily-result";
   const refresh =
     redraw ??
@@ -2152,6 +2614,7 @@ function detail(w: StoredWeapon, context: string, redraw?: () => void) {
       context === "result" ? result() : context === "gear" ? gear() : armory());
   const d = openWeaponDetail(w, {
     dialog,
+    sourceRow,
     locked: save.locks.includes(w.id),
     onLock: () =>
       toggleLock(w.id, () => {
@@ -2182,9 +2645,10 @@ function detail(w: StoredWeapon, context: string, redraw?: () => void) {
   ) {
     const workshop = document.createElement("button");
     workshop.type = "button";
-    workshop.textContent = "変換・恒久改造";
+    workshop.textContent = "レベル強化・変換・改造";
     workshop.onclick = () => {
       d.close();
+      setScreen("workshop");
       openWeaponWorkshop(
         ui,
         localStorage,
@@ -2419,8 +2883,21 @@ function accessories() {
 window.addEventListener("app-install-changed", () => {
   if (screen === "home" || screen === "intro") showHome(screen === "home");
 });
+installMenuNavigation(ui, {
+  go: navigateCampaignMenu,
+  back: backToMenu,
+  enabled: (destination) =>
+    destination === "workshop"
+      ? mode === "normal"
+      : destination !== "supply" || developerMode || mode === "normal",
+});
 loadMode("normal");
-if (
+const requestedMenu = readMenuDestination(
+  new URLSearchParams(location.search).get("menu"),
+);
+if (requestedMenu && (screen === "intro" || screen === "home")) {
+  navigateCampaignMenu(requestedMenu);
+} else if (
   new URLSearchParams(location.search).get("base") === "1" &&
   (screen === "intro" || screen === "home")
 ) {
@@ -2433,7 +2910,9 @@ if (
   (screen === "intro" ||
     (save && save.result?.choice !== "pending" && screen === "home"))
 ) {
-  if (screen === "intro") save = initializeProgress("normal");
+  const startedProgress = screen === "intro";
+  if (startedProgress) save = initializeProgress("normal");
+  if (startedProgress) trackOnce("ftue_start", "ftue:start");
   gear();
 }
 if (!developerMode) {

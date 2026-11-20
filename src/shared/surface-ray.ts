@@ -1,5 +1,5 @@
 import type { Block } from "./map-blocks";
-import { groundHeight, terrainProps } from "./terrain";
+import { groundHeight, groundFieldScale, terrainProps } from "./terrain";
 import { isRock, rockTriangles } from "./rock";
 import { CAVE_BLOCKS, CAVE_RADIUS, caveClearance } from "./cave";
 
@@ -172,16 +172,16 @@ export function surfaceRay(
   return best;
 }
 
-/** The shared cave is a union of rounded tunnels/chambers, not block geometry.
- * This field has the exact caveClearance/caveCeiling zero set and a Lipschitz
- * bound of one. Its magnitude is a conservative distance from either side,
- * so tracing it cannot jump across a thin passage or the arched ceiling.
+/** 洞窟の壁・天井と、移動/遮蔽が使う実地表を同じ支持境界にする。
+ * 床の勾配上限で距離場を正規化し、各成分のLipschitz上限1を保つ。
+ * 床・斜面・壁・天井を球追跡の一歩で飛び越えない。
  */
 function caveSurfaceRay(
   o: number[],
   d: number[],
   max: number,
 ): SurfaceHit | undefined {
+  const floorScale = groundFieldScale(CAVE_BLOCKS);
   const field = (x: number, y: number, z: number) => {
     const clearance = caveClearance(x, z);
     const arch =
@@ -190,7 +190,11 @@ function caveSurfaceRay(
         Math.max(0, CAVE_RADIUS - clearance),
         Math.max(0, (y - 2) / 1.25),
       );
-    return Math.min(clearance, y, arch);
+    return Math.min(
+      clearance,
+      (y - groundHeight(x, z, CAVE_BLOCKS)) * floorScale,
+      arch,
+    );
   };
   const tolerance = 1e-5;
   let t = 0;

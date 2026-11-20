@@ -1,0 +1,64 @@
+# ガチャの金マーク改修（2026-11-16）
+
+依頼: [本人ブリーフ](../../gacha-mark-redesign-brief-20261116.md)（受領元: `C:/Users/futsa/bibi-bridge/inbox/gacha-mark-redesign-brief-20261116.md`）。
+開始main: `d94b51f50947a8ac88551087acc3e852262368ce`。
+GitHub: https://github.com/futsalife24-bot/swarm-front 。専用作業場所: `C:/Users/futsa/swarm-gacha-marks-20261116`。
+
+## 箇所ごとの判断
+
+| 合図/箇所 | 結果 | 理由と残した要素 |
+| --- | --- | --- |
+| 射出局面 `lamp` の金四角プレート・六角/ダイヤ | 取り外した | 箱がまだ無く箱面への投影にできない。金属窓ごと外し、既存の投下照準上の青緑の灯と射出走査、同じSEを残した。 |
+| 目印の先読み `delayed` の六角章・角/引き出し金線 | 作り直した | 元の章と引き出し線を箱の正面装甲へ走査する細線ステンシルに置換。装甲の面取りでclip、箱の圧縮・揺れ・拡大と同じ座標、元の金属の陰影を透過。側面溝にも異なる角度で細い反射を投影。金は0.65px相当の短い検査線のみ。 |
+| 個別タップ `skeleton` の金章・内部の太い金線 | 作り直した | 正面の投影は上記と共通、箱の中央装甲へ直接描画。側板の実画像スライドは維持。隙間の奥は中立金属の陰影と細い青緑線に変更。 |
+| `multilock` の金角ブラケット | 取り外して収束線を作り直した | 箱の無い射出局面の金ブラケットを外し、既存の床照準と同じパースの細い青緑円弧へ変更。三段の収束時刻/動き/SEは維持。 |
+| `landing` の中央六角章・太い金支柱線 | 章を取り外し、線を作り直した | 中央章が箱にも架台にも沿わないため削除。支柱は細い青緑の導光線へ。左右展開、荷重の沈み込み、土煙、SEは維持。 |
+| `reverse` の中央六角/ダイヤ章 | 章を取り外し、内周線を作り直した | 箱がまだ無く中央章を載せる面が無い。外周の逆回転と噛合、内周の細い青緑線、SEは維持。 |
+| `reverseSeal` の裏面六角章と完了後の小章 | 両方取り外した | 箱へ統合できない独立章。反転する既存表示面と裏面の反射、SEは維持。板の暗金色と金外枠は中立色/青緑細線へ変更。 |
+| 既存4 `presage` の金ベタ三角矢印 | 取り外した | 箱の上に浮く平面マークのため削除。輪・光・粒子・SEは維持。 |
+
+箱面のタグは `crate-stencil.js`。地板/金グラデーション/六角・ダイヤの金章は描かない。既存のSSRの箱色、光、輪、粒子などマーク以外の合図は維持。
+
+## 検証と再現
+
+- `node scripts/check-gacha-mark-rendering.mjs --stage before|after`: 対象8合図×単発/10連×844×390/640×360×通常/動き減=64条件。反転札の裏面4条件も撮影。plan/結果/保存不変、API書込0、画面例外0、破棄後の残留0。`before/report.json` と `after/report.json`。
+- 主担当が変更前後の射出・箱一覧・タップ拡大、狭幅の動き減、反転裏面を実画像で確認。箱面の投影位置・金属陰影・遮蔽・既存の画面との調和を確認した。掲載画像は代表のみ、全条件の結果はJSON。
+- `node public/supply-reveal/verify.mjs --evidence docs/evidence/gacha-marks-20261116/all-signals`: 採用全17合図と局面組合せ・最後枠・実時間タップ・スキップ/破棄。結果はchecksとall-signals。
+- `npm test` / `npm run test:supply` / `npm run typecheck` / `npm run format:check`、merge後 `npm run build` / `npm run server:build:production`。
+- 公開後 `node scripts/check-gacha-mark-rendering.mjs --published <公開ソースSHA>`: 配信全JS/CSS/補給素材/ソース版/healthを照合し、公開静的モジュールで同じ64条件を確認。抽選・券消費・受領APIは呼ばない。
+- `unchanged-boundaries.json`: 発生条件/局面/時刻/SE定義/runtime/抽選・受領入口のGit blob一致と、coreの結果変換/検証/モデル構築部分のLF正規化後SHA一致。server/shared/src、確率、天井、セーブ形式は変更していない。
+
+全件合格と公開の確定値は下記に追記する。実スマホ/人間の実聴は未実施。お試しガチャサイトは今回同期しない。通常タスクの現行方針に従い独立Chat監査は未実施。
+
+主担当の実モデルID/推論設定は未確認。補助は `gpt-6-sol` / `medium` 指定、実ランタイム未確認。補助は漏れ調査と検証スクリプト/変更前後撮影、主担当は描画・自己レビュー・全件検証・公開を担当。
+
+## 自己検証の確定結果
+
+- 全184ファイル1907テスト、補給11ファイル88テスト、型・書式チェック成功。`checks/`に実行ログ。
+- 対象8合図64条件は変更前/変更後とも成功、代表画像を保存。箱一覧は全箱着地後・拡大前にも別途撮影した。
+- 全演出の1回目は全件テストとの同時実行中に既存BUDDY組合せのライブ20秒上限へ到達。単独でも61タップ/20.062秒で未完了。旧版の成功記録も61タップ/20.093秒で同じ閾値を超える直前のため、固定20秒を再生時間と停止点から見直す。2試行の失敗ログを保持する。再生コードと合否基準（final到達・残留0等）は変えない。
+
+検証側の調査: BUDDY組合せのmotion30.2秒を2倍速で15.1秒、停止hold合計3.99秒、理論最短19.09秒。旧成功実績20.093秒に対し20秒固定上限が不足した。`verify.mjs`だけをタイムラインのmotion/hold/pollから30〜45秒の有限上限を算出し、5秒無進捗を失敗にする形へ修正。final到達・plan/結果/保存不変・破棄後残留の合否基準は維持する。
+
+全演出の最終結果: 72条件・2016組合せ（結果下限不正0）、3組の実時間タップ完走、スキップ確認と破棄/残留0が成功。BUDDY20.273秒、他18.451/18.708秒でfinalへ到達し、無進捗なし。ゲーム側への変更による時間短縮はしていない。`all-signals/verify-all.json` と `checks/all-signals.txt`。
+
+実装commit後のbuild/production dry-runも成功。既存の500kB超chunkとVite plugin所要時間の警告は残る。新規依存/サービス/契約/権限/移行は追加していない。
+
+## 公開確認の確定結果
+
+- 実装PR [#354](https://github.com/futsalife24-bot/swarm-front/pull/354) を通常merge。公開ソースmain `fe734b3da13806207f00ef6c35c5fd6e4e2fd8e6` からbuild/production dry-runを再実行して成功。
+- 既存Worker `swarm-front` / https://swarm-front.melosalife-24.workers.dev/ 、Version `a69ec47a-4ee1-4a96-8925-3eff9a1df720`（100%）。旧版 `aad47ce7-d9d8-4970-81b1-2a796733005b`。契約/サービス/権限/移行は無変更。
+- 公開119ファイルはすべてHTTP200・SHA一致。新規crate-stencil.jsも含む。ビルドソースSHAの埋込一致とhealth.okを確認。`published/delivery.json`。
+- 公開静的モジュールの実Chrome64条件と反転裏面/箱一覧も確認し、結果/plan/保存不変、API書込0、画面例外0、破棄後残留0。主担当が公開スクリーンショットの箱面投影と全箱一覧を確認。`published/report.json`。
+- GitHub照会ではPR354のcommit statusとworkflow runはいずれも0件。CI成功と読み替えず、mergeable=trueを確認して通常mergeした（保護の迂回なし）。
+- outboxの変更後画像は公開版から取得した射出/全箱着地後の一覧/先読みタップ拡大/側板展開タップ拡大。変更前3場面も保存。変更前の箱一覧カットは投下途中、変更後は着地後の追加カットで、同時刻の比較はrepoのbefore/after/landing-10-844-normal.pngを使う。
+- 公開記録を通常PRからmainへ反映後、main/local/origin/remote一致・clean・実装/記録の取り込みを確認して今回の専用worktreeだけ削除する。最終main・削除結果は指定outboxへ確定する。元rootと既存他worktreeを保護。
+
+## 後片付けの制限（2026-11-16）
+
+実装PR354と公開記録PR355のmerge、公開ソース/Worker/配信確認は完了。記録後main `4dac1fa742214579a344b32afbed955082d444c0` でlocal/origin/remote一致・cleanと実装/記録の祖先一致を確認した。
+
+今回のworktree内の `C:/Users/futsa/swarm-gacha-marks-20261116/node_modules` は元rootのnode_modulesを指すJunctionであることを読取確認した。共有依存を保護するためリンクだけを除去しようとしたが、自動承認レビューが確認込みのPowerShellと固定パス単独の `Remove-Item -LiteralPath 'C:\Users\futsa\swarm-gacha-marks-20261116\node_modules' -Force` の両方を `blocked by policy` として実行前に拒否した。詳細理由は返されていない。別の削除機構で迂回せず停止したため、リンクも今回のworktreeも残っている。共有依存/元root/他worktreeには削除操作をしていない。
+
+停止理由: 今回用Junctionの削除がツールの自動承認レビューに拒否され、作業ツリーの安全な後片付けを完了できない。
+再開条件: 正式なツール経路で当該リンクの削除が許可されること、または本人がリンクだけを除去したことを確認できること。その後にmain取り込み/cleanを再確認し、今回worktreeだけを通常のgit worktree removeで削除して指定outboxを更新する。

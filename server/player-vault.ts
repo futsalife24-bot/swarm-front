@@ -1,3 +1,7 @@
+import {
+  SUPPLY_GRANTS,
+  weeklySupplyTickets,
+} from "../src/shared/supply-grants";
 import { japanDay, japanWeek } from "../src/shared/calendar";
 import { preservesGrowthSave } from "../src/shared/growth-save-guard";
 import { validBuddyProgress } from "../src/shared/buddy-progression";
@@ -99,6 +103,14 @@ interface Vault {
   lastMutation: string;
   protectedVersion?: number;
   daily?: { day: string; run: string; startedAt: number };
+  /**
+   * Which supply account consumed this vault's one-time initial grant:
+   * "cloud" = the vault-bound account, "legacy:<id>" = a migrated device account.
+   * Survives saves; disappears only with the whole vault (see supply-vault.ts).
+   */
+  supplyGrant?: string;
+  supplyEarned?: number;
+  supplyClearDay?: string;
 }
 interface VaultStorage {
   get<T>(key: string): Promise<T | undefined>;
@@ -192,14 +204,28 @@ export async function playerVault(
       coins: number;
       weekly?: WeeklyProgress;
     } & Record<string, unknown>;
-    for (const run of (pending ?? []) as string[])
+    let earned = 0,
+      clearDay: string | undefined;
+    for (const run of (pending ?? []) as string[]) {
+      const before =
+        initial.weekly?.week === week ? initial.weekly.campaign.length : 0;
       initial = recordWeekly(initial, "campaign", run, now);
+      if ((initial.weekly?.campaign.length ?? 0) > before) {
+        earned += SUPPLY_GRANTS.weeklyClear;
+        if (clearDay !== japanDay(now)) {
+          earned += SUPPLY_GRANTS.dailyFirstClear;
+          clearDay = japanDay(now);
+        }
+      }
+    }
     initial.weeklyPending = [];
     state = {
       credential,
       version: 1,
       updatedAt: now,
       save: initial,
+      supplyEarned: earned,
+      supplyClearDay: clearDay,
       lastMutation: "",
     };
     await storage.put("vault", state);
@@ -283,11 +309,18 @@ export async function playerVault(
       );
     if (typeof body.id !== "string")
       return cloudReply({ error: "ミッションを選んでください" }, 400);
+    const previousClaimed =
+      (state.save.weekly as WeeklyProgress | undefined)?.week === japanWeek(now)
+        ? (state.save.weekly as WeeklyProgress).claimed.includes(body.id)
+        : false;
     state.save = claimWeekly(
       state.save as { coins: number; weekly?: WeeklyProgress },
       body.id,
       now,
     );
+    if (!previousClaimed)
+      state.supplyEarned =
+        (state.supplyEarned ?? 0) + weeklySupplyTickets(body.id);
     state.version++;
     state.protectedVersion = state.version;
     state.updatedAt = now;
@@ -366,8 +399,21 @@ export async function playerVault(
     weekly?: WeeklyProgress;
   } & Record<string, unknown>;
   for (const run of (pending ?? []) as string[]) {
-    if (!(state.save.receipts as unknown[]).includes(run))
+    if (!(state.save.receipts as unknown[]).includes(run)) {
+      const before =
+        incoming.weekly?.week === japanWeek(now)
+          ? incoming.weekly.campaign.length
+          : 0;
       incoming = recordWeekly(incoming, "campaign", run, now);
+      if ((incoming.weekly?.campaign.length ?? 0) > before) {
+        state.supplyEarned =
+          (state.supplyEarned ?? 0) + SUPPLY_GRANTS.weeklyClear;
+        if (state.supplyClearDay !== japanDay(now)) {
+          state.supplyEarned += SUPPLY_GRANTS.dailyFirstClear;
+          state.supplyClearDay = japanDay(now);
+        }
+      }
+    }
   }
   incoming.weeklyPending = [];
   const defenseChanged =
@@ -385,13 +431,94 @@ export async function playerVault(
   return result();
 }
 
+/**
+ * Called by a vault-bound supply account (see supply-vault.ts) to prove the
+ * vault credential and consume the vault's one-time initial supply grant.
+ * `claim` is "cloud" for the vault's own account or "legacy:<id>" when a
+ * pre-existing device account (which already received its grant) migrates in.
+ * Repeating the same "cloud" claim stays granted, so a lost write is retryable.
+ */
+export async function vaultSupplyGrant(req: Request, storage: VaultStorage) {
+  const token = req.headers.get("Authorization")?.replace(/^Bearer /, "") ?? "";
+  if (!/^[a-f0-9]{64}$/.test(token))
+    return cloudReply({ error: "引き継ぎコードを確認してください" }, 401);
+  const state = await storage.get<Vault>("vault");
+  if (!state || state.credential !== (await cloudHash(token)))
+    return cloudReply({ error: "引き継ぎコードを確認してください" }, 401);
+  const body = await cloudBody(req);
+  const claim = body.claim;
+  if (
+    typeof claim !== "string" ||
+    (claim !== "cloud" && !/^legacy:[a-f0-9]{32}$/.test(claim))
+  )
+    return cloudReply({ error: "指定が不正です" }, 400);
+  if (!state.supplyGrant) {
+    state.supplyGrant = claim;
+    await storage.put("vault", state);
+  }
+  return cloudReply({
+    grant: claim === "cloud" && state.supplyGrant === "cloud",
+  });
+}
+
+/** Daily cap counted only from authenticated requests (see cloudRateCount). */
+export const AUTHENTICATED_DAILY_CAP = 20000;
+/** Per-address request window enforced at the Worker entry (see Gate). */
+export const PER_ADDRESS_PER_MINUTE = 60;
+
+/**
+ * Rate-limit key for a client address. IPv6 clients usually own a whole /64,
+ * so every address inside one /64 shares a single key.
+ */
+export function clientAddress(ip: string) {
+  if (!ip.includes(":")) return ip;
+  const [head, tail = ""] = ip.toLowerCase().split("%")[0].split("::");
+  const left = head ? head.split(":") : [];
+  const right = ip.includes("::") && tail ? tail.split(":") : [];
+  // Expand "::" so the first four 16-bit groups are always the /64 prefix.
+  const groups = ip.includes("::")
+    ? [
+        ...left,
+        ...Array(Math.max(0, 8 - left.length - right.length)).fill("0"),
+        ...right,
+      ]
+    : left;
+  return (
+    groups
+      .slice(0, 4)
+      .map((g) => (parseInt(g, 16) || 0).toString(16))
+      .join(":") + "::/64"
+  );
+}
+
+interface RateState {
+  day: string;
+  total: number;
+}
+const rateState = async (storage: DurableObjectStorage, day: string) => {
+  const saved = await storage.get<RateState>("cloud-rate");
+  return saved?.day === day ? saved : { day, total: 0 };
+};
+
+/**
+ * Creation admission (new vault / new supply account). This is the only stage
+ * that stops when the authenticated daily cap is reached: unauthenticated
+ * requests are already rejected by the account, authenticated ones continue.
+ */
 export async function cloudAdmission(
   req: Request,
   storage: DurableObjectStorage,
   now = Date.now(),
 ) {
   const day = japanDay(now);
-  const key = await cloudHash(req.headers.get("CF-Connecting-IP") ?? "local");
+  const key = await cloudHash(
+    clientAddress(req.headers.get("CF-Connecting-IP") ?? "local"),
+  );
+  if ((await rateState(storage, day)).total >= AUTHENTICATED_DAILY_CAP)
+    return cloudReply(
+      { error: "本日の新規作成は混雑のため停止中です。翌日お試しください" },
+      429,
+    );
   const saved = await storage.get<{
     day: string;
     count: number;
@@ -406,37 +533,40 @@ export async function cloudAdmission(
   return cloudReply({ ok: true });
 }
 
-export async function cloudRateLimit(
-  req: Request,
+/**
+ * Count one request that an account object has already authenticated.
+ * Never rejects: reaching the cap only closes creation (cloudAdmission).
+ * Writes stop once the cap is reached, so a flood cannot grow storage writes.
+ */
+export async function cloudRateCount(
   storage: DurableObjectStorage,
   now = Date.now(),
 ) {
-  const day = japanDay(now),
-    window = Math.floor(now / 60000);
-  const key = await cloudHash(req.headers.get("CF-Connecting-IP") ?? "local");
-  const saved = await storage.get<{
-    day: string;
-    total: number;
-    window: number;
-    clients: Record<string, number>;
-  }>("cloud-rate");
-  const state =
-    saved?.day === day ? saved : { day, total: 0, window, clients: {} };
-  if (state.window !== window) {
-    state.window = window;
-    state.clients = {};
+  const state = await rateState(storage, japanDay(now));
+  if (state.total < AUTHENTICATED_DAILY_CAP) {
+    state.total++;
+    await storage.put("cloud-rate", state);
   }
-  if (
-    state.total >= 20000 ||
-    (state.clients[key] ?? 0) >= 60 ||
-    (!state.clients[key] && Object.keys(state.clients).length >= 1000)
-  )
-    return cloudReply(
-      { error: "同期回数の上限です。端末の進行は保存されています" },
-      429,
-    );
-  state.total++;
-  state.clients[key] = (state.clients[key] ?? 0) + 1;
-  await storage.put("cloud-rate", state);
-  return cloudReply({ ok: true });
+  return cloudReply({
+    total: state.total,
+    saturated: state.total >= AUTHENTICATED_DAILY_CAP,
+  });
+}
+
+/** Whether an account response proves the credential was accepted. */
+export const authenticatedResponse = (status: number) =>
+  status !== 401 && status !== 429 && status < 500;
+
+/** Internal only; no public route is exposed. */
+export async function vaultSupplyProgress(req: Request, storage: VaultStorage) {
+  const token = req.headers.get("Authorization")?.replace(/^Bearer /, "") ?? "";
+  if (!/^[a-f0-9]{64}$/.test(token))
+    return cloudReply({ error: "引き継ぎコードを確認してください" }, 401);
+  const state = await storage.get<Vault>("vault");
+  if (!state || state.credential !== (await cloudHash(token)))
+    return cloudReply({ error: "引き継ぎコードを確認してください" }, 401);
+  return cloudReply({
+    earned: state.supplyEarned ?? 0,
+    missions: state.save.missions,
+  });
 }

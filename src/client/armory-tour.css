@@ -1,0 +1,33 @@
+.armory-tour:popover-open {
+  position: fixed;
+  inset: auto auto max(6px, env(safe-area-inset-bottom))
+    max(8px, env(safe-area-inset-left));
+  margin: 0;
+  box-sizing: border-box;
+  width: min(360px, 84vw);
+  padding: 7px 12px;
+  border: 1px solid #66d3e4;
+  border-radius: 6px;
+  color: #e1f6fa;
+  background: #0c1c2bf5;
+  font: 14px/1.35 system-ui;
+  box-shadow: 0 3px 14px #0009;
+}
+.armory-tour.at-top {
+  inset-block: 6px auto;
+}
+.armory-tour b {
+  font-size: 11px;
+  color: #83d7e1;
+}
+.armory-tour p {
+  margin: 3px 0 5px;
+}
+.armory-tour button {
+  min-height: 30px;
+  margin-right: 8px;
+}
+.armory-tour-target {
+  outline: 2px solid #8af0f2;
+  outline-offset: -2px;
+}

@@ -1,0 +1,10 @@
+
+ ⛅️ wrangler 4.129.0
+────────────────────
+Created:     2026-11-16T07:55:34.482Z
+Source:      Unknown (deployment)
+Message:     -
+Version(s):  (100%) 62713a92-8419-44f5-8fb9-2eaf93e33355
+                 Created:  2026-11-16T07:55:33.478Z
+                     Tag:  -
+                 Message:  -

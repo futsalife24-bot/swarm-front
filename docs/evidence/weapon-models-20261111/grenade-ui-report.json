@@ -1,0 +1,49 @@
+{
+  "scope": "Actual local solo UI and game loop with an isolated injected save; renderer capture instrumentation, no actual network or phone",
+  "viewport": [
+    844,
+    390
+  ],
+  "worldTime": 0.44999999999999996,
+  "shot": {
+    "type": "shot",
+    "weapon": "grenade",
+    "x": -1,
+    "y": 1.5,
+    "z": 34,
+    "tx": -1.021042913775875,
+    "tz": 32.00050679130695,
+    "ty": 1.4601991938501533,
+    "owner": "solo",
+    "id": 1
+  },
+  "projectile": {
+    "id": 2,
+    "x": -1.012625748265525,
+    "z": 32.800304074784165,
+    "y": 1.458619516310092,
+    "dx": -0.2525149653104991,
+    "dz": -23.993918504316646,
+    "dy": -1.1776096737981616,
+    "life": 4.991666666666667,
+    "owner": "solo",
+    "damage": 90,
+    "rocket": true,
+    "chain": false,
+    "radius": 5,
+    "family": "grenade",
+    "gravity": 14
+  },
+  "muzzle": [
+    -0.8609077796246329,
+    1.3844123343936183,
+    33.2579822557169
+  ],
+  "effectKinds": [
+    "muzzle",
+    "smoke",
+    "flash"
+  ],
+  "screen": "battle",
+  "errors": []
+}

@@ -6,6 +6,7 @@ import { readFileSync, mkdirSync, writeFileSync } from "node:fs";
 import { it, vi } from "vitest";
 import * as T from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
 
 const counters = { rays: 0, steps: 0, stepMs: 0 };
 vi.mock("../src/shared/surface-ray", async (importOriginal) => {
@@ -48,8 +49,9 @@ const label = process.env.PLEAT_LOAD_LABEL ?? "current";
 
 async function loadAsset() {
   const bytes = readFileSync("public/assets/enemies/pleat_motion_v5.glb");
-  const loader = new GLTFLoader().register(() => ({
-    name: "TestTextureDecoder",
+  const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).register(() => ({
+    // Replaces the built-in EXT_texture_webp handler, which runs before others.
+    name: "EXT_texture_webp",
     loadTexture: () => Promise.resolve(new T.Texture()),
   }));
   const gltf = await loader.parseAsync(

@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
   playerVault,
   cloudAdmission,
-  cloudRateLimit,
+  cloudRateCount,
+  clientAddress,
+  authenticatedResponse,
+  vaultSupplyGrant,
+  AUTHENTICATED_DAILY_CAP,
 } from "../server/player-vault";
 import { freshProgress } from "../src/client/progression-save";
 import { collectDefense, settleDefense } from "../src/shared/daily-rewards";
@@ -459,15 +463,74 @@ describe("player vault", () => {
     expect(
       (await cloudAdmission(f.request("create"), f.storage, now)).status,
     ).toBe(429);
-    for (let i = 0; i < 60; i++)
-      expect(
-        (await cloudRateLimit(f.request("save"), f.storage, now)).status,
-      ).toBe(200);
+  });
+  it("認証済みの要求だけを数え、上限到達後は新規作成だけを止める", async () => {
+    const f = fixture();
+    f.values.set("cloud-rate", {
+      day: "2026-09-17",
+      total: AUTHENTICATED_DAILY_CAP - 1,
+    });
+    const first = (await (await cloudRateCount(f.storage, now)).json()) as any;
+    expect(first).toEqual({ total: AUTHENTICATED_DAILY_CAP, saturated: true });
+    // 到達後も数え続けて拒否しない（書込みも増やさない）。
+    expect((await cloudRateCount(f.storage, now)).status).toBe(200);
+    expect((f.values.get("cloud-rate") as any).total).toBe(
+      AUTHENTICATED_DAILY_CAP,
+    );
     expect(
-      (await cloudRateLimit(f.request("save"), f.storage, now)).status,
+      (await cloudAdmission(f.request("create"), f.storage, now)).status,
     ).toBe(429);
+    // 翌日（JST）は新規作成も再開する。
     expect(
-      (await cloudRateLimit(f.request("save"), f.storage, now + 60000)).status,
+      (await cloudAdmission(f.request("create"), f.storage, now + 86400000))
+        .status,
     ).toBe(200);
+    expect([200, 400, 404, 409].every(authenticatedResponse)).toBe(true);
+    expect([401, 429, 500].some(authenticatedResponse)).toBe(false);
+  });
+  it("IPv6 は /64 単位、IPv4 はアドレス単位で同じ上限キーにまとめる", () => {
+    expect(clientAddress("2001:db8:1:2:aaaa::1")).toBe("2001:db8:1:2::/64");
+    expect(clientAddress("2001:0db8:0001:0002:ffff:1:2:3")).toBe(
+      "2001:db8:1:2::/64",
+    );
+    expect(clientAddress("2001:db8::")).toBe("2001:db8:0:0::/64");
+    expect(clientAddress("::1")).toBe("0:0:0:0::/64");
+    expect(clientAddress("2001:db8:1:3::1")).not.toBe(
+      clientAddress("2001:db8:1:2::1"),
+    );
+    expect(clientAddress("203.0.113.5")).toBe("203.0.113.5");
+  });
+  it("保管庫の資格を確認して初回補給を1回だけ割り当てる", async () => {
+    const f = fixture();
+    await f.initialize();
+    const grant = (claim: string, key = token) =>
+      vaultSupplyGrant(
+        new Request("https://internal/cloud-supply-grant", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + key,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ claim }),
+        }),
+        f.storage as any,
+      );
+    expect((await grant("cloud", "b".repeat(64))).status).toBe(401);
+    expect((await grant("other")).status).toBe(400);
+    expect(await (await grant("cloud")).json()).toEqual({ grant: true });
+    // 書込み失敗後の再試行と同じ扱い。別口座の移行では付与しない。
+    expect(await (await grant("cloud")).json()).toEqual({ grant: true });
+    expect(await (await grant(`legacy:${"c".repeat(32)}`)).json()).toEqual({
+      grant: false,
+    });
+    // セーブを更新しても付与記録は保管庫に残る。
+    const save = freshProgress("normal");
+    await playerVault(
+      f.request("save", { save, version: 1, mutation: crypto.randomUUID() }),
+      f.storage,
+      false,
+      now,
+    );
+    expect((f.values.get("vault") as any).supplyGrant).toBe("cloud");
   });
 });

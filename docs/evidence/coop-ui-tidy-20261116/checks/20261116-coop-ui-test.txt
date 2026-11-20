@@ -1,0 +1,16 @@
+
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/swarm-coop-ui-tidy-20261116
+
+
+ Test Files  184 passed (184)
+      Tests  1907 passed (1907)
+   Start at  13:14:18
+   Duration  319.38s (tests 67%, import 29%, transform 3%)
+
+     Import  433 modules were evaluated 566 times · 84.42s total, 29% of tracked time
+             ~19.84s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation

@@ -1,0 +1,38 @@
+{
+  "scope": "Static idle direct StandardTrooper update; crossing tests between deformed visible skinned-mesh triangles and back weapon mesh triangles, excluding neon. Triangle edge/face crossing only: no coplanar handling, containment-only detection, penetration depth or strap/body categorization. No full continuous motion, actual game loop, network or device.",
+  "missing": [],
+  "analyticControls": "crossing and non-crossing triangle pairs, plus deliberately shifted shotgun toward body",
+  "records": [
+    {
+      "kind": "sticky",
+      "index": 0,
+      "action": "idle",
+      "mode": "normal_Rifle_idle_ready",
+      "socket": "BackWeaponSocket",
+      "bodyTriangles": 99302,
+      "weaponTriangles": 8372,
+      "testedPairs": 1390,
+      "crossingPairs": 0,
+      "pointBins4mm": 0,
+      "bodyMeshPairs": {},
+      "positiveControl": null,
+      "points": []
+    },
+    {
+      "kind": "sticky",
+      "index": 1,
+      "action": "idle",
+      "mode": "normal_Rifle_idle_ready",
+      "socket": "BackWeaponSocket_2",
+      "bodyTriangles": 99302,
+      "weaponTriangles": 8372,
+      "testedPairs": 0,
+      "crossingPairs": 0,
+      "pointBins4mm": 0,
+      "bodyMeshPairs": {},
+      "positiveControl": null,
+      "points": []
+    }
+  ],
+  "errors": []
+}

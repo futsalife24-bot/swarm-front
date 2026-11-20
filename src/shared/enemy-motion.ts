@@ -107,9 +107,29 @@ export function specialMotion(w: World, e: Enemy, t: Player, dt: number) {
       ) => surfaceRay(origin, direction, distance, blocks),
     };
     const direction = pursuitDirection(w, e, t);
+    const previous = e.pleat;
+    const repairCaveFloor =
+      blocks === CAVE_BLOCKS &&
+      previous &&
+      previous.normal.y > 0.8 &&
+      !previous.transfer &&
+      previous.anchor.y <
+        groundHeight(previous.anchor.x, previous.anchor.z, blocks) - 0.02;
+    // 旧保存で床下に残った水平アンカーだけを一度再接地。HP/攻撃タイマー、
+    // XZと向きは保持し、壁・天井・正しい地表上のコントローラーは触らない。
+    if (repairCaveFloor) e.pleat = undefined;
     const s = (e.pleat ??= createPleat(
-      { x: e.x, y: e.y, z: e.z },
-      { x: direction.x, y: 0, z: direction.z },
+      {
+        x: e.x,
+        y:
+          blocks === CAVE_BLOCKS
+            ? Math.max(e.y, groundHeight(e.x, e.z, blocks))
+            : e.y,
+        z: e.z,
+      },
+      repairCaveFloor
+        ? previous!.forward
+        : { x: direction.x, y: 0, z: direction.z },
       enemySize(e),
       world,
     ));

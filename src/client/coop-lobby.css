@@ -366,8 +366,8 @@
 body #ui .panel.room-entry.room-browser {
   display: flex;
   flex-direction: column;
-  width: min(1120px, calc(100% - 20px));
-  height: calc(100% - 20px);
+  width: min(1000px, calc(100% - 20px));
+  height: min(450px, calc(100% - 20px));
   max-height: calc(100% - 20px);
   margin: 10px auto;
   padding: 12px 16px;
@@ -377,23 +377,92 @@ body #ui .panel.room-entry.room-browser {
 body #ui .room-browser header {
   margin: 0;
 }
-body #ui .room-browser label {
+body #ui .room-browser > header {
+  flex-shrink: 0;
+  padding-bottom: 8px;
+}
+body #ui .room-browser h1 {
+  margin: 4px 0 0;
+  font-size: 26px;
+}
+body #ui .room-browser button {
+  min-height: 40px;
+  padding: 8px 14px;
+  font-size: 14px;
+}
+body #ui .room-browser #room-refresh {
+  min-height: 22px;
+  padding: 2px 10px;
+  font-size: 12px;
+  line-height: 18px;
+}
+.room-browser .room-browser-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto 62px minmax(78px, 1fr) auto 40px;
+  gap: 6px 20px;
+}
+body #ui .room-browser :is(.room-create, .room-browse) {
   display: grid;
-  grid-template-columns: 60px minmax(0, 1fr);
-  gap: 8px;
-  margin: 0;
-  align-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  grid-row: 1 / 6;
+  grid-template-rows: subgrid;
 }
 body #ui .room-browser .room-create {
-  overflow: hidden;
+  grid-column: 1;
 }
-.room-create-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
+body #ui .room-browser .room-browse {
+  grid-column: 2;
+}
+body #ui .room-browser label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+  margin: 0;
+  align-content: end;
+}
+body #ui .room-browser :is(input, select) {
+  height: 40px;
+  padding: 8px 10px;
+  font-size: 16px;
+}
+body #ui .room-browser :is(.room-create-fields, #room-join-form) {
+  display: contents;
+}
+.room-browser .room-create h2,
+.room-browser .room-browse > header {
+  grid-row: 1;
+}
+.room-browser .room-create label,
+.room-browser #room-id {
+  grid-row: 2;
+  align-self: end;
+}
+.room-browser #turnstile-room-create {
+  grid-row: 3;
+  width: 100%;
+  min-width: 0;
+}
+body #ui .room-browser #turnstile-status {
+  grid-row: 4;
+}
+.room-browser #room-list-status {
+  grid-row: 3 / 5;
+  align-self: start;
+}
+body #ui .room-browser :is(#launch, #room-join) {
+  grid-column: 1;
+  grid-row: 5;
+  width: 100%;
+}
+.room-browser #room-list {
+  grid-row: 3 / 6;
+}
+.room-browser .room-browse:has(#room-list:not([hidden])) #room-list-status {
+  grid-row: 2;
+  align-self: center;
+}
+body #ui .room-browser > .status:empty {
+  display: none;
 }
 body #ui .room-browser .coop-advanced .join {
   display: grid;
@@ -401,10 +470,41 @@ body #ui .room-browser .coop-advanced .join {
 }
 body #ui .room-browser > .coop-advanced {
   flex-shrink: 0;
+  margin-top: 0;
+  padding-top: 6px;
 }
 body #ui .room-browser #launch {
   min-height: 40px;
   flex-shrink: 0;
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  body #ui .panel.room-entry.room-browser {
+    padding: 8px 16px;
+    gap: 4px;
+    margin: 10px auto;
+  }
+  body #ui .room-browser > header {
+    padding-bottom: 4px;
+  }
+  body #ui .room-browser .room-access button {
+    min-height: 36px;
+    padding: 6px 12px;
+  }
+  body #ui .room-browser h1 {
+    font-size: 22px;
+    margin-top: 2px;
+  }
+  .room-browser .room-browser-columns {
+    grid-template-rows: auto 54px minmax(68px, 1fr) auto 40px;
+    column-gap: 16px;
+    row-gap: 3px;
+  }
+  body #ui .room-browser :is(.room-create, .room-browse) {
+    row-gap: 3px;
+  }
+  body #ui .room-browser #room-access-help {
+    line-height: 1.4;
+  }
 }
 @media (max-width: 700px) {
   body #ui .panel.room-entry.room-browser {

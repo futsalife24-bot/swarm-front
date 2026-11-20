@@ -1,6 +1,41 @@
 import { expect, it } from "vitest";
 import * as T from "three";
+import { readFileSync } from "node:fs";
+import { MapAssets, VIEW_MAPS } from "../src/client/map-assets";
+import mapFiles from "../src/client/assets/map-files.json";
+import { DEFENSE_MAPS } from "../src/shared/stages";
 import { separateBackgroundTerrain } from "../src/client/scenery-boundary";
+
+it("keeps the ridge and skips the cloud triangles when switching a loaded city to multiplayer", () => {
+  const maps = new MapAssets(new T.Scene());
+  const defense = VIEW_MAPS.indexOf(DEFENSE_MAPS[0]);
+  for (const [index, file, group] of [
+    [0, mapFiles.distant[0], maps.distantGroups[0]],
+    [defense, mapFiles.defense[0], maps.groups[defense]],
+  ] as const) {
+    const bytes = readFileSync("public/" + file);
+    const gltf = JSON.parse(
+      bytes.toString("utf8", 20, 20 + bytes.readUInt32LE(12)),
+    );
+    const node = gltf.nodes.find(
+      (n: { name: string }) => n.name === "DISTANT_far",
+    );
+    const source = gltf.meshes[node.mesh];
+    const ridge = source.extras.ridgeIndexCount;
+    expect(ridge).toBeGreaterThan(0);
+    expect(ridge).toBeLessThan(
+      gltf.accessors[source.primitives[0].indices].count,
+    );
+    const mesh = new T.Mesh();
+    mesh.name = node.name;
+    mesh.userData = source.extras;
+    group.add(mesh);
+    maps.select(index, false, true, false);
+    expect(mesh.geometry.drawRange.count).toBe(ridge);
+    maps.select(index, false, true, true);
+    expect(mesh.geometry.drawRange.count).toBe(Infinity);
+  }
+});
 
 it("moves separately batched mountain surfaces together and preserves playable rocks", () => {
   const scene = new T.Group();

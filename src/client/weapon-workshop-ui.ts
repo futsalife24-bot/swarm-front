@@ -2,6 +2,7 @@ import { WEAPONS, stats, type Kind } from "../shared/defs";
 import { weaponGrade } from "../shared/progression";
 import {
   weaponLevel,
+  weaponModLimit,
   WEAPON_MOD_NAMES,
   type WeaponMod,
 } from "../shared/weapon-growth";
@@ -10,6 +11,10 @@ import {
   modificationCost,
   convertWeapon,
   modifyWeapon,
+  armoryLevelLimit,
+  levelUpCost,
+  levelPlan,
+  levelUpWeapon,
 } from "./weapon-workshop";
 import {
   loadProgress,
@@ -17,7 +22,7 @@ import {
   persistProgress,
   type ProgressSave,
 } from "./progression-save";
-import { menuAssemble } from "./menu-effects";
+import { showGrowthResult } from "./weapon-growth-motion";
 import "./weapon-workshop.css";
 type StorageAccess = Pick<Storage, "getItem" | "setItem">;
 const esc = (s: string) =>
@@ -39,6 +44,7 @@ export function openWeaponWorkshop(
   let id = initialId ?? save.inventory[0]?.id;
   let target: Kind = "smg",
     key: WeaponMod = "damage";
+  let goal: number | undefined;
   let busy = false,
     notice = "武装片を使い、武器個体の基礎性能を恒久的に変更します。";
   function draw() {
@@ -65,18 +71,40 @@ export function openWeaponWorkshop(
     } catch (e) {
       modError = (e as Error).message;
     }
+    const plan = levelPlan(w, save.powder, goal);
+    const atCap = plan.current >= plan.limit;
+    const canRaise = plan.target > plan.current;
+    const damageAt = (level: number) =>
+      stats({ ...w, level }).damage.toFixed(1);
+    const upgrade = `<section class="workshop-level" aria-label="レベル強化">
+      <h2>レベル強化 <small>Lv${plan.current}/${plan.limit}</small></h2>
+      <p>${atCap ? "上限到達" : `次のLv · 武装片 ${levelUpCost(w)} · 威力 ${damageAt(plan.current)} → ${damageAt(plan.current + 1)}`}</p>
+      <div class="workshop-goal" role="group" aria-label="目標レベル">
+        <strong>目標 Lv${plan.target}</strong>
+        <button data-goal="-1" aria-label="目標を1下げる" ${canRaise ? "" : "disabled"}>−</button>
+        <button data-goal="1" aria-label="目標を1上げる" ${plan.target >= plan.maximum ? "disabled" : ""}>＋</button>
+        <button data-goal="5" ${plan.target >= plan.maximum ? "disabled" : ""}>＋5</button>
+        <button data-goal="max" ${plan.target >= plan.maximum ? "disabled" : ""}>最大</button>
+      </div>
+      <p class="workshop-total">合計 武装片 <b>${plan.total}</b> · 強化後の威力 <b>${damageAt(plan.target)}</b></p>
+      <button id="workshop-level" ${canRaise ? "" : "disabled"}>Lv${plan.target} まで強化</button>
+      ${!atCap && plan.maximum === plan.current ? "<small>武装片が不足しています。</small>" : ""}
+    </section>`;
     const metrics = (next?: ProgressSave) => {
       const item = next?.inventory.find((item) => item.id === id) ?? w,
         d = stats(item);
       return `火力 ${d.damage.toFixed(1)} · 装填 ${d.mag}${"speed" in d ? ` · 弾速 ${Number(d.speed).toFixed(1)}m/s` : ""}`;
     };
-    root.innerHTML = `<section class="panel menu-screen pt-screen weapon-workshop" aria-label="武器工房"><header class="menu-header"><h1>武器工房</h1><b>武装片 ${save.powder}</b><nav><button id="workshop-back">戻る</button></nav></header><label>対象武器<select id="workshop-weapon">${save.inventory.map((item) => `<option value="${esc(item.id)}" ${item.id === id ? "selected" : ""}>Lv${weaponLevel(item)} ${esc(WEAPONS[item.kind].name)} / ${weaponGrade(item)}</option>`).join("")}</select></label><p>Lv${weaponLevel(w)} / ${weaponGrade(w)} · ${metrics()} · 改造：${Object.entries(
+    root.innerHTML = `<section class="panel menu-screen pt-screen weapon-workshop" aria-label="武器工房"><header class="menu-header"><h1>武器工房</h1><b>武装片 ${save.powder}</b><nav><button id="workshop-back">戻る</button></nav></header><label>対象武器<select id="workshop-weapon">${save.inventory.map((item) => `<option value="${esc(item.id)}" ${item.id === id ? "selected" : ""}>Lv${weaponLevel(item)}/${armoryLevelLimit(item)} ${esc(WEAPONS[item.kind].name)} / ${weaponGrade(item)}</option>`).join("")}</select></label><p>Lv${weaponLevel(w)}/${armoryLevelLimit(w)} · ${weaponGrade(w)} · ${metrics()} · 改造：${Object.entries(
       WEAPON_MOD_NAMES,
     )
-      .map(([k, name]) => `${name} ${w.mods?.[k as WeaponMod] ?? 0}/10`)
+      .map(
+        ([k, name]) =>
+          `${name} ${w.mods?.[k as WeaponMod] ?? 0}/${weaponModLimit(w, k as WeaponMod)}`,
+      )
       .join(
         "、",
-      )}</p><div class="workshop-actions"><section><h2>同レベル変換</h2><label>別武器種<select id="workshop-kind">${(
+      )}</p><div class="workshop-actions">${upgrade}<section><h2>同レベル変換</h2><label>別武器種<select id="workshop-kind">${(
       Object.keys(WEAPONS) as Kind[]
     )
       .filter((k) => k !== w.kind)
@@ -101,6 +129,7 @@ export function openWeaponWorkshop(
     $("#workshop-back").onclick = back;
     $("#workshop-weapon").onchange = (e) => {
       id = (e.target as HTMLSelectElement).value;
+      goal = undefined;
       draw();
     };
     $("#workshop-kind").onchange = (e) => {
@@ -112,7 +141,7 @@ export function openWeaponWorkshop(
       draw();
     };
     const confirm = (candidate: ProgressSave, action: string) => {
-      if (busy || root.querySelector("dialog")) return;
+      if (busy || root.querySelector("dialog[open]")) return;
       const dialog = document.createElement("dialog");
       dialog.className = "workshop-confirm";
       const destination = candidate.inventory.find((item) => item.id === id)!;
@@ -153,7 +182,50 @@ export function openWeaponWorkshop(
     $("#workshop-modify").onclick = () => {
       if (modified) confirm(modified, "改造");
     };
-    menuAssemble(root, root.querySelector(".workshop-actions"));
+    root
+      .querySelectorAll<HTMLButtonElement>("[data-goal]")
+      .forEach((button) => {
+        button.onclick = () => {
+          const step = button.dataset.goal!;
+          goal =
+            step === "max"
+              ? plan.maximum
+              : Math.min(
+                  plan.maximum,
+                  Math.max(plan.current, plan.target + Number(step)),
+                );
+          draw();
+          root
+            .querySelector<HTMLButtonElement>(
+              `[data-goal="${step}"]:not(:disabled)`,
+            )
+            ?.focus({ preventScroll: true });
+        };
+      });
+    $("#workshop-level").onclick = () => {
+      if (busy || !canRaise) return;
+      busy = true;
+      try {
+        const candidate = levelUpWeapon(save, w.id, plan.target);
+        persistProgress(candidate, storage);
+        save = candidate;
+        goal = undefined;
+        notice = `レベル強化を保存しました。Lv${plan.target} · 威力 ${damageAt(plan.target)}`;
+        draw();
+        showGrowthResult(
+          root.querySelector(".workshop-level")!,
+          plan.current,
+          plan.target,
+          stats(w).damage,
+          Number(damageAt(plan.target)),
+          plan.target === plan.limit,
+        );
+      } catch (error) {
+        $("#workshop-status").textContent = (error as Error).message;
+      } finally {
+        busy = false;
+      }
+    };
   }
   draw();
 }

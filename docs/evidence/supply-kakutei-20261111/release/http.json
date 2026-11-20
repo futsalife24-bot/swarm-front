@@ -1,0 +1,10 @@
+{
+  "origin": "https://swarm-front.melosalife-24.workers.dev",
+  "checks": [
+    "初期化再送で券が増えない",
+    "認証・Origin・結果の持込み拒否",
+    "並行要求は1回だけ消費・10連保証・同一結果再送",
+    "再接続・ACK再送・使用済みID再消費拒否"
+  ],
+  "passed": true
+}

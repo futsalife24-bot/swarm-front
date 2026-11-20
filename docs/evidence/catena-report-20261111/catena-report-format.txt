@@ -1,0 +1,19 @@
+> swarm-front@0.1.0 format:check
+> prettier --check src server tests e2e *.ts *.json *.jsonc
+
+Checking formatting...
+[warn] src/client/playtest.css
+[warn] src/client/soldier-accent.ts
+[warn] src/client/title-entry.css
+[warn] src/client/title-entry.ts
+[warn] server/admin-page.ts
+[warn] server/admin-proxy.ts
+[warn] server/developer-auth.ts
+[warn] tests/developer-auth.test.ts
+[warn] tests/fixtures/save-regression/inventory-v1.json
+[warn] tests/fixtures/save-regression/progress-v2.json
+[warn] tests/fixtures/save-regression/README.md
+[warn] tests/fixtures/save-regression/shared-v2.json
+[warn] tests/front-reward-ui.test.ts
+[warn] vitest.balance.config.ts
+[warn] Code style issues found in 14 files. Run Prettier with --write to fix.

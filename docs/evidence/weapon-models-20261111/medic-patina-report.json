@@ -1,0 +1,43 @@
+{
+  "scope": "Isolated local direct StandardTrooper renderer and actual previewWeapon function; no full game loop, external share, real phone, or production changes.",
+  "candidate": "24 raised patina chips on four ceramic petals and altered ceramic-white PBR base color/roughness; no image textures.",
+  "source_white": {
+    "rgb": [
+      0.78,
+      0.8,
+      0.78
+    ],
+    "roughness": 0.5
+  },
+  "candidate_white": {
+    "rgb": [
+      0.62,
+      0.6,
+      0.54
+    ],
+    "roughness": 0.75
+  },
+  "triangles": 8800,
+  "max_bytes": 492364,
+  "materials": [
+    "Ceramic white",
+    "Metal brass",
+    "Paint teal",
+    "Resin vial green",
+    "Glow heal",
+    "Rarity identification"
+  ],
+  "check_passed": true,
+  "check_failures": [],
+  "check_warnings": [],
+  "rarity": "only inlay RGB differs; complete JSON/binary invariants including two negative controls passed, only medic present in isolated design",
+  "visual_assessment": "Geometric chips visible only in enlarged views; minimal difference at actual preview and soldier scale, far below reference and AAA quality. Candidate not recommended.",
+  "future_reproduction": "Use isolated blender/weapons/medic.py and white palette in isolated blender/weapon_kit.py with build_weapon.py -- medic, then original check_weapon.py -- medic; avoid changing shared white material for all weapons without independent validation.",
+  "not_checked": [
+    "actual combat game loop",
+    "actual share image",
+    "real phone",
+    "audio",
+    "performance under load"
+  ]
+}

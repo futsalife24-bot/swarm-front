@@ -1,5 +1,5 @@
 import { WEAPONS, EFFECT_POOLS, familyOf, type Kind } from "../shared/defs";
-import { CAPACITY, type StoredWeapon } from "../shared/progression";
+import { CAPACITY, weaponTier, type StoredWeapon } from "../shared/progression";
 import {
   weaponLevel,
   weaponModLimit,
@@ -11,6 +11,58 @@ import { validateProgress, type ProgressSave } from "./progression-save";
 export const conversionCost = (w: StoredWeapon) => 8 + weaponLevel(w) * 2;
 export const modificationCost = (w: StoredWeapon, key: WeaponMod) =>
   1 + Math.floor(weaponLevel(w) / 3) + ((w.mods?.[key] ?? 0) + 1) * 2;
+/** Legacy over-cap weapons retain their growth, but cannot upgrade further. */
+export const armoryLevelLimit = (w: StoredWeapon) =>
+  [10, 20, 30, 40, 50][weaponTier(w)];
+export const levelUpCost = (w: StoredWeapon) => 2 + weaponLevel(w) * 2;
+export function levelPlan(
+  w: StoredWeapon,
+  powder: number,
+  target = weaponLevel(w) + 1,
+) {
+  const current = weaponLevel(w);
+  const limit = armoryLevelLimit(w);
+  let maximum = current;
+  let spent = 0;
+  let total = 0;
+  while (maximum < limit) {
+    const cost = levelUpCost({ ...w, level: maximum });
+    if (cost > powder - spent) break;
+    maximum++;
+    spent += cost;
+    if (maximum <= target) total = spent;
+  }
+  return {
+    current,
+    limit,
+    maximum,
+    target: Math.min(maximum, Math.max(current, target)),
+    total,
+  };
+}
+
+export function levelUpWeapon(s: ProgressSave, id: string, target?: number) {
+  const n = structuredClone(s);
+  const w = n.inventory.find((item) => item.id === id);
+  if (!w) throw Error("強化対象の所持武器が見つかりません。");
+  if (weaponLevel(w) >= armoryLevelLimit(w))
+    throw Error(
+      `この武器は強化上限 Lv${armoryLevelLimit(w)}に到達しています。`,
+    );
+  const goal = target ?? weaponLevel(w) + 1;
+  if (
+    !Number.isInteger(goal) ||
+    goal <= weaponLevel(w) ||
+    goal > armoryLevelLimit(w)
+  )
+    throw Error("目標レベルが強化範囲外です。");
+  const plan = levelPlan(w, n.powder, goal);
+  if (plan.target !== goal) throw Error("武装片が不足しています。");
+  n.powder -= plan.total;
+  w.level = goal;
+  validateProgress(n);
+  return n;
+}
 export function convertWeapon(s: ProgressSave, id: string, target: Kind) {
   const n = structuredClone(s);
   const w = n.inventory.find((item) => item.id === id);

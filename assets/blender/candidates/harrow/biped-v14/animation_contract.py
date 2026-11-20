@@ -48,6 +48,10 @@ FPS = 40
 GAME_SCALE = 1.95
 WALK_SPEED = 0.64 / GAME_SCALE
 WALK_STEPS_PER_CLIP = 3
+WALK_LIFT = 0.35
+WALK_MID_DROP = 0.0
+WALK_SMOOTH_FOOTFALL = False
+WALK_PALM_DROP = 0.0
 FIRE_TIME = 3.5
 SPIN_WIND = 1.15
 SPIN_SWEEP_END = 2.20
@@ -90,6 +94,11 @@ def _clamp(value: float) -> float:
 def _smooth(value: float) -> float:
     t = _clamp(value)
     return t * t * (3.0 - 2.0 * t)
+
+
+def walking_toe_spread(gait: float) -> float:
+    # The sole stays open through toe-off, then fans out again before landing.
+    return 1 - _smooth((gait - 0.752) / 0.074) + _smooth((gait - 0.866) / 0.100)
 
 
 def _pulse(time: float, rise: float, peak: float, fall: float) -> float:
@@ -402,6 +411,10 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
         for side in ('.L', '.R'):
             target = Vector(metadata['ground_contacts'][side]['point'])
             target.z = max(target.z, 0.025)
+            palm_drop = 0.0
+            if (moving or idle) and WALK_PALM_DROP:
+                palm_drop = WALK_PALM_DROP * (walking_toe_spread(gait) if moving else 1)
+                target.z -= palm_drop
             error = _plant_hind(rig, metadata['ground_contacts'][side], target)
             if error * GAME_SCALE > 0.15:
                 raise ValueError(f'Spin {time:.3f}s {side} foot error {error * GAME_SCALE:.3f}m')
@@ -454,9 +467,12 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
     if moving:
         shift.y = 0.22 * math.sin(step_cycle)
         shift.z = -0.12 * (1 - math.cos(2 * step_cycle))
+        shift.z -= WALK_MID_DROP * math.sin(math.pi * u) ** 2
     elif idle:
         shift.y = 0.055 * math.sin(cycle)
         shift.z = -0.035 * (1 - math.cos(cycle))
+    if moving or idle:
+        shift.z -= WALK_PALM_DROP
     torso.location = rig.data.bones['Torso'].matrix_local.to_quaternion().inverted() @ shift
 
     # Extend the legs beneath the low, Spin-derived trunk.  Only Spin lowers
@@ -628,8 +644,14 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
                     target.x += stride * (gait / duty - 0.5)
                 else:
                     swing_u = (gait - duty) / (1 - duty)
-                    target.x += stride * (0.5 - _smooth(swing_u))
-                    target.z += 0.35 * math.sin(math.pi * swing_u) ** 2
+                    if WALK_SMOOTH_FOOTFALL:
+                        # Keep matching the ground until the toe actually lifts;
+                        # catch up during swing with zero endpoint acceleration.
+                        rewind = swing_u ** 3 * (10 + swing_u * (-15 + 6 * swing_u))
+                        target.x += stride * (0.5 + ((1 - duty) * swing_u - rewind) / duty)
+                    else:
+                        target.x += stride * (0.5 - _smooth(swing_u))
+                    target.z += WALK_LIFT * math.sin(math.pi * swing_u) ** 2
                 # Centre each periodic foot trajectory on its own Idle goal.
                 # This constant offset changes neither stance velocity nor
                 # world-space contact drift, but removes the clip-end foot pop.
@@ -649,6 +671,10 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
             # IK goal gives the massive claws clearance under finite solving
             # error and still lies inside the existing 0..0.10 m tolerance.
             target.z = max(target.z, 0.025)
+            palm_drop = 0.0
+            if (moving or idle) and WALK_PALM_DROP:
+                palm_drop = WALK_PALM_DROP * (walking_toe_spread(gait) if moving else 1)
+                target.z -= palm_drop
             try:
                 error = _plant_hind(rig, metadata["ground_contacts"][side], target)
             except ValueError as exc:
@@ -657,7 +683,7 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
             planted = (not gait_active or gait < duty) and (not falling_to_ground or u >= 0.9)
             if planted:
                 foot = _point_now(rig, metadata["ground_contacts"][side])
-                if error * GAME_SCALE > 0.15 or not (-0.004 <= foot.z * GAME_SCALE <= 0.10):
+                if error * GAME_SCALE > 0.15 or not (-0.004 <= (foot.z + palm_drop) * GAME_SCALE <= 0.10):
                     raise ValueError(
                         f"{clip} {side} hind contact fails at {time:.3f}s: "
                         f"error={error * GAME_SCALE:.3f}m, height={foot.z * GAME_SCALE:.3f}m"
@@ -677,7 +703,7 @@ def _pose(rig, metadata, wing_cache, clip: str, time: float) -> None:
                 )
 
 
-def animate(rig, metadata: dict) -> dict:
+def animate(rig, metadata: dict, clips=None) -> dict:
     """Create 12 NLA tracks on the supplied rig and return clip metadata.
 
     Blender must call this in a dedicated candidate scene.  This function
@@ -702,6 +728,8 @@ def animate(rig, metadata: dict) -> dict:
     actions = {}
     launchers = {}
     for clip, duration in DURATIONS.items():
+        if clips is not None and clip not in clips:
+            continue
         print('BAKE', clip, flush=True)
         action = bpy.data.actions.new(clip)
         rig.animation_data.action = action

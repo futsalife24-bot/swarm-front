@@ -186,9 +186,6 @@ export async function prepareBattle(
     ...(prepareBastion ? view.bastion.preparationRoots : []),
   ];
   const visibility = roots.map((root) => [root, root.visible] as const);
-  const viewport = view.renderer.getViewport(new Vector4());
-  const scissor = view.renderer.getScissor(new Vector4());
-  const scissorTest = view.renderer.getScissorTest();
   const warmCamera = view.camera.clone();
   warmCamera.position.set(0, 2, 7);
   warmCamera.lookAt(0, 1, 0);
@@ -201,6 +198,11 @@ export async function prepareBattle(
   for (const [index, root] of roots.entries()) {
     pending = `描画の準備（GPU ${index + 1}/${roots.length}）`;
     check();
+    // Resizes can happen while awaiting the previous GPU fence. Restore the
+    // current canvas viewport, not the one from before the entire warmup.
+    const viewport = view.renderer.getViewport(new Vector4());
+    const scissor = view.renderer.getScissor(new Vector4());
+    const scissorTest = view.renderer.getScissorTest();
     const instances: [InstancedMesh, number, boolean][] = [];
     let fence: WebGLSync | null = null;
     try {

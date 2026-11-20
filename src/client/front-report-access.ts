@@ -1,10 +1,12 @@
 import { openBestiary } from "./bestiary";
 import { loadProgress } from "./progression-save";
+import type { ReportVoice } from "./report-identification";
 
 /** Title access follows the saved solo/co-op encounter record, including distinct boss forms. */
 export function openFrontBestiary(
   storage: Pick<Storage, "getItem">,
   voiceVolume: number,
+  controlVoice?: ReportVoice,
 ) {
   let encounters: Record<string, "solo" | "coop"> = {};
   try {
@@ -15,5 +17,5 @@ export function openFrontBestiary(
   } catch {
     // A missing or invalid record leaves every report locked.
   }
-  openBestiary({ encounters, voiceVolume });
+  openBestiary({ encounters, voiceVolume, controlVoice });
 }

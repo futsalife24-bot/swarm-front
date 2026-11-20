@@ -1,0 +1,113 @@
+{
+  "scope": "Actual local gear, detail dialog and share-image dialog with isolated disposable save; no external sharing or real phone",
+  "viewport": [
+    844,
+    390
+  ],
+  "missing": [
+    "sticky"
+  ],
+  "rows": [
+    {
+      "kind": "rifle",
+      "title": "AR-9 リーフ / N",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "smg",
+      "title": "SMG-3 ワスプ / R",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "shotgun",
+      "title": "SG-4 ブレイカー / SR",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "slug",
+      "title": "SG-7 スパイク / SSR",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "rocket",
+      "title": "RL-2 コメット / LR",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "heavy",
+      "title": "RL-9 メテオ / N",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "sniper",
+      "title": "SR-1 ソーン / R",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "laser",
+      "title": "LZ-2 グリム / SR",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "grenade",
+      "title": "GL-6 ホロウ / SSR",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "kick",
+      "title": "KB-6 ケストレル / N",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    },
+    {
+      "kind": "medic",
+      "title": "MD-4 ブルーム / R",
+      "image": {
+        "width": 1200,
+        "height": 720,
+        "complete": true
+      }
+    }
+  ],
+  "errors": [],
+  "failedRequests": []
+}

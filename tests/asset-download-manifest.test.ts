@@ -6,6 +6,7 @@ import { createHash } from "node:crypto";
 import { EventEmitter } from "node:events";
 import { build as viteBuild } from "vite";
 import { collectCurrentAssetPacks } from "../scripts/asset-download-catalog.mjs";
+import { assetUrl } from "../src/client/asset-download";
 import {
   generateAssetDownloadManifest,
   assetDownloadManifestPlugin,
@@ -197,6 +198,10 @@ describe("事前保存manifestの生成", () => {
   });
   it("現行実参照を使い、不要な旧版・旧モード・任意mediaを共通へ混ぜない", () => {
     const packs = collectCurrentAssetPacks(process.cwd());
+    const base = new URL("https://game.example/swarm-front/");
+    for (const pack of packs)
+      for (const url of pack.urls)
+        expect(() => assetUrl(url, base)).not.toThrow();
     expect(packs.map((p: any) => p.id)).toEqual([
       "app",
       "common",
@@ -211,17 +216,43 @@ describe("事前保存manifestの生成", () => {
       "movies",
     ]);
     const common = packs.find((p: any) => p.id === "common")!.urls;
+    const weaponFiles = common.filter((url: string) =>
+      url.startsWith("assets/weapons/"),
+    );
+    expect(weaponFiles).toHaveLength(60);
+    for (const kind of [
+      "rifle",
+      "shotgun",
+      "rocket",
+      "smg",
+      "slug",
+      "heavy",
+      "sniper",
+      "laser",
+      "grenade",
+      "sticky",
+      "kick",
+      "medic",
+    ]) {
+      const directory = ["rifle", "shotgun", "rocket"].includes(kind)
+        ? "realism-v2"
+        : "unique-v1";
+      for (let rarity = 0; rarity < 5; rarity++)
+        expect(weaponFiles).toContain(
+          `assets/weapons/${directory}/${kind}_${rarity}.glb`,
+        );
+    }
     expect(
       common.filter((url: string) => url.startsWith("assets/buddy/")),
     ).toEqual([
-      "assets/buddy/oriha-v3.glb",
+      "assets/buddy/oriha-textured-20261107.glb",
       "assets/buddy/portraits/oriha.webp",
       "assets/buddy/portraits/tatara.webp",
       "assets/buddy/portraits/tobari.webp",
       "assets/buddy/portraits/yosuga.webp",
-      "assets/buddy/tatara-v3.glb",
-      "assets/buddy/tobari-v7.glb",
-      "assets/buddy/yosuga-v5.glb",
+      "assets/buddy/tatara-textured-20261107.glb",
+      "assets/buddy/tobari-textured-20261107.glb",
+      "assets/buddy/yosuga-textured-20261107.glb",
     ]);
     for (const id of [
       "fire-rounds",
@@ -240,7 +271,7 @@ describe("事前保存manifestの生成", () => {
       common.some((url: string) => /swarm-soldier\.glb\?v=[a-f0-9]+/.test(url)),
     ).toBe(true);
     expect(common).toContain(
-      "assets/enemies/foundry_zero_mechanical_legs_v2.glb",
+      "assets/enemies/foundry_zero_mechanical_legs_v2.glb?rev=d6d0ad241d429250",
     );
     expect(
       common.some((url: string) =>
@@ -252,8 +283,11 @@ describe("事前保存manifestの生成", () => {
       "movies",
     ]);
     expect(packs[0].urls).toContain("icon-swarm-v2-512.png");
+    const street = packs.find((p: any) => p.id === "map-0")!.urls;
+    expect(street).toContain("assets/maps/distant_0_v2.glb");
+    expect(street).not.toContain("assets/maps/distant_0_v1.glb");
     expect(packs.find((p: any) => p.id === "map-survival-0")!.urls).toEqual([
-      "assets/maps/defense_0_v2.glb",
+      "assets/maps/defense_0_v3.glb",
     ]);
   });
   it("generateBundleは名前だけ予約し、writeなしの不完全manifestを成功扱いしない", () => {

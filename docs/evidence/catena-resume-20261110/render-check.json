@@ -1,0 +1,20 @@
+{
+  "flight": {
+    "maxCoordinateError": 3.552713678800501e-15,
+    "pads": 15,
+    "expectedPads": 15
+  },
+  "landing": {
+    "maxCoordinateError": 0,
+    "pads": 0,
+    "hp": 91.2
+  },
+  "load": {
+    "views": 3,
+    "cpuMedianMs": 7.100000023841858,
+    "cpuP95Ms": 11.399999976158142,
+    "samples": 90
+  },
+  "device": "Chrome SwiftShader・PC。実Android/iOS性能ではない",
+  "errors": []
+}

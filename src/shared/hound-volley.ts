@@ -1,0 +1,10 @@
+export const HOUND_VOLLEY_COUNT = 3;
+export const HOUND_VOLLEY_SPREAD = 0.16;
+export const HOUND_VOLLEY_SPEED = 13;
+export const HOUND_VOLLEY_GRAVITY = 12;
+export const HOUND_VOLLEY_TARGET_HEIGHT = 1.2;
+export const HOUND_VOLLEY_SPREADS = [
+  -HOUND_VOLLEY_SPREAD,
+  0,
+  HOUND_VOLLEY_SPREAD,
+] as const;

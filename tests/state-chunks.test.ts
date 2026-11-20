@@ -84,6 +84,14 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 describe("上限付きsnapshot分割", () => {
+  it("60KiBの送信予算でも全状態を復元し、4KiB以上の余裕を残す", () => {
+    const payload = exactPayload(65000);
+    const parts = encodeStateChunks(payload, 1, 61440)!;
+    expect(parts.length).toBeGreaterThan(1);
+    expect(parts.every((part) => size(part) <= 61440)).toBe(true);
+    expect(roundTrip(parts)).toEqual([JSON.parse(payload)]);
+    expect(encodeStateChunks(payload, 1, 65537)).toBeUndefined();
+  });
   it.each([
     100,
     STATE_MESSAGE_BYTES,
@@ -311,6 +319,7 @@ describe("上限付きsnapshot分割", () => {
         let ws = net.ws as unknown as Socket;
         ws.onopen?.();
         expect(ws.sent[0].stateChunks).toBe(1);
+        expect(ws.sent[0].stateChunkBudget).toBe(1);
         const { w, ids, metadata } = wallFixture();
         const prepared = prepareState(w, 0, metadata);
         const wire = prepared.packet(

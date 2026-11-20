@@ -1,0 +1,162 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>weapon viewer</title>
+<style>
+  body { margin: 0; padding: 0 0 16px; width: 1400px; background: #0b161d; color: #dfe9ee;
+         font: 14px "Yu Gothic UI", "Meiryo", sans-serif; }
+  h1 { font-size: 22px; margin: 12px 16px 2px; }
+  h2 { font-size: 15px; margin: 14px 16px 4px; color: #ffd472; }
+  p { margin: 2px 16px; color: #9fb3bd; font-size: 13px; }
+  .row { display: flex; gap: 10px; margin: 6px 16px; flex-wrap: wrap; align-items: flex-end; }
+  figure { margin: 0; }
+  figcaption { font-size: 12px; color: #9fb3bd; margin-top: 2px; }
+  canvas { display: block; }
+</style>
+<script type="importmap">
+{ "imports": { "three": "/nm/three/build/three.module.js", "three/addons/": "/nm/three/examples/jsm/" } }
+</script>
+<body>
+<h1 id="title">読み込み中</h1>
+<p id="stats"></p>
+<div id="root"></div>
+<script type="module">
+// 書き出した GLB を three.js で読み、多面画像と札サイズの画像を1枚にまとめる。
+// 照明と背景色は src/client/weapon-sharing.ts の詳細プレビューと同じ値。
+import * as T from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+const q = new URLSearchParams(location.search), kind = q.get("kind"), borrowed = q.get("borrowed");
+const report = await (await fetch(`/d/out/${kind}/report.json`)).json();
+const GRADES = ["N", "R", "SR", "SSR", "LR"];
+const NEON = [0x92aaa6, 0x83d8b0, 0x7cbdf4, 0xd5a4f4, 0xffd472]; // weapon-rarity-glow.ts の COLORS
+const renderer = new T.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setClearColor(0x11232f);
+const loader = new GLTFLoader();
+const load = async (url) => (await loader.loadAsync(url)).scene;
+
+// ネオン縁取りの簡易再現（製品の neonGeometry は角を丸めるが、ここは直線でつなぐ）。
+function neonLines(tier) {
+  const group = new T.Group();
+  for (const [radius, opacity] of [[0.0035, 1], [0.007, 0.14]])
+    for (const side of [-1, 1]) {
+      const pts = report.neon_profile.map(([f, u, w]) => new T.Vector3(side * w, u, -f));
+      const path = new T.CurvePath();
+      pts.forEach((p, i) => path.add(new T.LineCurve3(p, pts[(i + 1) % pts.length])));
+      group.add(new T.Mesh(
+        new T.TubeGeometry(path, pts.length * 8, radius, 8, true),
+        new T.MeshBasicMaterial({ color: NEON[tier], toneMapped: false, transparent: opacity < 1, opacity, depthWrite: opacity === 1 }),
+      ));
+    }
+  return group;
+}
+
+function shot(model, w, h, dir, { persp = false, neon = null, up = [0, 1, 0], pad = 1.08 } = {}) {
+  const scene = new T.Scene();
+  scene.add(new T.HemisphereLight(0xe7f4ff, 0x39494e, 3));
+  const d = new T.Vector3(...dir).normalize();
+  const light = new T.DirectionalLight(0xffffff, 4);
+  if (persp) light.position.set(2, 4, 3);
+  else light.position.copy(d).multiplyScalar(3).add(new T.Vector3(1, 4, 1));
+  scene.add(light);
+  const g = new T.Group();
+  g.add(model.clone(true));
+  if (neon != null) g.add(neonLines(neon));
+  const box = new T.Box3().setFromObject(g), size = box.getSize(new T.Vector3());
+  g.position.sub(box.getCenter(new T.Vector3()));
+  scene.add(g);
+  const corners = [];
+  for (const x of [-0.5, 0.5]) for (const y of [-0.5, 0.5]) for (const z of [-0.5, 0.5])
+    corners.push(new T.Vector3(size.x * x, size.y * y, size.z * z));
+  let cam;
+  if (persp) {
+    // weapon-sharing.ts の sceneFor と同じ構図。
+    cam = new T.PerspectiveCamera(35, w / h, 0.001, 100);
+    cam.position.copy(d);
+    cam.lookAt(0, 0, 0);
+    const inverse = cam.quaternion.clone().invert(), tanY = Math.tan(T.MathUtils.degToRad(35 / 2)), tanX = tanY * cam.aspect;
+    let distance = 0;
+    for (const c of corners) {
+      c.applyQuaternion(inverse);
+      distance = Math.max(distance, c.z + Math.abs(c.x) / tanX, c.z + Math.abs(c.y) / tanY);
+    }
+    cam.position.copy(d.clone().multiplyScalar(distance * 1.15));
+  } else {
+    cam = new T.OrthographicCamera(-1, 1, 1, -1, 0.01, 10);
+    cam.up.set(...up);
+    cam.position.copy(d).multiplyScalar(3);
+    cam.lookAt(0, 0, 0);
+    cam.updateMatrixWorld();
+    let mx = 0, my = 0;
+    for (const c of corners) {
+      c.applyMatrix4(cam.matrixWorldInverse);
+      mx = Math.max(mx, Math.abs(c.x));
+      my = Math.max(my, Math.abs(c.y));
+    }
+    const s = Math.max(mx / (w / h), my) * pad;
+    cam.left = -s * w / h; cam.right = s * w / h; cam.top = s; cam.bottom = -s;
+    cam.updateProjectionMatrix();
+  }
+  cam.updateMatrixWorld();
+  renderer.setSize(w, h, false);
+  renderer.render(scene, cam);
+  const out = document.createElement("canvas");
+  out.width = w; out.height = h;
+  out.getContext("2d").drawImage(renderer.domElement, 0, 0);
+  return out;
+}
+function zoom(canvas, k) {
+  const out = document.createElement("canvas");
+  out.width = canvas.width * k; out.height = canvas.height * k;
+  const c = out.getContext("2d");
+  c.imageSmoothingEnabled = false;
+  c.drawImage(canvas, 0, 0, out.width, out.height);
+  return out;
+}
+const root = document.getElementById("root");
+function section(title, note) {
+  const h = document.createElement("h2"); h.textContent = title; root.append(h);
+  if (note) { const p = document.createElement("p"); p.textContent = note; root.append(p); }
+  const row = document.createElement("div"); row.className = "row"; root.append(row);
+  return row;
+}
+function fig(row, canvas, caption) {
+  const f = document.createElement("figure"), c = document.createElement("figcaption");
+  c.textContent = caption; f.append(canvas, c); row.append(f);
+}
+
+const models = await Promise.all([0, 1, 2, 3, 4].map((g) => load(`/d/out/${kind}/${kind}_${g}.glb`)));
+const old = borrowed ? await load(`/repo/public/assets/weapons/realism-v2/${borrowed}_0.glb`) : null;
+const SIDE = [1, 0, 0], PREVIEW = [1, 0.45, 0.65];
+
+document.getElementById("title").textContent = `${report.name}（${kind}）試作 v1`;
+document.getElementById("stats").textContent =
+  `三角形 ${report.triangles} ／ 材質 ${report.materials.length} ／ ${Math.round(report.files[0].bytes / 1024)} KB ／ 全長 ${(report.bounds[1][1] - report.bounds[0][1]).toFixed(2)} m`;
+
+let row = section("多面（レア度 N、ネオン縁取りなし）");
+fig(row, shot(models[0], 676, 290, SIDE), "右側面（銃口が右）");
+fig(row, shot(models[0], 676, 290, [-1, 0, 0]), "左側面");
+row = section("");
+fig(row, shot(models[0], 620, 150, [0, 1, 0], { up: [-1, 0, 0] }), "上面");
+fig(row, shot(models[0], 170, 210, [0, 0, -1]), "前");
+fig(row, shot(models[0], 170, 210, [0, 0, 1]), "後");
+fig(row, shot(models[0], 372, 210, PREVIEW, { persp: true }), "斜め（詳細プレビューと同じ向き）");
+
+row = section("札サイズ 96×36（上が等倍、下は同じ画素を3倍に拡大）— レア度別、ネオン縁取りあり",
+  "等倍はスマホの画素密度を考えない最悪条件。ネオンは簡易再現。");
+for (let g = 0; g < 5; g++) {
+  const card = shot(models[g], 96, 36, SIDE, { neon: g, pad: 1.04 });
+  const f = document.createElement("figure"), c = document.createElement("figcaption");
+  c.textContent = GRADES[g];
+  const z = zoom(card, 2.6); z.style.marginTop = "4px";
+  f.append(card, z, c); row.append(f);
+}
+
+row = section("今との比較（札サイズ・3倍拡大、ネオンなし）");
+if (old) fig(row, zoom(shot(old, 96, 36, SIDE, { pad: 1.04 }), 3), `今: ${borrowed} の形を借用`);
+fig(row, zoom(shot(models[0], 96, 36, SIDE, { pad: 1.04 }), 3), "試作");
+if (old) fig(row, shot(old, 300, 170, PREVIEW, { persp: true }), "今: 詳細プレビュー 300×170");
+fig(row, shot(models[2], 300, 170, PREVIEW, { persp: true, neon: 2 }), "試作: 詳細プレビュー 300×170（SR）");
+
+window.__done = true;
+</script>

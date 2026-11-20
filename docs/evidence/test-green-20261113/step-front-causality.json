@@ -1,0 +1,186 @@
+{
+  "baseHead": "303b7745",
+  "currentHead": "aa886b0d",
+  "method": "tests/game-step-equivalence.test.ts と同じ台本・同じ進行で run 全体を毎tick項目単位に展開しSHA-256化。同一プロセスで2回実行して一致も確認。両commitは同じ実行日に測定したため day の既定値は同一。",
+  "comparisons": [
+    {
+      "scenario": "前線・生存・融合・1人",
+      "ticks": 1500,
+      "repeatedRunIdentical": {
+        "base": true,
+        "head": true
+      },
+      "firstDivergentTick": 0,
+      "divergentFieldsAtTick0": [
+        {
+          "path": "$.world.players.0.weapons.0.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.0.weapons.1.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.0.weapons.0.appearanceTier",
+          "base": null,
+          "head": "1"
+        },
+        {
+          "path": "$.world.players.0.weapons.1.appearanceTier",
+          "base": null,
+          "head": "1"
+        }
+      ],
+      "identicalAllTicksIgnoringAppearanceTier": true
+    },
+    {
+      "scenario": "前線・生存・融合・2人",
+      "ticks": 1000,
+      "repeatedRunIdentical": {
+        "base": true,
+        "head": true
+      },
+      "firstDivergentTick": 0,
+      "divergentFieldsAtTick0": [
+        {
+          "path": "$.world.players.0.weapons.0.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.0.weapons.1.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.1.weapons.0.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.1.weapons.1.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.0.weapons.0.appearanceTier",
+          "base": null,
+          "head": "1"
+        },
+        {
+          "path": "$.world.players.0.weapons.1.appearanceTier",
+          "base": null,
+          "head": "1"
+        },
+        {
+          "path": "$.world.players.1.weapons.0.appearanceTier",
+          "base": null,
+          "head": "1"
+        },
+        {
+          "path": "$.world.players.1.weapons.1.appearanceTier",
+          "base": null,
+          "head": "1"
+        }
+      ],
+      "identicalAllTicksIgnoringAppearanceTier": true
+    },
+    {
+      "scenario": "前線・防衛・融合",
+      "ticks": 800,
+      "repeatedRunIdentical": {
+        "base": true,
+        "head": true
+      },
+      "firstDivergentTick": 0,
+      "divergentFieldsAtTick0": [
+        {
+          "path": "$.world.players.0.weapons.0.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.0.weapons.1.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.0.weapons.0.appearanceTier",
+          "base": null,
+          "head": "1"
+        },
+        {
+          "path": "$.world.players.0.weapons.1.appearanceTier",
+          "base": null,
+          "head": "1"
+        }
+      ],
+      "identicalAllTicksIgnoringAppearanceTier": true
+    },
+    {
+      "scenario": "前線・日替わり・融合",
+      "ticks": 1000,
+      "repeatedRunIdentical": {
+        "base": true,
+        "head": true
+      },
+      "firstDivergentTick": 0,
+      "divergentFieldsAtTick0": [
+        {
+          "path": "$.world.players.0.weapons.0.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.0.weapons.1.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.1.weapons.0.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.1.weapons.1.#keys",
+          "base": "id,kind,rarity,power,effect,rolls",
+          "head": "id,kind,rarity,appearanceTier,power,effect,rolls"
+        },
+        {
+          "path": "$.world.players.0.weapons.0.appearanceTier",
+          "base": null,
+          "head": "1"
+        },
+        {
+          "path": "$.world.players.0.weapons.1.appearanceTier",
+          "base": null,
+          "head": "1"
+        },
+        {
+          "path": "$.world.players.1.weapons.0.appearanceTier",
+          "base": null,
+          "head": "1"
+        },
+        {
+          "path": "$.world.players.1.weapons.1.appearanceTier",
+          "base": null,
+          "head": "1"
+        }
+      ],
+      "identicalAllTicksIgnoringAppearanceTier": true
+    },
+    {
+      "scenario": "前線・旧方式",
+      "ticks": 1000,
+      "repeatedRunIdentical": {
+        "base": true,
+        "head": true
+      },
+      "firstDivergentTick": null,
+      "divergentFieldsAtTick0": [],
+      "identicalAllTicksIgnoringAppearanceTier": true
+    }
+  ]
+}

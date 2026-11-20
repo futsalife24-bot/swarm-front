@@ -1,4 +1,4 @@
-import { CAMPAIGN_COUNT } from "./campaign";
+import { CAMPAIGN_COUNT, normalSaveId } from "./campaign";
 import { rollWeapon, type NewWeapon } from "./progression";
 import { random, type World } from "./game";
 
@@ -12,8 +12,7 @@ export function validFrontClearedStage(value: unknown): value is number {
   );
 }
 
-export const frontSurvivalWeaponLevel = (clearedStage: number) =>
-  Math.min(60, 1 + clearedStage);
+export const frontSurvivalWeaponLevel = (_clearedStage: number) => 1;
 
 /** Difficulty is captured at sortie; it cannot change as the campaign advances. */
 export function frontSurvivalDifficulty(clearedStage: number) {
@@ -59,6 +58,7 @@ export function finalizeFrontSurvivalRewards(
   world: World,
   clearedStage: number,
   eligibleIds: readonly string[],
+  counts?: Readonly<Record<string, number>>,
 ) {
   if (!validFrontClearedStage(clearedStage))
     throw new RangeError("Invalid cleared campaign stage");
@@ -66,16 +66,23 @@ export function finalizeFrontSurvivalRewards(
   const eligible = new Set(eligibleIds);
   for (const [playerIndex, player] of world.players.entries()) {
     if (!eligible.has(player.id) || world.rewards[player.id]) continue;
-    const count = frontSurvivalRewardCount(world.time, player.kills);
+    const requested = counts
+      ? (counts[player.id] ?? 0)
+      : frontSurvivalRewardCount(world.time, player.kills);
+    const count =
+      Number.isInteger(requested) && requested >= 0 && requested <= 30
+        ? requested
+        : 0;
     const level = frontSurvivalWeaponLevel(clearedStage);
     world.rewards[player.id] = Array.from({ length: count }, (_, index) => ({
       ...rollWeapon(
         `${world.run.slice(0, 48)}-survival-${playerIndex}-${index}`,
-        Math.max(1, clearedStage),
+        normalSaveId(Math.max(1, clearedStage)),
         "normal",
         false,
         index,
         () => random(world),
+        world.scale === 1 ? "solo" : "party",
       ),
       level,
     })) as NewWeapon[];

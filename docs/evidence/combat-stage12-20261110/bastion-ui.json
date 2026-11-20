@@ -1,0 +1,63 @@
+{
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "errors": [],
+  "results": [
+    {
+      "view": {
+        "spikes": 0.667,
+        "loose": 0,
+        "open": 0,
+        "band": -2.517,
+        "seam": "ffc461",
+        "port": "ffc461"
+      },
+      "phase": "guard",
+      "guardKind": "rapid",
+      "colors": [
+        "a0f8ff",
+        "a0f8ff",
+        "a0f8ff",
+        "a0f8ff",
+        "a0f8ff"
+      ],
+      "imageSha256": "3eec3e4336abb7eb83d0ca7b76125ccdb20f21f6506201a784293b1caf0f407f"
+    },
+    {
+      "view": {
+        "spikes": 0.667,
+        "loose": 0,
+        "open": 0,
+        "band": -2.517,
+        "seam": "ffc461",
+        "port": "ffc461"
+      },
+      "phase": "guard",
+      "guardKind": "armor",
+      "colors": [
+        "fff9e1",
+        "fff9e1",
+        "fff9e1",
+        "fff9e1",
+        "fff9e1"
+      ],
+      "imageSha256": "780db32c8c2ecfa0ba81dd9445b745f853a9babb1955d34fb1fd4121abb29b20"
+    },
+    {
+      "view": {
+        "spikes": 0,
+        "loose": 0,
+        "open": 1,
+        "band": 2.27,
+        "seam": "c4edff",
+        "port": "c4edff"
+      },
+      "phase": "open",
+      "guardKind": "open",
+      "colors": [],
+      "imageSha256": "a63453c96458e46ada6fabf432c909005b660000cfee5dfa31d5048afb2d054a"
+    }
+  ]
+}

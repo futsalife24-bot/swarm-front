@@ -1,4 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  CONTROL_VOICE_VOLUME_KEY,
+  loadControlVoiceVolume,
+} from "../src/client/control-voice-volume";
 import { Sound } from "../src/client/audio";
 import { fresh, parseSave } from "../src/client/save";
 import { coopPreferences } from "../src/client/progression-save";
@@ -95,4 +99,61 @@ describe("independent sound levels", () => {
       }
     },
   );
+});
+
+describe("control voice volume", () => {
+  it("inherits the old SE level once and then stays independent under SE and master changes", () => {
+    const stored = new Map<string, string>();
+    vi.stubGlobal("localStorage", {
+      getItem: (key: string) => stored.get(key) ?? null,
+      setItem: (key: string, value: string) => stored.set(key, value),
+    });
+    const sound = new Sound();
+    sound.setVolumes(0.5, 0.2, 0.6);
+    sound.unlock();
+    expect(sound.controlOutputVolume).toBeCloseTo(0.3);
+    expect(gains[1].value).toBeCloseTo(0.3);
+    const stopVoice = vi.spyOn(sound.controlVoice, "stop");
+    sound.setVolumes(0.5, 0.2, 0);
+    expect(sound.effectsVolume).toBe(0);
+    expect(sound.controlOutputVolume).toBeCloseTo(0.3);
+    const restarted = new Sound();
+    restarted.setVolumes(0.5, 0.2, 0);
+    expect(restarted.controlVoiceVolume).toBe(0.6);
+    expect(stopVoice).not.toHaveBeenCalled();
+    sound.controlVoiceVolume = 0.4;
+    expect(gains[1].setTargetAtTime).toHaveBeenLastCalledWith(0.2, 5, 0.015);
+    sound.setVolumes(0.5, 0, 1);
+    expect(sound.controlOutputVolume).toBeCloseTo(0.2);
+    sound.controlVoiceVolume = 0;
+    expect(stopVoice).toHaveBeenCalled();
+    expect(sound.effectsVolume).toBe(0.5);
+    sound.volume = 0;
+    expect(sound.controlOutputVolume).toBe(0);
+  });
+  it("restores a dedicated saved value including mute, without changing old keys", () => {
+    for (const saved of [0, 0.25, 1]) {
+      const getItem = vi.fn((key) =>
+        key === CONTROL_VOICE_VOLUME_KEY ? JSON.stringify(saved) : null,
+      );
+      const setItem = vi.fn();
+      vi.stubGlobal("localStorage", { getItem, setItem });
+      const sound = new Sound();
+      sound.setVolumes(0.5, 1, 0.8);
+      expect(sound.controlVoiceVolume).toBe(saved);
+      expect(setItem).not.toHaveBeenCalled();
+    }
+  });
+  it("leaves malformed or unavailable storage untouched and uses the old audible level", () => {
+    for (const raw of ["null", '"0.5"', "-1", "2", "false", "{"]) {
+      vi.stubGlobal("localStorage", { getItem: () => raw });
+      expect(loadControlVoiceVolume(0.65)).toBe(0.65);
+    }
+    vi.stubGlobal("localStorage", {
+      getItem: () => {
+        throw Error("blocked");
+      },
+    });
+    expect(loadControlVoiceVolume(0)).toBe(0);
+  });
 });

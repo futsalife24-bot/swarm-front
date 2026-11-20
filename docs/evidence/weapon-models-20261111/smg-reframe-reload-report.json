@@ -1,0 +1,134 @@
+{
+  "scope": "Actual local solo UI and game loop, disposable saves, mouse firing and R input, renderer observation; no physical device, real network, hidden hand-surface contact or continuous image video.",
+  "viewport": [
+    844,
+    390
+  ],
+  "requested": [
+    "smg"
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "smg",
+      "family": "rifle",
+      "shot": {
+        "time": 0.25,
+        "ammo": 44,
+        "capacity": 45
+      },
+      "started": {
+        "time": 0.35,
+        "reload": 1.5,
+        "duration": 1.5,
+        "ammo": 43,
+        "mode": "normal_Rifle_reload_idle"
+      },
+      "completed": {
+        "time": 1.850000000000001,
+        "ammo": 45,
+        "capacity": 45,
+        "mode": "normal_Rifle_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.35,
+          "reload": 1.5,
+          "ammo": 43,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.9040886522263816,
+            1.1556372044533796,
+            33.65521645017861
+          ],
+          "right": [
+            -0.8381721979501611,
+            1.0839991595903484,
+            33.945842126953316
+          ],
+          "imageFile": "smg-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.26666666666666694,
+          "time": 0.7500000000000001,
+          "reload": 1.0999999999999996,
+          "ammo": 43,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.825263517520658,
+            0.9825547365484294,
+            33.68088366025991
+          ],
+          "right": [
+            -0.8350259143791402,
+            1.0862350065865827,
+            33.8180350693423
+          ],
+          "imageFile": "smg-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5000000000000004,
+          "time": 1.1000000000000003,
+          "reload": 0.7499999999999993,
+          "ammo": 43,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7477842352762589,
+            0.9520790689721088,
+            33.85791838053926
+          ],
+          "right": [
+            -0.7922967048366423,
+            1.1079052166949208,
+            33.870580107585845
+          ],
+          "imageFile": "smg-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7666666666666672,
+          "time": 1.5000000000000007,
+          "reload": 0.3499999999999992,
+          "ammo": 43,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7321855820927996,
+            1.0624887146669704,
+            33.72608964331429
+          ],
+          "right": [
+            -0.7931170648381197,
+            1.1094269468010243,
+            33.87260310310327
+          ],
+          "imageFile": "smg-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9666666666666672,
+          "time": 1.800000000000001,
+          "reload": 0.04999999999999924,
+          "ammo": 43,
+          "mode": "normal_Rifle_reload_idle",
+          "left": [
+            -0.7871225146794121,
+            1.1502547396209017,
+            33.655543067919545
+          ],
+          "right": [
+            -0.7945596208113339,
+            1.0997110622381336,
+            33.86886654383678
+          ],
+          "imageFile": "smg-95.png"
+        }
+      ],
+      "skippedEncounters": 0,
+      "errors": []
+    }
+  ]
+}

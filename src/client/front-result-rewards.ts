@@ -12,6 +12,7 @@ export interface FrontResultRewards {
   campaign: string;
   error: boolean;
   eligible: boolean;
+  emptyWeaponNote?: string;
   weapons: {
     weapon: NewWeapon;
     state: "stored" | "pending" | "unsaved";
@@ -41,6 +42,13 @@ export function frontResultRewards(
     campaign: current?.campaign ?? "",
     error: current?.error ?? false,
     eligible,
+    ...(info.rewardPolicy === "team-v1"
+      ? {
+          emptyWeaponNote: info.supportRewardEligible
+            ? "今回の武器はありません。協力報酬はチームの武器枠を参加時間で分配します。"
+            : "今回の武器はありません。協力武器報酬には、チームの60秒・1撃破と、参加・活動の条件達成が必要です。",
+        }
+      : {}),
     weapons: eligible
       ? ((world.rewards[playerId] ?? []) as NewWeapon[]).map((weapon) => ({
           weapon,

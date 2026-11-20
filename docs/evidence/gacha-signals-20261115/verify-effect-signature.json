@@ -1,0 +1,85 @@
+{
+  "mode": "effect-signature",
+  "checked": 4,
+  "rows": [
+    {
+      "name": "signature-ten",
+      "request": "signature",
+      "fixture": "ten-buddy",
+      "reduced": false,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.64,
+      "layerFound": true
+    },
+    {
+      "name": "signature-ten-reduced",
+      "request": "signature",
+      "fixture": "ten-buddy",
+      "reduced": true,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.56,
+      "layerFound": true
+    },
+    {
+      "name": "signature-single",
+      "request": "signature",
+      "fixture": "single-buddy",
+      "reduced": false,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.64,
+      "layerFound": true
+    },
+    {
+      "name": "signature-single-reduced",
+      "request": "signature",
+      "fixture": "single-buddy",
+      "reduced": true,
+      "phases": [
+        "signature",
+        0,
+        0
+      ],
+      "targets": [
+        null,
+        null,
+        null
+      ],
+      "sampleTime": 0.56,
+      "layerFound": true
+    }
+  ],
+  "live": [],
+  "cleanup": {
+    "confirmStillNeeded": true,
+    "roots": 0,
+    "caps": 0
+  },
+  "errors": []
+}

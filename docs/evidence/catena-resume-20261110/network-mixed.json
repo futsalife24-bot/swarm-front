@@ -1,0 +1,23 @@
+{
+  "pass": true,
+  "realWorker": true,
+  "sockets": 2,
+  "versions": [
+    1,
+    2
+  ],
+  "flight": [
+    "object",
+    "tuples-v2"
+  ],
+  "settled": [
+    "tuples-v1",
+    "tuples-v2"
+  ],
+  "reconnectIdsRetained": true,
+  "snapshotOmega": true,
+  "hp": [
+    992,
+    1000
+  ]
+}

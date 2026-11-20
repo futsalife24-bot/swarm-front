@@ -1,0 +1,2012 @@
+{
+  "schema": 1,
+  "method": {
+    "rafWindow": "raw.framesの先頭1件はbegin()前から続く間隔なので常に除外",
+    "longFrameWindow": "raw.longFramesはms>=durationMsかつ有限・非負の記録のみ採用（frame開始も計測窓内）",
+    "negativeRelativeTimes": "inputEvents、inputWindowEvents、application ACK、full-frame-only ACKの相対ms/sentMsが負または非有限なら除外。件数はclient.excluded",
+    "inputGaps": "隣接inputEventsの両方がcombat/boss、同じphaseとresumeUntil、serverNow>resumeUntil+1秒",
+    "outsideResumeGraceAckZero": "samplesのうち同じ猶予外条件でack===0の件数",
+    "releaseNeutralToReceiptAckMs": "releaseAfter以降の最初のfire=falseかつmoving=falseから、同seq以上で入力採取時刻と照合できる最初のinputWindow.acknowledgeまで",
+    "receiptAckMs": "inputWindowEventsのseqをinputEventsの同seq送信msへ厳密対応させた受理RTT。対応不能は除外",
+    "fullFrameOnlyReceiptAckMs": "旧receiptAckEventsはtype=stateだけを見る参考値。delta/inputReceiptは含まない",
+    "wireBytes": "計測中の受信JSON payloadのみ。WebSocket等のプロトコルoverheadは含まない",
+    "aggregateDownlinkBytesPerSecond": "4人のwire.bytes合計 / client.wallMsの最大値",
+    "comparison": "trial間は同一スマホ比較ではない",
+    "terrainAlignment": "旧mixed-render1-profile/mixed-render4はserver側だけ草原へ換装しclient側と不一致。主比較から除く"
+  },
+  "freeTierFormulaOnly": {
+    "players": 4,
+    "inputHzEach": 20,
+    "pingSecondsEach": 5,
+    "wallSeconds": 3600,
+    "ratio": 20,
+    "inputMessages": 288000,
+    "pingMessages": 2880,
+    "messageUnits": 14544,
+    "durationGbSecondsPerHour": 460.8
+  },
+  "trials": {
+    "mixed-render1-profile": {
+      "terrainAligned": false,
+      "mainComparisonEligible": false,
+      "observationCompleted": true,
+      "pass": true,
+      "errors": {
+        "run": 0,
+        "clients": 0,
+        "gl": 0
+      },
+      "sourceStable": true,
+      "fixture": {
+        "seed": 4520,
+        "kind": "mixed",
+        "enemies": 49,
+        "projectiles": 100
+      },
+      "releaseAfterSeconds": 0,
+      "clients": [
+        {
+          "client": 0,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 1,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.4,
+          "inputGapMs": {
+            "samples": 616,
+            "p50": 65.7,
+            "p95": 117.3,
+            "max": 837.8,
+            "over250": 5
+          },
+          "outsideResumeGraceAckZero": 5,
+          "receiptAckMs": {
+            "samples": 467,
+            "p50": 138.3,
+            "p95": 438.7,
+            "max": 1019.6
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 8,
+            "p50": 121.8,
+            "p95": 233.7,
+            "max": 233.7
+          },
+          "applicationAckMs": {
+            "samples": 377,
+            "p50": 124.4,
+            "p95": 449.9,
+            "max": 1073.3
+          },
+          "rafMs": {
+            "samples": 1564,
+            "p50": 33.3,
+            "p95": 50,
+            "max": 216.7,
+            "over100": 4
+          },
+          "renderCpuMs": {
+            "samples": 1558,
+            "p50": 22,
+            "p95": 40.8,
+            "max": 220.4
+          },
+          "longFrames": {
+            "count": 4,
+            "durationMs": {
+              "samples": 4,
+              "p50": 133.4,
+              "p95": 216.7,
+              "max": 216.7
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 1,
+            "p50": 815.2,
+            "p95": 815.2,
+            "max": 815.2
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 1,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.4,
+          "inputGapMs": {
+            "samples": 719,
+            "p50": 56.3,
+            "p95": 113.5,
+            "max": 552,
+            "over250": 4
+          },
+          "outsideResumeGraceAckZero": 1,
+          "receiptAckMs": {
+            "samples": 488,
+            "p50": 129.1,
+            "p95": 480.2,
+            "max": 1053.2
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 8,
+            "p50": 87.1,
+            "p95": 313,
+            "max": 313
+          },
+          "applicationAckMs": {
+            "samples": 384,
+            "p50": 108.1,
+            "p95": 497.8,
+            "max": 1081.7
+          },
+          "rafMs": {
+            "samples": 2723,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.3,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 2,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.4,
+          "inputGapMs": {
+            "samples": 704,
+            "p50": 56.1,
+            "p95": 113.8,
+            "max": 867.7,
+            "over250": 5
+          },
+          "outsideResumeGraceAckZero": 2,
+          "receiptAckMs": {
+            "samples": 471,
+            "p50": 120.9,
+            "p95": 486,
+            "max": 1101.6
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 8,
+            "p50": 85.6,
+            "p95": 292.3,
+            "max": 292.3
+          },
+          "applicationAckMs": {
+            "samples": 371,
+            "p50": 105.6,
+            "p95": 503.9,
+            "max": 1136.7
+          },
+          "rafMs": {
+            "samples": 2723,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.4,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 3,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.4,
+          "inputGapMs": {
+            "samples": 721,
+            "p50": 55.6,
+            "p95": 70.8,
+            "max": 568.6,
+            "over250": 6
+          },
+          "outsideResumeGraceAckZero": 4,
+          "receiptAckMs": {
+            "samples": 481,
+            "p50": 129.5,
+            "p95": 535.1,
+            "max": 1217.2
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 8,
+            "p50": 76.8,
+            "p95": 246,
+            "max": 246
+          },
+          "applicationAckMs": {
+            "samples": 376,
+            "p50": 108.2,
+            "p95": 501.1,
+            "max": 1335.1
+          },
+          "rafMs": {
+            "samples": 2723,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.4,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        }
+      ],
+      "wire": {
+        "totalBytes": 19267911,
+        "wallSeconds": 45.4,
+        "aggregateDownlinkBytesPerSecond": 424471.6
+      },
+      "workerTicksMs": {
+        "samples": 940,
+        "p50": 16,
+        "p95": 36,
+        "max": 103
+      }
+    },
+    "mixed-render4": {
+      "terrainAligned": false,
+      "mainComparisonEligible": false,
+      "observationCompleted": true,
+      "pass": false,
+      "errors": {
+        "run": 30,
+        "clients": 0,
+        "gl": 0
+      },
+      "sourceStable": true,
+      "fixture": {
+        "seed": 4520,
+        "kind": "mixed",
+        "enemies": 49,
+        "projectiles": 100
+      },
+      "releaseAfterSeconds": 0,
+      "clients": [
+        {
+          "client": 0,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 48.5,
+          "inputGapMs": {
+            "samples": 86,
+            "p50": 404.5,
+            "p95": 1199.4,
+            "max": 3555,
+            "over250": 66
+          },
+          "outsideResumeGraceAckZero": 34,
+          "receiptAckMs": {
+            "samples": 82,
+            "p50": 2099,
+            "p95": 3477.2,
+            "max": 4768.3
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 1931.3,
+            "p95": 1931.3,
+            "max": 1931.3
+          },
+          "applicationAckMs": {
+            "samples": 11,
+            "p50": 1789.8,
+            "p95": 3738.7,
+            "max": 3738.7
+          },
+          "rafMs": {
+            "samples": 1489,
+            "p50": 33.3,
+            "p95": 50,
+            "max": 749.9,
+            "over100": 5
+          },
+          "renderCpuMs": {
+            "samples": 1486,
+            "p50": 21.6,
+            "p95": 28.6,
+            "max": 743.3
+          },
+          "longFrames": {
+            "count": 5,
+            "durationMs": {
+              "samples": 5,
+              "p50": 300.1,
+              "p95": 749.9,
+              "max": 749.9
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 1,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 48.5,
+          "inputGapMs": {
+            "samples": 87,
+            "p50": 455,
+            "p95": 1425.6,
+            "max": 1887.8,
+            "over250": 66
+          },
+          "outsideResumeGraceAckZero": 39,
+          "receiptAckMs": {
+            "samples": 83,
+            "p50": 1958.4,
+            "p95": 3550.5,
+            "max": 3974.5
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 3440.1,
+            "p95": 3440.1,
+            "max": 3440.1
+          },
+          "applicationAckMs": {
+            "samples": 6,
+            "p50": 1477.5,
+            "p95": 3990,
+            "max": 3990
+          },
+          "rafMs": {
+            "samples": 1513,
+            "p50": 33.3,
+            "p95": 50,
+            "max": 716.5,
+            "over100": 8
+          },
+          "renderCpuMs": {
+            "samples": 1505,
+            "p50": 21.5,
+            "p95": 28.4,
+            "max": 711.7
+          },
+          "longFrames": {
+            "count": 8,
+            "durationMs": {
+              "samples": 8,
+              "p50": 166.7,
+              "p95": 716.5,
+              "max": 716.5
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 2,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 48.5,
+          "inputGapMs": {
+            "samples": 92,
+            "p50": 382.4,
+            "p95": 1541.2,
+            "max": 2960.6,
+            "over250": 58
+          },
+          "outsideResumeGraceAckZero": 36,
+          "receiptAckMs": {
+            "samples": 78,
+            "p50": 2093.9,
+            "p95": 4320.8,
+            "max": 5080.5
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "applicationAckMs": {
+            "samples": 6,
+            "p50": 1726.3,
+            "p95": 3039.1,
+            "max": 3039.1
+          },
+          "rafMs": {
+            "samples": 1502,
+            "p50": 33.3,
+            "p95": 50,
+            "max": 733.3,
+            "over100": 6
+          },
+          "renderCpuMs": {
+            "samples": 1502,
+            "p50": 20.9,
+            "p95": 27.7,
+            "max": 728
+          },
+          "longFrames": {
+            "count": 6,
+            "durationMs": {
+              "samples": 6,
+              "p50": 199.9,
+              "p95": 733.3,
+              "max": 733.3
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 3,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 48.5,
+          "inputGapMs": {
+            "samples": 86,
+            "p50": 438.2,
+            "p95": 1772.4,
+            "max": 2905.8,
+            "over250": 67
+          },
+          "outsideResumeGraceAckZero": 38,
+          "receiptAckMs": {
+            "samples": 80,
+            "p50": 1817.3,
+            "p95": 3694.6,
+            "max": 3890.2
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 2930.6,
+            "p95": 2930.6,
+            "max": 2930.6
+          },
+          "applicationAckMs": {
+            "samples": 7,
+            "p50": 1600.6,
+            "p95": 3576.6,
+            "max": 3576.6
+          },
+          "rafMs": {
+            "samples": 1480,
+            "p50": 33.3,
+            "p95": 49.9,
+            "max": 616.7,
+            "over100": 8
+          },
+          "renderCpuMs": {
+            "samples": 1481,
+            "p50": 21.8,
+            "p95": 28.7,
+            "max": 601.4
+          },
+          "longFrames": {
+            "count": 8,
+            "durationMs": {
+              "samples": 8,
+              "p50": 150.1,
+              "p95": 616.7,
+              "max": 616.7
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        }
+      ],
+      "wire": {
+        "totalBytes": 3063083,
+        "wallSeconds": 48.5,
+        "aggregateDownlinkBytesPerSecond": 63198.7
+      },
+      "workerTicksMs": {
+        "samples": 555,
+        "p50": 42,
+        "p95": 130,
+        "max": 326
+      }
+    },
+    "mixed-slow-up": {
+      "terrainAligned": true,
+      "mainComparisonEligible": false,
+      "observationCompleted": true,
+      "pass": true,
+      "errors": {
+        "run": 0,
+        "clients": 0,
+        "gl": 0
+      },
+      "sourceStable": true,
+      "fixture": {
+        "seed": 4520,
+        "kind": "mixed",
+        "enemies": 49,
+        "projectiles": 100
+      },
+      "releaseAfterSeconds": 15,
+      "clients": [
+        {
+          "client": 0,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 1,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 30.1,
+          "inputGapMs": {
+            "samples": 143,
+            "p50": 191.2,
+            "p95": 346,
+            "max": 604.4,
+            "over250": 38
+          },
+          "outsideResumeGraceAckZero": 17,
+          "receiptAckMs": {
+            "samples": 141,
+            "p50": 657,
+            "p95": 1106,
+            "max": 1147.9
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 585.5,
+            "p95": 585.5,
+            "max": 585.5
+          },
+          "applicationAckMs": {
+            "samples": 56,
+            "p50": 824.7,
+            "p95": 1365.4,
+            "max": 1413.3
+          },
+          "rafMs": {
+            "samples": 894,
+            "p50": 33.3,
+            "p95": 50.1,
+            "max": 533.2,
+            "over100": 5
+          },
+          "renderCpuMs": {
+            "samples": 891,
+            "p50": 20.6,
+            "p95": 36.3,
+            "max": 323.4
+          },
+          "longFrames": {
+            "count": 5,
+            "durationMs": {
+              "samples": 5,
+              "p50": 216.6,
+              "p95": 533.2,
+              "max": 533.2
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": 962.7,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": 6049.2,
+          "releaseNeutralSent": true
+        },
+        {
+          "client": 1,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 30.5,
+          "inputGapMs": {
+            "samples": 142,
+            "p50": 174.8,
+            "p95": 339.4,
+            "max": 2588.7,
+            "over250": 31
+          },
+          "outsideResumeGraceAckZero": 14,
+          "receiptAckMs": {
+            "samples": 139,
+            "p50": 644.3,
+            "p95": 2083.4,
+            "max": 3289.7
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 635.9,
+            "p95": 635.9,
+            "max": 635.9
+          },
+          "applicationAckMs": {
+            "samples": 54,
+            "p50": 811.9,
+            "p95": 1277.7,
+            "max": 3389.6
+          },
+          "rafMs": {
+            "samples": 1827,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.1,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": 944.5,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": 7334.3,
+          "releaseNeutralSent": true
+        },
+        {
+          "client": 2,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 30.5,
+          "inputGapMs": {
+            "samples": 142,
+            "p50": 181.8,
+            "p95": 301.9,
+            "max": 2433.7,
+            "over250": 30
+          },
+          "outsideResumeGraceAckZero": 2,
+          "receiptAckMs": {
+            "samples": 139,
+            "p50": 650.5,
+            "p95": 1177.6,
+            "max": 3082.3
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 636.9,
+            "p95": 636.9,
+            "max": 636.9
+          },
+          "applicationAckMs": {
+            "samples": 56,
+            "p50": 821.3,
+            "p95": 1168.5,
+            "max": 3148.8
+          },
+          "rafMs": {
+            "samples": 1827,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.1,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": 932.5,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": 7270.7,
+          "releaseNeutralSent": true
+        },
+        {
+          "client": 3,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 30.5,
+          "inputGapMs": {
+            "samples": 140,
+            "p50": 177.3,
+            "p95": 332.3,
+            "max": 2603.2,
+            "over250": 32
+          },
+          "outsideResumeGraceAckZero": 4,
+          "receiptAckMs": {
+            "samples": 137,
+            "p50": 670.9,
+            "p95": 2131.2,
+            "max": 3336.7
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 660.8,
+            "p95": 660.8,
+            "max": 660.8
+          },
+          "applicationAckMs": {
+            "samples": 54,
+            "p50": 801,
+            "p95": 1177.6,
+            "max": 3411
+          },
+          "rafMs": {
+            "samples": 1827,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.2,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": 967.5,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": 7495,
+          "releaseNeutralSent": true
+        }
+      ],
+      "wire": {
+        "totalBytes": 3746797,
+        "wallSeconds": 30.5,
+        "aggregateDownlinkBytesPerSecond": 123023.3
+      },
+      "workerTicksMs": {
+        "samples": 621,
+        "p50": 12,
+        "p95": 23,
+        "max": 69
+      }
+    },
+    "mixed-render1-control": {
+      "terrainAligned": true,
+      "mainComparisonEligible": true,
+      "observationCompleted": true,
+      "pass": true,
+      "errors": {
+        "run": 0,
+        "clients": 0,
+        "gl": 0
+      },
+      "sourceStable": true,
+      "fixture": {
+        "seed": 4520,
+        "kind": "mixed",
+        "enemies": 49,
+        "projectiles": 100
+      },
+      "releaseAfterSeconds": 0,
+      "clients": [
+        {
+          "client": 0,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 1,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.3,
+          "inputGapMs": {
+            "samples": 615,
+            "p50": 63.7,
+            "p95": 118.9,
+            "max": 575.8,
+            "over250": 6
+          },
+          "outsideResumeGraceAckZero": 5,
+          "receiptAckMs": {
+            "samples": 441,
+            "p50": 112.5,
+            "p95": 494.9,
+            "max": 930.9
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 7,
+            "p50": 158.3,
+            "p95": 233.5,
+            "max": 233.5
+          },
+          "applicationAckMs": {
+            "samples": 359,
+            "p50": 105.8,
+            "p95": 525.1,
+            "max": 810.5
+          },
+          "rafMs": {
+            "samples": 1497,
+            "p50": 33.3,
+            "p95": 50,
+            "max": 499.9,
+            "over100": 4
+          },
+          "renderCpuMs": {
+            "samples": 1486,
+            "p50": 19.6,
+            "p95": 37.6,
+            "max": 316.8
+          },
+          "longFrames": {
+            "count": 4,
+            "durationMs": {
+              "samples": 4,
+              "p50": 133.3,
+              "p95": 499.9,
+              "max": 499.9
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 1,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.5,
+          "inputGapMs": {
+            "samples": 708,
+            "p50": 56.6,
+            "p95": 68.1,
+            "max": 461.2,
+            "over250": 9
+          },
+          "outsideResumeGraceAckZero": 2,
+          "receiptAckMs": {
+            "samples": 457,
+            "p50": 97.2,
+            "p95": 512.6,
+            "max": 986.1
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 8,
+            "p50": 62,
+            "p95": 131.9,
+            "max": 131.9
+          },
+          "applicationAckMs": {
+            "samples": 383,
+            "p50": 90,
+            "p95": 493.2,
+            "max": 981.4
+          },
+          "rafMs": {
+            "samples": 2729,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.6,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 2,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.5,
+          "inputGapMs": {
+            "samples": 707,
+            "p50": 57.1,
+            "p95": 70.6,
+            "max": 813.1,
+            "over250": 7
+          },
+          "outsideResumeGraceAckZero": 2,
+          "receiptAckMs": {
+            "samples": 457,
+            "p50": 98.7,
+            "p95": 474.6,
+            "max": 951.8
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 8,
+            "p50": 52.9,
+            "p95": 141.3,
+            "max": 141.3
+          },
+          "applicationAckMs": {
+            "samples": 385,
+            "p50": 91.3,
+            "p95": 475.5,
+            "max": 994.1
+          },
+          "rafMs": {
+            "samples": 2729,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.7,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 3,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.5,
+          "inputGapMs": {
+            "samples": 717,
+            "p50": 56.8,
+            "p95": 67.4,
+            "max": 700,
+            "over250": 7
+          },
+          "outsideResumeGraceAckZero": 6,
+          "receiptAckMs": {
+            "samples": 461,
+            "p50": 98.3,
+            "p95": 462.5,
+            "max": 843.2
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 8,
+            "p50": 71.7,
+            "p95": 126.1,
+            "max": 126.1
+          },
+          "applicationAckMs": {
+            "samples": 385,
+            "p50": 90.5,
+            "p95": 480.5,
+            "max": 972.7
+          },
+          "rafMs": {
+            "samples": 2729,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 17.6,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        }
+      ],
+      "wire": {
+        "totalBytes": 21638099,
+        "wallSeconds": 45.5,
+        "aggregateDownlinkBytesPerSecond": 475529.2
+      },
+      "workerTicksMs": {
+        "samples": 920,
+        "p50": 17,
+        "p95": 38,
+        "max": 59
+      }
+    },
+    "mixed-render4-aligned": {
+      "terrainAligned": true,
+      "mainComparisonEligible": true,
+      "observationCompleted": true,
+      "pass": true,
+      "errors": {
+        "run": 0,
+        "clients": 0,
+        "gl": 0
+      },
+      "sourceStable": true,
+      "fixture": {
+        "seed": 4520,
+        "kind": "mixed",
+        "enemies": 49,
+        "projectiles": 100
+      },
+      "releaseAfterSeconds": 0,
+      "clients": [
+        {
+          "client": 0,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 1,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.9,
+          "inputGapMs": {
+            "samples": 162,
+            "p50": 201,
+            "p95": 719.9,
+            "max": 2546.8,
+            "over250": 68
+          },
+          "outsideResumeGraceAckZero": 41,
+          "receiptAckMs": {
+            "samples": 148,
+            "p50": 1099.4,
+            "p95": 2262.5,
+            "max": 2845
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 572.2,
+            "p95": 572.2,
+            "max": 572.2
+          },
+          "applicationAckMs": {
+            "samples": 40,
+            "p50": 838,
+            "p95": 1744.4,
+            "max": 2846
+          },
+          "rafMs": {
+            "samples": 1416,
+            "p50": 33.3,
+            "p95": 50,
+            "max": 550.2,
+            "over100": 7
+          },
+          "renderCpuMs": {
+            "samples": 1402,
+            "p50": 22.2,
+            "p95": 28.6,
+            "max": 281.3
+          },
+          "longFrames": {
+            "count": 7,
+            "durationMs": {
+              "samples": 7,
+              "p50": 116.8,
+              "p95": 550.2,
+              "max": 550.2
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 1,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 1,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.9,
+          "inputGapMs": {
+            "samples": 169,
+            "p50": 187.5,
+            "p95": 744.6,
+            "max": 1865,
+            "over250": 67
+          },
+          "outsideResumeGraceAckZero": 40,
+          "receiptAckMs": {
+            "samples": 139,
+            "p50": 1282.5,
+            "p95": 2479.1,
+            "max": 2972.3
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 808.3,
+            "p95": 808.3,
+            "max": 808.3
+          },
+          "applicationAckMs": {
+            "samples": 33,
+            "p50": 920.4,
+            "p95": 2221.8,
+            "max": 2330.4
+          },
+          "rafMs": {
+            "samples": 1559,
+            "p50": 33.3,
+            "p95": 49.9,
+            "max": 233.3,
+            "over100": 6
+          },
+          "renderCpuMs": {
+            "samples": 1548,
+            "p50": 21,
+            "p95": 27.7,
+            "max": 236.6
+          },
+          "longFrames": {
+            "count": 6,
+            "durationMs": {
+              "samples": 6,
+              "p50": 116.7,
+              "p95": 233.3,
+              "max": 233.3
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 2,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 1,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.9,
+          "inputGapMs": {
+            "samples": 168,
+            "p50": 201.5,
+            "p95": 764.3,
+            "max": 1418.1,
+            "over250": 72
+          },
+          "outsideResumeGraceAckZero": 41,
+          "receiptAckMs": {
+            "samples": 144,
+            "p50": 1158.4,
+            "p95": 2578,
+            "max": 3323.1
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 409.1,
+            "p95": 409.1,
+            "max": 409.1
+          },
+          "applicationAckMs": {
+            "samples": 32,
+            "p50": 932.1,
+            "p95": 2181.6,
+            "max": 2614.8
+          },
+          "rafMs": {
+            "samples": 1469,
+            "p50": 33.3,
+            "p95": 50,
+            "max": 233.3,
+            "over100": 3
+          },
+          "renderCpuMs": {
+            "samples": 1464,
+            "p50": 21.8,
+            "p95": 27.9,
+            "max": 236.7
+          },
+          "longFrames": {
+            "count": 3,
+            "durationMs": {
+              "samples": 3,
+              "p50": 200.1,
+              "p95": 233.3,
+              "max": 233.3
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 3,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 1,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 45.9,
+          "inputGapMs": {
+            "samples": 170,
+            "p50": 187.8,
+            "p95": 694.5,
+            "max": 2486.9,
+            "over250": 72
+          },
+          "outsideResumeGraceAckZero": 38,
+          "receiptAckMs": {
+            "samples": 140,
+            "p50": 1105.6,
+            "p95": 2529.5,
+            "max": 3182.2
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 1,
+            "p50": 288.7,
+            "p95": 288.7,
+            "max": 288.7
+          },
+          "applicationAckMs": {
+            "samples": 39,
+            "p50": 912.4,
+            "p95": 2077.7,
+            "max": 2178.1
+          },
+          "rafMs": {
+            "samples": 1658,
+            "p50": 33.2,
+            "p95": 33.6,
+            "max": 233.4,
+            "over100": 4
+          },
+          "renderCpuMs": {
+            "samples": 1659,
+            "p50": 19.3,
+            "p95": 26.5,
+            "max": 233.5
+          },
+          "longFrames": {
+            "count": 4,
+            "durationMs": {
+              "samples": 4,
+              "p50": 133.4,
+              "p95": 233.4,
+              "max": 233.4
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        }
+      ],
+      "wire": {
+        "totalBytes": 5469138,
+        "wallSeconds": 45.9,
+        "aggregateDownlinkBytesPerSecond": 119073.2
+      },
+      "workerTicksMs": {
+        "samples": 773,
+        "p50": 25,
+        "p95": 72,
+        "max": 164
+      }
+    },
+    "survival-render1": {
+      "terrainAligned": true,
+      "mainComparisonEligible": false,
+      "observationCompleted": true,
+      "pass": true,
+      "errors": {
+        "run": 0,
+        "clients": 0,
+        "gl": 0
+      },
+      "sourceStable": true,
+      "fixture": null,
+      "releaseAfterSeconds": 0,
+      "clients": [
+        {
+          "client": 0,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 60.1,
+          "inputGapMs": {
+            "samples": 986,
+            "p50": 56.4,
+            "p95": 72.6,
+            "max": 111.7,
+            "over250": 0
+          },
+          "outsideResumeGraceAckZero": 0,
+          "receiptAckMs": {
+            "samples": 593,
+            "p50": 59,
+            "p95": 96.6,
+            "max": 130
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 12,
+            "p50": 64.5,
+            "p95": 88.7,
+            "max": 88.7
+          },
+          "applicationAckMs": {
+            "samples": 593,
+            "p50": 59.1,
+            "p95": 97.6,
+            "max": 130
+          },
+          "rafMs": {
+            "samples": 3488,
+            "p50": 16.7,
+            "p95": 16.9,
+            "max": 66.6,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 3463,
+            "p50": 12.4,
+            "p95": 20.8,
+            "max": 50.1
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 1,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 60.1,
+          "inputGapMs": {
+            "samples": 1014,
+            "p50": 53.2,
+            "p95": 65.8,
+            "max": 68.8,
+            "over250": 0
+          },
+          "outsideResumeGraceAckZero": 0,
+          "receiptAckMs": {
+            "samples": 597,
+            "p50": 54,
+            "p95": 92.4,
+            "max": 160.4
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 12,
+            "p50": 54.3,
+            "p95": 103.6,
+            "max": 103.6
+          },
+          "applicationAckMs": {
+            "samples": 595,
+            "p50": 54.1,
+            "p95": 92.6,
+            "max": 160.4
+          },
+          "rafMs": {
+            "samples": 3600,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 33,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 2,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 60.1,
+          "inputGapMs": {
+            "samples": 1011,
+            "p50": 53.5,
+            "p95": 65.8,
+            "max": 69.3,
+            "over250": 0
+          },
+          "outsideResumeGraceAckZero": 0,
+          "receiptAckMs": {
+            "samples": 597,
+            "p50": 56,
+            "p95": 92,
+            "max": 134.8
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 12,
+            "p50": 53.2,
+            "p95": 135.1,
+            "max": 135.1
+          },
+          "applicationAckMs": {
+            "samples": 596,
+            "p50": 55.8,
+            "p95": 92.1,
+            "max": 134.9
+          },
+          "rafMs": {
+            "samples": 3600,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 33.1,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        },
+        {
+          "client": 3,
+          "excluded": {
+            "firstRafInterval": 1,
+            "longFrameStartedBeforeWindow": 0,
+            "invalidOrNegativeInputEvents": 0,
+            "invalidOrNegativeInputWindowEvents": 0,
+            "invalidOrNegativeApplicationAckEvents": 0,
+            "invalidOrNegativeFullFrameReceiptAckEvents": 0
+          },
+          "wallSeconds": 60.1,
+          "inputGapMs": {
+            "samples": 1011,
+            "p50": 53.2,
+            "p95": 65.9,
+            "max": 69.2,
+            "over250": 0
+          },
+          "outsideResumeGraceAckZero": 0,
+          "receiptAckMs": {
+            "samples": 597,
+            "p50": 54.6,
+            "p95": 92.5,
+            "max": 145.6
+          },
+          "fullFrameOnlyReceiptAckMs": {
+            "samples": 12,
+            "p50": 47.6,
+            "p95": 93.9,
+            "max": 93.9
+          },
+          "applicationAckMs": {
+            "samples": 596,
+            "p50": 54.6,
+            "p95": 92.5,
+            "max": 145.7
+          },
+          "rafMs": {
+            "samples": 3599,
+            "p50": 16.7,
+            "p95": 16.8,
+            "max": 32.9,
+            "over100": 0
+          },
+          "renderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "longFrames": {
+            "count": 0,
+            "durationMs": {
+              "samples": 0,
+              "p50": null,
+              "p95": null,
+              "max": null
+            }
+          },
+          "longFrameRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "diagnosticSlowRenderCpuMs": {
+            "samples": 0,
+            "p50": null,
+            "p95": null,
+            "max": null
+          },
+          "releaseNeutralToReceiptAckMs": null,
+          "releaseNeutralToFullFrameOnlyReceiptAckMs": null,
+          "releaseNeutralSent": false
+        }
+      ],
+      "wire": {
+        "totalBytes": 10838631,
+        "wallSeconds": 60.1,
+        "aggregateDownlinkBytesPerSecond": 180469.1
+      },
+      "workerTicksMs": null
+    }
+  }
+}

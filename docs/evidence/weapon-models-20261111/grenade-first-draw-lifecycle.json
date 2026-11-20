@@ -1,0 +1,66 @@
+{
+  "scope": "Real CombatEffects with isolated WebGL; production source unless --proposal uses lab candidate. No gameplay, network or physical device.",
+  "browser": "157.0.8103.39",
+  "results": {
+    "drawReuse": {
+      "heldAge": 0,
+      "after": 0,
+      "returned": true,
+      "same": true,
+      "clean": true
+    },
+    "hidden": {
+      "before": 1,
+      "after": 0,
+      "returned": true,
+      "same": true,
+      "clean": true
+    },
+    "offscreen": {
+      "before": 1,
+      "after": 0,
+      "returned": true,
+      "same": true,
+      "clean": true
+    },
+    "saturated": {
+      "budget": 180,
+      "before": 180,
+      "after": 180,
+      "pending": 0
+    },
+    "boundary": {
+      "items": 180,
+      "pending": 1,
+      "bulletCreated": true,
+      "flashCreated": false
+    },
+    "many": {
+      "initial": {
+        "items": 180,
+        "pending": 90,
+        "timers": 90
+      },
+      "afterItems": 90,
+      "afterPending": 0,
+      "spare": 90,
+      "timers": 0
+    },
+    "clear": {
+      "cycles": 5,
+      "maxPending": 90,
+      "total": 450,
+      "restored": true,
+      "timersBefore": 0,
+      "timersAfter": 0,
+      "lateFired": 0,
+      "items": 0,
+      "spare": 0
+    },
+    "unrelated": {
+      "pending": 0,
+      "timers": 0
+    }
+  },
+  "errors": []
+}

@@ -1,0 +1,10 @@
+{
+  "voice": "hiromi",
+  "mode": "coop",
+  "starts": 0,
+  "maxLive": 0,
+  "network": [
+    "https://swarm-front.melosalife-24.workers.dev/assets/voice-packs/control-voice-hiromi-v2.bin"
+  ],
+  "errors": []
+}

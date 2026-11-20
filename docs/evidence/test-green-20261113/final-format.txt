@@ -1,0 +1,7 @@
+
+> swarm-front@0.1.0 format:check
+> prettier --check src server tests e2e *.ts *.json *.jsonc
+
+Checking formatting...
+All matched files use Prettier code style!
+npm run format:check exit=0 seconds=11

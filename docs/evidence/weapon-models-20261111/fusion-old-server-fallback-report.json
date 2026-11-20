@@ -1,0 +1,81 @@
+{
+  "scope": "d7d1399 old server simulation runs actual fusion code, new client runs isolated Node bundles; GLTFLoader uses real public GLBs via local HTTP. No actual old server process, old client, browser, physical device or deployed Worker.",
+  "inputs": [
+    {
+      "format": "new",
+      "rarity": 0,
+      "expected": 0,
+      "before": 1,
+      "candidate": 1
+    },
+    {
+      "format": "new",
+      "rarity": 1,
+      "expected": 1,
+      "before": 2,
+      "candidate": 2
+    },
+    {
+      "format": "new",
+      "rarity": 2,
+      "expected": 2,
+      "before": 3,
+      "candidate": 3
+    },
+    {
+      "format": "new",
+      "rarity": 3,
+      "expected": 3,
+      "before": 4,
+      "candidate": 4
+    },
+    {
+      "format": "new",
+      "rarity": 4,
+      "expected": 4,
+      "before": 5,
+      "candidate": 4
+    },
+    {
+      "format": "legacy",
+      "rarity": 0,
+      "expected": 1,
+      "before": 1,
+      "candidate": 1
+    },
+    {
+      "format": "legacy",
+      "rarity": 1,
+      "expected": 2,
+      "before": 2,
+      "candidate": 2
+    },
+    {
+      "format": "legacy",
+      "rarity": 2,
+      "expected": 3,
+      "before": 3,
+      "candidate": 3
+    },
+    {
+      "format": "legacy",
+      "rarity": 3,
+      "expected": 4,
+      "before": 4,
+      "candidate": 4
+    }
+  ],
+  "requests": [
+    "/assets/weapons/unique-v1/slug_5.glb",
+    "/assets/weapons/unique-v1/slug_4.glb"
+  ],
+  "beforeGlow": "#ffffff",
+  "candidateGlow": "#ffd472",
+  "beforeLoadError": "fetch for \"<local>/assets/weapons/unique-v1/slug_5.glb\" responded with 404: Not Found",
+  "candidateLoaded": true,
+  "combatStatsEqual": true,
+  "limitations": [
+    "N through SSR remain ambiguous after old server removes original format",
+    "The candidate is an in-memory test only; product sources were not changed"
+  ]
+}

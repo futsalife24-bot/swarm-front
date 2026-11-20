@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-11-13T02:46:07.304Z",
+  "accountCount": 1,
+  "subscriptions": {
+    "status": 403,
+    "errors": [
+      {
+        "code": 10000,
+        "message": "Authentication error"
+      }
+    ]
+  },
+  "metrics": {
+    "status": 200,
+    "data": [
+      [
+        {
+          "sum": {
+            "errors": 0,
+            "requests": 40,
+            "subrequests": 40
+          }
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "build.txt": {
+    "rawSha256": "df04f56616eee63734ef413520db1b17f55d94f1a7ed48a2c0590bdbecc4235b",
+    "textSha256": "7e97bfc3a5b952f60d31325f24513637a6f2654aa5fd5a798588993a71a0f509"
+  },
+  "format.txt": {
+    "rawSha256": "a61ba45342bf83b04aa8ea858e46b7978cbd36d73e2eb0f3d26be06abf5b93ee",
+    "textSha256": "dfd649d1397700828a7ba9c81df7ff06416cd918e2d5f5441312b2ed9c00567e"
+  },
+  "serverBuild.txt": {
+    "rawSha256": "c8b33e6ac1ffc140d5a3bc71e659e481ad09c031c174994363fe532e37cc9255",
+    "textSha256": "24a78d59fa3fe2872e60a333280a49a14179d4e064a2ca4d45845c0c6784faa9"
+  },
+  "test.txt": {
+    "rawSha256": "bc65e577157ec903ad9cca7e829cdfd3e734d147132e99a5c5041887efeeb71e",
+    "textSha256": "f667c0f37f726331158e33ece0574a4b83892963c2b3734c756020da074fcf92"
+  },
+  "typecheck.txt": {
+    "rawSha256": "2a3cecd9a5b890521cf83e8f3569d517890e9ac6b980f39f5e23a7aa2f1632bc",
+    "textSha256": "c0f7833da2803d20d8fdbcc4b1d2e77c0690c3a83442c9ed6d989c939953ba79"
+  }
+}

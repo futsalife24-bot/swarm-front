@@ -1,0 +1,355 @@
+{
+  "checkedAt": "2026-11-11T09:36:12.483Z",
+  "publicRoot": "https://swarm-front.melosalife-24.workers.dev/supply-reveal/",
+  "localRoot": "dist/supply-reveal",
+  "total": 23,
+  "matched": 23,
+  "items": [
+    {
+      "path": "supply-reveal/README.md",
+      "bytes": {
+        "local": 3587,
+        "public": 3587
+      },
+      "sha256": {
+        "local": "e224b8089549e90c3c739d348fae0c62db18c916dda1545cb0b521c9a18b92f3",
+        "public": "e224b8089549e90c3c739d348fae0c62db18c916dda1545cb0b521c9a18b92f3"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/OFL.txt",
+      "bytes": {
+        "local": 4372,
+        "public": 4372
+      },
+      "sha256": {
+        "local": "793bdd8538a0c03afb5bc10906be27ad1dc76f143cfeac8c55cd9075a5b3a55c",
+        "public": "793bdd8538a0c03afb5bc10906be27ad1dc76f143cfeac8c55cd9075a5b3a55c"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/Rajdhani-Bold.ttf",
+      "bytes": {
+        "local": 400680,
+        "public": 400680
+      },
+      "sha256": {
+        "local": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd",
+        "public": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/b-oriha.webp",
+      "bytes": {
+        "local": 17542,
+        "public": 17542
+      },
+      "sha256": {
+        "local": "06d89c781b30e893fe36634917451a735cdd140db4aa2b415afa5ace40e9a3e4",
+        "public": "06d89c781b30e893fe36634917451a735cdd140db4aa2b415afa5ace40e9a3e4"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/b-tatara.webp",
+      "bytes": {
+        "local": 26068,
+        "public": 26068
+      },
+      "sha256": {
+        "local": "414b96d9e6e2e82ac3c05db12f71f08fef2120adb17c4dd79435c515f0fad10b",
+        "public": "414b96d9e6e2e82ac3c05db12f71f08fef2120adb17c4dd79435c515f0fad10b"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/b-tobari.webp",
+      "bytes": {
+        "local": 26738,
+        "public": 26738
+      },
+      "sha256": {
+        "local": "fb8a0e146bdd1af37a7ac6fada341f4c58d661c469fc62e6db7ac6932218186b",
+        "public": "fb8a0e146bdd1af37a7ac6fada341f4c58d661c469fc62e6db7ac6932218186b"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/b-yosuga.webp",
+      "bytes": {
+        "local": 36636,
+        "public": 36636
+      },
+      "sha256": {
+        "local": "82323909095077c8d5c70815af82c864d86d5cfce0409199365776deceff740d",
+        "public": "82323909095077c8d5c70815af82c864d86d5cfce0409199365776deceff740d"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/crate-open-preview.mp3",
+      "bytes": {
+        "local": 63364,
+        "public": 63364
+      },
+      "sha256": {
+        "local": "f5821e513c60ffb04c463bfcc145f4e1e0b4b23b1a20d9b5ebb3ee6cf2856c34",
+        "public": "f5821e513c60ffb04c463bfcc145f4e1e0b4b23b1a20d9b5ebb3ee6cf2856c34"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/pod-256.webp",
+      "bytes": {
+        "local": 13190,
+        "public": 13190
+      },
+      "sha256": {
+        "local": "5ce36875907f10c8a859f8791634e08e7a059e47be56be9bcfefd1bc148e3da9",
+        "public": "5ce36875907f10c8a859f8791634e08e7a059e47be56be9bcfefd1bc148e3da9"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/pod-512.webp",
+      "bytes": {
+        "local": 33004,
+        "public": 33004
+      },
+      "sha256": {
+        "local": "9bac11c7de22e6a45f0d0dd30ae8661a96dadeff6deddb1b1a7eff5648d98fb7",
+        "public": "9bac11c7de22e6a45f0d0dd30ae8661a96dadeff6deddb1b1a7eff5648d98fb7"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/w-rifle.webp",
+      "bytes": {
+        "local": 33742,
+        "public": 33742
+      },
+      "sha256": {
+        "local": "438263bf1f47dd29f02156f365a32c6d104b5a5519055f3164faf5186f1e7aaf",
+        "public": "438263bf1f47dd29f02156f365a32c6d104b5a5519055f3164faf5186f1e7aaf"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/w-rocket.webp",
+      "bytes": {
+        "local": 25574,
+        "public": 25574
+      },
+      "sha256": {
+        "local": "7f776fb3723e782c25f62088681cb46b114d6726dd7fc72402021940100e8ef5",
+        "public": "7f776fb3723e782c25f62088681cb46b114d6726dd7fc72402021940100e8ef5"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/assets/w-shotgun.webp",
+      "bytes": {
+        "local": 23368,
+        "public": 23368
+      },
+      "sha256": {
+        "local": "86c4026070c593e31615a58028fa388bccd92cf2b4cebbd2a14cc422ad58b168",
+        "public": "86c4026070c593e31615a58028fa388bccd92cf2b4cebbd2a14cc422ad58b168"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/core.js",
+      "bytes": {
+        "local": 65610,
+        "public": 65610
+      },
+      "sha256": {
+        "local": "469faac80bf4c8007f1246777bd4481bfc09883bc997053183d5e137ba5c4fdd",
+        "public": "469faac80bf4c8007f1246777bd4481bfc09883bc997053183d5e137ba5c4fdd"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/crate-open-pcm.js",
+      "bytes": {
+        "local": 50291,
+        "public": 50291
+      },
+      "sha256": {
+        "local": "db64d94d804f5cf1ef22bf4ec74c151484cb9882a36295749928d7eea1819636",
+        "public": "db64d94d804f5cf1ef22bf4ec74c151484cb9882a36295749928d7eea1819636"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/effect-selection.js",
+      "bytes": {
+        "local": 1065,
+        "public": 1065
+      },
+      "sha256": {
+        "local": "92348bf280e745dd85fb92d674ce62752faf9d26bda2b39ca7a174395150bc1a",
+        "public": "92348bf280e745dd85fb92d674ce62752faf9d26bda2b39ca7a174395150bc1a"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/gacha.css",
+      "bytes": {
+        "local": 12852,
+        "public": 12852
+      },
+      "sha256": {
+        "local": "de9835141aa8fed4f1947226dccc2e6ec06ad5b3e3264985d4d44a9a2432c502",
+        "public": "de9835141aa8fed4f1947226dccc2e6ec06ad5b3e3264985d4d44a9a2432c502"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/kakutei-fx.js",
+      "bytes": {
+        "local": 23380,
+        "public": 23380
+      },
+      "sha256": {
+        "local": "6fe184e8939a6ceda99f8c743e916de347b94812c60f07427bf87f3f9223d4ba",
+        "public": "6fe184e8939a6ceda99f8c743e916de347b94812c60f07427bf87f3f9223d4ba"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/reference-scenes.js",
+      "bytes": {
+        "local": 6744,
+        "public": 6744
+      },
+      "sha256": {
+        "local": "31062b8a6126e41f782b57aba7784d53c7122a9fc88041af42366327b88b7786",
+        "public": "31062b8a6126e41f782b57aba7784d53c7122a9fc88041af42366327b88b7786"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/runtime.js",
+      "bytes": {
+        "local": 13736,
+        "public": 13736
+      },
+      "sha256": {
+        "local": "4e7eb7ccbd48880928a2d02c6b968301a38d9aed7569ec28e6079aef001cc37b",
+        "public": "4e7eb7ccbd48880928a2d02c6b968301a38d9aed7569ec28e6079aef001cc37b"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/sfx-worker.js",
+      "bytes": {
+        "local": 1107,
+        "public": 1107
+      },
+      "sha256": {
+        "local": "baa2a1467213d1a378cf76239a18adcdbcfcbdc58956710bfec0476d30e2122d",
+        "public": "baa2a1467213d1a378cf76239a18adcdbcfcbdc58956710bfec0476d30e2122d"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/sfx.js",
+      "bytes": {
+        "local": 53502,
+        "public": 53502
+      },
+      "sha256": {
+        "local": "e54db5c3683ff4ab214e6f775a615b9b5195c3c221a93adc2369b70dc4475735",
+        "public": "e54db5c3683ff4ab214e6f775a615b9b5195c3c221a93adc2369b70dc4475735"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    },
+    {
+      "path": "supply-reveal/verify.mjs",
+      "bytes": {
+        "local": 6986,
+        "public": 6986
+      },
+      "sha256": {
+        "local": "4b75fd67ea1d4d64f779bfa1cb32d895a0d674ea404872fa5dbee8746d780d53",
+        "public": "4b75fd67ea1d4d64f779bfa1cb32d895a0d674ea404872fa5dbee8746d780d53"
+      },
+      "status": {
+        "http": 200,
+        "match": true
+      }
+    }
+  ],
+  "ok": true
+}

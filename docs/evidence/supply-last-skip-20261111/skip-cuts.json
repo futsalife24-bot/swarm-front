@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "width": 844,
+      "height": 390,
+      "srOnlyFinal": true,
+      "multipleCuts": true,
+      "repeatSkipHeld": true,
+      "reducedHeld": true,
+      "singleBuddy": true,
+      "noRepeatedConfirmed": true,
+      "errors": []
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "srOnlyFinal": true,
+      "multipleCuts": true,
+      "repeatSkipHeld": true,
+      "reducedHeld": true,
+      "singleBuddy": true,
+      "noRepeatedConfirmed": true,
+      "errors": []
+    }
+  ]
+}

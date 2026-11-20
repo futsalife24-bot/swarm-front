@@ -1,0 +1,7 @@
+RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-support-rewards-20261110
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  13:15:22
+   Duration  33.20s (tests 91%, import 5%, transform 4%)

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+  <meta charset="utf-8" /><title>敵GLB 前後比較</title>
+  <style>
+    body { margin: 0; background: #20262b; }
+    canvas { display: block; }
+  </style>
+  <body>
+    <div id="status">loading</div>
+    <script type="module">
+      // Renders one enemy GLB at a fixed pose/camera for before/after comparison.
+      // ?file=<url>&clip=<name>&t=<seconds>&view=close|game&harrow=1
+      import * as T from "three";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+      import { enemyGltfLoader } from "../src/client/enemy-gltf-loader";
+      const q = new URLSearchParams(location.search);
+      const size = 720;
+      const renderer = new T.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(size, size);
+      renderer.outputColorSpace = T.SRGBColorSpace;
+      renderer.toneMapping = T.ACESFilmicToneMapping;
+      document.body.prepend(renderer.domElement);
+      const scene = new T.Scene();
+      scene.background = new T.Color(0x20262b);
+      scene.environment = new T.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+      scene.add(new T.HemisphereLight(0xdde8ff, 0x303020, 0.8));
+      const sun = new T.DirectionalLight(0xffffff, 2.2);
+      sun.position.set(4, 8, 5);
+      scene.add(sun);
+      const gltf = await enemyGltfLoader().loadAsync(q.get("file"));
+      const model = gltf.scene;
+      if (q.get("harrow") === "1") model.rotation.y = -Math.PI / 2;
+      scene.add(model);
+      const clip = gltf.animations.find((c) => c.name === q.get("clip"));
+      if (clip) {
+        const mixer = new T.AnimationMixer(model);
+        mixer.clipAction(clip).play();
+        mixer.setTime(Number(q.get("t") ?? 0));
+      }
+      model.updateMatrixWorld(true);
+      // Frame from the bind-pose box so both files share the exact camera.
+      const box = new T.Box3();
+      model.traverse((o) => {
+        if (o.isMesh) {
+          o.geometry.computeBoundingBox();
+          box.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld));
+        }
+      });
+      const center = box.getCenter(new T.Vector3());
+      const radius = box.getSize(new T.Vector3()).length() / 2;
+      // close: model fills the frame (closer than any in-game view).
+      // game: model about 1/4 of a 720px frame, similar to a near in-game distance.
+      const distance = radius * (q.get("view") === "game" ? 7.5 : 2.1);
+      const camera = new T.PerspectiveCamera(40, 1, radius / 50, radius * 40);
+      camera.position.copy(center).add(new T.Vector3(0.65, 0.4, 0.65).normalize().multiplyScalar(distance));
+      camera.lookAt(center);
+      renderer.render(scene, camera);
+      // Second frame guarantees texture uploads finished before capture.
+      await new Promise((r) => requestAnimationFrame(r));
+      renderer.render(scene, camera);
+      let triangles = 0;
+      model.traverse((o) => {
+        if (o.isMesh) triangles += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3;
+      });
+      window.compareInfo = { triangles, calls: renderer.info.render.calls, textures: renderer.info.memory.textures };
+      document.getElementById("status").textContent = "ready";
+      document.getElementById("status").style.display = "none";
+    </script>
+  </body>
+</html>

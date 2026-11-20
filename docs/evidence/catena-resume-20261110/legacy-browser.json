@@ -1,0 +1,12 @@
+{
+  "statuses": [
+    "接続済み",
+    "連結型の表示が更新されています。画面を再読み込みして復帰してください",
+    "画面を再読み込みして復帰してください"
+  ],
+  "oldBodyStates": 0,
+  "tokenRetained": true,
+  "screen": "画面を再読み込みして復帰してください",
+  "errors": [],
+  "sourceSha": "3f2c429c442c44d54bf4a8132cc791f30534ae9d"
+}

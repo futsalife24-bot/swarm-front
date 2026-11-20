@@ -1,4 +1,5 @@
 import { newStats, validNewWeapon, type NewWeapon } from "./progression";
+import { HARROW_MOVE_SPEED } from "./harrow-motion";
 import {
   applyWeaponGrowth,
   validWeaponGrowth,
@@ -69,6 +70,9 @@ export const ROLLS: Roll[] = ["power", "mag", "reload", "range", "rate"];
 // Reload is the one where a smaller number is the better outcome.
 export const LOWER_IS_BETTER: Roll[] = ["reload"];
 export interface Weapon {
+  // Run-local display grade, derived by the authoritative fusion simulation.
+  // Incoming equipment must not be trusted to supply this value.
+  appearanceTier?: 0 | 1 | 2 | 3 | 4;
   level?: number;
   mods?: WeaponMods;
   id: string;
@@ -286,13 +290,25 @@ export const WEAPONS = {
   },
 } as const;
 export const familyOf = (kind: Kind): Family => WEAPONS[kind].family;
-// Which shipped model a weapon is drawn with. Only the three original kinds
-// have GLBs (`<name>_<grade>.glb`), so every kind must resolve to one of them
-// or its model request 404s and the battle never finishes loading. This is the
-// silhouette a weapon is held with, which is not always its family: the
-// kickback blast is a special-family weapon shaped like a shotgun.
-export type ModelKind = "rifle" | "shotgun" | "rocket";
+// Each weapon has its own silhouette; holding animations remain independent.
+export type ModelKind = Kind;
 export const MODEL_OF: Record<Kind, ModelKind> = {
+  rifle: "rifle",
+  smg: "smg",
+  shotgun: "shotgun",
+  slug: "slug",
+  rocket: "rocket",
+  heavy: "heavy",
+  sniper: "sniper",
+  grenade: "grenade",
+  sticky: "sticky",
+  laser: "laser",
+  kick: "kick",
+  medic: "medic",
+};
+export const modelOf = (kind: Kind): ModelKind => MODEL_OF[kind];
+export type WeaponPose = "rifle" | "shotgun" | "rocket";
+export const POSE_OF: Record<Kind, WeaponPose> = {
   rifle: "rifle",
   smg: "rifle",
   shotgun: "shotgun",
@@ -306,7 +322,7 @@ export const MODEL_OF: Record<Kind, ModelKind> = {
   kick: "shotgun",
   medic: "rifle",
 };
-export const modelOf = (kind: Kind): ModelKind => MODEL_OF[kind];
+export const poseOf = (kind: Kind): WeaponPose => POSE_OF[kind];
 // Support fire is checked against a deliberately generous cylinder. A teammate
 // is a moving, friendly target that the player is trying to help, so the cost
 // of being slightly off should be a smaller heal, never a wasted round.
@@ -325,6 +341,19 @@ export const FAMILY_KINDS: Record<Family, readonly Kind[]> = FAMILIES.reduce(
   }),
   {} as Record<Family, readonly Kind[]>,
 );
+export type RewardContext = "solo" | "party";
+/** New rewards only: exclude the ally-only MD for solo rolls. */
+export function rollRewardKind(
+  rng: () => number,
+  context: RewardContext = "party",
+): Kind {
+  const family = FAMILIES[Math.floor(rng() * FAMILIES.length)];
+  const pool =
+    context === "solo"
+      ? FAMILY_KINDS[family].filter((kind) => kind !== "medic")
+      : FAMILY_KINDS[family];
+  return pool[Math.floor(rng() * pool.length)];
+}
 // `aim` is the body centre used by bullets and aim assist, measured from the unit's
 // own base. `cruise` is how high that base floats; ground units keep it at 0, so
 // their hit boxes are unchanged.
@@ -333,14 +362,14 @@ export const RAY_MAX_FLIGHT_HEIGHT = 11.5;
 export const ENEMIES = {
   harrow: {
     hp: 8800,
-    speed: 0.64,
+    speed: HARROW_MOVE_SPEED,
     radius: 3.4,
     damage: 34,
     aim: 4.2,
     cruise: 0,
   },
   calyx: { hp: 360, speed: 0.65, radius: 0.9, damage: 24, aim: 1.4, cruise: 0 },
-  // BASTION（仮称）: 実際の移動・弾・硬化は src/shared/bastion.ts の仮値。
+  // BASTION: 実際の移動・弾・硬化は src/shared/bastion.ts の仮値。
   bastion: { hp: 340, speed: 2, radius: 1, damage: 12, aim: 1.7, cruise: 0 },
   ant: { hp: 85, speed: 4.1, radius: 1.25, damage: 8, aim: 1.2, cruise: 0 },
   spider: { hp: 95, speed: 4.8, radius: 1.5, damage: 15, aim: 1, cruise: 0 },

@@ -1,0 +1,15 @@
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-voice-fix2-20261115
+
+
+ Test Files  181 passed (181)
+      Tests  1859 passed (1859)
+   Start at  05:52:42
+   Duration  285.99s (tests 66%, import 30%, transform 4%)
+
+     Import  428 modules were evaluated 562 times · 76.95s total, 30% of tracked time
+             ~18.35s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation

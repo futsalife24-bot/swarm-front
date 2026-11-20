@@ -7,6 +7,7 @@ const dir =
   "dist-validation/distant-scenery/preview";
 mkdirSync(dir, { recursive: true });
 const hash = (b) => createHash("sha256").update(b).digest("hex");
+const { distant: distantScenery } = JSON.parse(readFileSync(new URL("../src/client/assets/map-files.json", import.meta.url), "utf8"));
 const browser = await chromium.launch({
   channel: "chrome",
   args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
@@ -15,9 +16,9 @@ const results = [],
   errors = [];
 try {
   // Fetch outside the DevTools response cache, which evicts the largest GLBs.
-  for(let index=0;index<5;index++) {
-    const asset=await fetch(new URL(`/assets/maps/distant_${index}_v1.glb`,url));
-    if(!asset.ok || hash(Buffer.from(await asset.arrayBuffer()))!==hash(readFileSync(`public/assets/maps/distant_${index}_v1.glb`)))throw new Error(`map ${index}: deployed GLB differs`);
+  for(const file of distantScenery) {
+    const asset=await fetch(new URL('/'+file,url));
+    if(!asset.ok || hash(Buffer.from(await asset.arrayBuffer()))!==hash(readFileSync('public/'+file)))throw new Error(`deployed GLB differs: ${file}`);
   }
   for (const viewport of [
     { width: 1280, height: 720 },
@@ -40,7 +41,7 @@ try {
       await page.getByRole("button", { name: /ソロで出撃準備/ }).click();
       await page.locator("#stage-select").selectOption(String(stage));
       const response = index === 5 ? Promise.resolve(null) : page.waitForResponse((r) =>
-        r.url().endsWith(`/maps/distant_${index}_v1.glb`),
+        r.url().endsWith('/'+distantScenery[index]),
       );
       await page.locator("#launch").click();
       const glb = await response;

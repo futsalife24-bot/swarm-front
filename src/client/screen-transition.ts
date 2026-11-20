@@ -82,6 +82,9 @@ function freeze(source: HTMLElement): HTMLElement {
   originals.forEach((node, i) => {
     const clone = copies[i]!;
     clone.removeAttribute("autofocus");
+    // The live screen owns the fixed corner controls throughout the transition.
+    if (node.matches("[data-menu-back],[data-menu-toggle]"))
+      clone.style.visibility = "hidden";
     for (const attribute of Array.from(clone.attributes))
       if (attribute.name.startsWith("on"))
         clone.removeAttribute(attribute.name);
@@ -180,6 +183,17 @@ export function mountScreenTransitions(root: HTMLElement) {
       return;
     const target = event.target instanceof Element ? event.target : null;
     const dialog = currentDialog();
+    // These views own their transitions. A second shutter would duplicate the
+    // outgoing modal and swallow the first tap on the newly visible controls.
+    if (
+      target?.closest(
+        "[data-menu-toggle],.menu-navigation-drawer,.weapon-detail-dialog,.weapon-workshop,.gear-weapon-list [data-row]",
+      ) ||
+      dialog?.matches(
+        ".menu-navigation-drawer,.weapon-detail-dialog,.workshop-confirm",
+      )
+    )
+      return;
     if (!target || (!root.contains(target) && !dialog?.contains(target)))
       return;
     if (event instanceof KeyboardEvent && event.key !== "Escape") return;

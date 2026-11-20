@@ -38,3 +38,6 @@ __pycache__/
 
 # Isolated lag validation cache.
 /.vite-lag/
+
+# CATENA local Vite cache from the legacy Network display fixture.
+/docs/evidence/catena-resume-20261110/tmp/

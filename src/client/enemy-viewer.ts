@@ -2,8 +2,11 @@ import * as T from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { enemyGeometry } from "./enemy-model";
 import type { Enemy } from "../shared/game";
+import { omegaPads } from "../shared/catena-omega";
+import { WORM_UNIT_COUNT } from "../shared/worm";
 import type { ReportEnemyKind } from "../shared/enemy-identity";
 import { harrowSpinRotation } from "../shared/harrow-motion";
+import { HARROW_LANDING_RECOVERY } from "./harrow-motion-polish";
 import {
   loadEnemyMotion,
   HoundMotionBatch,
@@ -95,7 +98,16 @@ export function createEnemyViewer(host: HTMLElement) {
   function animatePose() {
     if (motion) {
       const pose = reportPose(kind, mode, time, selectedHarrowAttack);
-      motion.setPose(0, pose.clip, pose.sample);
+      if ("landingRecovery" in pose && pose.landingRecovery)
+        motion.setPose(
+          0,
+          pose.clip,
+          pose.sample,
+          "Land",
+          motion.asset.ranges.Land.duration * 0.22,
+          Math.min(1, pose.sample / HARROW_LANDING_RECOVERY),
+        );
+      else motion.setPose(0, pose.clip, pose.sample);
       // Combat uses heading - PI. The report's base heading is PI.
       transform.makeRotationY(
         kind === "harrow" && pose.clip === "Spin"
@@ -132,8 +144,8 @@ export function createEnemyViewer(host: HTMLElement) {
         foundryIdle = undefined;
         const snapshot = reportWorm(mode, time);
         foundry.update(snapshot, time);
+        foundry.root.position.z = mode === "move" ? -snapshot.z : 0;
       }
-      foundry.root.position.z = mode === "move" ? time * 4.2 : 0;
     }
     // BASTION は戦闘と同じ表示を台本の状態で動かす（弾・危険帯も標本側で描く）。
     if (bastion) bastion.update(mode, time);
@@ -161,8 +173,8 @@ export function createEnemyViewer(host: HTMLElement) {
       harrowDistance = distance;
       camera.position.copy(HARROW_REPORT_DIRECTION).multiplyScalar(distance);
     } else if (wormForm) {
-      // Fit the long body's projected corners from the head side.
-      const direction = new T.Vector3(1, 0.58, -0.9).normalize();
+      // A mostly side-on view shows the travelling curve along the entire chain.
+      const direction = new T.Vector3(1, 0.62, -0.18).normalize();
       const right = new T.Vector3(direction.z, 0, -direction.x).normalize();
       const up = direction.clone().cross(right);
       const vertical = Math.tan(T.MathUtils.degToRad(camera.fov / 2));
@@ -236,7 +248,7 @@ export function createEnemyViewer(host: HTMLElement) {
       model.position.set(0, 0, 0);
       model.add(new T.Mesh(enemyGeometry(kind), material));
       if (worm)
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < WORM_UNIT_COUNT - 1; i++) {
           const segment = new T.Mesh(enemyGeometry("boss", true), material);
           segment.position.z = (i + 1) * 3.4;
           segment.scale.set(0.92, 0.95, 0.92);
@@ -259,23 +271,42 @@ export function createEnemyViewer(host: HTMLElement) {
             foundry = view;
             model.add(view.root);
             // BatchedMesh also retains packed geometry in unposed coordinates.
-            // Fit only the visible source primitives in their actual rest pose.
+            // Fit only the visible source primitives after projecting all 14
+            // report segments; the authored GLB rests with only seven positions.
             const bounds = new T.Box3();
             const primitiveBounds = new T.Box3();
-            view.root.updateWorldMatrix(true, true);
-            view.root.traverseVisible((object) => {
-              if (
-                !(object instanceof T.Mesh) ||
-                object instanceof T.BatchedMesh
-              )
-                return;
-              if (!object.geometry.boundingBox)
-                object.geometry.computeBoundingBox();
-              primitiveBounds
-                .copy(object.geometry.boundingBox!)
-                .applyMatrix4(object.matrixWorld);
-              bounds.union(primitiveBounds);
-            });
+            const includePose = (pose: Enemy, at: number) => {
+              view.update(pose, at);
+              view.root.updateWorldMatrix(true, true);
+              view.root.traverseVisible((object) => {
+                if (
+                  !(object instanceof T.Mesh) ||
+                  object instanceof T.BatchedMesh
+                )
+                  return;
+                if (!object.geometry.boundingBox)
+                  object.geometry.computeBoundingBox();
+                primitiveBounds
+                  .copy(object.geometry.boundingBox!)
+                  .applyMatrix4(object.matrixWorld);
+                bounds.union(primitiveBounds);
+              });
+            };
+            includePose(reportWorm("idle", 0), 0);
+            // The report camera stays fixed during the head-to-tail Omega jump.
+            // Include its airborne body and the existing landing warning pads.
+            for (const at of [9.7, 10, 10.3, 10.6, 10.9, 11.2])
+              includePose(reportWorm("attack", at), at);
+            const warning = reportWorm("attack", 9);
+            for (const pad of omegaPads(warning, 9)) {
+              bounds.expandByPoint(
+                new T.Vector3(pad.x - pad.radius, 0, pad.z - pad.radius),
+              );
+              bounds.expandByPoint(
+                new T.Vector3(pad.x + pad.radius, 0, pad.z + pad.radius),
+              );
+            }
+            view.update(reportWorm("idle", 0), 0);
             model.position.copy(bounds.getCenter(new T.Vector3()).negate());
             radius = bounds.getBoundingSphere(new T.Sphere()).radius;
             bounds.getSize(halfSize).multiplyScalar(0.5);

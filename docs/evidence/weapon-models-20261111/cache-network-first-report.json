@@ -1,0 +1,62 @@
+{
+  "scope": "isolated localhost; memory-modified SW; one old MD-4 in both caches; other asset seeded; no product modifications, actual phone or external network",
+  "httpFailure": {
+    "status": 200,
+    "bytes": 487700,
+    "ms": 11.5,
+    "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+  },
+  "oldOffline": {
+    "status": 200,
+    "bytes": 487700,
+    "ms": 3,
+    "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+  },
+  "bad": {
+    "status": 200,
+    "bytes": 487700,
+    "ms": 4.299999997019768,
+    "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+  },
+  "first": {
+    "status": 200,
+    "bytes": 498132,
+    "ms": 234.39999999850988,
+    "sha256": "9bd333e6e96440068f4b9575cf6d28fc3d559658589878e1d2581d6c527fd9f0"
+  },
+  "second": {
+    "status": 200,
+    "bytes": 498132,
+    "ms": 239.69999999552965,
+    "sha256": "9bd333e6e96440068f4b9575cf6d28fc3d559658589878e1d2581d6c527fd9f0"
+  },
+  "traffic": {
+    "requests": 2,
+    "bytes": 996264,
+    "firstMs": 234.39999999850988,
+    "secondMs": 239.69999999552965,
+    "serverArtificialDelayMs": 200
+  },
+  "cacheHashes": {
+    "swarm-front-preload-v1": "9bd333e6e96440068f4b9575cf6d28fc3d559658589878e1d2581d6c527fd9f0",
+    "swarm-front-shell-v1": "9bd333e6e96440068f4b9575cf6d28fc3d559658589878e1d2581d6c527fd9f0"
+  },
+  "newOffline": {
+    "status": 200,
+    "bytes": 498132,
+    "ms": 3.8000000044703484,
+    "sha256": "9bd333e6e96440068f4b9575cf6d28fc3d559658589878e1d2581d6c527fd9f0"
+  },
+  "otherRequests": 0,
+  "simulatedPreloadWriteFailure": {
+    "online": {
+      "status": 200,
+      "sha256": "9bd333e6e96440068f4b9575cf6d28fc3d559658589878e1d2581d6c527fd9f0"
+    },
+    "offline": {
+      "status": 200,
+      "sha256": "d940bf8980a6f0a33361cd0d4611418da4efa6bfb47ed3455f07f67ae2516986"
+    }
+  },
+  "errors": []
+}

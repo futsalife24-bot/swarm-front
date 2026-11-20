@@ -1,0 +1,83 @@
+{
+  "scope": "Actual local solo UI and renderer; passive wrappers observe the real CombatEffects.event/add at effect creation before per-frame movement, first event only. Injected isolated save, no network or phone; no proof of continued flight, exact screen position or continuous action.",
+  "viewport": [
+    844,
+    390
+  ],
+  "requested": [
+    "heavy"
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "heavy",
+      "family": "rocket",
+      "shot": {
+        "type": "shot",
+        "weapon": "rocket",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0245846772437286,
+        "tz": 32.00062698757247,
+        "ty": 1.4563748831374437,
+        "owner": "solo",
+        "id": 1
+      },
+      "muzzle": [
+        -0.8584702046858961,
+        1.4621353842946923,
+        33.472140403137644
+      ],
+      "barrel": [
+        -0.017399915634421736,
+        -0.02090168205530001,
+        -0.9996301129033549
+      ],
+      "body": [
+        -1,
+        0,
+        34
+      ],
+      "hadFollow": true,
+      "effects": [
+        {
+          "kind": "muzzle",
+          "created": true,
+          "position": [
+            -0.8584702046858961,
+            1.4621353842946923,
+            33.472140403137644
+          ],
+          "age": 0,
+          "velocity": [
+            0,
+            0,
+            0
+          ],
+          "color": 16768131,
+          "argumentPosition": [
+            -0.8584702046858961,
+            1.4621353842946923,
+            33.472140403137644
+          ],
+          "distanceFromMuzzle": 0
+        }
+      ],
+      "worldTime": 0.25,
+      "muzzleAfter": [
+        -0.8584702046858961,
+        1.4621353842946923,
+        33.472140403137644
+      ],
+      "effectKindsAfter": [
+        "muzzle",
+        "smoke",
+        "flash"
+      ],
+      "screen": "battle",
+      "errors": []
+    }
+  ],
+  "errors": []
+}

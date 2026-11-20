@@ -50,21 +50,34 @@ export function generateChangelog(cwd, base = HISTORY_BASE) {
     }).trim();
   // Missing history must fail the build, rather than silently ship stale notes.
   git("merge-base", "--is-ancestor", base, "HEAD");
-  const commits = git("log", "--first-parent", "--format=%H", `${base}..HEAD`)
-    .split("\n")
+  // One Git process for the whole history: per-commit calls made this grow by
+  // three process launches per release and approach the test timeout on Windows.
+  // Each record is "<RS>time NUL message NUL" followed by the files changed
+  // against the first parent (the same set as `git diff --name-only sha^1 sha`).
+  const records = git(
+    "log",
+    "--first-parent",
+    "--diff-merges=first-parent",
+    "--name-only",
+    "--format=%x1e%ct%x00%B%x00",
+    `${base}..HEAD`,
+  )
+    .split("\x1e")
     .filter(Boolean);
   const days = new Map();
-  for (const sha of commits) {
-    const files = git("diff", "--name-only", `${sha}^1`, sha).split("\n");
+  for (const record of records) {
+    const [time, message, changed] = record.split("\0");
+    const files = changed.trim().split("\n");
     const fallback = summarizeFiles(files);
     if (!fallback.length) continue;
     // Optional player-facing details; never expose raw developer commit messages.
-    const notes = git("show", "-s", "--format=%B", sha)
+    const notes = message
+      .trim()
       .split("\n")
       .filter((line) => line.startsWith("Player-Note: "))
       .map((line) => line.slice(13).trim())
       .filter(Boolean);
-    const timestamp = Number(git("show", "-s", "--format=%ct", sha));
+    const timestamp = Number(time);
     const date = new Date((timestamp + 9 * 3600) * 1000)
       .toISOString()
       .slice(0, 10);

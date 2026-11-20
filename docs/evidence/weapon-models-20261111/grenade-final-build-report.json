@@ -1,0 +1,8 @@
+{
+  "scope": "Production build and public comparison; no deployed CDN or smartphone",
+  "sourceHead": "1bb61fedb10b1e5b7e4d4a09bc4072dd7cdb3924",
+  "manifestRevision": "e949a7d1eb14d6f2cfc4ef2f93a31b17dabcfd0404238d0e3748114986a463bb",
+  "weaponCount": 60,
+  "sizeHashAndPublicBytesMatch": true,
+  "originalAssetsChangedFromBase": false
+}

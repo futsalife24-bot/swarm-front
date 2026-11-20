@@ -1,0 +1,6 @@
+HEAD 9f321ca0a5b3b965f14bb5b1d19078986bc2c4c7
+npm run typecheck exit=0 seconds=1
+npm test -- --reporter=verbose exit=0 seconds=255
+npm run format:check exit=0 seconds=11
+npm run build exit=0 seconds=9
+npm run server:build exit=0 seconds=2

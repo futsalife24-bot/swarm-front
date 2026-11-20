@@ -1,0 +1,181 @@
+{
+  "waves": [
+    {
+      "id": "sig-scan",
+      "samples": 7938,
+      "seconds": 0.18,
+      "peak": 0.20000000298023224
+    },
+    {
+      "id": "sig-response",
+      "samples": 24256,
+      "seconds": 0.5500226757369614,
+      "peak": 0.3799999952316284
+    },
+    {
+      "id": "sig-signature",
+      "samples": 30870,
+      "seconds": 0.7,
+      "peak": 0.3499999940395355
+    },
+    {
+      "id": "sig-heartbeat",
+      "samples": 28665,
+      "seconds": 0.65,
+      "peak": 0.44999998807907104
+    },
+    {
+      "id": "sig-lamp",
+      "samples": 16758,
+      "seconds": 0.38,
+      "peak": 0.1793690174818039
+    },
+    {
+      "id": "sig-sonic",
+      "samples": 22050,
+      "seconds": 0.5,
+      "peak": 0.550000011920929
+    },
+    {
+      "id": "sig-delayed",
+      "samples": 26460,
+      "seconds": 0.6,
+      "peak": 0.48702457547187805
+    },
+    {
+      "id": "sig-multilock",
+      "samples": 18522,
+      "seconds": 0.42,
+      "peak": 0.4397994875907898
+    },
+    {
+      "id": "sig-landing-rail",
+      "samples": 22050,
+      "seconds": 0.5,
+      "peak": 0.3199999928474426
+    },
+    {
+      "id": "sig-landing-lock",
+      "samples": 28665,
+      "seconds": 0.65,
+      "peak": 0.5
+    },
+    {
+      "id": "sig-reverse",
+      "samples": 24256,
+      "seconds": 0.5500226757369614,
+      "peak": 0.3799999952316284
+    },
+    {
+      "id": "sig-reverseSeal",
+      "samples": 26460,
+      "seconds": 0.6,
+      "peak": 0.3499999940395355
+    },
+    {
+      "id": "sig-skeleton-slide",
+      "samples": 17640,
+      "seconds": 0.4,
+      "peak": 0.3199999928474426
+    },
+    {
+      "id": "sig-skeleton-lock",
+      "samples": 24256,
+      "seconds": 0.5500226757369614,
+      "peak": 0.40593019127845764
+    }
+  ],
+  "playback": {
+    "rows": [
+      {
+        "id": "sig-scan",
+        "rms": 0.012213997212108535,
+        "running": true,
+        "time": 0.18133333333333335
+      },
+      {
+        "id": "sig-response",
+        "rms": 0.08943013375297354,
+        "running": true,
+        "time": 0.312
+      },
+      {
+        "id": "sig-signature",
+        "rms": 0.03362126897371937,
+        "running": true,
+        "time": 0.432
+      },
+      {
+        "id": "sig-heartbeat",
+        "rms": 0.04154148382411082,
+        "running": true,
+        "time": 0.552
+      },
+      {
+        "id": "sig-lamp",
+        "rms": 0.030856713958510994,
+        "running": true,
+        "time": 0.6906666666666667
+      },
+      {
+        "id": "sig-sonic",
+        "rms": 0.05730597471130066,
+        "running": true,
+        "time": 0.8213333333333334
+      },
+      {
+        "id": "sig-delayed",
+        "rms": 0.06708334539671448,
+        "running": true,
+        "time": 0.96
+      },
+      {
+        "id": "sig-multilock",
+        "rms": 0.021863421720655068,
+        "running": true,
+        "time": 1.12
+      },
+      {
+        "id": "sig-landing-rail",
+        "rms": 0.08517598342397387,
+        "running": true,
+        "time": 1.232
+      },
+      {
+        "id": "sig-landing-lock",
+        "rms": 0.05325458564541209,
+        "running": true,
+        "time": 1.36
+      },
+      {
+        "id": "sig-reverse",
+        "rms": 0.06750982280716722,
+        "running": true,
+        "time": 1.5306666666666666
+      },
+      {
+        "id": "sig-reverseSeal",
+        "rms": 0.06012873765215361,
+        "running": true,
+        "time": 1.6693333333333333
+      },
+      {
+        "id": "sig-skeleton-slide",
+        "rms": 0.0767410000923874,
+        "running": true,
+        "time": 1.7813333333333334
+      },
+      {
+        "id": "sig-skeleton-lock",
+        "rms": 0.030349461151640843,
+        "running": true,
+        "time": 1.9413333333333334
+      }
+    ],
+    "muted": true,
+    "stopped": true,
+    "closed": true
+  },
+  "errors": [],
+  "note": "初回2試行はChromeの冷起動でcurrentTime=0のうちに観測して失敗。時計の実進行を待つ検査へ修正。実ChromeのWebAudio信号確認。人間の実聴・実機スピーカーの音質は未確認。"
+}

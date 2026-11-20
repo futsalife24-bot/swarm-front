@@ -180,7 +180,8 @@ test("help preserves equipment and supports touch, Escape and keyboard", async (
     });
     await page.keyboard.press("Escape");
     await expect(page.getByRole("dialog")).toHaveCount(0);
-    await page.locator("#armory-gear").click();
+    await page.locator("[data-menu-toggle]").click();
+    await page.locator('[data-menu-destination="gear"]').click();
     await expect(
       page.locator('[data-effect-help="quick"], .reload-help'),
     ).toHaveCount(0);
@@ -198,7 +199,8 @@ test("help preserves equipment and supports touch, Escape and keyboard", async (
       await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY),
     ).toBe(before);
     await page.screenshot({ path: "dist-validation/evidence/help-gear.png" });
-    await page.locator("#gear-armory").click();
+    await page.locator("[data-menu-toggle]").click();
+    await page.locator('[data-menu-destination="armory"]').click();
     await page
       .locator(`[data-armory-select="${seed.inventory[1].id}"]`)
       .click();

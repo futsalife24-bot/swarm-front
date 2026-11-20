@@ -1,7 +1,7 @@
 import {
   WEAPONS,
-  FAMILIES,
-  FAMILY_KINDS,
+  rollRewardKind,
+  type RewardContext,
   EFFECT_POOLS,
   EFFECTS,
   RARITIES,
@@ -53,6 +53,19 @@ export const weaponGrade = (w: Weapon) =>
   ("format" in w && w.format === 2 ? GRADES : RARITIES)[w.rarity];
 export const weaponTier = (w: Weapon) =>
   "format" in w && w.format === 2 ? w.rarity : w.rarity + 1;
+/** Fusion projects combat stats into the old format but preserves the visual grade. */
+export const weaponVisualTier = (w: Weapon) => {
+  if (
+    Number.isInteger(w.appearanceTier) &&
+    Number(w.appearanceTier) >= 0 &&
+    Number(w.appearanceTier) <= 4
+  )
+    return Number(w.appearanceTier);
+  // Older servers do not transmit the override and their fusion projection
+  // can make an LR weapon look like legacy tier 5. No such asset exists.
+  const tier = weaponTier(w);
+  return Number.isInteger(tier) ? Math.max(0, Math.min(4, tier)) : 0;
+};
 export const weaponYield = (w: Weapon) =>
   ("format" in w && w.format === 2 ? YIELDS : [1, 3, 10, 30])[w.rarity];
 
@@ -168,15 +181,15 @@ export function rarityWeights(stage: number, d: Difficulty) {
   stage = campaignNumber(stage);
   if (d === "normal")
     return stage <= 5
-      ? [0.8, 0.2, 0, 0, 0]
+      ? [(95 - 5 * stage) / 100, (5 + 5 * stage) / 100, 0, 0, 0]
       : stage <= 10
-        ? [0, 0.8, 0.2, 0, 0]
-        : [0, 0, 0.8, 0.2, 0];
+        ? [0, (120 - 5 * stage) / 100, (5 * stage - 20) / 100, 0, 0]
+        : [0, 0, (116 - 2 * stage) / 100, (2 * stage - 16) / 100, 0];
   return stage <= 5
-    ? [0, 0.7, 0.3, 0, 0]
+    ? [0, (85 - 5 * stage) / 100, (15 + 5 * stage) / 100, 0, 0]
     : stage >= 18
-      ? [0, 0, 0.699, 0.3, 0.001]
-      : [0, 0, 0.7, 0.3, 0];
+      ? [0, 0, (86 - stage) / 100 - 0.001, (14 + stage) / 100, 0.001]
+      : [0, 0, (86 - stage) / 100, (14 + stage) / 100, 0];
 }
 export function weighted(weights: number[], rng: () => number) {
   const r = rng();
@@ -187,8 +200,18 @@ export function weighted(weights: number[], rng: () => number) {
   }
   return weights.length - 1;
 }
-export function rollVariance(rng: () => number) {
-  const band = weighted([0.2, 0.1, 0.57, 0.1, 0.03], rng);
+export function varianceWeights(stage?: number) {
+  const t = stage === undefined ? 0 : (campaignNumber(stage) - 1) / 24;
+  return [
+    (20 - 10 * t) / 100,
+    0.1,
+    0.57,
+    (10 + 8 * t) / 100,
+    (3 + 2 * t) / 100,
+  ];
+}
+export function rollVariance(rng: () => number, stage?: number) {
+  const band = weighted(varianceWeights(stage), rng);
   return band === 0
     ? -10 + Math.floor(rng() * 10)
     : band === 1
@@ -240,15 +263,14 @@ export function rollWeapon(
   testData: boolean,
   acquired: number,
   rng: () => number,
+  context: RewardContext = "party",
 ): NewWeapon {
   // Family first, weapon second: adding a family must not halve how often any
   // existing one is seen, only split that family's own share.
-  const family = FAMILIES[Math.floor(rng() * FAMILIES.length)];
-  const pool = FAMILY_KINDS[family];
-  const kind: Kind = pool[Math.floor(rng() * pool.length)];
+  const kind = rollRewardKind(rng, context);
   const rarity = weighted(rarityWeights(stage, d), rng);
   const variance = Object.fromEntries(
-    VARIANCE_KEYS.map((k) => [k, rollVariance(rng)]),
+    VARIANCE_KEYS.map((k) => [k, rollVariance(rng, stage)]),
   ) as Variances;
   const effect =
     rarity && rng() < 0.6
@@ -256,7 +278,7 @@ export function rollWeapon(
       : "none";
   return {
     ...makeWeapon(id, kind, rarity, variance, testData, acquired, effect),
-    level: Math.min(60, campaignNumber(stage)),
+    level: 1,
   };
 }
 export function newStats(w: NewWeapon) {

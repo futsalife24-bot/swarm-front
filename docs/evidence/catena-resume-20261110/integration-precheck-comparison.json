@@ -1,0 +1,15 @@
+{
+  "complete": false,
+  "head": "aca371023cbb1db5dbf68ee0364b688f45bfb676",
+  "baselineFailed": 24,
+  "observedFailed": 23,
+  "newObserved": [],
+  "baselineNotFailedInObserved": [
+    "tests/stages.test.ts > stage 25 completes within the time limit using legal endgame gear and ordinary inputs"
+  ],
+  "processState": "tool session lost; no running vitest process; no completion summary; last log 2026-11-10 14:48:44 JST",
+  "loggedTests": 1349,
+  "loggedPassed": 1326,
+  "loggedFiles": 106,
+  "stage25Observed": "passed, simulated time 189.5 seconds"
+}

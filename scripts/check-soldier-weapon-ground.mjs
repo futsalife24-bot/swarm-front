@@ -102,8 +102,10 @@ if (process.argv.includes("--reposition")) {
   for (const [bone, matrix] of transforms)
     matrix.decompose(bone.position, bone.quaternion, bone.scale);
 }
-for (const kind of ["rifle", "shotgun", "rocket"]) {
-  const weaponPath = `public/assets/weapons/realism-v2/${kind}_0.glb`;
+const poseByKind = { rifle: "rifle", shotgun: "shotgun", rocket: "rocket", smg: "rifle", slug: "shotgun", heavy: "rocket", sniper: "rifle", laser: "rifle", grenade: "rocket", sticky: "rocket", kick: "shotgun", medic: "rifle" };
+for (const kind of Object.keys(poseByKind)) {
+  const directory = ["rifle", "shotgun", "rocket"].includes(kind) ? "realism-v2" : "unique-v1";
+  const weaponPath = `public/assets/weapons/${directory}/${kind}_0.glb`;
   weaponHashes[kind] = createHash("sha256")
     .update(await fs.readFile(weaponPath))
     .digest("hex");
@@ -111,7 +113,7 @@ for (const kind of ["rifle", "shotgun", "rocket"]) {
   const referenceDigest = positionDigest(gun);
   rarityGeometry[kind] = [];
   for (let rarity = 1; rarity <= 4; rarity++) {
-    const path = `public/assets/weapons/realism-v2/${kind}_${rarity}.glb`;
+    const path = `public/assets/weapons/${directory}/${kind}_${rarity}.glb`;
     weaponHashes[`${kind}_${rarity}`] = createHash("sha256")
       .update(await fs.readFile(path))
       .digest("hex");
@@ -149,7 +151,7 @@ for (const kind of ["rifle", "shotgun", "rocket"]) {
       const name = `Trial_Dodge_Roll_${profile}`;
       if (
         character.animations.some((clip) => clip.name === name) &&
-        (socket !== "RightHandWeaponSocket" || kind === heldKind)
+        (socket !== "RightHandWeaponSocket" || poseByKind[kind] === heldKind)
       )
         clipNames.push(name);
     }
@@ -230,7 +232,7 @@ await fs.writeFile(
       toleranceMetres: 0.002,
       experimentalReposition: process.argv.includes("--reposition"),
       scope:
-        "Authored clip transforms plus runtime attachment basis; rarity 0 sampled for three weapon families, rarities 1–4 checked for identical static geometry; no gameplay blends or terrain.",
+        "Authored clip transforms plus runtime attachment basis; rarity 0 sampled for twelve weapon models, rarities 1–4 checked for identical static geometry; no gameplay blends or terrain.",
       results,
     },
     null,

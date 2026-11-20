@@ -1,0 +1,19 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev/",
+  "health": true,
+  "bundles": 25,
+  "revision": "cc0cdfe9f85f360bfc55958b491542cc68dc7a29554c7126db06e263a1e362c4",
+  "shots": [
+    {
+      "operation": "advance",
+      "asset": "distant_0_v2.glb",
+      "shot": "advance.png"
+    },
+    {
+      "operation": "survival",
+      "asset": "defense_0_v3.glb",
+      "shot": "survival.png"
+    }
+  ],
+  "errors": []
+}

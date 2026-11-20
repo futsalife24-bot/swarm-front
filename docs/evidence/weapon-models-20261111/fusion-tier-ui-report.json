@@ -1,0 +1,226 @@
+{
+  "scope": "Actual local defense UI; first ordinary growth selection in fusion-enabled mode; disposable save, no multiplayer network, phone, or later full fusion evolution. Renderer groups, inlay material and neon halo compared before/after.",
+  "capture": "Canvas image is an additional explicit product Renderer render(world,id,0.1,...,animate=false), immediately followed by toDataURL; no WebGL buffer-setting change. The unmodified UI screenshots include the selection overlay.",
+  "viewport": [
+    844,
+    390
+  ],
+  "records": [
+    {
+      "tier": 0,
+      "card": "armor",
+      "before": {
+        "screen": "battle",
+        "mode": "defense",
+        "ready": true,
+        "phase": "selection",
+        "picks": 0,
+        "playerSlot": 0,
+        "weapon": {
+          "id": "visual-slug-0",
+          "kind": "slug",
+          "rarity": 0,
+          "power": 1,
+          "effect": "none",
+          "format": 2,
+          "variance": {
+            "power": 0,
+            "reload": 0,
+            "range": 0,
+            "rate": 0
+          },
+          "testData": false,
+          "acquired": 3
+        },
+        "actor": {
+          "name": "Scene",
+          "nodes": [
+            "Weapon_slug_v1"
+          ],
+          "uuid": "bd53abe5-d994-4021-97b4-811b3f67c84c",
+          "selectedSlot": 0,
+          "parent": "RightHandWeaponSocket",
+          "material": [
+            {
+              "name": "Rarity identification",
+              "color": "7c8b8e"
+            }
+          ],
+          "neon": [
+            {
+              "name": "WeaponNeonHalo",
+              "color": "92aaa6"
+            }
+          ],
+          "keys": [
+            "visual-slug-0:slug:0:fd41e8a0-f79e-4adc-8a70-113c8fe095db",
+            "v2-starter-shotgun:shotgun:0:0560e3ac-564d-408c-9e94-cad2d1a7f950"
+          ]
+        }
+      },
+      "after": {
+        "screen": "battle",
+        "mode": "defense",
+        "ready": true,
+        "phase": "combat",
+        "picks": 1,
+        "playerSlot": 0,
+        "weapon": {
+          "id": "visual-slug-0",
+          "kind": "slug",
+          "rarity": 0,
+          "appearanceTier": 0,
+          "power": 1,
+          "effect": "none",
+          "rolls": {
+            "mag": 1,
+            "reload": 1,
+            "range": 1,
+            "rate": 1
+          }
+        },
+        "actor": {
+          "name": "Scene",
+          "nodes": [
+            "Weapon_slug_v1"
+          ],
+          "uuid": "bd53abe5-d994-4021-97b4-811b3f67c84c",
+          "selectedSlot": 0,
+          "parent": "RightHandWeaponSocket",
+          "material": [
+            {
+              "name": "Rarity identification",
+              "color": "7c8b8e"
+            }
+          ],
+          "neon": [
+            {
+              "name": "WeaponNeonHalo",
+              "color": "92aaa6"
+            }
+          ],
+          "keys": [
+            "visual-slug-0:slug:0:fd41e8a0-f79e-4adc-8a70-113c8fe095db",
+            "v2-starter-shotgun:shotgun:0:0560e3ac-564d-408c-9e94-cad2d1a7f950"
+          ]
+        }
+      },
+      "requests": [
+        "http://127.0.0.1:62200/assets/weapons/realism-v2/rifle_0.glb",
+        "http://127.0.0.1:62200/assets/weapons/realism-v2/shotgun_0.glb",
+        "http://127.0.0.1:62200/assets/weapons/realism-v2/rocket_0.glb",
+        "http://127.0.0.1:62200/assets/weapons/unique-v1/slug_0.glb"
+      ],
+      "failed": [],
+      "errors": []
+    },
+    {
+      "tier": 4,
+      "card": "armor",
+      "before": {
+        "screen": "battle",
+        "mode": "defense",
+        "ready": true,
+        "phase": "selection",
+        "picks": 0,
+        "playerSlot": 0,
+        "weapon": {
+          "id": "visual-slug-4",
+          "kind": "slug",
+          "rarity": 4,
+          "power": 1.7490062499999994,
+          "effect": "none",
+          "format": 2,
+          "variance": {
+            "power": 0,
+            "reload": 0,
+            "range": 0,
+            "rate": 0
+          },
+          "testData": false,
+          "acquired": 3
+        },
+        "actor": {
+          "name": "Scene",
+          "nodes": [
+            "Weapon_slug_v1"
+          ],
+          "uuid": "0df4eedc-f1a2-4f97-823a-89c2b8a50ba5",
+          "selectedSlot": 0,
+          "parent": "RightHandWeaponSocket",
+          "material": [
+            {
+              "name": "Rarity identification",
+              "color": "c4a048"
+            }
+          ],
+          "neon": [
+            {
+              "name": "WeaponNeonHalo",
+              "color": "ffd472"
+            }
+          ],
+          "keys": [
+            "visual-slug-4:slug:4:35304941-91c4-407f-8e4f-9a22f3cffe6b",
+            "v2-starter-shotgun:shotgun:0:8b27f93f-bf72-4db7-ba37-7932dfbb539b"
+          ]
+        }
+      },
+      "after": {
+        "screen": "battle",
+        "mode": "defense",
+        "ready": true,
+        "phase": "combat",
+        "picks": 1,
+        "playerSlot": 0,
+        "weapon": {
+          "id": "visual-slug-4",
+          "kind": "slug",
+          "rarity": 4,
+          "appearanceTier": 4,
+          "power": 1.7490062499999994,
+          "effect": "none",
+          "rolls": {
+            "mag": 1.5,
+            "reload": 0.5717532455930333,
+            "range": 1.7490062499999994,
+            "rate": 1.7490062499999994
+          }
+        },
+        "actor": {
+          "name": "Scene",
+          "nodes": [
+            "Weapon_slug_v1"
+          ],
+          "uuid": "0df4eedc-f1a2-4f97-823a-89c2b8a50ba5",
+          "selectedSlot": 0,
+          "parent": "RightHandWeaponSocket",
+          "material": [
+            {
+              "name": "Rarity identification",
+              "color": "c4a048"
+            }
+          ],
+          "neon": [
+            {
+              "name": "WeaponNeonHalo",
+              "color": "ffd472"
+            }
+          ],
+          "keys": [
+            "visual-slug-4:slug:4:35304941-91c4-407f-8e4f-9a22f3cffe6b",
+            "v2-starter-shotgun:shotgun:0:8b27f93f-bf72-4db7-ba37-7932dfbb539b"
+          ]
+        }
+      },
+      "requests": [
+        "http://127.0.0.1:62200/assets/weapons/realism-v2/rifle_0.glb",
+        "http://127.0.0.1:62200/assets/weapons/realism-v2/shotgun_0.glb",
+        "http://127.0.0.1:62200/assets/weapons/realism-v2/rocket_0.glb",
+        "http://127.0.0.1:62200/assets/weapons/unique-v1/slug_4.glb"
+      ],
+      "failed": [],
+      "errors": []
+    }
+  ]
+}

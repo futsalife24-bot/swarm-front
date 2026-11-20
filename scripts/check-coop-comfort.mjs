@@ -249,7 +249,7 @@ try {
       over50: s.frames.filter((n) => n > 50).length,
       inputPackets: sent[i],
       packetMax: Math.max(...packets[i].map((p) => p.bytes)),
-      tuplePackets: packets[i].filter((p) => p.encoding === "tuples-v1").length,
+      tuplePackets: packets[i].filter((p) => p.encoding === "tuples-v2").length,
       omittedMax: Math.max(...packets[i].map((p) => p.omitted)),
       errors: s.errors,
     });

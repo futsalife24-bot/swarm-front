@@ -1,0 +1,16 @@
+
+> swarm-front@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-coop-comfort-close-20261113
+
+
+ Test Files  174 passed (174)
+      Tests  1769 passed (1769)
+   Start at  09:08:50
+   Duration  258.20s (tests 67%, import 29%, transform 4%)
+
+     Import  405 modules were evaluated 595 times · 66.95s total, 29% of tracked time
+             ~21.38s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation

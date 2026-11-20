@@ -1,0 +1,257 @@
+{
+  "scope": "Actual local solo gameplay frozen at same frame, actual previewWeapon twice. Isolated Vite plugin and material hooks; no product changes. GPU timer only when extension available; no device performance, other weapons, long-term cache, actual share UI.",
+  "browser": "157.0.8103.39",
+  "affected": 3,
+  "beforeSig": [
+    {
+      "name": "Recess black",
+      "wear": false,
+      "emissive": 0,
+      "color": 1580834,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal steel",
+      "wear": false,
+      "emissive": 0,
+      "color": 4738898,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal gunmetal",
+      "wear": false,
+      "emissive": 0,
+      "color": 6381423,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Paint rust orange",
+      "wear": false,
+      "emissive": 0,
+      "color": 12876863,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Glow heat",
+      "wear": false,
+      "emissive": 16757584,
+      "color": 11168807,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Rarity identification",
+      "wear": false,
+      "emissive": 0,
+      "color": 8162190,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "emissive": null,
+      "color": 9282720,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "emissive": null,
+      "color": 9611942,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+  ],
+  "afterSig": [
+    {
+      "name": "Recess black",
+      "wear": false,
+      "emissive": 0,
+      "color": 1580834,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Metal steel",
+      "wear": true,
+      "emissive": 0,
+      "color": 4738898,
+      "map": false,
+      "emissiveMap": false,
+      "key": "weapon-wear-lab-v1"
+    },
+    {
+      "name": "Metal gunmetal",
+      "wear": true,
+      "emissive": 0,
+      "color": 6381423,
+      "map": false,
+      "emissiveMap": false,
+      "key": "weapon-wear-lab-v1"
+    },
+    {
+      "name": "Paint rust orange",
+      "wear": true,
+      "emissive": 0,
+      "color": 12876863,
+      "map": false,
+      "emissiveMap": false,
+      "key": "weapon-wear-lab-v1"
+    },
+    {
+      "name": "Glow heat",
+      "wear": false,
+      "emissive": 16757584,
+      "color": 11168807,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "Rarity identification",
+      "wear": false,
+      "emissive": 0,
+      "color": 8162190,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "emissive": null,
+      "color": 9282720,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    },
+    {
+      "name": "",
+      "wear": false,
+      "emissive": null,
+      "color": 9611942,
+      "map": false,
+      "emissiveMap": false,
+      "key": "onBeforeCompile( /* shaderobject, renderer */ ) {}"
+    }
+  ],
+  "controls": [
+    {
+      "kind": "rifle",
+      "applied": 0,
+      "unchanged": true
+    },
+    {
+      "kind": "laser",
+      "applied": 0,
+      "unchanged": true
+    }
+  ],
+  "programs": {
+    "before": 47,
+    "candidate": 48,
+    "repeat": 48,
+    "clone": 48,
+    "sharedMaterials": true,
+    "compiled": 6
+  },
+  "gpuBefore": {
+    "supported": true,
+    "ready": true,
+    "disjoint": false,
+    "times": [
+      4.972343,
+      5.519322,
+      5.020572,
+      5.029166,
+      5.182812,
+      5.851041,
+      5.035833,
+      4.42427,
+      4.510416,
+      4.909322,
+      5.01802,
+      4.388697
+    ],
+    "median": 5.020572,
+    "p95": 5.851041
+  },
+  "gpuAfter": {
+    "supported": true,
+    "ready": true,
+    "disjoint": false,
+    "times": [
+      5.445572,
+      7.771093,
+      5.34151,
+      6.248436,
+      6.545468,
+      5.144687,
+      5.181875,
+      5.492135,
+      5.157238,
+      4.893177,
+      4.020729,
+      3.580885
+    ],
+    "median": 5.34151,
+    "p95": 7.771093
+  },
+  "cpuBefore": [
+    4.9000000059604645,
+    6.0999999940395355,
+    4.600000008940697,
+    4.799999997019768,
+    6.4000000059604645,
+    5.299999997019768,
+    4.9000000059604645,
+    4.5999999940395355,
+    6.5999999940395355,
+    6.300000011920929,
+    21.799999997019768,
+    6.700000002980232
+  ],
+  "cpuAfter": [
+    16.400000005960464,
+    23.19999998807907,
+    20.80000001192093,
+    11.900000005960464,
+    5.799999997019768,
+    4.799999997019768,
+    5.5999999940395355,
+    4.800000011920929,
+    5.399999991059303,
+    7.799999997019768,
+    6.200000002980232,
+    5.4000000059604645
+  ],
+  "gpuInfo": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A8) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "glError": 0,
+  "shaderErrors": [],
+  "viewport": [
+    844,
+    390
+  ],
+  "errors": [],
+  "consoleErrors": [
+    "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:63792' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED",
+    "Access to fetch at 'https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front' from origin 'http://127.0.0.1:63792' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+    "Failed to load resource: net::ERR_FAILED"
+  ]
+}

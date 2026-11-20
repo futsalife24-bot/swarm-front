@@ -11,8 +11,13 @@ import {
 } from "../src/shared/harrow";
 import { groundHeight } from "../src/shared/terrain";
 import { mapFor } from "../src/shared/stages";
+import { wormNodes } from "../src/shared/worm";
+import { planOmega } from "../src/shared/catena-omega";
+import { enemySize } from "../src/shared/enemy-size";
 import { populateDenseWireWorld } from "../scripts/state-wire-fixture";
+import { comfortFixture } from "../scripts/coop-comfort-fixture";
 import production, { Room, Gate } from "./worker";
+import { cloudHash, sqlVaultStorage } from "./player-vault";
 import { frontDedicatedSurvivalThreshold } from "../src/shared/front-run";
 import {
   FRONT_ELEMENT_IDS,
@@ -32,7 +37,33 @@ import {
 export { Gate };
 export class TestGate extends Gate {
   override async fetch(req: Request) {
-    if (new URL(req.url).pathname === "/stats") {
+    const testPath = new URL(req.url).pathname;
+    // F-17 H-2 verification: read or preset the authenticated daily counter.
+    if (testPath === "/rate-stats")
+      return Response.json(
+        (await this.ctx.storage.get("cloud-rate")) ?? { total: 0 },
+      );
+    if (testPath === "/rate-set" && req.method === "POST") {
+      await this.ctx.storage.put("cloud-rate", await req.json());
+      return Response.json({ ok: true });
+    }
+    // Seed a pre-F-17 device-generated supply account (no longer creatable).
+    if (testPath === "/legacy-supply-seed" && req.method === "POST") {
+      const seed = (await req.json()) as {
+        token: string;
+        tickets: number;
+        day: string;
+      };
+      await sqlVaultStorage(this.ctx.storage).put("supply", {
+        credential: await cloudHash(seed.token),
+        tickets: seed.tickets,
+        day: seed.day,
+        pending: null,
+        acked: [],
+      });
+      return Response.json({ ok: true });
+    }
+    if (testPath === "/stats") {
       const state = await this.ctx.storage.get<{
         total: number;
         connections?: number;
@@ -47,12 +78,16 @@ export class TestGate extends Gate {
 }
 export class TestRoom extends Room {
   private fixedWire = false;
+  private comfortTicks: number[] | undefined;
   override async tick() {
     if (this.fixedWire) {
       if (++this.ticks % 2 === 0) this.broadcast();
       return;
     }
+    const began = performance.now();
     await super.tick();
+    if (this.comfortTicks && this.comfortTicks.length < 4096)
+      this.comfortTicks.push(performance.now() - began);
   }
   override async fetch(req: Request) {
     const u = new URL(req.url);
@@ -66,11 +101,29 @@ export class TestRoom extends Room {
         ),
         paused: this.saved.paused ?? false,
         running: !!this.timer,
+        comfortTicks: this.comfortTicks,
       });
     }
     if (u.pathname === "/fixture") {
       this.stop();
       this.fixedWire = false;
+      if (u.searchParams.get("case") === "front-comfort-close") {
+        const run = this.saved.frontRun;
+        if (!run || run.world.players.length !== 4)
+          return new Response("4人の生存戦が必要です", { status: 409 });
+        const kind =
+          u.searchParams.get("kind") === "mixed" ? "mixed" : "boundary";
+        const count = Math.min(
+          1000,
+          Math.max(0, Number(u.searchParams.get("projectiles") ?? 100)),
+        );
+        const info = comfortFixture(run, kind, count);
+        this.comfortTicks = [];
+        this.fixedWire = kind === "boundary";
+        this.broadcast();
+        this.run();
+        return Response.json(info);
+      }
       if (u.searchParams.get("case") === "front-elements") {
         const run = this.saved.frontRun;
         const player = run?.world.players.find((p) => p.hp > 0);
@@ -277,6 +330,38 @@ export class TestRoom extends Room {
           this.fixedWire = true;
           this.run();
         }
+        return Response.json({ ok: true });
+      }
+      if (u.searchParams.get("case") === "front-support-result") {
+        const run = this.saved.frontRun;
+        if (!run?.fusion || run.mode !== "survival")
+          return new Response("生存戦が必要です", { status: 409 });
+        run.phase = "combat";
+        run.world.time = 180;
+        run.world.totalKills = 90;
+        run.world.enemies = [];
+        run.world.players.forEach((p, i) => {
+          p.kills = i === 0 ? 90 : 0;
+          p.hp = 0;
+        });
+        // 合成の参加条件。自然な攻略や有効行動の実測結果として扱わない。
+        if (run.supportRewards) {
+          for (const r of Object.values(run.supportRewards.players))
+            Object.assign(r, {
+              present: 180,
+              active: 18,
+              actionAt: 180,
+              presentAt: 180,
+            });
+          run.supportRewards.tickAt = 180;
+        }
+        await this.tick();
+        await this.persist();
+        const stored = await this.ctx.storage.get<typeof this.saved>("room");
+        if (!stored?.frontRun) throw Error("保存検証失敗");
+        stored.frontRun.world = stored.world!;
+        this.saved = stored;
+        this.broadcast();
         return Response.json({ ok: true });
       }
       if (u.searchParams.get("case") === "front-growth-result") {
@@ -536,6 +621,44 @@ export class TestRoom extends Room {
         w.stage = 6;
         spawn(w, "boss", 0, -15, "worm");
         hurtEnemy(w, w.enemies[0], 1e6, w.players[0].id, 4);
+      } else if (u.searchParams.get("case") === "catena-omega") {
+        // ローカル専用。初期配置のみ短縮し、実step・権威・wireを通す。
+        w.stage = 1;
+        const boss = spawn(w, "boss", 0, 0, "worm")!;
+        boss.size = 0.8;
+        boss.active = true;
+        let plan;
+        search: for (const x of [
+          -72, -60, -48, -36, -24, -12, 0, 12, 24, 36, 48, 60, 72,
+        ])
+          for (const z of [-48, -24, 0, 24, 48]) {
+            wormNodes(boss).forEach((n, i) =>
+              Object.assign(n, {
+                x,
+                y: groundHeight(
+                  x,
+                  z + (i - 7) * 3.2 * enemySize(boss),
+                  mapFor(w).blocks,
+                ),
+                z: z + (i - 7) * 3.2 * enemySize(boss),
+                heading: Math.PI,
+              }),
+            );
+            plan = planOmega(w, boss);
+            if (plan) break search;
+          }
+        if (!plan)
+          return new Response("Ωの安全な検証配置なし", { status: 500 });
+        boss.omega = plan;
+        boss.omegaReadyAt = w.time + 16;
+        w.players.forEach((p, i) =>
+          Object.assign(p, {
+            x: plan!.ground[7].x + i * 7,
+            y: plan!.ground[7].y,
+            z: plan!.ground[7].z,
+            hp: 1000,
+          }),
+        );
       } else if (u.searchParams.get("case") === "foundry") {
         if (u.searchParams.get("form") === "explosive") {
           const kind = u.searchParams.get("weapon") as
@@ -640,12 +763,48 @@ export default {
       headers.set("CF-Connecting-IP", `integration-${testClient}`);
       req = new Request(req, { headers });
     }
+    // Supply/cloud limit checks: simulate distinct client addresses (incl. IPv6).
+    const testAddress = req.headers.get("X-Test-Address");
+    if (
+      testAddress &&
+      /^[0-9a-f:.]{2,45}$/i.test(testAddress) &&
+      (u.pathname.startsWith("/api/supply/") ||
+        u.pathname.startsWith("/api/cloud/"))
+    ) {
+      const headers = new Headers(req.headers);
+      headers.set("CF-Connecting-IP", testAddress);
+      req = new Request(req, { headers });
+    }
+    const legacySeed = /^\/legacy-supply-fixture\/([a-f0-9]{32})$/.exec(
+      u.pathname,
+    );
+    if (legacySeed && req.method === "POST")
+      return env.GATE.get(env.GATE.idFromName("supply/" + legacySeed[1])).fetch(
+        new Request("https://internal/legacy-supply-seed", {
+          method: "POST",
+          body: await req.text(),
+        }),
+      );
+    const rateFixture = /^\/rate-fixture\/(supply|cloud)$/.exec(u.pathname);
+    if (rateFixture) {
+      const counter = env.GATE.get(
+        env.GATE.idFromName(`${rateFixture[1]}-admission`),
+      );
+      return req.method === "POST"
+        ? counter.fetch(
+            new Request("https://internal/rate-set", {
+              method: "POST",
+              body: await req.text(),
+            }),
+          )
+        : counter.fetch(new Request("https://internal/rate-stats"));
+    }
     if (u.pathname === "/admission-stats")
       return env.GATE.get(env.GATE.idFromName("admission")).fetch(
         new Request("https://internal/stats"),
       );
     const match =
-      /^\/fixtures\/([a-f0-9]{32})\/(harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
+      /^\/fixtures\/([a-f0-9]{32})\/(front-comfort-close|harrow|harrow-spin|harrow-dive|harrow-stagger|harrow-dash|harrow-snipe|harrow-bomb|harrow-takeoff|calyx|bastion|bastion-fire|revive|reward|reward-overflow|load|performance|freeze|enemies|structures|pleat-strike|worm-split|foundry|catena-omega|trooper|snapshot|terminal-victory|terminal-defeat|terminal-weapon-precision|front-result|front-return|front-growth-result|front-support-result|front-wire-dense|front-wire-heavy|front-wire-overflow|front-wire-bastion|front-survival-wave|front-survival-cluster|front-treasure|front-treasure-drop|front-elements)$/.exec(
         u.pathname,
       );
     if (
@@ -659,6 +818,8 @@ export default {
             ? "https://internal/snapshot"
             : `https://internal/fixture?${new URLSearchParams({
                 case: match[2],
+                kind: u.searchParams.get("kind") ?? "boundary",
+                projectiles: u.searchParams.get("projectiles") ?? "100",
                 ...(match[2] === "foundry"
                   ? {
                       form: u.searchParams.get("form") ?? "",

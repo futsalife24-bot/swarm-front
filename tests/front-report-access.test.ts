@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { freshProgress, newSaveKey } from "../src/client/progression-save";
 import { openBestiary } from "../src/client/bestiary";
 import { openFrontBestiary } from "../src/client/front-report-access";
+import type { ReportVoice } from "../src/client/report-identification";
 
 vi.mock("../src/client/bestiary", () => ({ openBestiary: vi.fn() }));
 
@@ -15,6 +16,19 @@ const storageFor = (value: string | null) => ({
 
 describe("front title report access", () => {
   beforeEach(() => report.mockClear());
+
+  it("passes the existing selected-voice queue into the report", () => {
+    const controlVoice = {
+      announce: vi.fn(),
+      controlVoice: { stop: vi.fn() },
+    } as unknown as ReportVoice;
+    openFrontBestiary(storageFor(null), 0.4, controlVoice);
+    expect(report).toHaveBeenCalledWith({
+      encounters: {},
+      voiceVolume: 0.4,
+      controlVoice,
+    });
+  });
 
   it.each([
     [{ boss: "solo" as const }, { boss: "solo" }],
@@ -35,6 +49,7 @@ describe("front title report access", () => {
       expect(report).toHaveBeenCalledWith({
         encounters: expected,
         voiceVolume: 0.4,
+        controlVoice: undefined,
       });
       expect(storage.setItem).not.toHaveBeenCalled();
     },
@@ -47,7 +62,11 @@ describe("front title report access", () => {
       },
     };
     openFrontBestiary(storage, 0.2);
-    expect(report).toHaveBeenCalledWith({ encounters: {}, voiceVolume: 0.2 });
+    expect(report).toHaveBeenCalledWith({
+      encounters: {},
+      voiceVolume: 0.2,
+      controlVoice: undefined,
+    });
   });
 
   it.each([null, "{bad save"])(
@@ -55,7 +74,11 @@ describe("front title report access", () => {
     (raw) => {
       const storage = storageFor(raw);
       openFrontBestiary(storage, 0.2);
-      expect(report).toHaveBeenCalledWith({ encounters: {}, voiceVolume: 0.2 });
+      expect(report).toHaveBeenCalledWith({
+        encounters: {},
+        voiceVolume: 0.2,
+        controlVoice: undefined,
+      });
       expect(storage.setItem).not.toHaveBeenCalled();
     },
   );

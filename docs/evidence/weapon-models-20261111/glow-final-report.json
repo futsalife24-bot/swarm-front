@@ -1,0 +1,1577 @@
+{
+  "records": [
+    {
+      "kind": "rifle",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 20
+    },
+    {
+      "kind": "rifle",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 20
+    },
+    {
+      "kind": "rifle",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 20
+    },
+    {
+      "kind": "rifle",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 20
+    },
+    {
+      "kind": "rifle",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 20
+    },
+    {
+      "kind": "smg",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "smg",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "smg",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "smg",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "smg",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "shotgun",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "shotgun",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "shotgun",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "shotgun",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "shotgun",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "slug",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "slug",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "slug",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "slug",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "slug",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "rocket",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 21
+    },
+    {
+      "kind": "rocket",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 21
+    },
+    {
+      "kind": "rocket",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 21
+    },
+    {
+      "kind": "rocket",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 21
+    },
+    {
+      "kind": "rocket",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 21
+    },
+    {
+      "kind": "heavy",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "heavy",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "heavy",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "heavy",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "heavy",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sniper",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sniper",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sniper",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sniper",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sniper",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "grenade",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "grenade",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "grenade",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "grenade",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "grenade",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sticky",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sticky",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sticky",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sticky",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "sticky",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "laser",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "laser",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "laser",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "laser",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "laser",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "kick",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "kick",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "kick",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "kick",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "kick",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "medic",
+      "grade": 0,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "92aaa6",
+        "7cbdf4"
+      ],
+      "bright": [
+        1.0707446289601803,
+        1.6150987490186597
+      ],
+      "dim": [
+        0.8351808105889407,
+        1.2597770242345545
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "medic",
+      "grade": 1,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "83d8b0",
+        "d5a4f4"
+      ],
+      "bright": [
+        1.347804822093058,
+        1.9412861531281713
+      ],
+      "dim": [
+        1.0512877612325853,
+        1.5142031994399738
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "medic",
+      "grade": 2,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "7cbdf4",
+        "ffd472"
+      ],
+      "bright": [
+        1.6150987490186597,
+        1.8266442174519955
+      ],
+      "dim": [
+        1.2597770242345545,
+        1.4247824896125565
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "medic",
+      "grade": 3,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "d5a4f4",
+        "92aaa6"
+      ],
+      "bright": [
+        1.9412861531281713,
+        1.0707446289601803
+      ],
+      "dim": [
+        1.5142031994399738,
+        0.8351808105889407
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    },
+    {
+      "kind": "medic",
+      "grade": 4,
+      "counts": [
+        1,
+        1
+      ],
+      "colors": [
+        "ffd472",
+        "83d8b0"
+      ],
+      "bright": [
+        1.8266442174519955,
+        1.347804822093058
+      ],
+      "dim": [
+        1.4247824896125565,
+        1.0512877612325853
+      ],
+      "changed": true,
+      "parents": [
+        "RightHandWeaponSocket",
+        "BackWeaponSocket_2"
+      ],
+      "calls": 19
+    }
+  ],
+  "swapped": [
+    "BackWeaponSocket",
+    "RightHandWeaponSocket"
+  ],
+  "disposed": 1,
+  "colors": [
+    "92aaa6",
+    "83d8b0",
+    "7cbdf4",
+    "d5a4f4",
+    "ffd472"
+  ],
+  "errors": []
+}

@@ -69,8 +69,7 @@ export function frontResultRewardsMarkup(rewards: FrontResultRewards): string {
   if (!rewards.eligible)
     body = '<p class="fr-note">今回の結果は武器・攻略コインの対象外です。</p>';
   else if (!rewards.weapons.length)
-    body =
-      '<p class="fr-note">今回の武器はありません。武器は60秒以上かつ1撃破から獲得できます。</p>';
+    body = `<p class="fr-note">${esc(rewards.emptyWeaponNote ?? "今回の武器はありません。武器は60秒以上かつ1撃破から獲得できます。")}</p>`;
   else {
     const notes = [
       count("pending")

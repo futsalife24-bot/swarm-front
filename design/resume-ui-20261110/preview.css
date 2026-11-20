@@ -1,0 +1,38 @@
+/* プレビュー入口（既存のアイテム使用画面を模した入口。旧試作の入口を継承） */
+:root { --bg: #0b151b; --panel: #111f27; --text: #dbe7e4; --mute: #a5bcc8; --amber: #ffd599; --safe-l: env(safe-area-inset-left, 0px); --safe-r: env(safe-area-inset-right, 0px); color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); }
+body { font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif; font-size: 14px; line-height: 1.4; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
+.launcher button {
+  font: inherit; color: var(--text); background: #18303a; border: 1px solid #64858c99;
+  min-height: 44px; min-width: 44px; padding: 6px 14px; border-radius: 3px; cursor: pointer; touch-action: manipulation;
+}
+.launcher button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.launcher button.ghost { background: transparent; }
+.launcher { height: 100%; overflow-y: auto; padding: 10px calc(16px + var(--safe-r)) 12px calc(16px + var(--safe-l)); display: flex; flex-direction: column; gap: 8px; }
+.l-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.l-head h1 { margin: 0; font-size: 20px; letter-spacing: .04em; }
+.l-note { margin: 0; color: var(--mute); font-size: 12px; }
+.l-resume { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 4px 10px; border-left: 3px solid var(--amber); background: #3a2f1866; font-size: 13px; }
+.l-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto auto; align-items: center; gap: 10px; padding: 6px 10px; background: var(--panel); border: 1px solid #64858c4d; }
+.l-icon { width: 36px; height: 36px; border: 1px solid var(--amber); transform: rotate(45deg) scale(.7); background: linear-gradient(135deg, #ffd59933, transparent); }
+.l-item { display: flex; flex-direction: column; min-width: 0; }
+.l-item small { color: var(--mute); font-size: 12px; }
+.launcher .use { background: #1f3b2f; border-color: #6fbf9c; font-weight: 700; }
+.l-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 6px 12px; align-items: center; font-size: 13px; }
+.l-grid label { white-space: nowrap; display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.l-grid select { flex: 1; min-width: 0; width: 100%; min-height: 44px; background: #0f1d24; color: var(--text); border: 1px solid #64858c99; font: inherit; }
+.chk input { width: 22px; height: 22px; accent-color: #ebc253; }
+.l-json { grid-column: 1 / -1; }
+.l-json summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; color: var(--mute); }
+.l-json textarea { width: 100%; background: #0f1d24; color: var(--text); border: 1px solid #64858c99; font: 12px/1.4 ui-monospace, Consolas, monospace; }
+.l-json-actions { display: flex; align-items: center; gap: 10px; }
+#json-msg { font-size: 12px; color: #ffc9b5; }
+@media (max-height: 340px) { .launcher { gap: 4px; padding-top: 6px; } .l-head h1 { font-size: 17px; } }
+
+/* 検証用シークバー（演出の上に重ねる。プレビュー専用） */
+.dbg { position: fixed; z-index: 60; left: calc(10px + var(--safe-l)); bottom: 6px; display: flex; align-items: center; gap: 8px; background: #0d1b22e6; padding: 0 8px; border: 1px solid #64858c66; color: var(--text); }
+.dbg input { width: min(34vw, 280px); height: 44px; }
+.dbg output { font: 12px ui-monospace, Consolas, monospace; min-width: 52px; }
+.dbg button { font: inherit; font-size: 13px; color: var(--text); background: #18303a; border: 1px solid #64858c99; min-height: 44px; padding: 6px 12px; border-radius: 3px; }

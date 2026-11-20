@@ -1,7 +1,14 @@
 import { describe, it, expect } from "vitest";
 import { DatabaseSync } from "node:sqlite";
 import { appAnalytics, expireAppAnalytics } from "../server/app-analytics";
-import { jstDate, summary, readEvent, type Day } from "../server/app-analytics";
+import {
+  countSwarmAnalytics,
+  isSwarmAnalyticsKind,
+  jstDate,
+  summary,
+  readEvent,
+  type Day,
+} from "../server/app-analytics";
 const day = (date: string, views: number, visitors = 1): Day => ({
   date,
   views,
@@ -123,6 +130,47 @@ describe("app analytics", () => {
   it("changes dates at Japanese midnight", () => {
     expect(jstDate(Date.parse("2026-09-16T14:59:59Z"))).toBe("2026-09-16");
     expect(jstDate(Date.parse("2026-09-16T15:00:00Z"))).toBe("2026-09-17");
+  });
+  it("keeps legacy days readable and counts each first-journey event", () => {
+    const legacy: Day = {
+      date: "2026-09-16",
+      views: 3,
+      visitors: 2,
+      sorties: 5,
+      clears: 1,
+    };
+    for (const kind of [
+      "ftue_start",
+      "first_sortie",
+      "first_clear",
+      "first_supply10",
+      "return",
+    ] as const)
+      countSwarmAnalytics(legacy, kind);
+    expect(legacy).toEqual({
+      ...legacy,
+      ftueStarts: 1,
+      firstSorties: 1,
+      firstClears: 1,
+      firstSupply10s: 1,
+      returns: 1,
+    });
+    expect(legacy.views).toBe(3);
+    expect(legacy.sorties).toBe(5);
+    expect(legacy.clears).toBe(1);
+    expect(isSwarmAnalyticsKind("first_supply10")).toBe(true);
+    expect(isSwarmAnalyticsKind("unexpected")).toBe(false);
+    const totals = summary([legacy], 1, Date.parse("2026-09-16T01:00Z")).totals;
+    expect(totals).toMatchObject({
+      views: 3,
+      sorties: 5,
+      clears: 1,
+      ftueStarts: 1,
+      firstSorties: 1,
+      firstClears: 1,
+      firstSupply10s: 1,
+      returns: 1,
+    });
   });
   it("includes zero days and excludes data outside the requested period", () => {
     const s = summary(

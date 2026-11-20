@@ -140,7 +140,7 @@ export class FoundryWormGait {
 
   ground?: (x: number, z: number) => number;
 
-  private reset(unit: Unit) {
+  private reset(unit: Unit, groundY: number) {
     unit.travel = 0;
     unit.ready = true;
     for (const leg of unit.legs) {
@@ -149,8 +149,7 @@ export class FoundryWormGait {
         .applyQuaternion(unit.root.quaternion)
         .add(unit.root.position);
       leg.anchor.y =
-        (this.ground?.(leg.anchor.x, leg.anchor.z) ?? unit.root.position.y) +
-        leg.clearance;
+        (this.ground?.(leg.anchor.x, leg.anchor.z) ?? groundY) + leg.clearance;
       leg.rotation.copy(unit.root.quaternion).multiply(leg.footRotation);
       leg.step = undefined;
       leg.stepIndex = 0;
@@ -158,15 +157,29 @@ export class FoundryWormGait {
     }
   }
 
-  update(time: number) {
+  update(time: number, airborne: boolean, supports: readonly { y: number }[]) {
     const elapsed = this.lastTime === undefined ? 0 : time - this.lastTime;
     const dt = Math.max(0, Math.min(0.1, elapsed));
     this.lastTime = time;
-    for (const unit of this.units) {
+    for (const [index, unit] of this.units.entries()) {
+      if (airborne) {
+        unit.ready = false;
+        for (const leg of unit.legs) {
+          leg.upper.position.copy(leg.hip);
+          leg.lower.position.copy(leg.knee);
+          leg.foot.position.copy(leg.toe);
+          leg.upper.quaternion.copy(leg.upperRotation);
+          leg.lower.quaternion.copy(leg.lowerRotation);
+          leg.foot.quaternion.copy(leg.footRotation);
+          leg.foot.userData.foundryContact = false;
+        }
+        continue;
+      }
       if (!unit.root.visible) {
         unit.ready = false;
         continue;
       }
+      const groundY = supports[index].y;
       const distance = Math.hypot(
         unit.root.position.x - unit.previous.x,
         unit.root.position.z - unit.previous.z,
@@ -177,8 +190,8 @@ export class FoundryWormGait {
         elapsed < 0 ||
         elapsed > 0.3 ||
         distance > 2 ||
-        Math.abs(unit.root.position.y - unit.previous.y) > 0.15;
-      if (reset) this.reset(unit);
+        Math.abs(groundY - unit.previous.y) > 0.15;
+      if (reset) this.reset(unit, groundY);
       const moved = !reset && (distance > 0.00005 || turn > 0.00005);
       const travel = moved ? distance + turn * 1.35 : 0;
       unit.travel += travel;
@@ -204,8 +217,7 @@ export class FoundryWormGait {
           const to = leg.toe.clone();
           to.z -= lead;
           to.applyQuaternion(unit.root.quaternion).add(unit.root.position);
-          to.y =
-            (this.ground?.(to.x, to.z) ?? unit.root.position.y) + leg.clearance;
+          to.y = (this.ground?.(to.x, to.z) ?? groundY) + leg.clearance;
           leg.step = {
             from: leg.anchor.clone(),
             to,
@@ -228,8 +240,7 @@ export class FoundryWormGait {
               .applyQuaternion(unit.root.quaternion)
               .add(unit.root.position);
             step.to.y =
-              (this.ground?.(step.to.x, step.to.z) ?? unit.root.position.y) +
-              leg.clearance;
+              (this.ground?.(step.to.x, step.to.z) ?? groundY) + leg.clearance;
             step.rotation.copy(unit.root.quaternion).multiply(leg.footRotation);
           }
           // A stopped unit finishes its current step instead of freezing a foot in air.
@@ -255,6 +266,7 @@ export class FoundryWormGait {
         this.solve(unit, leg);
       }
       unit.previous.copy(unit.root.position);
+      unit.previous.y = groundY;
       unit.rotation.copy(unit.root.quaternion);
     }
   }

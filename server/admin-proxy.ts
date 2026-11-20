@@ -15,10 +15,9 @@ export default {
     if (!allowedPath(incoming.pathname))
       return new Response("Not found", { status: 404 });
 
-    const backendOrigin = (env.BACKEND_ORIGIN ?? DEFAULT_BACKEND_ORIGIN).replace(
-      /\/$/,
-      "",
-    );
+    const backendOrigin = (
+      env.BACKEND_ORIGIN ?? DEFAULT_BACKEND_ORIGIN
+    ).replace(/\/$/, "");
     const requestOrigin = incoming.origin;
     const suppliedOrigin = req.headers.get("Origin");
     if (suppliedOrigin && suppliedOrigin !== requestOrigin)

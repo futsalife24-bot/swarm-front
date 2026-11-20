@@ -1,0 +1,349 @@
+{
+  "method": "4 real local Worker WebSockets; fixed seed 4520; A-1 composition; 400 projectiles is synthetic overflow, not asserted legal maximum",
+  "trials": [
+    {
+      "version": "chunks-v1",
+      "count": 550,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 550
+      },
+      "clients": [
+        {
+          "bytes": 1618,
+          "maxFrame": 1481,
+          "minMargin": 64055,
+          "states": 1,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        },
+        {
+          "bytes": 1705,
+          "maxFrame": 1568,
+          "minMargin": 63968,
+          "states": 1,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        },
+        {
+          "bytes": 1705,
+          "maxFrame": 1568,
+          "minMargin": 63968,
+          "states": 1,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        },
+        {
+          "bytes": 1618,
+          "maxFrame": 1481,
+          "minMargin": 64055,
+          "states": 1,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "version": "chunks-v1",
+      "count": 1000,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 1000
+      },
+      "clients": [
+        {
+          "bytes": 1615,
+          "maxFrame": 1478,
+          "minMargin": 64058,
+          "states": 1,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        },
+        {
+          "bytes": 1702,
+          "maxFrame": 1565,
+          "minMargin": 63971,
+          "states": 1,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        },
+        {
+          "bytes": 1615,
+          "maxFrame": 1478,
+          "minMargin": 64058,
+          "states": 1,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        },
+        {
+          "bytes": 1615,
+          "maxFrame": 1478,
+          "minMargin": 64058,
+          "states": 1,
+          "denseStates": 0,
+          "incompleteDenseStates": 0,
+          "closes": [
+            4000
+          ],
+          "notices": [
+            "戦況データの表示が更新されています。画面を再読み込みして復帰してください"
+          ],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "version": "modern",
+      "count": 550,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 550
+      },
+      "clients": [
+        {
+          "bytes": 138362,
+          "maxFrame": 18284,
+          "minMargin": 47252,
+          "states": 14,
+          "first": {
+            "ms": 7955.7036,
+            "enemies": 97,
+            "projectiles": 550,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97,
+            "tickMs": 0,
+            "encodeMs": 1
+          },
+          "denseStates": 14,
+          "incompleteDenseStates": 0,
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 138541,
+          "maxFrame": 18284,
+          "minMargin": 47252,
+          "states": 14,
+          "first": {
+            "ms": 7976.8845,
+            "enemies": 97,
+            "projectiles": 550,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97,
+            "tickMs": 0,
+            "encodeMs": 22
+          },
+          "denseStates": 14,
+          "incompleteDenseStates": 0,
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 138532,
+          "maxFrame": 18284,
+          "minMargin": 47252,
+          "states": 14,
+          "first": {
+            "ms": 8005.3264,
+            "enemies": 97,
+            "projectiles": 550,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97,
+            "tickMs": 0,
+            "encodeMs": 11
+          },
+          "denseStates": 14,
+          "incompleteDenseStates": 0,
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 138200,
+          "maxFrame": 18284,
+          "minMargin": 47252,
+          "states": 13,
+          "first": {
+            "ms": 8022.799,
+            "enemies": 97,
+            "projectiles": 550,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97,
+            "tickMs": 0,
+            "encodeMs": 12
+          },
+          "denseStates": 13,
+          "incompleteDenseStates": 0,
+          "closes": [],
+          "notices": [],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "version": "modern",
+      "count": 1000,
+      "fixture": {
+        "seed": 4520,
+        "kind": "boundary",
+        "enemies": 97,
+        "projectiles": 1000
+      },
+      "clients": [
+        {
+          "bytes": 209408,
+          "maxFrame": 18282,
+          "minMargin": 47254,
+          "states": 15,
+          "first": {
+            "ms": 10866.0904,
+            "enemies": 97,
+            "projectiles": 1000,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97,
+            "tickMs": 0,
+            "encodeMs": 1
+          },
+          "denseStates": 14,
+          "incompleteDenseStates": 0,
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 209247,
+          "maxFrame": 18282,
+          "minMargin": 47254,
+          "states": 15,
+          "first": {
+            "ms": 10878.4662,
+            "enemies": 97,
+            "projectiles": 1000,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97,
+            "tickMs": 0,
+            "encodeMs": 16
+          },
+          "denseStates": 14,
+          "incompleteDenseStates": 0,
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 209405,
+          "maxFrame": 18282,
+          "minMargin": 47254,
+          "states": 15,
+          "first": {
+            "ms": 10889.7284,
+            "enemies": 97,
+            "projectiles": 1000,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97,
+            "tickMs": 0,
+            "encodeMs": 13
+          },
+          "denseStates": 14,
+          "incompleteDenseStates": 0,
+          "closes": [],
+          "notices": [],
+          "errors": []
+        },
+        {
+          "bytes": 209254,
+          "maxFrame": 18281,
+          "minMargin": 47255,
+          "states": 14,
+          "first": {
+            "ms": 10901.264,
+            "enemies": 97,
+            "projectiles": 1000,
+            "orbs": 160,
+            "mines": 20,
+            "omitted": 0,
+            "hp": 97,
+            "tickMs": 0,
+            "encodeMs": 20
+          },
+          "denseStates": 13,
+          "incompleteDenseStates": 0,
+          "closes": [],
+          "notices": [],
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

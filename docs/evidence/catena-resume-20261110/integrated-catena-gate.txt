@@ -1,0 +1,1 @@
+{"pass":true,"oldClosedBefore14State":true,"oldReconnectNotice":true,"newReconnectSameId":true,"compatibleOldV1Battle":true,"wormStageStartBlocked":true}

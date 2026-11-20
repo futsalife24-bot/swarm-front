@@ -1,0 +1,249 @@
+{
+  "kind": "laser",
+  "passed": true,
+  "failures": [],
+  "warnings": [],
+  "limits": {
+    "triangles_target": 9000,
+    "triangles_max": 12060,
+    "primitives_max": 6,
+    "bytes_target": 500000,
+    "bytes_max": 800000,
+    "forward": [
+      -0.4,
+      0.7
+    ],
+    "up": [
+      -0.25,
+      0.21
+    ],
+    "half_width": 0.115,
+    "front_margin": 0.1,
+    "muzzle_side": 0.002,
+    "muzzle_up": 0.004,
+    "grip": {
+      "forward": [
+        -0.08,
+        0.03
+      ],
+      "up": [
+        -0.15,
+        -0.03
+      ],
+      "half_width": 0.026
+    },
+    "support": {
+      "forward": [
+        0.18,
+        0.4
+      ],
+      "up": [
+        -0.05,
+        0.03
+      ],
+      "half_width": 0.04
+    }
+  },
+  "checks": [
+    {
+      "name": "[laser_0.glb] 三角形数（上限）",
+      "ok": true,
+      "detail": "8788 / 12060"
+    },
+    {
+      "name": "[laser_0.glb] 三角形数（目標）",
+      "ok": true,
+      "detail": "8788 / 9000"
+    },
+    {
+      "name": "[laser_0.glb] 材質数=描画回数",
+      "ok": true,
+      "detail": "6 / 6"
+    },
+    {
+      "name": "[laser_0.glb] メッシュ1つ・ノード変換なし",
+      "ok": true,
+      "detail": "meshes=1"
+    },
+    {
+      "name": "[laser_0.glb] 画像・アニメーション・透過なし",
+      "ok": true,
+      "detail": "images/animations/alphaMode"
+    },
+    {
+      "name": "[laser_0.glb] 寸法の枠（前後）",
+      "ok": true,
+      "detail": "-0.340 .. 0.660"
+    },
+    {
+      "name": "[laser_0.glb] 寸法の枠（上下）",
+      "ok": true,
+      "detail": "-0.145 .. 0.148"
+    },
+    {
+      "name": "[laser_0.glb] 寸法の枠（半幅）",
+      "ok": true,
+      "detail": "0.053"
+    },
+    {
+      "name": "[laser_0.glb] 前端が後端より十分に遠い",
+      "ok": true,
+      "detail": "前 0.660 / 後 -0.340"
+    },
+    {
+      "name": "[laser_0.glb] 銃口算出: 最長軸が前後で、前端が選ばれる",
+      "ok": true,
+      "detail": "axis=z end=-0.660"
+    },
+    {
+      "name": "[laser_0.glb] 銃口算出: 左右のずれ",
+      "ok": true,
+      "detail": "0.00 mm（先端の頂点 192 個）"
+    },
+    {
+      "name": "[laser_0.glb] 銃口算出: 高さが設計の銃身軸と一致",
+      "ok": true,
+      "detail": "算出 0.0500 / 設計 0.0500"
+    },
+    {
+      "name": "[laser_0.glb] 握りの位置に形があり、握れる幅",
+      "ok": true,
+      "detail": "頂点 707 個、半幅 0.025 / 0.026"
+    },
+    {
+      "name": "[laser_0.glb] 左手の支えの位置に形があり、握れる幅",
+      "ok": true,
+      "detail": "頂点 1654 個、半幅 0.035 / 0.04"
+    },
+    {
+      "name": "[laser_0.glb] ネオン外形が本体の範囲内",
+      "ok": true,
+      "detail": "27 点"
+    },
+    {
+      "name": "[laser_0.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "498120 / 800000"
+    },
+    {
+      "name": "[laser_0.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "498120 / 500000"
+    },
+    {
+      "name": "[laser_0.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.20000000298023224, 0.25999999046325684, 0.27000001072883606]"
+    },
+    {
+      "name": "[laser_1.glb] 形はグレード0と同一",
+      "ok": true,
+      "detail": "頂点 13726 三角形 8788"
+    },
+    {
+      "name": "[laser_1.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "498120 / 800000"
+    },
+    {
+      "name": "[laser_1.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "498120 / 500000"
+    },
+    {
+      "name": "[laser_1.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.07999999821186066, 0.30000001192092896, 0.15000000596046448]"
+    },
+    {
+      "name": "[laser_2.glb] 形はグレード0と同一",
+      "ok": true,
+      "detail": "頂点 13726 三角形 8788"
+    },
+    {
+      "name": "[laser_2.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "498120 / 800000"
+    },
+    {
+      "name": "[laser_2.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "498120 / 500000"
+    },
+    {
+      "name": "[laser_2.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.07999999821186066, 0.20000000298023224, 0.44999998807907104]"
+    },
+    {
+      "name": "[laser_3.glb] 形はグレード0と同一",
+      "ok": true,
+      "detail": "頂点 13726 三角形 8788"
+    },
+    {
+      "name": "[laser_3.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "498120 / 800000"
+    },
+    {
+      "name": "[laser_3.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "498120 / 500000"
+    },
+    {
+      "name": "[laser_3.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.30000001192092896, 0.09000000357627869, 0.38999998569488525]"
+    },
+    {
+      "name": "[laser_4.glb] 形はグレード0と同一",
+      "ok": true,
+      "detail": "頂点 13726 三角形 8788"
+    },
+    {
+      "name": "[laser_4.glb] ファイルサイズ（上限）",
+      "ok": true,
+      "detail": "498116 / 800000"
+    },
+    {
+      "name": "[laser_4.glb] ファイルサイズ（目標）",
+      "ok": true,
+      "detail": "498116 / 500000"
+    },
+    {
+      "name": "[laser_4.glb] 識別インレイの色",
+      "ok": true,
+      "detail": "[0.550000011920929, 0.3499999940395355, 0.06499999761581421]"
+    },
+    {
+      "name": "[読み直し] メッシュオブジェクト1つ",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "[読み直し] 三角形数が生成時と一致",
+      "ok": true,
+      "detail": "8788 / 8788"
+    },
+    {
+      "name": "[読み直し] 寸法が生成時と一致",
+      "ok": true,
+      "detail": "[-0.053, -0.34, -0.1447] .. [0.053, 0.66, 0.148]"
+    },
+    {
+      "name": "[読み直し] 材質名が生成時と一致",
+      "ok": true,
+      "detail": "['Metal gunmetal', 'Textured polymer', 'Metal copper', 'Glow laser', 'Ceramic bone', 'Rarity identification']"
+    },
+    {
+      "name": "[読み直し] 左の識別インレイが見える",
+      "ok": true,
+      "detail": "9/9 点"
+    },
+    {
+      "name": "[読み直し] 右の識別インレイが見える",
+      "ok": true,
+      "detail": "9/9 点"
+    }
+  ]
+}

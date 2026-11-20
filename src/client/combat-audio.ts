@@ -94,9 +94,15 @@ export class CombatAudio {
             e.type === "heal"
               ? "revive"
               : e.type === "hit"
-                ? e.weapon === "rifle" && e.enemyKind
-                  ? (AR_HITS[e.enemyKind] ?? "impact")
-                  : "impact"
+                ? e.enemyKind === "bastion" && e.guardKind
+                  ? e.guardKind === "open"
+                    ? "impactSoft"
+                    : e.guardKind === "rapid"
+                      ? "impactHard"
+                      : "impactShell"
+                  : e.weapon === "rifle" && e.enemyKind
+                    ? (AR_HITS[e.enemyKind] ?? "impact")
+                    : "impact"
                 : e.type === "burst" && EXPLOSIVE.includes(e.weapon as Family)
                   ? "rocketBurst"
                   : e.type === "burst" && !e.owner && (e.radius ?? 7) < 2

@@ -1,0 +1,1376 @@
+{
+  "scope": "Isolated SMG-only post-update IK; approximate fixed region, 60Hz timeline and 5 selected views. No hand surface intersections, actual game loop, network, other weapons or device.",
+  "errors": [],
+  "failed": [],
+  "duration": 1.5,
+  "records": [
+    {
+      "fraction": 0,
+      "weight": 0,
+      "beforeMag": 0.0018009886614424918,
+      "afterMag": 0.0018009886614424918,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0,
+      "candidateStep": 0,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.011111111111111112,
+      "weight": 0,
+      "beforeMag": 0.0036279794273501305,
+      "afterMag": 0.0036279794273501305,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.003083144779221355,
+      "candidateStep": 0.003083144779221355,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.022222222222222223,
+      "weight": 0,
+      "beforeMag": 0.006049810593018484,
+      "afterMag": 0.006049810593018484,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.004126071623282668,
+      "candidateStep": 0.004126071623282668,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.03333333333333333,
+      "weight": 0,
+      "beforeMag": 0.010860767205047831,
+      "afterMag": 0.010860767205047831,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.008350333632305352,
+      "candidateStep": 0.008350333632305352,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.044444444444444446,
+      "weight": 0,
+      "beforeMag": 0.005880034523030547,
+      "afterMag": 0.005880034523030547,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.009758184222180461,
+      "candidateStep": 0.009758184222180461,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.05555555555555555,
+      "weight": 0,
+      "beforeMag": 0.004410175260326929,
+      "afterMag": 0.004410175260326929,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.011858022937663675,
+      "candidateStep": 0.011858022937663675,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.06666666666666667,
+      "weight": 0,
+      "beforeMag": 0.011345522159277364,
+      "afterMag": 0.011345522159277364,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.012982139186887313,
+      "candidateStep": 0.012982139186887313,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.07777777777777778,
+      "weight": 0,
+      "beforeMag": 0.01858837482504995,
+      "afterMag": 0.01858837482504995,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.013544779849609757,
+      "candidateStep": 0.013544779849609757,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.08888888888888889,
+      "weight": 0,
+      "beforeMag": 0.02826628243266797,
+      "afterMag": 0.02826628243266797,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.013790635108868323,
+      "candidateStep": 0.013790635108868323,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.1,
+      "weight": 0,
+      "beforeMag": 0.037213242845590674,
+      "afterMag": 0.037213242845590674,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.013485786327366545,
+      "candidateStep": 0.013485786327366545,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.1111111111111111,
+      "weight": 0,
+      "beforeMag": 0.046339765222725246,
+      "afterMag": 0.046339765222725246,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.012258891010447944,
+      "candidateStep": 0.012258891010447944,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.12222222222222222,
+      "weight": 0,
+      "beforeMag": 0.05460226065130309,
+      "afterMag": 0.05460226065130309,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.011162070119010076,
+      "candidateStep": 0.011162070119010076,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.13333333333333333,
+      "weight": 0,
+      "beforeMag": 0.06065360938738431,
+      "afterMag": 0.06065360938738431,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.008376256478229465,
+      "candidateStep": 0.008376256478229465,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.14444444444444443,
+      "weight": 0,
+      "beforeMag": 0.06454349447267085,
+      "afterMag": 0.06454349447267085,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.006033135211658048,
+      "candidateStep": 0.006033135211658048,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.15555555555555556,
+      "weight": 0,
+      "beforeMag": 0.06632587959897336,
+      "afterMag": 0.06632587959897336,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.0030751964340065205,
+      "candidateStep": 0.0030751964340065205,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.16666666666666666,
+      "weight": 0,
+      "beforeMag": 0.06682644693250299,
+      "afterMag": 0.06682644693250299,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.003053656712177128,
+      "candidateStep": 0.003053656712177128,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.17777777777777778,
+      "weight": 0,
+      "beforeMag": 0.06646497908157374,
+      "afterMag": 0.06646497908157374,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.0034630956941320047,
+      "candidateStep": 0.0034630956941320047,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.18888888888888888,
+      "weight": 0,
+      "beforeMag": 0.06576130685331973,
+      "afterMag": 0.06576130685331973,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.007161099650726636,
+      "candidateStep": 0.007161099650726636,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.2,
+      "weight": 0,
+      "beforeMag": 0.06513025878135087,
+      "afterMag": 0.06513025878135087,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.00806061375072891,
+      "candidateStep": 0.00806061375072891,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.2111111111111111,
+      "weight": 0.008916323731138527,
+      "beforeMag": 0.06463152457499616,
+      "afterMag": 0.06459023087627459,
+      "requestedShift": 0.00004129617247938954,
+      "actualShift": 0.00004129370042932362,
+      "ikError": 1.212707581163125e-8,
+      "baseStep": 0.010542583744781068,
+      "candidateStep": 0.01054323621348428,
+      "boneLengths": [
+        0.24466812785418832,
+        0.23100133832549716
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.2222222222222222,
+      "weight": 0.03429355281207126,
+      "beforeMag": 0.06455146807059964,
+      "afterMag": 0.06439538387185734,
+      "requestedShift": 0.00015608601065156486,
+      "actualShift": 0.00015608419918594754,
+      "ikError": 1.1893223527350172e-8,
+      "baseStep": 0.010624945827636572,
+      "candidateStep": 0.01062040325721236,
+      "boneLengths": [
+        0.2446681257698138,
+        0.23100133867609102
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.23333333333333334,
+      "weight": 0.07407407407407406,
+      "beforeMag": 0.06497546586606585,
+      "afterMag": 0.06460691395846929,
+      "requestedShift": 0.0003685530271159893,
+      "actualShift": 0.00036855190777984874,
+      "ikError": 1.1643810476362003e-8,
+      "baseStep": 0.011027110760596632,
+      "candidateStep": 0.011004883401172819,
+      "boneLengths": [
+        0.2446681237164226,
+        0.23100133904214762
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.24444444444444444,
+      "weight": 0.1262002743484224,
+      "beforeMag": 0.06571395876637992,
+      "afterMag": 0.06499285705075748,
+      "requestedShift": 0.0007211031639327195,
+      "actualShift": 0.000721101715712532,
+      "ikError": 1.1427914265254954e-8,
+      "baseStep": 0.010517025472971769,
+      "candidateStep": 0.010486367578891499,
+      "boneLengths": [
+        0.2446681216576365,
+        0.23100133947852455
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.25555555555555554,
+      "weight": 0.18861454046639212,
+      "beforeMag": 0.06700466050499661,
+      "afterMag": 0.06568348108140903,
+      "requestedShift": 0.0013211808222730217,
+      "actualShift": 0.00132117942363634,
+      "ikError": 1.1326102393219696e-8,
+      "baseStep": 0.009768372086415568,
+      "candidateStep": 0.00956294933443514,
+      "boneLengths": [
+        0.24466811957236503,
+        0.23100133999540462
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.26666666666666666,
+      "weight": 0.2592592592592592,
+      "beforeMag": 0.06894303123409605,
+      "afterMag": 0.06662446930942076,
+      "requestedShift": 0.002318563653284161,
+      "actualShift": 0.002318561924703988,
+      "ikError": 1.1468819666843311e-8,
+      "baseStep": 0.008145270257892086,
+      "candidateStep": 0.007745242072098813,
+      "boneLengths": [
+        0.24466811745317094,
+        0.23100134059360702
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.2777777777777778,
+      "weight": 0.33607681755829905,
+      "beforeMag": 0.07118150861943782,
+      "afterMag": 0.0674236680130785,
+      "requestedShift": 0.0037578458323213547,
+      "actualShift": 0.003757840606400098,
+      "ikError": 1.7821381421933105e-8,
+      "baseStep": 0.007059012276029465,
+      "candidateStep": 0.006421264860357114,
+      "boneLengths": [
+        0.24466811533657343,
+        0.23100134115426382
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.28888888888888886,
+      "weight": 0.4170096021947871,
+      "beforeMag": 0.07249404731056268,
+      "afterMag": 0.06728391487494592,
+      "requestedShift": 0.005210137698780593,
+      "actualShift": 0.005210132435641634,
+      "ikError": 1.637730201921967e-8,
+      "baseStep": 0.0038709651681702534,
+      "candidateStep": 0.0033249476523600436,
+      "boneLengths": [
+        0.24466811335922245,
+        0.2310013416877234
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.3,
+      "weight": 0.4999999999999998,
+      "beforeMag": 0.07355859838333166,
+      "afterMag": 0.06677930294498712,
+      "requestedShift": 0.006779299191665829,
+      "actualShift": 0.006779295438360203,
+      "ikError": 1.4382019847712745e-8,
+      "baseStep": 0.0030545684762043534,
+      "candidateStep": 0.0025376611828402526,
+      "boneLengths": [
+        0.24466811167803995,
+        0.23100134201143893
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.3111111111111111,
+      "weight": 0.5829903978052126,
+      "beforeMag": 0.07584343020195004,
+      "afterMag": 0.06660686097210948,
+      "requestedShift": 0.009236567676033976,
+      "actualShift": 0.009236569229852125,
+      "ikError": 1.3782099118796827e-8,
+      "baseStep": 0.002699099426468101,
+      "candidateStep": 0.0005783203314674539,
+      "boneLengths": [
+        0.24466811121370163,
+        0.2310013416896298
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.32222222222222224,
+      "weight": 0.663923182441701,
+      "beforeMag": 0.07890354696811415,
+      "afterMag": 0.0663530388351377,
+      "requestedShift": 0.012550503062506517,
+      "actualShift": 0.012550508132988723,
+      "ikError": 1.6875131170831252e-8,
+      "baseStep": 0.0034313634033015976,
+      "candidateStep": 0.0004930419004342976,
+      "boneLengths": [
+        0.24466811074992081,
+        0.23100134145312312
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.3333333333333333,
+      "weight": 0.7407407407407406,
+      "beforeMag": 0.0850611013300064,
+      "afterMag": 0.06649731565580637,
+      "requestedShift": 0.0185637787629677,
+      "actualShift": 0.018563785674211054,
+      "ikError": 1.9178766133523187e-8,
+      "baseStep": 0.0065242969715168745,
+      "candidateStep": 0.0007288552369674832,
+      "boneLengths": [
+        0.24466810980356285,
+        0.23100134180310022
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.34444444444444444,
+      "weight": 0.8113854595336076,
+      "beforeMag": 0.09232924901457033,
+      "afterMag": 0.06609775815182366,
+      "requestedShift": 0.026231482568063583,
+      "actualShift": 0.026231490862755818,
+      "ikError": 2.0304829434542295e-8,
+      "baseStep": 0.007606008622156214,
+      "candidateStep": 0.0005735969125176533,
+      "boneLengths": [
+        0.24466810857872984,
+        0.2310013423796955
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.35555555555555557,
+      "weight": 0.8737997256515775,
+      "beforeMag": 0.10126135024663595,
+      "afterMag": 0.06520717471955174,
+      "requestedShift": 0.03605415652552414,
+      "actualShift": 0.036054175527086195,
+      "ikError": 2.1296444222558205e-8,
+      "baseStep": 0.009280360588268607,
+      "candidateStep": 0.0008771163573512536,
+      "boneLengths": [
+        0.24466810729935126,
+        0.23100134356973587
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.36666666666666664,
+      "weight": 0.9259259259259257,
+      "beforeMag": 0.11119083444965967,
+      "afterMag": 0.0637918930307347,
+      "requestedShift": 0.04739892078672191,
+      "actualShift": 0.04739894141892655,
+      "ikError": 2.2617344475610006e-8,
+      "baseStep": 0.01025132638486615,
+      "candidateStep": 0.0013399092688754191,
+      "boneLengths": [
+        0.24466810594356356,
+        0.23100134441916034
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.37777777777777777,
+      "weight": 0.9657064471879286,
+      "beforeMag": 0.12177978743963003,
+      "afterMag": 0.06383737881475436,
+      "requestedShift": 0.05794238683127571,
+      "actualShift": 0.05794240862487708,
+      "ikError": 2.3673232804727143e-8,
+      "baseStep": 0.010919790287163196,
+      "candidateStep": 0.0007048308936470592,
+      "boneLengths": [
+        0.24466810460171418,
+        0.23100134532092348
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.3888888888888889,
+      "weight": 0.9910836762688615,
+      "beforeMag": 0.13284337383251404,
+      "afterMag": 0.07337833117403518,
+      "requestedShift": 0.05946502057613169,
+      "actualShift": 0.05946504265848017,
+      "ikError": 2.395401275689643e-8,
+      "baseStep": 0.011367900498403341,
+      "candidateStep": 0.009755506258684443,
+      "boneLengths": [
+        0.2446681037364272,
+        0.23100134643546683
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.4,
+      "weight": 1,
+      "beforeMag": 0.14401241548165344,
+      "afterMag": 0.08401239322566058,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000002225599411,
+      "ikError": 2.4113722305771447e-8,
+      "baseStep": 0.011483077534115484,
+      "candidateStep": 0.010847832339995367,
+      "boneLengths": [
+        0.24466810296564856,
+        0.2310013476094305
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.4111111111111111,
+      "weight": 1,
+      "beforeMag": 0.15480372626102823,
+      "afterMag": 0.09480370394017071,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000002232085869,
+      "ikError": 2.4166208359916842e-8,
+      "baseStep": 0.011069552887636823,
+      "candidateStep": 0.010959655558535505,
+      "boneLengths": [
+        0.2446681022076812,
+        0.23100134879668696
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.4222222222222222,
+      "weight": 1,
+      "beforeMag": 0.1653349504112518,
+      "afterMag": 0.10533492809022427,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000002232102863,
+      "ikError": 2.4151555123736592e-8,
+      "baseStep": 0.01081747207331739,
+      "candidateStep": 0.010704373087620135,
+      "boneLengths": [
+        0.24466810144443688,
+        0.2310013499919553
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.43333333333333335,
+      "weight": 1,
+      "beforeMag": 0.17488489176642058,
+      "afterMag": 0.11488486950672573,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000002225969593,
+      "ikError": 2.408410538387854e-8,
+      "baseStep": 0.009788060651319189,
+      "candidateStep": 0.00967621788368622,
+      "boneLengths": [
+        0.24466810059280386,
+        0.23100135113933287
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.4444444444444444,
+      "weight": 1,
+      "beforeMag": 0.1836469885685325,
+      "afterMag": 0.12364696641908697,
+      "requestedShift": 0.06,
+      "actualShift": 0.0600000221494466,
+      "ikError": 2.3973740951452982e-8,
+      "baseStep": 0.008995466475467064,
+      "candidateStep": 0.008888917754869656,
+      "boneLengths": [
+        0.24466809966682002,
+        0.23100135224591828
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.45555555555555555,
+      "weight": 1,
+      "beforeMag": 0.19124010496109245,
+      "afterMag": 0.1312400829539486,
+      "requestedShift": 0.06,
+      "actualShift": 0.0600000220071449,
+      "ikError": 2.384204315276843e-8,
+      "baseStep": 0.007771569643739221,
+      "candidateStep": 0.007672340693599475,
+      "boneLengths": [
+        0.2446680986235771,
+        0.23100135328030796
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.4666666666666667,
+      "weight": 1,
+      "beforeMag": 0.19728341340347832,
+      "afterMag": 0.1372833915433373,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000002186014202,
+      "ikError": 2.3717177760795233e-8,
+      "baseStep": 0.0061901644620276685,
+      "candidateStep": 0.006109772208255483,
+      "boneLengths": [
+        0.2446680974177882,
+        0.2310013542075515
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.4777777777777778,
+      "weight": 1,
+      "beforeMag": 0.2022947289644948,
+      "afterMag": 0.14229470725242374,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000002171207206,
+      "ikError": 2.359931018486709e-8,
+      "baseStep": 0.005107902474134113,
+      "candidateStep": 0.00503737570110807,
+      "boneLengths": [
+        0.24466809610532012,
+        0.23100135506400626
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.4888888888888889,
+      "weight": 1,
+      "beforeMag": 0.20475141946336575,
+      "afterMag": 0.14475139784296023,
+      "requestedShift": 0.06,
+      "actualShift": 0.060000021620406525,
+      "ikError": 2.3550460798982115e-8,
+      "baseStep": 0.0024868721055143813,
+      "candidateStep": 0.0024531076064873555,
+      "boneLengths": [
+        0.24466809452367838,
+        0.23100135573148584
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.5,
+      "weight": 1,
+      "beforeMag": 0.206569228452434,
+      "afterMag": 0.1465692069111028,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000002154133223,
+      "ikError": 2.35183951569622e-8,
+      "baseStep": 0.0018192858004057366,
+      "candidateStep": 0.001793873468122631,
+      "boneLengths": [
+        0.24466809287635186,
+        0.23100135635282842
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.5111111111111111,
+      "weight": 1,
+      "beforeMag": 0.2037957419019947,
+      "afterMag": 0.14379572030834664,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000002159364915,
+      "ikError": 2.3630008782284412e-8,
+      "baseStep": 0.0029366880974914123,
+      "candidateStep": 0.0028988752307269735,
+      "boneLengths": [
+        0.24466809074927245,
+        0.2310013566312578
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.5222222222222223,
+      "weight": 1,
+      "beforeMag": 0.2000810199386062,
+      "afterMag": 0.14008099827301598,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000002166559135,
+      "ikError": 2.376380003278513e-8,
+      "baseStep": 0.003924146740667274,
+      "candidateStep": 0.0038762354020556683,
+      "boneLengths": [
+        0.24466808852657904,
+        0.23100135684312528
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.5333333333333333,
+      "weight": 1,
+      "beforeMag": 0.1926017850483063,
+      "afterMag": 0.13260177335633272,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000001169197793,
+      "ikError": 2.2290226202499266e-8,
+      "baseStep": 0.00778338137968862,
+      "candidateStep": 0.007681615500112523,
+      "boneLengths": [
+        0.24466808591373457,
+        0.231001355640955
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.5444444444444444,
+      "weight": 1,
+      "beforeMag": 0.18372162026614658,
+      "afterMag": 0.12372160844785005,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000001181830087,
+      "ikError": 2.218914047024106e-8,
+      "baseStep": 0.009227188082198214,
+      "candidateStep": 0.009112462846851003,
+      "boneLengths": [
+        0.2446680831620452,
+        0.2310013555465852
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.5555555555555556,
+      "weight": 1,
+      "beforeMag": 0.17273699505133305,
+      "afterMag": 0.11273698313542556,
+      "requestedShift": 0.06,
+      "actualShift": 0.060000011915911894,
+      "ikError": 2.205545695429646e-8,
+      "baseStep": 0.01136543359541144,
+      "candidateStep": 0.011227624743702898,
+      "boneLengths": [
+        0.24466808020294867,
+        0.23100135533545824
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.5666666666666667,
+      "weight": 1,
+      "beforeMag": 0.16045290849205127,
+      "afterMag": 0.10045289653762113,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000001195443459,
+      "ikError": 2.186134988380611e-8,
+      "baseStep": 0.012688619799851876,
+      "candidateStep": 0.012544162692319475,
+      "boneLengths": [
+        0.24466807712979488,
+        0.23100135507226763
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.5777777777777777,
+      "weight": 1,
+      "beforeMag": 0.14728863224037786,
+      "afterMag": 0.08728862031257868,
+      "requestedShift": 0.06,
+      "actualShift": 0.06000001192780371,
+      "ikError": 2.157475402308724e-8,
+      "baseStep": 0.013563134709579431,
+      "candidateStep": 0.013416642061543535,
+      "boneLengths": [
+        0.2446680739955972,
+        0.23100135479241318
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.5888888888888889,
+      "weight": 1,
+      "beforeMag": 0.133683129777699,
+      "afterMag": 0.07368311795775176,
+      "requestedShift": 0.06,
+      "actualShift": 0.060000011819951925,
+      "ikError": 2.1206359490976864e-8,
+      "baseStep": 0.01400813851527437,
+      "candidateStep": 0.013868442818195131,
+      "boneLengths": [
+        0.2446680708571243,
+        0.23100135452942683
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.6,
+      "weight": 1,
+      "beforeMag": 0.11994818551208726,
+      "afterMag": 0.059999988343845276,
+      "requestedShift": 0.05994818551208726,
+      "actualShift": 0.05994819716824688,
+      "ikError": 2.0733274669198495e-8,
+      "baseStep": 0.014121139460036855,
+      "candidateStep": 0.013937552525612372,
+      "boneLengths": [
+        0.24466806775962854,
+        0.23100135430873583
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.6111111111111112,
+      "weight": 0.9910836762688615,
+      "beforeMag": 0.1075632690966038,
+      "afterMag": 0.060424078889439604,
+      "requestedShift": 0.04713917959162722,
+      "actualShift": 0.04713919020716972,
+      "ikError": 2.0124672014571443e-8,
+      "baseStep": 0.012749396757711197,
+      "candidateStep": 0.0008962492175716976,
+      "boneLengths": [
+        0.24466806541608285,
+        0.23100135447837306
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.6222222222222222,
+      "weight": 0.9657064471879288,
+      "beforeMag": 0.09585248887373722,
+      "afterMag": 0.06122949996336516,
+      "requestedShift": 0.03462297965310152,
+      "actualShift": 0.0346229889103786,
+      "ikError": 1.9368330137502866e-8,
+      "baseStep": 0.012061050416767216,
+      "candidateStep": 0.0010520963663208187,
+      "boneLengths": [
+        0.24466806301712465,
+        0.23100135469097688
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.6333333333333333,
+      "weight": 0.9259259259259263,
+      "beforeMag": 0.0868840188445663,
+      "afterMag": 0.06199140098530621,
+      "requestedShift": 0.0248926100412651,
+      "actualShift": 0.02489261785926803,
+      "ikError": 1.851679420198857e-8,
+      "baseStep": 0.009297791013401039,
+      "candidateStep": 0.0008613291017735631,
+      "boneLengths": [
+        0.24466806063106125,
+        0.23100135501239114
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.6444444444444445,
+      "weight": 0.8737997256515775,
+      "beforeMag": 0.08012606637929617,
+      "afterMag": 0.0625399087716357,
+      "requestedShift": 0.017586151280674436,
+      "actualShift": 0.017586157607669944,
+      "ikError": 1.7325023926992644e-8,
+      "baseStep": 0.007069462745337516,
+      "candidateStep": 0.0006293367530089408,
+      "boneLengths": [
+        0.24466805820728646,
+        0.23100135546224781
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.6555555555555556,
+      "weight": 0.811385459533608,
+      "beforeMag": 0.07668629828338196,
+      "afterMag": 0.06314727345752616,
+      "requestedShift": 0.013539019800576724,
+      "actualShift": 0.013539024825866098,
+      "ikError": 1.5972621000503477e-8,
+      "baseStep": 0.0037445783068630854,
+      "candidateStep": 0.000525807817078898,
+      "boneLengths": [
+        0.24466805585340373,
+        0.2310013560893319
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.6666666666666666,
+      "weight": 0.7407407407407413,
+      "beforeMag": 0.07474415395932692,
+      "afterMag": 0.06382255491557146,
+      "requestedShift": 0.010921595525427355,
+      "actualShift": 0.01092159904376597,
+      "ikError": 1.4433064558253159e-8,
+      "baseStep": 0.002679437556110005,
+      "candidateStep": 0.0014069842384852392,
+      "boneLengths": [
+        0.24466805343773942,
+        0.2310013569287547
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.6777777777777778,
+      "weight": 0.663923182441701,
+      "beforeMag": 0.073830579603354,
+      "afterMag": 0.06464813583308639,
+      "requestedShift": 0.009182442425272067,
+      "actualShift": 0.009182443770278327,
+      "ikError": 1.319846059645314e-8,
+      "baseStep": 0.002568260039492475,
+      "candidateStep": 0.0021252507831273377,
+      "boneLengths": [
+        0.2446680509055935,
+        0.23100135797694085
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.6888888888888889,
+      "weight": 0.582990397805213,
+      "beforeMag": 0.07184420931261254,
+      "afterMag": 0.06493915237325512,
+      "requestedShift": 0.006905060298848194,
+      "actualShift": 0.006905056939372402,
+      "ikError": 1.4088225124988343e-8,
+      "baseStep": 0.00520774827939822,
+      "candidateStep": 0.004250513367618792,
+      "boneLengths": [
+        0.2446680479239437,
+        0.2310013593728475
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.7,
+      "weight": 0.5000000000000007,
+      "beforeMag": 0.06986850599219309,
+      "afterMag": 0.06493425786084425,
+      "requestedShift": 0.0049342529960965525,
+      "actualShift": 0.004934248131376642,
+      "ikError": 1.6693711602693612e-8,
+      "baseStep": 0.005856656125964095,
+      "candidateStep": 0.005034519998857355,
+      "boneLengths": [
+        0.24466804594723923,
+        0.23100136007234437
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.7111111111111111,
+      "weight": 0.41700960219478744,
+      "beforeMag": 0.06760623071364333,
+      "afterMag": 0.06443436322273659,
+      "requestedShift": 0.0031718712440981793,
+      "actualShift": 0.003171867490959779,
+      "ikError": 1.829537410637773e-8,
+      "baseStep": 0.008277576389366296,
+      "candidateStep": 0.007514942183819208,
+      "boneLengths": [
+        0.24466804440341014,
+        0.23100136049367942
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.7222222222222222,
+      "weight": 0.33607681755829943,
+      "beforeMag": 0.06610791968602579,
+      "afterMag": 0.06405519196758724,
+      "requestedShift": 0.002052730209981237,
+      "actualShift": 0.002052727718471118,
+      "ikError": 1.1653346397534312e-8,
+      "baseStep": 0.008554551485763267,
+      "candidateStep": 0.008115384216653379,
+      "boneLengths": [
+        0.24466804287881286,
+        0.231001360967855
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.7333333333333333,
+      "weight": 0.2592592592592599,
+      "beforeMag": 0.06531265133424687,
+      "afterMag": 0.06393529953015295,
+      "requestedShift": 0.0013773540496195618,
+      "actualShift": 0.0013773518041421651,
+      "ikError": 1.1745307919886607e-8,
+      "baseStep": 0.009735211825957187,
+      "candidateStep": 0.00959197809084052,
+      "boneLengths": [
+        0.2446680413067939,
+        0.23100136147870787
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.7444444444444445,
+      "weight": 0.18861454046639245,
+      "beforeMag": 0.06471546454727094,
+      "afterMag": 0.06382606189899458,
+      "requestedShift": 0.0008894051786690736,
+      "actualShift": 0.000889402648354047,
+      "ikError": 1.1944264460770535e-8,
+      "baseStep": 0.009841820596049919,
+      "candidateStep": 0.009787276914779779,
+      "boneLengths": [
+        0.2446680396923388,
+        0.23100136208235314
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.7555555555555555,
+      "weight": 0.12620027434842282,
+      "beforeMag": 0.06452769285984247,
+      "afterMag": 0.06395629998779974,
+      "requestedShift": 0.0005713960810775154,
+      "actualShift": 0.0005713928721641295,
+      "ikError": 1.2154834207334694e-8,
+      "baseStep": 0.010068056233235445,
+      "candidateStep": 0.010032164090302331,
+      "boneLengths": [
+        0.2446680380918995,
+        0.23100136272018143
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.7666666666666667,
+      "weight": 0.07407407407407406,
+      "beforeMag": 0.06473406153585094,
+      "afterMag": 0.06438339404857463,
+      "requestedShift": 0.00035067122487784767,
+      "actualShift": 0.0003506674874742497,
+      "ikError": 1.2330251822835273e-8,
+      "baseStep": 0.00947148045085923,
+      "candidateStep": 0.009459377134511105,
+      "boneLengths": [
+        0.24466803653126798,
+        0.23100136334682103
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.7777777777777778,
+      "weight": 0.03429355281207143,
+      "beforeMag": 0.06524134346596634,
+      "afterMag": 0.06506160330535632,
+      "requestedShift": 0.00017974428895632235,
+      "actualShift": 0.00017974016099732524,
+      "ikError": 1.2485548168746241e-8,
+      "baseStep": 0.009108921856018333,
+      "candidateStep": 0.00911023236109687,
+      "boneLengths": [
+        0.2446680350119258,
+        0.23100136396697948
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.7888888888888889,
+      "weight": 0.008916323731138659,
+      "beforeMag": 0.06583390884099771,
+      "afterMag": 0.06578189610059676,
+      "requestedShift": 0.00005201701984428755,
+      "actualShift": 0.00005201274175043046,
+      "ikError": 1.259295310397377e-8,
+      "baseStep": 0.007167365717752848,
+      "candidateStep": 0.007176221261814233,
+      "boneLengths": [
+        0.24466803348906346,
+        0.23100136455153195
+      ],
+      "triangles": 215
+    },
+    {
+      "fraction": 0.8,
+      "weight": 0,
+      "beforeMag": 0.06651052326586987,
+      "afterMag": 0.06651052326586987,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.006700111787219426,
+      "candidateStep": 0.0067051228013741,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.8111111111111111,
+      "weight": 0,
+      "beforeMag": 0.06680706877717385,
+      "afterMag": 0.06680706877717385,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.002787924320039387,
+      "candidateStep": 0.002787924320039387,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.8222222222222222,
+      "weight": 0,
+      "beforeMag": 0.06676081265733726,
+      "afterMag": 0.06676081265733726,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.002571655818591047,
+      "candidateStep": 0.002571655818591047,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.8333333333333334,
+      "weight": 0,
+      "beforeMag": 0.0653269989811128,
+      "afterMag": 0.0653269989811128,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.002368305746615446,
+      "candidateStep": 0.002368305746615446,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.8444444444444444,
+      "weight": 0,
+      "beforeMag": 0.06278707539692048,
+      "afterMag": 0.06278707539692048,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.0039715135304899795,
+      "candidateStep": 0.0039715135304899795,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.8555555555555555,
+      "weight": 0,
+      "beforeMag": 0.058190250432382795,
+      "afterMag": 0.058190250432382795,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.006462720634884359,
+      "candidateStep": 0.006462720634884359,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.8666666666666667,
+      "weight": 0,
+      "beforeMag": 0.05207155705011455,
+      "afterMag": 0.05207155705011455,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.00845684678996297,
+      "candidateStep": 0.00845684678996297,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.8777777777777778,
+      "weight": 0,
+      "beforeMag": 0.04431971980529601,
+      "afterMag": 0.04431971980529601,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.010003752821980938,
+      "candidateStep": 0.010003752821980938,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.8888888888888888,
+      "weight": 0,
+      "beforeMag": 0.03617614166902801,
+      "afterMag": 0.03617614166902801,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.011234868877827639,
+      "candidateStep": 0.011234868877827639,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.9,
+      "weight": 0,
+      "beforeMag": 0.0279183693651351,
+      "afterMag": 0.0279183693651351,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.011842517969881694,
+      "candidateStep": 0.011842517969881694,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.9111111111111111,
+      "weight": 0,
+      "beforeMag": 0.019502467313281497,
+      "afterMag": 0.019502467313281497,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.012069895068994859,
+      "candidateStep": 0.012069895068994859,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.9222222222222223,
+      "weight": 0,
+      "beforeMag": 0.012479875742818999,
+      "afterMag": 0.012479875742818999,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.012204452492059486,
+      "candidateStep": 0.012204452492059486,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.9333333333333333,
+      "weight": 0,
+      "beforeMag": 0.006390580672171423,
+      "afterMag": 0.006390580672171423,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.011521674854772745,
+      "candidateStep": 0.011521674854772745,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.9444444444444444,
+      "weight": 0,
+      "beforeMag": 0.00368512075919899,
+      "afterMag": 0.00368512075919899,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.010890743781166267,
+      "candidateStep": 0.010890743781166267,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.9555555555555556,
+      "weight": 0,
+      "beforeMag": 0.008438405767433899,
+      "afterMag": 0.008438405767433899,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.009727339949832834,
+      "candidateStep": 0.009727339949832834,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.9666666666666667,
+      "weight": 0,
+      "beforeMag": 0.009190977399942738,
+      "afterMag": 0.009190977399942738,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.007874952268979253,
+      "candidateStep": 0.007874952268979253,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.9777777777777777,
+      "weight": 0,
+      "beforeMag": 0.0052849862700523505,
+      "afterMag": 0.0052849862700523505,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.006644937022789842,
+      "candidateStep": 0.006644937022789842,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.9888888888888889,
+      "weight": 0,
+      "beforeMag": 0.003338897102468874,
+      "afterMag": 0.003338897102468874,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.003189756370695714,
+      "candidateStep": 0.003189756370695714,
+      "boneLengths": null,
+      "triangles": 215
+    },
+    {
+      "fraction": 0.999,
+      "weight": 0,
+      "beforeMag": 0.002010077981737767,
+      "afterMag": 0.002010077981737767,
+      "requestedShift": 0,
+      "actualShift": 0,
+      "ikError": 0,
+      "baseStep": 0.0021227213521719007,
+      "candidateStep": 0.0021227213521719007,
+      "boneLengths": null,
+      "triangles": 215
+    }
+  ],
+  "positive": {
+    "requested": 0.44745958106847483,
+    "reach": 0.47566950063523983,
+    "error": 1.2214176573625438e-8,
+    "beforeLengths": [
+      0.2446681539117749,
+      0.23100134672346495
+    ],
+    "afterLengths": [
+      0.2446681538676376,
+      0.23100134191520172
+    ]
+  },
+  "negative": {
+    "requested": 8.657530875501722,
+    "reach": 0.47566950063523983,
+    "error": 8.181866334384791,
+    "beforeLengths": [
+      0.2446681539117749,
+      0.23100134672346495
+    ],
+    "afterLengths": [
+      0.24466818737179294,
+      0.23100135133766242
+    ]
+  }
+}

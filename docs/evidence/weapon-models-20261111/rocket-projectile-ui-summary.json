@@ -1,0 +1,81 @@
+{
+  "scope": "First actual renderer frames plus numerical measurements. Mesh projected extent uses actual renderer geometry and instance matrix; reconstructed value is a cross-check. Projection is not a collision or visibility test. No network, phone, multiple aims or complete flight.",
+  "rows": [
+    {
+      "kind": "rocket",
+      "worldTimeAtInsertion": 0.35,
+      "worldTimeAtDraw": 0.35,
+      "initial": [
+        -1,
+        1.5,
+        34
+      ],
+      "shotPosition": [
+        -1,
+        1.5,
+        34
+      ],
+      "initialShotGap": 0,
+      "travelMetres": 1.4000000000000004,
+      "travelTimeFromVelocity": 0.05,
+      "centreAlong": 0.5528514795066458,
+      "sideFromMuzzleAxis": 0.16001140037092634,
+      "screenCentreGapPixels": 10.026306570515025,
+      "barrelVelocityAngleDegrees": 0.32354257790164437,
+      "meshStateDifference": 0.0000017272412381523108,
+      "meshExtentAlongMeasured": [
+        -0.00006982079583981089,
+        1.1057762341663637
+      ],
+      "meshExtentAlongReconstructed": [
+        -0.0000715322731416764,
+        1.1057744912864333
+      ],
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "THREE.WebGLProgram: Program Info Log: (271,1): warning X4000: use of potentially uninitialized variable (f_motionLocal)",
+        "THREE.WebGLProgram: Program Info Log: (180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized v"
+      ]
+    },
+    {
+      "kind": "heavy",
+      "worldTimeAtInsertion": 0.39999999999999997,
+      "worldTimeAtDraw": 0.39999999999999997,
+      "initial": [
+        -1,
+        1.5,
+        34
+      ],
+      "shotPosition": [
+        -1,
+        1.5,
+        34
+      ],
+      "initialShotGap": 0,
+      "travelMetres": 1.0000000000000033,
+      "travelTimeFromVelocity": 0.05000000000000017,
+      "centreAlong": 0.13585103404295887,
+      "sideFromMuzzleAxis": 0.15980239860026113,
+      "screenCentreGapPixels": 8.316405578716116,
+      "barrelVelocityAngleDegrees": 0.3235082160522373,
+      "meshStateDifference": 6.901773364728608e-7,
+      "meshExtentAlongMeasured": [
+        -0.4170713044778372,
+        0.6887747504843664
+      ],
+      "meshExtentAlongReconstructed": [
+        -0.41707197773682864,
+        0.6887740458227463
+      ],
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "source": "87f7c96ecdd259799f3f71be94e8235a11bb32bd",
+  "revision": "90c6c45063095bf9bcf067e3aa860456c2aee2160f04986807e8c17c4c7044a6",
+  "files": [
+    {
+      "url": "assets/cloud-save-B_dsAr6h.js",
+      "path": "assets/cloud-save-B_dsAr6h.js",
+      "bytes": 133893,
+      "sha256": "6abde3f713290f96368ee71f03a9a3e79421337b3f261f46d24ac28018e9be45"
+    },
+    {
+      "url": "assets/cloud-save-DDmsa4bl.css",
+      "path": "assets/cloud-save-DDmsa4bl.css",
+      "bytes": 8906,
+      "sha256": "0fa0a929e7d513fd6d0e0a9a90185093215b38a22efa33f9d4dc18ad63caac29"
+    },
+    {
+      "url": "assets/fonts/rajdhani/Rajdhani-Bold.ttf",
+      "path": "assets/fonts/rajdhani/Rajdhani-Bold.ttf",
+      "bytes": 400680,
+      "sha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+    },
+    {
+      "url": "assets/front-BthREkfP.css",
+      "path": "assets/front-BthREkfP.css",
+      "bytes": 48033,
+      "sha256": "3799c7f9e835350b445232086cded8dde2ad6e4110b7c1e21ef8f7ef9be5de1c"
+    },
+    {
+      "url": "assets/front-DXMjCa8E.js",
+      "path": "assets/front-DXMjCa8E.js",
+      "bytes": 130214,
+      "sha256": "102e1e2c25b11a7c337fb13ead617130fa4ddc18ecbcc5243e6558cadcfcffa0"
+    },
+    {
+      "url": "assets/game-select-C-P1GfeG.css",
+      "path": "assets/game-select-C-P1GfeG.css",
+      "bytes": 20477,
+      "sha256": "b4ef613a7946c922ad21b990cefb89ae183068ca0151a0f3d88fb8d0ff53d261"
+    },
+    {
+      "url": "assets/game-select-CnOQ7NZq.js",
+      "path": "assets/game-select-CnOQ7NZq.js",
+      "bytes": 36635,
+      "sha256": "78ae45e940ea254703f8ee47da58314dab7dfd56bdbbdc0ff253e1e0d0e2ff8f"
+    },
+    {
+      "url": "assets/hud-CHKQqPB8.css",
+      "path": "assets/hud-CHKQqPB8.css",
+      "bytes": 109281,
+      "sha256": "9c49ab409473aa9532d3ac0d1d5cdf3d09d1bc1a9cacb0efaa7ae213618b9fed"
+    },
+    {
+      "url": "assets/hud-DXXuJeyu.js",
+      "path": "assets/hud-DXXuJeyu.js",
+      "bytes": 888654,
+      "sha256": "066586b071358b1da5a5e57b5a6ae5e566d037b66e05610b85bf9cde334aae5f"
+    },
+    {
+      "url": "assets/legacy-CPbai1ZT.css",
+      "path": "assets/legacy-CPbai1ZT.css",
+      "bytes": 259,
+      "sha256": "2639c37894ec77566ab7dd7d425d834bc2511fce2c3d9172420289e2d771b1b9"
+    },
+    {
+      "url": "assets/legacy-DKmLUfL5.js",
+      "path": "assets/legacy-DKmLUfL5.js",
+      "bytes": 18027,
+      "sha256": "1a24c4a3e622ade4b5886c886e3fbb824bfa6a36de9cab330f81415411f2d8b3"
+    },
+    {
+      "url": "assets/main--lb6uw7y.js",
+      "path": "assets/main--lb6uw7y.js",
+      "bytes": 56818,
+      "sha256": "a132adac5f7c5e90a15b5e9b9a05ce890a9270ae8374c6d9410a61709d79af2b"
+    },
+    {
+      "url": "assets/main-BOIn8V8d.css",
+      "path": "assets/main-BOIn8V8d.css",
+      "bytes": 1316,
+      "sha256": "8e4c418301931f43ae645fa5a07ee5c0be77adeb120b72544def5a58e9ffd027"
+    },
+    {
+      "url": "assets/pixelfx-battle-CK0H9ElO.png",
+      "path": "assets/pixelfx-battle-CK0H9ElO.png",
+      "bytes": 270806,
+      "sha256": "e0f6acaed294823a5130732b684d4b26c1c81b1468194382deb16ba742be03f7"
+    },
+    {
+      "url": "assets/playtest-app-B-6CMD96.css",
+      "path": "assets/playtest-app-B-6CMD96.css",
+      "bytes": 18827,
+      "sha256": "582c6ae225476f2244f577f49363d153a009a1833bf41f5a2ea097c7b68fc2d1"
+    },
+    {
+      "url": "assets/playtest-app-bU4BPkdM.js",
+      "path": "assets/playtest-app-bU4BPkdM.js",
+      "bytes": 100562,
+      "sha256": "09cb2cf73bd76568ec60f3353d331c775a6800fca76270d99234fa7ec6c8de89"
+    },
+    {
+      "url": "assets/preload-helper-Aiuen8Zd.js",
+      "path": "assets/preload-helper-Aiuen8Zd.js",
+      "bytes": 202261,
+      "sha256": "250a64366a5edbe9a72a5ddc1d99b3484e960a4e4725d3dfbb14e9de04462389"
+    },
+    {
+      "url": "assets/preload-helper-BUUOzIBn.css",
+      "path": "assets/preload-helper-BUUOzIBn.css",
+      "bytes": 2949,
+      "sha256": "4e91d064f9a5b74cf809d7b17d6e3529fdd161528f02d2f949cb0ff9b443d5dc"
+    },
+    {
+      "url": "assets/room-access-ChpcKbka.js",
+      "path": "assets/room-access-ChpcKbka.js",
+      "bytes": 9353,
+      "sha256": "eeeb48c6af11db256f4c291f13e9209dad7cf554982d576a39af20239fed3b6a"
+    },
+    {
+      "url": "assets/room-access-n-8m8axW.css",
+      "path": "assets/room-access-n-8m8axW.css",
+      "bytes": 6755,
+      "sha256": "f45dc9e8a45cdc3a61d2274b3f69504f722c39b5b77d655209c54795afb70254"
+    },
+    {
+      "url": "assets/runtime-D7ob07Yu.js",
+      "path": "assets/runtime-D7ob07Yu.js",
+      "bytes": 145447,
+      "sha256": "f06e4d55e2809eeefea7bbe0d993c74db065b3e1299a29912cc533ba13e9eaa4"
+    },
+    {
+      "url": "assets/sfx-worker-YLEWSBTh.js",
+      "path": "assets/sfx-worker-YLEWSBTh.js",
+      "bytes": 76324,
+      "sha256": "6de82015c02ecbf924ce9aaa3bf40835238c5fc64414e9f1099395d5c127148f"
+    },
+    {
+      "url": "assets/training-app-P067Te7L.js",
+      "path": "assets/training-app-P067Te7L.js",
+      "bytes": 3809,
+      "sha256": "87c6e6f9fffdc4c52a5a3498b34ad88dcc634cceca89ffdbd14d62334c29ab5f"
+    },
+    {
+      "url": "assets/weapon-sharing-DmLkBmpJ.js",
+      "path": "assets/weapon-sharing-DmLkBmpJ.js",
+      "bytes": 4796,
+      "sha256": "8834159a5bd2aca3cd2b8c33cc1607fffd7dede3154fdbfaf08e9ac47aa66b1e"
+    },
+    {
+      "url": "assets/weapon-workshop-ui-DDPmFTsF.css",
+      "path": "assets/weapon-workshop-ui-DDPmFTsF.css",
+      "bytes": 37424,
+      "sha256": "8f08c6149a31221688ee25fe6a3316608f163dd26ae3e312a5f1d2fbf1699561"
+    },
+    {
+      "url": "assets/weapon-workshop-ui-DNj-Y6lW.js",
+      "path": "assets/weapon-workshop-ui-DNj-Y6lW.js",
+      "bytes": 495125,
+      "sha256": "4a65962f86c4d0de4f08e4ac17cd41789629bcf5e21fc9e219582c16d825d10a"
+    },
+    {
+      "url": "assets/zoom-guard-CYxqEXnM.js",
+      "path": "assets/zoom-guard-CYxqEXnM.js",
+      "bytes": 387,
+      "sha256": "736f58f8250c64061ccb8879032fe5115c11736690a368b6a157d659ab752d5b"
+    },
+    {
+      "url": "front.html",
+      "path": "front.html",
+      "bytes": 4881,
+      "sha256": "6acc5c8459222de074945edfffc76418b3436de17194f868ac33d4af022fda3e"
+    },
+    {
+      "url": "icon-swarm-v2-512.png",
+      "path": "icon-swarm-v2-512.png",
+      "bytes": 517806,
+      "sha256": "71ce7bf3b6a397968bc1f105ad61d11b719e1c815112b5af453051e5d04b7b84"
+    },
+    {
+      "url": "icon-swarm-v4-180.png",
+      "path": "icon-swarm-v4-180.png",
+      "bytes": 74779,
+      "sha256": "011d0ba169b1d5325ac5e809eaa5a7a302aa7885b8dec73001068ad939d00e98"
+    },
+    {
+      "url": "icon-swarm-v4-192.png",
+      "path": "icon-swarm-v4-192.png",
+      "bytes": 86143,
+      "sha256": "abfe8b0da1d1665e928701f0ef1e06f4cc119c52911445092fc9bc47bb0c87e2"
+    },
+    {
+      "url": "icon-swarm-v4-512-maskable.png",
+      "path": "icon-swarm-v4-512-maskable.png",
+      "bytes": 417504,
+      "sha256": "9158e3e3c1ec01aac92374645390c6872c9c5fef79dbde84309efc86c7074c0e"
+    },
+    {
+      "url": "icon-swarm-v4-512.png",
+      "path": "icon-swarm-v4-512.png",
+      "bytes": 539155,
+      "sha256": "0e469688f9f566178c594dd0557d3097f24c174a9f48efeec4913beed8c929fd"
+    },
+    {
+      "url": "icon-swarm-v4-64.png",
+      "path": "icon-swarm-v4-64.png",
+      "bytes": 11048,
+      "sha256": "49bd3f6aa22e4410ea4ce92873a1f960e932c66a339d9f1accc37230ef03dcb3"
+    },
+    {
+      "url": "index.html",
+      "path": "index.html",
+      "bytes": 5436,
+      "sha256": "e5f7b82eedd20f00f6521f02fd4c6a8d090bc4606c6efd75a97b625ebcc5526f"
+    },
+    {
+      "url": "manifest.webmanifest",
+      "path": "manifest.webmanifest",
+      "bytes": 792,
+      "sha256": "a395e41a6419798be87fb74999412078387866aca0e9db0e15a3cf69d52e4cf6"
+    },
+    {
+      "url": "asset-download-manifest.json",
+      "path": "asset-download-manifest.json",
+      "bytes": 41496,
+      "sha256": "01acfbe7bfdef56ad60c975f8f2e8384e0aefb6eaa9ef96cd196ae3abd157812"
+    },
+    {
+      "url": "sw.js",
+      "path": "sw.js",
+      "bytes": 5681,
+      "sha256": "32df8fbaf4e428fd5e6ea43ca2dc69a74823f07fa7eb7cd5b380e7e5adcb85ae"
+    }
+  ]
+}

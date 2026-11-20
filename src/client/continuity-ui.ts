@@ -1,3 +1,4 @@
+import { weeklySupplyTickets } from "../shared/supply-grants";
 import { menuReward } from "./menu-effects";
 import { resourceFrame } from "./resource-frame";
 import {
@@ -192,7 +193,7 @@ export function openWeeklyMissions(dialog: Dialog, refreshed: () => void) {
     d.querySelector("#pt-weekly-list")!.innerHTML = WEEKLY_MISSIONS.map((m) => {
       const count = weekly?.[m.kind].length ?? 0,
         claimed = weekly?.claimed.includes(m.id);
-      return `<section class="weekly-row"><strong>${m.label}</strong><span>${Math.min(count, m.target)} / ${m.target} · ${m.coins}コイン</span><button data-weekly-id="${m.id}" ${claimed || count < m.target ? "disabled" : ""}>${claimed ? "受取済み" : "受け取る"}</button></section>`;
+      return `<section class="weekly-row"><strong>${m.label}</strong><span>${Math.min(count, m.target)} / ${m.target} · ${m.coins}コイン · 補給券${weeklySupplyTickets(m.id)}枚</span><button data-weekly-id="${m.id}" ${claimed || count < m.target ? "disabled" : ""}>${claimed ? "受取済み" : "受け取る"}</button></section>`;
     }).join("");
     d.querySelectorAll<HTMLButtonElement>("[data-weekly-id]").forEach(
       (b) =>

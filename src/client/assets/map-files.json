@@ -1,0 +1,17 @@
+{
+  "distant": [
+    "assets/maps/distant_0_v2.glb",
+    "assets/maps/distant_1_v1.glb",
+    "assets/maps/distant_2_v1.glb",
+    "assets/maps/distant_3_v1.glb",
+    "assets/maps/distant_4_v1.glb"
+  ],
+  "defense": [
+    "assets/maps/defense_0_v3.glb",
+    "assets/maps/defense_1_v2.glb",
+    "assets/maps/defense_2_v2.glb",
+    "assets/maps/defense_3_v2.glb",
+    "assets/maps/defense_4_v2.glb",
+    "assets/maps/defense_5_v2.glb"
+  ]
+}

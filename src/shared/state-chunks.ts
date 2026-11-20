@@ -1,6 +1,7 @@
 /** Versioned framing for negotiated state snapshots; ordinary packets stay intact. */
 export const STATE_CHUNK_VERSION = 1;
 export const STATE_MESSAGE_BYTES = 65536;
+export const STATE_SEND_BYTES = 61440;
 export const STATE_SNAPSHOT_BYTES = 262144;
 export const STATE_CHUNK_COUNT = 16;
 export const STATE_CHUNK_TIMEOUT_MS = 2000;
@@ -52,9 +53,11 @@ function frame(
 export function encodeStateChunks(
   payload: string,
   snapshot: number,
+  messageBytes = STATE_MESSAGE_BYTES,
 ): string[] | undefined {
   if (
     typeof payload !== "string" ||
+    !integer(messageBytes, STATE_SEND_BYTES, STATE_MESSAGE_BYTES) ||
     !integer(snapshot, 0, Number.MAX_SAFE_INTEGER) ||
     payload.length > STATE_SNAPSHOT_BYTES
   )
@@ -63,7 +66,7 @@ export function encodeStateChunks(
   if (size > STATE_SNAPSHOT_BYTES) return undefined;
   // Product JSON is already valid Unicode. Keep the common one-message path
   // free of an extra full Unicode/checksum walk.
-  if (size <= STATE_MESSAGE_BYTES) return [payload];
+  if (size <= messageBytes) return [payload];
   if (!unicode(payload)) return undefined;
   const check = checksum(payload);
   const parts: string[] = [];
@@ -89,7 +92,7 @@ export function encodeStateChunks(
       if (
         bytes(
           frame(snapshot, parts.length, STATE_CHUNK_COUNT, size, check, part),
-        ) <= STATE_MESSAGE_BYTES
+        ) <= messageBytes
       )
         break;
       end = start + Math.floor((end - start) / 2);
@@ -163,11 +166,7 @@ export class StateChunkAssembler {
         !integer(message.snapshot, 0, Number.MAX_SAFE_INTEGER) ||
         !integer(message.total, 2, STATE_CHUNK_COUNT) ||
         !integer(message.index, 0, message.total - 1) ||
-        !integer(
-          message.bytes,
-          STATE_MESSAGE_BYTES + 1,
-          STATE_SNAPSHOT_BYTES,
-        ) ||
+        !integer(message.bytes, STATE_SEND_BYTES + 1, STATE_SNAPSHOT_BYTES) ||
         !integer(message.checksum, 0, 0xffffffff) ||
         typeof message.data !== "string" ||
         !message.data.length ||

@@ -1,0 +1,7 @@
+RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-catena-20261110
+
+
+ Test Files  1 passed (1)
+      Tests  3 passed | 10 skipped (13)
+   Start at  00:33:01
+   Duration  3.15s (import 65%, transform 32%, tests 3%)

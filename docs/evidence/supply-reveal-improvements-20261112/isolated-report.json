@@ -1,0 +1,290 @@
+{
+  "cases": [
+    {
+      "name": "初期色と最初のタップの演出",
+      "colours": [
+        {
+          "rarity": "N",
+          "random": 0,
+          "before": 1,
+          "after": 1
+        },
+        {
+          "rarity": "N",
+          "random": 0.999,
+          "before": 1,
+          "after": 1
+        },
+        {
+          "rarity": "R",
+          "random": 0,
+          "before": 1,
+          "after": 1
+        },
+        {
+          "rarity": "R",
+          "random": 0.999,
+          "before": 2,
+          "after": 2
+        },
+        {
+          "rarity": "SR",
+          "random": 0,
+          "before": 1,
+          "after": 1
+        },
+        {
+          "rarity": "SR",
+          "random": 0.999,
+          "before": 3,
+          "after": 3
+        },
+        {
+          "rarity": "SSR",
+          "random": 0,
+          "before": 1,
+          "after": 1
+        },
+        {
+          "rarity": "SSR",
+          "random": 0.999,
+          "before": 4,
+          "after": 4
+        }
+      ],
+      "timings": [
+        {
+          "n": 5,
+          "idx": 11,
+          "prev": {
+            "a": 5.17,
+            "b": 5.17,
+            "d": 0,
+            "wait": "pod",
+            "gold": false,
+            "fx": null,
+            "cues": [],
+            "snd": false
+          },
+          "first": 5.17,
+          "fx": {
+            "a": 6.606,
+            "b": 7.385999999999999,
+            "d": 0.78,
+            "wait": null,
+            "gold": false,
+            "fx": "skip",
+            "cues": [
+              {
+                "at": 0,
+                "id": "slam"
+              }
+            ],
+            "snd": true
+          }
+        },
+        {
+          "n": 8,
+          "idx": 10,
+          "prev": {
+            "a": 5.17,
+            "b": 5.17,
+            "d": 0,
+            "wait": "pod",
+            "gold": false,
+            "fx": null,
+            "cues": [],
+            "snd": false
+          },
+          "first": 5.17,
+          "fx": {
+            "a": 5.17,
+            "b": 5.17,
+            "d": 2,
+            "wait": null,
+            "gold": false,
+            "fx": "freeze",
+            "cues": [],
+            "snd": false
+          }
+        },
+        {
+          "n": 10,
+          "idx": 10,
+          "prev": {
+            "a": 5.17,
+            "b": 5.17,
+            "d": 0,
+            "wait": "pod",
+            "gold": false,
+            "fx": null,
+            "cues": [],
+            "snd": false
+          },
+          "first": 5.17,
+          "fx": {
+            "a": 5.17,
+            "b": 5.17,
+            "d": 0.45,
+            "wait": null,
+            "gold": false,
+            "fx": "jack",
+            "cues": [],
+            "snd": false
+          }
+        },
+        {
+          "n": 5,
+          "single": true,
+          "idx": 4,
+          "prev": {
+            "a": 0.55,
+            "b": 0.55,
+            "d": 0,
+            "wait": "launch",
+            "gold": false,
+            "fx": null,
+            "cues": [],
+            "snd": false
+          },
+          "first": 1.84,
+          "fx": {
+            "a": 3.476,
+            "b": 4.256,
+            "d": 0.78,
+            "wait": null,
+            "gold": false,
+            "fx": "skip",
+            "cues": [
+              {
+                "at": 0,
+                "id": "slam"
+              }
+            ],
+            "snd": true
+          }
+        },
+        {
+          "n": 8,
+          "single": true,
+          "idx": 3,
+          "prev": {
+            "a": 0.55,
+            "b": 0.55,
+            "d": 0,
+            "wait": "launch",
+            "gold": false,
+            "fx": null,
+            "cues": [],
+            "snd": false
+          },
+          "first": 1.84,
+          "fx": {
+            "a": 1.84,
+            "b": 1.84,
+            "d": 2,
+            "wait": null,
+            "gold": false,
+            "fx": "freeze",
+            "cues": [],
+            "snd": false
+          }
+        },
+        {
+          "n": 10,
+          "single": true,
+          "idx": 3,
+          "prev": {
+            "a": 0.55,
+            "b": 0.55,
+            "d": 0,
+            "wait": "launch",
+            "gold": false,
+            "fx": null,
+            "cues": [],
+            "snd": false
+          },
+          "first": 1.84,
+          "fx": {
+            "a": 1.84,
+            "b": 1.84,
+            "d": 0.45,
+            "wait": null,
+            "gold": false,
+            "fx": "jack",
+            "cues": [],
+            "snd": false
+          }
+        }
+      ],
+      "glass": {
+        "seconds": 0.16,
+        "peak": 0.30000001192092896
+      }
+    },
+    {
+      "name": "タップ位置・長押し・破砕後の獲得と残り箱",
+      "events": [
+        {
+          "type": "fracture",
+          "count": 1,
+          "point": {
+            "x": 0.1362559241706161,
+            "y": 0.2692307692307692
+          }
+        },
+        {
+          "type": "fracture",
+          "count": 2,
+          "point": {
+            "x": 0.7109004739336493,
+            "y": 0.2948717948717949
+          }
+        },
+        {
+          "type": "fracture",
+          "count": 3,
+          "point": {
+            "x": 0.35545023696682465,
+            "y": 0.7564102564102564
+          }
+        }
+      ],
+      "state": {
+        "active": true,
+        "effect": 9,
+        "waiting": "cut",
+        "part": 8,
+        "skipping": false,
+        "cracks": 3,
+        "t": 7.66,
+        "reduced": false,
+        "fast": true
+      }
+    },
+    {
+      "name": "1連と動き減・スキップ"
+    },
+    {
+      "name": "試しガチャの詳細と投稿画面",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "buddy": "タタラ\n\n火炎\n範囲攻撃\n\n固有スキル\n範囲攻撃\n\nバディ中心4mの敵へ火炎攻撃。\n\n再使用 20秒・通常攻撃は自動\n\n未所持です。招集で仲間にできます。",
+      "shareLength": 119,
+      "rows": 10
+    },
+    {
+      "name": "試しガチャの詳細と投稿画面",
+      "viewport": {
+        "width": 640,
+        "height": 360
+      },
+      "buddy": "タタラ\n\n火炎\n範囲攻撃\n\n固有スキル\n範囲攻撃\n\nバディ中心4mの敵へ火炎攻撃。\n\n再使用 20秒・通常攻撃は自動\n\n未所持です。招集で仲間にできます。",
+      "shareLength": 119,
+      "rows": 10
+    }
+  ],
+  "errors": []
+}

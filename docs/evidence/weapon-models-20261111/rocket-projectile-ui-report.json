@@ -1,0 +1,191 @@
+{
+  "scope": "Actual local solo UI/game loop and real renderer; passive observation of projectile insertion and first rendered state. Disposable save; no real network or phone. First sample only, not full flight.",
+  "viewport": [
+    844,
+    390
+  ],
+  "records": [
+    {
+      "kind": "rocket",
+      "initial": {
+        "projectile": {
+          "id": 2,
+          "x": -1,
+          "z": 34,
+          "y": 1.5,
+          "dx": -0.34418548141220107,
+          "dz": -27.99122217398547,
+          "dy": -0.6107516360757896,
+          "life": 2.6785714285714284,
+          "owner": "solo",
+          "damage": 170,
+          "rocket": true,
+          "chain": false,
+          "radius": 6.5,
+          "family": "rocket"
+        },
+        "worldTime": 0.35
+      },
+      "worldTime": 0.35,
+      "shot": {
+        "type": "shot",
+        "weapon": "rocket",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0245846772437286,
+        "tz": 32.00062698757247,
+        "ty": 1.4563748831374437,
+        "owner": "solo",
+        "id": 1
+      },
+      "projectile": {
+        "id": 2,
+        "x": -1.01720927407061,
+        "z": 32.600438891300726,
+        "y": 1.4694624181962106,
+        "dx": -0.34418548141220107,
+        "dz": -27.99122217398547,
+        "dy": -0.6107516360757896,
+        "life": 2.6285714285714286,
+        "owner": "solo",
+        "damage": 170,
+        "rocket": true,
+        "chain": false,
+        "radius": 6.5,
+        "family": "rocket"
+      },
+      "instanceIndex": 0,
+      "instanceCount": 1,
+      "meshWorld": [
+        -1.0172092914581299,
+        1.4694623947143555,
+        32.60043716430664
+      ],
+      "muzzle": [
+        -0.8640757431438235,
+        1.416800755378858,
+        33.15272982696467
+      ],
+      "barrel": [
+        -0.017456465298772133,
+        -0.019528236878189834,
+        -0.9996569010334005
+      ],
+      "muzzleScreen": [
+        395.92020057815716,
+        258.1410388513469,
+        0.9660807823725478
+      ],
+      "projectileScreen": [
+        391.4426537749539,
+        249.1700635380893,
+        0.9690166141888992
+      ],
+      "alongMetres": 0.5528514795066458,
+      "sideMetres": 0.16001140037092634,
+      "meshVertexAlongMin": -0.00006982079583981089,
+      "meshVertexAlongMax": 1.1057762341663637,
+      "screen": "battle",
+      "meshStateDifference": 0.0000017272412381523108,
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright",
+        "THREE.WebGLProgram: Program Info Log: (271,1): warning X4000: use of potentially uninitialized variable (f_motionLocal)",
+        "THREE.WebGLProgram: Program Info Log: (180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(180,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(192,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(203,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(215,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(186,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(198,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(197,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(209,1): warning X4000: use of potentially uninitialized v",
+        "THREE.WebGLProgram: Program Info Log: (188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized variable (f_houndMatrix)\n(188,1): warning X4000: use of potentially uninitialized variable (f_houndPose)\n(200,1): warning X4000: use of potentially uninitialized v"
+      ]
+    },
+    {
+      "kind": "heavy",
+      "initial": {
+        "projectile": {
+          "id": 2,
+          "x": -1,
+          "z": 34,
+          "y": 1.5,
+          "dx": -0.24584677243728648,
+          "dz": -19.993730124275334,
+          "dy": -0.43625116862556407,
+          "life": 4,
+          "owner": "solo",
+          "damage": 430,
+          "rocket": true,
+          "chain": false,
+          "radius": 11,
+          "family": "rocket"
+        },
+        "worldTime": 0.39999999999999997
+      },
+      "worldTime": 0.39999999999999997,
+      "shot": {
+        "type": "shot",
+        "weapon": "rocket",
+        "x": -1,
+        "y": 1.5,
+        "z": 34,
+        "tx": -1.0245846772437286,
+        "tz": 32.00062698757247,
+        "ty": 1.4563748831374437,
+        "owner": "solo",
+        "id": 1
+      },
+      "projectile": {
+        "id": 2,
+        "x": -1.0122923386218643,
+        "z": 33.00031349378623,
+        "y": 1.4781874415687217,
+        "dx": -0.24584677243728648,
+        "dz": -19.993730124275334,
+        "dy": -0.43625116862556407,
+        "life": 3.95,
+        "owner": "solo",
+        "damage": 430,
+        "rocket": true,
+        "chain": false,
+        "radius": 11,
+        "family": "rocket"
+      },
+      "instanceIndex": 0,
+      "instanceCount": 1,
+      "meshWorld": [
+        -1.0122923851013184,
+        1.4781874418258667,
+        33.00031280517578
+      ],
+      "muzzle": [
+        -0.8643751314108326,
+        1.4167427410484073,
+        33.135728997469506
+      ],
+      "barrel": [
+        -0.017459474647161015,
+        -0.019536542386263383,
+        -0.9996566861961333
+      ],
+      "muzzleScreen": [
+        395.9992241333132,
+        257.9275323937106,
+        0.9661792046408967
+      ],
+      "projectileScreen": [
+        389.21953579938634,
+        253.11105776546674,
+        0.9669476173604755
+      ],
+      "alongMetres": 0.13585103404295887,
+      "sideMetres": 0.15980239860026113,
+      "meshVertexAlongMin": -0.4170713044778372,
+      "meshVertexAlongMax": 0.6887747504843664,
+      "screen": "battle",
+      "meshStateDifference": 6.901773364728608e-7,
+      "errors": [],
+      "warnings": [
+        "Service Worker registration blocked by Playwright"
+      ]
+    }
+  ]
+}

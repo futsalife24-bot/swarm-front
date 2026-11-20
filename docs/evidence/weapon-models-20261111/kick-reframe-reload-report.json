@@ -1,0 +1,134 @@
+{
+  "scope": "Actual local solo UI and game loop, disposable saves, mouse firing and R input, renderer observation; no physical device, real network, hidden hand-surface contact or continuous image video.",
+  "viewport": [
+    844,
+    390
+  ],
+  "requested": [
+    "kick"
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "kick",
+      "family": "special",
+      "shot": {
+        "time": 0.25,
+        "ammo": 2,
+        "capacity": 3
+      },
+      "started": {
+        "time": 0.35,
+        "reload": 2.4,
+        "duration": 2.4,
+        "ammo": 2,
+        "mode": "normal_Shotgun_reload_Run_Backward"
+      },
+      "completed": {
+        "time": 2.799999999999998,
+        "ammo": 3,
+        "capacity": 3,
+        "mode": "normal_Shotgun_idle_ready"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.35,
+          "reload": 2.4,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_Run_Backward",
+          "left": [
+            -1.0187456352175133,
+            1.1262121561808611,
+            41.51025123850117
+          ],
+          "right": [
+            -1.0343969152275572,
+            1.0401602069618237,
+            41.66040895466696
+          ],
+          "imageFile": "kick-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2708333333333328,
+          "time": 1.0000000000000002,
+          "reload": 1.750000000000001,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.9483394892169578,
+            1.0561700957299347,
+            42.80174099643784
+          ],
+          "right": [
+            -1.0110884735585612,
+            1.117642916924799,
+            42.88049142592754
+          ],
+          "imageFile": "kick-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.520833333333333,
+          "time": 1.6000000000000008,
+          "reload": 1.1500000000000006,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.9557822728367343,
+            0.9710290071673864,
+            42.87974557094927
+          ],
+          "right": [
+            -1.012164597993592,
+            1.1190256031328758,
+            42.88270322786133
+          ],
+          "imageFile": "kick-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.75,
+          "time": 2.1500000000000004,
+          "reload": 0.6000000000000001,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.9674290806411091,
+            1.1024357005188334,
+            42.76991229757165
+          ],
+          "right": [
+            -1.016008456630364,
+            1.1141674311649854,
+            42.87924038721758
+          ],
+          "imageFile": "kick-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9583333333333333,
+          "time": 2.6499999999999986,
+          "reload": 0.10000000000000007,
+          "ammo": 2,
+          "mode": "normal_Shotgun_reload_idle",
+          "left": [
+            -0.9786035946141214,
+            1.1737141518092182,
+            42.79377371139606
+          ],
+          "right": [
+            -1.0185175547604999,
+            1.1238615172872604,
+            42.88310890139004
+          ],
+          "imageFile": "kick-95.png"
+        }
+      ],
+      "skippedEncounters": 0,
+      "errors": []
+    }
+  ]
+}

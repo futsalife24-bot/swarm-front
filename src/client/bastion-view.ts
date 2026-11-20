@@ -292,7 +292,13 @@ export class BastionView {
    * 見た目だけで、戦闘の状態には触れない。
    */
   spark(
-    hit: { x: number; y: number; z: number; guard?: number },
+    hit: {
+      x: number;
+      y: number;
+      z: number;
+      guard?: number;
+      guardKind?: "rapid" | "armor" | "open";
+    },
     from?: { x: number; y: number; z: number },
   ) {
     const tier = Math.max(1, Math.min(3, hit.guard ?? 1));
@@ -303,7 +309,10 @@ export class BastionView {
     if (dir.lengthSq() < 1e-6) dir.set(0, 0, 1);
     dir.normalize();
     const point = center.clone().addScaledVector(dir, 1.03);
-    const color = new T.Color(1, 0.5 + 0.15 * tier, 0.15 + 0.2 * tier);
+    const color =
+      hit.guardKind === "rapid"
+        ? new T.Color(0.35, 0.7 + 0.08 * tier, 1)
+        : new T.Color(1, 0.5 + 0.15 * tier, 0.15 + 0.2 * tier);
     const side = new T.Vector3();
     for (let k = 0; k < 2 + tier && this.sparkState.length < 128; k++) {
       side

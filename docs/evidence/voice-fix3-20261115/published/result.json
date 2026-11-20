@@ -1,0 +1,18 @@
+{
+  "base": "https://swarm-front.melosalife-24.workers.dev/",
+  "checks": [
+    "未DLは無音、字幕設定と導線なし、ヨウコの全操作不可",
+    "保存済みの日本語サンプル試聴、ボイスなし選択保持、字幕なし",
+    "パック保存済みでもボイスなしは無音、再読込保持、横2サイズはみ出しなし",
+    "TAP START前の発話なし、入力後の既存タイトル発話維持、旧alwaysでも字幕なし"
+  ],
+  "errors": [],
+  "previewDurations": [
+    3.36
+  ],
+  "saved": {
+    "swarm-front-control-voice-enabled-v1": "true",
+    "swarm-front-control-voice-v1": "hiromi",
+    "swarm-front-control-captions-v1": "always"
+  }
+}

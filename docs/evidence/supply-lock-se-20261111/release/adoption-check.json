@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-11-11T09:52:17.349Z",
+  "adoptedByUser": true,
+  "files": [
+    {
+      "file": "sfx.js",
+      "status": 200,
+      "match": true,
+      "sha256": "e54db5c3683ff4ab214e6f775a615b9b5195c3c221a93adc2369b70dc4475735"
+    },
+    {
+      "file": "crate-open-pcm.js",
+      "status": 200,
+      "match": true,
+      "sha256": "db64d94d804f5cf1ef22bf4ec74c151484cb9882a36295749928d7eea1819636"
+    },
+    {
+      "file": "assets/crate-open-preview.mp3",
+      "status": 200,
+      "match": true,
+      "sha256": "f5821e513c60ffb04c463bfcc145f4e1e0b4b23b1a20d9b5ebb3ee6cf2856c34"
+    }
+  ],
+  "health": 200
+}

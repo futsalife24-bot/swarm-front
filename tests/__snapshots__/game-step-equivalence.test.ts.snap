@@ -1,0 +1,375 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: P1a改装版 1`] = `
+{
+  "enemies": "crawler",
+  "events": "burst:82 hit:154 kill:35 shot:304",
+  "kills": 35,
+  "phase": "battle",
+  "projectiles": "",
+  "reason": "",
+  "seed": 509155748,
+  "serial": 73,
+  "sha256": "c4c589a9b002664f1758d0b3b640f76e94492631895713d78c9fa39055a3219a",
+  "ticks": 1500,
+  "time": 75,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: ソロ・ST1・normal 1`] = `
+{
+  "enemies": "ant crawler",
+  "events": "burst:6 hit:59 kill:32 shot:101",
+  "kills": 32,
+  "phase": "victory",
+  "projectiles": "rocket",
+  "reason": "",
+  "seed": 2520149454,
+  "serial": 41,
+  "sha256": "4093794fdc6fda4e4acdb1e3fdccdab99074415f46da890a01e5061097659194",
+  "ticks": 1500,
+  "time": 27.00000000000025,
+  "wave": 2,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: ソロ・ST8・medium・技能あり 1`] = `
+{
+  "enemies": "ant boss crawler hornet spider spitter",
+  "events": "acid:20 hit:35 kill:16 shot:121",
+  "kills": 16,
+  "phase": "battle",
+  "projectiles": "stake",
+  "reason": "",
+  "seed": 1575730359,
+  "serial": 46,
+  "sha256": "1db042e1632da1f763090296bac9cd55cb327d382cfd472eaee9ec7661aef312",
+  "ticks": 1200,
+  "time": 59.99999999999873,
+  "wave": 2,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 前線・日替わり・融合 1`] = `
+{
+  "enemies": "crawler",
+  "events": "burst:124 hit:296 kill:60 shot:484",
+  "kills": 60,
+  "phase": "battle",
+  "projectiles": "",
+  "reason": "",
+  "seed": 2151621002,
+  "serial": 136,
+  "sha256": "e48e17f92f48b5b9ea0e1f3426fe1e6f8911bfbcc836868347cb321272fb0a11",
+  "ticks": 1000,
+  "time": 49.19999999999934,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 前線・旧方式 1`] = `
+{
+  "enemies": "crawler",
+  "events": "burst:124 hit:152 kill:64 shot:238",
+  "kills": 64,
+  "phase": "battle",
+  "projectiles": "",
+  "reason": "",
+  "seed": 3333369809,
+  "serial": 173,
+  "sha256": "e93f1b3230b062cc99c65bf26e4c0174863d18dba683391473d99ba709b2043c",
+  "ticks": 1000,
+  "time": 49.39999999999933,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・1人 1`] = `
+{
+  "enemies": "bastion crawler spitter",
+  "events": "acid:3 burst:275 hit:345 kill:156 shot:348",
+  "kills": 156,
+  "phase": "battle",
+  "projectiles": "acid bastion",
+  "reason": "",
+  "seed": 1059240909,
+  "serial": 340,
+  "sha256": "352c6c269e8cb53bbafde85b60adcc7d53a8432112949245ca2129bcbdb33b45",
+  "ticks": 1500,
+  "time": 73.94999999999794,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 前線・生存・融合・2人 1`] = `
+{
+  "enemies": "crawler",
+  "events": "burst:195 hit:376 kill:85 shot:413",
+  "kills": 85,
+  "phase": "battle",
+  "projectiles": "",
+  "reason": "",
+  "seed": 1940084782,
+  "serial": 196,
+  "sha256": "323789316e45b0f1ef8e8ef987aa100e98a64c820127c0bf8eedf46673707532",
+  "ticks": 1000,
+  "time": 49.19999999999934,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 前線・防衛・融合 1`] = `
+{
+  "enemies": "crawler",
+  "events": "burst:281 hit:75 kill:24 shot:185",
+  "kills": 24,
+  "phase": "defeat",
+  "projectiles": "",
+  "reason": "防衛対象が破壊されました",
+  "seed": 1433471809,
+  "serial": 96,
+  "sha256": "f6553ad6fec8791e4f453aac2eacf2914aa0e4608e6305524a8869a7c1e09a1e",
+  "ticks": 800,
+  "time": 38.54999999999995,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 武器庫防衛 1`] = `
+{
+  "enemies": "ant crawler",
+  "events": "acid:21 hit:115 kill:21 shot:290",
+  "kills": 21,
+  "phase": "victory",
+  "projectiles": "acid",
+  "reason": "武器庫を守り抜きました",
+  "seed": 2760970858,
+  "serial": 53,
+  "sha256": "0077f9e108ccbc166b2d11bf059c884aa0cad1daf3ea13b761f5b0a4fe22f9ee",
+  "ticks": 1500,
+  "time": 180.00000000000023,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 訓練場 1`] = `
+{
+  "enemies": "crawler",
+  "events": "hit:164 shot:164",
+  "kills": 0,
+  "phase": "battle",
+  "projectiles": "",
+  "reason": "",
+  "seed": 1241706283,
+  "serial": 4,
+  "sha256": "0a5d08297837eacea21b2cc349450752941d92df5ffc2dcbd131744ef02bc47b",
+  "ticks": 600,
+  "time": 30.00000000000029,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・1人・最終ST・補給なし 1`] = `
+{
+  "enemies": "ant calyx spider",
+  "events": "acid:30 hit:143 kill:14 shot:220",
+  "kills": 14,
+  "phase": "battle",
+  "projectiles": "acid pollen",
+  "reason": "",
+  "seed": 3891855222,
+  "serial": 84,
+  "sha256": "c778620fcd13596ea19c078e955d05a427cd4c5d31727fd610b22f227315db07",
+  "ticks": 900,
+  "time": 44.99999999999958,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・2人・HARROWの波 1`] = `
+{
+  "enemies": "ant calyx crawler harrow hornet spitter",
+  "events": "burst:54 hit:168 kill:48 shot:259",
+  "kills": 48,
+  "phase": "battle",
+  "projectiles": "rocket",
+  "reason": "",
+  "seed": 2694450571,
+  "serial": 111,
+  "sha256": "7186290febee2a864fc1d89ba4c0c4954f8d0de65a4479d7d12b0716977b24fc",
+  "ticks": 1500,
+  "time": 74.99999999999788,
+  "wave": 2,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・2人・ST1・ダウンと救助から全滅 1`] = `
+{
+  "enemies": "crawler",
+  "events": "burst:11 down:3 hit:89 kill:10 revive:1 shot:368",
+  "kills": 10,
+  "phase": "defeat",
+  "projectiles": "rocket",
+  "reason": "部隊が全員ダウンしました",
+  "seed": 7132024,
+  "serial": 22,
+  "sha256": "07b96d17ebe51f977c366f197d7ff19cc48ecf219fd8799ed8d13054083b9247",
+  "ticks": 1100,
+  "time": 45.04999999999958,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・2人・WORMの波 1`] = `
+{
+  "enemies": "ant crawler spider spitter worm",
+  "events": "acid:47 burst:43 hit:87 kill:56 shot:629",
+  "kills": 56,
+  "phase": "battle",
+  "projectiles": "laser rocket",
+  "reason": "",
+  "seed": 551303319,
+  "serial": 123,
+  "sha256": "09af13b8f528d278133a7e4ba9fd4b68566ff6c7f1cb40b4823327a35fb89ee3",
+  "ticks": 1500,
+  "time": 74.99999999999788,
+  "wave": 2,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・2人・洞窟 1`] = `
+{
+  "enemies": "ant spider",
+  "events": "acid:63 burst:13 hit:234 kill:32 shot:381",
+  "kills": 32,
+  "phase": "battle",
+  "projectiles": "acid rocket",
+  "reason": "",
+  "seed": 1074540096,
+  "serial": 115,
+  "sha256": "38601c95041f54946e21aa4d5cca6833b1fa7ee1d4ca6bb6343444af7aa86166",
+  "ticks": 1000,
+  "time": 49.9999999999993,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・3人・BASTIONの波 1`] = `
+{
+  "enemies": "ant bastion crawler hornet",
+  "events": "acid:33 burst:56 heal:2 hit:138 kill:23 shot:304",
+  "kills": 23,
+  "phase": "battle",
+  "projectiles": "acid bastion rocket stake",
+  "reason": "",
+  "seed": 457208742,
+  "serial": 125,
+  "sha256": "a332fb8c9206b69725c72abddc0fcb11890422b75ed4bfca2ac7a44d80267a1e",
+  "ticks": 1200,
+  "time": 59.99999999999873,
+  "wave": 2,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・3人・CROWNの波を完走 1`] = `
+{
+  "enemies": "ant boss crawler",
+  "events": "acid:3 burst:43 hit:138 kill:49 shot:464",
+  "kills": 49,
+  "phase": "victory",
+  "projectiles": "acid rocket",
+  "reason": "",
+  "seed": 3042956173,
+  "serial": 110,
+  "sha256": "1f03c251657757781d84e9e4bfb7fc4196187ee5505ffdbdaf1ba26058fdd8ca",
+  "ticks": 1300,
+  "time": 58.19999999999883,
+  "wave": 2,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・バディ同行 1`] = `
+{
+  "enemies": "ant crawler",
+  "events": "acid:18 burst:20 hit:190 kill:21 shot:398",
+  "kills": 21,
+  "phase": "battle",
+  "projectiles": "acid rocket",
+  "reason": "",
+  "seed": 2994338545,
+  "serial": 64,
+  "sha256": "5c6c9ee5816787662093c45a8f2452fb95d10daa12cbf166b201a3ccb817381a",
+  "ticks": 1000,
+  "time": 49.9999999999993,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・全種を直接配置 1`] = `
+{
+  "enemies": "ant bastion boss calyx crawler harrow hornet spider spitter worm",
+  "events": "acid:70 burst:111 hit:152 kill:14 shot:154",
+  "kills": 14,
+  "phase": "battle",
+  "projectiles": "bastion laser pollen rocket",
+  "reason": "",
+  "seed": 2742004619,
+  "serial": 188,
+  "sha256": "2bf815eb8b9526bc07fe899021c47908cb5aeeca8ad09a8f3f04ed4e81c5eed8",
+  "ticks": 800,
+  "time": 39.999999999999865,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・可変dt・切断と復帰・時間切れ 1`] = `
+{
+  "enemies": "ant crawler",
+  "events": "acid:24 burst:8 hit:215 kill:18 shot:490",
+  "kills": 18,
+  "phase": "defeat",
+  "projectiles": "acid rocket",
+  "reason": "作戦時間の上限（10分）に達しました",
+  "seed": 2064215793,
+  "serial": 57,
+  "sha256": "668e3352fcbced9223636ad45d1a874dafe42c9ce28beb2847ecbb68a3fdc06f",
+  "ticks": 1400,
+  "time": 600.0989999999999,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・洞窟・全種を直接配置 1`] = `
+{
+  "enemies": "ant bastion boss calyx crawler harrow hornet spider spitter worm",
+  "events": "acid:118 burst:35 hit:421 kill:26 shot:375",
+  "kills": 26,
+  "phase": "battle",
+  "projectiles": "acid bastion laser pollen rocket stake",
+  "reason": "",
+  "seed": 2471222189,
+  "serial": 211,
+  "sha256": "17b74c449c3012da17ec51f4672e95c3e5c30aaabaaa2b1ea80560f87dd2bc10",
+  "ticks": 800,
+  "time": 39.999999999999865,
+  "wave": 1,
+}
+`;
+
+exports[`step は同一seed・同一入力で毎tick同じ状態になる: 通常・高低差・全種を直接配置 1`] = `
+{
+  "enemies": "ant bastion boss calyx crawler harrow hornet spider spitter worm",
+  "events": "acid:68 burst:32 hit:86 kill:7 shot:107",
+  "kills": 7,
+  "phase": "battle",
+  "projectiles": "acid bastion laser pollen rocket stake",
+  "reason": "",
+  "seed": 1730777705,
+  "serial": 116,
+  "sha256": "6bcef7c329b00c6640809e896ec17a2e717cbd852748529a60c2f2141f8a3046",
+  "ticks": 600,
+  "time": 30.00000000000029,
+  "wave": 1,
+}
+`;

@@ -1,0 +1,24 @@
+{
+  "origin": "http://127.0.0.1:8796",
+  "report": [
+    {
+      "width": 844,
+      "height": 390,
+      "ten": true,
+      "reloadRecover": true,
+      "skip": true,
+      "ack": true,
+      "noDuplicate": true
+    },
+    {
+      "width": 640,
+      "height": 360,
+      "ten": true,
+      "reloadRecover": true,
+      "skip": true,
+      "ack": true,
+      "noDuplicate": true
+    }
+  ],
+  "errors": []
+}

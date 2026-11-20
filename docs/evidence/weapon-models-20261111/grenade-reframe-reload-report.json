@@ -1,0 +1,134 @@
+{
+  "scope": "Actual local solo UI and game loop, disposable saves, mouse firing and R input, renderer observation; no physical device, real network, hidden hand-surface contact or continuous image video.",
+  "viewport": [
+    844,
+    390
+  ],
+  "requested": [
+    "grenade"
+  ],
+  "missing": [],
+  "records": [
+    {
+      "kind": "grenade",
+      "family": "grenade",
+      "shot": {
+        "time": 0.35,
+        "ammo": 4,
+        "capacity": 5
+      },
+      "started": {
+        "time": 0.49999999999999994,
+        "reload": 2.6,
+        "duration": 2.6,
+        "ammo": 4,
+        "mode": "normal_Rocket_reload_idle"
+      },
+      "completed": {
+        "time": 3.149999999999997,
+        "ammo": 5,
+        "capacity": 5,
+        "mode": "normal_Rocket_idle"
+      },
+      "samples": [
+        {
+          "target": 0,
+          "fraction": 0,
+          "time": 0.49999999999999994,
+          "reload": 2.6,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.8064772556897882,
+            1.2934404965505937,
+            33.67376395520379
+          ],
+          "right": [
+            -0.8034537831740219,
+            1.2552000647514707,
+            33.88157170335011
+          ],
+          "imageFile": "grenade-0.png"
+        },
+        {
+          "target": 0.25,
+          "fraction": 0.2692307692307684,
+          "time": 1.2000000000000004,
+          "reload": 1.9000000000000021,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -1.136182992609518,
+            1.0947527436296434,
+            33.766887890849446
+          ],
+          "right": [
+            -0.8031579151525544,
+            1.2542132547001263,
+            33.8811519321835
+          ],
+          "imageFile": "grenade-25.png"
+        },
+        {
+          "target": 0.5,
+          "fraction": 0.5192307692307687,
+          "time": 1.850000000000001,
+          "reload": 1.2500000000000016,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9649531241722134,
+            1.3058837997761275,
+            33.742818172518675
+          ],
+          "right": [
+            -0.8031579098108267,
+            1.2513805603710773,
+            33.88115194020354
+          ],
+          "imageFile": "grenade-50.png"
+        },
+        {
+          "target": 0.75,
+          "fraction": 0.7692307692307688,
+          "time": 2.499999999999999,
+          "reload": 0.600000000000001,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.9385569450649056,
+            1.291748486408356,
+            33.72208776426617
+          ],
+          "right": [
+            -0.803157904189769,
+            1.2509318330653711,
+            33.88115195962712
+          ],
+          "imageFile": "grenade-75.png"
+        },
+        {
+          "target": 0.95,
+          "fraction": 0.9615384615384611,
+          "time": 2.9999999999999973,
+          "reload": 0.10000000000000096,
+          "ammo": 4,
+          "mode": "normal_Rocket_reload_idle",
+          "left": [
+            -0.8084899876417346,
+            1.292776427765813,
+            33.742148442107094
+          ],
+          "right": [
+            -0.803157899817684,
+            1.252890081114654,
+            33.88115196331656
+          ],
+          "imageFile": "grenade-95.png"
+        }
+      ],
+      "skippedEncounters": 1,
+      "errors": []
+    }
+  ]
+}

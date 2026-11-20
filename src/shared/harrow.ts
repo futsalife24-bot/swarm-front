@@ -28,6 +28,7 @@ import {
 export const HARROW = {
   scale: HARROW_SCALE,
   speed: HARROW_MOVE_SPEED,
+  airSpeed: 0.64,
   walkAuthoredSpeed: HARROW_WALK_AUTHORED_SPEED,
   threatWind: 3.5,
   threatDuration: 7,
@@ -862,10 +863,11 @@ export function stepHarrow(
   }
   if (distance > 3.4) {
     const direction = pursuitDirection(w, e, target);
+    const speed = e.harrowAirborne ? HARROW.airSpeed : HARROW.speed;
     move(
       e,
-      direction.x * HARROW.speed * dt,
-      direction.z * HARROW.speed * dt,
+      direction.x * speed * dt,
+      direction.z * speed * dt,
       3.4 * HARROW.scale,
       blocks,
     );

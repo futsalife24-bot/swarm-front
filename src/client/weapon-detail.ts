@@ -6,6 +6,9 @@ import {
   varianceClass,
   varianceMark,
 } from "../shared/progression";
+import { armoryLevelLimit, levelPlan, levelUpCost } from "./weapon-workshop";
+import { weaponLevel } from "../shared/weapon-growth";
+import { connectDetailMotion } from "./weapon-growth-motion";
 import { lockMarkup } from "./gear-weapon-list";
 import { menuDialog } from "./menu-ui";
 import "./weapon-detail.css";
@@ -45,6 +48,7 @@ export interface WeaponDetailOptions {
   dialog?: (title: string, content: string) => HTMLDialogElement;
   locked: boolean;
   lockDisabled?: boolean;
+  sourceRow?: HTMLElement;
   note?: string;
   onLock: (dialog: HTMLDialogElement) => void | Promise<void>;
   onShare?: () => void | Promise<void>;
@@ -57,11 +61,18 @@ export function openWeaponDetail(
 ) {
   const makeDialog =
     options.dialog ?? ((title, body) => menuDialog(title, body, "SWARM FRONT"));
+  const level = weaponLevel(w);
+  const cap = armoryLevelLimit(w);
+  const growth =
+    level >= cap
+      ? "上限到達"
+      : `次のLv · 武装片 ${levelUpCost(w)} · 威力 ${stats(w).damage.toFixed(1)} → ${stats({ ...w, level: level + 1 }).damage.toFixed(1)}<br>上限までの合計 · 武装片 ${levelPlan(w, Infinity, cap).total}`;
   const d = makeDialog(
     `${esc(WEAPONS[w.kind].name)} / ${weaponGrade(w)}`,
-    `<div class="weapon-detail-layout"><div class="weapon-detail-visual"><div id="pt-weapon-preview" aria-label="${esc(WEAPONS[w.kind].name)}の3D画像"></div><p class="weapon-detail-effect">${esc(effectLabel(w))}</p></div><div class="weapon-detail-data"><div id="pt-comparison">${weaponDetailStats(w)}</div><p class="weapon-detail-help">同種・同レアの標準性能との差。装填は速度換算、特殊効果は除外。</p><p class="weapon-detail-note" ${options.note ? "" : "hidden"}>${esc(options.note ?? "")}</p><div class="weapon-detail-actions"><button type="button" id="pt-detail-lock" aria-pressed="${options.locked}" ${options.lockDisabled ? "disabled" : ""}>${lockMarkup(options.locked, true)}</button><button type="button" id="pt-share">共有</button></div><p class="weapon-detail-error" role="alert" hidden></p></div></div>`,
+    `<div class="weapon-detail-layout"><div class="weapon-detail-visual"><div id="pt-weapon-preview" aria-label="${esc(WEAPONS[w.kind].name)}の3D画像"></div><p class="weapon-detail-effect">${esc(effectLabel(w))}</p></div><div class="weapon-detail-data"><div id="pt-comparison">${weaponDetailStats(w)}</div><p class="weapon-detail-growth"><strong>Lv${level}/${cap}</strong>　${growth}</p><p class="weapon-detail-help">同種・同レアの標準性能との差。装填は速度換算、特殊効果は除外。</p><p class="weapon-detail-note" ${options.note ? "" : "hidden"}>${esc(options.note ?? "")}</p><div class="weapon-detail-actions"><button type="button" id="pt-detail-lock" aria-pressed="${options.locked}" ${options.lockDisabled ? "disabled" : ""}>${lockMarkup(options.locked, true)}</button><button type="button" id="pt-share">共有</button></div><p class="weapon-detail-error" role="alert" hidden></p></div></div>`,
   );
   d.classList.add("weapon-detail-dialog");
+  if (options.sourceRow) connectDetailMotion(options.sourceRow, d);
   const error = d.querySelector<HTMLElement>(".weapon-detail-error")!;
   const handle = async (
     button: HTMLButtonElement,

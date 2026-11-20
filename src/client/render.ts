@@ -1,10 +1,14 @@
+import { FrontEnemyMotion } from "./front-enemy-motion";
 import { BuddyVisuals } from "./buddy-visuals";
 import { CalyxEffects } from "./calyx-effects";
 import { BastionView } from "./bastion-view";
 import { HarrowEffects } from "./harrow-effects";
 import { redWarningDuringWind } from "./attack-telegraph";
 import { PLEAT_STRIKE, pleatStrike } from "../shared/pleat-strike";
-import { foundryLaserWarningLine } from "./foundry-laser-warning";
+import {
+  foundryWarningMaterial,
+  foundryWarningPose,
+} from "./foundry-laser-warning";
 import {
   projectileWarningPaths,
   type WarningPoint,
@@ -19,6 +23,7 @@ import { enemySize } from "../shared/enemy-size";
 import { dropAt } from "../shared/solo-progression";
 import { groundHeight, supportHeight } from "../shared/terrain";
 import { TerrainWarnings } from "./terrain-warnings";
+import { OmegaWarning } from "./catena-omega-warning";
 import { MapAssets, VIEW_MAPS } from "./map-assets";
 import {
   StructureMotion,
@@ -37,19 +42,28 @@ import { enemyGeometry, mechanizeMaterial } from "./enemy-model";
 import {
   ENEMIES,
   EVADE_DURATION,
-  modelOf,
+  poseOf,
   zoomOf,
   type Block,
 } from "../shared/defs";
 import { NORMAL_FOV, SCOPE_FOV, scopeFov } from "../shared/aim";
 import { aimCamera, cameraShot } from "../shared/game";
 import { FoundryWormView, FOUNDRY_WORM_ASSET } from "./foundry-worm";
-import {
-  foundryLaserOrigin,
-  FOUNDRY_LASER_WARNING,
-} from "../shared/foundry-defs";
+import { FOUNDRY_LASER_WARNING } from "../shared/foundry-defs";
 import { eye, type Enemy, type Player, type World } from "../shared/game";
 import { STRUCTURE_TIMING } from "../shared/structure-timing";
+import { HARROW_MOVE_SPEED } from "../shared/harrow-motion";
+
+/** The front already interpolates each frame, so use speed to distinguish a step from jitter. */
+export function interpolatedBossWalking(
+  kind: "harrow" | "boss",
+  distance: number,
+  dt: number,
+) {
+  const speed = kind === "harrow" ? HARROW_MOVE_SPEED : ENEMIES.boss.speed;
+  return dt > 0 && distance > Math.max(0.0001, speed * 0.25 * dt);
+}
+
 const mats = new Map<number, T.MeshStandardMaterial>();
 function material(color: number) {
   if (!mats.has(color))
@@ -308,6 +322,7 @@ export class Renderer {
   enemyGlbDebug = new Map<string, import("./enemy-glb-debug").EnemyGlbDebug>();
   houndDebug?: import("./hound-glb-debug").HoundGlbDebug;
   private houndVisualInputs: import("./hound-motion").HoundVisualInput[] = [];
+  readonly enemyMotion = new FrontEnemyMotion();
   scene = new T.Scene();
   camera = new T.PerspectiveCamera(NORMAL_FOV, 1, 0.1, 1200);
   readonly drone = DroneCamera.fromLocation();
@@ -327,12 +342,18 @@ export class Renderer {
   private playerAccentSlots = new Map<string, number>();
   readonly defenseVisual: DefenseVisual;
   dummy = new T.Object3D();
+  private readonly harrowUp = new T.Vector3(0, 1, 0);
+  private readonly harrowNormal = new T.Vector3();
+  private readonly harrowTilt = new T.Quaternion();
   particles: T.InstancedMesh;
   projectiles: T.InstancedMesh;
   drops: T.InstancedMesh;
   healDrops: T.InstancedMesh;
+  powderDrops: T.InstancedMesh;
   rings: T.InstancedMesh;
   private terrainWarnings = new TerrainWarnings();
+  private omegaWarning = new OmegaWarning();
+  private omegaVisual = new Set<number>();
   aimWarnings: T.InstancedMesh;
   private projectileWarningCache = new Map<
     number,
@@ -550,19 +571,14 @@ export class Renderer {
       mechanizeMaterial(
         new T.MeshStandardMaterial({ vertexColors: true, roughness: 0.8 }),
       ),
-      enemyCapacity,
+      enemyCapacity * 14,
     );
     this.bossBody.instanceMatrix.setUsage(T.DynamicDrawUsage);
     this.bossBody.count = 0;
     this.scene.add(this.bossBody);
     this.foundryWarnings = new T.InstancedMesh(
       box,
-      new T.MeshBasicMaterial({
-        color: 0xff4054,
-        transparent: true,
-        opacity: 0.36,
-        depthWrite: false,
-      }),
+      new T.MeshBasicMaterial(foundryWarningMaterial),
       640,
     );
     this.foundryLasers = new T.InstancedMesh(
@@ -625,8 +641,14 @@ export class Renderer {
       this.drops.material,
       24,
     );
-    this.healDrops.count = this.drops.count = 0;
+    this.powderDrops = new T.InstancedMesh(
+      dropGeometry("powder"),
+      this.drops.material,
+      128,
+    );
+    this.healDrops.count = this.drops.count = this.powderDrops.count = 0;
     this.scene.add(this.healDrops);
+    this.scene.add(this.powderDrops);
     this.rings = new T.InstancedMesh(
       new T.RingGeometry(0.9, 1, 192, 4),
       new T.MeshBasicMaterial({
@@ -648,6 +670,8 @@ export class Renderer {
       Math.max(40, enemyCapacity * 2),
     );
     this.terrainWarnings.attach(this.rings);
+    this.scene.add(this.omegaWarning.mesh);
+    this.terrainWarnings.attach(this.omegaWarning.mesh);
     this.terrainWarnings.attach(this.houndWarnings);
     this.aimWarnings = new T.InstancedMesh(
       new T.BoxGeometry(1, 1, 1),
@@ -813,10 +837,32 @@ export class Renderer {
     sz = 1,
     rx = 0,
     ry = 0,
+    walkingGround?: Block[],
   ) {
     this.dummy.position.set(x, y, z);
     this.dummy.scale.set(sx, sy, sz);
     this.dummy.rotation.set(rx, ry, 0, "YXZ");
+    if (
+      walkingGround &&
+      Math.abs(y - groundHeight(x, z, walkingGround)) < 0.36
+    ) {
+      // Sample across the stance so either foot can be on the uphill side.
+      const span = 3 * sx;
+      if (span > 0) {
+        const left = groundHeight(x - span, z, walkingGround);
+        const right = groundHeight(x + span, z, walkingGround);
+        const back = groundHeight(x, z - span, walkingGround);
+        const front = groundHeight(x, z + span, walkingGround);
+        this.harrowNormal.set(left - right, 2 * span, back - front).normalize();
+        this.harrowTilt.setFromUnitVectors(this.harrowUp, this.harrowNormal);
+        this.dummy.quaternion.premultiply(this.harrowTilt);
+        this.dummy.position.y = Math.max(
+          y,
+          (left + right) / 2,
+          (back + front) / 2,
+        );
+      }
+    }
     this.dummy.updateMatrix();
     mesh.setMatrixAt(i, this.dummy.matrix);
   }
@@ -846,7 +892,16 @@ export class Renderer {
     this.foundryWorms.clear();
     this.foundryHeadings.clear();
   }
-  private foundryHeading(key: string, heading: number, dt: number) {
+  private foundryHeading(
+    key: string,
+    heading: number,
+    dt: number,
+    aiming = false,
+  ) {
+    if (aiming) {
+      this.foundryHeadings.set(key, heading);
+      return heading;
+    }
     const previous = this.foundryHeadings.get(key) ?? heading;
     const difference = Math.atan2(
       Math.sin(heading - previous),
@@ -891,46 +946,26 @@ export class Renderer {
   }
   private foundryWarning(enemy: Enemy, blocks: Block[]) {
     for (const [part, node] of [enemy, ...(enemy.segments ?? [])].entries()) {
-      if (
-        !node.pulseAim ||
-        node.partHp === 0 ||
-        !redWarningDuringWind(
-          (node.acidAt ?? this.foundryTime) - this.foundryTime,
-          FOUNDRY_LASER_WARNING,
-        ) ||
-        this.foundryWarnings.count >= 640
-      )
-        continue;
-      const origin = foundryLaserOrigin(node, part, enemySize(enemy));
-      const { to: target, length } = foundryLaserWarningLine(
-        origin,
-        node.pulseAim,
+      if (this.foundryWarnings.count >= 640) break;
+      const pose = foundryWarningPose(
+        node,
+        part,
+        enemySize(enemy),
+        this.foundryTime,
         blocks,
       );
-      if (length <= 0) continue;
-      const dx = target.x - origin.x,
-        dy = target.y - origin.y,
-        dz = target.z - origin.z;
-      const charge = T.MathUtils.clamp(
-        1 -
-          ((node.acidAt ?? this.foundryTime) - this.foundryTime) /
-            FOUNDRY_LASER_WARNING,
-        0,
-        1,
-      );
+      if (!pose) continue;
       this.instance(
         this.foundryWarnings,
         this.foundryWarnings.count++,
-        (origin.x + target.x) / 2,
-        origin.y + dy / 2,
-        (origin.z + target.z) / 2,
-        // The authoritative laser hits player centres within 1 m of its ray.
-        // Show that danger corridor, rather than a subpixel targeting thread.
-        2,
-        0.06 + charge * 0.04,
-        length,
-        -Math.atan2(dy, Math.hypot(dx, dz)),
-        Math.atan2(dx, dz),
+        pose.x,
+        pose.y,
+        pose.z,
+        pose.width,
+        pose.height,
+        pose.length,
+        pose.pitch,
+        pose.yaw,
       );
     }
   }
@@ -981,6 +1016,10 @@ export class Renderer {
     this.mapAssets.select(
       VIEW_MAPS.indexOf(activeMap),
       !!w && w.phase !== "lobby",
+      true,
+      this.quality === 1 &&
+        (w?.players.length ?? 0) < 2 &&
+        !this.enemyMotion.enabled,
     );
     const underground = activeMap.biome === "cave";
     this.caveLamp.visible = underground;
@@ -1163,7 +1202,7 @@ export class Renderer {
         if (!m.userData.trooper)
           gun.scale.setScalar(
             { rocket: 1.7, shotgun: 1.2, rifle: 1 }[
-              modelOf(p.weapons[p.slot].kind)
+              poseOf(p.weapons[p.slot].kind)
             ],
           );
       }
@@ -1174,15 +1213,23 @@ export class Renderer {
       let hi = 0;
       let ri = 0,
         bodyCount = 0;
+      this.enemyMotion.beginFrame(performance.now());
       for (const [kind, mesh] of this.enemies) {
         let n = 0;
-        for (const e of w.enemies.filter((e) => e.kind === kind)) {
+        for (const authority of w.enemies.filter((e) => e.kind === kind)) {
+          const e = this.enemyMotion.sample(authority);
           const key = String(e.id),
             v = this.visual.get(key) ?? new T.Vector3(e.x, e.y, e.z);
-          const moving = Math.hypot(v.x - e.x, v.z - e.z) > 0.015;
+          const displacement = Math.hypot(v.x - e.x, v.z - e.z);
+          const moving =
+            (e.kind === "harrow" || (e.kind === "boss" && !e.segments)) &&
+            this.enemyMotion.enabled
+              ? interpolatedBossWalking(e.kind, displacement, dt)
+              : displacement > 0.015;
           const previousHoundX = v.x,
             previousHoundZ = v.z;
-          v.lerp(new T.Vector3(e.x, e.y, e.z), 1 - Math.exp(-dt * 12));
+          if (this.enemyMotion.enabled) v.set(e.x, e.y, e.z);
+          else v.lerp(new T.Vector3(e.x, e.y, e.z), 1 - Math.exp(-dt * 12));
           if (kind === "bastion" && this.bastion.ready) {
             v.y = e.y;
             this.visual.set(key, v);
@@ -1190,6 +1237,10 @@ export class Renderer {
             if (this.bastion.place(e, v, w.time, animate ? dt : 0)) continue;
           }
           if (e.kind === "boss" && e.segments) {
+            const snapOmega = !!e.omega || this.omegaVisual.has(e.id);
+            if (e.omega) this.omegaVisual.add(e.id);
+            else this.omegaVisual.delete(e.id);
+            if (snapOmega || e.pulseAim) v.set(e.x, e.y, e.z);
             const foundry = this.foundryWorm(e.id);
             if (foundry.view) {
               const projected: Enemy = {
@@ -1201,17 +1252,23 @@ export class Renderer {
                   key,
                   e.heading ?? 0,
                   animate ? dt : 0,
+                  !!e.pulseAim,
                 ),
                 segments: e.segments.map((segment, index) => {
                   const segmentKey = `${e.id}:segment:${index}`;
                   const position =
                     this.visual.get(segmentKey) ??
                     new T.Vector3(segment.x, segment.y, segment.z);
-                  position.lerp(
-                    new T.Vector3(segment.x, segment.y, segment.z),
-                    1 - Math.exp(-dt * 12),
-                  );
+                  if (this.enemyMotion.enabled)
+                    position.set(segment.x, segment.y, segment.z);
+                  else
+                    position.lerp(
+                      new T.Vector3(segment.x, segment.y, segment.z),
+                      1 - Math.exp(-dt * 12),
+                    );
                   position.y = segment.y;
+                  if (snapOmega || segment.pulseAim)
+                    position.set(segment.x, segment.y, segment.z);
                   this.visual.set(segmentKey, position);
                   return {
                     ...segment,
@@ -1222,6 +1279,7 @@ export class Renderer {
                       segmentKey,
                       segment.heading ?? 0,
                       animate ? dt : 0,
+                      !!segment.pulseAim,
                     ),
                   };
                 }),
@@ -1250,6 +1308,7 @@ export class Renderer {
           if (inputs && !e.segments)
             inputs.push({
               slot: n,
+              modelScale: e.kind === "boss" ? enemySize(e) : undefined,
               pleat: e.pleat,
               calyx: e.calyx,
               harrow: e.harrow,
@@ -1259,7 +1318,9 @@ export class Renderer {
               moving:
                 moving &&
                 e.active !== false &&
-                (e.kind === "crawler" ? !(e.wind > 0) : !e.wind),
+                (e.kind === "crawler" || e.kind === "boss"
+                  ? e.wind <= 0
+                  : !e.wind),
               wind: e.wind,
               cool: e.cool,
               distance: Math.hypot(v.x - previousHoundX, v.z - previousHoundZ),
@@ -1379,6 +1440,9 @@ export class Renderer {
             e.partHp === 0 ? 0 : enemySize(e),
             (e.perch ?? 0) > 0 ? Math.PI / 2 : 0,
             -ya,
+            e.kind === "harrow" && !e.harrowAirborne && !e.harrow
+              ? activeMap.blocks
+              : undefined,
           );
           mesh.setColorAt(
             n++,
@@ -1407,10 +1471,13 @@ export class Renderer {
               const position =
                 this.visual.get(segmentKey) ??
                 new T.Vector3(segment.x, segment.y, segment.z);
-              position.lerp(
-                new T.Vector3(segment.x, segment.y, segment.z),
-                1 - Math.exp(-dt * 12),
-              );
+              if (this.enemyMotion.enabled)
+                position.set(segment.x, segment.y, segment.z);
+              else
+                position.lerp(
+                  new T.Vector3(segment.x, segment.y, segment.z),
+                  1 - Math.exp(-dt * 12),
+                );
               this.visual.set(segmentKey, position);
               const angle = Math.atan2(
                 previous.x - segment.x,
@@ -1598,6 +1665,7 @@ export class Renderer {
       this.houndWarnings.count = hi;
       syncDynamicInstances(this.houndWarnings);
       this.rings.count = ri;
+      this.omegaWarning.update(w.enemies, w.time);
       syncDynamicInstances(this.rings);
       let projectileCount = 0,
         laserCount = 0;
@@ -1673,10 +1741,21 @@ export class Renderer {
       if (this.projectiles.instanceColor)
         this.projectiles.instanceColor.needsUpdate = true;
       let weaponCount = 0,
-        healCount = 0;
+        healCount = 0,
+        powderCount = 0;
       for (const d of w.drops.filter((d) => d.owner === id)) {
-        const mesh = d.type === "heal" ? this.healDrops : this.drops;
-        const i = d.type === "heal" ? healCount++ : weaponCount++;
+        const mesh =
+          d.type === "heal"
+            ? this.healDrops
+            : d.type === "powder"
+              ? this.powderDrops
+              : this.drops;
+        const i =
+          d.type === "heal"
+            ? healCount++
+            : d.type === "powder"
+              ? powderCount++
+              : weaponCount++;
         if (i >= mesh.instanceMatrix.count) continue;
         const pos = w.solo ? dropAt(w, d) : { x: d.x, z: d.z, jump: 0 };
         this.instance(
@@ -1700,8 +1779,13 @@ export class Renderer {
         healCount,
         this.healDrops.instanceMatrix.count,
       );
+      this.powderDrops.count = Math.min(
+        powderCount,
+        this.powderDrops.instanceMatrix.count,
+      );
       syncDynamicInstances(this.drops);
       syncDynamicInstances(this.healDrops);
+      syncDynamicInstances(this.powderDrops);
       for (const e of w.events.filter((e) => e.id > this.lastEvent)) {
         this.lastEvent = Math.max(this.lastEvent, e.id);
         const shooter = e.owner ? this.players.get(e.owner) : undefined;
@@ -1789,13 +1873,16 @@ export class Renderer {
         this.houndWarnings.count =
         this.rings.count =
         this.healDrops.count =
-        this.drops.count =
-        this.projectiles.count =
+        this.powderDrops.count =
           0;
+      this.drops.count = this.projectiles.count = 0;
       this.camera.position.set(8, 5.5, 30);
       this.camera.lookAt(-4, 2, -20);
     }
-    if (!w) this.combat.clear();
+    if (!w) {
+      this.combat.clear();
+      this.omegaWarning.update([], 0);
+    }
     this.combat.update(animate ? dt : 0, this.camera);
     if (w && animate)
       this.combat.trails(

@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+'crawler' !== 'calyx'
+
+    at file:///C:/Users/futsa/swarm-enemy-report-idname-20261116/scripts/check-report-identification.mjs:155:12 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'crawler',
+  expected: 'calyx',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

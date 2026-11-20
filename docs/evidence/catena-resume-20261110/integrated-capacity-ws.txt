@@ -1,0 +1,15 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-10-02/github/swarm-rebuild-p1a/task-resume-catena-20261110
+
+-----stdout | tests/front-network.integration.ts > 改装版の実通信 > 支援報酬対応4人のv2密集状態をfront-wire-heavyで欠落なく復元する
+integrated-capacity {"fixture":"front-wire-heavy","members":[{"maxPacketBytes":65465,"chunkPackets":0,"enemies":96,"orbs":160,"projectiles":400,"omittedEnemies":0,"omittedOrbs":0,"decodeErrors":0,"closeCodes":[]},{"maxPacketBytes":65459,"chunkPackets":0,"enemies":96,"orbs":160,"projectiles":400,"omittedEnemies":0,"omittedOrbs":0,"decodeErrors":0,"closeCodes":[]},{"maxPacketBytes":65456,"chunkPackets":0,"enemies":96,"orbs":160,"projectiles":400,"omittedEnemies":0,"omittedOrbs":0,"decodeErrors":0,"closeCodes":[]},{"maxPacketBytes":65453,"chunkPackets":0,"enemies":96,"orbs":160,"projectiles":400,"omittedEnemies":0,"omittedOrbs":0,"decodeErrors":0,"closeCodes":[]}]}
+
+·stdout | tests/front-network.integration.ts > 改装版の実通信 > 支援報酬対応4人のv2密集状態をfront-wire-overflowで欠落なく復元する
+integrated-capacity {"fixture":"front-wire-overflow","members":[{"maxPacketBytes":17161,"chunkPackets":6,"enemies":96,"orbs":160,"projectiles":1000,"omittedEnemies":0,"omittedOrbs":0,"decodeErrors":0,"closeCodes":[]},{"maxPacketBytes":17162,"chunkPackets":6,"enemies":96,"orbs":160,"projectiles":1000,"omittedEnemies":0,"omittedOrbs":0,"decodeErrors":0,"closeCodes":[]},{"maxPacketBytes":17162,"chunkPackets":6,"enemies":96,"orbs":160,"projectiles":1000,"omittedEnemies":0,"omittedOrbs":0,"decodeErrors":0,"closeCodes":[]},{"maxPacketBytes":17162,"chunkPackets":6,"enemies":96,"orbs":160,"projectiles":1000,"omittedEnemies":0,"omittedOrbs":0,"decodeErrors":0,"closeCodes":[]}]}
+
+·----------------
+
+ Test Files  1 passed (1)
+      Tests  2 passed | 21 skipped (23)
+   Start at  15:00:22
+   Duration  4.87s (import 42%, tests 38%, transform 20%)

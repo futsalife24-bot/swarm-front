@@ -1,0 +1,18 @@
+{
+  "mode": "before",
+  "scenario": "HTML 200 cached then server corrected",
+  "before": {
+    "ok": true,
+    "status": 200,
+    "size": 42,
+    "digest": "b4df99032a5ec30a5fb1774ebc4cb9187fc4f3754d9baa8b5f7da0aa6aa5632b"
+  },
+  "after": {
+    "ok": true,
+    "status": 200,
+    "size": 42,
+    "digest": "b4df99032a5ec30a5fb1774ebc4cb9187fc4f3754d9baa8b5f7da0aa6aa5632b"
+  },
+  "assetRequests": 1,
+  "errors": []
+}

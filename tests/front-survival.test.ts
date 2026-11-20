@@ -111,13 +111,13 @@ describe("front survival rewards and difficulty", () => {
     expect(returnFrontRun(run)).toBe(true);
     expect(run.world.rewards.host).toHaveLength(4);
     expect(run.world.rewards.host.every(validBattleWeapon)).toBe(true);
-    expect(run.world.rewards.host.every((weapon) => weapon.level === 6)).toBe(
+    expect(run.world.rewards.host.every((weapon) => weapon.level === 1)).toBe(
       true,
     );
     const first = structuredClone(run.world.rewards.host);
     finalizeFrontSurvivalRewards(run.world, 5, ["host"]);
     expect(run.world.rewards.host).toEqual(first);
-    expect(getFrontRunView(run, "host").weaponLevel).toBe(6);
+    expect(getFrontRunView(run, "host").weaponLevel).toBe(1);
   });
 
   it("keeps reward identifiers valid with the longest allowed member id", () => {
