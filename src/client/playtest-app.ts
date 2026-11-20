@@ -475,6 +475,7 @@ function showAnomalyTestResult() {
 }
 async function openAnomalyTestPreparationScreen(initial?: AnomalyTestConfig) {
   anomalyTestUi ??= await import("./anomaly-test");
+  setScreen("anomaly-preparation");
   const unit = soldier(save);
   const armory = {
     weapons: unit.equipped.flatMap((id) => {

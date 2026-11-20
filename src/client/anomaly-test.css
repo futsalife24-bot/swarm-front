@@ -135,8 +135,14 @@
   text-align: left;
 }
 @media (max-height: 430px) {
+  .anomaly-test-preparation {
+    height: 100%;
+    overflow: hidden;
+  }
   .anomaly-test-enemy-list {
-    max-height: 42vh;
+    max-height: none;
+    min-height: 0;
+    flex: 1 1 auto;
   }
   .anomaly-test-controls select,
   .anomaly-test-setting-grid select,
@@ -145,5 +151,12 @@
   .anomaly-test-actions button,
   .anomaly-test-setting-actions button {
     min-height: 36px;
+  }
+  .anomaly-test-preparation > footer.anomaly-test-actions {
+    position: sticky;
+    bottom: 0;
+    flex: none;
+    background: #0d1a21;
+    padding-top: 6px;
   }
 }
