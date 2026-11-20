@@ -1,0 +1,12 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-11-08/task/exit-confirm-implementation
+
+
+ Test Files  7 passed (7)
+      Tests  67 passed (67)
+   Start at  23:15:21
+   Duration  15.60s (import 57%, transform 29%, tests 12%, worker 2%)
+
+  Transform  transforming modules took 2.92s ﾂｷ 29% of tracked time, re-done on every run
+             persist transforms across runs with fsModuleCache: true
+             learn more: https://vitest.dev/guide/improving-performance#caching-between-reruns

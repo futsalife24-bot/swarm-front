@@ -1,4 +1,6 @@
 import "./client/boot-screen";
+import { installExitConfirmation } from "./client/exit-confirmation";
+installExitConfirmation();
 import { installCleanCapture } from "./client/clean-capture";
 import "./client/clean-capture.css";
 installCleanCapture();

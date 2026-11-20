@@ -1,4 +1,5 @@
 import { menuDialog } from "./menu-ui";
+import { navigateGameMenu } from "./exit-confirmation";
 
 export const developerRequested =
   new URLSearchParams(location.search).get("developer") === "1";
@@ -69,7 +70,8 @@ export function openDeveloperLogin(
         return;
       }
       sessionStorage.setItem(RETURN_KEY, returnTo);
-      location.assign(import.meta.env.BASE_URL + "?developer=1");
+      // The submitted login already authorized this mode transition.
+      navigateGameMenu(import.meta.env.BASE_URL + "?developer=1");
     } catch (error) {
       note.textContent =
         error instanceof Error &&
@@ -88,7 +90,8 @@ export function returnToNormal() {
   sessionStorage.removeItem(RETURN_KEY);
   sessionStorage.removeItem("swarm-front-developer-retry");
   sessionStorage.setItem("swarm-front-playtest-mode", "normal");
-  location.replace(import.meta.env.BASE_URL);
+  // Preserve replace semantics; do not offer cancellation after revocation.
+  navigateGameMenu(import.meta.env.BASE_URL, true);
 }
 
 export async function exitDeveloperMode() {

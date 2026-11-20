@@ -1,0 +1,48 @@
+vite v8.2.2 building client environment for production...
+transforming...
+笨・287 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/asset-download-manifest.json              0.05 kB 笏・gzip:   0.06 kB
+dist/front.html                                4.88 kB 笏・gzip:   1.98 kB
+dist/index.html                                5.43 kB 笏・gzip:   2.04 kB
+dist/assets/pixelfx-battle-CK0H9ElO.png      270.80 kB
+dist/assets/legacy-CPbai1ZT.css                0.25 kB 笏・gzip:   0.13 kB
+dist/assets/main-BOIn8V8d.css                  1.31 kB 笏・gzip:   0.66 kB
+dist/assets/preload-helper-BUUOzIBn.css        2.94 kB 笏・gzip:   1.17 kB
+dist/assets/room-access-n-8m8axW.css           6.75 kB 笏・gzip:   1.79 kB
+dist/assets/cloud-save-DDmsa4bl.css            8.90 kB 笏・gzip:   2.30 kB
+dist/assets/playtest-app-Cs3B8-Sz.css         17.08 kB 笏・gzip:   4.33 kB
+dist/assets/game-select-C-P1GfeG.css          20.47 kB 笏・gzip:   5.25 kB
+dist/assets/weapon-workshop-ui-DDPmFTsF.css   37.42 kB 笏・gzip:   8.32 kB
+dist/assets/front-BthREkfP.css                48.03 kB 笏・gzip:  10.85 kB
+dist/assets/hud-CHKQqPB8.css                 109.28 kB 笏・gzip:  22.37 kB
+dist/assets/zoom-guard-CYxqEXnM.js             0.38 kB 笏・gzip:   0.21 kB
+dist/assets/training-app-CymXwOTz.js           3.80 kB 笏・gzip:   1.97 kB
+dist/assets/weapon-sharing-DBaY7r6V.js         4.79 kB 笏・gzip:   2.56 kB
+dist/assets/room-access-Da7oTEjk.js            9.35 kB 笏・gzip:   3.85 kB
+dist/assets/legacy-Cz7sBnHO.js                18.00 kB 笏・gzip:   6.85 kB
+dist/assets/game-select-C9wDGxlM.js           36.63 kB 笏・gzip:  13.73 kB
+dist/assets/main-BE_lVhg9.js                  56.81 kB 笏・gzip:  20.04 kB
+dist/assets/playtest-app-BepA2gVO.js          86.49 kB 笏・gzip:  31.57 kB
+dist/assets/front-ChtU9y5x.js                128.65 kB 笏・gzip:  44.10 kB
+dist/assets/cloud-save-Dhfjs3_D.js           132.20 kB 笏・gzip:  47.44 kB
+dist/assets/preload-helper-CedBXsJ6.js       194.07 kB 笏・gzip:  70.14 kB
+dist/assets/weapon-workshop-ui-GDVWWxSn.js   450.63 kB 笏・gzip: 154.11 kB
+dist/assets/hud-BiKCeK7e.js                  883.88 kB 笏・gzip: 243.84 kB
+
+[plugin builtin:vite-reporter]
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+笨・built in 8.28s
+[PLUGIN_TIMINGS] Plugin hooks ran for 8.4s. The build took 8.3s. Hooks such as `closeBundle` run after the build ends, so hook time can be more than build time.
+The slowest hooks, timed inside each callback (the wait before a callback starts is excluded, the time it awaits is included):
+  - swarm-current-asset-download-manifest writeBundle (66%, 5.4s, 1 call)
+  - vite:prepare-out-dir renderStart (25%, 2.1s, 1 call)
+Additional hook time came from the hooks below and from hooks under 1s.
+2 hooks are listed without a time. Their calls overlapped, so the time inside one call includes work from other calls. To find their cost, profile the build with `node --cpu-prof`:
+  - vite:css transform (39 calls)
+  - vite:build-html transform (2 calls)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.

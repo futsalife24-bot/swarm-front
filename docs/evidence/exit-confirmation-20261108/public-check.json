@@ -1,0 +1,7 @@
+{
+  "checkedAt": "2026-11-08T14:19:08.1160385Z",
+  "note": "/health returned HTML, not health JSON; no deployment action performed",
+  "recordedIndexSha256": "317e98277e62cc5f11bac0fc5716625ee5a13b37fb21750234f0d3c86cf467ee",
+  "currentIndexSha256": "317e98277e62cc5f11bac0fc5716625ee5a13b37fb21750234f0d3c86cf467ee",
+  "matches": true
+}
