@@ -78,6 +78,7 @@ describe("front solo encounter recording", () => {
 
     expect(report).toHaveBeenCalledWith({
       encounters: { ant: "solo", crawler: "solo", worm: "solo" },
+      clearedStages: 0,
       voiceVolume: 0.4,
       controlVoice: undefined,
     });

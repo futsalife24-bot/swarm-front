@@ -25,6 +25,7 @@ describe("front title report access", () => {
     openFrontBestiary(storageFor(null), 0.4, controlVoice);
     expect(report).toHaveBeenCalledWith({
       encounters: {},
+      clearedStages: 0,
       voiceVolume: 0.4,
       controlVoice,
     });
@@ -48,6 +49,7 @@ describe("front title report access", () => {
 
       expect(report).toHaveBeenCalledWith({
         encounters: expected,
+        clearedStages: 0,
         voiceVolume: 0.4,
         controlVoice: undefined,
       });
@@ -64,6 +66,7 @@ describe("front title report access", () => {
     openFrontBestiary(storage, 0.2);
     expect(report).toHaveBeenCalledWith({
       encounters: {},
+      clearedStages: 0,
       voiceVolume: 0.2,
       controlVoice: undefined,
     });
@@ -76,6 +79,7 @@ describe("front title report access", () => {
       openFrontBestiary(storage, 0.2);
       expect(report).toHaveBeenCalledWith({
         encounters: {},
+        clearedStages: 0,
         voiceVolume: 0.2,
         controlVoice: undefined,
       });

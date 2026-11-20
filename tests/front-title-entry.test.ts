@@ -11,4 +11,11 @@ describe("shared title entry", () => {
     expect(html).toContain('id="open-bestiary"');
     expect(html).toContain('class="home-challenges"');
   });
+
+  it("keeps the stage name but removes the operation body from the title", () => {
+    const html = homeMarkup({ stage: STAGES[0], inventoryCount: 0 });
+    expect(html).toContain(STAGES[0].name);
+    expect(html).not.toContain(STAGES[0].brief);
+    expect(html).not.toContain("作戦詳細");
+  });
 });

@@ -5,6 +5,7 @@ import {
 } from "./client/menu-navigation";
 import { mountControlVoiceVolume } from "./client/control-voice-volume";
 import { loadProgress } from "./client/progression-save";
+import { highestClearedStage } from "./client/front-campaign";
 import { bindResultWeaponActions } from "./client/result-weapon-actions";
 import { lockMarkup } from "./client/gear-weapon-list";
 import type { StoredWeapon } from "./shared/progression";
@@ -592,12 +593,15 @@ installMenuNavigation(ui, {
     if (destination === "armory") return armory();
     if (destination === "settings")
       return openSettings(screen === "lobby" ? lobby : gear);
-    if (destination === "report")
+    if (destination === "report") {
+      const reportSave = loadProgress("normal");
       return openBestiary({
-        encounters: loadProgress("normal")?.encounters,
+        encounters: reportSave?.encounters,
+        clearedStages: highestClearedStage(reportSave),
         voiceVolume: sound.effectsVolume,
         controlVoice: sound,
       });
+    }
     if (network && !window.confirm("部屋を退出して移動しますか？")) return;
     network?.close();
     visitCampaignMenu(destination);
@@ -812,7 +816,7 @@ function gear() {
     return;
   }
 
-  ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option>${familyOptions()}</select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button></div><nav><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span><button id="mission-info" aria-label="作戦詳細">作戦詳細 ⓘ</button></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select><p id="stage-brief" class="sr-only">${esc(STAGES[selectedStage - 1].brief)}</p></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
+  ui.innerHTML = `<section class="panel gear menu-screen"><header class="menu-header"><div><div class="eyebrow">LOADOUT / ${mode.toUpperCase()}</div><h1>出撃準備</h1></div><div class="weapon-filters"><label><span class="sr-only">武器系統</span><select id="weapon-filter" aria-label="武器系統"><option value="all">全系統</option>${familyOptions()}</select></label><label><span class="sr-only">並び順</span><select id="weapon-sort" aria-label="武器の並び順"><option value="default">入手順</option><option value="rarity">レア度順</option><option value="power">1発の威力順</option></select></label><button id="kind-info" aria-label="武器系統の説明">系統ガイド ⓘ</button></div><nav><button id="home">ホームへ</button></nav></header><div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 / 出撃先</span></div><label class="sr-only" for="stage-select">ステージ</label><select id="stage-select">${stageOptions()}</select></section><section class="equipment-select"><div class="section-label"><span>02 / 装備を選択</span><small>2 SLOTS</small></div><div class="loadout-slots">${equipped()
     .map(
       (w, i) =>
         `<button type="button" data-pick="${i}" class="rarity${w.rarity} ${activeSlot === i ? "selected" : ""}" aria-pressed="${activeSlot === i}"><span class="slot-number">0${i + 1}</span><span><small>装備 ${i + 1} <em>${weaponGrade(w)}</em></small><b>${weaponName(w)}</b><strong>${effectText(w.effect, w.kind)}</strong></span><i aria-hidden="true">${activeSlot === i ? "選択中" : "変更"}</i></button>`,
@@ -820,18 +824,6 @@ function gear() {
     .join(
       "",
     )}</div></section></aside><section class="gear-arsenal"><p class="slot-hint">装備 <b>${activeSlot + 1}</b> を選択中 <span>→ 武器を押すと装備を変更</span><small class="gear-scroll-hint">${shown.length}丁 · 上下にスクロール ↕</small></p><div class="weapon-list" tabindex="0" aria-label="所持武器リスト"><div class="weapon-head" aria-hidden="true"><span>武器</span><span>特殊効果</span><span>威力</span><span>装弾</span><span>装填</span><span>射程</span><span>連射</span><span></span></div>${shown.map((w) => card(w)).join("") || '<p class="armory-empty">この系統の武器はありません。<br>「全系統」で所持武器を確認できます。</p>'}</div></section></div><div class="gear-footer"><p class="status" role="status">${esc(saveError || status || "装備を確認したら、出撃しましょう。")}</p><button class="primary" id="launch" ${saveError ? "disabled" : ""}>${launchLabel}</button></div></section>`;
-  const currentStage = () =>
-    STAGES[
-      (mode === "coop" && network?.id ? network.stage : selectedStage) - 1
-    ];
-  $("mission-info").onclick = () => {
-    const st = currentStage();
-    menuDialog(
-      st.name,
-      `<div class="mission-facts"><span>${esc(MAPS[st.map].name)}</span><span>${st.waves.length} WAVES</span></div><p>${esc(st.brief)}</p>${mode === "coop" ? "<p>ステージはロビーでホストが選択します。</p>" : ""}`,
-      "OPERATION BRIEF",
-    );
-  };
   $("kind-info").onclick = () =>
     menuDialog(
       "武器系統ガイド",
@@ -862,7 +854,6 @@ function gear() {
   };
   $("stage-select").onchange = (e) => {
     selectedStage = Number((e.target as HTMLSelectElement).value);
-    $("stage-brief").textContent = STAGES[selectedStage - 1].brief;
   };
   $("home").onclick = () => {
     network?.close();
@@ -1269,8 +1260,7 @@ async function connect(create: boolean, restore = false, joinCode?: string) {
       selectedStage = network!.stage;
       if (screen === "gear") {
         ($("stage-select") as HTMLSelectElement).value = String(selectedStage);
-        $("stage-brief").textContent =
-          `${STAGES[selectedStage - 1].brief}（${STAGES[selectedStage - 1].waves.length}波）`;
+        void selectedStage;
       }
       if (screen === "lobby") lobby();
       else void prepareLobby();
@@ -1403,7 +1393,7 @@ function lobby() {
   if (members.find((m) => m.id === network?.id)?.ready)
     completeFirstGuide("lobby");
   const guideText = lobbyCaption.current;
-  ui.innerHTML = `<section class="panel lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1></div><div class="lobby-share"><button id="share">招待リンクを共有</button><span id="invite-feedback" role="status"></span></div><span>${present.length} / 4 人</span><button id="leave-lobby">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃ステージ"><div class="eyebrow">OPERATION ${String(stage.id).padStart(2, "0")}</div><h2>${esc(MAPS[stage.map].name)}</h2><strong>${esc(stage.name)}</strong><label>ホストが選択<select id="lobby-stage" ${!online || !isHost ? "disabled" : ""}>${stageOptions()}</select></label><div class="mission-facts"><span>${stage.waves.length} WAVES</span><span>道中ドロップ ${Math.round(stage.dropRate * 100)}%</span></div><p>${esc(stage.brief)}</p><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : isHost ? "隊員の準備完了を待っています" : "ホストの出撃を待っています"}${guideText ? `<small>${esc(guideText)}</small>` : ""}</p><button id="back">出撃準備・装備変更</button><button class="primary" id="begin" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
+  ui.innerHTML = `<section class="panel lobby"><header class="lobby-header"><div><div class="eyebrow">CO-OP / SQUAD</div><h1>協力ロビー <span class="room-access-label" data-access="${access.state}">${access.label}</span></h1></div><div class="lobby-share"><button id="share">招待リンクを共有</button><span id="invite-feedback" role="status"></span></div><span>${present.length} / 4 人</span><button id="leave-lobby">退出</button></header><div class="lobby-workspace"><section class="lobby-mission" aria-label="出撃ステージ"><div class="eyebrow">OPERATION ${String(stage.id).padStart(2, "0")}</div><h2>${esc(MAPS[stage.map].name)}</h2><strong>${esc(stage.name)}</strong><label>ホストが選択<select id="lobby-stage" ${!online || !isHost ? "disabled" : ""}>${stageOptions()}</select></label><div class="mission-facts"><span>${stage.waves.length} WAVES</span><span>道中ドロップ ${Math.round(stage.dropRate * 100)}%</span></div><div class="lobby-actions"><p class="status" role="status">${!online ? esc(status) : canStart ? "全員の準備が整いました" : isHost ? "隊員の準備完了を待っています" : "ホストの出撃を待っています"}${guideText ? `<small>${esc(guideText)}</small>` : ""}</p><button id="back">出撃準備・装備変更</button><button class="primary" id="begin" ${canStart ? "" : "disabled"}>全員で出撃 ↗</button></div></section><section class="lobby-squad" aria-label="参加メンバー"><div class="squad-heading"><h2>参加メンバー</h2><small>装備 / 状況</small></div><div class="squad-cards">${Array.from(
     { length: 4 },
     (_, i) => {
       const m = members[i];

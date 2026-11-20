@@ -114,6 +114,7 @@ import { menuDialog } from "./menu-ui";
 import { RewardedAdSession, type AdOutcome } from "./rewarded-ad";
 
 import { openBestiary } from "./bestiary";
+import { highestClearedStage } from "./front-campaign";
 import { ENEMY_REPORT_NAMES, enemyReportId } from "../shared/enemy-identity";
 import { developerProgress } from "./developer-mode";
 import {
@@ -933,6 +934,7 @@ function report() {
     voiceVolume: sound.effectsVolume,
     controlVoice: sound,
     encounters: save.encounters,
+    clearedStages: highestClearedStage(save),
     onClose: () => {
       modalCount--;
       controls.reset();
@@ -2127,7 +2129,7 @@ function gear() {
     p = soldier(save);
   header(
     "出撃準備",
-    `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span><button id="pt-mission-info">作戦詳細</button></div><select id="pt-stage" aria-label="ステージ">${SOLO_STAGE_IDS.map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${esc(stagePickerLabel(save, id))}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">通常</option><option value="medium">ハード</option><option value="expert" disabled>EXPERT（未解放）</option></select><small title="クリア報酬">${resourceFrame("coins", victoryCoins(stage, difficulty), "gain")}</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
+    `<div class="gear-workspace"><aside class="gear-brief"><section class="mission-select"><div class="section-label"><span>01 出撃先</span></div><select id="pt-stage" aria-label="ステージ">${SOLO_STAGE_IDS.map((id) => `<option value="${id}" ${id === stage ? "selected" : ""}>${esc(stagePickerLabel(save, id))}</option>`).join("")}</select><div class="pt-difficulty"><select id="pt-difficulty" aria-label="難易度"><option value="normal">通常</option><option value="medium">ハード</option><option value="expert" disabled>EXPERT（未解放）</option></select><small title="クリア報酬">${resourceFrame("coins", victoryCoins(stage, difficulty), "gain")}</small></div></section><section class="equipment-select"><div class="section-label"><span>02 入替先</span><small>一覧タップで変更</small></div><div class="loadout-slots">${p.equipped
       .map((id, i) => {
         const w = save.inventory.find((w) => w.id === id)!;
         return `<button data-gear-slot="${i}" aria-pressed="${selectedGearSlot === i}"><span class="slot-number">0${i + 1}</span><span class="slot-info"><small class="pt-grade-${weaponTier(w)}">装備${i + 1} ${selectedGearSlot === i ? "選択中 · " : ""}${weaponGrade(w)}</small><b>${esc(WEAPONS[w.kind].name)}</b><strong>${esc(effectLabel(w))}</strong></span><i>入替先 ›</i></button>`;
@@ -2158,12 +2160,6 @@ function gear() {
     ui.querySelector(".gear-footer .status small")!.innerHTML =
       `<span class="pt-var-low"><sup>${varianceMark(-10)}</sup> 0%未満</span> · <span class="pt-var-good"><sup>${varianceMark(10)}</sup> 0%超〜+10%</span> · <span class="pt-var-great"><sup>${varianceMark(19)}</sup> +10%超（+20%除く）</span> · <span class="pt-var-max"><sup>${varianceMark(20)}</sup> +20%</span>`;
   }
-  bind("pt-mission-info", () =>
-    dialog(
-      "作戦詳細",
-      `<p>${esc(stageFor({ stage: campaignNumber(stage), solo: { stage, difficulty } }).brief)}</p>${stage === 3 ? `<p>${BRANCH_HINT}</p>` : ""}<ol>${["クリア", cfg.timeLimit + "秒以内にクリア", "救急箱・復活なしでクリア"].map((t, i) => `<li>${m[i] ? "達成済み" : "未達成"} · ${t}</li>`).join("")}</ol>`,
-    ),
-  );
   ui.querySelectorAll<HTMLButtonElement>("[data-gear-slot]").forEach(
     (b) =>
       (b.onclick = () => {
