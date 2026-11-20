@@ -57,7 +57,7 @@ test("armory stays readable and preserves protection and atomic deletion", async
       "aria-label",
       /超過・整理待ち/,
     );
-    await expect(page.locator('[data-check="rifle-3"]')).toBeDisabled();
+    await expect(page.locator('.pt-weapon-list [data-check="rifle-3"]')).toBeDisabled();
 
     for (const viewport of [
       { width: 844, height: 390 },
@@ -92,25 +92,26 @@ test("armory stays readable and preserves protection and atomic deletion", async
     }
 
     await page.setViewportSize({ width: 844, height: 390 });
-    await page.locator('[data-detail="rifle-2"]').tap();
+    await page.locator('.pt-weapon-list [data-detail="rifle-2"]').tap();
     const detail = page.getByRole("dialog");
     await expect(detail).toContainText("AR-9 リーフ");
     await expect(detail.locator(".pt-var-good")).not.toHaveCount(0);
-    await detail.locator("[data-menu-back]").tap();
+    await page.getByRole("dialog").locator(".dialog-close").tap();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
 
-    await page.locator('[data-lock="rifle-2"]').tap();
-    await expect(page.locator('[data-check="rifle-2"]')).toBeDisabled();
-    await page.locator('[data-lock="rifle-2"]').tap();
+    await page.locator('.pt-weapon-list [data-lock="rifle-2"]').tap();
+    await expect(page.locator('.pt-weapon-list [data-check="rifle-2"]')).toBeDisabled();
+    await page.locator('.pt-weapon-list [data-lock="rifle-2"]').tap();
     await page.locator("#pt-confirm").tap();
-    await expect(page.locator('[data-check="rifle-2"]')).toBeEnabled();
+    await expect(page.locator('.pt-weapon-list [data-check="rifle-2"]')).toBeEnabled();
 
     const saved = () =>
       page.evaluate(
         (key) => JSON.parse(localStorage.getItem(key)!),
         PROGRESS_KEY,
       );
-    await page.locator('[data-check="rifle-2"]').check();
-    await page.locator(".pt-bulk-menu summary").tap();
+    await page.locator('.pt-weapon-list [data-check="rifle-2"]').check();
+    await page.locator(".pt-bulk-menu").last().locator("summary").tap();
     await page.locator("#pt-dismantle").tap();
     await page.locator("#pt-cancel").tap();
     const before = await saved();
@@ -311,7 +312,7 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
     page.locator(`[data-check="${id}"]`).first();
   await expect(check("bulk-3")).toBeDisabled();
   await expect(check(seed.soldiers[0].equipped[0])).toBeDisabled();
-  await page.locator(".pt-bulk-menu summary:visible").click();
+  await page.locator(".pt-bulk-menu").last().locator("summary").click();
   await expect(page.locator("#pt-dismantle")).toContainText("選択を解体 (0)");
   for (const id of ["bulk-0", "bulk-1", "waiting"]) await check(id).check();
   await expect(page.locator("#pt-dismantle")).toContainText("選択を解体 (3)");

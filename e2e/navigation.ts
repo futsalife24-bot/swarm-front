@@ -80,11 +80,12 @@ export async function openArmory(page: Page, input: "click" | "tap" = "click") {
   const allWeapons = page.locator(
     '[data-list-choice="kind"][data-value="all"]',
   );
-  await page.locator(".pt-view-menu summary")[action]();
-  await expect(page.locator(".pt-view-menu")).toHaveAttribute("open");
+  await page.locator(".pt-view-menu").last().locator("summary")[action]();
+  await expect(page.locator(".pt-view-menu").last()).toHaveAttribute("open");
   await expect(allWeapons).toBeVisible();
   await allWeapons[action]();
   await expect(page.getByRole("heading", { name: "武器一覧" })).toBeVisible();
-  await page.getByRole("button", { name: "閉じる" })[action]();
+  await page.locator(".pt-view-menu").last().locator("summary")[action]();
+  await expect(page.locator(".pt-view-menu").last()).not.toHaveAttribute("open");
   await expect(page.getByRole("heading", { name: "武器一覧" })).toBeVisible();
 }
