@@ -8,7 +8,10 @@ import {
   reportWorm,
 } from "../src/client/enemy-report-motion";
 import { HARROW, harrowMissilePosition } from "../src/shared/harrow";
-import { HOUND_VOLLEY_SPREADS } from "../src/shared/hound-volley";
+import {
+  HOUND_VOLLEY_GRAVITY,
+  HOUND_VOLLEY_SPREADS,
+} from "../src/shared/hound-volley";
 import { PLEAT_STRIKE } from "../src/shared/pleat-strike";
 import { WORM_BODY_COUNT, WORM_UNIT_COUNT } from "../src/shared/worm";
 import { foundryOptic } from "../src/shared/foundry-defs";
@@ -325,6 +328,18 @@ it("previews VOLLEY with the shared three-shot spread and gravity arc", () => {
   expect(positions[0].x).toBeGreaterThan(0);
   expect(positions[2].x).toBeLessThan(0);
   expect(positions[1].x).toBeCloseTo(0, 5);
+  const start = reportVolleyPositions(0);
+  const midpoint = reportVolleyPositions(0.275);
+  const end = reportVolleyPositions(0.55);
+  midpoint.forEach((position, index) => {
+    expect(position.y).toBeGreaterThan((start[index].y + end[index].y) / 2);
+  });
+  const sample = (age: number) => reportVolleyPositions(age)[1].y;
+  const step = 0.05;
+  expect(sample(0.2) - 2 * sample(0.25) + sample(0.3)).toBeCloseTo(
+    -HOUND_VOLLEY_GRAVITY * step * step,
+    8,
+  );
 });
 
 it("moves PLEAT through the shared strike distance", () => {
