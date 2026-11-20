@@ -1,6 +1,7 @@
 import { copyInvite } from "./invite";
 import { test, expect } from "@playwright/test";
 import { localCreationKey } from "../tests/credentials";
+import { enterCoopPreparation, openArmory } from "./navigation";
 test("real Worker result, overflow rewards and rematch retain accessible menus", async ({
   browser,
   request,
@@ -14,7 +15,7 @@ test("real Worker result, overflow rewards and rematch retain accessible menus",
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto("/");
-    await page.locator("#coop").click();
+    await enterCoopPreparation(page);
     await page.locator(".coop-advanced summary").click();
     await page.locator("#endpoint").fill("http://127.0.0.1:8912");
     await page.locator("#creation-key").fill(localCreationKey());
@@ -54,11 +55,11 @@ test("real Worker result, overflow rewards and rematch retain accessible menus",
       });
     }
     await page.locator("#regear").click();
-    await page.locator("#open-armory").click();
+    await openArmory(page);
     await page.locator("#armory-filter").selectOption("pending");
     await expect(page.locator(".armory-list article")).not.toHaveCount(0);
     await page.locator("#armory-home").click();
-    await page.locator("#coop").click();
+    await enterCoopPreparation(page);
     await page.locator("#launch").click();
     await expect(page.locator(".is-ready")).toHaveCount(1);
     await page.locator("#begin").click();

@@ -1,8 +1,14 @@
 import { test, expect } from "@playwright/test";
-import { fresh, SAVE_KEY } from "../src/client/save";
-import { STARTERS, type Weapon } from "../src/shared/defs";
+import { freshProgress, newSaveKey } from "../src/client/progression-save";
+import { STARTERS } from "../src/shared/defs";
+import { makeWeapon } from "../src/shared/progression";
+import { openArmory } from "./navigation";
 
-test("armory stays readable and preserves selection, protection and atomic deletion", async ({
+const PROGRESS_KEY = newSaveKey("normal");
+const live = (selector: string) => `body.playtest > main#ui ${selector}`;
+
+
+test("armory stays readable and preserves protection and atomic deletion", async ({
   browser,
 }) => {
   const context = await browser.newContext({
@@ -12,42 +18,51 @@ test("armory stays readable and preserves selection, protection and atomic delet
   });
   try {
     const page = await context.newPage();
-    const seed = fresh();
-    seed.inventory = STARTERS.flatMap((w) =>
-      Array.from(
-        { length: 8 },
-        (_, i) =>
-          ({
-            ...w,
-            id: i ? w.kind + "-" + i : w.id,
-            rarity: i % 4,
-            power: Number((1 + i * 0.04).toFixed(3)),
-            rolls: {
-              mag: 1.1,
-              reload: Number((1.2 - i * 0.05).toFixed(3)),
-              range: 1,
-              rate: 1,
-            },
-          }) as Weapon,
+    const seed = freshProgress("normal");
+    seed.inventory = STARTERS.flatMap((weapon, weaponIndex) =>
+      Array.from({ length: 8 }, (_, index) =>
+        makeWeapon(
+          `${weapon.kind}-${weaponIndex * 8 + index}`,
+          weapon.kind,
+          index % 4,
+          { power: index, reload: -index, range: 0, rate: 0 },
+          false,
+          weaponIndex * 8 + index,
+        ),
       ),
     );
-    seed.pendingWeapons = [
-      { ...seed.inventory[0], id: "pending-1", rarity: 3 },
+    seed.soldiers[0].equipped = ["rifle-0", "shotgun-8"];
+    seed.pending = [
+      makeWeapon(
+        "pending-1",
+        "rifle",
+        3,
+        { power: 3, reload: -3, range: 0, rate: 0 },
+        false,
+        27,
+        "reserve",
+      ),
     ];
-    seed.favorites = ["rifle-3"];
+    seed.serial = 28;
+    seed.locks = ["rifle-3"];
     await page.goto("/");
     await page.evaluate(
       ({ key, seed }) => localStorage.setItem(key, JSON.stringify(seed)),
-      { key: SAVE_KEY, seed },
+      { key: PROGRESS_KEY, seed },
     );
     await page.reload();
-    await page.locator("#open-armory").click();
-    await expect(page.locator(".armory-list article")).toHaveCount(25);
-    await expect(
-      page.locator('[data-armory-select="pending-1"]'),
-    ).toHaveAttribute("aria-pressed", "true");
-    await page.locator('[data-armory-select="rifle-3"]').click();
-    await expect(page.locator('[data-discard="rifle-3"]')).toBeDisabled();
+    await openArmory(page);
+
+    const rows = page.locator(live(".pt-weapon-row[data-row]"));
+    const check = (id: string) =>
+      page.locator(live(`[data-check="${id}"]`)).first();
+    await expect(rows).toHaveCount(25);
+    await expect(page.locator(live('[data-detail="pending-1"]'))).toHaveAttribute(
+      "aria-label",
+      /超過・整理待ち/,
+    );
+    await expect(check("rifle-3")).toBeDisabled();
+
     for (const viewport of [
       { width: 844, height: 390 },
       { width: 640, height: 280 },
@@ -55,57 +70,64 @@ test("armory stays readable and preserves selection, protection and atomic delet
     ]) {
       await page.setViewportSize(viewport);
       const layout = await page.evaluate(() => {
-        const list = document.querySelector(".armory-list")!;
-        const detail = document.querySelector(".armory-detail")!;
-        const a = list.getBoundingClientRect(),
-          b = detail.getBoundingClientRect();
+        const list = document.querySelector(".pt-weapon-list")!;
+        const row = document.querySelector(".pt-weapon-row[data-row]")!;
+        const stats = row.querySelector(".pt-stat-inner")!;
+        const rectangle = list.getBoundingClientRect();
+        const rowRectangle = row.getBoundingClientRect();
         return {
-          left: a.right,
-          right: b.left,
           listWidth: list.clientWidth,
           listScroll: list.scrollWidth,
-          detailWidth: detail.clientWidth,
-          detailScroll: detail.scrollWidth,
-          rowHeight: document
-            .querySelector(".armory-row")!
-            .getBoundingClientRect().height,
-          columns: document.querySelector(".armory-row")!.children.length,
-          visibleRows:
-            a.height /
-            document.querySelector(".armory-row")!.getBoundingClientRect()
-              .height,
-          bottom: Math.max(a.bottom, b.bottom),
+          statWidth: stats.clientWidth,
+          statScroll: stats.scrollWidth,
+          columns: stats.children.length,
+          rowHeight: rowRectangle.height,
+          visibleRows: rectangle.height / rowRectangle.height,
+          bottom: rectangle.bottom,
           height: innerHeight,
         };
       });
-      expect(layout.left).toBeLessThan(layout.right);
       expect(layout.listScroll).toBeLessThanOrEqual(layout.listWidth + 1);
-      expect(layout.detailScroll).toBeLessThanOrEqual(layout.detailWidth + 1);
+      expect(layout.statScroll).toBeLessThanOrEqual(layout.statWidth + 1);
+      expect(layout.columns).toBe(6);
+      expect(layout.rowHeight).toBe(30);
       expect(layout.visibleRows).toBeGreaterThan(1.6);
-      expect(layout.rowHeight).toBeGreaterThanOrEqual(44);
-      expect(layout.columns).toBe(7);
       expect(layout.bottom).toBeLessThanOrEqual(layout.height);
-      await page.screenshot({
-        path:
-          "dist-validation/evidence/armory-after-" + viewport.width + ".png",
-      });
     }
+
     await page.setViewportSize({ width: 844, height: 390 });
-    await page.locator('[data-armory-select="rifle-2"]').click();
-    await expect(page.locator(".armory-stats")).toContainText("-0.16");
-    await expect(page.locator(".armory-stats .better")).not.toHaveCount(0);
-    await page.locator('[data-favorite="rifle-2"]').click();
-    await expect(page.locator('[data-discard="rifle-2"]')).toBeDisabled();
-    await expect(
-      page.locator('[data-armory-select="rifle-2"]'),
-    ).toHaveAttribute("aria-pressed", "true");
-    await page.locator('[data-favorite="rifle-2"]').click();
+    await page.locator(live('.pt-weapon-list [data-detail="rifle-2"]')).tap();
+    const detail = page.getByRole("dialog");
+    await expect(detail).toContainText("AR-9 リーフ");
+    await expect(detail.locator(".pt-var-good")).not.toHaveCount(0);
+    await detail.getByRole("button", { name: "戻る" }).tap();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+
+    await page.locator(live('.pt-weapon-list [data-lock="rifle-2"]')).tap();
+    await expect(check("rifle-2")).toBeDisabled();
+    await page.locator(live('.pt-weapon-list [data-lock="rifle-2"]')).tap();
+    await page.getByRole("dialog").getByRole("button", { name: "確定" }).tap();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await expect(page.locator(".split-shutter")).toHaveCount(0);
+    await expect(check("rifle-2")).toBeEnabled();
+
     const saved = () =>
-      page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), SAVE_KEY);
+      page.evaluate(
+        (key) => JSON.parse(localStorage.getItem(key)!),
+        PROGRESS_KEY,
+      );
+    await check("rifle-2").check();
+    await page.locator(live(".pt-bulk-menu")).last().locator("summary").tap();
+    await page.getByRole("button", { name: /選択を解体/ }).tap();
+    await expect(page.locator(".split-shutter")).toHaveCount(0);
+    await page.getByRole("dialog").getByRole("button", { name: "キャンセル" }).tap();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await expect(page.locator(".split-shutter")).toHaveCount(0);
     const before = await saved();
-    await page.locator('[data-discard="rifle-2"]').click();
-    await page.locator("#dismantle-cancel").click();
-    expect(await saved()).toEqual(before);
+    expect(
+      before.inventory.some((weapon: { id: string }) => weapon.id === "rifle-2"),
+    ).toBe(true);
+
     await page.evaluate(() => {
       const original = Storage.prototype.setItem;
       (window as any).restoreStorage = () =>
@@ -114,34 +136,43 @@ test("armory stays readable and preserves selection, protection and atomic delet
         throw Error("test quota");
       };
     });
-    await page.locator('[data-discard="rifle-2"]').click();
-    await page.locator("#dismantle-confirm").click();
-    await expect(page.locator(".status")).toContainText("削除していません");
+    await page.getByRole("button", { name: /選択を解体/ }).tap();
+    await expect(page.getByRole("dialog")).toContainText("武器を解体");
+    await expect(page.locator(".split-shutter")).toHaveCount(0);
+    await page.getByRole("dialog").getByRole("button", { name: "確定" }).tap();
+    await expect(page.getByRole("dialog")).toContainText("保存を再試行");
     expect(await saved()).toEqual(before);
     await page.evaluate(() => (window as any).restoreStorage());
-    await page.locator('[data-discard="rifle-2"]').click();
-    await page.locator("#dismantle-confirm").click();
-    await expect(page.locator(".status")).toContainText("獲得しました");
+    await page.getByRole("dialog").getByRole("button", { name: "保存を再試行" }).tap();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await expect(page.locator(".split-shutter")).toHaveCount(0);
     const after = await saved();
-    expect(after.inventory.some((w: Weapon) => w.id === "rifle-2")).toBe(false);
-    expect(after.inventory.some((w: Weapon) => w.id === "pending-1")).toBe(
-      true,
-    );
-    await page.locator("#armory-filter").selectOption("pending");
-    await expect(page.locator(".armory-list article")).toHaveCount(0);
-    await expect(page.locator("[data-discard]")).toHaveCount(0);
-    await page.locator("#armory-filter").selectOption("favorites");
-    await expect(page.locator(".armory-list article")).toHaveCount(1);
+    expect(
+      after.inventory.some((weapon: Weapon) => weapon.id === "rifle-2"),
+    ).toBe(false);
+    expect(
+      after.inventory.some((weapon: Weapon) => weapon.id === "pending-1"),
+    ).toBe(true);
+    expect(after.pending).toEqual([]);
+
+    await page.locator(live(".pt-view-menu")).last().locator("summary").tap();
+    await page
+      .locator(live('[data-list-choice="favorites"][data-value="only"]'))
+      .tap();
+    await expect(rows).toHaveCount(1);
     await page.reload();
-    await page.locator("#open-armory").click();
-    await page.locator("#armory-filter").selectOption("favorites");
-    await expect(page.locator(".armory-list article")).toHaveCount(1);
+    await openArmory(page, "tap");
+    await page.locator(live(".pt-view-menu")).last().locator("summary").tap();
+    await page
+      .locator(live('[data-list-choice="favorites"][data-value="only"]'))
+      .tap();
+    await expect(rows).toHaveCount(1);
   } finally {
     await context.close();
   }
 });
 
-test("help preserves equipment and supports touch, Escape and keyboard", async ({
+test("weapon help preserves equipment and supports touch, close and keyboard", async ({
   browser,
 }) => {
   const context = await browser.newContext({
@@ -151,88 +182,107 @@ test("help preserves equipment and supports touch, Escape and keyboard", async (
   });
   try {
     const page = await context.newPage();
-    await page.goto("/");
-    const seed = fresh();
-    seed.inventory[0] = {
-      ...seed.inventory[0],
-      id: "help-rifle",
-      rarity: 1,
-      effect: "reserve",
+    const tap = async (selector: string) => {
+      const target = page.locator(live(selector)).first();
+      await expect(target).toBeVisible();
+      await target.scrollIntoViewIfNeeded();
+      await target.tap();
     };
-    seed.inventory[2] = { ...seed.inventory[2], rarity: 1, effect: "chain" };
-    seed.equipped[0] = "help-rifle";
-    seed.inventory[1] = { ...seed.inventory[1], rarity: 1, effect: "repel" };
+    await page.goto("/");
+    const seed = freshProgress("normal");
+    seed.inventory[0] = makeWeapon(
+      "help-rifle",
+      "rifle",
+      1,
+      { power: 0, reload: 0, range: 0, rate: 0 },
+      false,
+      0,
+      "reserve",
+    );
+    seed.inventory[1] = makeWeapon(
+      "help-shotgun",
+      "shotgun",
+      1,
+      { power: 0, reload: 0, range: 0, rate: 0 },
+      false,
+      1,
+      "repel",
+    );
+    seed.inventory[2] = makeWeapon(
+      "help-rocket",
+      "rocket",
+      1,
+      { power: 0, reload: 0, range: 0, rate: 0 },
+      false,
+      2,
+      "chain",
+    );
+    seed.soldiers[0].equipped = ["help-rifle", "help-shotgun"];
     await page.evaluate(
       ({ key, seed }) => localStorage.setItem(key, JSON.stringify(seed)),
-      { key: SAVE_KEY, seed },
+      { key: PROGRESS_KEY, seed },
     );
     await page.reload();
-    await page.locator("#open-armory").tap();
-    await page.locator('[data-kind-help="rifle"]').tap();
-    await expect(page.getByRole("dialog")).toContainText("中距離");
-    await page.getByRole("button", { name: "閉じる", exact: true }).tap();
-    await page.locator('[data-effect-help="reserve"]').tap();
+    await openArmory(page);
+
+    await tap('[data-effect-help="reserve"]');
     await expect(page.getByRole("dialog")).toContainText(
       "半分残っていれば25%短縮",
     );
-    await page.screenshot({
-      path: "dist-validation/evidence/weapon-help-mobile.png",
-    });
-    await page.keyboard.press("Escape");
+    await page
+      .getByRole("dialog")
+      .getByRole("button", { name: "閉じる" })
+      .tap();
     await expect(page.getByRole("dialog")).toHaveCount(0);
-    await page.locator("[data-menu-toggle]").click();
-    await page.locator('[data-menu-destination="gear"]').click();
-    await expect(
-      page.locator('[data-effect-help="quick"], .reload-help'),
-    ).toHaveCount(0);
-    const before = await page.evaluate(
-      (key) => localStorage.getItem(key),
-      SAVE_KEY,
-    );
-    const help = page.locator('[data-effect-help="reserve"]').first();
-    await help.focus();
+
+    const saved = () =>
+      page.evaluate((key) => localStorage.getItem(key), PROGRESS_KEY);
+    const before = await saved();
+    await expect(page.locator(".split-shutter")).toHaveCount(0);
+    await page.getByRole("button", { name: "サイドメニューを開く" }).last().tap();
+    const drawer = page.getByRole("dialog", { name: "サイドメニュー" });
+    await expect(drawer).toBeVisible();
+    await drawer.getByRole("button", { name: "出撃準備" }).tap();
+    await expect(drawer).toHaveCount(0);
+    await expect(page.locator(".split-shutter")).toHaveCount(0);
+    const gearHelp = page.locator(live('[data-effect-help="reserve"]')).first();
+    await gearHelp.focus();
     await page.keyboard.press("Enter");
     await expect(page.getByRole("dialog")).toBeVisible();
     await page.keyboard.press("Escape");
-    await expect(help).toBeFocused();
-    expect(
-      await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY),
-    ).toBe(before);
-    await page.screenshot({ path: "dist-validation/evidence/help-gear.png" });
-    await page.locator("[data-menu-toggle]").click();
-    await page.locator('[data-menu-destination="armory"]').click();
-    await page
-      .locator(`[data-armory-select="${seed.inventory[1].id}"]`)
-      .click();
-    await page.locator('[data-kind-help="shotgun"]').first().tap();
-    await expect(page.getByRole("dialog")).toContainText("8発");
-    await expect(page.getByRole("dialog")).toContainText("最大3体");
-    await expect(page.getByRole("dialog")).toContainText("標準性能");
-    await page.mouse.click(1, 1);
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await expect(gearHelp).toBeFocused();
+    expect(await saved()).toBe(before);
+
+    await expect(page.locator(".split-shutter")).toHaveCount(0);
+    await page.getByRole("button", { name: "サイドメニューを開く" }).last().tap();
+    await expect(drawer).toBeVisible();
+    await drawer.getByRole("button", { name: "武器一覧" }).tap();
+    await expect(drawer).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "武器一覧" })).toBeVisible();
+    await expect(page.locator(".split-shutter")).toHaveCount(0);
     for (const [effect, text] of [
       ["repel", "最大3m"],
       ["chain", "再誘爆はありません"],
-    ]) {
-      if (effect === "chain")
-        await page
-          .locator(`[data-armory-select="${seed.inventory[2].id}"]`)
-          .click();
-      await page.locator(`[data-effect-help="${effect}"]`).first().tap();
-      await expect(page.getByRole("dialog")).toContainText(text);
-      const bounds = await page.getByRole("dialog").evaluate((el) => ({
-        top: el.getBoundingClientRect().top,
-        title: el.querySelector("h2")!.getBoundingClientRect().top,
-        close: el.querySelector("button")!.getBoundingClientRect().bottom,
-        bottom: el.getBoundingClientRect().bottom,
+    ] as const) {
+      const help = page.locator(live(`[data-effect-help="${effect}"]`)).first();
+      await tap(`[data-effect-help="${effect}"]`);
+      const dialog = page.getByRole("dialog");
+      await expect(dialog).toContainText(text);
+      const bounds = await dialog.evaluate((element) => ({
+        top: element.getBoundingClientRect().top,
+        title: element.querySelector("h2")!.getBoundingClientRect().top,
+        close: element.querySelector("button")!.getBoundingClientRect().bottom,
+        bottom: element.getBoundingClientRect().bottom,
       }));
       expect(bounds.title).toBeGreaterThanOrEqual(bounds.top);
       expect(bounds.close).toBeLessThanOrEqual(bounds.bottom);
-      await page.screenshot({
-        path: `dist-validation/evidence/help-${effect}.png`,
-      });
-      await page.getByRole("button", { name: "閉じる", exact: true }).tap();
+      await page.mouse.click(1, 1);
+      await expect(page.getByRole("dialog")).toHaveCount(0);
+      await expect(page.locator(".split-shutter")).toHaveCount(0);
+      await expect(help).toBeFocused();
     }
-    await expect(page.getByRole("dialog")).toHaveCount(0);
+    expect(await saved()).toBe(before);
   } finally {
     await context.close();
   }
@@ -243,29 +293,46 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
 }) => {
   await page.setViewportSize({ width: 640, height: 280 });
   await page.goto("/");
-  const seed = fresh();
+  const seed = freshProgress("normal");
   seed.inventory.push(
-    ...[0, 1, 2, 3].map(
-      (rarity) => ({ ...STARTERS[0], id: `bulk-${rarity}`, rarity }) as Weapon,
+    ...[0, 1, 2, 3].map((rarity) =>
+      makeWeapon(
+        `bulk-${rarity}`,
+        "rifle",
+        rarity,
+        { power: rarity, reload: -rarity, range: 0, rate: 0 },
+        false,
+        3 + rarity,
+      ),
     ),
   );
-  seed.favorites = ["bulk-3"];
-  seed.pendingWeapons = [{ ...STARTERS[0], id: "waiting", rarity: 2 }];
+  seed.locks = ["bulk-3"];
+  seed.pending = [
+    makeWeapon(
+      "waiting",
+      "rifle",
+      2,
+      { power: 2, reload: -2, range: 0, rate: 0 },
+      false,
+      7,
+    ),
+  ];
+  seed.serial = 8;
   await page.evaluate(
     ({ key, seed }) => localStorage.setItem(key, JSON.stringify(seed)),
-    { key: SAVE_KEY, seed },
+    { key: PROGRESS_KEY, seed },
   );
   await page.reload();
-  await page.locator("#open-armory").click();
-  const check = (id: string) => page.locator(`[data-dismantle-check="${id}"]`);
-  await page.locator("#armory-organize").click();
+  await openArmory(page);
+  const check = (id: string) =>
+    page.locator(live(`[data-check="${id}"]`)).first();
   await expect(check("bulk-3")).toBeDisabled();
-  await expect(check(seed.equipped[0])).toBeDisabled();
-  await expect(page.locator("#armory-dismantle")).toBeDisabled();
+  await expect(check(seed.soldiers[0].equipped[0])).toBeDisabled();
+  await page.locator(live(".pt-bulk-menu")).last().locator("summary").click();
+  await expect(page.getByRole("button", { name: "選択を解体 (0)" })).toBeVisible();
   for (const id of ["bulk-0", "bulk-1", "waiting"]) await check(id).check();
-  await expect(page.locator("#armory-dismantle")).toContainText(
-    "3丁を分解（+14）",
-  );
+  await expect(page.getByRole("button", { name: "選択を解体 (3)" })).toBeVisible();
+
   for (const viewport of [
     { width: 640, height: 280 },
     { width: 844, height: 390 },
@@ -273,44 +340,43 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
   ]) {
     await page.setViewportSize(viewport);
     for (let rarity = 0; rarity < 4; rarity++) {
-      await page.locator(`[data-armory-select="bulk-${rarity}"]`).click();
-      await expect(page.locator(".armory-detail")).toHaveClass(
-        new RegExp(`rarity${rarity}`),
-      );
+      const row = page
+        .locator(live('[data-row="bulk-' + rarity + '"]'))
+        .first();
+      await expect(row).toHaveCSS("--weapon-tier", /.+/);
+      await row.locator("[data-detail]").click();
+      await expect(page.getByRole("dialog")).toContainText("AR-9 リーフ");
+      await page.getByRole("dialog").locator("[data-menu-back]").click();
+      await expect(page.getByRole("dialog")).toHaveCount(0);
+      await expect(page.locator(".split-shutter")).toHaveCount(0);
     }
     const layout = await page.evaluate(() => {
-      const rect = (s: string) =>
-        document.querySelector(s)!.getBoundingClientRect();
-      const title = rect(".armory-title"),
-        filter = rect(".armory-toolbar"),
-        nav = rect(".armory nav");
-      const list = document.querySelector(".armory-list")!;
+      const list = document.querySelector(".pt-weapon-list")!;
+      const workspace = document.querySelector(".pt-screen")!;
       return {
-        titleRight: title.right,
-        filterLeft: filter.left,
-        filterRight: filter.right,
-        navLeft: nav.left,
         overflow: list.scrollWidth - list.clientWidth,
-        bottom: rect(".armory-workspace").bottom,
+        bottom: workspace.getBoundingClientRect().bottom,
         height: innerHeight,
       };
     });
-    if (viewport.height <= 600) {
-      expect(layout.titleRight).toBeLessThanOrEqual(layout.filterLeft);
-      expect(layout.filterRight).toBeLessThanOrEqual(layout.navLeft);
-    }
     expect(layout.overflow).toBeLessThanOrEqual(1);
     expect(layout.bottom).toBeLessThanOrEqual(layout.height);
-    await page.screenshot({
-      path: `dist-validation/evidence/dismantle-${viewport.width}.png`,
-    });
   }
+
   const saved = () =>
-    page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), SAVE_KEY);
+    page.evaluate(
+      (key) => JSON.parse(localStorage.getItem(key)!),
+      PROGRESS_KEY,
+    );
   const before = await saved();
-  await page.locator("#armory-dismantle").click();
-  await page.locator("#dismantle-cancel").click();
+  await page.getByRole("button", { name: /選択を解体/ }).click();
+  await expect(page.getByRole("dialog")).toContainText("3丁 → +6");
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
+  await page.getByRole("dialog").getByRole("button", { name: "キャンセル" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
   expect(await saved()).toEqual(before);
+
   await page.evaluate(() => {
     const original = Storage.prototype.setItem;
     (window as any).restoreStorage = () =>
@@ -319,19 +385,24 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
       throw Error("quota");
     };
   });
-  await page.locator("#armory-dismantle").click();
-  await page.locator("#dismantle-confirm").click();
-  await expect(page.locator(".status")).toContainText("削除していません");
+  await page.getByRole("button", { name: /選択を解体/ }).click();
+  await expect(page.getByRole("dialog")).toContainText("武器を解体");
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
+  await page.getByRole("dialog").getByRole("button", { name: "確定" }).click();
+  await expect(page.getByRole("dialog")).toContainText("保存を再試行");
   expect(await saved()).toEqual(before);
   await page.evaluate(() => (window as any).restoreStorage());
-  await page.locator("#armory-dismantle").click();
-  await expect(page.locator("#dismantle-confirm")).toContainText("+14");
-  await page.locator("#dismantle-confirm").click();
-  await expect.poll(async () => (await saved()).powder).toBe(14);
-  expect((await saved()).inventory.map((w: Weapon) => w.id)).not.toContain(
-    "waiting",
-  );
+  await page.getByRole("dialog").getByRole("button", { name: "再試行" }).click();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
+  await expect.poll(async () => (await saved()).powder).toBe(6);
+  expect(
+    (await saved()).inventory.map((weapon: Weapon) => weapon.id),
+  ).not.toContain("waiting");
   await page.reload();
-  await page.locator("#open-armory").click();
-  await expect(page.locator(".armory-powder")).toContainText("14");
+  await openArmory(page);
+  await expect(page.locator(live('[data-resource-help="powder"]'))).toHaveAttribute(
+    "aria-label",
+    /所持6/,
+  );
 });

@@ -1,5 +1,6 @@
 import { localCreationKey } from "../tests/credentials";
 import { test, expect, type Page } from "@playwright/test";
+import { enterCoopPreparation } from "./navigation";
 // Revive cannot be exercised solo: going down alone ends the mission. This is the
 // only way to check the rescuer's side without a second person.
 const swarm = (p: Page) =>
@@ -14,7 +15,7 @@ test("the rescuer is told the revive is working, and it completes", async ({
     b = await cb.newPage();
   for (const p of [a, b]) {
     await p.goto("/");
-    await p.getByRole("button", { name: "協力プレイ" }).click();
+    await enterCoopPreparation(p);
     await p.locator(".coop-advanced summary").click();
     await p.locator("#endpoint").fill("http://127.0.0.1:8789");
   }

@@ -1,6 +1,7 @@
 const endpoint = process.env.SWARM_TEST_ENDPOINT ?? "http://127.0.0.1:8789";
 import { localCreationKey } from "../tests/credentials";
 import { test, expect } from "@playwright/test";
+import { enterCoopPreparation } from "./navigation";
 test("co-op clear cue precedes results and saves each reward exactly once", async ({
   browser,
   request,
@@ -33,7 +34,7 @@ test("co-op clear cue precedes results and saves each reward exactly once", asyn
       });
     });
     await p.goto("/");
-    await p.getByRole("button", { name: "協力プレイ" }).click();
+    await enterCoopPreparation(p);
     await p.locator(".coop-advanced summary").click();
     await p.locator("#endpoint").fill(endpoint);
   }

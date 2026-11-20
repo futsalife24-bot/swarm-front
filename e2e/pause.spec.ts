@@ -1,4 +1,5 @@
 import { test, expect, type Page } from "@playwright/test";
+import { enterSoloPreparation } from "./navigation";
 // Leaving a run used to be one mis-tap on a button sitting in the combat HUD,
 // and it discarded every unbanked reward without asking.
 const time = (p: Page) =>
@@ -7,7 +8,7 @@ const time = (p: Page) =>
   );
 async function battle(page: Page) {
   await page.goto("/");
-  await page.getByRole("button", { name: "ソロで出撃準備" }).click();
+  await enterSoloPreparation(page);
   await page.getByRole("button", { name: "ソロ出撃" }).click();
   await expect(page.locator("#hud")).toBeVisible();
   await expect(page.locator("#pause")).toBeVisible();

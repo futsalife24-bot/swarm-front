@@ -4,6 +4,7 @@ import { frontUpgradeCardMarkup } from "../src/client/front-upgrade-ui";
 import { createFrontRun, getFrontRunView } from "../src/shared/front-run";
 import { type FrontUpgradeId } from "../src/shared/front-upgrades";
 import { freshProgress, newSaveKey } from "../src/client/progression-save";
+import { enterSoloPreparation, openSoloProfile } from "./navigation";
 const evidence =
   process.env.FRONT_E2E_EVIDENCE ?? "docs/evidence/front-expansion-20261006";
 
@@ -23,7 +24,7 @@ test("全22種類の候補を実画面で保存し再読込する", async ({ pag
     { key: newSaveKey("normal"), raw: JSON.stringify(save) },
   );
   await page.goto("/front.html");
-  await page.locator("#solo").click();
+  await enterSoloPreparation(page);
   await page.locator("#front-base").click();
   await expect(page.locator('[data-pool][aria-pressed="true"]')).toHaveCount(
     22,
@@ -33,7 +34,7 @@ test("全22種類の候補を実画面で保存し再読込する", async ({ pag
     "出撃にセットしました。次のソロ・協力出撃から反映します。",
   );
   await page.reload();
-  await page.locator("#solo").click();
+  await enterSoloPreparation(page);
   await page.locator("#front-base").click();
   await expect(page.locator('[data-pool][aria-pressed="true"]')).toHaveCount(
     22,
@@ -45,9 +46,7 @@ test("従来モードで射撃・武器切替・共通エフェクトが動く",
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "ソロで出撃準備", exact: true })
-    .click();
+  await openSoloProfile(page);
   await page.locator("#player-name").fill("描画検証");
   await page.locator("#player-name-form button[type=submit]").click();
   await page.locator("#pt-confirm").click();
@@ -88,7 +87,7 @@ for (const width of [640, 844])
     mkdirSync(evidence, { recursive: true });
     await page.setViewportSize({ width, height: width === 640 ? 360 : 390 });
     await page.goto("/front.html");
-    await page.locator("#solo").click();
+    await enterSoloPreparation(page);
     await page.locator("#front-launch").click();
     await expect(page.locator(".rebuild-card")).toHaveCount(3, {
       timeout: 65000,

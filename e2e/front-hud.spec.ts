@@ -1,5 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
+import { enterSoloPreparation, openSoloProfile } from "./navigation";
 
 import { frontUpgradeStrip } from "../src/client/front-upgrade-ui";
 import { createFrontRun, getFrontRunView } from "../src/shared/front-run";
@@ -55,9 +56,7 @@ for (const width of [844, 640])
       },
     );
     await page.goto("/");
-    await page
-      .getByRole("button", { name: "ソロで出撃準備", exact: true })
-      .click();
+    await openSoloProfile(page);
     await page
       .getByRole("textbox", { name: "部隊で表示する名前" })
       .fill("比較隊員");
@@ -79,9 +78,7 @@ for (const width of [844, 640])
       localStorage.getItem("swarm-front-save-v1"),
     );
     await page.goto("/front.html");
-    await page
-      .getByRole("button", { name: "ソロで出撃準備", exact: true })
-      .click();
+    await enterSoloPreparation(page);
     await page.getByRole("button", { name: "ソロ出撃 ↗", exact: true }).click();
     await expect(page.locator(".rebuild-card")).toHaveCount(3, {
       timeout: 65000,

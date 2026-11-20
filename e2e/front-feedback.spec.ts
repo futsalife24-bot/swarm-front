@@ -5,6 +5,7 @@ import { fresh, SAVE_KEY } from "../src/client/save";
 const FRONT_SETTINGS_KEY = "swarm-front-rebuild-settings-v1";
 import { LAYOUT_KEY } from "../src/client/layout";
 import { localCreationKey } from "../tests/credentials";
+import { enterSoloPreparation, openSoloProfile } from "./navigation";
 const evidence =
   process.env.FRONT_E2E_EVIDENCE ?? "docs/evidence/front-feedback-20261003";
 for (const width of [844, 640])
@@ -23,9 +24,7 @@ for (const width of [844, 640])
       { key: SAVE_KEY, value: prior },
     );
     await page.goto("/front.html");
-    await page
-      .getByRole("button", { name: "ソロで出撃準備", exact: true })
-      .click();
+    await enterSoloPreparation(page);
     await page.getByRole("button", { name: "ソロ出撃 ↗", exact: true }).click();
     await expect(page.locator(".rebuild-card")).toHaveCount(3, {
       timeout: 65000,
@@ -87,9 +86,7 @@ for (const width of [844, 640])
     await page.locator("#front-leave").click();
     await page.locator("#front-leave-confirm").click();
     await page.reload();
-    await page
-      .getByRole("button", { name: "ソロで出撃準備", exact: true })
-      .click();
+    await enterSoloPreparation(page);
     await page.getByRole("button", { name: "ソロ出撃 ↗", exact: true }).click();
     await expect(page.locator(".rebuild-card")).toHaveCount(3, {
       timeout: 65000,
@@ -107,9 +104,7 @@ test("旧版：戦闘中の設定と配置編集から戻り、描画上限も�
 }) => {
   mkdirSync(evidence, { recursive: true });
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "ソロで出撃準備", exact: true })
-    .click();
+  await openSoloProfile(page);
   await page
     .getByRole("textbox", { name: "部隊で表示する名前" })
     .fill("検証隊員");
