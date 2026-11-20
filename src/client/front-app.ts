@@ -76,7 +76,11 @@ import { mountTitleMotion } from "./title-motion";
 import { openOperationPicker } from "./operation-picker";
 import { navigateMenu } from "./menu-route";
 import { showOperationCue, cancelOperationCue } from "./operation-cue";
-import { ensureTutorialFlags } from "./tutorial-flags";
+import {
+  ensureTutorialFlags,
+  hasClearedNormalStage,
+  migrateTutorialFlags,
+} from "./tutorial-flags";
 import { completeFirstGuide, showFirstGuide } from "./first-guides";
 import { operationCueForResult } from "./operation-cue-assets";
 import { frontResultTitle } from "./front-result-title";
@@ -1804,7 +1808,9 @@ startWithSaveWriter(async () => {
   installCloudSync();
   try {
     // 既存のプレイヤーには初回ガイドを自動で出さない（判断点5）。
-    ensureTutorialFlags(!!loadProgress("normal", localStorage));
+    const tutorialSave = loadProgress("normal", localStorage);
+    ensureTutorialFlags(!!tutorialSave);
+    migrateTutorialFlags(hasClearedNormalStage(tutorialSave));
   } catch {
     campaignBootError =
       "攻略の保存を読み込めません。元データは保持しています。";

@@ -62,7 +62,11 @@ import { homeMarkup } from "./client/home-screen";
 import { navigateMenu } from "./client/menu-route";
 import { mountScreenTransitions } from "./client/screen-transition";
 import { showOperationCue, cancelOperationCue } from "./client/operation-cue";
-import { ensureTutorialFlags } from "./client/tutorial-flags";
+import {
+  ensureTutorialFlags,
+  hasClearedNormalStage,
+  migrateTutorialFlags,
+} from "./client/tutorial-flags";
 import {
   BuddyGuideWatch,
   CoopGuideWatch,
@@ -2192,7 +2196,9 @@ if ("serviceWorker" in navigator)
     .catch(() => {});
 try {
   // 既存のプレイヤーには初回ガイドを自動で出さない（判断点5）。
-  ensureTutorialFlags(!!loadProgress("normal"));
+  const tutorialSave = loadProgress("normal");
+  ensureTutorialFlags(!!tutorialSave);
+  migrateTutorialFlags(hasClearedNormalStage(tutorialSave));
 } catch {
   /* 保存を読めない端末でも、案内は起動中だけの記録で動く。 */
 }

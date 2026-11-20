@@ -1,12 +1,20 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
+  FTUE_KEYS,
   GUIDE_KEYS,
+  OPERATION_KEYS,
   TUTORIAL_FLAGS_KEY,
   clearTutorialSession,
   ensureTutorialFlags,
+  hasClearedNormalStage,
+  hasFtueFlag,
+  hasOperationFlag,
   hasSeen,
+  markFtueFlag,
+  markOperationFlag,
   markSeen,
   markReturnVisit,
+  migrateTutorialFlags,
   resetGuides,
 } from "../src/client/tutorial-flags";
 import {
@@ -103,6 +111,117 @@ describe("tutorial flags (W4)", () => {
   });
 });
 
+describe("tutorial flag migration (C-6 F1)", () => {
+  const legacyRecord = () => ({
+    version: 1,
+    seen: ["offer", "gear"],
+  });
+  const clearedSave = () => ({
+    mode: "normal" as const,
+    missions: { "ST1:normal": [true, false, false] },
+  });
+
+  it("reads a version-1 legacy record", () => {
+    const s = memory();
+    s.m.set(TUTORIAL_FLAGS_KEY, JSON.stringify(legacyRecord()));
+    expect(ensureTutorialFlags(false, s)).toBe(false);
+    expect(hasSeen("gear", s)).toBe(true);
+    expect(hasOperationFlag("op:dodge", s)).toBe(false);
+  });
+
+  it("keeps a new player empty without a cleared save", () => {
+    const s = memory();
+    expect(ensureTutorialFlags(false, s)).toBe(true);
+    expect(migrateTutorialFlags(false, s)).toBe(false);
+    expect(JSON.parse(s.m.get(TUTORIAL_FLAGS_KEY)!)).toEqual({
+      version: 1,
+      seen: [],
+    });
+  });
+
+  it("seeds every operation and milestone when only a cleared save exists", () => {
+    const s = memory();
+    expect(hasClearedNormalStage(clearedSave())).toBe(true);
+    expect(migrateTutorialFlags(true, s)).toBe(true);
+    for (const key of OPERATION_KEYS)
+      expect(hasOperationFlag(`op:${key}`, s), key).toBe(true);
+    for (const key of FTUE_KEYS)
+      expect(hasFtueFlag(`ftue:${key}`, s), key).toBe(true);
+    expect(hasSeen("ftue:v2", s)).toBe(true);
+  });
+
+  it("does not seed flags for a saved game without a normal clear", () => {
+    const s = memory();
+    expect(ensureTutorialFlags(true, s)).toBe(true);
+    expect(migrateTutorialFlags(hasClearedNormalStage({
+      mode: "normal",
+      missions: { "ST1:hard": [true] },
+    }), s)).toBe(false);
+    expect(hasOperationFlag("op:move", s)).toBe(false);
+    expect(hasSeen("ftue:v2", s)).toBe(false);
+  });
+
+  it("migrates an existing record once and leaves it unchanged afterwards", () => {
+    const s = memory();
+    s.m.set(TUTORIAL_FLAGS_KEY, JSON.stringify(legacyRecord()));
+    expect(migrateTutorialFlags(true, s)).toBe(true);
+    const migrated = s.m.get(TUTORIAL_FLAGS_KEY);
+    expect(migrateTutorialFlags(true, s)).toBe(false);
+    expect(s.m.get(TUTORIAL_FLAGS_KEY)).toBe(migrated);
+    expect(hasOperationFlag("op:kill", s)).toBe(true);
+  });
+
+  it("keeps migrated flags when guides are reset", () => {
+    const s = memory();
+    migrateTutorialFlags(true, s);
+    expect(resetGuides(s)).toBe(true);
+    expect(hasSeen("gear", s)).toBe(false);
+    expect(hasOperationFlag("op:swap", s)).toBe(true);
+    expect(hasFtueFlag("ftue:first-clear", s)).toBe(true);
+    expect(hasSeen("ftue:v2", s)).toBe(true);
+  });
+
+  it("keeps migration active for the session when storage fails", () => {
+    const broken = {
+      getItem: () => {
+        throw Error("denied");
+      },
+      setItem: () => {
+        throw Error("denied");
+      },
+    };
+    migrateTutorialFlags(true, broken);
+    expect(hasOperationFlag("op:dodge", broken)).toBe(true);
+    expect(hasFtueFlag("ftue:first-clear", broken)).toBe(true);
+    expect(hasSeen("ftue:v2", broken)).toBe(true);
+    expect(migrateTutorialFlags(true, broken)).toBe(false);
+  });
+
+  it("round-trips operation and milestone keys in version-1 storage", () => {
+    const s = memory();
+    expect(markOperationFlag("op:swap", s)).toBe(true);
+    expect(markFtueFlag("ftue:equip", s)).toBe(true);
+    expect(markOperationFlag("op:swap", s)).toBe(true);
+    expect(JSON.parse(s.m.get(TUTORIAL_FLAGS_KEY)!)).toEqual({
+      version: 1,
+      seen: ["op:swap", "ftue:equip"],
+    });
+  });
+
+  it("never writes to the progression save", () => {
+    const save = Object.freeze({
+      version: 2 as const,
+      mode: "normal" as const,
+      missions: { "ST1:normal": [true] },
+      receipts: [],
+    });
+    const before = JSON.stringify(save);
+    const s = memory();
+    migrateTutorialFlags(hasClearedNormalStage(save), s);
+    expect(JSON.stringify(save)).toBe(before);
+    expect([...s.m.keys()]).toEqual([TUTORIAL_FLAGS_KEY]);
+  });
+});
 describe("first-journey analytics", () => {
   const loadAnalytics = async (search: string) => {
     vi.resetModules();

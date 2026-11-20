@@ -24,8 +24,47 @@ export const GUIDE_KEYS = [
   "revive",
 ] as const;
 export type GuideKey = (typeof GUIDE_KEYS)[number];
-/** 基礎訓練の誘い（1回だけ）と修了。 */
-export type TutorialFlag = GuideKey | "offer" | "training" | `ftue:${string}`;
+
+export const OPERATION_KEYS = [
+  "move",
+  "fire",
+  "swap",
+  "dodge",
+  "buddy-skill",
+  "look",
+  "reload",
+  "jump",
+  "kill",
+  "pickup",
+  "medkit",
+] as const;
+export const FTUE_KEYS = [
+  "start",
+  "first-sortie",
+  "first-clear",
+  "first-supply10",
+  "equip",
+  "box",
+  "done",
+] as const;
+export type OperationKey = (typeof OPERATION_KEYS)[number];
+export type FtueKey = (typeof FTUE_KEYS)[number];
+export type TutorialFlag =
+  | GuideKey
+  | "offer"
+  | "training"
+  | `op:${OperationKey}`
+  | `ftue:${FtueKey}`
+  | `ftue:${string}`;
+
+const operationFlags = OPERATION_KEYS.map((key) => `op:${key}` as TutorialFlag);
+const ftueFlags = FTUE_KEYS.map((key) => `ftue:${key}` as TutorialFlag);
+const migrationFlag = "ftue:v2" as TutorialFlag;
+const achievementFlags: readonly TutorialFlag[] = [
+  ...operationFlags,
+  ...ftueFlags,
+  migrationFlag,
+];
 
 interface TutorialFlags {
   version: 1;
@@ -78,6 +117,56 @@ export function ensureTutorialFlags(
     version: 1,
     seen: existingPlayer ? ["offer", ...GUIDE_KEYS] : [],
   });
+}
+/** C-6 F1: seed operation and milestone flags without touching ProgressSave. */
+export function migrateTutorialFlags(
+  clearedNormalStage: boolean,
+  store = defaultStore(),
+) {
+  if (session.has(migrationFlag)) return false;
+  const flags = read(store);
+  if (!flags) {
+    if (!clearedNormalStage) return false;
+    const seen = ["offer", ...GUIDE_KEYS, ...achievementFlags];
+    const saved = write(store, { version: 1, seen: [...seen] });
+    if (!saved) for (const flag of seen) session.add(flag);
+    return saved;
+  }
+  if (!clearedNormalStage || flags.seen.includes(migrationFlag)) return false;
+  const fresh = achievementFlags.filter((flag) => !flags.seen.includes(flag));
+  flags.seen.push(...fresh);
+  const saved = write(store, flags);
+  if (!saved) for (const flag of fresh) session.add(flag);
+  return saved;
+}/** Reads only; never mutates or saves ProgressSave. */
+export function hasClearedNormalStage(
+  save: { mode?: string; missions?: Record<string, boolean[]> } | null,
+) {
+  return Object.entries(save?.missions ?? {}).some(
+    ([key, flags]) => key.endsWith(":normal") && !!flags?.[0],
+  );
+}
+
+export function hasOperationFlag(
+  flag: `op:${OperationKey}`,
+  store = defaultStore(),
+) {
+  return hasSeen(flag, store);
+}
+
+export function markOperationFlag(
+  flag: `op:${OperationKey}`,
+  store = defaultStore(),
+) {
+  return markSeen(flag, store);
+}
+
+export function hasFtueFlag(flag: `ftue:${FtueKey}`, store = defaultStore()) {
+  return hasSeen(flag, store);
+}
+
+export function markFtueFlag(flag: `ftue:${FtueKey}`, store = defaultStore()) {
+  return markSeen(flag, store);
 }
 
 export function hasSeen(flag: TutorialFlag, store = defaultStore()) {

@@ -70,6 +70,8 @@ import { watchSupplyVoice } from "./supply-voice";
 import { openBasicTraining } from "./tutorial-launch";
 import {
   ensureTutorialFlags,
+  hasClearedNormalStage,
+  migrateTutorialFlags,
   hasSeen,
   markSeen,
   resetGuides,
@@ -1893,7 +1895,10 @@ function loadMode(next: SaveMode) {
       notice = "未保存だった戦果を復元しました。";
     }
     // 既存のプレイヤーには訓練の誘いと初回ガイドを自動で出さない（判断点5）。
-    if (mode === "normal") ensureTutorialFlags(!!found);
+    if (mode === "normal") {
+      ensureTutorialFlags(!!found);
+      migrateTutorialFlags(hasClearedNormalStage(found));
+    }
     if (!found) {
       onboard();
       return;
