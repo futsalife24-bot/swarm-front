@@ -51,3 +51,29 @@ export function nextFtueStep(
     };
   return { kind: "none", label: null, destination: null };
 }
+
+export interface FirstVictoryRouteContext {
+  normalMode: boolean;
+  developerMode: boolean;
+  firstVictory: boolean;
+  stage: number;
+  firstBuddyChosen: boolean;
+  firstSupplyDone: boolean;
+  ticketsAvailable: number;
+}
+
+export type FirstVictoryRoute = "buddy" | "supply" | "none";
+
+/** Direct route is shown only for an unfinished FTUE and a server balance of at least 10. */
+export function firstVictoryRoute(context: FirstVictoryRouteContext): FirstVictoryRoute {
+  if (
+    !context.normalMode ||
+    context.developerMode ||
+    !context.firstVictory ||
+    context.stage !== 1 ||
+    context.firstSupplyDone ||
+    context.ticketsAvailable < 10
+  )
+    return "none";
+  return context.firstBuddyChosen ? "supply" : "buddy";
+}

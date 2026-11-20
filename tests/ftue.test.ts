@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { freshProgress, type ProgressSave } from "../src/client/progression-save";
 import { freshBuddyProgress } from "../src/shared/buddy-progression";
-import { nextFtueStep, type FtueNextStep } from "../src/client/ftue";
+import { firstVictoryRoute, nextFtueStep, type FtueNextStep } from "../src/client/ftue";
 import {
   unlockState,
   type UnlockEntry,
@@ -162,5 +162,34 @@ describe("nextFtueStep (C-6 F5)", () => {
         `${fixture.name}: ${fixture.entrance}`,
       ).toBe(true);
     }
+  });
+});
+
+describe("firstVictoryRoute (C-6 F6)", () => {
+  const base = {
+    normalMode: true,
+    developerMode: false,
+    firstVictory: true,
+    stage: 1,
+    firstBuddyChosen: false,
+    firstSupplyDone: false,
+    ticketsAvailable: 10,
+  };
+
+  it("routes first victory to buddy, then to the first 10-pull", () => {
+    expect(firstVictoryRoute(base)).toBe("buddy");
+    expect(firstVictoryRoute({ ...base, firstBuddyChosen: true })).toBe("supply");
+  });
+
+  it("does not show the route without 10 tickets or after FTUE completion", () => {
+    for (const override of [
+      { ticketsAvailable: 9 },
+      { firstSupplyDone: true },
+      { firstVictory: false },
+      { stage: 2 },
+      { normalMode: false },
+      { developerMode: true },
+    ])
+      expect(firstVictoryRoute({ ...base, ...override })).toBe("none");
   });
 });

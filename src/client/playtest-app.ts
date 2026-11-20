@@ -119,6 +119,9 @@ import { RewardedAdSession, type AdOutcome } from "./rewarded-ad";
 import { openBestiary } from "./bestiary";
 import { highestClearedStage } from "./front-campaign";
 import { readFrontProgress } from "./front-progress";
+import { firstVictoryRoute } from "./ftue";
+import { createSupplyService } from "./supply-service";
+import { loadSupplyReveal } from "./supply-presentation";
 import { ENEMY_REPORT_NAMES, enemyReportId } from "../shared/enemy-identity";
 import { developerProgress } from "./developer-mode";
 import {
@@ -927,6 +930,39 @@ function result() {
     survivalBreakthroughRewardMarkup(save, r),
   );
   bind("pt-result-retry", gear);
+  if (r.win && !developerMode && mode === "normal" && r.first && r.stage === 1) {
+    void createSupplyService()
+      .status()
+      .then((snapshot) => {
+        const route = firstVictoryRoute({
+          normalMode: mode === "normal",
+          developerMode,
+          firstVictory: r.first,
+          stage: r.stage,
+          firstBuddyChosen: save.buddies?.starterChosen === true,
+          firstSupplyDone: (save.receipts ?? []).some((receipt) => receipt.startsWith("supply:")),
+          ticketsAvailable: snapshot.tickets,
+        });
+        if (route === "none" || screen !== "result") return;
+        ftueRouteToSupply = save.buddies?.starterChosen === true;
+        const primary = $("pt-result-retry");
+        primary.textContent = route === "buddy" ? "最初のバディを選ぶ" : "初回補給を受け取る";
+        primary.onclick = () => {
+          if (route === "buddy") {
+            ftueRouteToSupply = true;
+            buddy();
+          } else {
+            supplyFirstTime = true;
+            supply();
+          }
+        };
+        primary.insertAdjacentHTML("afterend", '<button id="pt-result-ftue-original">装備変更・再出撃</button>');
+        bind("pt-result-ftue-original", gear);
+      })
+      .catch(() => {
+        /* Connection/cloud-save failures leave the existing main button in place. */
+      });
+  }
   // 敗北は作戦キュー adv-failed の声が先に鳴るため、勝利の時だけ案内する。
   if (r.win) sound.announce("result-win", `${r.run}:result`);
   if (r.win) guide("result");
@@ -1491,6 +1527,7 @@ const buddySkill = attachBuddySkill(controls, sound, () =>
 );
 let activeBuddyMenu: ReturnType<typeof mountGameBuddyMenu> | undefined;
 let activeSupplyMenu: ReturnType<typeof mountSupplyMenu> | undefined;
+let ftueRouteToSupply = false;
 document.body.classList.add("playtest");
 void document.fonts.load('700 32px "Rajdhani"').catch(() => {});
 let mode: SaveMode = "normal",
@@ -2480,6 +2517,7 @@ function base() {
   );
   guide("base");
 }
+let supplyFirstTime = false;
 function supply() {
   if (!developerMode && mode !== "normal") return;
   setScreen("supply");
@@ -2497,6 +2535,8 @@ function supply() {
     );
     return;
   }
+  const firstTimeSupply = supplyFirstTime;
+  supplyFirstTime = false;
   activeSupplyMenu = mountSupplyMenu(
     ui.querySelector(".pt-supply")!,
     () => save,
@@ -2505,6 +2545,15 @@ function supply() {
     },
     buddy,
     () => sound.effectsVolume,
+    {
+      firstTime: firstTimeSupply,
+      prefetch: () => {
+        void createSupplyService()
+          .status()
+          .then(() => void loadSupplyReveal())
+          .catch(() => undefined);
+      },
+    },
   );
 }
 function buddy() {
@@ -2515,7 +2564,13 @@ function buddy() {
     ui.querySelector(".pt-buddy")!,
     () => save,
     (next) => {
+      const firstStarter = save.buddies?.starterChosen !== true && next.buddies?.starterChosen === true;
       save = next;
+      if (firstStarter && ftueRouteToSupply) {
+        supplyFirstTime = true;
+        ftueRouteToSupply = false;
+        queueMicrotask(() => supply());
+      }
     },
     () => screen === "battle",
     sound,
