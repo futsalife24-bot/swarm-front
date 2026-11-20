@@ -52,6 +52,7 @@ export default defineConfig({
       "tests/playtest-vault.test.ts",
       "tests/tutorial.test.ts",
       "tests/tutorial-flags.test.ts",
+      "tests/unlock-stage.test.ts",
       "tests/anomaly-voice.test.ts",
       "tests/anomaly-test-phase1.test.ts",
       "tests/anomaly-audio-lifecycle.test.ts",
