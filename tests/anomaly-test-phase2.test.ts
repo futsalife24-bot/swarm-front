@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
   ANOMALY_TEST_LIMIT,
+  addPlayer,
   anomalyTestBossCount,
   anomalyTestCompare,
   anomalyTestCurrentCount,
   anomalyTestMetrics,
   anomalyTestP95,
   anomalyTestSignature,
+  createWorld,
   createAnomalyTestWorld,
   finish,
   hurtEnemy,
@@ -14,9 +16,12 @@ import {
   neutral,
   requestAnomalyTestUpdate,
   restartAnomalyTestWorld,
+  spawn,
   start,
   step,
 } from "../src/shared/game";
+import { anomalyStageInternal } from "../src/shared/anomaly-test";
+import { initSolo } from "../src/shared/solo-progression";
 import { stageFor } from "../src/shared/stages";
 
 const advance = (world: ReturnType<typeof createAnomalyTestWorld>, ticks = 1) => {
@@ -137,6 +142,49 @@ describe("ANOMALYテスト フェーズ2", () => {
     expect(stageFor(branch15).name).toBe("異翼の痕跡");
     expect(branch15.solo!.difficulty).toBe("medium");
     expect(stageFor(branch15).hp).toBeCloseTo(1.6875, 5);
+  });
+
+  it("同じステージ・難易度・装備なら敵HPと攻撃1回の被ダメージが本編ソロと一致する", () => {
+    const cases = [
+      { stage: 8 as const, difficulty: "normal" as const },
+      { stage: "15-A" as const, difficulty: "hard" as const },
+    ];
+    for (const { stage, difficulty } of cases) {
+      const internal = anomalyStageInternal(stage);
+      const anomaly = createAnomalyTestWorld(24680, {
+        stage,
+        difficulty,
+        mode: "live",
+        enemies: { crawler: { count: 1 } },
+      });
+      start(anomaly);
+      advance(anomaly);
+
+      const solo = createWorld(crypto.randomUUID(), 24680, internal.stage);
+      initSolo(
+        solo,
+        internal.soloStage,
+        difficulty === "hard" ? "medium" : "normal",
+        false,
+        { hp: 0, aim: 0, move: 0, swap: 0 },
+      );
+      addPlayer(solo, "solo");
+      const soloEnemy = spawn(solo, "crawler", 0, 0, "crown", 0);
+      const anomalyEnemy = anomaly.enemies[0];
+      expect(soloEnemy).toBeTruthy();
+      expect(anomalyEnemy.maxHp).toBe(soloEnemy!.maxHp);
+      expect(stageFor(anomaly).hp).toBe(stageFor(solo).hp);
+      expect(stageFor(anomaly).damage).toBe(stageFor(solo).damage);
+
+      const anomalyHp = anomaly.players[0].hp;
+      const soloHp = solo.players[0].hp;
+      hurtPlayer(anomaly, anomaly.players[0], 10);
+      hurtPlayer(solo, solo.players[0], 10);
+      expect(anomalyHp - anomaly.players[0].hp).toBeCloseTo(
+        soloHp - solo.players[0].hp,
+        5,
+      );
+    }
   });
 
   it("同条件の直前試行だけ数値差を出し、条件変更時は一致判定を落とす", () => {
