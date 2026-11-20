@@ -133,6 +133,6 @@ describe("ANOMALYテスト フェーズ1", () => {
         ANOMALY_TEST_LIMIT + 1,
         "free",
       ),
-    ).toThrow("0〜40の整数");
+    ).toThrow("0〜120の整数");
   });
 });

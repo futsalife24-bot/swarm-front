@@ -55,7 +55,13 @@ import {
   finishDefenseTick,
   type DailyDefense,
 } from "./daily-defense";
-import { settings, rollWeapon, type NewWeapon } from "./progression";
+import {
+  settings,
+  rollWeapon,
+  type Accessory,
+  type NewWeapon,
+  type Skill,
+} from "./progression";
 import {
   maxHp,
   recoveryWait,
@@ -153,6 +159,31 @@ import {
   enemyReportId,
   type EnemyReportId,
 } from "./enemy-identity";
+import {
+  ANOMALY_BOSS_IDS,
+  ANOMALY_MAX_BOSS,
+  ANOMALY_MAX_TOTAL,
+  ANOMALY_SKILLS,
+  anomalySkillForReport,
+  anomalyStageInternal,
+  validAnomalyStage,
+  type AnomalySkillId,
+  type AnomalyStageId,
+  type AnomalyTestAction,
+  type AnomalyTestDifficulty,
+  type AnomalyTestLoadout,
+  type AnomalyTestMode,
+  type AnomalyTestStance,
+} from "./anomaly-test";
+export type {
+  AnomalySkillId,
+  AnomalyStageId,
+  AnomalyTestAction,
+  AnomalyTestDifficulty,
+  AnomalyTestLoadout,
+  AnomalyTestMode,
+  AnomalyTestStance,
+} from "./anomaly-test";
 export interface Input {
   buddySkill?: boolean;
   buddyCharge?: boolean;
@@ -386,49 +417,164 @@ export interface World {
   scale: number;
   reason: string;
 }
-export type AnomalyTestAction = "free" | "wait";
 export interface AnomalyTestEnemySetting {
   count: number;
   action: AnomalyTestAction;
+  skill?: AnomalySkillId;
+  sequence?: AnomalySkillId[];
+  stance?: AnomalyTestStance;
   pendingCount?: number;
   pendingAction?: AnomalyTestAction;
+  pendingSkill?: AnomalySkillId;
+  pendingSequence?: AnomalySkillId[];
+  pendingStance?: AnomalyTestStance;
+}
+export interface AnomalyTestMetrics {
+  frameMs: number[];
+  damage: number;
+  blocked: number;
+  kills: number;
+  elapsed: number;
+}
+export interface AnomalyTestResult {
+  seed: number;
+  mode: AnomalyTestMode;
+  stage: AnomalyStageId;
+  difficulty: AnomalyTestDifficulty;
+  loadout: AnomalyTestLoadout;
+  signature: string;
+  changed: boolean;
+  metrics: AnomalyTestMetrics & { p95: number };
+  reason: string;
 }
 export interface AnomalyTestState {
-  mode: "observe";
+  mode: AnomalyTestMode;
+  stage: AnomalyStageId;
+  difficulty: AnomalyTestDifficulty;
+  loadout: AnomalyTestLoadout;
+  seed: number;
+  baseSeed: number;
+  initialized: boolean;
   enemies: Record<EnemyReportId, AnomalyTestEnemySetting>;
+  metrics: AnomalyTestMetrics;
+  conditionsChanged: boolean;
+  weapons?: Weapon[];
+  levels?: Record<Skill, number>;
+  accessory?: Accessory;
+  lastResult?: AnomalyTestResult;
 }
-export const ANOMALY_TEST_LIMIT = 40;
+export interface AnomalyTestConfig {
+  mode?: AnomalyTestMode;
+  stage?: AnomalyStageId;
+  difficulty?: AnomalyTestDifficulty;
+  loadout?: AnomalyTestLoadout;
+  seed?: number;
+  weapons?: Weapon[];
+  levels?: Record<Skill, number>;
+  accessory?: Accessory;
+  enemies?: Partial<Record<EnemyReportId, Partial<AnomalyTestEnemySetting>>>;
+}
+export const ANOMALY_TEST_LIMIT = ANOMALY_MAX_TOTAL;
 
-function createAnomalyTestSettings(): AnomalyTestState["enemies"] {
-  return Object.fromEntries(
+function createAnomalyTestMetrics(): AnomalyTestMetrics {
+  return { frameMs: [], damage: 0, blocked: 0, kills: 0, elapsed: 0 };
+}
+
+function createAnomalyTestSettings(
+  config?: AnomalyTestConfig,
+): AnomalyTestState["enemies"] {
+  const settings = Object.fromEntries(
     (Object.keys(ENEMY_REPORT_NAMES) as EnemyReportId[]).map((id) => [
       id,
       { count: 0, action: "free" as const },
     ]),
   ) as AnomalyTestState["enemies"];
+  settings.crawler = { ...settings.crawler, count: 1 };
+  for (const [id, override] of Object.entries(config?.enemies ?? {}) as [
+    EnemyReportId,
+    Partial<AnomalyTestEnemySetting>,
+  ][]) {
+    const current = settings[id];
+    if (!current) throw Error("このANOMALYは現在テスト対象外です");
+    settings[id] = { ...current, ...structuredClone(override) };
+  }
+  return settings;
 }
 
-export function initAnomalyTest(w: World) {
-  const enemies = createAnomalyTestSettings();
-  enemies.crawler = { ...enemies.crawler, pendingCount: 1 };
-  w.anomalyTest = { mode: "observe", enemies };
+function normalizeAnomalyTestConfig(
+  seed: number,
+  config: AnomalyTestConfig,
+): Required<Pick<AnomalyTestConfig, "mode" | "stage" | "difficulty" | "loadout" | "seed">> {
+  const stage = config.stage ?? 1;
+  if (!validAnomalyStage(stage))
+    throw Error("強さの基準はST1〜25、3-A、15-Aから指定してください");
+  const difficulty = config.difficulty ?? "normal";
+  if (difficulty !== "normal" && difficulty !== "hard")
+    throw Error("難易度は通常またはハードを指定してください");
+  const mode = config.mode ?? "observe";
+  if (mode !== "observe" && mode !== "live")
+    throw Error("モードは観察または実戦を指定してください");
+  const loadout = config.loadout ?? "standard";
+  if (loadout !== "standard" && loadout !== "armory")
+    throw Error("装備は基準装備または開発者兵舎の装備を指定してください");
+  return { mode, stage, difficulty, loadout, seed: config.seed ?? seed };
 }
 
-export function createAnomalyTestWorld(seed: number) {
-  const w = createWorld(crypto.randomUUID(), seed, 1);
+export function initAnomalyTest(w: World, config: AnomalyTestConfig = {}) {
+  const normalized = normalizeAnomalyTestConfig(w.seed, config);
+  const internal = anomalyStageInternal(normalized.stage);
+  w.stage = internal.stage;
   initSolo(
     w,
-    1,
-    "normal",
+    internal.soloStage,
+    normalized.difficulty === "hard" ? "medium" : "normal",
     true,
-    { hp: 0, aim: 0, move: 0, swap: 0 },
-    undefined,
+    config.levels ?? { hp: 0, aim: 0, move: 0, swap: 0 },
+    config.accessory,
   );
-  const player = addPlayer(w, "solo");
+  w.seed = normalized.seed;
+  w.anomalyTest = {
+    ...normalized,
+    baseSeed: normalized.seed,
+    initialized: false,
+    enemies: createAnomalyTestSettings(config),
+    metrics: createAnomalyTestMetrics(),
+    conditionsChanged: false,
+    weapons: config.weapons ? structuredClone(config.weapons) : undefined,
+    levels: config.levels ? { ...config.levels } : undefined,
+    accessory: config.accessory ? { ...config.accessory } : undefined,
+  };
+  for (const [id, setting] of Object.entries(w.anomalyTest.enemies) as [
+    EnemyReportId,
+    AnomalyTestEnemySetting,
+  ][]) {
+    if (setting.pendingCount === undefined) setting.pendingCount = setting.count;
+    if (setting.action === "repeat" && !setting.skill)
+      setting.skill = ANOMALY_SKILLS[id][0]?.id;
+    if (setting.action === "sequence" && !setting.sequence)
+      setting.sequence = ANOMALY_SKILLS[id].map((entry) => entry.id);
+  }
+  validateAnomalyTestCounts(w);
+}
+
+export function createAnomalyTestWorld(
+  seed: number,
+  config: AnomalyTestConfig = {},
+) {
+  const stage = config.stage ?? 1;
+  const internal = validAnomalyStage(stage)
+    ? anomalyStageInternal(stage)
+    : { stage: 1, soloStage: 1 };
+  const w = createWorld(crypto.randomUUID(), seed, internal.stage);
+  initAnomalyTest(w, { ...config, seed });
+  const weapons =
+    w.anomalyTest!.loadout === "armory" && w.anomalyTest!.weapons?.length
+      ? w.anomalyTest!.weapons
+      : STARTERS.slice(0, 2);
+  const player = addPlayer(w, "solo", weapons);
   player.x = 0;
   player.z = 8;
   player.y = supportHeight(player.x, player.z, mapFor(w).blocks);
-  initAnomalyTest(w);
   return w;
 }
 
@@ -436,65 +582,201 @@ export function anomalyTestCurrentCount(w: World, id: EnemyReportId): number {
   return w.enemies.filter((e) => enemyReportId(e) === id).length;
 }
 
+export function anomalyTestTotalCount(w: World): number {
+  return w.enemies.length;
+}
+
+export function anomalyTestBossCount(w: World): number {
+  return ANOMALY_BOSS_IDS.reduce(
+    (total, id) => total + anomalyTestCurrentCount(w, id),
+    0,
+  );
+}
+
+function validateAnomalyTestCounts(
+  w: World,
+  overrides?: Partial<Record<EnemyReportId, number>>,
+) {
+  const test = w.anomalyTest;
+  if (!test) throw Error("ANOMALYテストではありません");
+  let total = 0;
+  let bosses = 0;
+  for (const id of Object.keys(ENEMY_REPORT_NAMES) as EnemyReportId[]) {
+    const setting = test.enemies[id];
+    const count = overrides?.[id] ?? setting.pendingCount ?? setting.count;
+    if (!Number.isInteger(count) || count < 0 || count > ANOMALY_MAX_TOTAL)
+      throw Error(`体数は0〜${ANOMALY_MAX_TOTAL}の整数で指定してください`);
+    total += count;
+    if ((ANOMALY_BOSS_IDS as readonly string[]).includes(id)) bosses += count;
+  }
+  if (total > ANOMALY_MAX_TOTAL)
+    throw Error(`合計は${ANOMALY_MAX_TOTAL}体までです。現在${total}体です`);
+  if (bosses > ANOMALY_MAX_BOSS)
+    throw Error(
+      `HARROW・CATENA・FOUNDRY ZEROは合計${ANOMALY_MAX_BOSS}体までです。現在${bosses}体です`,
+    );
+}
+
+export interface AnomalyTestUpdateOptions {
+  action?: AnomalyTestAction;
+  skill?: AnomalySkillId;
+  sequence?: AnomalySkillId[];
+  stance?: AnomalyTestStance;
+}
+
+const ANOMALY_ACTIONS: readonly AnomalyTestAction[] = [
+  "free",
+  "wait",
+  "follow",
+  "orbit",
+  "sequence",
+  "repeat",
+];
+
 export function requestAnomalyTestUpdate(
   w: World,
   id: EnemyReportId,
   count: number,
-  action: AnomalyTestAction,
+  action?: AnomalyTestAction | AnomalyTestUpdateOptions,
+  options: AnomalyTestUpdateOptions = {},
 ) {
-  if (!Number.isInteger(count) || count < 0 || count > ANOMALY_TEST_LIMIT)
-    throw Error(`体数は0〜${ANOMALY_TEST_LIMIT}の整数で指定してください`);
-  const setting = w.anomalyTest?.enemies[id];
+  const test = w.anomalyTest;
+  if (!test) throw Error("ANOMALYテストではありません");
+  const setting = test.enemies[id];
   if (!setting) throw Error("このANOMALYは現在テスト対象外です");
+  const extra = typeof action === "string" ? options : (action ?? options);
+  const nextAction = typeof action === "string" ? action : extra.action;
+  validateAnomalyTestCounts(w, { [id]: count });
+  if (nextAction !== undefined && !ANOMALY_ACTIONS.includes(nextAction))
+    throw Error("行動を指定してください");
+  if (extra.skill !== undefined && !anomalySkillForReport(id, extra.skill))
+    throw Error("その種は指定した技を実行できません");
+  if (extra.stance !== undefined && extra.stance !== "ground" && extra.stance !== "air")
+    throw Error("HARROWの姿勢は地上または飛行を指定してください");
+  if (extra.sequence !== undefined) {
+    if (!Array.isArray(extra.sequence) || extra.sequence.length === 0)
+      throw Error("順番には1つ以上の技を指定してください");
+    for (const skillId of extra.sequence)
+      if (!anomalySkillForReport(id, skillId))
+        throw Error("その種は指定した技を実行できません");
+  }
   setting.pendingCount = count;
-  setting.pendingAction = action;
+  if (nextAction !== undefined) setting.pendingAction = nextAction;
+  if (extra.skill !== undefined) setting.pendingSkill = extra.skill;
+  if (extra.sequence !== undefined)
+    setting.pendingSequence = [...extra.sequence];
+  if (extra.stance !== undefined) setting.pendingStance = extra.stance;
 }
 
 function cancelAnomalyTestAttack(e: Enemy) {
   e.wind = 0;
   if (e.pleat) delete e.pleat.strike;
   if (e.omega) cancelOmega(e);
+  if (e.harrow) e.harrow = undefined;
+  if (e.calyx) e.calyx = undefined;
+  if (e.bastion) e.bastion = undefined;
+  e.lunge = 0;
+  e.lungeWait = 0;
+  e.jump = 0;
+  e.jumpWait = 0;
+  e.perch = 0;
+  e.flightUntil = 0;
+  delete e.navigation;
 }
 
+function anomalyTestBossTarget(w: World): number {
+  const test = w.anomalyTest!;
+  return Math.max(
+    1,
+    ANOMALY_BOSS_IDS.reduce((total, id) => {
+      const setting = test.enemies[id];
+      return total + (setting.pendingCount ?? setting.count);
+    }, 0),
+  );
+}
+
+const ANOMALY_TEST_BOSS_SPAWNS = [
+  { x: 0, z: -35 * MAP_SCALE },
+  { x: 0, z: 35 * MAP_SCALE },
+  { x: -35 * MAP_SCALE, z: 0 },
+  { x: 35 * MAP_SCALE, z: 0 },
+];
+
 function spawnAnomalyTestEnemy(w: World, id: EnemyReportId) {
-  const kind = id === "worm" ? "boss" : id;
+  const kind = id === "worm" || id === "boss" ? "boss" : id;
   const ordinal = w.enemyOrdinal ?? 0;
   const angle = ordinal * 2.399963229728653;
-  return spawn(
+  const isBoss = (ANOMALY_BOSS_IDS as readonly string[]).includes(id);
+  const bossIndex = isBoss
+    ? ANOMALY_BOSS_IDS.reduce(
+        (total, bossId) => total + anomalyTestCurrentCount(w, bossId),
+        0,
+      )
+    : 0;
+  const bossSpawn = isBoss
+    ? ANOMALY_TEST_BOSS_SPAWNS[bossIndex % ANOMALY_TEST_BOSS_SPAWNS.length]
+    : undefined;
+  const enemy = spawn(
     w,
     kind as Enemy["kind"],
-    Math.sin(angle) * 34,
-    Math.cos(angle) * 34,
+    bossSpawn ? bossSpawn.x : Math.sin(angle) * 34,
+    bossSpawn ? bossSpawn.z : Math.cos(angle) * 34,
     id === "worm" ? "worm" : "crown",
   );
+  if (enemy && isBoss) {
+    const correction = Math.sqrt(anomalyTestBossTarget(w));
+    enemy.hp /= correction;
+    enemy.maxHp /= correction;
+  }
+  return enemy;
 }
 
 function applyAnomalyTestUpdates(w: World) {
   const test = w.anomalyTest!;
+  const initial = !test.initialized;
   for (const [id, setting] of Object.entries(test.enemies) as [
     EnemyReportId,
     AnomalyTestEnemySetting,
   ][]) {
     if (
       setting.pendingCount === undefined &&
-      setting.pendingAction === undefined
+      setting.pendingAction === undefined &&
+      setting.pendingSkill === undefined &&
+      setting.pendingSequence === undefined &&
+      setting.pendingStance === undefined
     )
       continue;
     const target = setting.pendingCount ?? setting.count;
     const action = setting.pendingAction ?? setting.action;
+    const skill = setting.pendingSkill ?? setting.skill;
+    const sequence = setting.pendingSequence ?? setting.sequence;
+    const stance = setting.pendingStance ?? setting.stance;
     const current = w.enemies.filter((e) => enemyReportId(e) === id);
     if (target < current.length)
       w.enemies = w.enemies.filter((e) => !current.slice(target).includes(e));
     for (let i = anomalyTestCurrentCount(w, id); i < target; i++)
       spawnAnomalyTestEnemy(w, id);
+    const changed =
+      action !== setting.action ||
+      skill !== setting.skill ||
+      stance !== setting.stance ||
+      JSON.stringify(sequence) !== JSON.stringify(setting.sequence);
     setting.count = target;
     setting.action = action;
-    if (action === "wait")
+    setting.skill = skill;
+    setting.sequence = sequence;
+    setting.stance = stance;
+    if (!initial) test.conditionsChanged = true;
+    if (changed)
       for (const e of w.enemies)
         if (enemyReportId(e) === id) cancelAnomalyTestAttack(e);
     setting.pendingCount = undefined;
     setting.pendingAction = undefined;
+    setting.pendingSkill = undefined;
+    setting.pendingSequence = undefined;
+    setting.pendingStance = undefined;
   }
+  test.initialized = true;
 }
 
 function replaceKilledAnomalyTestEnemies(w: World) {
@@ -506,6 +788,151 @@ function replaceKilledAnomalyTestEnemies(w: World) {
   ][])
     for (let i = anomalyTestCurrentCount(w, id); i < setting.count; i++)
       spawnAnomalyTestEnemy(w, id);
+}
+
+export function anomalyTestSignature(w: World): string {
+  const test = w.anomalyTest;
+  if (!test) throw Error("ANOMALYテストではありません");
+  return JSON.stringify({
+    mode: test.mode,
+    stage: test.stage,
+    difficulty: test.difficulty,
+    loadout: test.loadout,
+    seed: test.baseSeed,
+    enemies: Object.fromEntries(
+      (Object.keys(test.enemies) as EnemyReportId[]).map((id) => {
+        const setting = test.enemies[id];
+        return [
+          id,
+          {
+            count: setting.count,
+            action: setting.action,
+            skill: setting.skill,
+            sequence: setting.sequence,
+            stance: setting.stance,
+          },
+        ];
+      }),
+    ),
+  });
+}
+
+export function anomalyTestConditions(w: World) {
+  const test = w.anomalyTest;
+  if (!test) throw Error("ANOMALYテストではありません");
+  return {
+    mode: test.mode,
+    stage: test.stage,
+    difficulty: test.difficulty,
+    loadout: test.loadout,
+    seed: test.baseSeed,
+  };
+}
+
+export function anomalyTestRecordFrame(w: World, frameMs: number) {
+  const test = w.anomalyTest;
+  if (!test || !Number.isFinite(frameMs) || frameMs < 0) return;
+  test.metrics.frameMs.push(frameMs);
+  if (test.metrics.frameMs.length > 10000) test.metrics.frameMs.shift();
+}
+
+export function anomalyTestP95(w: World): number {
+  const frames = w.anomalyTest?.metrics.frameMs;
+  if (!frames?.length) return 0;
+  const sorted = [...frames].sort((a, b) => a - b);
+  return sorted[Math.min(sorted.length - 1, Math.ceil(sorted.length * 0.95) - 1)];
+}
+
+export function anomalyTestMetrics(w: World): AnomalyTestMetrics & { p95: number } {
+  const metrics = w.anomalyTest?.metrics ?? createAnomalyTestMetrics();
+  return { ...metrics, frameMs: [...metrics.frameMs], p95: anomalyTestP95(w) };
+}
+
+function snapshotAnomalyTestSettings(w: World) {
+  return Object.fromEntries(
+    (Object.keys(ENEMY_REPORT_NAMES) as EnemyReportId[]).map((id) => {
+      const setting = w.anomalyTest!.enemies[id];
+      return [
+        id,
+        {
+          count: setting.count,
+          action: setting.action,
+          skill: setting.skill,
+          sequence: setting.sequence ? [...setting.sequence] : undefined,
+          stance: setting.stance,
+        },
+      ];
+    }),
+  ) as AnomalyTestConfig["enemies"];
+}
+
+export function anomalyTestConfig(w: World): AnomalyTestConfig {
+  const test = w.anomalyTest;
+  if (!test) throw Error("ANOMALYテストではありません");
+  return {
+    mode: test.mode,
+    stage: test.stage,
+    difficulty: test.difficulty,
+    loadout: test.loadout,
+    seed: test.baseSeed,
+    weapons: test.weapons ? structuredClone(test.weapons) : undefined,
+    levels: test.levels ? { ...test.levels } : undefined,
+    accessory: test.accessory ? { ...test.accessory } : undefined,
+    enemies: snapshotAnomalyTestSettings(w),
+  };
+}
+
+export function restartAnomalyTestWorld(w: World, seed?: number): World {
+  const config = anomalyTestConfig(w);
+  const next = createAnomalyTestWorld(seed ?? config.seed ?? w.seed, config);
+  next.anomalyTest!.lastResult = w.anomalyTest?.lastResult
+    ? structuredClone(w.anomalyTest.lastResult)
+    : undefined;
+  return next;
+}
+
+export function finishAnomalyTest(w: World, win: boolean, reason: string) {
+  const test = w.anomalyTest;
+  if (!test || test.lastResult?.reason === reason) return;
+  const result: AnomalyTestResult = {
+    seed: test.baseSeed,
+    mode: test.mode,
+    stage: test.stage,
+    difficulty: test.difficulty,
+    loadout: test.loadout,
+    signature: anomalyTestSignature(w),
+    changed: test.conditionsChanged,
+    metrics: anomalyTestMetrics(w),
+    reason,
+  };
+  test.lastResult = result;
+  test.metrics.elapsed = result.metrics.elapsed;
+  void win;
+}
+
+export function anomalyTestCompare(w: World) {
+  const test = w.anomalyTest;
+  if (!test) throw Error("ANOMALYテストではありません");
+  const previous = test.lastResult;
+  if (!previous) return null;
+  const current = anomalyTestMetrics(w);
+  const sameConditions =
+    !test.conditionsChanged && previous.signature === anomalyTestSignature(w);
+  return {
+    sameConditions,
+    changed: !sameConditions,
+    previous,
+    current: {
+      metrics: current,
+      signature: anomalyTestSignature(w),
+    },
+    diff: {
+      elapsed: current.elapsed - previous.metrics.elapsed,
+      damage: current.damage - previous.metrics.damage,
+      kills: current.kills - previous.metrics.kills,
+      p95: current.p95 - previous.metrics.p95,
+    },
+  };
 }
 export function createWorld(run: string, seed = 123, stage = 1): World {
   return {
@@ -1006,6 +1433,7 @@ export function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
     return;
   }
   if (w.anomalyTest?.mode === "observe" && p === w.players[0]) {
+    w.anomalyTest.metrics.blocked += damage * stageFor(w).damage;
     p.hurt = 0.2;
     return;
   }
@@ -1015,6 +1443,7 @@ export function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
     frontArmor && w.time < frontArmor.armorUntil
       ? Math.min(0.6, 0.1 * frontArmor.levels["emergency-armor"])
       : 0;
+  const hpBefore = p.hp;
   p.hp = Math.max(
     0,
     p.hp -
@@ -1023,6 +1452,7 @@ export function hurtPlayer(w: World, p: Player, damage: number, heavy = false) {
         (1 - reduction) *
         buddyDamageMultiplier(w, w.buddies, p.id),
   );
+  if (w.anomalyTest) w.anomalyTest.metrics.damage += hpBefore - p.hp;
   if (heavy) p.heavyHit = HEAVY_HIT_DURATION;
   p.hurt = 0.2;
   p.safe = 0;
@@ -1139,8 +1569,10 @@ export function hurtEnemy(
     ...(attribution ? { rebuild: attribution } : {}),
   });
   if (e.hp <= 0) {
-    if (w.solo && e.foundrySource === undefined) w.solo.plannedKills++;
+    if (w.solo && !w.anomalyTest && e.foundrySource === undefined)
+      w.solo.plannedKills++;
     w.totalKills++;
+    if (w.anomalyTest) w.anomalyTest.metrics.kills++;
     w.waveKills++;
     const p = w.players.find((p) => p.id === owner);
     if (p) p.kills++;
@@ -1152,8 +1584,12 @@ export function hurtEnemy(
     });
     if (w.front) recordFrontKill(w, e, owner);
     else if (w.rebuild) recordRebuildKill(w, e, attribution);
-    else if (w.solo) soloDrop(w, e);
-    else if (random(w) < stageFor(w).dropRate && w.drops.length < 24)
+    else if (w.solo && !w.anomalyTest) soloDrop(w, e);
+    else if (
+      !w.anomalyTest &&
+      random(w) < stageFor(w).dropRate &&
+      w.drops.length < 24
+    )
       for (const p of w.players) {
         if (w.drops.length >= 24) break;
         if (
@@ -1179,6 +1615,13 @@ export function finish(w: World, win: boolean, reason = "") {
   if (w.phase !== "battle") return;
   w.phase = win ? "victory" : "defeat";
   w.reason = reason;
+  if (w.anomalyTest) {
+    finishAnomalyTest(w, win, reason);
+    w.pending = Object.fromEntries(w.players.map((p) => [p.id, []]));
+    w.rewards = {};
+    w.drops = [];
+    return;
+  }
   if (w.rebuild || w.front) {
     w.pending = Object.fromEntries(w.players.map((p) => [p.id, []]));
     w.rewards = {};
@@ -2712,6 +3155,7 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   if (!w.players.some((p) => p.connected)) return;
   dt = Math.min(0.1, Math.max(0, dt));
   w.time += dt;
+  if (w.anomalyTest) w.anomalyTest.metrics.elapsed += dt;
   if (w.buddies)
     tickBuddyCombat(w, w.buddies, inputs, dt, (p, b) =>
       buddyFollowTarget(
@@ -2755,6 +3199,12 @@ export function step(w: World, inputs: Record<string, Input>, dt = 0.05) {
   w.projectiles = w.projectiles.filter((q) => q.life > 0);
   w.enemies = w.enemies.filter((e) => e.hp > 0);
   if (w.anomalyTest) replaceKilledAnomalyTestEnemies(w);
+  if (
+    w.anomalyTest?.mode === "live" &&
+    !w.enemies.length &&
+    pendingFoundryCount(w) === 0
+  )
+    finish(w, true, "ANOMALYをすべて撃破しました");
   stepPollen(w, living, dt);
   stepHarrowMissiles(w, living, dt);
   flushFoundrySpawns(w);
