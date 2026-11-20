@@ -72,6 +72,7 @@ import {
   ensureTutorialFlags,
   hasClearedNormalStage,
   migrateTutorialFlags,
+  migrateC7Terminal,
   hasSeen,
   markSeen,
   resetGuides,
@@ -117,6 +118,7 @@ import { RewardedAdSession, type AdOutcome } from "./rewarded-ad";
 
 import { openBestiary } from "./bestiary";
 import { highestClearedStage } from "./front-campaign";
+import { readFrontProgress } from "./front-progress";
 import { ENEMY_REPORT_NAMES, enemyReportId } from "../shared/enemy-identity";
 import { developerProgress } from "./developer-mode";
 import {
@@ -1898,6 +1900,13 @@ function loadMode(next: SaveMode) {
     if (mode === "normal") {
       ensureTutorialFlags(!!found);
       migrateTutorialFlags(hasClearedNormalStage(found));
+      let frontRuns = 0;
+      try {
+        frontRuns = readFrontProgress(localStorage).progress.runs;
+      } catch {
+        /* Storage failures use the same session-only record as F1. */
+      }
+      migrateC7Terminal(!!found, frontRuns > 0, highestClearedStage(found));
     }
     if (!found) {
       onboard();

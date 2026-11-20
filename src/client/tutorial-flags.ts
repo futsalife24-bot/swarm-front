@@ -138,7 +138,41 @@ export function migrateTutorialFlags(
   const saved = write(store, flags);
   if (!saved) for (const flag of fresh) session.add(flag);
   return saved;
-}/** Reads only; never mutates or saves ProgressSave. */
+}
+/** C-7 U1: one-time terminal migration marker and monotonic highest-stage record. */
+export function migrateC7Terminal(
+  hasProgressSave: boolean,
+  hasFrontPlayHistory: boolean,
+  stage: number,
+  store = defaultStore(),
+) {
+  const flags = read(store);
+  const previous = flags?.seen ?? [];
+  const next = new Set(previous);
+  if (!next.has("ftue:c7")) {
+    if (hasProgressSave || hasFrontPlayHistory) next.add("ftue:unlock:all");
+    next.add("ftue:c7");
+  }
+  if (!flags && hasProgressSave) {
+    next.add("offer");
+    for (const key of GUIDE_KEYS) next.add(key);
+  }
+  const highest = Math.max(
+    0,
+    ...[...next]
+      .map((flag) => /^ftue:unlock:([1-3])$/.exec(flag)?.[1])
+      .filter((value): value is string => !!value)
+      .map(Number),
+  );
+  for (let index = highest + 1; index <= Math.min(3, Math.max(0, stage)); index += 1)
+    next.add(`ftue:unlock:${index}`);
+  if (previous.length === next.size && [...next].every((flag) => previous.includes(flag)))
+    return false;
+  const saved = write(store, { version: 1, seen: [...next] });
+  if (!saved) for (const flag of next) session.add(flag);
+  return saved;
+}
+/** Reads only; never mutates or saves ProgressSave. */
 export function hasClearedNormalStage(
   save: { mode?: string; missions?: Record<string, boolean[]> } | null,
 ) {
