@@ -2,7 +2,13 @@ import { enemySize, enemyStatSize, enemySpeedFactor } from "./enemy-size";
 import { supportHeight } from "./terrain";
 import type { Enemy, Player, World } from "./game";
 import { mapFor } from "./stages";
-import { stepOmega } from "./catena-omega";
+import { OMEGA, cancelOmega, stepOmega } from "./catena-omega";
+import {
+  anomalyTestActiveSkill,
+  anomalyTestBeginSkill,
+  anomalyTestCompleteSkill,
+  anomalyTestDesiredSkill,
+} from "./anomaly-test-ai";
 import {
   FOUNDRY_FRACTURED_SPEED,
   FOUNDRY_LASER_DAMAGE,
@@ -270,11 +276,13 @@ function moveLeader(
   part: number,
   chainLength: number,
   dt: number,
+  targetOverride?: FoundryPoint,
 ) {
   const map = mapFor(w),
     patrol = foundryPatrol(map),
     direction = (e.id + part) % 2 ? 1 : -1;
-  const player = e.fractured ? nearestPlayer(w.players, node) : undefined;
+  const player =
+    targetOverride ?? (e.fractured ? nearestPlayer(w.players, node) : undefined);
   if (node.route === undefined) {
     // The authored body already lies behind this heading. Starting toward the
     // nearest patrol index can reverse into that history and fold all eight
@@ -386,7 +394,7 @@ function fireLaser(
   part: number,
   size: number,
   statSize: number,
-) {
+): boolean {
   node.acidAt ??= w.time + FOUNDRY_LASER_WARNING + part * FOUNDRY_LASER_STAGGER;
   if (w.time >= node.acidAt - FOUNDRY_LASER_WARNING && !node.pulseAim) {
     const origin = foundryLaserOrigin(node, part, size);
@@ -407,11 +415,11 @@ function fireLaser(
       node.acidAt = w.time + FOUNDRY_LASER_WARNING;
     }
   }
-  if (w.time < node.acidAt) return;
+  if (w.time < node.acidAt) return false;
   const target = node.pulseAim;
   node.pulseAim = undefined;
   node.acidAt = w.time + FOUNDRY_LASER_INTERVAL * Math.max(1, statSize);
-  if (!target || w.projectiles.length >= 100) return;
+  if (!target || w.projectiles.length >= 100) return true;
   const origin = foundryLaserOrigin(node, part, size),
     direction = foundryLaserDirection(origin, target);
   w.projectiles.push({
@@ -427,14 +435,43 @@ function fireLaser(
     rocket: false,
     style: "laser",
   });
+  return true;
 }
 
-export function moveWorm(w: World, e: Enemy, dt: number) {
+export function moveWorm(
+  w: World,
+  e: Enemy,
+  dt: number,
+  targetOverride?: FoundryPoint,
+  movementOnly = false,
+) {
   initWorm(e);
   if (!e.segments || e.hp <= 0) return;
+  const forced = movementOnly ? undefined : anomalyTestDesiredSkill(w, e);
+  if (forced === "omega" && !e.omega) {
+    e.omegaReadyAt = w.time;
+    anomalyTestBeginSkill(w, e, "omega");
+  }
+  if (forced === "worm-laser") {
+    if (e.omega) cancelOmega(e);
+    e.omegaReadyAt = Infinity;
+    anomalyTestBeginSkill(w, e, "worm-laser");
+  }
   const nodes = wormNodes(e),
     chains = wormChains(e);
-  if (stepOmega(w, e)) return;
+  const omegaWasActive = !!e.omega;
+  if (!movementOnly && stepOmega(w, e)) {
+    if (
+      omegaWasActive &&
+      !e.omega &&
+      (anomalyTestActiveSkill(w, e) === "omega" ||
+        anomalyTestActiveSkill(w, e) === undefined)
+    ) {
+      anomalyTestCompleteSkill(w, e, "omega");
+      e.omegaReadyAt = w.time + OMEGA.cooldown;
+    }
+    return;
+  }
   // Restored pre-relief trails can begin inside an added building. Ground
   // navigation cannot leave that point by changing y: rebuild a legal body
   // placement and its history, preserving all health and severed-part state.
@@ -470,7 +507,7 @@ export function moveWorm(w: World, e: Enemy, dt: number) {
     }
   for (const parts of chains) {
     const leader = nodes[parts[0]];
-    moveLeader(w, e, leader, parts[0], parts.length, dt);
+    moveLeader(w, e, leader, parts[0], parts.length, dt, targetOverride);
     leader.trail = trimHistory(
       leader.trail!,
       parts.length * FOUNDRY_UNIT_PITCH * enemySize(e),
@@ -491,8 +528,15 @@ export function moveWorm(w: World, e: Enemy, dt: number) {
       node.trailOffset = offset * FOUNDRY_UNIT_PITCH * enemySize(e);
       // 胴14節でも稼働砲口は従来どおり頭1＋胴7。旧7節は全砲口を維持。
       const optic = foundryOptic(part, e.segments.length);
-      if (optic !== undefined)
-        fireLaser(w, node, optic, enemySize(e), enemyStatSize(e));
+      if (optic !== undefined) {
+        const fired = fireLaser(w, node, optic, enemySize(e), enemyStatSize(e));
+        if (
+          fired &&
+          !movementOnly &&
+          anomalyTestActiveSkill(w, e) === "worm-laser"
+        )
+          anomalyTestCompleteSkill(w, e, "worm-laser");
+      }
       else node.pulseAim = undefined;
     }
   }

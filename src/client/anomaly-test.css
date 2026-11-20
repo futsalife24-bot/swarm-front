@@ -61,3 +61,102 @@
   justify-content: flex-end;
   gap: 10px;
 }
+.anomaly-test-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+.anomaly-test-controls label,
+.anomaly-test-setting-grid label,
+.anomaly-test-enemy label {
+  display: grid;
+  gap: 6px;
+}
+.anomaly-test-controls select,
+.anomaly-test-setting-grid select {
+  width: 100%;
+  min-height: 42px;
+}
+.anomaly-test-enemy-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+  max-height: min(52vh, 560px);
+  overflow: auto;
+  padding-right: 4px;
+}
+.anomaly-test-enemy {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid #355262;
+  background: #11212c;
+}
+.anomaly-test-enemy header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.anomaly-test-enemy header small {
+  color: #8fa9b4;
+}
+.anomaly-test-count-row button {
+  min-width: 44px;
+  min-height: 42px;
+}
+.anomaly-test-sequence {
+  margin: 0;
+  color: #a8c2cc;
+  font-size: 0.9rem;
+}
+.anomaly-test-error {
+  min-height: 1em;
+  color: #ff9b86;
+}
+.anomaly-test-actions,
+.anomaly-test-setting-actions {
+  flex-wrap: wrap;
+}
+.anomaly-test-result {
+  display: grid;
+  gap: 16px;
+}
+.anomaly-test-compare {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.anomaly-test-compare th,
+.anomaly-test-compare td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #355262;
+  text-align: left;
+}
+@media (max-height: 430px) {
+  .anomaly-test-preparation {
+    height: 100%;
+    overflow: hidden;
+  }
+  .anomaly-test-enemy-list {
+    max-height: none;
+    min-height: 0;
+    flex: 1 1 auto;
+  }
+  .anomaly-test-controls select,
+  .anomaly-test-setting-grid select,
+  .anomaly-test-count-row input,
+  .anomaly-test-count-row button,
+  .anomaly-test-actions button,
+  .anomaly-test-setting-actions button {
+    min-height: 36px;
+  }
+  .anomaly-test-preparation > footer.anomaly-test-actions {
+    position: sticky;
+    bottom: 0;
+    flex: none;
+    background: #0d1a21;
+    padding-top: 6px;
+  }
+}
