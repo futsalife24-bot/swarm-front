@@ -142,6 +142,7 @@ import {
   finish,
   anomalyTestConfig,
   anomalyTestRecordFrame,
+  anomalyTestResultReady,
   createAnomalyTestWorld,
   random,
   eye,
@@ -1431,7 +1432,7 @@ function frame(now: number) {
         return;
       if (world.phase === "victory" || world.phase === "defeat") finishDaily();
     } else if (world.anomalyTest) {
-      if (world.anomalyTest.lastResult) showAnomalyTestResult();
+      if (anomalyTestResultReady(world)) showAnomalyTestResult();
     } else if (world.phase === "victory") victory();
     else if (world.players[0].hp <= 0) defeatChoice();
   } else if (active && world && screen === "collection") {

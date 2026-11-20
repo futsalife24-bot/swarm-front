@@ -1007,6 +1007,13 @@ export function anomalyTestCompare(w: World) {
     },
   };
 }
+
+export function anomalyTestResultReady(w: World): boolean {
+  return Boolean(
+    w.anomalyTest && (w.phase === "victory" || w.phase === "defeat"),
+  );
+}
+
 export function createWorld(run: string, seed = 123, stage = 1): World {
   return {
     stage: validStage(stage) ? stage : 1,

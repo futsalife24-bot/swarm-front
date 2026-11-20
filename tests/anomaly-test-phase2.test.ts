@@ -7,6 +7,7 @@ import {
   anomalyTestCurrentCount,
   anomalyTestMetrics,
   anomalyTestP95,
+  anomalyTestResultReady,
   anomalyTestSignature,
   anomalyTestTotalCount,
   createWorld,
@@ -266,5 +267,24 @@ describe("ANOMALYテスト フェーズ2", () => {
     expect(retry.anomalyTest!.difficulty).toBe("hard");
     expect(retry.anomalyTest!.lastResult?.reason).toBe("敗北");
     expect(anomalyTestSignature(retry)).toBe(anomalyTestSignature(world));
+  });
+
+  it("再挑戦では比較用の直前結果があっても入場前に結果画面へ戻らない", () => {
+    const world = createAnomalyTestWorld(13580, {
+      enemies: { crawler: { count: 1 } },
+    });
+    start(world);
+    advance(world, 5);
+    finish(world, false, "一回目終了");
+    expect(anomalyTestResultReady(world)).toBe(true);
+
+    const retry = restartAnomalyTestWorld(world);
+    expect(retry.anomalyTest!.lastResult?.reason).toBe("一回目終了");
+    expect(anomalyTestResultReady(retry)).toBe(false);
+    start(retry);
+    advance(retry, 5);
+    expect(anomalyTestResultReady(retry)).toBe(false);
+    finish(retry, false, "二回目終了");
+    expect(anomalyTestResultReady(retry)).toBe(true);
   });
 });
