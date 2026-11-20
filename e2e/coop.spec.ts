@@ -2,7 +2,7 @@ import { localCreationKey } from "../tests/credentials";
 import { test, expect } from "@playwright/test";
 import { copyInvite } from "./invite";
 import { writeFileSync } from "node:fs";
-import { enterCoopPreparation } from "./navigation";
+import { enterCoopPreparation, readyCoopLobby } from "./navigation";
 const endpoint = process.env.SWARM_TEST_ENDPOINT ?? "http://127.0.0.1:8789";
 test("local credential file is not served and creation key stays in the development panel", async ({
   page,
@@ -13,15 +13,15 @@ test("local credential file is not served and creation key stays in the developm
   expect((await denied.text()).includes(localCreationKey())).toBe(false);
   await page.goto("/");
   await enterCoopPreparation(page);
-  await expect(page.locator("#creation-key")).toHaveCount(0);
   await page.locator(".coop-advanced summary").click();
   await expect(page.locator("#creation-key")).toHaveAttribute(
     "type",
     "password",
   );
   await page.locator("#endpoint").fill("http://127.0.0.1:8789");
-  await page.getByRole("button", { name: "ルームを作る" }).click();
-  await expect(page.getByRole("status")).toContainText("作成キーを確認");
+  await page.locator("#creation-key").fill(localCreationKey());
+  await page.locator("#ui #launch").click();
+  await expect(page.locator("#ui .lobby")).toBeVisible();
   expect(
     await page.evaluate(
       (key) => Object.values(localStorage).join("").includes(key),
@@ -47,8 +47,8 @@ test("two independent browsers join a real room and receive the same battlefield
     await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
       el.value = key;
     }, localCreationKey());
-    await a.getByRole("button", { name: "ルームを作る" }).click();
-    await expect(a.getByText("準備完了", { exact: true })).toBeVisible();
+    await a.locator("#ui #launch").click();
+    await readyCoopLobby(a);
     const invite = await copyInvite(a);
     await b.goto(invite);
     await expect(b.locator(".coop-entry")).toContainText(
@@ -56,9 +56,10 @@ test("two independent browsers join a real room and receive the same battlefield
     );
     await b.locator(".coop-advanced summary").click();
     await b.locator("#endpoint").fill(endpoint);
-    await b.getByRole("button", { name: "招待ルームに参加" }).click();
-    await expect(a.getByText("準備完了", { exact: true })).toHaveCount(2);
-    await a.getByRole("button", { name: "全員で出撃" }).click();
+    await b.locator("#ui #launch").click();
+    await readyCoopLobby(b);
+    await expect(a.locator("#ui .is-ready")).toHaveCount(2);
+    await a.locator("#ui #begin").click();
     await expect(a.locator("#hud")).toBeVisible();
     await expect(b.locator("#hud")).toBeVisible();
     await a.waitForTimeout(1200);
@@ -177,13 +178,20 @@ test("40 authoritative enemies render in a mobile-sized browser; record PC-only 
   await p.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
     el.value = key;
   }, localCreationKey());
-  await p.getByRole("button", { name: "ルームを作る" }).click();
-  await expect(p.getByText("準備完了", { exact: true })).toBeVisible();
+  await p.locator("#ui #launch").click();
+  await readyCoopLobby(p);
   const invite = await copyInvite(p);
   const response = await request.post(
     `http://127.0.0.1:8789/fixtures/${invite.split("#")[1]}/load`,
   );
   expect(response.ok()).toBe(true);
+  await expect
+    .poll(
+      () =>
+        p.locator("#ui .battle-loading progress").getAttribute("value"),
+      { timeout: 90000 },
+    )
+    .toBe("100");
   await expect(p.locator("#hud")).toBeVisible();
   await p.waitForTimeout(5000);
   const s = await p.evaluate(() => (window as any).__swarm);
