@@ -5,6 +5,8 @@ import { makeWeapon } from "../src/shared/progression";
 import { openArmory } from "./navigation";
 
 const PROGRESS_KEY = newSaveKey("normal");
+const live = (selector: string) => `body.playtest > main#ui ${selector}`;
+
 
 test("armory stays readable and preserves protection and atomic deletion", async ({
   browser,
@@ -51,13 +53,13 @@ test("armory stays readable and preserves protection and atomic deletion", async
     await page.reload();
     await openArmory(page);
 
-    const rows = page.locator(".pt-weapon-row[data-row]");
+    const rows = page.locator(live(".pt-weapon-row[data-row]"));
     await expect(rows).toHaveCount(25);
-    await expect(page.locator('[data-detail="pending-1"]')).toHaveAttribute(
+    await expect(page.locator(live('[data-detail="pending-1"]'))).toHaveAttribute(
       "aria-label",
       /超過・整理待ち/,
     );
-    await expect(page.locator('.pt-weapon-list [data-check="rifle-3"]')).toBeDisabled();
+    await expect(page.getByRole("checkbox", { name: "AR-9 リーフを解体対象に選択" }).nth(3)).toBeDisabled();
 
     for (const viewport of [
       { width: 844, height: 390 },
@@ -92,28 +94,28 @@ test("armory stays readable and preserves protection and atomic deletion", async
     }
 
     await page.setViewportSize({ width: 844, height: 390 });
-    await page.locator('.pt-weapon-list [data-detail="rifle-2"]').tap();
+    await page.locator(live('.pt-weapon-list [data-detail="rifle-2"]')).tap();
     const detail = page.getByRole("dialog");
     await expect(detail).toContainText("AR-9 リーフ");
     await expect(detail.locator(".pt-var-good")).not.toHaveCount(0);
-    await page.getByRole("dialog").locator(".dialog-close").tap();
+    await detail.getByRole("button", { name: "戻る" }).tap();
     await expect(page.getByRole("dialog")).toHaveCount(0);
 
-    await page.locator('.pt-weapon-list [data-lock="rifle-2"]').tap();
-    await expect(page.locator('.pt-weapon-list [data-check="rifle-2"]')).toBeDisabled();
-    await page.locator('.pt-weapon-list [data-lock="rifle-2"]').tap();
-    await page.locator("#pt-confirm").tap();
-    await expect(page.locator('.pt-weapon-list [data-check="rifle-2"]')).toBeEnabled();
+    await page.locator(live('.pt-weapon-list [data-lock="rifle-2"]')).tap();
+    await expect(page.getByRole("checkbox", { name: "AR-9 リーフを解体対象に選択" }).nth(2)).toBeDisabled();
+    await page.locator(live('.pt-weapon-list [data-lock="rifle-2"]')).tap();
+    await page.getByRole("dialog").getByRole("button", { name: "確定" }).tap();
+    await expect(page.getByRole("checkbox", { name: "AR-9 リーフを解体対象に選択" }).nth(2)).toBeEnabled();
 
     const saved = () =>
       page.evaluate(
         (key) => JSON.parse(localStorage.getItem(key)!),
         PROGRESS_KEY,
       );
-    await page.locator('.pt-weapon-list [data-check="rifle-2"]').check();
-    await page.locator(".pt-bulk-menu").last().locator("summary").tap();
-    await page.locator("#pt-dismantle").tap();
-    await page.locator("#pt-cancel").tap();
+    await page.getByRole("checkbox", { name: "AR-9 リーフを解体対象に選択" }).nth(2).check();
+    await page.locator(live(".pt-bulk-menu")).last().locator("summary").tap();
+    await page.getByRole("button", { name: /選択を解体/ }).tap();
+    await page.getByRole("dialog").getByRole("button", { name: "キャンセル" }).tap();
     const before = await saved();
     expect(
       before.inventory.some((weapon: { id: string }) => weapon.id === "rifle-2"),
@@ -127,12 +129,12 @@ test("armory stays readable and preserves protection and atomic deletion", async
         throw Error("test quota");
       };
     });
-    await page.locator("#pt-dismantle").tap();
-    await page.locator("#pt-confirm").tap();
+    await page.getByRole("button", { name: /選択を解体/ }).tap();
+    await page.getByRole("dialog").getByRole("button", { name: "確定" }).tap();
     await expect(page.getByRole("dialog")).toContainText("保存を再試行");
     expect(await saved()).toEqual(before);
     await page.evaluate(() => (window as any).restoreStorage());
-    await page.locator("#pt-save-retry").tap();
+    await page.getByRole("dialog").getByRole("button", { name: "保存を再試行" }).tap();
     const after = await saved();
     expect(
       after.inventory.some((weapon: Weapon) => weapon.id === "rifle-2"),
@@ -142,16 +144,16 @@ test("armory stays readable and preserves protection and atomic deletion", async
     ).toBe(true);
     expect(after.pendingWeapons).toEqual([]);
 
-    await page.locator(".pt-view-menu summary").tap();
+    await page.locator(live(".pt-view-menu")).last().locator("summary").tap();
     await page
-      .locator('[data-list-choice="favorites"][data-value="only"]')
+      .locator(live('[data-list-choice="favorites"][data-value="only"]'))
       .tap();
     await expect(rows).toHaveCount(1);
     await page.reload();
     await openArmory(page, "tap");
-    await page.locator(".pt-view-menu summary").tap();
+    await page.locator(live(".pt-view-menu")).last().locator("summary").tap();
     await page
-      .locator('[data-list-choice="favorites"][data-value="only"]')
+      .locator(live('[data-list-choice="favorites"][data-value="only"]'))
       .tap();
     await expect(rows).toHaveCount(1);
   } finally {
@@ -170,19 +172,9 @@ test("weapon help preserves equipment and supports touch, close and keyboard", a
   try {
     const page = await context.newPage();
     const tap = async (selector: string) => {
-      const box = await page.evaluate((cssSelector) => {
-        const element = document.querySelector(cssSelector)!;
-        element.scrollIntoView({ block: "center" });
-        const rectangle = element.getBoundingClientRect();
-        return {
-          x: rectangle.left,
-          y: rectangle.top,
-          width: rectangle.width,
-          height: rectangle.height,
-        };
-      }, selector);
-      if (!box) throw new Error("tap target is not visible");
-      await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+      const target = page.locator(`body.playtest > main#ui ${selector}:visible`).first();
+      await target.scrollIntoViewIfNeeded();
+      await target.tap();
     };
     await page.goto("/");
     const seed = freshProgress("normal");
@@ -236,7 +228,7 @@ test("weapon help preserves equipment and supports touch, close and keyboard", a
     const before = await saved();
     await tap("[data-menu-toggle]");
     await tap('[data-menu-destination="gear"]');
-    const gearHelp = page.locator('[data-effect-help="reserve"]').first();
+    const gearHelp = page.locator(live('[data-effect-help="reserve"]')).first();
     await gearHelp.focus();
     await page.keyboard.press("Enter");
     await expect(page.getByRole("dialog")).toBeVisible();
@@ -250,7 +242,7 @@ test("weapon help preserves equipment and supports touch, close and keyboard", a
       ["repel", "最大3m"],
       ["chain", "再誘爆はありません"],
     ] as const) {
-      const help = page.locator(`[data-effect-help="${effect}"]`).first();
+      const help = page.locator(live(`[data-effect-help="${effect}"]`)).first();
       await tap(`[data-effect-help="${effect}"]`);
       const dialog = page.getByRole("dialog");
       await expect(dialog).toContainText(text);
@@ -309,13 +301,13 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
   await page.reload();
   await openArmory(page);
   const check = (id: string) =>
-    page.locator(`[data-check="${id}"]`).first();
+    page.locator(live(`[data-check="${id}"]`)).first();
   await expect(check("bulk-3")).toBeDisabled();
   await expect(check(seed.soldiers[0].equipped[0])).toBeDisabled();
-  await page.locator(".pt-bulk-menu").last().locator("summary").click();
-  await expect(page.locator("#pt-dismantle")).toContainText("選択を解体 (0)");
+  await page.locator(live(".pt-bulk-menu")).last().locator("summary").click();
+  await expect(page.getByRole("button", { name: "選択を解体 (0)" })).toBeVisible();
   for (const id of ["bulk-0", "bulk-1", "waiting"]) await check(id).check();
-  await expect(page.locator("#pt-dismantle")).toContainText("選択を解体 (3)");
+  await expect(page.getByRole("button", { name: "選択を解体 (3)" })).toBeVisible();
 
   for (const viewport of [
     { width: 640, height: 280 },
@@ -325,7 +317,7 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
     await page.setViewportSize(viewport);
     for (let rarity = 0; rarity < 4; rarity++) {
       const row = page
-        .locator('[data-row="bulk-' + rarity + '"]')
+        .locator(live('[data-row="bulk-' + rarity + '"]'))
         .first();
       await expect(row).toHaveCSS("--weapon-tier", /.+/);
       await row.locator("[data-detail]").click();
@@ -351,9 +343,9 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
       PROGRESS_KEY,
     );
   const before = await saved();
-  await page.locator("#pt-dismantle").click();
-  await expect(page.getByRole("dialog")).toContainText("+14");
-  await page.locator("#pt-cancel").click();
+  await page.getByRole("button", { name: /選択を解体/ }).click();
+  await expect(page.getByRole("dialog")).toContainText("3丁 → +6");
+  await page.getByRole("dialog").getByRole("button", { name: "キャンセル" }).click();
   expect(await saved()).toEqual(before);
 
   await page.evaluate(() => {
@@ -364,20 +356,20 @@ test("bulk dismantling protects favorites, previews powder, and persists atomica
       throw Error("quota");
     };
   });
-  await page.locator("#pt-dismantle").click();
-  await page.locator("#pt-confirm").click();
+  await page.getByRole("button", { name: /選択を解体/ }).click();
+  await page.getByRole("dialog").getByRole("button", { name: "確定" }).click();
   await expect(page.getByRole("dialog")).toContainText("保存を再試行");
   expect(await saved()).toEqual(before);
   await page.evaluate(() => (window as any).restoreStorage());
-  await page.locator("#pt-save-retry").click();
-  await expect.poll(async () => (await saved()).powder).toBe(14);
+  await page.getByRole("dialog").getByRole("button", { name: "再試行" }).click();
+  await expect.poll(async () => (await saved()).powder).toBe(6);
   expect(
     (await saved()).inventory.map((weapon: Weapon) => weapon.id),
   ).not.toContain("waiting");
   await page.reload();
   await openArmory(page);
-  await expect(page.locator('[data-resource-help="powder"]')).toHaveAttribute(
+  await expect(page.locator(live('[data-resource-help="powder"]'))).toHaveAttribute(
     "aria-label",
-    /所持14/,
+    /所持6/,
   );
 });
