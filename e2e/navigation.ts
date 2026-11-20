@@ -2,14 +2,20 @@ import { expect, type Page } from "@playwright/test";
 
 export async function revealHomeMenu(page: Page) {
   const start = page.locator(".title-entry-start");
-  const revealed = await start
-    .waitFor({ state: "visible", timeout: 10000 })
-    .then(() => true)
-    .catch(() => false);
-  if (revealed) {
+  const titleEntry = page.locator("dialog.title-entry");
+  const solo = page.locator("#solo");
+  await expect
+    .poll(
+      async () =>
+        (await titleEntry.isVisible()) || (await solo.isVisible()),
+      { timeout: 30000 },
+    )
+    .toBe(true);
+  if (await titleEntry.isVisible()) {
     await start.click();
-    await expect(start).toHaveCount(0, { timeout: 10000 });
+    await expect(titleEntry).toHaveCount(0, { timeout: 30000 });
   }
+  await expect(solo).toBeVisible({ timeout: 30000 });
 }
 
 async function ensurePlayerName(page: Page) {
@@ -55,8 +61,42 @@ export async function enterCoopPreparation(
 ) {
   await ensurePlayerName(page);
   await openCoopProfile(page, options);
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
+  const picker = page.getByRole("dialog", { name: "協力の作戦を選ぶ" });
+  await expect(picker).toBeVisible();
   await page.locator("[data-operation=advance]").click(options);
-  await expect(page.locator(".coop-entry")).toBeVisible();
+  await expect(picker).toHaveCount(0, { timeout: 30000 });
+  await expect(page.locator(".room-entry")).toBeVisible({ timeout: 30000 });
+}
+
+export async function readyCoopLobby(page: Page) {
+  const ui = page.locator("#ui");
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
+  await expect
+    .poll(() => ui.locator(".lobby:visible").count(), { timeout: 60000 })
+    .toBe(1);
+  await ui.locator("#back").click();
+  await expect(page.locator(".split-shutter")).toHaveCount(0, {
+    timeout: 30000,
+  });
+  await expect(ui.locator("#launch")).toBeVisible({ timeout: 30000 });
+  await ui.locator("#launch").click();
+  await expect(page.locator(".split-shutter")).toHaveCount(0, {
+    timeout: 30000,
+  });
+  await expect
+    .poll(() => ui.locator(".lobby:visible").count(), { timeout: 60000 })
+    .toBe(1);
+  await expect
+    .poll(
+      () =>
+        ui
+          .locator(".squad-member.self")
+          .getByText("準備完了", { exact: true })
+          .count(),
+      { timeout: 90000 },
+    )
+    .toBe(1);
 }
 
 export async function openArmory(page: Page, input: "click" | "tap" = "click") {

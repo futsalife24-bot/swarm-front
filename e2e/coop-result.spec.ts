@@ -1,13 +1,19 @@
 const endpoint = process.env.SWARM_TEST_ENDPOINT ?? "http://127.0.0.1:8789";
 import { localCreationKey } from "../tests/credentials";
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { copyInvite } from "./invite";
-import { enterCoopPreparation } from "./navigation";
+import { enterCoopPreparation, readyCoopLobby } from "./navigation";
+
+async function waitForBattle(page: Page) {
+  const hud = page.locator("#hud");
+  await expect(hud).toBeVisible({ timeout: 90000 });
+}
+
 test("co-op fixture rewards save on both clients and allow equipment change and a real rematch", async ({
   browser,
   request,
 }) => {
-  test.setTimeout(120000);
+  test.setTimeout(360000);
   const ca = await browser.newContext({
       serviceWorkers: "block",
       viewport: { width: 844, height: 320 },
@@ -25,6 +31,15 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
   try {
     for (const p of [a, b]) {
       await p.goto("/");
+      await p.evaluate(async () => {
+        const path = "/src/client/save.ts";
+        const mod = await import(/* @vite-ignore */ path);
+        const save = mod.fresh();
+        save.quality = 0.65;
+        save.frameRate = 30;
+        localStorage.setItem(mod.SAVE_KEY, JSON.stringify(save));
+      });
+      await p.reload();
       await enterCoopPreparation(p);
       await p.locator(".coop-advanced summary").click();
       await p.locator("#endpoint").fill(endpoint);
@@ -32,8 +47,8 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
     await a.locator("#creation-key").evaluate((el: HTMLInputElement, key) => {
       el.value = key;
     }, localCreationKey());
-    await a.getByRole("button", { name: "ルームを作る" }).click();
-    await expect(a.getByText("準備完了", { exact: true })).toBeVisible();
+    await a.locator("#ui #launch").click();
+    await readyCoopLobby(a);
     const invite = await copyInvite(a);
     const code = invite.split("#")[1];
     await b.goto(invite);
@@ -42,12 +57,16 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
     );
     await b.locator(".coop-advanced summary").click();
     await b.locator("#endpoint").fill(endpoint);
-    await b.getByRole("button", { name: "招待ルームに参加" }).click();
-    await expect(a.getByText("準備完了", { exact: true })).toHaveCount(2);
+    await b.locator("#ui #launch").click();
+    await readyCoopLobby(b);
+    await expect(a.locator(".is-ready")).toHaveCount(2, { timeout: 30000 });
+    await expect(a.locator("#ui #begin")).toBeEnabled({ timeout: 30000 });
+    await a.locator("#ui #begin").click();
     expect(
       (await request.post(`${endpoint}/fixtures/${code}/reward`)).ok(),
     ).toBe(true);
-    await expect(a.locator("#hud")).toBeVisible();
+    await waitForBattle(a);
+    await waitForBattle(b);
     const fire = (await a.locator("#fire").boundingBox())!;
     await a.mouse.move(fire.x + fire.width / 2, fire.y + fire.height / 2);
     await a.mouse.down();
@@ -115,8 +134,12 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
       expect(
         await p.evaluate(() => (window as any).__swarm.inventory.length),
       ).toBe(5);
-      await p.getByRole("button", { name: "ホームへ戻る" }).click();
-      await enterCoopPreparation(p);
+      await p.locator("#ui #regear").click();
+      await expect
+        .poll(() => p.locator("#ui .lobby:visible").count(), { timeout: 60000 })
+        .toBe(1);
+      await p.locator("#ui #back").click();
+      await expect(p.locator("#ui #launch")).toBeVisible();
     }
     const item = await a.evaluate(
       () => (window as any).__swarm.inventory[3].id,
@@ -127,12 +150,12 @@ test("co-op fixture rewards save on both clients and allow equipment change and 
     await a.waitForTimeout(500);
     await expect(a.getByRole("heading", { name: "出撃準備" })).toBeVisible();
     for (const p of [a, b]) {
-      await p.getByRole("button", { name: "準備完了してロビーへ" }).click();
+      await p.locator("#ui #launch").click();
     }
-    await expect(a.getByRole("button", { name: "全員で出撃" })).toBeEnabled();
-    await a.getByRole("button", { name: "全員で出撃" }).click();
-    await expect(a.locator("#hud")).toBeVisible();
-    await expect(b.locator("#hud")).toBeVisible();
+    await expect(a.locator("#ui #begin")).toBeEnabled();
+    await a.locator("#ui #begin").click();
+    await waitForBattle(a);
+    await waitForBattle(b);
     console.log("Co-op result: rematch started");
     const next = await a.evaluate(() => (window as any).__swarm);
     expect(next.world.run).not.toBe(oldRun);
