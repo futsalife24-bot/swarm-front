@@ -1,11 +1,25 @@
 import { test, expect, type Page } from "@playwright/test";
-import { enterSoloPreparation } from "./navigation";
+import { enterSoloPreparation, revealHomeMenu } from "./navigation";
 // The numbers are DOM, drawn from world coordinates every frame, so only a real
 // browser with a running frame loop can show they appear and then leave.
+async function skipFirstContact(page: Page) {
+  await page.addLocatorHandler(
+    page.getByRole("button", { name: "スキップして戦闘へ", exact: true }),
+    async (button) => {
+      await button.click();
+    },
+  );
+}
 async function battle(page: Page) {
+  await skipFirstContact(page);
   await page.goto("/");
   await enterSoloPreparation(page);
   await page.getByRole("button", { name: "ソロ出撃" }).click();
+  await enterBattle(page);
+}
+async function enterBattle(page: Page) {
+  await page.locator("#pt-enter").click({ timeout: 65000 });
+  await page.locator("#pt-tutorial-skip").click();
   await expect(page.locator("#hud")).toBeVisible();
 }
 async function hold(page: Page) {
@@ -39,18 +53,19 @@ test("hits put a number over the enemy, and it clears itself", async ({
 test("the setting turns them off and keeps that across a reload", async ({
   page,
 }) => {
+  await skipFirstContact(page);
   await page.goto("/");
-  await enterSoloPreparation(page);
-  await page
-    .locator("details")
-    .filter({ hasText: "操作・設定・保存について" })
-    .locator("summary")
-    .click();
-  await page.locator("#damage-numbers").selectOption("off");
+  await revealHomeMenu(page);
+  await page.locator("#home-settings").click();
+  const damageNumbers = page.locator('[data-preference="damageNumbers"]');
+  await expect(damageNumbers).toBeVisible();
+  await damageNumbers.selectOption("off");
   await expect
     .poll(() =>
       page.evaluate(() => {
-        const raw = localStorage.getItem("swarm-front-save-v1");
+        const raw = localStorage.getItem(
+          "swarm-front-environment-preferences-v1",
+        );
         return raw ? JSON.parse(raw).damageNumbers : null;
       }),
     )
@@ -58,7 +73,7 @@ test("the setting turns them off and keeps that across a reload", async ({
   await page.reload();
   await enterSoloPreparation(page);
   await page.getByRole("button", { name: "ソロ出撃" }).click();
-  await expect(page.locator("#hud")).toBeVisible();
+  await enterBattle(page);
   await hold(page);
   try {
     await page.waitForTimeout(12000);
@@ -71,6 +86,7 @@ test("the title carries a changelog that opens and closes", async ({
   page,
 }) => {
   await page.goto("/");
+  await revealHomeMenu(page);
   const button = page.getByRole("button", { name: "更新履歴" });
   await expect(button).toBeVisible();
   // It must not sit on top of the two things the title screen is for.
@@ -82,14 +98,18 @@ test("the title carries a changelog that opens and closes", async ({
     ).toBe(true);
   }
   await button.click();
-  const card = page.locator(".log-card");
-  await expect(card).toBeVisible();
-  await expect(card.locator("h3")).not.toHaveCount(0);
-  await expect(card.locator("li")).not.toHaveCount(0);
+  const dialog = page.getByRole("dialog", { name: "更新履歴" });
+  const entries = dialog.locator(".release-entry");
+  await expect(dialog).toBeVisible();
+  await expect(entries.first()).toBeVisible();
+  await expect(entries.locator("h3")).not.toHaveCount(0);
+  await expect(entries.locator("li")).not.toHaveCount(0);
   // The way out stays reachable however far down the list you are.
-  await card.evaluate((el) => (el.scrollTop = el.scrollHeight));
-  await page.getByRole("button", { name: "閉じる" }).click();
-  await expect(page.locator("#pause-menu")).toBeHidden();
+  await dialog
+    .locator(".menu-dialog-body")
+    .evaluate((el) => (el.scrollTop = el.scrollHeight));
+  await dialog.locator("[data-menu-back]").click();
+  await expect(dialog).toHaveCount(0, { timeout: 15000 });
   await expect(
     page.getByRole("button", { name: "ソロ：進撃 または 生存" }),
   ).toBeVisible();

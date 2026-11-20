@@ -39,12 +39,24 @@ export async function enterSoloPreparation(
 ) {
   await ensurePlayerName(page);
   await openSoloProfile(page, options);
+  const picker = page.getByRole("dialog", { name: "ソロの作戦を選ぶ" });
+  await expect(picker).toBeVisible({ timeout: 30000 });
   await page.locator("[data-operation=advance]").click(options);
-  const confirm = page.getByRole("button", { name: "確定" });
-  if (await confirm.isVisible()) await confirm.click(options);
+  const intro = page.getByRole("dialog", { name: "新しい進行を開始" });
+  const heading = page.getByRole("heading", { name: "出撃準備" });
+  await expect
+    .poll(
+      async () => (await intro.isVisible()) || (await heading.isVisible()),
+      { timeout: 30000 },
+    )
+    .toBe(true);
+  if (await intro.isVisible()) {
+    await intro.locator("#pt-confirm").click(options);
+    await expect(intro).toHaveCount(0, { timeout: 30000 });
+  }
   const trainingLater = page.locator("#pt-offer-later");
   if (await trainingLater.isVisible()) await trainingLater.click(options);
-  await expect(page.getByRole("heading", { name: "出撃準備" })).toBeVisible();
+  await expect(heading).toBeVisible();
 }
 
 export async function openCoopProfile(
