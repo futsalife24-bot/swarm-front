@@ -61,6 +61,30 @@ export async function enterCoopPreparation(
 
 export async function openArmory(page: Page, input: "click" | "tap" = "click") {
   await revealHomeMenu(page);
-  if (input === "tap") await page.locator("#open-armory").tap();
-  else await page.locator("#open-armory").click();
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
+  const action = input === "tap" ? "tap" : "click";
+  const activeBody = page.locator("xpath=/html/body");
+  await page.locator("#open-armory")[action]();
+  const confirm = page.locator("#pt-confirm");
+  if (await confirm.isVisible()) await confirm[action]();
+  await expect(activeBody).toHaveAttribute("data-screen", "base");
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
+  await expect(page.locator("#pt-base-weapons")).toBeVisible();
+  await page.locator("#pt-base-weapons")[action]();
+  await expect(activeBody).toHaveAttribute("data-screen", "armory");
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
+  await expect(page.locator('[data-genre="rifle"]')).toBeVisible();
+  await page.locator('[data-genre="rifle"]')[action]();
+  await expect(page.locator(".split-shutter")).toHaveCount(0);
+  await expect(page.locator(".pt-list-tools")).toBeVisible();
+  const allWeapons = page.locator(
+    '[data-list-choice="kind"][data-value="all"]',
+  );
+  await page.locator(".pt-view-menu summary")[action]();
+  await expect(page.locator(".pt-view-menu")).toHaveAttribute("open");
+  await expect(allWeapons).toBeVisible();
+  await allWeapons[action]();
+  await expect(page.getByRole("heading", { name: "武器一覧" })).toBeVisible();
+  await page.getByRole("button", { name: "閉じる" })[action]();
+  await expect(page.getByRole("heading", { name: "武器一覧" })).toBeVisible();
 }
