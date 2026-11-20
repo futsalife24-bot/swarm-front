@@ -1,4 +1,6 @@
 import "./client/boot-screen";
+import { installExitConfirmation } from "./client/exit-confirmation";
+installExitConfirmation();
 import { installCleanCapture } from "./client/clean-capture";
 import "./client/clean-capture.css";
 installCleanCapture();
@@ -6,7 +8,7 @@ import { installPlayerProfile } from "./client/player-profile";
 import "./client/app-install";
 import { installInviteLaunch } from "./client/invite-launch";
 import { startWithSaveWriter } from "./client/save-writer";
-import { track } from "./client/analytics";
+import { track, trackReturn } from "./client/analytics";
 import { loadNetworkSession } from "./client/network";
 import {
   checkDeveloperSession,
@@ -15,6 +17,7 @@ import {
 
 async function boot() {
   track("view");
+  trackReturn();
   installInviteLaunch();
   installPlayerProfile();
   const url = new URL(location.href);

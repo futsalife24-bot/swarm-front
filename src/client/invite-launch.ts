@@ -1,5 +1,6 @@
 import { parseRoomEntry } from "./room-invite";
 import { clearNetworkSession } from "./network";
+import { reloadAuthorizedGameDocument } from "./exit-confirmation";
 
 // Supported browsers deliver app links without discarding an ongoing game.
 // OS link capture preferences still decide whether an external link opens the app.
@@ -28,6 +29,8 @@ export function installInviteLaunch() {
     url.hash = code.toLowerCase();
     // replaceState + reload also handles a hash-only launch into an existing app.
     history.replaceState(null, "", url);
-    location.reload();
+    // The invitation was confirmed before releasing the current connection.
+    // Do not offer a second cancellation after those side effects.
+    reloadAuthorizedGameDocument();
   });
 }

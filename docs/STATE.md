@@ -1,3 +1,16 @@
+# 終了確認：正式監査P2修正・再監査準備（2026-11-08）
+
+正式通常Chat監査で旧HEAD ede9d7a のP2が3件（再試行予約、認証変更後の取消、E2E失敗後処理）。専用branchで修正し、関連76＋保存53件・両型・Chrome8経路が成功。既存0ms許可timerは任意指摘として残余リスクを明記。認証API/権限/設定は無変更、push/merge/deployなし。同じChatへの再監査と独立閉鎖判定待ちで、自己検証を合格に代用しない。[修正・制約・正式監査URL](EXIT-CONFIRMATION-P2-20261108.md)。
+
+# 終了確認：非公開の実装・検証候補（2026-11-08）
+
+本人の限定依頼に基づき、端末Back等で文書を離れる際の標準確認を追加。通常のメニュー戻る/閉じるは維持、取消で履歴/編成/接続を操作しない。base `303b7745ab6db05ac9d02c6985e35249eaada4cd`、専用branch `codex/exit-confirm-20261108`。両型、関連67＋保存回帰53件、隔離Chrome6経路（ローカル実WebSocket含む）成功。実Android/PWA終了・実複数人協力は未検証。本人の指示によりpush/merge/deployせず、独立レビュー用に非公開保存。以前の独立メニュー監査は別フォルダーに保持。[仕様・証拠・制約](EXIT-CONFIRMATION-20261108.md)。
+## 2026-11-20 C-6 M1 初回導線のファネル計測
+
+進撃ソロの初回導線に匿名計測を追加した。`trackOnce()` で `ftue_start / first_sortie / first_clear / first_supply10 / return` を1端末1回だけ送り、再訪は別の日本時間の日に1回だけ送る。`developer=1` では送らない。サーバーは既存 `view / sortie / clear` の数え方を維持し、日別データへ節目件数のみ追加する。管理画面は期間指定で節目別件数を表示する。体験・文言・導線と進撃の `ProgressSave` は無変更。
+
+`npm run typecheck` は合格。`npm test` 全件は既知5失敗（`encounter-film-assets` 1件、`game-step-equivalence` 4件）に加えて `harrow-model` の1件が120秒タイムアウトし、合計6失敗・2050合格だった。`harrow-model` 単体再実行でも同じ1件が120秒タイムアウトしたため、全件実行特有ではなかった。実中継 `project-hub` は別リポジトリで、今回の対象外変更として未決。
+
 ## 2026-11-18 HARROWの斜面での接地
 
 ステージ20の横斜面で奥足の爪が隠れるため、地上待機・通常歩行の描画姿勢を足幅にわたる地表の傾きに合わせた。元の比較動画と同じ視点・時刻で確認。図鑑の平地歩行・待機も表示確認。[修正版の動画](https://drive.google.com/file/d/1ydD3n2Yecq4KBDxK2EzO0c3XXEPmLfmK/view)

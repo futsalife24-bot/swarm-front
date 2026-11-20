@@ -9,6 +9,10 @@
 
 import { ARMORY_TOUR } from "./armory-tour-steps";
 import type { ControlVoiceId } from "./control-voice";
+import {
+  enemyIdentificationLine,
+  type EnemyReportId,
+} from "../shared/enemy-identity";
 
 /** 音声セット。フォルダは `voice-<set>-<voice>-v<version>/`。 */
 export type ControlVoiceSet = "tutorial" | "control";
@@ -47,7 +51,7 @@ export type ControlVoiceScene =
 /**
  * 再生候補にしない理由。
  * - abolished: 機能ごと廃止（brief-*）
- * - on-hold: 本人判断で保留（anomaly-* の識別名）
+ * - on-hold: 本人判断で保留（anomaly-* の識別名は全10種採用済みのため対象外）
  * - unimplemented: 鳴らす仕組みが未実装（G18 など）
  */
 export type ControlVoiceBlock = "abolished" | "on-hold" | "unimplemented";
@@ -538,36 +542,36 @@ const ANNOUNCE = rows(
       "新たなアノマリーを確認。エネミーレポートに記録しました。",
       R,
     ],
-    ["anomaly-harrow", "エネミーレポートでHARROWを表示", "識別名、ハロウ。", P],
-    ["anomaly-calyx", "エネミーレポートでCALYXを表示", "識別名、カリクス。", P],
+    ["anomaly-harrow", "エネミーレポートでHARROWを表示", enemyIdentificationLine("harrow"), P],
+    ["anomaly-calyx", "エネミーレポートでCALYXを表示", enemyIdentificationLine("calyx"), P],
     [
       "anomaly-bastion",
       "エネミーレポートでBASTIONを表示",
-      "識別名、バスティオン。",
+      enemyIdentificationLine("bastion"),
       P,
     ],
     [
       "anomaly-volley",
       "エネミーレポートでHOUND / VOLLEYを表示",
-      "識別名、ハウンド・ボレー。",
+      enemyIdentificationLine("ant"),
       P,
     ],
     [
       "anomaly-leaper",
       "エネミーレポートでHOUND / LEAPERを表示",
-      "識別名、ハウンド・リーパー。",
+      enemyIdentificationLine("spider"),
       P,
     ],
-    ["anomaly-pleat", "エネミーレポートでPLEATを表示", "識別名、プリート。", P],
-    ["anomaly-prism", "エネミーレポートでPRISMを表示", "識別名、プリズム。", P],
-    ["anomaly-ray", "エネミーレポートでRAYを表示", "識別名、レイ。", P],
+    ["anomaly-pleat", "エネミーレポートでPLEATを表示", enemyIdentificationLine("crawler"), P],
+    ["anomaly-prism", "エネミーレポートでPRISMを表示", enemyIdentificationLine("spitter"), P],
+    ["anomaly-ray", "エネミーレポートでRAYを表示", enemyIdentificationLine("hornet"), P],
     [
       "anomaly-foundry",
       "エネミーレポートでFOUNDRY ZEROを表示",
-      "識別名、ファウンドリー・ゼロ。",
+      enemyIdentificationLine("boss"),
       P,
     ],
-    ["anomaly-catena", "エネミーレポートでCATENAを表示", "識別名、カテナ。", P],
+    ["anomaly-catena", "エネミーレポートでCATENAを表示", enemyIdentificationLine("worm"), P],
     [
       "levelup",
       "生存「レベルアップ／強化カードを選択」",
@@ -912,7 +916,7 @@ const REPORT = rows(
     [
       "report-harrow-form",
       "エネミーレポート HARROW の形態",
-      "長い首から胴体へ連なる鱗の被覆と、喉から腹を覆う装甲。細い後脚で歩き、支柱で組まれた翼を広げて高く飛び上がります。地上と空中を行き来し、飛行中に大きく損傷すると体勢を崩して落下します。",
+      "長い首から胴体へ連なる鱗の被覆と、喉から腹を覆う装甲。地上では片脚で巨体を支え、腰を沈めて反対の足を遠くへ運びます。足が着く直前に四本の爪を扇状に開き、足裏で体重を支えます。足を離すと爪が再び丸まります。ゆったりした足取りでも、一歩で大きく間合いを詰めます。支柱で組まれた翼を広げて高く飛び上がり、飛行中に大きく損傷すると体勢を崩して落下します。",
       O,
     ],
     [
@@ -972,13 +976,13 @@ const REPORT = rows(
     [
       "report-pleat-form",
       "エネミーレポート PLEAT の形態",
-      "獣の背を思わせる乾いた被覆。その下の支持肢は、外から見える体形と一致しません。低く追跡する途中で背が折り重なり、硬化した層が金属のように光ります。",
+      "獣の背を思わせる乾いた被覆。その下の支持肢は、外から見える体形と一致しません。地面だけでなく壁や天井も歩き回り、低く追跡する途中で背が折り重なり、硬化した層が金属のように光ります。",
       O,
     ],
     [
       "report-pleat-attack",
       "エネミーレポート PLEAT の攻撃",
-      "胸部の襞が開き、姿勢を沈めます。襞が閉じると、地面に沿って前方へ衝撃波が走ります。",
+      "胸部の襞が開き、姿勢を沈めます。襞が閉じると、本体が前方へ4m突進し、通過範囲を扇形になぎ払います。",
       O,
     ],
     [
@@ -1008,7 +1012,7 @@ const REPORT = rows(
     [
       "report-foundry-form",
       "エネミーレポート FOUNDRY ZERO の形態",
-      "壁・レール・リングからなる移動工場。大きな支持脚で身体を支え、隊員の集まる場所へ向きを変えます。",
+      "壁・レール・リングからなる移動工場。六本の支持脚を三本ずつ交互に踏み出し、隊員の集まる場所へ向きを変えます。",
       O,
     ],
     [
@@ -1020,13 +1024,13 @@ const REPORT = rows(
     [
       "report-catena-form",
       "エネミーレポート CATENA の形態",
-      "ミミズのようにうねり、多数の脚で地面を這う機械型の巨体。ひとつの頭部に十四の胴節がつながり、広い範囲を移動します。胴節が壊れるとその位置で分離し、両側の鎖が加速して隊員を追います。",
+      "多数の脚で地面を這う機械型の巨体。頭部が大きく左右に曲がると、十四の胴節が順に少し持ち上がり、うねりが尾へ抜けます。胴節が壊れるとその位置で分離し、両側の鎖が加速して隊員を追います。",
       O,
     ],
     [
       "report-catena-attack",
       "エネミーレポート CATENA の攻撃",
-      "頭部と胴節の最大8か所の発光器官が隊員へ向き、光を集めてから細いレーザーを放ちます。連結中は頭から尾へ波打つように跳び、赤い予告円へ着地攻撃を行います。予告円の外へ退避してください。頭部を失うと、そのとき頭部側につながっていた残存節と同じ数の個体が現れます。現れる種類はマップによって異なります。",
+      "頭部とひとつおきの胴節にある最大8か所の発光器官が、順に隊員を狙います。光を集めた後に赤い射線が現れ、続いて細いレーザーを放ちます。赤い帯から横へ離れてください。連結中は頭から尾へ波打つように跳び、赤い予告円へ着地攻撃を行います。予告円の外へ退避してください。頭部を失うと、そのとき頭部側につながっていた残存節から、短い鎖は各節、長い鎖は2節につき1体として最大7体の個体が現れます。現れる種類はマップによって異なります。",
       O,
     ],
   ],
@@ -1042,7 +1046,7 @@ const BRIEF = rows(
     [
       "brief-01",
       "ステージ01「前哨掃討」の作戦説明",
-      "HOUNDと散射派生で移動・射撃の基本を確認。ボスなし。",
+      "PLEATとHOUND / VOLLEYで移動・射撃の基本を確認。ボスなし。",
       O,
     ],
     [
@@ -1392,3 +1396,4 @@ export function controlVoiceIdsForScene(scene: ControlVoiceScene) {
     (line) => line.scene === scene && playableLine(line),
   ).map((line) => line.id);
 }
+

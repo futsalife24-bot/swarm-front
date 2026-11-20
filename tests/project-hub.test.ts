@@ -151,6 +151,11 @@ describe("independent project analytics", () => {
                 visitors: 1,
                 sorties: 0,
                 clears: 0,
+                ftueStarts: 1,
+                firstSorties: 2,
+                firstClears: 3,
+                firstSupply10s: 4,
+                returns: 5,
                 ids: ["secret-visitor"],
                 admin: { onlyIds: ["secret-visitor"] },
               },
@@ -172,6 +177,13 @@ describe("independent project analytics", () => {
     const data = JSON.parse(text);
     expect(data.apps).toHaveLength(4);
     expect(data.apps[0].all[0].views).toBe(2);
+    expect(data.apps[0].all[0]).toMatchObject({
+      ftueStarts: 1,
+      firstSorties: 2,
+      firstClears: 3,
+      firstSupply10s: 4,
+      returns: 5,
+    });
     expect(r.headers.get("Cache-Control")).toBe("no-store");
   });
   it("forwards original collection origin and event without developer cookies", async () => {

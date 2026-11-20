@@ -53,6 +53,7 @@ export default defineConfig({
       "tests/tutorial.test.ts",
       "tests/tutorial-flags.test.ts",
       "tests/anomaly-voice.test.ts",
+      "tests/anomaly-test-phase1.test.ts",
       "tests/anomaly-audio-lifecycle.test.ts",
       "tests/anomaly-arrival-audio.test.ts",
       "tests/foundry-laser-warning.test.ts",
@@ -77,6 +78,7 @@ export default defineConfig({
       "tests/hound-motion.test.ts",
       "tests/structure-motion.test.ts",
       "tests/enemy-report-motion.test.ts",
+      "tests/anomaly-consistency.test.ts",
       "tests/maps.test.ts",
       "tests/terrain.test.ts",
       "tests/jump-audit-regressions.test.ts",
@@ -99,3 +101,4 @@ export default defineConfig({
     fileParallelism: false,
   },
 });
+

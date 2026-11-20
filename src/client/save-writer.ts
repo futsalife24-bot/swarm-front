@@ -1,3 +1,5 @@
+import { reloadAuthorizedGameDocument } from "./exit-confirmation";
+
 /** One normal/co-op app owns persistence for its whole document lifetime. */
 const LOCK_NAME = "swarm-front-shared-save-writer-v3";
 let ownsWriter = false;
@@ -50,7 +52,7 @@ export function startWithSaveWriter(start: () => Promise<void>) {
           };
           window.addEventListener("pagehide", onHide, { once: true });
           window.addEventListener("pageshow", (event) => {
-            if (event.persisted) location.reload();
+            if (event.persisted) reloadAuthorizedGameDocument();
           });
           root.innerHTML = "";
           try {

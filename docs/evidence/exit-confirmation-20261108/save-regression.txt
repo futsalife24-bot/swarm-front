@@ -1,0 +1,8 @@
+
+ RUN  v5.0.0 C:/Users/futsa/Documents/Codex/2026-11-08/task/exit-confirm-implementation
+
+
+ Test Files  2 passed (2)
+      Tests  53 passed (53)
+   Start at  23:20:59
+   Duration  3.07s (import 65%, transform 28%, tests 7%, worker 1%)

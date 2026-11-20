@@ -170,7 +170,7 @@ const plans = [
   {
     name: "前哨掃討",
     map: 0,
-    brief: "HOUNDと散射派生で移動・射撃の基本を確認。ボスなし。",
+    brief: "PLEATとHOUND / VOLLEYで移動・射撃の基本を確認。ボスなし。",
     waves: [
       wave({ crawler: 12 }, [], 0.9),
       wave({ crawler: 12, ant: 8 }, [], 0.8),
@@ -494,8 +494,9 @@ export function mapFor(w: {
   training?: boolean;
   defense?: unknown;
   front?: unknown;
+  anomalyTest?: unknown;
 }) {
-  return w.defense || w.front
+  return w.defense || w.front || w.anomalyTest
     ? DEFENSE_MAPS[stageFor(w).map]
     : w.training
       ? TRAINING_MAP

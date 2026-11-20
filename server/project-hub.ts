@@ -82,6 +82,11 @@ export async function exportProjectAnalytics(
             visitors: d.visitors,
             sorties: d.sorties,
             clears: d.clears,
+            ftueStarts: d.ftueStarts ?? 0,
+            firstSorties: d.firstSorties ?? 0,
+            firstClears: d.firstClears ?? 0,
+            firstSupply10s: d.firstSupply10s ?? 0,
+            returns: d.returns ?? 0,
           }));
       };
       return { id: app.id, all: await read(false), excluded: await read(true) };

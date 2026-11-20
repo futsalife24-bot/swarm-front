@@ -4,6 +4,8 @@ import {
   visitCampaignMenu,
 } from "./menu-navigation";
 import "./boot-screen";
+import { installExitConfirmation } from "./exit-confirmation";
+installExitConfirmation();
 import {
   downloadNetworkDiagnostics,
   diagnosticBuild,

@@ -36,6 +36,8 @@ import {
   foundryLaserDirection,
   foundryLaserOrigin,
 } from "../shared/foundry-defs";
+import { HOUND_VOLLEY_SPREADS, HOUND_VOLLEY_SPEED, HOUND_VOLLEY_TARGET_HEIGHT } from "../shared/hound-volley";
+import { PLEAT_STRIKE } from "../shared/pleat-strike";
 
 export type ReportMotion = "idle" | "move" | "attack";
 
@@ -43,6 +45,29 @@ const reportFlightHeight = HARROW.flightHeight / HARROW.scale;
 const reportFoundryScale = enemySize({ size: spawnSize("boss", false, 0) });
 const reportBombRouteLength = 40;
 const reportBombFirst = 8;
+const reportVolleyOrigin = { x: 0, y: 1.1, z: -0.8 };
+const reportVolleyTarget = { x: 0, y: HOUND_VOLLEY_TARGET_HEIGHT, z: -8 };
+
+export function reportVolleyPositions(age: number) {
+  return HOUND_VOLLEY_SPREADS.map((spread) => {
+    const dist = Math.hypot(
+      reportVolleyTarget.x - reportVolleyOrigin.x,
+      reportVolleyTarget.z - reportVolleyOrigin.z,
+    );
+    const angle =
+      Math.atan2(
+        reportVolleyTarget.x - reportVolleyOrigin.x,
+        reportVolleyTarget.z - reportVolleyOrigin.z,
+      ) + spread;
+    const flight = Math.max(0.3, dist / HOUND_VOLLEY_SPEED);
+    const dy = (reportVolleyTarget.y - reportVolleyOrigin.y) / flight;
+    return {
+      x: reportVolleyOrigin.x + Math.sin(angle) * HOUND_VOLLEY_SPEED * age,
+      y: reportVolleyOrigin.y + dy * age,
+      z: reportVolleyOrigin.z + Math.cos(angle) * HOUND_VOLLEY_SPEED * age,
+    };
+  });
+}
 export const HARROW_REPORT_SEQUENCE: {
   clip: HoundClip;
   duration: number;
@@ -392,7 +417,13 @@ export function reportPose(
     height =
       t > 0.4 && t < 1.25 ? Math.sin(((t - 0.4) / 0.85) * Math.PI) * 0.65 : 0;
   }
-  return { clip, sample, height, impact: spec.impact, cycle };
+  const strikeAge = cycle - spec.impact;
+  const z =
+    kind === "crawler" && mode === "attack" && strikeAge >= 0
+      ? -PLEAT_STRIKE.travel *
+        Math.min(1, strikeAge / PLEAT_STRIKE.duration)
+      : 0;
+  return { clip, sample, height, z, impact: spec.impact, cycle };
 }
 
 const catenaTarget = { x: 11, y: 1.2, z: -14 };
@@ -651,11 +682,24 @@ export class ReportEffects {
     }
     if (age < 0 || age > 0.65) return;
     this.material.opacity = 0.9 * (1 - age / 0.7);
-    if (kind === "crawler" || kind === "spider" || kind === "boss") {
+    if (kind === "ant") {
+      reportVolleyPositions(age).forEach((position, index) => {
+        const bolt = this.bolts[index];
+        bolt.visible = true;
+        bolt.position.set(position.x, position.y, position.z);
+        bolt.scale.setScalar(1);
+      });
+      return;
+    }
+    if (kind === "crawler") {
+      this.ring.visible = true;
+      this.ring.scale.setScalar(0.25 + age * 4);
+      this.ring.position.set(0, 0.06, -PLEAT_STRIKE.travel);
+    } else if (kind === "spider" || kind === "boss") {
       this.ring.visible = true;
       const scale = kind === "boss" ? 0.6 + age * 7 : 0.25 + age * 4;
       this.ring.scale.setScalar(scale);
-      this.ring.position.set(0, 0.06, kind === "crawler" ? -0.96 - age * 5 : 0);
+      this.ring.position.set(0, 0.06, 0);
     } else if (kind === "hornet") {
       this.line(
         this.beams[0],
@@ -664,7 +708,7 @@ export class ReportEffects {
         1,
       );
     } else {
-      const count = kind === "ant" ? 5 : 1;
+      const count = 1;
       for (let i = 0; i < count; i++) {
         const bolt = this.bolts[i],
           angle = (i - (count - 1) / 2) * 0.2;

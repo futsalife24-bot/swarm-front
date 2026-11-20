@@ -1,5 +1,14 @@
+import {
+  defaultStore,
+  hasSeen,
+  markReturnVisit,
+  markSeen,
+} from "./tutorial-flags";
+
 const adminKey = "app-analytics-admin";
-const adminChoice = new URLSearchParams(location.search).get("analytics_admin");
+const searchParams = () =>
+  new URLSearchParams(globalThis.location?.search ?? "");
+const adminChoice = searchParams().get("analytics_admin");
 if (adminChoice === "1" || adminChoice === "0") {
   let message: string;
   try {
@@ -28,7 +37,7 @@ if (adminChoice === "1" || adminChoice === "0") {
   if (document.body) show();
   else document.addEventListener("DOMContentLoaded", show, { once: true });
   try {
-    const url = new URL(location.href);
+    const url = new URL(globalThis.location!.href);
     url.searchParams.delete("analytics_admin");
     history.replaceState(history.state, "", url.href);
   } catch {}
@@ -52,9 +61,8 @@ const visitor = (() => {
     return "anonymous";
   }
 })();
-export function track(kind: "view" | "sortie" | "clear") {
-  if (new URLSearchParams(location.search).get("developer") === "1") return;
-  void fetch(
+const collect = (kind: string) =>
+  fetch(
     "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
     {
       method: "POST",
@@ -64,4 +72,30 @@ export function track(kind: "view" | "sortie" | "clear") {
       body: JSON.stringify({ kind, visitor, admin: isAnalyticsAdmin() }),
     },
   ).catch(() => {});
+const isDeveloper = () => searchParams().get("developer") === "1";
+export function track(kind: "view" | "sortie" | "clear") {
+  if (isDeveloper()) return;
+  void collect(kind);
+}
+
+export type OnceKind =
+  "ftue_start" | "first_sortie" | "first_clear" | "first_supply10" | "return";
+
+export function trackOnce(
+  kind: OnceKind,
+  marker: `ftue:${string}`,
+  store: Pick<Storage, "getItem" | "setItem"> | undefined = defaultStore(),
+) {
+  if (isDeveloper()) return false;
+  if (hasSeen(marker, store)) return false;
+  markSeen(marker, store);
+  if (!hasSeen(marker, store)) return false;
+  void collect(kind);
+  return true;
+}
+
+export function trackReturn() {
+  if (isDeveloper()) return;
+  const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+  if (markReturnVisit(today)) void collect("return");
 }

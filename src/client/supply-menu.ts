@@ -20,6 +20,7 @@ import {
   type Reveal,
 } from "./supply-presentation";
 import "./supply-menu.css";
+import { trackOnce } from "./analytics";
 import { openSupplyResult, shareSupplyResults } from "./supply-result-actions";
 
 /** 基地の新補給。保存成功済みの結果だけを表示レイヤーへ渡す。 */
@@ -199,6 +200,7 @@ export function mountSupplyMenu(
     update();
     try {
       snapshot = await service.draw(count);
+      if (count === 10) trackOnce("first_supply10", "ftue:first-supply10");
       if (!snapshot.pending) throw Error("確定結果を再確認してください");
       await present(snapshot.pending);
     } catch (error) {
