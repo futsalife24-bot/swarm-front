@@ -104,6 +104,7 @@ import {
   initializeProgress,
   persistProgress,
 } from "./progression-save";
+import { recordFrontSoloEncounters } from "./progression-front-solo";
 import { readFrontProgress } from "./front-progress";
 import {
   saveFrontRunRewards,
@@ -251,6 +252,7 @@ function setView() {
   if (localRun) {
     world = localRun.world;
     info = getFrontRunView(localRun, id);
+    if (!network) recordFrontSoloEncounters(world, progressStorage);
     observeFusions();
   }
 }

@@ -36,7 +36,12 @@ import {
   foundryLaserDirection,
   foundryLaserOrigin,
 } from "../shared/foundry-defs";
-import { HOUND_VOLLEY_SPREADS, HOUND_VOLLEY_SPEED, HOUND_VOLLEY_TARGET_HEIGHT } from "../shared/hound-volley";
+import {
+  HOUND_VOLLEY_GRAVITY,
+  HOUND_VOLLEY_SPREADS,
+  HOUND_VOLLEY_SPEED,
+  HOUND_VOLLEY_TARGET_HEIGHT,
+} from "../shared/hound-volley";
 import { PLEAT_STRIKE } from "../shared/pleat-strike";
 
 export type ReportMotion = "idle" | "move" | "attack";
@@ -60,10 +65,15 @@ export function reportVolleyPositions(age: number) {
         reportVolleyTarget.z - reportVolleyOrigin.z,
       ) + spread;
     const flight = Math.max(0.3, dist / HOUND_VOLLEY_SPEED);
-    const dy = (reportVolleyTarget.y - reportVolleyOrigin.y) / flight;
+    const dy =
+      (reportVolleyTarget.y - reportVolleyOrigin.y) / flight +
+      0.5 * HOUND_VOLLEY_GRAVITY * flight;
     return {
       x: reportVolleyOrigin.x + Math.sin(angle) * HOUND_VOLLEY_SPEED * age,
-      y: reportVolleyOrigin.y + dy * age,
+      y:
+        reportVolleyOrigin.y +
+        dy * age -
+        0.5 * HOUND_VOLLEY_GRAVITY * age * age,
       z: reportVolleyOrigin.z + Math.cos(angle) * HOUND_VOLLEY_SPEED * age,
     };
   });
