@@ -10,6 +10,7 @@ import {
   markSeen,
 } from "./tutorial-flags";
 import type { Layout } from "./layout";
+import type { TutorialCourse } from "./tutorial-run";
 
 export function recordTrainingAchievement(operation: unknown) {
   if (typeof operation !== "string") return false;
@@ -20,32 +21,42 @@ export function recordTrainingAchievement(operation: unknown) {
 
 export interface BasicTrainingOptions {
   layout: Layout;
+  /** 初陣訓練（4操作）または完全版（12ステップ）。省略時は完全版。 */
+  course?: TutorialCourse;
   /** 訓練射撃場へ渡す設定（音量・感度・持っていく2本）。 */
   config?: () => unknown;
   onExit: (completed: boolean) => void;
 }
 
 export function openBasicTraining(options: BasicTrainingOptions) {
+  const course = options.course ?? "full";
   const frame = document.createElement("iframe");
   frame.className = "training-frame";
-  frame.title = "基礎訓練";
+  frame.title = course === "first" ? "初陣訓練" : "基礎訓練";
   frame.allow = "autoplay; gyroscope; accelerometer";
-  frame.src = import.meta.env.BASE_URL + "?training=1&tutorial=1";
+  frame.src =
+    import.meta.env.BASE_URL + `?training=1&tutorial=1&course=${course}`;
   const receive = (event: MessageEvent) => {
     if (
       event.origin !== location.origin ||
       event.source !== frame.contentWindow
     )
       return;
-    if (event.data?.type === "training-ready")
+    if (event.data?.type === "training-ready") {
+      const readyCourse =
+        event.data.course === "first" || event.data.course === "full"
+          ? event.data.course
+          : course;
       frame.contentWindow!.postMessage(
         {
           type: "training-start",
+          course: readyCourse,
           layout: options.layout,
           config: options.config?.(),
         },
         location.origin,
       );
+    }
     if (event.data?.type === "training-achievement")
       recordTrainingAchievement(event.data.operation);
     if (event.data?.type === "training-exit") {

@@ -28,6 +28,7 @@ import {
   TUTORIAL_STEPS,
   TutorialRun,
   lineSeconds,
+  type TutorialCourse,
   type TutorialAction,
   type TutorialDevice,
 } from "./tutorial-run";
@@ -46,7 +47,11 @@ const controls = new Controls(),
 /** 基礎訓練（tutorial-proposal §4-1）。同じ訓練射撃場を、手順つきの訓練として開く。 */
 const tutorialMode =
   new URLSearchParams(location.search).get("tutorial") === "1";
-const run = tutorialMode ? new TutorialRun() : undefined;
+const course: TutorialCourse =
+  new URLSearchParams(location.search).get("course") === "first"
+    ? "first"
+    : "full";
+const run = tutorialMode ? new TutorialRun(undefined, course) : undefined;
 const device: TutorialDevice = matchMedia("(pointer: coarse)").matches
   ? "touch"
   : "pc";
@@ -60,7 +65,7 @@ $("portrait").remove();
 installZoomGuard();
 $("hud").innerHTML = '<div class="crosshair">+</div>';
 $("ui").innerHTML = tutorialMode
-  ? `<section class="training-toolbar tutorial-toolbar"><div><b>基礎訓練</b><small id="tutorial-count">報酬なし · 失敗なし</small></div><output id="training-stats" aria-live="polite">読み込み中…</output><button id="tutorial-skip" hidden>この手順を飛ばす</button><button id="tutorial-next" hidden>次へ</button><button id="tutorial-finish" class="primary" hidden>訓練を終える</button></section><div id="training-start-panel"><button id="training-start" class="primary" disabled>訓練を始める</button><p>${TUTORIAL_STEPS[0].title} · ${TUTORIAL_STEPS[0].how[device]}</p><button id="training-exit" hidden>訓練を終了</button></div>`
+  ? `<section class="training-toolbar tutorial-toolbar"><div><b>${course === "first" ? "初陣訓練" : "基礎訓練"}</b><small id="tutorial-count">報酬なし · 失敗なし</small></div><output id="training-stats" aria-live="polite">読み込み中…</output><button id="tutorial-skip" hidden>この手順を飛ばす</button><button id="tutorial-next" hidden>次へ</button><button id="tutorial-continue-full" hidden>完全版の基礎訓練を続ける</button><button id="tutorial-finish" class="primary" hidden>訓練を終える</button></section><div id="training-start-panel"><button id="training-start" class="primary" disabled>訓練を始める</button><p>${TUTORIAL_STEPS[0].title} · ${TUTORIAL_STEPS[0].how[device]}</p><button id="training-exit" hidden>訓練を終了</button></div>`
   : '<section class="training-toolbar"><div><b>訓練射撃場</b><small>固定標的 · 報酬なし</small></div><output id="training-stats">配置を読み込み中…</output><button id="training-reset">標的リセット</button><button id="training-exit">配置設定に戻る</button></section><div id="training-start-panel"><button id="training-start" class="primary" disabled>タップして試し撃ち開始</button><p>移動・照準・射撃・装填・切替・回避を試せます</p></div>';
 const exit = (completed = false) => {
   if (leaving) return;
@@ -107,6 +112,14 @@ document.getElementById("tutorial-next")?.addEventListener("click", () => {
 document
   .getElementById("tutorial-finish")
   ?.addEventListener("click", () => exit(true));
+document
+  .getElementById("tutorial-continue-full")
+  ?.addEventListener("click", () => {
+    if (course !== "first" || run?.step.id !== "T11" || leaving) return;
+    const next = new URL(location.href);
+    next.searchParams.set("course", "full");
+    location.href = next.pathname + next.search;
+  });
 $("training-start").onclick = () => {
   started = true;
   paused = false;
@@ -181,13 +194,13 @@ window.addEventListener("message", (event) => {
   if (run) {
     // 訓練の間は兵士の掛け声を止め、選択中の声の訓練分だけを読み込む（§8-1・§8-4）。
     sound.soldierVoiceEnabled = false;
-    void sound.prepareControlScene("training");
+    void sound.prepareControlVoice(run.voiceIds());
     $("training-stats").textContent = "「訓練を始める」で開始します";
   } else
     $("training-stats").textContent = "編集途中のボタン配置・濃さで試せます";
   ($("training-start") as HTMLButtonElement).disabled = false;
 });
-parent.postMessage({ type: "training-ready" }, location.origin);
+parent.postMessage({ type: "training-ready", course }, location.origin);
 placeControls(layout);
 let previous = performance.now(),
   accumulator = 0;
@@ -225,6 +238,8 @@ function frame(now: number) {
     $("tutorial-skip").hidden = !run.canSkip;
     $("tutorial-next").hidden = run.manual !== "next";
     $("tutorial-finish").hidden = run.manual !== "finish";
+    $("tutorial-continue-full").hidden =
+      course !== "first" || run.step.id !== "T11";
   } else if (started)
     $("training-stats").textContent =
       `${WEAPONS[p.weapons[p.slot].kind].name}　${p.ammo[p.slot]} / ${stats(p.weapons[p.slot]).mag}　${p.reload > 0 ? "装填中" : "固定標的に射撃"}`;

@@ -26,6 +26,7 @@ export type TutorialStepId =
   | "T9"
   | "T10"
   | "T11";
+export type TutorialCourse = "first" | "full";
 
 /** 進行条件の数値（画面テキストは定義値から作る。台詞には数値を入れない）。 */
 export const MOVE_GOAL_M = 8;
@@ -178,6 +179,17 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
   },
 ];
 
+const STEP_BY_ID = new Map(TUTORIAL_STEPS.map((step) => [step.id, step]));
+export const TUTORIAL_COURSES: Record<
+  TutorialCourse,
+  readonly TutorialStep[]
+> = {
+  full: TUTORIAL_STEPS,
+  first: (
+    ["T0", "T1", "T3", "T5", "T6", "T11"] as const
+  ).map((id) => STEP_BY_ID.get(id)!),
+};
+
 export type TutorialAction =
   | { type: "say"; id: string }
   | { type: "arena"; arena: TutorialArena }
@@ -223,17 +235,33 @@ export class TutorialRun {
   };
   /** T9 達成後、tut-drop-rule を聞く間（見込み）だけ待つ。 */
   private holdUntil?: number;
-  constructor(private random: () => number = Math.random) {}
+  constructor(
+    private random: () => number = Math.random,
+    private course: TutorialCourse = "full",
+  ) {}
+
+  private get steps() {
+    return TUTORIAL_COURSES[this.course];
+  }
 
   get step() {
-    return TUTORIAL_STEPS[this.index];
+    return this.steps[this.index];
   }
   /** 進行表示（T1〜T11 の番号。T0 は開始画面）。 */
   get number() {
     return this.index;
   }
   get total() {
-    return TUTORIAL_STEPS.length - 1;
+    return this.steps.length - 1;
+  }
+  /** この課程で使う既存の台詞だけ（相づち・促し・終了を含む）。 */
+  voiceIds() {
+    const ids = new Set<string>(["tut-nudge", "tut-skip", ...ACKS]);
+    for (const step of this.steps) {
+      for (const id of step.lines) ids.add(id);
+      if (step.after) ids.add(step.after);
+    }
+    return [...ids];
   }
   /** 1行の案内（字幕を兼ねる画面テキスト）。 */
   text(device: TutorialDevice) {
@@ -381,7 +409,7 @@ export class TutorialRun {
     return id;
   }
   private enter(index: number): TutorialAction[] {
-    this.index = Math.min(index, TUTORIAL_STEPS.length - 1);
+    this.index = Math.min(index, this.steps.length - 1);
     this.progress = 0;
     this.elapsed = 0;
     this.nudged = false;

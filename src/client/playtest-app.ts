@@ -68,6 +68,7 @@ import { startArmoryTour } from "./armory-tour";
 import { openTutorialGuide } from "./tutorial-guide";
 import { watchSupplyVoice } from "./supply-voice";
 import { openBasicTraining } from "./tutorial-launch";
+import type { TutorialCourse } from "./tutorial-run";
 import {
   ensureTutorialFlags,
   hasClearedNormalStage,
@@ -479,7 +480,7 @@ function buddyGuide(w: World) {
   );
 }
 /** 基礎訓練を開く（タイトル・初回の誘いから）。訓練は報酬なし・保存なし。 */
-function startTraining(after: () => void) {
+function startTraining(after: () => void, course: TutorialCourse = "full") {
   sound.controlVoice.stop();
   let weapons: unknown;
   try {
@@ -491,6 +492,7 @@ function startTraining(after: () => void) {
   }
   openBasicTraining({
     layout,
+    course,
     config: () => ({
       preferences: preferences.snapshot(),
       weapons,
@@ -507,15 +509,15 @@ function offerTraining(next: () => void) {
   }
   markSeen("offer");
   const d = dialog(
-    "基礎訓練",
-    '<p>操作をひととおり確認できます（約3分・報酬なし）。あとからタイトルの「チュートリアル」で受けることもできます。</p><button id="pt-offer-training" class="primary">基礎訓練を受ける</button><button id="pt-offer-later">あとで</button>',
+    "初陣訓練",
+    '<p>4つの操作を確認します（報酬なし）。あとからタイトルの「チュートリアル」でも受けられます。</p><button id="pt-offer-training" class="primary">初陣訓練を受ける</button><button id="pt-offer-later">あとで</button>',
   );
   void sound.say("tut-offer");
   let chosen = false;
   d.querySelector<HTMLButtonElement>("#pt-offer-training")!.onclick = () => {
     chosen = true;
     d.close();
-    startTraining(next);
+    startTraining(next, "first");
   };
   d.querySelector<HTMLButtonElement>("#pt-offer-later")!.onclick = () =>
     d.close();
@@ -2118,6 +2120,11 @@ function showHome(initialized: boolean) {
                 });
               })
           : undefined,
+      firstTraining: () =>
+        startTraining(
+          () => (initialized ? home() : showHome(false)),
+          "first",
+        ),
       training: () =>
         startTraining(() => (initialized ? home() : showHome(false))),
       replayGuides: () => {

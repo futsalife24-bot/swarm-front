@@ -21,6 +21,7 @@ import {
   MOVE_GOAL_M,
   NUDGE_AFTER_S,
   SKIP_AFTER_S,
+  TUTORIAL_COURSES,
   TUTORIAL_STEPS,
   TutorialRun,
   lineSeconds,
@@ -427,5 +428,64 @@ describe("C-6 F2: training achievements", () => {
     expect(achieved(run.quit())).toEqual([]);
     expect(hasOperationFlag("op:dodge", store)).toBe(true);
     expect([...m.keys()]).toEqual([TUTORIAL_FLAGS_KEY]);
+  });
+});
+
+describe("C-6 F3: first-sortie short course", () => {
+  it("keeps the full course unchanged and defines exactly the short course", () => {
+    expect(TUTORIAL_COURSES.full).toBe(TUTORIAL_STEPS);
+    expect(TUTORIAL_COURSES.first.map((step) => step.id)).toEqual([
+      "T0",
+      "T1",
+      "T3",
+      "T5",
+      "T6",
+      "T11",
+    ]);
+  });
+  it("runs T1 -> T3 -> T5 -> T6 -> T11 with its own denominator", () => {
+    const run = new TutorialRun(() => 0, "first");
+    const w = createTutorialWorld();
+    const seen: string[] = [];
+    run.begin();
+    seen.push(run.step.id);
+    expect(run.total).toBe(5);
+    while (!run.done) {
+      apply(run, w, skipNow(run));
+      if (seen[seen.length - 1] !== run.step.id) seen.push(run.step.id);
+    }
+    expect(seen).toEqual(["T1", "T3", "T5", "T6", "T11"]);
+    expect(run.number).toBe(5);
+    expect(run.observe(w, 0, 0)).toEqual([]);
+  });
+  it("prepares only the short course's existing voice lines", () => {
+    const ids = new TutorialRun(() => 0, "first").voiceIds();
+    for (const id of [
+      "tut-intro",
+      "tut-move",
+      "tut-fire",
+      "tut-swap",
+      "tut-dodge",
+      "tut-complete",
+    ])
+      expect(ids).toContain(id);
+    for (const id of [
+      "tut-look",
+      "tut-reload",
+      "tut-jump",
+      "tut-kill",
+      "tut-drop",
+      "tut-recover",
+      "tut-medkit",
+    ])
+      expect(ids).not.toContain(id);
+  });
+  it("records achievements through the same F2 path in the short course", () => {
+    const run = new TutorialRun(() => 0, "first");
+    const w = createTutorialWorld();
+    run.begin();
+    run.observe(w, 0, 0.1);
+    w.players[0].z -= MOVE_GOAL_M + 0.1;
+    expect(achieved(run.observe(w, 0, 0.1))).toEqual(["move"]);
   });
 });

@@ -67,7 +67,9 @@ const sections = [
 
 export interface TutorialGuideActions {
   armoryTour?: () => void;
-  /** 「基礎訓練を始める」（何度でも。修了は解放・報酬に影響しない）。 */
+  /** 「初陣訓練を受ける」（4操作。何度でも可能）。 */
+  firstTraining?: () => void;
+  /** 「完全版の基礎訓練を始める」（何度でも。修了は解放・報酬に影響しない）。 */
   training: () => void;
   /** 「初回ガイドをもう一度表示」。 */
   replayGuides: () => void;
@@ -81,7 +83,11 @@ export function openTutorialGuide(
   const d = openDialog(
     "チュートリアル",
     (actions
-      ? '<div class="tutorial-actions"><button type="button" class="primary" id="tutorial-training">基礎訓練を始める</button>' +
+      ? '<div class="tutorial-actions">' +
+        (actions.firstTraining
+          ? '<button type="button" id="tutorial-first-training">初陣訓練を受ける</button>'
+          : "") +
+        '<button type="button" class="primary" id="tutorial-training">完全版の基礎訓練を始める</button>' +
         (actions.armoryTour
           ? '<button type="button" id="tutorial-armory">武器強化の実画面案内</button>'
           : "") +
@@ -106,6 +112,13 @@ export function openTutorialGuide(
       d.close();
       actions.training();
     };
+    d.querySelector<HTMLButtonElement>("#tutorial-first-training")?.addEventListener(
+      "click",
+      () => {
+        d.close();
+        actions.firstTraining?.();
+      },
+    );
     d.querySelector<HTMLButtonElement>("#tutorial-replay")!.onclick = () => {
       actions.replayGuides();
       d.querySelector("#tutorial-replay-status")!.textContent =
