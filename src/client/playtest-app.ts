@@ -27,6 +27,7 @@ import {
 } from "./loading-screen";
 import { backgroundMusic } from "./bgm";
 import { mountMediaMenu } from "./media-menu";
+import { openControlVoiceMenu } from "./control-voice-menu";
 import {
   normalSaveId,
   campaignNumber,
@@ -80,6 +81,8 @@ import {
   markSeen,
   resetGuides,
 } from "./tutorial-flags";
+import { shouldOfferDefeatTraining } from "./defeat-training";
+import { M2_MARKERS } from "../shared/analytics-kinds";
 import {
   BattleReminderWatch,
   BuddyGuideWatch,
@@ -225,6 +228,7 @@ import {
   type ProgressSave,
   type SaveMode,
 } from "./progression-save";
+import { shouldConfirmProgression } from "./progression-entry";
 import { recoverUnsavedResult } from "./save-recovery";
 import {
   readBattleCheckpoint,
@@ -259,8 +263,11 @@ const SHOW_AD_UI = false;
 async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   if (sampleMenus || !canSortie(save, stage, difficulty)) return;
   if (!resume) track("sortie");
+  const firstSortieSeen = hasSeen("ftue:first-sortie");
   if (!resume && mode === "normal")
     trackOnce("first_sortie", "ftue:first-sortie");
+  if (!resume && mode === "normal" && firstSortieSeen)
+    trackOnce("second_sortie", M2_MARKERS.secondSortie);
   const generation = ++loadingGeneration;
   loadReady = false;
   paused = false;
@@ -481,8 +488,11 @@ function guide(key: Parameters<typeof showFirstGuide>[0]) {
     if (node && !notice) node.textContent = text;
   });
 }
-const buddyWatch = new BuddyGuideWatch();
-const battleReminderWatch = new BattleReminderWatch();
+const buddyWatch = new BuddyGuideWatch(undefined, () => mode === "normal");
+const battleReminderWatch = new BattleReminderWatch(
+  undefined,
+  () => mode === "normal",
+);
 /** G3: バディを連れた最初の戦闘の開始10秒後。固有スキルの初発動か戦闘終了で既読。 */
 function buddyGuide(w: World) {
   if (developerMode) return;
@@ -526,6 +536,7 @@ function startTraining(after: () => void, course: TutorialCourse = "full") {
   openBasicTraining({
     layout,
     course,
+    analyticsEnabled: () => mode === "normal",
     config: () => ({
       preferences: preferences.snapshot(),
       weapons,
@@ -535,8 +546,8 @@ function startTraining(after: () => void, course: TutorialCourse = "full") {
   });
 }
 /** 新しい進行で初めて「ソロ → 進撃」に入るときの誘い（1回だけ・断れる）。 */
-function offerTraining(next: () => void) {
-  if (developerMode || hasSeen("offer")) {
+function offerTraining(next: () => void, repeat = false) {
+  if (developerMode || (!repeat && hasSeen("offer"))) {
     next();
     return;
   }
@@ -717,6 +728,7 @@ function defeat() {
     finishDaily(true);
     return;
   }
+  if (mode === "normal") trackOnce("first_defeat", M2_MARKERS.firstDefeat);
   discardCheckpoint();
   finish(world, false, "リタイア／敗北確定");
   const s = world.solo!,
@@ -1008,6 +1020,13 @@ function result() {
     survivalBreakthroughRewardMarkup(save, r),
   );
   bind("pt-result-retry", gear);
+  if (shouldOfferDefeatTraining(r.win, developerMode)) {
+    $("pt-result-retry").insertAdjacentHTML(
+      "afterend",
+      '<button id="pt-result-training">初陣訓練で操作を確認</button>',
+    );
+    bind("pt-result-training", () => offerTraining(() => result(), true));
+  }
   if (r.win && !developerMode && mode === "normal" && r.first && r.stage === 1) {
     void createSupplyService()
       .status()
@@ -1331,6 +1350,13 @@ function supplyBoxUI(initialized: boolean) {
         : undefined,
     },
     updateSupplyBadge,
+    {
+      openControlVoice: (owner) => openControlVoiceMenu(owner, sound),
+      onClaimed:
+        mode === "normal"
+          ? () => trackOnce("first_box_claim", M2_MARKERS.firstBoxClaim)
+          : undefined,
+    },
   );
 }
 function updateSupplyBadge() {
@@ -2121,17 +2147,17 @@ function home() {
   showHome(true);
 }
 function enterMenu(after: () => void) {
-  return screen !== "intro"
-    ? after()
-    : confirmAction(
-        "新しい進行を開始",
-        "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
-        () => {
-          save = initializeProgress(mode);
-          if (mode === "normal") trackOnce("ftue_start", "ftue:start");
-          after();
-        },
-      );
+  const begin = () => {
+    save = initializeProgress(mode);
+    if (mode === "normal") trackOnce("ftue_start", "ftue:start");
+    after();
+  };
+  if (!shouldConfirmProgression(screen)) return begin();
+  return confirmAction(
+    "新しい進行を開始",
+    "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
+    begin,
+  );
 }
 
 function showHome(initialized: boolean) {
@@ -2673,6 +2699,8 @@ let supplyFirstTime = false;
 let firstSupplyGearNotice = false;
 function supply() {
   if (!developerMode && mode !== "normal") return;
+  if (mode === "normal")
+    trackOnce("first_supply_opened", M2_MARKERS.firstSupplyOpened);
   setScreen("supply");
   header(
     developerMode ? "補給ポッド・演出確認" : "補給ポッド",
@@ -2724,6 +2752,8 @@ function buddy() {
     (next) => {
       const firstStarter = save.buddies?.starterChosen !== true && next.buddies?.starterChosen === true;
       save = next;
+      if (firstStarter && mode === "normal")
+        trackOnce("first_buddy", M2_MARKERS.firstBuddy);
       if (firstStarter && ftueRouteToSupply) {
         supplyFirstTime = true;
         ftueRouteToSupply = false;

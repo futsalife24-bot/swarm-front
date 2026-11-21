@@ -21,9 +21,20 @@ try {
       serviceWorkers: "block",
       reducedMotion: "reduce",
     });
-    await context.addInitScript(() =>
-      localStorage.setItem("swarm-front-player-name-v1", "公開確認"),
-    );
+    await context.addInitScript(() => {
+      localStorage.setItem("swarm-front-player-name-v1", "公開確認");
+      const key = "swarm-front-tutorial-v1";
+      const current = JSON.parse(
+        localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+      );
+      const seen = new Set(current.seen ?? []);
+      seen.add("ftue:c7");
+      seen.add("ftue:unlock:all");
+      localStorage.setItem(
+        key,
+        JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+      );
+    });
     page = await context.newPage();
     page.setDefaultTimeout(90000);
     page.on("pageerror", (e) => errors.push(e.message));

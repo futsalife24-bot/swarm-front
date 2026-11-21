@@ -11,6 +11,19 @@ test("real Worker result, overflow rewards and rematch retain accessible menus",
   });
   try {
     const page = await context.newPage();
+    await page.addInitScript(() => {
+      const key = "swarm-front-tutorial-v1";
+      const current = JSON.parse(
+        localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+      );
+      const seen = new Set<string>(current.seen ?? []);
+      seen.add("ftue:c7");
+      seen.add("ftue:unlock:all");
+      localStorage.setItem(
+        key,
+        JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+      );
+    });
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto("/");

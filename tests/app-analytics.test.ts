@@ -3,12 +3,20 @@ import { DatabaseSync } from "node:sqlite";
 import { appAnalytics, expireAppAnalytics } from "../server/app-analytics";
 import {
   countSwarmAnalytics,
+  elapsedBucketTotals,
   isSwarmAnalyticsKind,
   jstDate,
   summary,
   readEvent,
+  subtractElapsedBuckets,
+  SWARM_ELAPSED_BUCKETS,
+  SWARM_M2_KINDS,
   type Day,
 } from "../server/app-analytics";
+import {
+  elapsedBucketFromSeconds,
+  isElapsedBucket,
+} from "../src/shared/analytics-kinds";
 const day = (date: string, views: number, visitors = 1): Day => ({
   date,
   views,
@@ -171,6 +179,104 @@ describe("app analytics", () => {
       firstSupply10s: 1,
       returns: 1,
     });
+  });
+  it("counts all eight extended milestones without changing legacy counters", () => {
+    const day: Day = {
+      date: "2026-09-16",
+      views: 7,
+      visitors: 2,
+      sorties: 4,
+      clears: 1,
+      ftueStarts: 1,
+    };
+    const counters = {
+      operation_achieved: "operationAchievements",
+      training_started: "trainingStarts",
+      training_completed: "trainingCompletions",
+      first_buddy: "firstBuddies",
+      first_supply_opened: "firstSupplyOpeneds",
+      second_sortie: "secondSorties",
+      first_box_claim: "firstBoxClaims",
+      first_defeat: "firstDefeats",
+    } as const;
+    expect(SWARM_M2_KINDS).toEqual(Object.keys(counters));
+    for (const kind of SWARM_M2_KINDS) {
+      expect(isSwarmAnalyticsKind(kind)).toBe(true);
+      countSwarmAnalytics(day, kind);
+    }
+    expect(isSwarmAnalyticsKind("mystery_milestone")).toBe(false);
+    expect(day).toMatchObject({
+      views: 7,
+      visitors: 2,
+      sorties: 4,
+      clears: 1,
+      ftueStarts: 1,
+      operationAchievements: 1,
+      trainingStarts: 1,
+      trainingCompletions: 1,
+      firstBuddies: 1,
+      firstSupplyOpeneds: 1,
+      secondSorties: 1,
+      firstBoxClaims: 1,
+      firstDefeats: 1,
+    });
+    expect(day.elapsedBuckets).toBeUndefined();
+    const totals = summary([day], 1, Date.parse("2026-09-16T01:00Z")).totals;
+    for (const key of Object.values(counters)) expect(totals[key]).toBe(1);
+    expect(totals.views).toBe(7);
+    expect(totals.ftueStarts).toBe(1);
+  });
+  it("stores and aggregates elapsed time only as validated buckets", async () => {
+    expect(elapsedBucketFromSeconds(179)).toBe("under_3m");
+    expect(elapsedBucketFromSeconds(180)).toBe("from_3m");
+    expect(elapsedBucketFromSeconds(300)).toBe("from_5m");
+    expect(elapsedBucketFromSeconds(600)).toBe("from_10m");
+    expect(elapsedBucketFromSeconds(1200)).toBe("from_20m");
+    for (const bucket of SWARM_ELAPSED_BUCKETS)
+      expect(isElapsedBucket(bucket)).toBe(true);
+    expect(isElapsedBucket("under_2m")).toBe(false);
+    expect(isElapsedBucket(180)).toBe(false);
+
+    const bucketDay: Day = day("2026-09-17", 1);
+    countSwarmAnalytics(bucketDay, "ftue_start");
+    countSwarmAnalytics(bucketDay, "first_buddy", "from_3m");
+    countSwarmAnalytics(bucketDay, "first_buddy", "under_3m");
+    countSwarmAnalytics(bucketDay, "first_defeat", "another_launch");
+    expect(bucketDay.elapsedBuckets).toEqual({
+      first_buddy: { from_3m: 1, under_3m: 1 },
+      first_defeat: { another_launch: 1 },
+    });
+    const result = summary([bucketDay], 1, Date.parse("2026-09-17T01:00Z"));
+    expect(result.totals.firstBuddies).toBe(2);
+    expect(result.elapsedBuckets.first_buddy).toEqual({
+      under_3m: 1,
+      from_3m: 1,
+      from_5m: 0,
+      from_10m: 0,
+      from_20m: 0,
+      another_launch: 0,
+    });
+    expect(elapsedBucketTotals([bucketDay]).first_defeat.another_launch).toBe(1);
+    expect(
+      subtractElapsedBuckets(bucketDay.elapsedBuckets, {
+        first_buddy: { under_3m: 1 },
+      }),
+    ).toEqual({
+      first_buddy: { from_3m: 1 },
+      first_defeat: { another_launch: 1 },
+    });
+
+    const request = (body: string) =>
+      new Request("https://test", { method: "POST", body });
+    const visitor = "a".repeat(32);
+    expect(
+      await readEvent(
+        request(JSON.stringify({ visitor, elapsed_bucket: "from_3m" })),
+      ),
+    ).toEqual({ visitor, elapsedBucket: "from_3m" });
+    await expect(
+      readEvent(request(JSON.stringify({ visitor, elapsed_bucket: "soon" }))),
+    ).rejects.toThrow("elapsed_bucket");
   });
   it("includes zero days and excludes data outside the requested period", () => {
     const s = summary(

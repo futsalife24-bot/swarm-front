@@ -27,6 +27,19 @@ try {
         reducedMotion,
         serviceWorkers: "block",
       });
+      await p.addInitScript(() => {
+        const key = "swarm-front-tutorial-v1";
+        const current = JSON.parse(
+          localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+        );
+        const seen = new Set(current.seen ?? []);
+        seen.add("ftue:c7");
+        seen.add("ftue:unlock:all");
+        localStorage.setItem(
+          key,
+          JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+        );
+      });
       // Use the installed ffmpeg when Playwright's optional download is unavailable.
       // Capture Chrome's real rendered frames; do not change animation time.
       const recorder = spawn(

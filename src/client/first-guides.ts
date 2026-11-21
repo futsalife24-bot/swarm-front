@@ -15,6 +15,8 @@ import {
   markSeen,
   type GuideKey,
 } from "./tutorial-flags";
+import { M2_MARKERS } from "../shared/analytics-kinds";
+import { trackOnce } from "./analytics";
 
 export interface FirstGuide {
   /** 提案書の番号。 */
@@ -160,7 +162,10 @@ export class BuddyGuideWatch {
   private skill = -1;
   private shownRun = "";
 
-  constructor(private readonly store = defaultStore()) {}
+  constructor(
+    private readonly store = defaultStore(),
+    private readonly analyticsEnabled: () => boolean = () => false,
+  ) {}
 
   update(
     w: BuddyWorld,
@@ -178,6 +183,8 @@ export class BuddyGuideWatch {
     if (entry.lastSkillAt !== this.skill) {
       this.skill = entry.lastSkillAt;
       markOperationFlag("op:buddy-skill", this.store);
+      if (this.analyticsEnabled())
+        trackOnce("operation_achieved", M2_MARKERS.operationAchieved);
       completeFirstGuide("buddy-battle");
     }
     if (w.phase !== "battle") {
@@ -225,7 +232,10 @@ export class BattleReminderWatch {
     swap: 0,
   };
 
-  constructor(private readonly store = defaultStore()) {}
+  constructor(
+    private readonly store = defaultStore(),
+    private readonly analyticsEnabled: () => boolean = () => false,
+  ) {}
 
   update(w: ReminderBattleWorld, canShow: boolean) {
     if (w.phase !== "battle") return undefined;
@@ -239,8 +249,14 @@ export class BattleReminderWatch {
     if (player.slot !== this.slot) {
       this.slot = player.slot;
       markOperationFlag("op:swap", this.store);
+      if (this.analyticsEnabled())
+        trackOnce("operation_achieved", M2_MARKERS.operationAchieved);
     }
-    if (player.evade > 0) markOperationFlag("op:dodge", this.store);
+    if (player.evade > 0) {
+      markOperationFlag("op:dodge", this.store);
+      if (this.analyticsEnabled())
+        trackOnce("operation_achieved", M2_MARKERS.operationAchieved);
+    }
     if (!canShow) return undefined;
     for (const operation of reminderOrder) {
       if (this.shown.has(operation)) continue;

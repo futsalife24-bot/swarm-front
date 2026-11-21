@@ -14,10 +14,18 @@ for(const [width,height] of [[1280,582],[844,390],[667,375]]){
  const skipTutorial=async()=>{await settle();const s=p.locator('#pt-tutorial-skip');try{await s.waitFor({timeout:3000});}catch{return;}await s.click();await settle();};
  const tap=async(sel)=>{await settle();await p.locator(sel).click();};
  const h1=async(text)=>{await p.waitForFunction(t=>document.querySelector('#ui h1')?.textContent.trim()===t,text,{timeout:15000});await settle();};
+ await p.addInitScript(()=>{
+  const key='swarm-front-tutorial-v1';
+  const current=JSON.parse(localStorage.getItem(key)??'{"version":1,"seen":[]}');
+  const seen=new Set(current.seen??[]);seen.add('ftue:c7');seen.add('ftue:unlock:all');
+  localStorage.setItem(key,JSON.stringify({...current,version:1,seen:[...seen]}));
+ });
  await p.goto(origin);
  // 初回の入場画面（TAP START）を閉じてからメニューを操作する。
  await p.locator('.title-entry-start').click();await p.locator('.title-entry').waitFor({state:'detached'});
- await p.getByRole('button',{name:'基地',exact:true}).click();await settle();await tap('#pt-confirm');
+ await p.getByRole('button',{name:'基地',exact:true}).click();await settle();
+ await p.waitForFunction(()=>!!document.querySelector('dialog.menu-dialog[open]')||!!document.querySelector('.pt-base-menu'));
+ if(await p.locator('#pt-confirm').count())await tap('#pt-confirm');
  await h1('基地');assert.equal(await p.locator('.pt-base-menu > button').count(),5);assert.match(await p.locator('#pt-base-survival').innerText(),/生存カード/);assert.ok(await p.locator('#pt-base-workshop').isDisabled());
  assert.match(await p.locator('#pt-base-workshop').innerText(),/工事中/);
  const layout=await p.locator('.pt-base-menu').evaluate(e=>({scroll:e.scrollHeight-e.clientHeight,cards:[...e.children].map(c=>{const r=c.getBoundingClientRect();return {x:r.x,y:r.y,right:r.right,bottom:r.bottom};}),overflow:document.documentElement.scrollWidth>innerWidth}));

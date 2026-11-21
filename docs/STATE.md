@@ -1,3 +1,11 @@
+# C-6/C-7 Slice 5 現在地（2026-11-21）
+
+branch `feat/c6c7-slice5`、base `feat/c6c7-slice4` / `b21e2d33d1e6c88715fec281ba99e104f899d121`。F9 `bc496c6b9eb308b0b62eee79d23d84fa89246a24`、F10 `ca057be843f3b5095a02264fb89b02ca446e9df3`、M2 `630915d514f4a4a1f9166ed3de535eefe137fd2b` はcommit・push済み。V1+U6の検証・文書・`scripts/local-journey-harness.mjs` は未コミット・未push。mergeとgame deployは禁止、PRは1本だけ。
+
+V1+U6の最終確認: 両幅の初回10分自動走行と初勝利自動走行がともにPASS。ログは `dist-validation/first-ten-minutes-both-final5.log` と `dist-validation/first-victory-final8.log`。`npm run typecheck` PASS、`npm test` 2,171/2,166 PASS/既知5/errors 0、`npm run test:save` 10ファイル149件PASS。人手初見は0人・未実施、auto-pilot時刻は人手時間ではない。
+
+残作業はV1+U6のcommit・push、外部outboxのstatus更新、単一PR作成だけ。C-6 decision 10「敗北時に補給で装備を整える」は未実装、C-7 decision 7によりU7も未実装。更新履歴はcommit本文の `Player-Note:` とPR本文で反映し、`src/client/changelog.ts` は直接書かない。
+
 # 終了確認：正式監査P2修正・再監査準備（2026-11-08）
 
 正式通常Chat監査で旧HEAD ede9d7a のP2が3件（再試行予約、認証変更後の取消、E2E失敗後処理）。専用branchで修正し、関連76＋保存53件・両型・Chrome8経路が成功。既存0ms許可timerは任意指摘として残余リスクを明記。認証API/権限/設定は無変更、push/merge/deployなし。同じChatへの再監査と独立閉鎖判定待ちで、自己検証を合格に代用しない。[修正・制約・正式監査URL](EXIT-CONFIRMATION-P2-20261108.md)。

@@ -12,6 +12,19 @@ test("armory stays readable and preserves selection, protection and atomic delet
   });
   try {
     const page = await context.newPage();
+    await page.addInitScript(() => {
+      const key = "swarm-front-tutorial-v1";
+      const current = JSON.parse(
+        localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+      );
+      const seen = new Set<string>(current.seen ?? []);
+      seen.add("ftue:c7");
+      seen.add("ftue:unlock:all");
+      localStorage.setItem(
+        key,
+        JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+      );
+    });
     const seed = fresh();
     seed.inventory = STARTERS.flatMap((w) =>
       Array.from(

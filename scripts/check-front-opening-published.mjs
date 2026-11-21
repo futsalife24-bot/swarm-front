@@ -36,6 +36,19 @@ try {
     page.on("console", (m) => {
       if (m.type() === "error") consoleErrors.push(m.text());
     });
+    await page.addInitScript(() => {
+      const key = "swarm-front-tutorial-v1";
+      const current = JSON.parse(
+        localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+      );
+      const seen = new Set(current.seen ?? []);
+      seen.add("ftue:c7");
+      seen.add("ftue:unlock:all");
+      localStorage.setItem(
+        key,
+        JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+      );
+    });
     await page.goto(origin + "/front", { waitUntil: "domcontentloaded" });
     await page.locator("#open-armory").click();
     assert.equal(await page.locator(".base-initial,[data-initial]").count(), 0);

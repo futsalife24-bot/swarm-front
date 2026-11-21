@@ -4,6 +4,11 @@ import {
   markReturnVisit,
   markSeen,
 } from "./tutorial-flags";
+import {
+  elapsedBucketFromSeconds,
+  isSwarmM2Kind,
+  type ElapsedBucket,
+} from "../shared/analytics-kinds";
 
 const adminKey = "app-analytics-admin";
 const searchParams = () =>
@@ -61,7 +66,7 @@ const visitor = (() => {
     return "anonymous";
   }
 })();
-const collect = (kind: string) =>
+const collect = (kind: string, elapsedBucket?: ElapsedBucket) =>
   fetch(
     "https://project-hub.melosalife-24.workers.dev/api/analytics/collect/swarm-front",
     {
@@ -69,17 +74,39 @@ const collect = (kind: string) =>
       keepalive: true,
       credentials: "omit",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ kind, visitor, admin: isAnalyticsAdmin() }),
+      body: JSON.stringify({
+        kind,
+        visitor,
+        admin: isAnalyticsAdmin(),
+        ...(elapsedBucket ? { elapsed_bucket: elapsedBucket } : {}),
+      }),
     },
   ).catch(() => {});
 const isDeveloper = () => searchParams().get("developer") === "1";
+let ftueStartAt: number | undefined;
+const elapsedBucket = () =>
+  ftueStartAt === undefined
+    ? "another_launch"
+    : elapsedBucketFromSeconds((Date.now() - ftueStartAt) / 1000);
 export function track(kind: "view" | "sortie" | "clear") {
   if (isDeveloper()) return;
   void collect(kind);
 }
 
 export type OnceKind =
-  "ftue_start" | "first_sortie" | "first_clear" | "first_supply10" | "return";
+  | "ftue_start"
+  | "first_sortie"
+  | "first_clear"
+  | "first_supply10"
+  | "return"
+  | "operation_achieved"
+  | "training_started"
+  | "training_completed"
+  | "first_buddy"
+  | "first_supply_opened"
+  | "second_sortie"
+  | "first_box_claim"
+  | "first_defeat";
 
 export function trackOnce(
   kind: OnceKind,
@@ -90,7 +117,8 @@ export function trackOnce(
   if (hasSeen(marker, store)) return false;
   markSeen(marker, store);
   if (!hasSeen(marker, store)) return false;
-  void collect(kind);
+  if (kind === "ftue_start") ftueStartAt = Date.now();
+  void collect(kind, isSwarmM2Kind(kind) ? elapsedBucket() : undefined);
   return true;
 }
 

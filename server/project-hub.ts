@@ -87,6 +87,15 @@ export async function exportProjectAnalytics(
             firstClears: d.firstClears ?? 0,
             firstSupply10s: d.firstSupply10s ?? 0,
             returns: d.returns ?? 0,
+            operationAchievements: d.operationAchievements ?? 0,
+            trainingStarts: d.trainingStarts ?? 0,
+            trainingCompletions: d.trainingCompletions ?? 0,
+            firstBuddies: d.firstBuddies ?? 0,
+            firstSupplyOpeneds: d.firstSupplyOpeneds ?? 0,
+            secondSorties: d.secondSorties ?? 0,
+            firstBoxClaims: d.firstBoxClaims ?? 0,
+            firstDefeats: d.firstDefeats ?? 0,
+            elapsedBuckets: d.elapsedBuckets ?? {},
           }));
       };
       return { id: app.id, all: await read(false), excluded: await read(true) };

@@ -124,6 +124,7 @@ $("training-start").onclick = () => {
   started = true;
   paused = false;
   $("training-start-panel").hidden = true;
+  parent.postMessage({ type: "training-began" }, location.origin);
   sound.unlock();
   $("controls").hidden = false;
   $("hud").hidden = false;

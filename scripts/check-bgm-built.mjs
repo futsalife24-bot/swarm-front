@@ -6,6 +6,12 @@ assert.ok(/^http:\/\/127\.0\.0\.1:\d+$/.test(origin)||origin==='https://swarm-fr
 const browser=await chromium.launch({channel:'chrome'}),page=await browser.newPage({viewport:{width:844,height:390}});
 const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')console.log('console',m.text());});
 const playing=track=>page.waitForFunction(t=>{const a=document.querySelector('audio[data-bgm]');return a?.dataset.track===t&&!a.paused&&a.currentTime>0},track);
+await page.addInitScript(()=>{
+ const key='swarm-front-tutorial-v1';
+ const current=JSON.parse(localStorage.getItem(key)??'{"version":1,"seen":[]}');
+ const seen=new Set(current.seen??[]);seen.add('ftue:c7');seen.add('ftue:unlock:all');
+ localStorage.setItem(key,JSON.stringify({...current,version:1,seen:[...seen]}));
+});
 try{
  await page.goto(origin);await page.locator('#home-tutorial').click();await playing('title');await page.keyboard.press('Escape');
  await page.locator('#open-bestiary').click();if(await page.locator('#pt-confirm').count())await page.locator('#pt-confirm').click();await playing('report');await page.locator('#report-close').click();await playing('title');

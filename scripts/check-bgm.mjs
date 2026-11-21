@@ -12,6 +12,12 @@ await page.route(/\/src\/client\/playtest-app.ts(?:\?.*)?$/,async route=>{
 });
 const state=()=>page.locator('audio[data-bgm]').evaluate(a=>({track:a.dataset.track,paused:a.paused,time:a.currentTime,duration:a.duration,loop:a.loop,volume:a.volume,muted:a.muted,error:a.error?.code}));
 const playing=async track=>{await page.waitForFunction(t=>{const a=document.querySelector('audio[data-bgm]');return a?.dataset.track===t&&!a.paused&&a.currentTime>0},track);assert.equal(await page.locator('audio[data-bgm]').count(),1);};
+await page.addInitScript(()=>{
+ const key='swarm-front-tutorial-v1';
+ const current=JSON.parse(localStorage.getItem(key)??'{"version":1,"seen":[]}');
+ const seen=new Set(current.seen??[]);seen.add('ftue:c7');seen.add('ftue:unlock:all');
+ localStorage.setItem(key,JSON.stringify({...current,version:1,seen:[...seen]}));
+});
 try{
  await page.goto(origin);await page.locator('#solo').waitFor();
  if(await page.locator('#landscape-start').isVisible())await page.locator('#landscape-start').click();

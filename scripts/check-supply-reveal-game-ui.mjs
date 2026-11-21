@@ -45,7 +45,16 @@ try{
  }
  console.log('START 通常補給本体');
  const context=await browser.newContext({viewport:{width:844,height:390},serviceWorkers:'block'}),page=await context.newPage(),errors=[];page.setDefaultTimeout(60000);page.on('pageerror',e=>errors.push(e.message));
- await page.addInitScript(()=>localStorage.setItem('swarm-front-player-name-v1','補給検証'));await page.goto(origin+'/?base=1',{waitUntil:'domcontentloaded'});await title(page);await page.locator('#pt-confirm').waitFor({state:'visible'});await tap(page,'#pt-confirm');
+ await page.addInitScript(()=>{
+  localStorage.setItem('swarm-front-player-name-v1','補給検証');
+  const key='swarm-front-tutorial-v1';
+  const current=JSON.parse(localStorage.getItem(key)??'{"version":1,"seen":[]}');
+  const seen=new Set(current.seen??[]);seen.add('ftue:c7');seen.add('ftue:unlock:all');
+  localStorage.setItem(key,JSON.stringify({...current,version:1,seen:[...seen]}));
+ });
+ await page.goto(origin+'/?base=1',{waitUntil:'domcontentloaded'});await title(page);
+ await page.waitForFunction(()=>!!document.querySelector('dialog.menu-dialog[open]')||!!document.querySelector('.pt-base-menu'));
+ if(await page.locator('#pt-confirm').count())await tap(page,'#pt-confirm');
  if(!await page.locator('#pt-base-buddy').count())await tap(page,'#pt-base');await page.locator('#pt-base-buddy').waitFor();await tap(page,'#pt-base-buddy');await tap(page,'[data-bd="starter-pick"][data-id="tatara"]');await tap(page,'[data-bd="starter-confirm"]');await tap(page,'#pt-base');await tap(page,'#pt-base-supply');
  await tap(page,'[data-supply-cloud]');await page.locator('[data-supply-count]').filter({hasText:'10枚'}).waitFor();await tap(page,'[data-supply-draw="10"]');await results(page);const rows=await page.locator('.gx-tile').allTextContents();
  for(let i=0;i<3;i++){await page.locator('.gx-tile[data-type="weapon"]').first().click();await page.locator('css:light=dialog.weapon-detail-dialog[open]').waitFor();await settle(page);await page.locator('css:light=dialog.weapon-detail-dialog .dialog-close').click();await page.waitForFunction(()=>!document.querySelector('dialog.weapon-detail-dialog'));await settle(page);}assert.deepEqual(await page.locator('.gx-tile').allTextContents(),rows);
