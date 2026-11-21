@@ -156,6 +156,17 @@ describe("independent project analytics", () => {
                 firstClears: 3,
                 firstSupply10s: 4,
                 returns: 5,
+                operationAchievements: 6,
+                trainingStarts: 7,
+                trainingCompletions: 8,
+                firstBuddies: 9,
+                firstSupplyOpeneds: 10,
+                secondSorties: 11,
+                firstBoxClaims: 12,
+                firstDefeats: 13,
+                elapsedBuckets: {
+                  first_buddy: { from_3m: 9, under_3m: 1 },
+                },
                 ids: ["secret-visitor"],
                 admin: { onlyIds: ["secret-visitor"] },
               },
@@ -183,6 +194,15 @@ describe("independent project analytics", () => {
       firstClears: 3,
       firstSupply10s: 4,
       returns: 5,
+      operationAchievements: 6,
+      trainingStarts: 7,
+      trainingCompletions: 8,
+      firstBuddies: 9,
+      firstSupplyOpeneds: 10,
+      secondSorties: 11,
+      firstBoxClaims: 12,
+      firstDefeats: 13,
+      elapsedBuckets: { first_buddy: { from_3m: 9, under_3m: 1 } },
     });
     expect(r.headers.get("Cache-Control")).toBe("no-store");
   });

@@ -40,8 +40,12 @@ import {
   readEvent,
   countSwarmAnalytics,
   isSwarmAnalyticsKind,
+  isElapsedBucket,
+  subtractElapsedBuckets,
   type Day,
+  type SwarmAnalyticsCounters,
 } from "./app-analytics";
+import { isSwarmM2Kind } from "../src/shared/analytics-kinds";
 import {
   DEFAULT_PLAYER_NAME,
   CHAT_HISTORY_LIMIT,
@@ -823,17 +827,7 @@ export class Gate extends DurableObject<Env> {
     const now = Date.now();
     type StoredDay = Day & {
       ids: string[];
-      admin?: {
-        views: number;
-        sorties: number;
-        clears: number;
-        ftueStarts: number;
-        firstSorties: number;
-        firstClears: number;
-        firstSupply10s: number;
-        returns: number;
-        onlyIds: string[];
-      };
+      admin?: SwarmAnalyticsCounters & { onlyIds: string[] };
     };
     const days =
       (await this.ctx.storage.get<StoredDay[]>("analytics-days")) ?? [];
@@ -853,6 +847,14 @@ export class Gate extends DurableObject<Env> {
         firstClears: 0,
         firstSupply10s: 0,
         returns: 0,
+        operationAchievements: 0,
+        trainingStarts: 0,
+        trainingCompletions: 0,
+        firstBuddies: 0,
+        firstSupplyOpeneds: 0,
+        secondSorties: 0,
+        firstBoxClaims: 0,
+        firstDefeats: 0,
         ids: [],
       };
       days.push(d);
@@ -871,6 +873,17 @@ export class Gate extends DurableObject<Env> {
           firstClears: a.firstClears + (x.firstClears ?? 0),
           firstSupply10s: a.firstSupply10s + (x.firstSupply10s ?? 0),
           returns: a.returns + (x.returns ?? 0),
+          operationAchievements:
+            a.operationAchievements + (x.operationAchievements ?? 0),
+          trainingStarts: a.trainingStarts + (x.trainingStarts ?? 0),
+          trainingCompletions:
+            a.trainingCompletions + (x.trainingCompletions ?? 0),
+          firstBuddies: a.firstBuddies + (x.firstBuddies ?? 0),
+          firstSupplyOpeneds:
+            a.firstSupplyOpeneds + (x.firstSupplyOpeneds ?? 0),
+          secondSorties: a.secondSorties + (x.secondSorties ?? 0),
+          firstBoxClaims: a.firstBoxClaims + (x.firstBoxClaims ?? 0),
+          firstDefeats: a.firstDefeats + (x.firstDefeats ?? 0),
         }),
         {
           views: 0,
@@ -882,6 +895,14 @@ export class Gate extends DurableObject<Env> {
           firstClears: 0,
           firstSupply10s: 0,
           returns: 0,
+          operationAchievements: 0,
+          trainingStarts: 0,
+          trainingCompletions: 0,
+          firstBuddies: 0,
+          firstSupplyOpeneds: 0,
+          secondSorties: 0,
+          firstBoxClaims: 0,
+          firstDefeats: 0,
         },
       );
       return json({
@@ -903,6 +924,29 @@ export class Gate extends DurableObject<Env> {
                 firstSupply10s:
                   (x.firstSupply10s ?? 0) - (admin.firstSupply10s ?? 0),
                 returns: (x.returns ?? 0) - (admin.returns ?? 0),
+                operationAchievements:
+                  (x.operationAchievements ?? 0) -
+                  (admin.operationAchievements ?? 0),
+                trainingStarts:
+                  (x.trainingStarts ?? 0) - (admin.trainingStarts ?? 0),
+                trainingCompletions:
+                  (x.trainingCompletions ?? 0) -
+                  (admin.trainingCompletions ?? 0),
+                firstBuddies:
+                  (x.firstBuddies ?? 0) - (admin.firstBuddies ?? 0),
+                firstSupplyOpeneds:
+                  (x.firstSupplyOpeneds ?? 0) -
+                  (admin.firstSupplyOpeneds ?? 0),
+                secondSorties:
+                  (x.secondSorties ?? 0) - (admin.secondSorties ?? 0),
+                firstBoxClaims:
+                  (x.firstBoxClaims ?? 0) - (admin.firstBoxClaims ?? 0),
+                firstDefeats:
+                  (x.firstDefeats ?? 0) - (admin.firstDefeats ?? 0),
+                elapsedBuckets: subtractElapsedBuckets(
+                  x.elapsedBuckets,
+                  admin.elapsedBuckets,
+                ),
                 visitors: x.visitors - admin.onlyIds.length,
               }
             : x,
@@ -914,10 +958,16 @@ export class Gate extends DurableObject<Env> {
         kind?: string;
         visitor?: string;
         admin?: boolean;
+        elapsed_bucket?: unknown;
       };
       if (b?.admin !== undefined && typeof b.admin !== "boolean")
         return json({ ok: false }, 400);
       if (!b || !isSwarmAnalyticsKind(b.kind)) return json({ ok: false }, 400);
+      if (b.elapsed_bucket !== undefined) {
+        if (!isElapsedBucket(b.elapsed_bucket)) return json({ ok: false }, 400);
+        if (!isSwarmM2Kind(b.kind)) return json({ ok: false }, 400);
+      }
+      const elapsedBucket = b.elapsed_bucket;
       if (b.admin) {
         d.admin ??= {
           views: 0,
@@ -930,9 +980,9 @@ export class Gate extends DurableObject<Env> {
           returns: 0,
           onlyIds: [],
         };
-        countSwarmAnalytics(d.admin, b.kind);
+        countSwarmAnalytics(d.admin, b.kind, elapsedBucket);
       }
-      countSwarmAnalytics(d, b.kind);
+      countSwarmAnalytics(d, b.kind, elapsedBucket);
       if (
         typeof b.visitor === "string" &&
         /^[a-zA-Z0-9_-]{8,64}$/.test(b.visitor) &&

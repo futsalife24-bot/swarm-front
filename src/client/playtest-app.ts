@@ -82,6 +82,7 @@ import {
   resetGuides,
 } from "./tutorial-flags";
 import { shouldOfferDefeatTraining } from "./defeat-training";
+import { M2_MARKERS } from "../shared/analytics-kinds";
 import {
   BattleReminderWatch,
   BuddyGuideWatch,
@@ -262,8 +263,11 @@ const SHOW_AD_UI = false;
 async function launch(resume?: BattleCheckpoint, daily?: { day: string }) {
   if (sampleMenus || !canSortie(save, stage, difficulty)) return;
   if (!resume) track("sortie");
+  const firstSortieSeen = hasSeen("ftue:first-sortie");
   if (!resume && mode === "normal")
     trackOnce("first_sortie", "ftue:first-sortie");
+  if (!resume && mode === "normal" && firstSortieSeen)
+    trackOnce("second_sortie", M2_MARKERS.secondSortie);
   const generation = ++loadingGeneration;
   loadReady = false;
   paused = false;
@@ -484,8 +488,11 @@ function guide(key: Parameters<typeof showFirstGuide>[0]) {
     if (node && !notice) node.textContent = text;
   });
 }
-const buddyWatch = new BuddyGuideWatch();
-const battleReminderWatch = new BattleReminderWatch();
+const buddyWatch = new BuddyGuideWatch(undefined, () => mode === "normal");
+const battleReminderWatch = new BattleReminderWatch(
+  undefined,
+  () => mode === "normal",
+);
 /** G3: バディを連れた最初の戦闘の開始10秒後。固有スキルの初発動か戦闘終了で既読。 */
 function buddyGuide(w: World) {
   if (developerMode) return;
@@ -529,6 +536,7 @@ function startTraining(after: () => void, course: TutorialCourse = "full") {
   openBasicTraining({
     layout,
     course,
+    analyticsEnabled: () => mode === "normal",
     config: () => ({
       preferences: preferences.snapshot(),
       weapons,
@@ -720,6 +728,7 @@ function defeat() {
     finishDaily(true);
     return;
   }
+  if (mode === "normal") trackOnce("first_defeat", M2_MARKERS.firstDefeat);
   discardCheckpoint();
   finish(world, false, "リタイア／敗北確定");
   const s = world.solo!,
@@ -1343,6 +1352,10 @@ function supplyBoxUI(initialized: boolean) {
     updateSupplyBadge,
     {
       openControlVoice: (owner) => openControlVoiceMenu(owner, sound),
+      onClaimed:
+        mode === "normal"
+          ? () => trackOnce("first_box_claim", M2_MARKERS.firstBoxClaim)
+          : undefined,
     },
   );
 }
@@ -2686,6 +2699,8 @@ let supplyFirstTime = false;
 let firstSupplyGearNotice = false;
 function supply() {
   if (!developerMode && mode !== "normal") return;
+  if (mode === "normal")
+    trackOnce("first_supply_opened", M2_MARKERS.firstSupplyOpened);
   setScreen("supply");
   header(
     developerMode ? "補給ポッド・演出確認" : "補給ポッド",
@@ -2737,6 +2752,8 @@ function buddy() {
     (next) => {
       const firstStarter = save.buddies?.starterChosen !== true && next.buddies?.starterChosen === true;
       save = next;
+      if (firstStarter && mode === "normal")
+        trackOnce("first_buddy", M2_MARKERS.firstBuddy);
       if (firstStarter && ftueRouteToSupply) {
         supplyFirstTime = true;
         ftueRouteToSupply = false;

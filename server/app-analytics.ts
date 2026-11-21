@@ -1,3 +1,12 @@
+import {
+  SWARM_ELAPSED_BUCKETS,
+  SWARM_M2_KINDS,
+  isElapsedBucket,
+  isSwarmM2Kind,
+  type ElapsedBucket,
+  type SwarmM2Kind,
+} from "../src/shared/analytics-kinds";
+
 export type AppId = "lmfdb" | "swarm-front" | "katamon" | "mayoi";
 export const APPS: readonly { id: AppId; name: string; url: string }[] = [
   {
@@ -32,6 +41,24 @@ export type Day = {
   firstClears?: number;
   firstSupply10s?: number;
   returns?: number;
+  operationAchievements?: number;
+  trainingStarts?: number;
+  trainingCompletions?: number;
+  firstBuddies?: number;
+  firstSupplyOpeneds?: number;
+  secondSorties?: number;
+  firstBoxClaims?: number;
+  firstDefeats?: number;
+  elapsedBuckets?: Partial<
+    Record<SwarmM2Kind, Partial<Record<ElapsedBucket, number>>>
+  >;
+};
+export {
+  SWARM_ELAPSED_BUCKETS,
+  SWARM_M2_KINDS,
+  isElapsedBucket,
+  type ElapsedBucket,
+  type SwarmM2Kind,
 };
 export const SWARM_FUNNEL_KINDS = [
   "ftue_start",
@@ -41,11 +68,13 @@ export const SWARM_FUNNEL_KINDS = [
   "return",
 ] as const;
 export type SwarmFunnelKind = (typeof SWARM_FUNNEL_KINDS)[number];
+export const SWARM_M2_ANALYTIC_KINDS = SWARM_M2_KINDS;
 export const SWARM_ANALYTIC_KINDS = [
   "view",
   "sortie",
   "clear",
   ...SWARM_FUNNEL_KINDS,
+  ...SWARM_M2_KINDS,
 ] as const;
 export type SwarmAnalyticsKind = (typeof SWARM_ANALYTIC_KINDS)[number];
 export type SwarmAnalyticsCounters = Pick<Day, "views" | "sorties" | "clears"> &
@@ -57,6 +86,15 @@ export type SwarmAnalyticsCounters = Pick<Day, "views" | "sorties" | "clears"> &
       | "firstClears"
       | "firstSupply10s"
       | "returns"
+      | "operationAchievements"
+      | "trainingStarts"
+      | "trainingCompletions"
+      | "firstBuddies"
+      | "firstSupplyOpeneds"
+      | "secondSorties"
+      | "firstBoxClaims"
+      | "firstDefeats"
+      | "elapsedBuckets"
     >
   >;
 export function isSwarmAnalyticsKind(
@@ -70,6 +108,7 @@ export function isSwarmAnalyticsKind(
 export function countSwarmAnalytics(
   day: SwarmAnalyticsCounters,
   kind: SwarmAnalyticsKind,
+  elapsedBucket?: ElapsedBucket,
 ) {
   if (kind === "view") day.views++;
   else if (kind === "sortie") day.sorties++;
@@ -81,6 +120,64 @@ export function countSwarmAnalytics(
   else if (kind === "first_supply10")
     day.firstSupply10s = (day.firstSupply10s ?? 0) + 1;
   else if (kind === "return") day.returns = (day.returns ?? 0) + 1;
+  else if (kind === "operation_achieved")
+    day.operationAchievements = (day.operationAchievements ?? 0) + 1;
+  else if (kind === "training_started")
+    day.trainingStarts = (day.trainingStarts ?? 0) + 1;
+  else if (kind === "training_completed")
+    day.trainingCompletions = (day.trainingCompletions ?? 0) + 1;
+  else if (kind === "first_buddy")
+    day.firstBuddies = (day.firstBuddies ?? 0) + 1;
+  else if (kind === "first_supply_opened")
+    day.firstSupplyOpeneds = (day.firstSupplyOpeneds ?? 0) + 1;
+  else if (kind === "second_sortie")
+    day.secondSorties = (day.secondSorties ?? 0) + 1;
+  else if (kind === "first_box_claim")
+    day.firstBoxClaims = (day.firstBoxClaims ?? 0) + 1;
+  else if (kind === "first_defeat")
+    day.firstDefeats = (day.firstDefeats ?? 0) + 1;
+  if (isSwarmM2Kind(kind) && elapsedBucket) {
+    day.elapsedBuckets ??= {};
+    const buckets = (day.elapsedBuckets[kind] ??= {});
+    buckets[elapsedBucket] = (buckets[elapsedBucket] ?? 0) + 1;
+  }
+}
+
+export function elapsedBucketTotals(days: readonly Day[]) {
+  const totals = Object.fromEntries(
+    SWARM_M2_KINDS.map((kind) => [
+      kind,
+      Object.fromEntries(
+        SWARM_ELAPSED_BUCKETS.map((bucket) => [bucket, 0]),
+      ) as Record<ElapsedBucket, number>,
+    ]),
+  ) as Record<SwarmM2Kind, Record<ElapsedBucket, number>>;
+  for (const day of days)
+    for (const kind of SWARM_M2_KINDS) {
+      const buckets = day.elapsedBuckets?.[kind];
+      if (!buckets) continue;
+      for (const bucket of SWARM_ELAPSED_BUCKETS)
+        totals[kind][bucket] += buckets[bucket] ?? 0;
+    }
+  return totals;
+}
+
+export function subtractElapsedBuckets(
+  all: Day["elapsedBuckets"],
+  admin: Day["elapsedBuckets"],
+) {
+  const result: NonNullable<Day["elapsedBuckets"]> = {};
+  for (const kind of SWARM_M2_KINDS) {
+    const values = { ...(all?.[kind] ?? {}) };
+    for (const bucket of SWARM_ELAPSED_BUCKETS)
+      if (admin?.[kind]?.[bucket])
+        values[bucket] = (values[bucket] ?? 0) - admin[kind]![bucket]!;
+    const positive = Object.fromEntries(
+      Object.entries(values).filter(([, count]) => (count ?? 0) > 0),
+    ) as Partial<Record<ElapsedBucket, number>>;
+    if (Object.keys(positive).length) result[kind] = positive;
+  }
+  return result;
 }
 export const jstDate = (now: number) =>
   new Date(now + 9 * 3600000).toISOString().slice(0, 10);
@@ -107,6 +204,14 @@ export function summary(days: Day[], period: number, now: number) {
         firstClears: 0,
         firstSupply10s: 0,
         returns: 0,
+        operationAchievements: 0,
+        trainingStarts: 0,
+        trainingCompletions: 0,
+        firstBuddies: 0,
+        firstSupplyOpeneds: 0,
+        secondSorties: 0,
+        firstBoxClaims: 0,
+        firstDefeats: 0,
       },
   );
   const totals = selected.reduce(
@@ -120,6 +225,16 @@ export function summary(days: Day[], period: number, now: number) {
       firstClears: a.firstClears + (d.firstClears ?? 0),
       firstSupply10s: a.firstSupply10s + (d.firstSupply10s ?? 0),
       returns: a.returns + (d.returns ?? 0),
+      operationAchievements:
+        a.operationAchievements + (d.operationAchievements ?? 0),
+      trainingStarts: a.trainingStarts + (d.trainingStarts ?? 0),
+      trainingCompletions:
+        a.trainingCompletions + (d.trainingCompletions ?? 0),
+      firstBuddies: a.firstBuddies + (d.firstBuddies ?? 0),
+      firstSupplyOpeneds: a.firstSupplyOpeneds + (d.firstSupplyOpeneds ?? 0),
+      secondSorties: a.secondSorties + (d.secondSorties ?? 0),
+      firstBoxClaims: a.firstBoxClaims + (d.firstBoxClaims ?? 0),
+      firstDefeats: a.firstDefeats + (d.firstDefeats ?? 0),
     }),
     {
       views: 0,
@@ -131,12 +246,21 @@ export function summary(days: Day[], period: number, now: number) {
       firstClears: 0,
       firstSupply10s: 0,
       returns: 0,
+      operationAchievements: 0,
+      trainingStarts: 0,
+      trainingCompletions: 0,
+      firstBuddies: 0,
+      firstSupplyOpeneds: 0,
+      secondSorties: 0,
+      firstBoxClaims: 0,
+      firstDefeats: 0,
     },
   );
   const yesterday = byDate.get(dateOffset(today, -1))?.views ?? 0;
   const todayViews = byDate.get(today)?.views ?? 0;
   return {
     totals,
+    elapsedBuckets: elapsedBucketTotals(selected),
     days: selected,
     todayViews,
     yesterdayViews: yesterday,
@@ -170,6 +294,7 @@ export async function readEvent(req: Request) {
   const b = JSON.parse(new TextDecoder().decode(bytes)) as {
     visitor?: unknown;
     admin?: unknown;
+    elapsed_bucket?: unknown;
   };
   if (!b || typeof b !== "object" || Array.isArray(b)) throw new Error("body");
   if (
@@ -179,9 +304,14 @@ export async function readEvent(req: Request) {
     throw new Error("visitor");
   if (b.admin !== undefined && typeof b.admin !== "boolean")
     throw new Error("admin");
+  if (b.elapsed_bucket !== undefined && !isElapsedBucket(b.elapsed_bucket))
+    throw new Error("elapsed_bucket");
   return {
     visitor: b.visitor as string | null,
     ...(b.admin === undefined ? {} : { admin: b.admin }),
+    ...(b.elapsed_bucket === undefined
+      ? {}
+      : { elapsedBucket: b.elapsed_bucket }),
   };
 }
 

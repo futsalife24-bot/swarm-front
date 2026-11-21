@@ -12,6 +12,7 @@ import "./supply-box.css";
 
 export interface SupplyBoxShortcuts {
   openControlVoice?: (owner: HTMLDialogElement) => void;
+  onClaimed?: (items: readonly SupplyBoxItem[]) => void;
 }
 
 export function receivedHiyori(items: readonly SupplyBoxItem[]) {
@@ -72,6 +73,7 @@ export function openSupplyBox(
       if (!received.length) return;
       status.textContent = `受け取りました：${summary(received)}`;
       voiceShortcut.hidden = !openControlVoice || !receivedHiyori(received);
+      shortcuts.onClaimed?.(received);
       // 押したボタンが描き直しで消える前に、演出の始点を測る。
       menuReward(status, from);
       changed();

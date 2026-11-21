@@ -12,6 +12,9 @@
 - `/api/developer/apps?days=1|7|30`は既存の開発者セッション必須、no-store。個別取得失敗はerror、記録なしはpendingで、0件と区別。
 - スワフロは既存`analytics`オブジェクトと`analytics-days`をそのまま参照。`view / sortie / clear`の数え方を変えず、旧の日別データも新しい任意項目が無いまま読める。出撃・クリアは詳細に残す。
 - スワフロの初回導線は`ftue_start / first_sortie / first_clear / first_supply10 / return`を1端末1回だけ送る。判定は`swarm-front-tutorial-v1`の`ftue:*`記録を使う。`return`は別の日本時間の日に再訪した初回だけ。送信内容は種類・既存の匿名ブラウザID・管理者フラグのみで、保存データ・名前・URL・時刻そのものを含まない。
+- C-6 M2の追加節目も同じ1端末1回の制度で、`operation_achieved / training_started / training_completed / first_buddy / first_supply_opened / second_sortie / first_box_claim / first_defeat`の8種類だけを送る。操作達成はF2/F4の`op:*`を操作ごとに割り出さず、最初の1回を`operation_achieved`に集約する（設計文言が単数で、M1と同じくファネルの最小計測为目的）。`developer=1`とテストセーブは送らず、通信失敗は握ってゲームを止めない。
+- M2の経過時間は`elapsed_bucket`区分だけをmilestoneに添える。区分は`under_3m`（0〜3分未満）/`from_3m`（3〜5分未満）/`from_5m`（5〜10分未満）/`from_10m`（10〜20分未満）/`from_20m`（20分以上）/`another_launch`（開始イベントが別起動で記録済み）。境界は下限を含む。生時刻・timestamp・duration numberは送信せず、開始時刻はページ内メモリだけに保持する。
+- 保存は既存の日別`Day`に任意のkind別カウンタと`elapsedBuckets?: Partial<Record<SwarmM2Kind, Partial<Record<ElapsedBucket, number>>>>`を足すだけ。旧データは`?? 0`/`?? {}`で読み、`view/sortie/clear`とM1の既存カウンタは変えない。project-hub中継のallowlistも同じ8種類だけに拡張し、未知kindは従来どおり400とする。
 - 新規3アプリは`/api/analytics/collect/{lmfdb,katamon,mayoi}`。公開ページの表示時に1回。JSON本文はランダムなアプリ別ブラウザID（32桁hex）またはnullのみ。Cookie、URL、Referer、ゲーム保存・アカウント情報は送信しない。
 - 本番の正規origin/pathに限定。developer=1、analytics=off、DNT、GPC、iframe、非表示ページは除外（可視化時に送信）。通信失敗を握り、ゲームを止めない。localStorageが使えない場合はアクセスのみ記録。
 - collectionのCORSはアプリのoriginにのみ許可し、認証/ゲームAPIのorigin許可を拡張しない。GitHub PagesのLMFとカタモンは同一originなので送信元を暗号学的に証明できない。公開ブラウザ計測は改ざん可能な参考値で、課金・報酬等に使わない。
@@ -22,6 +25,7 @@
 ## 検証
 
 - 型チェック、集計/認証10テスト（実SQLiteで重複/日替わり/保持期限を含む）。標準ビルドとproduction Worker dry-run成功。
+- C-6 M2は`tests/app-analytics.test.ts`で8種類の計上・旧データ互換・区分境界/集計/検証・admin除外、`tests/project-hub.test.ts`でexportへのM2項目とvisitor ID非漏えい、`tests/tutorial-flags.test.ts`で1回限り送信・区分・開発者モード・通信失敗・訓練milestone、`tests/supply-m2-claim.test.ts`で初回受取callbackを確認。`tests/supply-box.test.ts`は変更せずそのまま通す。
 - `scripts/check-app-analytics.mjs`：実Chrome + ローカルWorker/SQLiteで認証、CORS、過大本文、別アプリ分離、匿名アクセス、既存スワフロ参照、320/390/768幅、1/7/30日、日別展開、通信失敗/再試行、ログアウト。新規3アプリの実スニペットをブラウザで実行し、本番宛通信は必ずlocalhostへ差し替え。結果・画面は`docs/evidence/app-analytics/`。テスト数字は本番実績ではない。
 - LMF既存check.sh全項目成功。最初の同期失敗はWindows checkoutのCRLFによる文字列比較差分のみ。JSON内容は同一。検証時だけLFへ正規化、公開データ差分なし。
 - カタモン: cache-version 2、app-shell 3、seat p1 20項目成功。保存版更新に伴う期待BUILD_IDを更新。

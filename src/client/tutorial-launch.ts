@@ -9,14 +9,22 @@ import {
   markOperationFlag,
   markSeen,
 } from "./tutorial-flags";
+import { M2_MARKERS } from "../shared/analytics-kinds";
+import { trackOnce } from "./analytics";
 import type { Layout } from "./layout";
 import type { TutorialCourse } from "./tutorial-run";
 
-export function recordTrainingAchievement(operation: unknown) {
+export function recordTrainingAchievement(
+  operation: unknown,
+  analyticsEnabled = false,
+) {
   if (typeof operation !== "string") return false;
   const key = OPERATION_KEYS.find((candidate) => candidate === operation);
   if (!key) return false;
-  return markOperationFlag(`op:${key}`);
+  const achieved = markOperationFlag(`op:${key}`);
+  if (achieved && analyticsEnabled)
+    trackOnce("operation_achieved", M2_MARKERS.operationAchieved);
+  return achieved;
 }
 
 export interface BasicTrainingOptions {
@@ -25,6 +33,7 @@ export interface BasicTrainingOptions {
   course?: TutorialCourse;
   /** 訓練射撃場へ渡す設定（音量・感度・持っていく2本）。 */
   config?: () => unknown;
+  analyticsEnabled?: () => boolean;
   onExit: (completed: boolean) => void;
 }
 
@@ -58,12 +67,19 @@ export function openBasicTraining(options: BasicTrainingOptions) {
       );
     }
     if (event.data?.type === "training-achievement")
-      recordTrainingAchievement(event.data.operation);
+      recordTrainingAchievement(
+        event.data.operation,
+        options.analyticsEnabled?.(),
+      );
+    if (event.data?.type === "training-began" && options.analyticsEnabled?.())
+      trackOnce("training_started", M2_MARKERS.trainingStarted);
     if (event.data?.type === "training-exit") {
       window.removeEventListener("message", receive);
       frame.remove();
       const completed = event.data.completed === true;
       if (completed) markSeen("training");
+      if (completed && options.analyticsEnabled?.())
+        trackOnce("training_completed", M2_MARKERS.trainingCompleted);
       options.onExit(completed);
     }
   };

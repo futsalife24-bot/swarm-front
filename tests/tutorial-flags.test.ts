@@ -30,6 +30,7 @@ import {
   showFirstGuide,
 } from "../src/client/first-guides";
 import { controlVoiceLine } from "../src/client/control-voice-lines";
+import { M2_MARKERS } from "../src/shared/analytics-kinds";
 import { blankLevels, freshProgress } from "../src/client/progression-save";
 import { unlockState } from "../src/client/unlock-stage";
 import {
@@ -243,6 +244,7 @@ describe("first-journey analytics", () => {
     vi.stubGlobal("location", {
       href: "https://swarm-front.invalid/" + search,
       search,
+      origin: "https://swarm-front.invalid",
     });
     vi.stubGlobal("crypto", {
       randomUUID: () => "0123456789abcdef0123456789abcdef",
@@ -330,6 +332,174 @@ describe("first-journey analytics", () => {
     expect(JSON.parse((fetch.mock.calls[0] as any[])[1].body).kind).toBe(
       "return",
     );
+  });
+
+  it("sends each extended milestone once with only an elapsed bucket", async () => {
+    const saved = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => saved.get(key) ?? null,
+      setItem: (key: string, value: string) => void saved.set(key, value),
+    };
+    vi.stubGlobal("localStorage", storage);
+    const fetch = vi.fn(async () => ({ ok: true }) as Response);
+    vi.stubGlobal("fetch", fetch);
+    vi.useFakeTimers();
+    vi.setSystemTime(Date.parse("2026-11-21T00:00:00Z"));
+    const { trackOnce } = await loadAnalytics("");
+    expect(trackOnce("ftue_start", "ftue:start", storage)).toBe(true);
+    vi.setSystemTime(Date.parse("2026-11-21T00:04:00Z"));
+    expect(trackOnce("first_buddy", M2_MARKERS.firstBuddy, storage)).toBe(true);
+    expect(trackOnce("first_buddy", M2_MARKERS.firstBuddy, storage)).toBe(false);
+    vi.setSystemTime(Date.parse("2026-11-21T00:06:00Z"));
+    expect(trackOnce("second_sortie", M2_MARKERS.secondSortie, storage)).toBe(
+      true,
+    );
+    expect(fetch).toHaveBeenCalledTimes(3);
+    const bodies = fetch.mock.calls.map(
+      (call) => JSON.parse((call as any[])[1].body) as Record<string, unknown>,
+    );
+    expect(bodies[0]).toEqual({
+      kind: "ftue_start",
+      visitor: "0123456789abcdef0123456789abcdef",
+      admin: false,
+    });
+    expect(bodies[1]).toEqual({
+      kind: "first_buddy",
+      visitor: "0123456789abcdef0123456789abcdef",
+      admin: false,
+      elapsed_bucket: "from_3m",
+    });
+    expect(bodies[2]).toEqual({
+      kind: "second_sortie",
+      visitor: "0123456789abcdef0123456789abcdef",
+      admin: false,
+      elapsed_bucket: "from_5m",
+    });
+    expect(JSON.stringify(bodies)).not.toMatch(/timestamp|duration|2026-11/);
+  });
+
+  it("marks milestones from another page launch as another_launch", async () => {
+    const saved = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => saved.get(key) ?? null,
+      setItem: (key: string, value: string) => void saved.set(key, value),
+    };
+    vi.stubGlobal("localStorage", storage);
+    const fetch = vi.fn(async () => ({ ok: true }) as Response);
+    vi.stubGlobal("fetch", fetch);
+    const { trackOnce } = await loadAnalytics("");
+    expect(trackOnce("first_defeat", M2_MARKERS.firstDefeat, storage)).toBe(
+      true,
+    );
+    expect(
+      JSON.parse((fetch.mock.calls[0] as any[])[1].body).elapsed_bucket,
+    ).toBe("another_launch");
+  });
+
+  it("does not interrupt play when an extended milestone cannot be sent", async () => {
+    const saved = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => saved.get(key) ?? null,
+      setItem: (key: string, value: string) => void saved.set(key, value),
+    };
+    vi.stubGlobal("localStorage", storage);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => {
+        throw new Error("offline");
+      }),
+    );
+    const { trackOnce } = await loadAnalytics("");
+    expect(() =>
+      trackOnce("first_box_claim", M2_MARKERS.firstBoxClaim, storage),
+    ).not.toThrow();
+  });
+});
+
+describe("C-6 M2 training milestones", () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  const setup = async (analyticsEnabled: boolean) => {
+    vi.resetModules();
+    const saved = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => saved.get(key) ?? null,
+      setItem: (key: string, value: string) => void saved.set(key, value),
+    };
+    vi.stubGlobal("localStorage", storage);
+    vi.stubGlobal("location", {
+      href: "https://swarm-front.invalid/",
+      search: "",
+      origin: "https://swarm-front.invalid",
+    });
+    vi.stubGlobal("crypto", {
+      randomUUID: () => "0123456789abcdef0123456789abcdef",
+    });
+    const fetch = vi.fn(async () => ({ ok: true }) as Response);
+    vi.stubGlobal("fetch", fetch);
+    const frame = {
+      className: "",
+      title: "",
+      allow: "",
+      src: "",
+      contentWindow: {},
+      remove: vi.fn(),
+    };
+    let listener: ((event: any) => void) | undefined;
+    vi.stubGlobal("document", {
+      createElement: () => frame,
+      body: { append: vi.fn() },
+    });
+    vi.stubGlobal("window", {
+      addEventListener: (_type: string, fn: (event: any) => void) => {
+        listener = fn;
+      },
+      removeEventListener: vi.fn(),
+    });
+    const launch = await import("../src/client/tutorial-launch");
+    const onExit = vi.fn();
+    launch.openBasicTraining({
+      layout: {} as any,
+      analyticsEnabled: () => analyticsEnabled,
+      onExit,
+    });
+    const post = (data: unknown) =>
+      listener?.({
+        origin: "https://swarm-front.invalid",
+        source: frame.contentWindow,
+        data,
+      });
+    return { fetch, launch, onExit, post };
+  };
+
+  it("sends training start, first operation and completion only once", async () => {
+    const { fetch, launch, onExit, post } = await setup(true);
+    post({ type: "training-began" });
+    post({ type: "training-achievement", operation: "move" });
+    post({ type: "training-exit", completed: true });
+    expect(onExit).toHaveBeenCalledWith(true);
+    const kinds = fetch.mock.calls.map(
+      (call) => JSON.parse((call as any[])[1].body).kind,
+    );
+    expect(kinds).toEqual([
+      "training_started",
+      "operation_achieved",
+      "training_completed",
+    ]);
+    expect(launch.recordTrainingAchievement("swap", true)).toBe(true);
+    expect(fetch).toHaveBeenCalledTimes(3);
+    expect(launch.recordTrainingAchievement("swap", true)).toBe(true);
+  });
+
+  it("sends nothing when analytics is disabled", async () => {
+    const { fetch, post } = await setup(false);
+    post({ type: "training-began" });
+    post({ type: "training-achievement", operation: "move" });
+    post({ type: "training-exit", completed: true });
+    expect(fetch).not.toHaveBeenCalled();
   });
 });
 
