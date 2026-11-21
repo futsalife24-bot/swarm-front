@@ -1,5 +1,15 @@
 # テスト記録
 
+## 2026-11-21 C-6/C-7 Slice 5 V1+U6 の自動検証
+
+- `scripts/local-journey-harness.mjs` を使い、同一originのViteが `/api` と `/admin` だけをローカルWorkerへ中継した。本番のMilestone送信は行っていない。
+- `scripts/check-first-ten-minutes.mjs`: 最終ログ `dist-validation/first-ten-minutes-both-final5.log`。`dist-validation/first-ten-minutes/after/checks.json` は844×390・640×360とも `passed: true`、`pageErrors: []`。S0→S1→S2→S3の入口開閉を各段階でassertし、S1の `growth` は使用実績と一致するかで検査した。
+- `scripts/check-first-victory.mjs`: 最終ログ `dist-validation/first-victory-final8.log`。`dist-validation/first-ten-minutes/after-victory/checks.json` は `passed: true`、`pageErrors: []`。通常入力pilotで58.4ゲーム秒・32撃破の初勝利から報酬受領、装備2への入替、reload、再出撃まで確認した。
+- 更新したのは前提と待ち方だけである。補給待ちは10枚完全一致から `>=10枚` かつ10連有効へ変更。新規進行の段階シード、戦闘中dialogのスキップ、結果画面から装備画面へのshutter完了待ち、可視な装備行の指定、装備スロット選択完了待ち、共通「戻る」導線、再出撃時のshutter完了待ちを追加した。assertionは弱めていない。
+- 既知の環境前提: 初回GPU準備の遅延、ヘッドレス戦闘準備の95%付近での停止、WebGL shader警告、Service Worker遮断。観測できない項目は `UNVERIFIED` とし、アプリ障害とは断定しない。
+- 最終チェック: `npm run typecheck` PASS、`npm test` 2,171件中2,166 PASS/既知5失敗/errors 0、`npm run test:save` 10ファイル149件PASS、`git diff --check` PASS。
+- 未確認: 人手初見、Android/iOS実機、物理safe area、Service Workerを伴う配信更新。auto-pilot時刻を人手時間として扱わない。
+
 ## 保存・更新・再開の現行入口（2026-09-26）
 
 `npm run test:save` / `npm run test:save:browser`。対応表・固定旧保存fixture・実行条件・今回の結果・未対象は [SAVE-REGRESSION.md](SAVE-REGRESSION.md)。以下の過去成功記録とは区別する。

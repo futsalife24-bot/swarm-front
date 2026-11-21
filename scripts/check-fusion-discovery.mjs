@@ -26,6 +26,19 @@ try {
       p.on("console", (m) => {
         if (m.type() === "error") errors.push(m.text());
       });
+      await p.addInitScript(() => {
+        const key = "swarm-front-tutorial-v1";
+        const current = JSON.parse(
+          localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+        );
+        const seen = new Set(current.seen ?? []);
+        seen.add("ftue:c7");
+        seen.add("ftue:unlock:all");
+        localStorage.setItem(
+          key,
+          JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+        );
+      });
       await p.goto(`${origin}/${published ? "front" : "front.html"}`, {
         waitUntil: "domcontentloaded",
         timeout: 60000,

@@ -45,6 +45,19 @@ try {
         ),
       fixture,
     );
+    await p.addInitScript(() => {
+      const key = "swarm-front-tutorial-v1";
+      const current = JSON.parse(
+        localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+      );
+      const seen = new Set(current.seen ?? []);
+      seen.add("ftue:c7");
+      seen.add("ftue:unlock:all");
+      localStorage.setItem(
+        key,
+        JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+      );
+    });
     await p.goto("http://127.0.0.1:5347/");
     await p.locator("#solo").click();
     await p.locator("#player-name").fill("資源UI検証");

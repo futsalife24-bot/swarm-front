@@ -34,6 +34,19 @@ async function page(width = 844, height = 390) {
   await p.addInitScript(() =>
     localStorage.setItem("swarm-front-player-name-v1", "操作検証"),
   );
+  await p.addInitScript(() => {
+    const key = "swarm-front-tutorial-v1";
+    const current = JSON.parse(
+      localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+    );
+    const seen = new Set(current.seen ?? []);
+    seen.add("ftue:c7");
+    seen.add("ftue:unlock:all");
+    localStorage.setItem(
+      key,
+      JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+    );
+  });
   return p;
 }
 async function title(p) {
@@ -240,8 +253,12 @@ try {
     await tap(p, "#front-settings-back");
     await tap(p, "#open-armory");
     await p.waitForURL(/\?base=1$/);
-    await p.locator("#pt-confirm").waitFor();
-    await tap(p, "#pt-confirm");
+    await p.waitForFunction(
+      () =>
+        !!document.querySelector("dialog.menu-dialog[open]") ||
+        !!document.querySelector(".pt-base-menu"),
+    );
+    if (await p.locator("#pt-confirm").count()) await tap(p, "#pt-confirm");
     await tap(p, "#pt-settings");
     await expect(p.locator('[data-preference="quality"]')).toHaveValue("0.65");
     await expect(p.locator('[data-preference="frameRate"]')).toHaveValue("30");
@@ -353,7 +370,12 @@ try {
     } finally {
       release();
     }
-    if (!path.includes("front")) await p.locator("#pt-confirm").waitFor();
+    if (!path.includes("front"))
+      await p.waitForFunction(
+        () =>
+          !!document.querySelector("dialog.menu-dialog[open]") ||
+          !!document.querySelector(".pt-base-menu"),
+      );
     else await p.locator("#room-join").waitFor();
     await expect(p.locator("#boot-screen")).toHaveCount(0);
     results.push({ check: "起動前の読込表示", path, cleared: true });

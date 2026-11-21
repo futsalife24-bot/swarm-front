@@ -13,10 +13,17 @@ try {
     await page.waitForFunction(()=>!document.querySelector('.split-shutter,.menu-route-shutter'));
     await page.locator(selector).click();
   };
-  await page.addInitScript(()=>localStorage.setItem('swarm-front-player-name-v1','補給画面確認'));
+  await page.addInitScript(()=>{
+    localStorage.setItem('swarm-front-player-name-v1','補給画面確認');
+    const key='swarm-front-tutorial-v1';
+    const current=JSON.parse(localStorage.getItem(key)??'{"version":1,"seen":[]}');
+    const seen=new Set(current.seen??[]);seen.add('ftue:c7');seen.add('ftue:unlock:all');
+    localStorage.setItem(key,JSON.stringify({...current,version:1,seen:[...seen]}));
+  });
   await page.goto(origin+'/?base=1');
   if(!fs.existsSync(privateState)) {
-    await tap('#pt-confirm');
+    await page.waitForFunction(()=>!!document.querySelector('dialog.menu-dialog[open]')||!!document.querySelector('.pt-base-menu'));
+    if(await page.locator('#pt-confirm').count())await tap('#pt-confirm');
     if(!await page.locator('#pt-base-buddy').count()) await tap('#pt-base');
     await tap('#pt-base-buddy');
     await page.waitForTimeout(1200);

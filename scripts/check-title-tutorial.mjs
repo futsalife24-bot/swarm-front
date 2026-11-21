@@ -11,6 +11,12 @@ try {
   for (const [width,height] of [[1280,582],[844,390],[667,375]]) {
     const page = await browser.newPage({viewport:{width,height},serviceWorkers:'block'});
     const errors = []; page.on('pageerror', e=>errors.push(e.message));
+    await page.addInitScript(()=>{
+      const key='swarm-front-tutorial-v1';
+      const current=JSON.parse(localStorage.getItem(key)??'{"version":1,"seen":[]}');
+      const seen=new Set(current.seen??[]);seen.add('ftue:c7');seen.add('ftue:unlock:all');
+      localStorage.setItem(key,JSON.stringify({...current,version:1,seen:[...seen]}));
+    });
     await page.goto(origin); await page.locator('#home-tutorial').waitFor({state:'visible'});
     const before = await page.evaluate(()=>localStorage.getItem('swarm-front-progression-v2-normal'));
     await page.screenshot({path:`${out}/${width}-title.png`});
@@ -41,7 +47,9 @@ try {
     await page.locator('#home-tutorial').click();
     assert.equal(await page.locator('#tutorial-tab-0').getAttribute('aria-selected'),'true');
     await page.getByRole('button',{name:'閉じる',exact:true}).click();
-    await page.locator('#open-armory').click(); await page.locator('#pt-confirm').click();
+    await page.locator('#open-armory').click();
+    await page.waitForFunction(()=>!!document.querySelector('dialog.menu-dialog[open]')||!!document.querySelector('.pt-base-menu'));
+    if(await page.locator('#pt-confirm').count()) await page.locator('#pt-confirm').click();
     assert.equal(await page.locator('#home-tutorial').count(),0);
     await page.locator('#pt-home').click();
     const initialized = await page.evaluate(()=>localStorage.getItem('swarm-front-progression-v2-normal'));

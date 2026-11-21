@@ -26,9 +26,20 @@ try {
     await page.addLocatorHandler(page.locator("#pt-intro-skip"), async () => {
       await page.locator("#pt-intro-skip").click();
     });
-    await page.addInitScript(() =>
-      localStorage.setItem("swarm-front-player-name-v1", "公開停止検証"),
-    );
+    await page.addInitScript(() => {
+      localStorage.setItem("swarm-front-player-name-v1", "公開停止検証");
+      const key = "swarm-front-tutorial-v1";
+      const current = JSON.parse(
+        localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+      );
+      const seen = new Set(current.seen ?? []);
+      seen.add("ftue:c7");
+      seen.add("ftue:unlock:all");
+      localStorage.setItem(
+        key,
+        JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+      );
+    });
     const settle = () =>
       page.waitForFunction(
         () => !document.querySelector(".split-shutter,.menu-route-shutter"),

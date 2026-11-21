@@ -19,6 +19,19 @@ try {
       document.documentElement.style.setProperty("--safe-right", "20px");
     }),
   );
+  await p.addInitScript(() => {
+    const key = "swarm-front-tutorial-v1";
+    const current = JSON.parse(
+      localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+    );
+    const seen = new Set(current.seen ?? []);
+    seen.add("ftue:c7");
+    seen.add("ftue:unlock:all");
+    localStorage.setItem(
+      key,
+      JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+    );
+  });
   const check = async (name, selector) => {
     await p.locator(selector).waitFor();
     await p.waitForFunction(() =>

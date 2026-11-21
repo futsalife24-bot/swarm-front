@@ -12,6 +12,12 @@ const results=[];
 try {
   for (const mode of ['fullscreen','standalone','minimal-ui','ios']) {
     const ctx = await browser.newContext({viewport:{width:844,height:390},hasTouch:true});
+    await ctx.addInitScript(() => {
+      const key = 'swarm-front-tutorial-v1';
+      const current = JSON.parse(localStorage.getItem(key)??'{"version":1,"seen":[]}');
+      const seen = new Set(current.seen??[]);seen.add('ftue:c7');seen.add('ftue:unlock:all');
+      localStorage.setItem(key,JSON.stringify({...current,version:1,seen:[...seen]}));
+    });
     await ctx.addInitScript(mode => {
       const original = window.matchMedia.bind(window);
       window.matchMedia = query => {

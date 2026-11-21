@@ -25,6 +25,19 @@ test("result banks overflow, favorites survive home and reload, and armory delet
       })),
     );
     const page = await context.newPage();
+    await page.addInitScript(() => {
+      const key = "swarm-front-tutorial-v1";
+      const current = JSON.parse(
+        localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+      );
+      const seen = new Set<string>(current.seen ?? []);
+      seen.add("ftue:c7");
+      seen.add("ftue:unlock:all");
+      localStorage.setItem(
+        key,
+        JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+      );
+    });
     await page.goto("/");
     await page.evaluate(
       ({ key, seed }) => localStorage.setItem(key, JSON.stringify(seed)),
