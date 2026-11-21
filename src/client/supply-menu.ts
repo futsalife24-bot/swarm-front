@@ -30,6 +30,7 @@ export function mountSupplyMenu(
   saved: (save: ProgressSave) => void,
   chooseStarter: () => void,
   getVolume: () => number = () => 1,
+  options: { firstTime?: boolean; prefetch?: () => void } = {},
 ) {
   const service = createSupplyService();
   let snapshot: SupplySnapshot | null = null;
@@ -39,8 +40,9 @@ export function mountSupplyMenu(
     reveal: Reveal | null = null;
   host.innerHTML = `<div class="supply-menu">
     <section><p>補給券 <strong class="supply-count" data-supply-count>確認中…</strong></p>
-      <div class="supply-actions"><button type="button" data-supply-draw="1" disabled>1回 · 1枚</button><button type="button" data-supply-draw="10" disabled>10連 · 10枚</button><button type="button" data-supply-recover hidden>前回の補給を再開</button><button type="button" data-supply-cloud hidden>クラウド保存を作成</button><button type="button" data-supply-refresh>再確認</button></div>
+      <div class="supply-actions"><button type="button" data-supply-draw="1" disabled>1回 · 1枚</button><button type="button" data-supply-draw="10"${options.firstTime ? ' class="primary"' : ""} disabled>10連 · 10枚</button><button type="button" data-supply-recover hidden>前回の補給を再開</button><button type="button" data-supply-cloud hidden>クラウド保存を作成</button><button type="button" data-supply-refresh>再確認</button></div>
       <p class="supply-guarantee">10連は最後の1個がSR以上確定</p>
+      ${options.firstTime ? `<p data-supply-ftue-note>ST1 初回クリアの補給です。10連は最後の1個がSR以上確定</p>` : ""}
       <p data-supply-credit role="status" hidden></p>
       <p class="supply-feedback" data-supply-feedback role="status" aria-live="polite"></p>
       <button type="button" data-supply-starter hidden>初回バディを選ぶ</button>
@@ -257,6 +259,7 @@ export function mountSupplyMenu(
     }
   };
   $("[data-supply-starter]").onclick = chooseStarter;
+  options.prefetch?.();
   void refresh();
   return {
     destroy() {

@@ -15,6 +15,7 @@ import {
   markSeen,
   markReturnVisit,
   migrateTutorialFlags,
+  migrateC7Terminal,
   resetGuides,
 } from "../src/client/tutorial-flags";
 import {
@@ -27,6 +28,8 @@ import {
   showFirstGuide,
 } from "../src/client/first-guides";
 import { controlVoiceLine } from "../src/client/control-voice-lines";
+import { freshProgress } from "../src/client/progression-save";
+import { unlockState } from "../src/client/unlock-stage";
 
 function memory() {
   const m = new Map<string, string>();
@@ -417,5 +420,84 @@ describe("first guides (W5)", () => {
     expect(c.current).toBe("案内");
     now = 2001;
     expect(c.current).toBe("");
+  });
+});
+
+describe("C-6 F1 compatibility with C-7 unlock records", () => {
+  it("keeps C-7 unlock markers when the F1 migration runs afterwards", () => {
+    const store = memory();
+    store.m.set(TUTORIAL_FLAGS_KEY, JSON.stringify({ version: 1, seen: ["offer", "ftue:unlock:all", "ftue:c7"] }));
+    expect(migrateTutorialFlags(true, store)).toBe(true);
+    for (const marker of ["ftue:unlock:all", "ftue:c7"])
+      expect(JSON.parse(store.m.get(TUTORIAL_FLAGS_KEY)!).seen, marker).toContain(marker);
+  });
+});
+describe("terminal unlock migration (C-7 U1)", () => {
+  const seen = (store: ReturnType<typeof memory>) =>
+    JSON.parse(store.m.get(TUTORIAL_FLAGS_KEY)!) as { seen: string[] };
+
+  beforeEach(() => clearTutorialSession());
+
+  it("grants all unlocks to a pre-C-7 terminal with a progress save", () => {
+    const store = memory();
+    expect(migrateC7Terminal(true, false, 1, store)).toBe(true);
+    expect(seen(store).seen).toContain("ftue:unlock:all");
+    expect(seen(store).seen).toContain("ftue:c7");
+    expect(unlockState(freshProgress(), { seen: seen(store).seen }).stage).toBe(1);
+  });
+
+  it("grants all unlocks when only front-play history exists", () => {
+    const store = memory();
+    expect(migrateC7Terminal(false, true, 0, store)).toBe(true);
+    expect(seen(store).seen).toContain("ftue:unlock:all");
+  });
+
+  it("starts a brand-new terminal at S0 and stamps once", () => {
+    const store = memory();
+    expect(migrateC7Terminal(false, false, 0, store)).toBe(true);
+    expect(seen(store).seen).toEqual(["ftue:c7"]);
+    expect(migrateC7Terminal(false, false, 0, store)).toBe(false);
+    expect(seen(store).seen).toEqual(["ftue:c7"]);
+  });
+
+  it("does not grant all unlocks when the first save appears after migration", () => {
+    const store = memory();
+    migrateC7Terminal(false, false, 0, store);
+    migrateC7Terminal(true, false, 1, store);
+    expect(seen(store).seen).not.toContain("ftue:unlock:all");
+    expect(seen(store).seen).toContain("ftue:unlock:1");
+    const before = JSON.stringify(seen(store));
+    expect(migrateC7Terminal(true, false, 1, store)).toBe(false);
+    expect(JSON.stringify(seen(store))).toBe(before);
+  });
+
+  it("records the highest save-derived stage monotonically", () => {
+    const store = memory();
+    migrateC7Terminal(false, false, 2, store);
+    expect(seen(store).seen).toEqual(expect.arrayContaining(["ftue:unlock:1", "ftue:unlock:2"]));
+    expect(migrateC7Terminal(false, false, 1, store)).toBe(false);
+    expect(seen(store).seen).not.toContain("ftue:unlock:3");
+  });
+
+  it("keeps migration markers through resetGuides", () => {
+    const store = memory();
+    migrateC7Terminal(true, false, 2, store);
+    resetGuides(store);
+    for (const marker of ["ftue:c7", "ftue:unlock:all", "ftue:unlock:2"])
+      expect(seen(store).seen, marker).toContain(marker);
+  });
+
+  it("does not write to ProgressSave", () => {
+    const save = Object.freeze({
+      version: 2 as const,
+      mode: "normal" as const,
+      missions: { "ST1:normal": [true] },
+      receipts: [],
+    });
+    const before = JSON.stringify(save);
+    const store = memory();
+    migrateC7Terminal(true, false, 1, store);
+    expect(JSON.stringify(save)).toBe(before);
+    expect([...store.m.keys()]).toEqual([TUTORIAL_FLAGS_KEY]);
   });
 });
