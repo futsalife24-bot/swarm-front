@@ -47,6 +47,7 @@ import {
   survivalBreakthroughRewardMarkup,
 } from "./front-tactics-ui";
 import {
+  getMenuReducedMotion,
   menuAssemble,
   menuEquip,
   menuGrowthSaved,
@@ -934,6 +935,49 @@ function choice() {
   bind("pt-normal-reward", () => commit(chooseReward(save, false), result));
   bind("pt-ad-reward", () => void requestAd("reward"));
 }
+function announceUnlockStage(stage: number, first: boolean) {
+  if (developerMode || mode !== "normal" || !first) return;
+  if (stage !== 2 && stage !== 3) return;
+  if (stage === 2 && hasSeen("ftue:unlock:3")) return;
+  const flag = stage === 2 ? "ftue:unlock:2" : "ftue:unlock:3";
+  if (hasSeen(flag)) return;
+  markSeen(flag);
+  const status = ui.querySelector<HTMLElement>(".pt-status");
+  if (notice || !status || status.textContent?.trim()) return;
+  const text =
+    stage === 2
+      ? "育成・週間ミッションが開きました"
+      : "アクセサリ・工房・日替わり防衛・生存カードが開きました";
+  status.textContent = text;
+  const clear = () => {
+    if (status.textContent === text) status.textContent = "";
+  };
+  if (getMenuReducedMotion() || typeof status.animate !== "function") {
+    window.setTimeout(clear, 4000);
+    return;
+  }
+  const appear = status.animate(
+    [
+      { opacity: 0, transform: "translateY(6px)" },
+      { opacity: 1, transform: "translateY(0)" },
+    ],
+    { duration: 200, easing: "ease-out" },
+  );
+  void appear.finished
+    .then(() => {
+      window.setTimeout(() => {
+        const disappear = status.animate(
+          [
+            { opacity: 1, transform: "translateY(0)" },
+            { opacity: 0, transform: "translateY(-4px)" },
+          ],
+          { duration: 300, easing: "ease-in" },
+        );
+        void disappear.finished.then(clear, clear);
+      }, 4000);
+    })
+    .catch(clear);
+}
 function result() {
   setScreen("result");
   const r = save.result!;
@@ -1000,6 +1044,7 @@ function result() {
   // 敗北は作戦キュー adv-failed の声が先に鳴るため、勝利の時だけ案内する。
   if (r.win) sound.announce("result-win", `${r.run}:result`);
   if (r.win) guide("result");
+  if (r.win) announceUnlockStage(r.stage, r.first);
 }
 function report() {
   modalCount++;
