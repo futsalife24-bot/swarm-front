@@ -7,6 +7,17 @@ test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
     // A fresh test-only profile; never read or import the user's saves.
     localStorage.setItem("swarm-front-player-name-v1", "終了確認テスト");
+    const key = "swarm-front-tutorial-v1";
+    const current = JSON.parse(
+      localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+    );
+    const seen = new Set<string>(current.seen ?? []);
+    seen.add("ftue:c7");
+    seen.add("ftue:unlock:all");
+    localStorage.setItem(
+      key,
+      JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+    );
   });
   // New Playwright contexts only. No production saves, rooms or telemetry.
   await page.route("https://**/*", (route) => route.abort());

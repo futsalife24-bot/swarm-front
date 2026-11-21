@@ -28,6 +28,12 @@ for (const [width, height] of [
   const p = await ctx.newPage();
   const errors = [];
   p.on("pageerror", (e) => errors.push(e.message));
+  await p.addInitScript(() => {
+    localStorage.setItem(
+      "swarm-front-tutorial-v1",
+      JSON.stringify({ version: 1, seen: ["ftue:c7", "ftue:unlock:all"] }),
+    );
+  });
   const settle = () =>
     p.waitForFunction(
       () => !document.querySelector(".split-shutter, .menu-route-shutter"),
