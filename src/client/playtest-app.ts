@@ -123,7 +123,8 @@ import { RewardedAdSession, type AdOutcome } from "./rewarded-ad";
 import { openBestiary } from "./bestiary";
 import { highestClearedStage } from "./front-campaign";
 import { readFrontProgress } from "./front-progress";
-import { firstVictoryRoute } from "./ftue";
+import { firstVictoryRoute, nextFtueStep } from "./ftue";
+import { unlockState } from "./unlock-stage";
 import { createSupplyService } from "./supply-service";
 import { loadSupplyReveal } from "./supply-presentation";
 import { ENEMY_REPORT_NAMES, enemyReportId } from "../shared/enemy-identity";
@@ -1282,11 +1283,12 @@ function updateSupplyBadge() {
   if (!button) return;
   const count = supplyBoxCount();
   const badge = button.querySelector<HTMLElement>(".weekly-notification")!;
+  const marked = currentFtueStep(screen === "home")?.kind === "supplyBox";
   badge.textContent = String(count);
-  badge.hidden = count === 0;
+  badge.hidden = count === 0 || !marked;
   button.setAttribute(
     "aria-label",
-    count ? `支給ボックス、未受取${count}件` : "支給ボックス",
+    count && marked ? `支給ボックス、未受取${count}件` : "支給ボックス",
   );
 }
 function updateWeeklyBadge() {
@@ -1578,6 +1580,28 @@ const retryKey = developerMode
 const sampleMenus =
   developerMode &&
   new URLSearchParams(location.search).get("menuSample") === "1";
+
+const UNLOCK_TERMINAL_FLAGS = [
+  "ftue:unlock:all",
+  "ftue:unlock:1",
+  "ftue:unlock:2",
+  "ftue:unlock:3",
+] as const;
+
+function currentUnlock() {
+  return unlockState(
+    save,
+    { seen: UNLOCK_TERMINAL_FLAGS.filter((flag) => hasSeen(flag)) },
+    { developerMode, mode },
+  );
+}
+
+function currentFtueStep(initialized: boolean) {
+  if (developerMode || mode !== "normal") return undefined;
+  return nextFtueStep(initialized ? save : null, {
+    supplyBoxClaimable: initialized && supplyBoxCount() > 0,
+  });
+}
 let gearOrganizing = false;
 let selectedGearSlot = 0;
 let armoryKind: Family | "all" | null = null;
@@ -2056,6 +2080,14 @@ function enterMenu(after: () => void) {
 function showHome(initialized: boolean) {
   world = null;
   setScreen(initialized ? "home" : "intro");
+  if (!developerMode && mode === "normal") {
+    try {
+      refreshSupplyBox();
+    } catch {
+      /* 読めない保存は上書きしない。箱を開いたときに理由を出す。 */
+    }
+  }
+  const ftueStep = currentFtueStep(initialized);
   ui.innerHTML = homeMarkup({
     stage: stageFor({
       stage: campaignNumber(stage),
@@ -2064,6 +2096,8 @@ function showHome(initialized: boolean) {
     inventoryCount: initialized ? save.inventory.length : 0,
     pendingCount: initialized ? save.pending.length : 0,
     install: canInstallApp(),
+    nextStep: ftueStep,
+    unlock: currentUnlock(),
   });
   if (canInstallApp()) bind("install", () => installApp());
   const enter = enterMenu;
@@ -2089,12 +2123,6 @@ function showHome(initialized: boolean) {
     bind("pt-weekly-missions", weeklyMissionsUI);
     updateWeeklyBadge();
     if (mode === "normal") {
-      // 初起動のヒヨリ解放とその日のログインボーナスを箱へ入れる（受け取りで初めて付与）。
-      try {
-        refreshSupplyBox();
-      } catch {
-        /* 読めない保存は上書きしない。箱を開いたときに理由を出す。 */
-      }
       ui.querySelector(".home-challenges")!.insertAdjacentHTML(
         "beforeend",
         '<button id="pt-supply-box" class="weekly-title-button">支給ボックス<span class="weekly-notification" aria-hidden="true" hidden></span></button>',
@@ -2533,14 +2561,20 @@ function openBaseWorkshop() {
 }
 function base() {
   setScreen("base");
+  const ftueStatus = !developerMode && mode === "normal";
+  const buddyUnchosen = save.buddies?.starterChosen !== true;
+  const firstSupplyDone = (save.receipts ?? []).some((receipt) =>
+    receipt.startsWith("supply:"),
+  );
+  const pendingCount = save.pending.length;
   header(
     "基地",
     `<div class="pt-base-menu">
-      <button id="pt-base-weapons"><strong>武器</strong><span>一覧・比較・整理</span><small>${allWeapons(save).length}丁を所持</small></button>
+      <button id="pt-base-weapons"><strong>武器</strong><span>一覧・比較・整理</span><small>${ftueStatus && pendingCount ? `整理待ち ${pendingCount}丁` : `${allWeapons(save).length}丁を所持`}</small></button>
       <button id="pt-base-accessories"><strong>アクセサリ</strong><span>作成・装備・合成</span><small>${save.accessories.length}個を所持</small></button>
       <button id="pt-base-growth"><strong>育成</strong><span>兵士の能力を強化</span><small>兵士ごとの成長を管理</small></button>
-      <button id="pt-base-buddy"><strong>バディ</strong><span>編成・育成・招集</span><small>進撃に同行する相棒</small></button>
-      <button id="pt-base-supply" ${developerMode || mode === "normal" ? "" : "disabled"}><strong>補給ポッド</strong><span>${developerMode ? "10連の演出確認" : "補給券で1回・10連"}</span><small>${developerMode ? "演出選択・ランダム（取得なし）" : mode === "normal" ? "武器・バディ・武装片を補給" : "通常プレイで利用できます"}</small></button>
+      <button id="pt-base-buddy"><strong>バディ</strong><span>編成・育成・招集</span><small>${ftueStatus && buddyUnchosen ? "最初の1体を選べます" : "進撃に同行する相棒"}</small></button>
+      <button id="pt-base-supply" ${developerMode || mode === "normal" ? "" : "disabled"}><strong>補給ポッド</strong><span>${developerMode ? "10連の演出確認" : "補給券で1回・10連"}</span><small>${developerMode ? "演出選択・ランダム（取得なし）" : mode === "normal" ? (ftueStatus && !firstSupplyDone ? "初回10連 未実施" : "武器・バディ・武装片を補給") : "通常プレイで利用できます"}</small></button>
       <button id="pt-base-survival"><strong>生存カード</strong><span>強化候補・デッキ設定</span><small>カードの効果・融合条件を確認</small></button>
       <button id="pt-base-workshop" ${mode !== "normal" ? "disabled" : ""}><strong>工房</strong><span>武器のレベル強化・変換・改造</span><small>${mode === "normal" ? "武装片を使って性能を強化" : "通常プレイで利用できます"}</small></button>
     </div>`,
