@@ -1199,22 +1199,26 @@ function settingsUI() {
     `<label>音量 <input id="pt-volume" type="range" min="0" max="1" step=".05" value="${sound.volume}"></label><label>描画 <select id="pt-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><button id="pt-save-export">現在の保存を書き出す</button>`,
   );
   addPlayerNameSetting(d.querySelector<HTMLElement>(".menu-dialog-body")!);
-  const developerEntry = document.createElement("button");
-  developerEntry.id = "pt-developer-entry";
-  developerEntry.textContent = developerMode
-    ? "通常モードへ戻る"
-    : "管理者モード";
-  developerEntry.className = "settings-developer-entry";
-  developerEntry.onclick = () => {
-    d.close();
-    openDeveloperEntry();
-  };
-  d.querySelector("#pt-save-export")!.after(developerEntry);
-  if (developerMode) {
-    const note = document.createElement("p");
-    note.textContent =
-      "全ステージ・全敵情報・全武器レア度・アクセサリを解放。変更は再読み込みでリセットされ、通常の進行は変更しません。";
-    developerEntry.after(note);
+  const developerEntry = currentUnlock().entries.settingsDeveloper.open
+    ? document.createElement("button")
+    : null;
+  if (developerEntry) {
+    developerEntry.id = "pt-developer-entry";
+    developerEntry.textContent = developerMode
+      ? "通常モードへ戻る"
+      : "管理者モード";
+    developerEntry.className = "settings-developer-entry";
+    developerEntry.onclick = () => {
+      d.close();
+      openDeveloperEntry();
+    };
+    d.querySelector("#pt-save-export")!.after(developerEntry);
+    if (developerMode) {
+      const note = document.createElement("p");
+      note.textContent =
+        "全ステージ・全敵情報・全武器レア度・アクセサリを解放。変更は再読み込みでリセットされ、通常の進行は変更しません。";
+      developerEntry.after(note);
+    }
   }
   preferences.mount(d, () => {
     const returnTo =
@@ -1222,7 +1226,8 @@ function settingsUI() {
     d.close();
     editControlLayout(returnTo);
   });
-  d.querySelector(".menu-dialog-body")!.append(developerEntry);
+  if (developerEntry)
+    d.querySelector(".menu-dialog-body")!.append(developerEntry);
   mountMediaMenu(
     d,
     () => sound.volume,
