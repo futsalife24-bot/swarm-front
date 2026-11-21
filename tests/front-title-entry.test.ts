@@ -2,8 +2,13 @@ import { describe, expect, it } from "vitest";
 import { STAGES } from "../src/shared/stages";
 import { freshProgress } from "../src/client/progression-save";
 import { freshBuddyProgress } from "../src/shared/buddy-progression";
-import { nextFtueStep } from "../src/client/ftue";
-import { homeMarkup, homeNextEntrance } from "../src/client/home-screen";
+import { nextFtueStep, type FtueNextStep } from "../src/client/ftue";
+import {
+  homeChallengesMarkup,
+  homeMarkup,
+  homeNextEntrance,
+} from "../src/client/home-screen";
+import { unlockState, type UnlockEntry } from "../src/client/unlock-stage";
 
 function clearedSave() {
   const save = freshProgress("normal");
@@ -17,6 +22,15 @@ function buddyChosenSave() {
   save.buddies.starterChosen = true;
   return save;
 }
+
+function saveAtStage(stage: number) {
+  const save = freshProgress("normal");
+  for (let index = 1; index <= stage; index += 1)
+    save.missions[`${index}:normal`] = [true, false, false];
+  return save;
+}
+
+const noFlags = { seen: [] as string[] };
 
 const markupFor = (
   save: ReturnType<typeof freshProgress> | null,
@@ -92,5 +106,123 @@ describe("shared title entry", () => {
     expect(markupFor(save)).toBe(
       homeMarkup({ stage: STAGES[0], inventoryCount: 0 }),
     );
+  });
+
+  it("never marks a closed U0 entrance for any F5 step", () => {
+    const steps = [
+      { kind: "solo" },
+      { kind: "buddy" },
+      { kind: "supply" },
+      { kind: "supplyBox" },
+      { kind: "none" },
+    ] as FtueNextStep[];
+    const targets: Record<FtueNextStep["kind"], UnlockEntry | null> = {
+      solo: "solo",
+      buddy: "buddy",
+      supply: "supply",
+      supplyBox: "supplyBox",
+      none: null,
+    } as const;
+    for (const stage of [0, 1, 2, 3]) {
+      const unlock = unlockState(saveAtStage(stage), noFlags);
+      for (const step of steps) {
+        const entrance = homeNextEntrance(step, unlock);
+        if (!entrance) continue;
+        const target = targets[step.kind];
+        expect(target).not.toBeNull();
+        expect(
+          unlock.entries[target as UnlockEntry].open,
+          `${step.kind}@S${stage}`,
+        ).toBe(true);
+        const html = homeMarkup({
+          stage: STAGES[0],
+          inventoryCount: 0,
+          nextStep: step,
+          unlock,
+        });
+        if (entrance === "base")
+          expect(html).toContain('<button class="primary" id="open-armory"');
+        else expect(html).not.toContain('<button class="primary" id="open-armory"');
+      }
+    }
+  });
+
+  it("shows U0 reasons and disabled state on locked home buttons", () => {
+    const locked = homeMarkup({
+      stage: STAGES[0],
+      inventoryCount: 0,
+      unlock: unlockState(saveAtStage(0), noFlags),
+    });
+    expect(locked).toContain(
+      '<button id="open-armory" aria-label="基地" aria-disabled="true" disabled>',
+    );
+    expect(locked).toContain(
+      '<button id="open-bestiary" aria-label="エネミーレポート" aria-disabled="true" disabled>',
+    );
+    expect(locked).toContain(
+      "<em>ST1 前哨掃討のクリアで開きます</em>",
+    );
+    expect(locked).toContain("<em>敵と遭遇すると記録が始まります</em>");
+
+    const opened = homeMarkup({
+      stage: STAGES[0],
+      inventoryCount: 0,
+      unlock: unlockState(saveAtStage(1), noFlags),
+    });
+    expect(opened).not.toContain('id="open-armory" aria-label="基地" aria-disabled');
+    expect(opened).toContain("<em>敵の特徴と対処を確認</em>");
+  });
+
+  it("suppresses a closed next-step target while keeping the base locked", () => {
+    const html = homeMarkup({
+      stage: STAGES[0],
+      inventoryCount: 0,
+      nextStep: {
+        kind: "buddy",
+        label: "最初のバディを選ぶ",
+        destination: "base → buddy card",
+      },
+      unlock: unlockState(saveAtStage(0), noFlags),
+    });
+    expect(html).toContain('<button class="primary home-launch" id="solo"');
+    expect(html).not.toContain('<button class="primary" id="open-armory"');
+    expect(html).toContain("<em>ST1 前哨掃討のクリアで開きます</em>");
+  });
+
+  it("emits challenge rows only for entrances U0 has opened", () => {
+    const supplyBox =
+      '<button id="pt-supply-box" class="weekly-title-button">支給ボックス<span class="weekly-notification" aria-hidden="true" hidden></span></button>';
+    expect(
+      homeChallengesMarkup({
+        unlock: unlockState(saveAtStage(0), noFlags),
+        mode: "normal",
+      }),
+    ).toBe(supplyBox);
+    expect(
+      homeChallengesMarkup({
+        unlock: unlockState(saveAtStage(1), noFlags),
+        mode: "normal",
+      }),
+    ).toBe(supplyBox);
+    const s2 = homeChallengesMarkup({
+      unlock: unlockState(saveAtStage(2), noFlags),
+      mode: "normal",
+    });
+    expect(s2).toContain('id="pt-weekly-missions"');
+    expect(s2).not.toContain('id="pt-daily-defense"');
+    const s3 = homeChallengesMarkup({
+      unlock: unlockState(saveAtStage(3), noFlags),
+      mode: "normal",
+    });
+    expect(s3).toContain('id="pt-daily-defense"');
+    expect(s3).toContain('id="pt-weekly-missions"');
+    expect(s3).toContain('id="pt-supply-box"');
+    expect(
+      homeChallengesMarkup({
+        unlock: unlockState(saveAtStage(3), noFlags),
+        mode: "normal",
+        developerMode: true,
+      }),
+    ).toBe("");
   });
 });

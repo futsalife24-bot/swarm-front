@@ -58,7 +58,7 @@ import {
   bindResourceHelp,
 } from "./resource-frame";
 import { menuSamples } from "./menu-samples";
-import { homeMarkup } from "./home-screen";
+import { homeChallengesMarkup, homeMarkup } from "./home-screen";
 import { openOperationPicker } from "./operation-picker";
 import { navigateMenu } from "./menu-route";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
@@ -2095,6 +2095,7 @@ function showHome(initialized: boolean) {
     }
   }
   const ftueStep = currentFtueStep(initialized);
+  const unlock = currentUnlock();
   ui.innerHTML = homeMarkup({
     stage: stageFor({
       stage: campaignNumber(stage),
@@ -2104,7 +2105,7 @@ function showHome(initialized: boolean) {
     pendingCount: initialized ? save.pending.length : 0,
     install: canInstallApp(),
     nextStep: ftueStep,
-    unlock: currentUnlock(),
+    unlock,
   });
   if (canInstallApp()) bind("install", () => installApp());
   const enter = enterMenu;
@@ -2120,25 +2121,24 @@ function showHome(initialized: boolean) {
   if (!developerMode) {
     ui.querySelector(".home-challenges")!.insertAdjacentHTML(
       "beforeend",
-      '<button id="pt-daily-defense">日替わり防衛</button><button id="pt-weekly-missions" class="weekly-title-button">週間ミッション<span class="weekly-notification" aria-hidden="true" hidden></span></button>',
+      homeChallengesMarkup({ unlock, mode, developerMode }),
     );
-    bind("pt-daily-defense", () =>
-      enter(() => {
-        return trackTitleAction(ui, openDailyDefense);
-      }),
-    );
-    bind("pt-weekly-missions", weeklyMissionsUI);
-    updateWeeklyBadge();
-    if (mode === "normal") {
-      ui.querySelector(".home-challenges")!.insertAdjacentHTML(
-        "beforeend",
-        '<button id="pt-supply-box" class="weekly-title-button">支給ボックス<span class="weekly-notification" aria-hidden="true" hidden></span></button>',
+    if (unlock.entries.dailyDefense.open)
+      bind("pt-daily-defense", () =>
+        enter(() => {
+          return trackTitleAction(ui, openDailyDefense);
+        }),
       );
+    if (unlock.entries.weekly.open) {
+      bind("pt-weekly-missions", weeklyMissionsUI);
+      updateWeeklyBadge();
+    }
+    if (mode === "normal") {
       bind("pt-supply-box", () => supplyBoxUI(initialized));
       updateSupplyBadge();
     }
   }
-  bind("open-armory", () => enter(base));
+  if (unlock.entries.base.open) bind("open-armory", () => enter(base));
   if (developerMode)
     ui.querySelector(".home-utilities")!.insertAdjacentHTML(
       "beforeend",
@@ -2164,12 +2164,13 @@ function showHome(initialized: boolean) {
         }
       })();
     });
-  bind("open-bestiary", () => enter(report));
+  if (unlock.entries.enemyReport.open)
+    bind("open-bestiary", () => enter(report));
   bind("home-settings", settingsUI);
   bind("home-tutorial", () =>
     openTutorialGuide(dialog, {
       armoryTour:
-        mode === "normal"
+        mode === "normal" && unlock.entries.tutorialWeaponUpgradeGuide.open
           ? () =>
               enterMenu(() => {
                 base();
