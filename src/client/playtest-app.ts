@@ -79,6 +79,7 @@ import {
   resetGuides,
 } from "./tutorial-flags";
 import {
+  BattleReminderWatch,
   BuddyGuideWatch,
   GuideCaption,
   completeFirstGuide,
@@ -472,12 +473,35 @@ function guide(key: Parameters<typeof showFirstGuide>[0]) {
   });
 }
 const buddyWatch = new BuddyGuideWatch();
+const battleReminderWatch = new BattleReminderWatch();
 /** G3: バディを連れた最初の戦闘の開始10秒後。固有スキルの初発動か戦闘終了で既読。 */
 function buddyGuide(w: World) {
   if (developerMode) return;
   buddyWatch.update(w, "solo", screen === "battle", sound, (text) =>
     battleCaption.show(text),
   );
+}
+/** C-6 F4: 進撃ソロだけ。戦闘は止めず、条件が揃ったときだけ1行を出す。 */
+function battleReminder(w: World, warn: number) {
+  if (
+    developerMode ||
+    screen !== "battle" ||
+    w.phase !== "battle"
+  )
+    return;
+  const allowed =
+    !!w.solo &&
+    !w.defense &&
+    !w.anomalyTest &&
+    !w.training &&
+    !paused &&
+    !modalCount &&
+    !saving &&
+    !document.querySelector(".operation-cue") &&
+    !(warn <= 10) &&
+    battleCaption.current === "";
+  const text = battleReminderWatch.update(w, allowed);
+  if (text) battleCaption.show(text);
 }
 /** 基礎訓練を開く（タイトル・初回の誘いから）。訓練は報酬なし・保存なし。 */
 function startTraining(after: () => void, course: TutorialCourse = "full") {
@@ -1436,6 +1460,8 @@ function frame(now: number) {
           ? cfg.waveWait[world.wave - 1] - (world.time - s.waveCompleteAt)
           : Infinity;
     const anomalySetting = world.anomalyTest?.enemies.crawler;
+    buddyGuide(world);
+    if (screen === "battle") battleReminder(world, warn);
     hud.innerHTML = hudMarkup(
       world,
       "solo",
@@ -1465,7 +1491,6 @@ function frame(now: number) {
     );
     if (screen === "battle" && !world.defense && warn > 0 && warn <= 10)
       sound.announce("wave-incoming", `${world.run}:incoming:${world.wave}`);
-    buddyGuide(world);
     updateCooldowns(world, "solo", true);
     const med = $("revive") as HTMLButtonElement;
     med.disabled = !s.medkit || p.hp <= 0 || p.hp >= maxHp(world);
