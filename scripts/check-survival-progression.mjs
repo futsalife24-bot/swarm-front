@@ -26,6 +26,17 @@ try {
     page.on("pageerror", (e) => errors.push(e.message));
     await page.addInitScript(() => {
       window.poolEvents = [];
+      const key = "swarm-front-tutorial-v1";
+      const current = JSON.parse(
+        localStorage.getItem(key) ?? '{"version":1,"seen":[]}',
+      );
+      const seen = new Set(current.seen ?? []);
+      seen.add("ftue:c7");
+      seen.add("ftue:unlock:all");
+      localStorage.setItem(
+        key,
+        JSON.stringify({ ...current, version: 1, seen: [...seen] }),
+      );
       const nodes = new WeakMap();
       let serial = 0;
       for (const capture of [true, false])
@@ -93,7 +104,18 @@ try {
         waitUntil: "domcontentloaded",
         timeout: 120000,
       });
-      await page.getByRole("button", { name: "確定", exact: true }).tap();
+      const newSaveConfirm = page.getByRole("button", {
+        name: "確定",
+        exact: true,
+      });
+      await page.waitForFunction(
+        () =>
+          !!document.querySelector("dialog.menu-dialog[open]") ||
+          !!document.querySelector(".pt-base-menu"),
+        undefined,
+        { timeout: 30000 },
+      );
+      if (await newSaveConfirm.count()) await newSaveConfirm.tap();
       await page.locator(".pt-base-menu").waitFor();
       expect((await loadout()).pool).toHaveLength(8);
       await growth();

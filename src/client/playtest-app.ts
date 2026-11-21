@@ -47,6 +47,7 @@ import {
   survivalBreakthroughRewardMarkup,
 } from "./front-tactics-ui";
 import {
+  getMenuReducedMotion,
   menuAssemble,
   menuEquip,
   menuGrowthSaved,
@@ -58,7 +59,7 @@ import {
   bindResourceHelp,
 } from "./resource-frame";
 import { menuSamples } from "./menu-samples";
-import { homeMarkup } from "./home-screen";
+import { homeChallengesMarkup, homeMarkup } from "./home-screen";
 import { openOperationPicker } from "./operation-picker";
 import { navigateMenu } from "./menu-route";
 import { openWeaponWorkshop } from "./weapon-workshop-ui";
@@ -123,7 +124,13 @@ import { RewardedAdSession, type AdOutcome } from "./rewarded-ad";
 import { openBestiary } from "./bestiary";
 import { highestClearedStage } from "./front-campaign";
 import { readFrontProgress } from "./front-progress";
-import { firstVictoryRoute } from "./ftue";
+import { firstVictoryRoute, nextFtueStep } from "./ftue";
+import { unlockState } from "./unlock-stage";
+import {
+  baseCardView,
+  campaignMenuUnlocked,
+  type BaseCardEntry,
+} from "./unlock-wiring";
 import { createSupplyService } from "./supply-service";
 import { loadSupplyReveal } from "./supply-presentation";
 import { ENEMY_REPORT_NAMES, enemyReportId } from "../shared/enemy-identity";
@@ -928,6 +935,49 @@ function choice() {
   bind("pt-normal-reward", () => commit(chooseReward(save, false), result));
   bind("pt-ad-reward", () => void requestAd("reward"));
 }
+function announceUnlockStage(stage: number, first: boolean) {
+  if (developerMode || mode !== "normal" || !first) return;
+  if (stage !== 2 && stage !== 3) return;
+  if (stage === 2 && hasSeen("ftue:unlock:3")) return;
+  const flag = stage === 2 ? "ftue:unlock:2" : "ftue:unlock:3";
+  if (hasSeen(flag)) return;
+  markSeen(flag);
+  const status = ui.querySelector<HTMLElement>(".pt-status");
+  if (notice || !status || status.textContent?.trim()) return;
+  const text =
+    stage === 2
+      ? "育成・週間ミッションが開きました"
+      : "アクセサリ・工房・日替わり防衛・生存カードが開きました";
+  status.textContent = text;
+  const clear = () => {
+    if (status.textContent === text) status.textContent = "";
+  };
+  if (getMenuReducedMotion() || typeof status.animate !== "function") {
+    window.setTimeout(clear, 4000);
+    return;
+  }
+  const appear = status.animate(
+    [
+      { opacity: 0, transform: "translateY(6px)" },
+      { opacity: 1, transform: "translateY(0)" },
+    ],
+    { duration: 200, easing: "ease-out" },
+  );
+  void appear.finished
+    .then(() => {
+      window.setTimeout(() => {
+        const disappear = status.animate(
+          [
+            { opacity: 1, transform: "translateY(0)" },
+            { opacity: 0, transform: "translateY(-4px)" },
+          ],
+          { duration: 300, easing: "ease-in" },
+        );
+        void disappear.finished.then(clear, clear);
+      }, 4000);
+    })
+    .catch(clear);
+}
 function result() {
   setScreen("result");
   const r = save.result!;
@@ -994,6 +1044,7 @@ function result() {
   // 敗北は作戦キュー adv-failed の声が先に鳴るため、勝利の時だけ案内する。
   if (r.win) sound.announce("result-win", `${r.run}:result`);
   if (r.win) guide("result");
+  if (r.win) announceUnlockStage(r.stage, r.first);
 }
 function report() {
   modalCount++;
@@ -1193,22 +1244,26 @@ function settingsUI() {
     `<label>音量 <input id="pt-volume" type="range" min="0" max="1" step=".05" value="${sound.volume}"></label><label>描画 <select id="pt-quality"><option value="1">標準</option><option value="0.65">軽量</option></select></label><button id="pt-save-export">現在の保存を書き出す</button>`,
   );
   addPlayerNameSetting(d.querySelector<HTMLElement>(".menu-dialog-body")!);
-  const developerEntry = document.createElement("button");
-  developerEntry.id = "pt-developer-entry";
-  developerEntry.textContent = developerMode
-    ? "通常モードへ戻る"
-    : "管理者モード";
-  developerEntry.className = "settings-developer-entry";
-  developerEntry.onclick = () => {
-    d.close();
-    openDeveloperEntry();
-  };
-  d.querySelector("#pt-save-export")!.after(developerEntry);
-  if (developerMode) {
-    const note = document.createElement("p");
-    note.textContent =
-      "全ステージ・全敵情報・全武器レア度・アクセサリを解放。変更は再読み込みでリセットされ、通常の進行は変更しません。";
-    developerEntry.after(note);
+  const developerEntry = currentUnlock().entries.settingsDeveloper.open
+    ? document.createElement("button")
+    : null;
+  if (developerEntry) {
+    developerEntry.id = "pt-developer-entry";
+    developerEntry.textContent = developerMode
+      ? "通常モードへ戻る"
+      : "管理者モード";
+    developerEntry.className = "settings-developer-entry";
+    developerEntry.onclick = () => {
+      d.close();
+      openDeveloperEntry();
+    };
+    d.querySelector("#pt-save-export")!.after(developerEntry);
+    if (developerMode) {
+      const note = document.createElement("p");
+      note.textContent =
+        "全ステージ・全敵情報・全武器レア度・アクセサリを解放。変更は再読み込みでリセットされ、通常の進行は変更しません。";
+      developerEntry.after(note);
+    }
   }
   preferences.mount(d, () => {
     const returnTo =
@@ -1216,7 +1271,8 @@ function settingsUI() {
     d.close();
     editControlLayout(returnTo);
   });
-  d.querySelector(".menu-dialog-body")!.append(developerEntry);
+  if (developerEntry)
+    d.querySelector(".menu-dialog-body")!.append(developerEntry);
   mountMediaMenu(
     d,
     () => sound.volume,
@@ -1282,11 +1338,12 @@ function updateSupplyBadge() {
   if (!button) return;
   const count = supplyBoxCount();
   const badge = button.querySelector<HTMLElement>(".weekly-notification")!;
+  const marked = currentFtueStep(screen === "home")?.kind === "supplyBox";
   badge.textContent = String(count);
-  badge.hidden = count === 0;
+  badge.hidden = count === 0 || !marked;
   button.setAttribute(
     "aria-label",
-    count ? `支給ボックス、未受取${count}件` : "支給ボックス",
+    count && marked ? `支給ボックス、未受取${count}件` : "支給ボックス",
   );
 }
 function updateWeeklyBadge() {
@@ -1578,6 +1635,28 @@ const retryKey = developerMode
 const sampleMenus =
   developerMode &&
   new URLSearchParams(location.search).get("menuSample") === "1";
+
+const UNLOCK_TERMINAL_FLAGS = [
+  "ftue:unlock:all",
+  "ftue:unlock:1",
+  "ftue:unlock:2",
+  "ftue:unlock:3",
+] as const;
+
+function currentUnlock() {
+  return unlockState(
+    save,
+    { seen: UNLOCK_TERMINAL_FLAGS.filter((flag) => hasSeen(flag)) },
+    { developerMode, mode },
+  );
+}
+
+function currentFtueStep(initialized: boolean) {
+  if (developerMode || mode !== "normal") return undefined;
+  return nextFtueStep(initialized ? save : null, {
+    supplyBoxClaimable: initialized && supplyBoxCount() > 0,
+  });
+}
 let gearOrganizing = false;
 let selectedGearSlot = 0;
 let armoryKind: Family | "all" | null = null;
@@ -1798,6 +1877,8 @@ function navigateCampaignMenu(destination: MenuDestination) {
   if (mode === "normal" && ui.querySelector(".weapon-workshop")) {
     save = loadProgress("normal") ?? save;
   }
+  if (!campaignMenuUnlocked(destination, currentUnlock()))
+    return save ? home() : onboard();
   if (destination === "settings") return settingsUI();
   if (destination === "title") return save ? home() : onboard();
   enterMenu(() => {
@@ -2056,6 +2137,15 @@ function enterMenu(after: () => void) {
 function showHome(initialized: boolean) {
   world = null;
   setScreen(initialized ? "home" : "intro");
+  if (!developerMode && mode === "normal") {
+    try {
+      refreshSupplyBox();
+    } catch {
+      /* 読めない保存は上書きしない。箱を開いたときに理由を出す。 */
+    }
+  }
+  const ftueStep = currentFtueStep(initialized);
+  const unlock = currentUnlock();
   ui.innerHTML = homeMarkup({
     stage: stageFor({
       stage: campaignNumber(stage),
@@ -2064,6 +2154,8 @@ function showHome(initialized: boolean) {
     inventoryCount: initialized ? save.inventory.length : 0,
     pendingCount: initialized ? save.pending.length : 0,
     install: canInstallApp(),
+    nextStep: ftueStep,
+    unlock,
   });
   if (canInstallApp()) bind("install", () => installApp());
   const enter = enterMenu;
@@ -2079,31 +2171,24 @@ function showHome(initialized: boolean) {
   if (!developerMode) {
     ui.querySelector(".home-challenges")!.insertAdjacentHTML(
       "beforeend",
-      '<button id="pt-daily-defense">日替わり防衛</button><button id="pt-weekly-missions" class="weekly-title-button">週間ミッション<span class="weekly-notification" aria-hidden="true" hidden></span></button>',
+      homeChallengesMarkup({ unlock, mode, developerMode }),
     );
-    bind("pt-daily-defense", () =>
-      enter(() => {
-        return trackTitleAction(ui, openDailyDefense);
-      }),
-    );
-    bind("pt-weekly-missions", weeklyMissionsUI);
-    updateWeeklyBadge();
-    if (mode === "normal") {
-      // 初起動のヒヨリ解放とその日のログインボーナスを箱へ入れる（受け取りで初めて付与）。
-      try {
-        refreshSupplyBox();
-      } catch {
-        /* 読めない保存は上書きしない。箱を開いたときに理由を出す。 */
-      }
-      ui.querySelector(".home-challenges")!.insertAdjacentHTML(
-        "beforeend",
-        '<button id="pt-supply-box" class="weekly-title-button">支給ボックス<span class="weekly-notification" aria-hidden="true" hidden></span></button>',
+    if (unlock.entries.dailyDefense.open)
+      bind("pt-daily-defense", () =>
+        enter(() => {
+          return trackTitleAction(ui, openDailyDefense);
+        }),
       );
+    if (unlock.entries.weekly.open) {
+      bind("pt-weekly-missions", weeklyMissionsUI);
+      updateWeeklyBadge();
+    }
+    if (mode === "normal") {
       bind("pt-supply-box", () => supplyBoxUI(initialized));
       updateSupplyBadge();
     }
   }
-  bind("open-armory", () => enter(base));
+  if (unlock.entries.base.open) bind("open-armory", () => enter(base));
   if (developerMode)
     ui.querySelector(".home-utilities")!.insertAdjacentHTML(
       "beforeend",
@@ -2129,12 +2214,13 @@ function showHome(initialized: boolean) {
         }
       })();
     });
-  bind("open-bestiary", () => enter(report));
+  if (unlock.entries.enemyReport.open)
+    bind("open-bestiary", () => enter(report));
   bind("home-settings", settingsUI);
   bind("home-tutorial", () =>
     openTutorialGuide(dialog, {
       armoryTour:
-        mode === "normal"
+        mode === "normal" && unlock.entries.tutorialWeaponUpgradeGuide.open
           ? () =>
               enterMenu(() => {
                 base();
@@ -2533,25 +2619,52 @@ function openBaseWorkshop() {
 }
 function base() {
   setScreen("base");
+  const unlock = currentUnlock();
+  const ftueStatus = !developerMode && mode === "normal";
+  const buddyUnchosen = save.buddies?.starterChosen !== true;
+  const firstSupplyDone = (save.receipts ?? []).some((receipt) =>
+    receipt.startsWith("supply:"),
+  );
+  const pendingCount = save.pending.length;
+  const card = (
+    id: string,
+    entry: BaseCardEntry,
+    label: string,
+    subtitle: string,
+    status: string,
+    modeDisabled = false,
+  ) => {
+    const view = baseCardView(unlock, entry, status, modeDisabled);
+    return `<button id="${id}"${view.disabled ? " disabled" : ""}${view.ariaDisabled ? ' aria-disabled="true"' : ""}><strong>${label}</strong><span>${subtitle}</span><small>${esc(view.status)}</small></button>`;
+  };
+  const bindCard = (
+    id: string,
+    entry: BaseCardEntry,
+    onClick: () => void,
+    modeDisabled = false,
+  ) => {
+    if (!baseCardView(unlock, entry, "", modeDisabled).disabled)
+      bind(id, onClick);
+  };
   header(
     "基地",
     `<div class="pt-base-menu">
-      <button id="pt-base-weapons"><strong>武器</strong><span>一覧・比較・整理</span><small>${allWeapons(save).length}丁を所持</small></button>
-      <button id="pt-base-accessories"><strong>アクセサリ</strong><span>作成・装備・合成</span><small>${save.accessories.length}個を所持</small></button>
-      <button id="pt-base-growth"><strong>育成</strong><span>兵士の能力を強化</span><small>兵士ごとの成長を管理</small></button>
-      <button id="pt-base-buddy"><strong>バディ</strong><span>編成・育成・招集</span><small>進撃に同行する相棒</small></button>
-      <button id="pt-base-supply" ${developerMode || mode === "normal" ? "" : "disabled"}><strong>補給ポッド</strong><span>${developerMode ? "10連の演出確認" : "補給券で1回・10連"}</span><small>${developerMode ? "演出選択・ランダム（取得なし）" : mode === "normal" ? "武器・バディ・武装片を補給" : "通常プレイで利用できます"}</small></button>
-      <button id="pt-base-survival"><strong>生存カード</strong><span>強化候補・デッキ設定</span><small>カードの効果・融合条件を確認</small></button>
-      <button id="pt-base-workshop" ${mode !== "normal" ? "disabled" : ""}><strong>工房</strong><span>武器のレベル強化・変換・改造</span><small>${mode === "normal" ? "武装片を使って性能を強化" : "通常プレイで利用できます"}</small></button>
+      ${card("pt-base-weapons", "weapons", "武器", "一覧・比較・整理", ftueStatus && pendingCount ? `整理待ち ${pendingCount}丁` : `${allWeapons(save).length}丁を所持`)}
+      ${card("pt-base-accessories", "accessories", "アクセサリ", "作成・装備・合成", `${save.accessories.length}個を所持`)}
+      ${card("pt-base-growth", "growth", "育成", "兵士の能力を強化", "兵士ごとの成長を管理")}
+      ${card("pt-base-buddy", "buddy", "バディ", "編成・育成・招集", ftueStatus && buddyUnchosen ? "最初の1体を選べます" : "進撃に同行する相棒")}
+      ${card("pt-base-supply", "supply", "補給ポッド", developerMode ? "10連の演出確認" : "補給券で1回・10連", developerMode ? "演出選択・ランダム（取得なし）" : mode === "normal" ? (ftueStatus && !firstSupplyDone ? "初回10連 未実施" : "武器・バディ・武装片を補給") : "通常プレイで利用できます", !(developerMode || mode === "normal"))}
+      ${card("pt-base-survival", "survivalCards", "生存カード", "強化候補・デッキ設定", "カードの効果・融合条件を確認")}
+      ${card("pt-base-workshop", "workshop", "工房", "武器のレベル強化・変換・改造", mode === "normal" ? "武装片を使って性能を強化" : "通常プレイで利用できます", mode !== "normal")}
     </div>`,
   );
-  bind("pt-base-workshop", openBaseWorkshop);
-  bind("pt-base-weapons", armory);
-  bind("pt-base-accessories", accessories);
-  bind("pt-base-growth", growth);
-  bind("pt-base-buddy", buddy);
-  bind("pt-base-supply", supply);
-  bind("pt-base-survival", () =>
+  bindCard("pt-base-workshop", "workshop", openBaseWorkshop, mode !== "normal");
+  bindCard("pt-base-weapons", "weapons", armory);
+  bindCard("pt-base-accessories", "accessories", accessories);
+  bindCard("pt-base-growth", "growth", growth);
+  bindCard("pt-base-buddy", "buddy", buddy);
+  bindCard("pt-base-supply", "supply", supply, !(developerMode || mode === "normal"));
+  bindCard("pt-base-survival", "survivalCards", () =>
     navigateMenu(import.meta.env.BASE_URL + "front?cards=1"),
   );
   guide("base");
@@ -2751,6 +2864,7 @@ function detail(
   }
   if (
     mode === "normal" &&
+    currentUnlock().entries.weaponWorkshopButton.open &&
     !isResult &&
     save.inventory.some((item) => item.id === w.id)
   ) {
@@ -2998,9 +3112,9 @@ installMenuNavigation(ui, {
   go: navigateCampaignMenu,
   back: backToMenu,
   enabled: (destination) =>
-    destination === "workshop"
-      ? mode === "normal"
-      : destination !== "supply" || developerMode || mode === "normal",
+    campaignMenuUnlocked(destination, currentUnlock()) &&
+    (destination !== "workshop" || mode === "normal") &&
+    (destination !== "supply" || developerMode || mode === "normal"),
 });
 loadMode("normal");
 const requestedMenu = readMenuDestination(
@@ -3014,7 +3128,9 @@ if (requestedMenu && (screen === "intro" || screen === "home")) {
 ) {
   // Use the ordinary entry so new saves still require confirmation, while
   // blocked saves and pending rewards retain their recovery screen.
-  $("open-armory").click();
+  if (!campaignMenuUnlocked("base", currentUnlock()))
+    navigateCampaignMenu("title");
+  else $("open-armory").click();
 }
 if (
   new URLSearchParams(location.search).get("solo") === "1" &&
