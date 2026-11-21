@@ -125,6 +125,11 @@ import { highestClearedStage } from "./front-campaign";
 import { readFrontProgress } from "./front-progress";
 import { firstVictoryRoute, nextFtueStep } from "./ftue";
 import { unlockState } from "./unlock-stage";
+import {
+  baseCardView,
+  campaignMenuUnlocked,
+  type BaseCardEntry,
+} from "./unlock-wiring";
 import { createSupplyService } from "./supply-service";
 import { loadSupplyReveal } from "./supply-presentation";
 import { ENEMY_REPORT_NAMES, enemyReportId } from "../shared/enemy-identity";
@@ -1822,6 +1827,8 @@ function navigateCampaignMenu(destination: MenuDestination) {
   if (mode === "normal" && ui.querySelector(".weapon-workshop")) {
     save = loadProgress("normal") ?? save;
   }
+  if (!campaignMenuUnlocked(destination, currentUnlock()))
+    return save ? home() : onboard();
   if (destination === "settings") return settingsUI();
   if (destination === "title") return save ? home() : onboard();
   enterMenu(() => {
@@ -2561,31 +2568,52 @@ function openBaseWorkshop() {
 }
 function base() {
   setScreen("base");
+  const unlock = currentUnlock();
   const ftueStatus = !developerMode && mode === "normal";
   const buddyUnchosen = save.buddies?.starterChosen !== true;
   const firstSupplyDone = (save.receipts ?? []).some((receipt) =>
     receipt.startsWith("supply:"),
   );
   const pendingCount = save.pending.length;
+  const card = (
+    id: string,
+    entry: BaseCardEntry,
+    label: string,
+    subtitle: string,
+    status: string,
+    modeDisabled = false,
+  ) => {
+    const view = baseCardView(unlock, entry, status, modeDisabled);
+    return `<button id="${id}"${view.disabled ? " disabled" : ""}${view.ariaDisabled ? ' aria-disabled="true"' : ""}><strong>${label}</strong><span>${subtitle}</span><small>${esc(view.status)}</small></button>`;
+  };
+  const bindCard = (
+    id: string,
+    entry: BaseCardEntry,
+    onClick: () => void,
+    modeDisabled = false,
+  ) => {
+    if (!baseCardView(unlock, entry, "", modeDisabled).disabled)
+      bind(id, onClick);
+  };
   header(
     "基地",
     `<div class="pt-base-menu">
-      <button id="pt-base-weapons"><strong>武器</strong><span>一覧・比較・整理</span><small>${ftueStatus && pendingCount ? `整理待ち ${pendingCount}丁` : `${allWeapons(save).length}丁を所持`}</small></button>
-      <button id="pt-base-accessories"><strong>アクセサリ</strong><span>作成・装備・合成</span><small>${save.accessories.length}個を所持</small></button>
-      <button id="pt-base-growth"><strong>育成</strong><span>兵士の能力を強化</span><small>兵士ごとの成長を管理</small></button>
-      <button id="pt-base-buddy"><strong>バディ</strong><span>編成・育成・招集</span><small>${ftueStatus && buddyUnchosen ? "最初の1体を選べます" : "進撃に同行する相棒"}</small></button>
-      <button id="pt-base-supply" ${developerMode || mode === "normal" ? "" : "disabled"}><strong>補給ポッド</strong><span>${developerMode ? "10連の演出確認" : "補給券で1回・10連"}</span><small>${developerMode ? "演出選択・ランダム（取得なし）" : mode === "normal" ? (ftueStatus && !firstSupplyDone ? "初回10連 未実施" : "武器・バディ・武装片を補給") : "通常プレイで利用できます"}</small></button>
-      <button id="pt-base-survival"><strong>生存カード</strong><span>強化候補・デッキ設定</span><small>カードの効果・融合条件を確認</small></button>
-      <button id="pt-base-workshop" ${mode !== "normal" ? "disabled" : ""}><strong>工房</strong><span>武器のレベル強化・変換・改造</span><small>${mode === "normal" ? "武装片を使って性能を強化" : "通常プレイで利用できます"}</small></button>
+      ${card("pt-base-weapons", "weapons", "武器", "一覧・比較・整理", ftueStatus && pendingCount ? `整理待ち ${pendingCount}丁` : `${allWeapons(save).length}丁を所持`)}
+      ${card("pt-base-accessories", "accessories", "アクセサリ", "作成・装備・合成", `${save.accessories.length}個を所持`)}
+      ${card("pt-base-growth", "growth", "育成", "兵士の能力を強化", "兵士ごとの成長を管理")}
+      ${card("pt-base-buddy", "buddy", "バディ", "編成・育成・招集", ftueStatus && buddyUnchosen ? "最初の1体を選べます" : "進撃に同行する相棒")}
+      ${card("pt-base-supply", "supply", "補給ポッド", developerMode ? "10連の演出確認" : "補給券で1回・10連", developerMode ? "演出選択・ランダム（取得なし）" : mode === "normal" ? (ftueStatus && !firstSupplyDone ? "初回10連 未実施" : "武器・バディ・武装片を補給") : "通常プレイで利用できます", !(developerMode || mode === "normal"))}
+      ${card("pt-base-survival", "survivalCards", "生存カード", "強化候補・デッキ設定", "カードの効果・融合条件を確認")}
+      ${card("pt-base-workshop", "workshop", "工房", "武器のレベル強化・変換・改造", mode === "normal" ? "武装片を使って性能を強化" : "通常プレイで利用できます", mode !== "normal")}
     </div>`,
   );
-  bind("pt-base-workshop", openBaseWorkshop);
-  bind("pt-base-weapons", armory);
-  bind("pt-base-accessories", accessories);
-  bind("pt-base-growth", growth);
-  bind("pt-base-buddy", buddy);
-  bind("pt-base-supply", supply);
-  bind("pt-base-survival", () =>
+  bindCard("pt-base-workshop", "workshop", openBaseWorkshop, mode !== "normal");
+  bindCard("pt-base-weapons", "weapons", armory);
+  bindCard("pt-base-accessories", "accessories", accessories);
+  bindCard("pt-base-growth", "growth", growth);
+  bindCard("pt-base-buddy", "buddy", buddy);
+  bindCard("pt-base-supply", "supply", supply, !(developerMode || mode === "normal"));
+  bindCard("pt-base-survival", "survivalCards", () =>
     navigateMenu(import.meta.env.BASE_URL + "front?cards=1"),
   );
   guide("base");
@@ -2785,6 +2813,7 @@ function detail(
   }
   if (
     mode === "normal" &&
+    currentUnlock().entries.weaponWorkshopButton.open &&
     !isResult &&
     save.inventory.some((item) => item.id === w.id)
   ) {
@@ -3032,9 +3061,9 @@ installMenuNavigation(ui, {
   go: navigateCampaignMenu,
   back: backToMenu,
   enabled: (destination) =>
-    destination === "workshop"
-      ? mode === "normal"
-      : destination !== "supply" || developerMode || mode === "normal",
+    campaignMenuUnlocked(destination, currentUnlock()) &&
+    (destination !== "workshop" || mode === "normal") &&
+    (destination !== "supply" || developerMode || mode === "normal"),
 });
 loadMode("normal");
 const requestedMenu = readMenuDestination(
@@ -3048,7 +3077,9 @@ if (requestedMenu && (screen === "intro" || screen === "home")) {
 ) {
   // Use the ordinary entry so new saves still require confirmation, while
   // blocked saves and pending rewards retain their recovery screen.
-  $("open-armory").click();
+  if (!campaignMenuUnlocked("base", currentUnlock()))
+    navigateCampaignMenu("title");
+  else $("open-armory").click();
 }
 if (
   new URLSearchParams(location.search).get("solo") === "1" &&
