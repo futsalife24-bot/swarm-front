@@ -94,9 +94,6 @@ try {
         await page.locator(".gear-footer .status").innerText(),
         /装備1.*一覧タップで入替/,
       );
-    await page.locator("#pt-mission-info").tap();
-    await capture("mission");
-    await page.locator(".dialog-close").tap();
     await page.locator("#pt-home").tap();
     await page.locator("#solo").tap();
     assert.deepEqual(

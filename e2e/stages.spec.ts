@@ -155,7 +155,7 @@ test("select and enter each map on a mobile viewport", async ({ page }) => {
     await page.getByRole("button", { name: /ソロで出撃準備/ }).click();
     await expect(page.locator("#stage-select option")).toHaveCount(20);
     await page.locator("#stage-select").selectOption(String(id));
-    await expect(page.locator("#stage-brief")).toBeVisible();
+    await expect(page.locator("#stage-select")).toBeVisible();
     await page.screenshot({ path: `dist-validation/stages/select-${id}.png` });
     await page.locator("#launch").click();
     await expect

@@ -25,18 +25,15 @@ try {
     await page.locator(".title-entry-start").click();
     await page.locator("#solo").click();
     await page.locator('[data-operation="survival"]').click();
-    await page.locator("#front-mission-info").click();
-    const details = page
-      .locator(".front-menu")
-      .filter({ hasText: /与ダメージ・味方への実回復・蘇生/ })
-      .first();
+    await page.locator("#front-base").click();
+    const details = page.locator(".panel").filter({ hasText: "生存カード" }).first();
     await details.waitFor({ state: "visible" });
-    assert.match(await details.innerText(), /与ダメージ・味方への実回復・蘇生/);
+    assert.match(await details.innerText(), /生存カード/);
     const measurements = await page.evaluate(() => {
-      const dialog = [...document.querySelectorAll(".front-menu")].find((d) =>
-        d.textContent?.includes("与ダメージ・味方への実回復・蘇生"),
+      const dialog = [...document.querySelectorAll(".panel")].find((d) =>
+        d.textContent?.includes("生存カード"),
       );
-      const button = dialog?.querySelector("#front-dialog-back");
+      const button = dialog?.querySelector("#base-back");
       const r = button?.getBoundingClientRect();
       return {
         horizontalOverflow: document.documentElement.scrollWidth > innerWidth,
@@ -49,7 +46,7 @@ try {
         measurements.back.y >= 0 &&
         measurements.back.y + measurements.back.height <= height,
     );
-    await page.screenshot({ path: `${out}/mission-details-${width}.png` });
+    await page.screenshot({ path: `${out}/survival-cards-${width}.png` });
     results.push({ width, height, ...measurements });
     await page.close();
   }
@@ -60,7 +57,7 @@ try {
       {
         artificial: false,
         scope:
-          "ローカル作戦詳細のみ、動きを減らす標準設定。受領/攻略E2Eではない",
+          "ローカル生存カード画面のみ、動きを減らす標準設定。受領/攻略E2Eではない",
         results,
         errors,
       },

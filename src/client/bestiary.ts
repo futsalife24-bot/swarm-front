@@ -9,6 +9,7 @@ import {
 } from "../shared/enemy-identity";
 import { ENEMY_REPORT_ORDER } from "../shared/enemy-report-order";
 import { ENEMY_REPORT_ENTRIES } from "./enemy-report-entries";
+import { enemyReportRevealed } from "../shared/enemy-report-clear";
 import "./bestiary.css";
 import { createEnemyViewer } from "./enemy-viewer";
 import type { HoundClip } from "./hound-motion";
@@ -28,9 +29,16 @@ export function openBestiary(
     onClose?: () => void;
     voiceVolume?: number;
     controlVoice?: ReportVoice;
+    clearedStages?: number;
   } = {},
 ) {
   const access = (key: string) => options.encounters?.[key];
+  const reportAccess = (key: EnemyReportId) => {
+    const state = access(key);
+    return enemyReportRevealed(key, state, options.clearedStages)
+      ? state
+      : undefined;
+  };
   let selectedKey: EnemyReportId | undefined;
   const identification = reportIdentification(options.controlVoice);
   const dialog = document.createElement("dialog");
@@ -40,13 +48,20 @@ export function openBestiary(
     (key, index) => {
       const [knownRole] = entries[key];
       const knownName = ENEMY_REPORT_NAMES[key];
-      const name = access(key) === "solo" ? knownName : "？？？";
+      const revealed = enemyReportRevealed(
+        key,
+        access(key),
+        options.clearedStages,
+      );
+      const name = revealed ? knownName : "？？？";
       const role =
-        access(key) === "solo"
+        revealed
           ? knownRole
           : access(key) === "coop"
             ? "協力で姿を確認"
-            : "未遭遇";
+            : access(key) === "solo"
+              ? "クリア後に記録されます"
+              : "未遭遇";
       return `<button type="button" data-enemy="${key}" aria-pressed="false"><span class="eyebrow">${String(index + 1).padStart(2, "0")}</span><span><strong>${name}</strong><small>${role}</small></span><span aria-hidden="true">›</span></button>`;
     },
   ).join(
@@ -87,7 +102,7 @@ export function openBestiary(
   function syncPlayback() {
     const ready = viewport.dataset.asset === "ready";
     const motionAllowed = selectedKey
-      ? allowsReportMotion(access(selectedKey))
+      ? allowsReportMotion(reportAccess(selectedKey))
       : false;
     if (ready && analysisPending && viewport.style.filter !== "brightness(0)") {
       analysisPending = false;
@@ -104,7 +119,7 @@ export function openBestiary(
       viewport.dataset.asset === "error"
         ? "動作モデルを読み込めませんでした。敵を選び直してください。"
         : viewport.dataset.asset === "locked"
-          ? "遭遇すると観察できます"
+          ? "遭遇して対象ステージをクリアすると観察できます"
           : !ready
             ? "モデルを読み込み中…"
             : !motionAllowed
@@ -140,9 +155,9 @@ export function openBestiary(
     if (visible) {
       try {
         viewer ??= createEnemyViewer(viewport);
-        viewer.setStill(!allowsReportMotion(access(key)));
+        viewer.setStill(!allowsReportMotion(reportAccess(key)));
         viewer.show(key === "worm" ? "boss" : key, key === "worm");
-        viewer.setStill(!allowsReportMotion(access(key)));
+        viewer.setStill(!allowsReportMotion(reportAccess(key)));
       } catch {
         viewport.dataset.asset = "error";
         viewport.innerHTML =
@@ -154,7 +169,8 @@ export function openBestiary(
       viewport.innerHTML = "";
       viewport.dataset.asset = "locked";
     }
-    viewport.style.filter = access(key) === "coop" ? "brightness(0)" : "";
+    viewport.style.filter =
+      reportAccess(key) === "coop" ? "brightness(0)" : "";
   };
   function select(key: EnemyReportId) {
     selectedKey = key;
@@ -163,8 +179,9 @@ export function openBestiary(
       .classList.remove("report-unselected");
     stopVoice();
     const state = access(key);
-    identification.select(key, state);
-    harrowPicker.hidden = key !== "harrow" || state !== "solo";
+    const revealed = enemyReportRevealed(key, state, options.clearedStages);
+    identification.select(key, revealed ? state : undefined);
+    harrowPicker.hidden = key !== "harrow" || !revealed;
     harrowPicker.value = "";
     const name = ENEMY_REPORT_NAMES[key];
     const [role, attack, movement] = entries[key];
@@ -186,7 +203,7 @@ export function openBestiary(
       film.onclick = () => showEncounterFilm(key, dialog);
       article.querySelector("h3")!.after(film);
     }
-    if (state !== "solo") {
+    if (!revealed) {
       article.querySelector(".eyebrow")!.textContent =
         state === "coop" ? "協力で姿を確認" : "未遭遇";
       article.querySelector("h3")!.textContent = "？？？";
@@ -198,7 +215,9 @@ export function openBestiary(
       note.textContent =
         state === "coop"
           ? "協力で姿を確認。ソロで遭遇すると正式に記録されます。"
-          : "まだ遭遇していません。";
+          : state === "solo"
+            ? "対象ステージをクリアすると記録されます。"
+            : "まだ遭遇していません。";
       article.append(note);
     } else {
       const voice = document.createElement("div");

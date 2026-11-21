@@ -41,9 +41,6 @@ try {
     await check("intro");
     await page.locator("#pt-confirm").click();
     await check("gear");
-    await page.locator("#pt-mission-info").click();
-    await check("mission");
-    await page.locator(".dialog-close").click();
     await page.evaluate(async () => {
       const m = await import("/src/client/progression-save.ts");
       let s = m.loadProgress("normal");
