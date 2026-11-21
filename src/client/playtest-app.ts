@@ -225,6 +225,7 @@ import {
   type ProgressSave,
   type SaveMode,
 } from "./progression-save";
+import { shouldConfirmProgression } from "./progression-entry";
 import { recoverUnsavedResult } from "./save-recovery";
 import {
   readBattleCheckpoint,
@@ -2121,17 +2122,17 @@ function home() {
   showHome(true);
 }
 function enterMenu(after: () => void) {
-  return screen !== "intro"
-    ? after()
-    : confirmAction(
-        "新しい進行を開始",
-        "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
-        () => {
-          save = initializeProgress(mode);
-          if (mode === "normal") trackOnce("ftue_start", "ftue:start");
-          after();
-        },
-      );
+  const begin = () => {
+    save = initializeProgress(mode);
+    if (mode === "normal") trackOnce("ftue_start", "ftue:start");
+    after();
+  };
+  if (!shouldConfirmProgression(screen)) return begin();
+  return confirmAction(
+    "新しい進行を開始",
+    "<p>所持武器は1人プレイと協力プレイで共通です。以前の武器は性能を保って引き継ぎ、元の保存データも控えとして残します。</p>",
+    begin,
+  );
 }
 
 function showHome(initialized: boolean) {

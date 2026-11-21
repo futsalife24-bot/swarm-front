@@ -1,6 +1,7 @@
 import { normalSaveId } from "../src/shared/campaign";
 import { it, expect } from "vitest";
-import { fresh as freshLegacySave } from "../src/client/save";
+import { SAVE_KEY, fresh as freshLegacySave } from "../src/client/save";
+import { shouldConfirmProgression } from "../src/client/progression-entry";
 import {
   makeWeapon,
   rollWeapon,
@@ -17,6 +18,7 @@ import {
   validateProgress,
   persistProgress,
   loadProgress,
+  newSaveKey,
   initializeProgress,
   bank,
   refill,
@@ -57,6 +59,7 @@ import {
 } from "../src/shared/solo-progression";
 import { validWeapon, stats, STARTERS } from "../src/shared/defs";
 import { STAGES, troopCount } from "../src/shared/stages";
+import { legacyProgressKey } from "../src/client/progression-save";
 const memory = () => {
   const values = new Map<string, string>();
   return {
@@ -67,6 +70,26 @@ const memory = () => {
     values,
   };
 };
+it("confirms progression only when an inherited save exists on the intro screen", () => {
+  const empty = memory();
+  expect(shouldConfirmProgression("intro", empty)).toBe(false);
+  const created = initializeProgress("normal", empty);
+  expect(loadProgress("normal", empty)).toEqual(created);
+  expect(empty.getItem(newSaveKey("normal"))).not.toBeNull();
+
+  const legacy = memory();
+  legacy.setItem(legacyProgressKey, JSON.stringify(freshProgress("normal")));
+  expect(shouldConfirmProgression("intro", legacy)).toBe(true);
+  expect(shouldConfirmProgression("home", legacy)).toBe(false);
+
+  const old = memory();
+  old.setItem(SAVE_KEY, JSON.stringify(freshLegacySave()));
+  expect(shouldConfirmProgression("intro", old)).toBe(true);
+
+  const current = memory();
+  current.setItem(newSaveKey("normal"), JSON.stringify(freshProgress("normal")));
+  expect(shouldConfirmProgression("intro", current)).toBe(false);
+});
 const weapon = (id: string, n = 0, rarity = 0, test = false) =>
   makeWeapon(
     id,
