@@ -2,6 +2,11 @@ import { normalSaveId } from "../src/shared/campaign";
 import { it, expect } from "vitest";
 import { SAVE_KEY, fresh as freshLegacySave } from "../src/client/save";
 import { shouldConfirmProgression } from "../src/client/progression-entry";
+import { shouldOfferDefeatTraining } from "../src/client/defeat-training";
+import {
+  OPERATION_KEYS,
+  TUTORIAL_FLAGS_KEY,
+} from "../src/client/tutorial-flags";
 import {
   makeWeapon,
   rollWeapon,
@@ -89,6 +94,30 @@ it("confirms progression only when an inherited save exists on the intro screen"
   const current = memory();
   current.setItem(newSaveKey("normal"), JSON.stringify(freshProgress("normal")));
   expect(shouldConfirmProgression("intro", current)).toBe(false);
+});
+it("offers defeat training only after a loss with unfinished operations", () => {
+  const flags = (seen: readonly string[]) => {
+    const store = memory();
+    store.setItem(TUTORIAL_FLAGS_KEY, JSON.stringify({ version: 1, seen }));
+    return store;
+  };
+  expect(shouldOfferDefeatTraining(true, false, flags([]))).toBe(false);
+  expect(shouldOfferDefeatTraining(false, false, flags([]))).toBe(true);
+  expect(
+    shouldOfferDefeatTraining(
+      false,
+      false,
+      flags(OPERATION_KEYS.map((key) => `op:${key}`)),
+    ),
+  ).toBe(false);
+  expect(
+    shouldOfferDefeatTraining(
+      false,
+      false,
+      flags(OPERATION_KEYS.slice(1).map((key) => `op:${key}`)),
+    ),
+  ).toBe(true);
+  expect(shouldOfferDefeatTraining(false, true, flags([]))).toBe(false);
 });
 const weapon = (id: string, n = 0, rarity = 0, test = false) =>
   makeWeapon(

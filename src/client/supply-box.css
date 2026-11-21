@@ -78,6 +78,17 @@ body .sb-dialog .sb-status {
   margin: 6px 0 0;
   font-size: 12px;
 }
+.sb-receipt {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+body .sb-dialog .sb-voice-shortcut {
+  min-height: 36px;
+  padding: 4px 12px;
+  font-size: 12px;
+}
 .sb-status:empty {
   display: none;
 }

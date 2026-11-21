@@ -10,6 +10,17 @@ import {
 import { menuReward } from "./menu-effects";
 import "./supply-box.css";
 
+export interface SupplyBoxShortcuts {
+  openControlVoice?: (owner: HTMLDialogElement) => void;
+}
+
+export function receivedHiyori(items: readonly SupplyBoxItem[]) {
+  return items.some(
+    (item) =>
+      item.reward.kind === "control-voice" && item.reward.voice === "hiyori",
+  );
+}
+
 type Dialog = (title: string, content: string) => HTMLDialogElement;
 const esc = (v: string) =>
   v.replace(
@@ -37,14 +48,19 @@ export function openSupplyBox(
   dialog: Dialog,
   receiver: SupplyBoxReceiver,
   changed: () => void,
+  shortcuts: SupplyBoxShortcuts = {},
 ) {
   const d = dialog(
     "支給ボックス",
-    '<p class="sb-intro">配布された支給品は、受け取るまでここに保管されます。</p><div class="sb-list" aria-label="受け取れる支給品"></div><p class="sb-status" role="status" aria-live="polite"></p>',
+    '<p class="sb-intro">配布された支給品は、受け取るまでここに保管されます。</p><div class="sb-list" aria-label="受け取れる支給品"></div><div class="sb-receipt"><p class="sb-status" role="status" aria-live="polite"></p><button type="button" class="sb-voice-shortcut" hidden>管制AIボイスを開く</button></div>',
   );
   d.classList.add("sb-dialog");
   const list = d.querySelector<HTMLElement>(".sb-list")!;
   const status = d.querySelector<HTMLElement>(".sb-status")!;
+  const voiceShortcut =
+    d.querySelector<HTMLButtonElement>(".sb-voice-shortcut")!;
+  const openControlVoice = shortcuts.openControlVoice;
+  if (openControlVoice) voiceShortcut.onclick = () => openControlVoice(d);
   const all = document.createElement("button");
   all.type = "button";
   all.className = "sb-all primary";
@@ -55,6 +71,7 @@ export function openSupplyBox(
       const { received } = receiveSupplyBox(ids, receiver);
       if (!received.length) return;
       status.textContent = `受け取りました：${summary(received)}`;
+      voiceShortcut.hidden = !openControlVoice || !receivedHiyori(received);
       // 押したボタンが描き直しで消える前に、演出の始点を測る。
       menuReward(status, from);
       changed();

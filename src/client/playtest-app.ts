@@ -27,6 +27,7 @@ import {
 } from "./loading-screen";
 import { backgroundMusic } from "./bgm";
 import { mountMediaMenu } from "./media-menu";
+import { openControlVoiceMenu } from "./control-voice-menu";
 import {
   normalSaveId,
   campaignNumber,
@@ -80,6 +81,7 @@ import {
   markSeen,
   resetGuides,
 } from "./tutorial-flags";
+import { shouldOfferDefeatTraining } from "./defeat-training";
 import {
   BattleReminderWatch,
   BuddyGuideWatch,
@@ -536,8 +538,8 @@ function startTraining(after: () => void, course: TutorialCourse = "full") {
   });
 }
 /** 新しい進行で初めて「ソロ → 進撃」に入るときの誘い（1回だけ・断れる）。 */
-function offerTraining(next: () => void) {
-  if (developerMode || hasSeen("offer")) {
+function offerTraining(next: () => void, repeat = false) {
+  if (developerMode || (!repeat && hasSeen("offer"))) {
     next();
     return;
   }
@@ -1009,6 +1011,13 @@ function result() {
     survivalBreakthroughRewardMarkup(save, r),
   );
   bind("pt-result-retry", gear);
+  if (shouldOfferDefeatTraining(r.win, developerMode)) {
+    $("pt-result-retry").insertAdjacentHTML(
+      "afterend",
+      '<button id="pt-result-training">初陣訓練で操作を確認</button>',
+    );
+    bind("pt-result-training", () => offerTraining(() => result(), true));
+  }
   if (r.win && !developerMode && mode === "normal" && r.first && r.stage === 1) {
     void createSupplyService()
       .status()
@@ -1332,6 +1341,9 @@ function supplyBoxUI(initialized: boolean) {
         : undefined,
     },
     updateSupplyBadge,
+    {
+      openControlVoice: (owner) => openControlVoiceMenu(owner, sound),
+    },
   );
 }
 function updateSupplyBadge() {
