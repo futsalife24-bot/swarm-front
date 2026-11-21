@@ -19,6 +19,8 @@ import {
   resetGuides,
 } from "../src/client/tutorial-flags";
 import {
+  BATTLE_REMINDER,
+  BattleReminderWatch,
   BuddyGuideWatch,
   CoopGuideWatch,
   FIRST_GUIDES,
@@ -28,8 +30,18 @@ import {
   showFirstGuide,
 } from "../src/client/first-guides";
 import { controlVoiceLine } from "../src/client/control-voice-lines";
-import { freshProgress } from "../src/client/progression-save";
+import { blankLevels, freshProgress } from "../src/client/progression-save";
 import { unlockState } from "../src/client/unlock-stage";
+import {
+  addPlayer,
+  createWorld,
+  neutral,
+  start,
+  step,
+  type Input,
+  type World,
+} from "../src/shared/game";
+import { initSolo } from "../src/shared/solo-progression";
 
 function memory() {
   const m = new Map<string, string>();
@@ -354,8 +366,9 @@ describe("first guides (W5)", () => {
     expect(hasSeen("buddy-menu")).toBe(true);
   });
   it("introduces the buddy 10 seconds into its first battle", () => {
-    const v = voice(),
-      watch = new BuddyGuideWatch(),
+    const store = memory(),
+      v = voice(),
+      watch = new BuddyGuideWatch(store),
       w = {
         run: "r",
         time: 5,
@@ -364,6 +377,7 @@ describe("first guides (W5)", () => {
       };
     watch.update(w, "me", true, v, () => {});
     expect(v.said).toEqual([]);
+    expect(hasOperationFlag("op:buddy-skill", store)).toBe(false);
     w.time = 10;
     watch.update(w, "me", true, v, () => {});
     expect(v.said).toEqual(["tut-buddy-battle"]);
@@ -371,6 +385,24 @@ describe("first guides (W5)", () => {
     w.buddies.entries.me.lastSkillAt = 11;
     watch.update(w, "me", true, v, () => {});
     expect(hasSeen("buddy-battle")).toBe(true);
+    expect(hasOperationFlag("op:buddy-skill", store)).toBe(true);
+  });
+  it("does not count the battle end as a buddy-skill achievement", () => {
+    const store = memory(),
+      v = voice(),
+      watch = new BuddyGuideWatch(store),
+      w = {
+        run: "r",
+        time: 10,
+        phase: "battle",
+        buddies: { entries: { me: { lastSkillAt: -1 } } },
+      };
+    watch.update(w, "me", true, v, () => {});
+    expect(v.said).toEqual(["tut-buddy-battle"]);
+    w.phase = "victory";
+    watch.update(w, "me", false, v, () => {});
+    expect(hasSeen("buddy-battle")).toBe(true);
+    expect(hasOperationFlag("op:buddy-skill", store)).toBe(false);
   });
   it("explains loot and revive in the first co-op battle", () => {
     const v = voice(),
@@ -420,6 +452,124 @@ describe("first guides (W5)", () => {
     expect(c.current).toBe("案内");
     now = 2001;
     expect(c.current).toBe("");
+  });
+});
+
+describe("C-6 F4 battle reminders", () => {
+  const battle = (run: string, time: number, wave = 1) => ({
+    run,
+    time,
+    wave,
+    phase: "battle",
+    players: [{ slot: 0, evade: 0 }],
+  });
+
+  it("waits for 8 seconds and wave 2, showing each operation once", () => {
+    const store = memory(),
+      watch = new BattleReminderWatch(store),
+      w = battle("r", 7);
+    expect(watch.update(w, true)).toBeUndefined();
+    w.time = BATTLE_REMINDER.dodgeAtSeconds;
+    expect(watch.update(w, true)).toBe(BATTLE_REMINDER.text.dodge);
+    expect(watch.update(w, true)).toBeUndefined();
+    w.wave = BATTLE_REMINDER.swapAtWave;
+    expect(watch.update(w, true)).toBe(BATTLE_REMINDER.text.swap);
+    expect(watch.update(w, true)).toBeUndefined();
+  });
+
+  it("records achievements in place and never reminds again", () => {
+    const store = memory(),
+      watch = new BattleReminderWatch(store),
+      w = battle("r", BATTLE_REMINDER.dodgeAtSeconds);
+    expect(watch.update(w, true)).toBe(BATTLE_REMINDER.text.dodge);
+    w.players[0].evade = 0.4;
+    watch.update(w, true);
+    expect(hasOperationFlag("op:dodge", store)).toBe(true);
+    const next = battle("r2", BATTLE_REMINDER.dodgeAtSeconds);
+    expect(watch.update(next, true)).toBeUndefined();
+    next.players[0].slot = 1;
+    watch.update(next, true);
+    expect(hasOperationFlag("op:swap", store)).toBe(true);
+    expect(watch.update(next, true)).toBeUndefined();
+  });
+
+  it("stops after three shown battles", () => {
+    const store = memory(),
+      watch = new BattleReminderWatch(store);
+    for (let index = 1; index <= BATTLE_REMINDER.battleLimit; index++) {
+      const w = battle(`r${index}`, BATTLE_REMINDER.dodgeAtSeconds);
+      expect(watch.update(w, true)).toBe(BATTLE_REMINDER.text.dodge);
+    }
+    expect(
+      watch.update(battle("r4", BATTLE_REMINDER.dodgeAtSeconds), true),
+    ).toBeUndefined();
+  });
+
+  it("does not spend a battle while another caption blocks the reminder", () => {
+    const store = memory(),
+      watch = new BattleReminderWatch(store),
+      w = battle("r", BATTLE_REMINDER.dodgeAtSeconds);
+    expect(watch.update(w, false)).toBeUndefined();
+    expect(watch.update(w, true)).toBe(BATTLE_REMINDER.text.dodge);
+  });
+
+  it("keeps a seeded battle identical with and without reminders", () => {
+    const canonical = (value: unknown): string => {
+      const ancestors: unknown[] = [];
+      const write = (item: unknown): string => {
+        if (item === undefined) return "undefined";
+        if (item === null) return "null";
+        if (typeof item === "number")
+          return Object.is(item, -0) ? "-0" : String(item);
+        if (typeof item === "string") return JSON.stringify(item);
+        if (typeof item === "boolean") return String(item);
+        if (typeof item !== "object" || item instanceof Map || item instanceof Set)
+          throw new Error(`直列化の対象外です: ${typeof item}`);
+        const seen = ancestors.indexOf(item);
+        if (seen >= 0) return `^${ancestors.length - seen}`;
+        ancestors.push(item);
+        const text = Array.isArray(item)
+          ? `[${item.map(write).join(",")}]`
+          : `{${Object.entries(item)
+              .map(([key, child]) => `${JSON.stringify(key)}:${write(child)}`)
+              .join(",")}}`;
+        ancestors.pop();
+        return text;
+      };
+      return write(value);
+    };
+    const makeWorld = (): World => {
+      const w = createWorld("f4-equivalence", 4242, 1);
+      initSolo(w, 1, "normal", false, blankLevels());
+      addPlayer(w, "solo");
+      start(w);
+      return w;
+    };
+    const command = (tick: number): Input => ({
+      ...neutral(),
+      seq: tick + 1,
+      mx: tick % 40 < 20 ? 1 : -1,
+      mz: tick % 60 < 30 ? 1 : -1,
+    });
+    const observed = makeWorld(),
+      control = makeWorld(),
+      watch = new BattleReminderWatch(memory()),
+      shown: string[] = [];
+    for (let tick = 0; tick < 180; tick++) {
+      const input = command(tick);
+      observed.players[0].hp = 160;
+      control.players[0].hp = 160;
+      step(observed, { solo: input });
+      step(control, { solo: input });
+      observed.players[0].hp = 160;
+      control.players[0].hp = 160;
+      const before = canonical(observed);
+      const text = watch.update(observed, true);
+      if (text) shown.push(text);
+      expect(canonical(observed)).toBe(before);
+      expect(canonical(observed)).toBe(canonical(control));
+    }
+    expect(shown).toContain(BATTLE_REMINDER.text.dodge);
   });
 });
 

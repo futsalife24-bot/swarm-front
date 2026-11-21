@@ -10,6 +10,7 @@ import type { World } from "../shared/game";
 import type { TutorialArena } from "../shared/tutorial";
 import { TUTORIAL_KILL_TARGETS, TUTORIAL_PLAYER } from "../shared/tutorial";
 import { controlVoiceLine } from "./control-voice-lines";
+import type { OperationKey } from "./tutorial-flags";
 
 export type TutorialDevice = "touch" | "pc";
 export type TutorialStepId =
@@ -25,6 +26,7 @@ export type TutorialStepId =
   | "T9"
   | "T10"
   | "T11";
+export type TutorialCourse = "first" | "full";
 
 /** 進行条件の数値（画面テキストは定義値から作る。台詞には数値を入れない）。 */
 export const MOVE_GOAL_M = 8;
@@ -177,11 +179,35 @@ export const TUTORIAL_STEPS: readonly TutorialStep[] = [
   },
 ];
 
+const STEP_BY_ID = new Map(TUTORIAL_STEPS.map((step) => [step.id, step]));
+export const TUTORIAL_COURSES: Record<
+  TutorialCourse,
+  readonly TutorialStep[]
+> = {
+  full: TUTORIAL_STEPS,
+  first: (
+    ["T0", "T1", "T3", "T5", "T6", "T11"] as const
+  ).map((id) => STEP_BY_ID.get(id)!),
+};
+
 export type TutorialAction =
   | { type: "say"; id: string }
   | { type: "arena"; arena: TutorialArena }
   | { type: "step"; id: TutorialStepId }
+  | { type: "achievement"; operation: OperationKey }
   | { type: "complete" };
+
+const ACHIEVEMENT_BY_STEP: Partial<Record<TutorialStepId, OperationKey>> = {
+  T1: "move",
+  T2: "look",
+  T3: "fire",
+  T4: "reload",
+  T5: "swap",
+  T6: "dodge",
+  T7: "jump",
+  T8: "kill",
+  T9: "pickup",
+};
 
 const wrap = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
 
@@ -209,17 +235,33 @@ export class TutorialRun {
   };
   /** T9 達成後、tut-drop-rule を聞く間（見込み）だけ待つ。 */
   private holdUntil?: number;
-  constructor(private random: () => number = Math.random) {}
+  constructor(
+    private random: () => number = Math.random,
+    private course: TutorialCourse = "full",
+  ) {}
+
+  private get steps() {
+    return TUTORIAL_COURSES[this.course];
+  }
 
   get step() {
-    return TUTORIAL_STEPS[this.index];
+    return this.steps[this.index];
   }
   /** 進行表示（T1〜T11 の番号。T0 は開始画面）。 */
   get number() {
     return this.index;
   }
   get total() {
-    return TUTORIAL_STEPS.length - 1;
+    return this.steps.length - 1;
+  }
+  /** この課程で使う既存の台詞だけ（相づち・促し・終了を含む）。 */
+  voiceIds() {
+    const ids = new Set<string>(["tut-nudge", "tut-skip", ...ACKS]);
+    for (const step of this.steps) {
+      for (const id of step.lines) ids.add(id);
+      if (step.after) ids.add(step.after);
+    }
+    return [...ids];
   }
   /** 1行の案内（字幕を兼ねる画面テキスト）。 */
   text(device: TutorialDevice) {
@@ -310,8 +352,10 @@ export class TutorialRun {
         break;
       case "T10":
         // 音声の長さで操作前に終了させず、救急箱の実使用（または「次へ」）を待つ。
-        if (w.solo && !w.solo.medkit)
+        if (w.solo && !w.solo.medkit) {
+          actions.push({ type: "achievement", operation: "medkit" });
           actions.push(...this.enter(this.index + 1));
+        }
         return actions;
       default:
         return actions;
@@ -346,7 +390,10 @@ export class TutorialRun {
   }
 
   private achieve(): TutorialAction[] {
-    const actions: TutorialAction[] = [{ type: "say", id: this.pickAck() }];
+    const actions: TutorialAction[] = [];
+    const operation = ACHIEVEMENT_BY_STEP[this.step.id];
+    if (operation) actions.push({ type: "achievement", operation });
+    actions.push({ type: "say", id: this.pickAck() });
     const after = this.step.after;
     if (after) {
       actions.push({ type: "say", id: after });
@@ -362,7 +409,7 @@ export class TutorialRun {
     return id;
   }
   private enter(index: number): TutorialAction[] {
-    this.index = Math.min(index, TUTORIAL_STEPS.length - 1);
+    this.index = Math.min(index, this.steps.length - 1);
     this.progress = 0;
     this.elapsed = 0;
     this.nudged = false;

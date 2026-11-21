@@ -22,6 +22,7 @@ import {
 import "./supply-menu.css";
 import { trackOnce } from "./analytics";
 import { openSupplyResult, shareSupplyResults } from "./supply-result-actions";
+import { shouldAdvanceAfterFirstSupply } from "./first-supply-route";
 
 /** 基地の新補給。保存成功済みの結果だけを表示レイヤーへ渡す。 */
 export function mountSupplyMenu(
@@ -30,7 +31,11 @@ export function mountSupplyMenu(
   saved: (save: ProgressSave) => void,
   chooseStarter: () => void,
   getVolume: () => number = () => 1,
-  options: { firstTime?: boolean; prefetch?: () => void } = {},
+  options: {
+    firstTime?: boolean;
+    prefetch?: () => void;
+    onFirstTenAcknowledged?: () => void;
+  } = {},
 ) {
   const service = createSupplyService();
   let snapshot: SupplySnapshot | null = null;
@@ -139,6 +144,14 @@ export function mountSupplyMenu(
       finished = true;
       try {
         snapshot = await service.acknowledge(receipt.requestId);
+        if (
+          shouldAdvanceAfterFirstSupply(
+            options.firstTime === true,
+            receipt.count,
+            true,
+          )
+        )
+          options.onFirstTenAcknowledged?.();
         feedback("補給を受領しました。");
       } catch (error) {
         feedback(

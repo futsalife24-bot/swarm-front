@@ -7,7 +7,14 @@
  * - G4（stage-clear）・G15（daily-sortie）は既存の戦闘アナウンスに任せる。
  *   G7・G8（育成・アクセサリ）は既存の文字案内のまま。G18 は仕組みの実装後に追加する。
  */
-import { hasSeen, markSeen, type GuideKey } from "./tutorial-flags";
+import {
+  defaultStore,
+  hasOperationFlag,
+  hasSeen,
+  markOperationFlag,
+  markSeen,
+  type GuideKey,
+} from "./tutorial-flags";
 
 export interface FirstGuide {
   /** 提案書の番号。 */
@@ -151,6 +158,10 @@ interface BuddyWorld {
 export class BuddyGuideWatch {
   private run = "";
   private skill = -1;
+  private shownRun = "";
+
+  constructor(private readonly store = defaultStore()) {}
+
   update(
     w: BuddyWorld,
     id: string,
@@ -160,16 +171,93 @@ export class BuddyGuideWatch {
   ) {
     const entry = w.buddies?.entries[id];
     if (!entry) return;
-    if (this.run === w.run) {
-      if (entry.lastSkillAt !== this.skill || w.phase !== "battle")
-        completeFirstGuide("buddy-battle");
+    if (this.run !== w.run) {
+      this.run = w.run;
+      this.skill = -1;
+    }
+    if (entry.lastSkillAt !== this.skill) {
+      this.skill = entry.lastSkillAt;
+      markOperationFlag("op:buddy-skill", this.store);
+      completeFirstGuide("buddy-battle");
+    }
+    if (w.phase !== "battle") {
+      if (this.shownRun === w.run) completeFirstGuide("buddy-battle");
       return;
     }
-    if (!inBattle || w.phase !== "battle" || w.time < 10) return;
-    if (showFirstGuide("buddy-battle", voice, caption)) {
+    if (!inBattle || w.time < 10 || this.shownRun === w.run) return;
+    if (showFirstGuide("buddy-battle", voice, caption)) this.shownRun = w.run;
+  }
+}
+
+/** 実戦リマインドの文言と仮置きの時点。調整する値はここだけに置く。 */
+export const BATTLE_REMINDER = {
+  dodgeAtSeconds: 8,
+  swapAtWave: 2,
+  battleLimit: 3,
+  text: {
+    swap: "武器切替｜切替ボタン（PC：Q）",
+    dodge: "回避｜回避ボタン（PC：Space）",
+  },
+} as const;
+
+type BattleReminderOperation = keyof typeof BATTLE_REMINDER.text;
+const reminderOrder: readonly BattleReminderOperation[] = ["dodge", "swap"];
+
+interface ReminderBattleWorld {
+  run: string;
+  time: number;
+  wave: number;
+  phase: string;
+  players: { slot: number; evade: number }[];
+}
+
+/**
+ * C-6 F4: 進撃ソロの実戦で未達成の操作だけを1行で案内する。
+ * World を読むだけで書き換えず、達成は F1 の記録へ即座に反映する。
+ * canShow が false の間も達成検出は続けるが、表示回数は消費しない。
+ */
+export class BattleReminderWatch {
+  private run = "";
+  private slot = 0;
+  private shown = new Set<BattleReminderOperation>();
+  private attempts: Record<BattleReminderOperation, number> = {
+    dodge: 0,
+    swap: 0,
+  };
+
+  constructor(private readonly store = defaultStore()) {}
+
+  update(w: ReminderBattleWorld, canShow: boolean) {
+    if (w.phase !== "battle") return undefined;
+    const player = w.players[0];
+    if (!player) return undefined;
+    if (this.run !== w.run) {
       this.run = w.run;
-      this.skill = entry.lastSkillAt;
+      this.slot = player.slot;
+      this.shown.clear();
     }
+    if (player.slot !== this.slot) {
+      this.slot = player.slot;
+      markOperationFlag("op:swap", this.store);
+    }
+    if (player.evade > 0) markOperationFlag("op:dodge", this.store);
+    if (!canShow) return undefined;
+    for (const operation of reminderOrder) {
+      if (this.shown.has(operation)) continue;
+      if (this.attempts[operation] >= BATTLE_REMINDER.battleLimit) continue;
+      if (hasOperationFlag(`op:${operation}`, this.store)) continue;
+      if (
+        operation === "dodge" &&
+        w.time < BATTLE_REMINDER.dodgeAtSeconds
+      )
+        continue;
+      if (operation === "swap" && w.wave < BATTLE_REMINDER.swapAtWave)
+        continue;
+      this.shown.add(operation);
+      this.attempts[operation] += 1;
+      return BATTLE_REMINDER.text[operation];
+    }
+    return undefined;
   }
 }
 

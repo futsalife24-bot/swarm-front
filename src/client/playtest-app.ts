@@ -68,9 +68,11 @@ import { startArmoryTour } from "./armory-tour";
 import { openTutorialGuide } from "./tutorial-guide";
 import { watchSupplyVoice } from "./supply-voice";
 import { openBasicTraining } from "./tutorial-launch";
+import type { TutorialCourse } from "./tutorial-run";
 import {
   ensureTutorialFlags,
   hasClearedNormalStage,
+  markFtueFlag,
   migrateTutorialFlags,
   migrateC7Terminal,
   hasSeen,
@@ -78,12 +80,14 @@ import {
   resetGuides,
 } from "./tutorial-flags";
 import {
+  BattleReminderWatch,
   BuddyGuideWatch,
   GuideCaption,
   completeFirstGuide,
   forgetShownGuides,
   showFirstGuide,
 } from "./first-guides";
+import { FIRST_SUPPLY_GEAR_NOTICE } from "./first-supply-route";
 import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
 import { hudMarkup, updateCooldowns } from "./hud";
@@ -471,6 +475,7 @@ function guide(key: Parameters<typeof showFirstGuide>[0]) {
   });
 }
 const buddyWatch = new BuddyGuideWatch();
+const battleReminderWatch = new BattleReminderWatch();
 /** G3: バディを連れた最初の戦闘の開始10秒後。固有スキルの初発動か戦闘終了で既読。 */
 function buddyGuide(w: World) {
   if (developerMode) return;
@@ -478,8 +483,30 @@ function buddyGuide(w: World) {
     battleCaption.show(text),
   );
 }
+/** C-6 F4: 進撃ソロだけ。戦闘は止めず、条件が揃ったときだけ1行を出す。 */
+function battleReminder(w: World, warn: number) {
+  if (
+    developerMode ||
+    screen !== "battle" ||
+    w.phase !== "battle"
+  )
+    return;
+  const allowed =
+    !!w.solo &&
+    !w.defense &&
+    !w.anomalyTest &&
+    !w.training &&
+    !paused &&
+    !modalCount &&
+    !saving &&
+    !document.querySelector(".operation-cue") &&
+    !(warn <= 10) &&
+    battleCaption.current === "";
+  const text = battleReminderWatch.update(w, allowed);
+  if (text) battleCaption.show(text);
+}
 /** 基礎訓練を開く（タイトル・初回の誘いから）。訓練は報酬なし・保存なし。 */
-function startTraining(after: () => void) {
+function startTraining(after: () => void, course: TutorialCourse = "full") {
   sound.controlVoice.stop();
   let weapons: unknown;
   try {
@@ -491,6 +518,7 @@ function startTraining(after: () => void) {
   }
   openBasicTraining({
     layout,
+    course,
     config: () => ({
       preferences: preferences.snapshot(),
       weapons,
@@ -507,15 +535,15 @@ function offerTraining(next: () => void) {
   }
   markSeen("offer");
   const d = dialog(
-    "基礎訓練",
-    '<p>操作をひととおり確認できます（約3分・報酬なし）。あとからタイトルの「チュートリアル」で受けることもできます。</p><button id="pt-offer-training" class="primary">基礎訓練を受ける</button><button id="pt-offer-later">あとで</button>',
+    "初陣訓練",
+    '<p>4つの操作を確認します（報酬なし）。あとからタイトルの「チュートリアル」でも受けられます。</p><button id="pt-offer-training" class="primary">初陣訓練を受ける</button><button id="pt-offer-later">あとで</button>',
   );
   void sound.say("tut-offer");
   let chosen = false;
   d.querySelector<HTMLButtonElement>("#pt-offer-training")!.onclick = () => {
     chosen = true;
     d.close();
-    startTraining(next);
+    startTraining(next, "first");
   };
   d.querySelector<HTMLButtonElement>("#pt-offer-later")!.onclick = () =>
     d.close();
@@ -1434,6 +1462,8 @@ function frame(now: number) {
           ? cfg.waveWait[world.wave - 1] - (world.time - s.waveCompleteAt)
           : Infinity;
     const anomalySetting = world.anomalyTest?.enemies.crawler;
+    buddyGuide(world);
+    if (screen === "battle") battleReminder(world, warn);
     hud.innerHTML = hudMarkup(
       world,
       "solo",
@@ -1463,7 +1493,6 @@ function frame(now: number) {
     );
     if (screen === "battle" && !world.defense && warn > 0 && warn <= 10)
       sound.announce("wave-incoming", `${world.run}:incoming:${world.wave}`);
-    buddyGuide(world);
     updateCooldowns(world, "solo", true);
     const med = $("revive") as HTMLButtonElement;
     med.disabled = !s.medkit || p.hp <= 0 || p.hp >= maxHp(world);
@@ -2118,6 +2147,11 @@ function showHome(initialized: boolean) {
                 });
               })
           : undefined,
+      firstTraining: () =>
+        startTraining(
+          () => (initialized ? home() : showHome(false)),
+          "first",
+        ),
       training: () =>
         startTraining(() => (initialized ? home() : showHome(false))),
       replayGuides: () => {
@@ -2189,6 +2223,11 @@ function gear() {
         "",
       )}</div></section></aside><section class="gear-arsenal"><div class="slot-hint"><b>所持武器</b><span>タップで比較・装備変更</span></div>${weaponList(allWeapons(save), "gear")}</section></div><footer class="gear-footer"><p class="status">${!ready ? (save.pending.length ? "所持上限を超えています。武器庫で整理してください。" : "通常ステージのクリアで解放されます。") : `装備${selectedGearSlot + 1}を選択中 · 一覧タップで入替`}<small>${m.map((v, i) => `${v ? "✓" : "○"} ${["クリア", cfg.timeLimit + "秒以内", "救急箱・復活なし"][i]}`).join(" · ")}</small></p><button id="pt-start" class="primary" ${ready ? "" : "disabled"}>ソロ出撃 ↗</button></footer>`,
   );
+  if (firstSupplyGearNotice) {
+    firstSupplyGearNotice = false;
+    const status = ui.querySelector(".gear-footer .status")!;
+    status.firstChild!.textContent = FIRST_SUPPLY_GEAR_NOTICE;
+  }
   // Use the existing header toolbar slot; keep the arsenal available for rows.
   const toolbar = ui.querySelector(".pt-list-tools")!;
   const headerNode = ui.querySelector(".menu-header")!;
@@ -2518,6 +2557,7 @@ function base() {
   guide("base");
 }
 let supplyFirstTime = false;
+let firstSupplyGearNotice = false;
 function supply() {
   if (!developerMode && mode !== "normal") return;
   setScreen("supply");
@@ -2547,6 +2587,11 @@ function supply() {
     () => sound.effectsVolume,
     {
       firstTime: firstTimeSupply,
+      onFirstTenAcknowledged: () => {
+        if (!firstTimeSupply) return;
+        firstSupplyGearNotice = true;
+        queueMicrotask(() => gear());
+      },
       prefetch: () => {
         void createSupplyService()
           .status()
@@ -2655,6 +2700,7 @@ function equipWeapon(id: string, slot: number, after: () => void) {
     ];
   else p.equipped[slot] = id;
   commit(n, () => {
+    markFtueFlag("ftue:equip");
     // Reuse the combat switch clip, including first-gesture decoding.
     void sound.load().then(() => sound.play("switch"));
     after();
