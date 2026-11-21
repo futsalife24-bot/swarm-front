@@ -72,6 +72,7 @@ import type { TutorialCourse } from "./tutorial-run";
 import {
   ensureTutorialFlags,
   hasClearedNormalStage,
+  markFtueFlag,
   migrateTutorialFlags,
   migrateC7Terminal,
   hasSeen,
@@ -86,6 +87,7 @@ import {
   forgetShownGuides,
   showFirstGuide,
 } from "./first-guides";
+import { FIRST_SUPPLY_GEAR_NOTICE } from "./first-supply-route";
 import { canInstallApp, installApp } from "./app-install";
 import { CHANGELOG } from "./changelog";
 import { hudMarkup, updateCooldowns } from "./hud";
@@ -2221,6 +2223,11 @@ function gear() {
         "",
       )}</div></section></aside><section class="gear-arsenal"><div class="slot-hint"><b>所持武器</b><span>タップで比較・装備変更</span></div>${weaponList(allWeapons(save), "gear")}</section></div><footer class="gear-footer"><p class="status">${!ready ? (save.pending.length ? "所持上限を超えています。武器庫で整理してください。" : "通常ステージのクリアで解放されます。") : `装備${selectedGearSlot + 1}を選択中 · 一覧タップで入替`}<small>${m.map((v, i) => `${v ? "✓" : "○"} ${["クリア", cfg.timeLimit + "秒以内", "救急箱・復活なし"][i]}`).join(" · ")}</small></p><button id="pt-start" class="primary" ${ready ? "" : "disabled"}>ソロ出撃 ↗</button></footer>`,
   );
+  if (firstSupplyGearNotice) {
+    firstSupplyGearNotice = false;
+    const status = ui.querySelector(".gear-footer .status")!;
+    status.firstChild!.textContent = FIRST_SUPPLY_GEAR_NOTICE;
+  }
   // Use the existing header toolbar slot; keep the arsenal available for rows.
   const toolbar = ui.querySelector(".pt-list-tools")!;
   const headerNode = ui.querySelector(".menu-header")!;
@@ -2550,6 +2557,7 @@ function base() {
   guide("base");
 }
 let supplyFirstTime = false;
+let firstSupplyGearNotice = false;
 function supply() {
   if (!developerMode && mode !== "normal") return;
   setScreen("supply");
@@ -2579,6 +2587,11 @@ function supply() {
     () => sound.effectsVolume,
     {
       firstTime: firstTimeSupply,
+      onFirstTenAcknowledged: () => {
+        if (!firstTimeSupply) return;
+        firstSupplyGearNotice = true;
+        queueMicrotask(() => gear());
+      },
       prefetch: () => {
         void createSupplyService()
           .status()
@@ -2687,6 +2700,7 @@ function equipWeapon(id: string, slot: number, after: () => void) {
     ];
   else p.equipped[slot] = id;
   commit(n, () => {
+    markFtueFlag("ftue:equip");
     // Reuse the combat switch clip, including first-gesture decoding.
     void sound.load().then(() => sound.play("switch"));
     after();
